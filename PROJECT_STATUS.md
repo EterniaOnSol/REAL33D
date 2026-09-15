@@ -2,9 +2,9 @@
 
 Current phase: `PHASE 0 - BOOTSTRAP + SOURCE TRUTH` (`PASS` for static source baseline; runtime gate remains `IN_PROGRESS`)
 Current milestone: `TWO-CLIENT-VERTICAL-SLICE-001` (`NOT_STARTED`)
-Branch: pending local Git initialization at final hygiene gate
-HEAD: pending baseline commit
-Dirty worktree: pending Git initialization
+Branch: `main`
+HEAD: baseline content commit `9d013c16a9aee0f538ef2188ba924fe41cdd40aa`; current metadata commit is the repository HEAD
+Dirty worktree: expected clean after handoff metadata commit
 
 Server reference source: immutable candidates selected, independently statically reviewed, materialized and `BUILD PASS`; reproducible runtime: `NOT_STARTED`
 Protocol: `IN_PROGRESS`; all `TIBIA772` guards and character-list/game-login source paths traced; packet fixtures unverified
