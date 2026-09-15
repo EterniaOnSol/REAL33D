@@ -32,7 +32,7 @@ Selection status: `PASS` under independent static review for immutable candidate
 - revision: `edea08d11cc306955d8d732164ec383d37ea1f62`
 - Git tree: `ebf3a35aa0141e5d723f03e32119f3f263075bdd`
 - status: `CANONICAL_CANDIDATE`, `AUTHORITATIVE_REFERENCE`
-- materialized: `reference/querymanager`; 28 tracked files copied byte-for-byte from the commit
+- materialized: `reference/querymanager`; 29 tracked files copied byte-for-byte from the commit
 - explicit omission: none among source/build/schema/template files; Git metadata and repository `.gitignore` are intentionally not vendored
 - note: `config.cfg.dist` is retained as an authoritative template; generated runtime configuration must replace its sample credential
 

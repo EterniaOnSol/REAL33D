@@ -6,7 +6,7 @@ Date: 2026-09-15
 
 - `ARCHIVE-INTEGRITY-002`: all eight original archive SHA-256 values matched `PHASE-0-ARCHIVE-HASH-001`; exit code 0.
 - `BUNDLE-INTEGRITY-001`: `git bundle verify` reported all five bundles complete, SHA-1 histories and okay; each exposed only `HEAD` and `refs/heads/master`; no tags were found.
-- `REFERENCE-BYTE-MATCH-001`: before adding local `_PROVENANCE.md`, every materialized upstream file matched its selected commit blob with `core.autocrlf=false`: Game 56/56, Login 11/11, Query Manager 28/28.
+- `REFERENCE-BYTE-MATCH-001`: excluding local `_PROVENANCE.md`, every materialized upstream file matched its selected commit blob with `core.autocrlf=false`: Game 56/56, Login 11/11, Query Manager 29/29.
 - `SOURCE-SELECTION-STATIC-REVIEW-001`: independent reviewer found no counterexample to the three candidate revisions and confirmed static Query IDs/application IDs/port conventions. Runtime compatibility explicitly excluded.
 - `BUILD-GAME-772-001`: selected curated Game compiled in Ubuntu 26.04 WSL2 with explicit `-DTIBIA772=1`; exit 0; binary SHA-256 `E0E96B863FB3FA061501E1EB59C6BAC456733676A15E11F245C6B04505E817C7`.
 - `BUILD-LOGIN-772-001`: selected curated Login compiled with explicit `-DTIBIA772=1`; exit 0; binary SHA-256 `23F0E75536A852908DA35E9644785F2E47101948E723FA426BF0FEA453BE788F`.
