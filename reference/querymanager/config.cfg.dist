@@ -1,0 +1,41 @@
+# HostCache Config
+MaxCachedHostNames              = 100
+HostNameExpireTime              = 30m
+
+# SQLite Config
+SQLite.File                     = "tibia.db"
+SQLite.MaxCachedStatements      = 100
+
+# PostgreSQL Config
+# NOTE(fusion): These options are passed directly to `PQconnectdbParams`.
+# Empty values are ignored, meaning their defaults will be used instead.
+#  For more information see:
+#   https://www.postgresql.org/docs/current/libpq-connect.html#LIBPQ-PARAMKEYWORDS
+PostgreSQL.Host                 = ""
+PostgreSQL.Port                 = ""
+PostgreSQL.DBName               = "tibia"
+PostgreSQL.User                 = "tibia"
+PostgreSQL.Password             = ""
+PostgreSQL.ConnectTimeout       = ""
+PostgreSQL.ApplicationName      = "QueryManager"
+PostgreSQL.SSLMode              = ""
+PostgreSQL.SSLRootCert          = ""
+PostgreSQL.MaxCachedStatements  = 100
+
+# MariaDB Config
+MariaDB.Host                    = "localhost"
+MariaDB.Port                    = "3306"
+MariaDB.DBName                  = "tibia"
+MariaDB.User                    = "tibia"
+MariaDB.Password                = ""
+MariaDB.UnixSocket              = ""
+MariaDB.MaxCachedStatements     = 100
+
+# Connection Config
+QueryManagerPort                = 7173
+QueryManagerPassword            = "a6glaf0c"
+QueryWorkerThreads              = 1
+QueryBufferSize                 = 1M
+QueryMaxAttempts                = 3
+MaxConnections                  = 25
+MaxConnectionIdleTime           = 5m

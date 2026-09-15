@@ -1,0 +1,27 @@
+# Retain these pre-existing archives locally; never stage them by default.
+/game-3fd1bdbaaffc6582943e3c9b3c28c20976fcb2ad.tar.gz
+/game-3fd1bdbaaffc6582943e3c9b3c28c20976fcb2ad.zip
+/game-db5050d5dbc0525d05837f728bea52f7954286cc.tar.gz
+/game-db5050d5dbc0525d05837f728bea52f7954286cc.zip
+/game-master.tar.gz
+/game-master.zip
+/tibia-game.tarball.tar.gz
+/tibiacacaca.zip
+
+# Never track wholesale legacy runtime extraction or audit scratch data.
+/runtime-legacy/
+/reference/runtime/
+/runtime/
+/.audit/
+
+# Generated runtime secrets/configuration. Distribution templates remain tracked.
+*.pem
+*.key
+**/config.cfg
+
+# Generated output.
+/build/
+/Binaries/
+/DerivedDataCache/
+/Intermediate/
+/Saved/

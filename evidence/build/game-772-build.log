@@ -1,0 +1,89 @@
+make: Entering directory '/tmp/fusion32-bootstrap-build-001.z9yXJu/game'
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/communication.obj src/communication.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/config.obj src/config.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/connections.obj src/connections.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/cract.obj src/cract.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/crcombat.obj src/crcombat.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/crmain.obj src/crmain.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/crnonpl.obj src/crnonpl.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/crplayer.obj src/crplayer.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/crskill.obj src/crskill.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/crypto.obj src/crypto.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/houses.obj src/houses.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/info.obj src/info.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/magic.obj src/magic.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/main.obj src/main.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/map.obj src/map.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/moveuse.obj src/moveuse.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/objects.obj src/objects.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/operate.obj src/operate.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/query.obj src/query.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/reader.obj src/reader.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/receiving.obj src/receiving.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/script.obj src/script.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/sending.obj src/sending.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/shm.obj src/shm.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/strings.obj src/strings.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/threads.obj src/threads.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/time.obj src/time.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/utils.obj src/utils.cc
+g++ -c -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/writer.obj src/writer.cc
+g++ -m64 -fno-strict-aliasing -pedantic -Wall -Wextra -Wno-deprecated-declarations -Wno-unused-parameter -Wno-format-truncation -std=c++11 -pthread -DOS_LINUX=1 -DARCH_X64=1 -DTIBIA772=1 -O2 -o build/game build/communication.obj build/config.obj build/connections.obj build/cract.obj build/crcombat.obj build/crmain.obj build/crnonpl.obj build/crplayer.obj build/crskill.obj build/crypto.obj build/houses.obj build/info.obj build/magic.obj build/main.obj build/map.obj build/moveuse.obj build/objects.obj build/operate.obj build/query.obj build/reader.obj build/receiving.obj build/script.obj build/sending.obj build/shm.obj build/strings.obj build/threads.obj build/time.obj build/utils.obj build/writer.obj -Wl,-t -lrt -lcrypto
+/usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/Scrt1.o
+/usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/crti.o
+/usr/lib/gcc/x86_64-linux-gnu/15/crtbeginS.o
+build/communication.obj
+build/config.obj
+build/connections.obj
+build/cract.obj
+build/crcombat.obj
+build/crmain.obj
+build/crnonpl.obj
+build/crplayer.obj
+build/crskill.obj
+build/crypto.obj
+build/houses.obj
+build/info.obj
+build/magic.obj
+build/main.obj
+build/map.obj
+build/moveuse.obj
+build/objects.obj
+build/operate.obj
+build/query.obj
+build/reader.obj
+build/receiving.obj
+build/script.obj
+build/sending.obj
+build/shm.obj
+build/strings.obj
+build/threads.obj
+build/time.obj
+build/utils.obj
+build/writer.obj
+/usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/librt.a
+/usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libcrypto.so
+/usr/lib/gcc/x86_64-linux-gnu/15/libstdc++.so
+/usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libm.so
+/usr/lib/x86_64-linux-gnu/libm.so.6
+/usr/lib/x86_64-linux-gnu/libmvec.so.1
+/usr/lib/x86_64-linux-gnu/libmvec.so.1
+/usr/lib/gcc/x86_64-linux-gnu/15/libgcc_s.so
+/usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libgcc_s.so.1
+/usr/lib/gcc/x86_64-linux-gnu/15/libgcc.a
+/usr/lib/gcc/x86_64-linux-gnu/15/libgcc.a
+/usr/lib/gcc/x86_64-linux-gnu/15/libgcc.a
+/usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libpthread.a
+/usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libc.so
+/usr/lib/x86_64-linux-gnu/libc.so.6
+/usr/lib/x86_64-linux-gnu/libc_nonshared.a
+/lib64/ld-linux-x86-64.so.2
+/usr/lib/x86_64-linux-gnu/libc_nonshared.a
+/lib64/ld-linux-x86-64.so.2
+/usr/lib/gcc/x86_64-linux-gnu/15/libgcc_s.so
+/usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libgcc_s.so.1
+/usr/lib/gcc/x86_64-linux-gnu/15/libgcc.a
+/usr/lib/gcc/x86_64-linux-gnu/15/libgcc.a
+/usr/lib/gcc/x86_64-linux-gnu/15/crtendS.o
+/usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/crtn.o
+make: Leaving directory '/tmp/fusion32-bootstrap-build-001.z9yXJu/game'
