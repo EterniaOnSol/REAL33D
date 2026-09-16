@@ -1,93 +1,112 @@
 # HANDOFF
 
-Date/time: 2026-09-15T10:06:32-06:00
-Agent: Codex orchestrator with independent source auditors/reviewer
-Role: ORCHESTRATOR + SOURCE CUSTODIAN
+Date/time: 2026-09-15T19:08:22-06:00
+Agent: Codex orchestrator with independent runtime reviewer
+Role: ORCHESTRATOR + SERVER INTEGRATOR
 Branch: `main`
-Starting commit: N/A (workspace initially had no Git repository)
-Ending content commit: `9d013c16a9aee0f538ef2188ba924fe41cdd40aa`; final handoff/status metadata is committed immediately after it and its exact self-referential hash must be resolved with `git rev-parse HEAD`
+Starting commit: `d6201d23f579678fbd60081c8dae205f80dcdb06`
+Ending implementation commit: `ef9a09bb80adc7a0baed5899e615dfb966879c0a`; final handoff-metadata commit is the repository HEAD and must be resolved with `git rev-parse HEAD`
 Worktree: `C:\Users\dell\Desktop\fusion32`
 
 ## Objective
 
-Complete `BOOTSTRAP-SOURCES-001`: verify archives/bundles, compare loose snapshots, select immutable Game/Login/Query Manager candidates, trace all `TIBIA772` effects and cross-component contracts, classify runtime, materialize safe references, verify builds, and establish local Git hygiene.
+Advance `SERVER-BASELINE-772-001` by constructing a sanitized, resettable Fusion32 7.72 runtime from the immutable Game/Login/Query Manager baseline; generate fresh local secrets and synthetic identities; prove internal startup, world load, service liveness, bounded network behavior and clean shutdown without executing historical binaries or importing historical accounts.
 
 ## What I inspected
 
-All operational documents; all eight archive hashes; all five bundles with verification, refs, tags, graphs, histories and fsck; every Game loose snapshot against bundled history; all `TIBIA772` occurrences; Login character-list/RSA/framing; Game/Login/Query Manager internal contracts; runtime inventory; IP Changer 7.72/modulus behavior; build systems and WSL toolchain.
+All required project memory; selected component build/config/startup sources; Query Manager schema, patches, authentication and SQLite initialization; Game `.tibia`, world resolution, map/data and first-login behavior; Login config/RSA/world status; historical archive inventory through bounded extraction only; generated process/log/DB state; Git/staged content and reference-source diffs.
 
 ## What I discovered
 
-The strongest immutable static baseline is Game `386fa9b...`, Login `f1c839f...`, Query Manager `edea08d...`. Independent review found no static incompatibility. Loose Game snapshots are `COMMIT_PLUS_CHANGES`, not bundle commits. `TIBIA772` only gates Game terminal version plus game-login terminal-field relocation, and Login terminal version; Query Manager has no guard. Static compatibility is not runtime compatibility.
+Query Manager must start from its own cwd with schema/patches and loopback `7173`; Game resolves `Fusion Test` through Query Manager and binds `7172`; Login binds `7171`. Game opens its socket before completing world load, so port availability is not readiness. The clean world loads 9,873 sectors and 8,533,464 objects.
 
-Game/Login track the same compromised reference PEM; it was omitted. A clean environment needs a generated shared key and matching public modulus patched into the exact classic 7.72 client. IP Changer supports this concept, but live addresses/client compatibility are unverified.
+The first runtime design placed secrets on Windows DrvFs, where effective modes were `0777`. Independent review correctly rejected that design, along with self-referential hashes and weak PID/listener correlation. That generated runtime was stopped and deleted. The corrected runtime is WSL-native `/tmp/fusion32-server-baseline-772-$UID`, uses effective root mode `0700` and secret/config/DB modes `0600`, verifies fixed expected archive/data/binary hashes, and correlates each service PID with process start token, executable, cwd and owned socket.
 
 ## What I changed
 
-Materialized curated byte-identical reference files under `reference/`, explicitly omitting private PEMs. Retained authoritative `config.cfg.dist` templates but documented that sample credentials must be replaced. Added source manifest, runtime classification, provenance, evidence, and reproducible WSL build script. Updated source truth, status and roadmap. Archived the previous handoff. Prepared `.gitignore` against archives, runtime, keys, generated config and builds.
+Added reproducible prepare/start/status/smoke/stop/reset scripts. Preparation builds the selected sources with explicit `TIBIA772=1`, verifies expected binaries, extracts only bounded data, initializes a new SQLite schema/seed, creates two synthetic accounts/characters, and generates a fresh shared 1024-bit PKCS#1 RSA key. Added runtime, provenance and classic-client gate documentation plus compact evidence. Updated source truth, manifest, status, roadmap and parity notes. Preserved LF for shell scripts.
 
 ## Files changed
 
-Operational Markdown and `.gitignore`; `SOURCE_MANIFEST.md`; `docs/RUNTIME_CLASSIFICATION.md`; `reference/{game,login,querymanager}` curated trees and provenance; `tests/build_reference_wsl.sh`; three compact build logs; archived and current handoffs. Original archives were untouched.
+- `.gitattributes`
+- `PROJECT_STATUS.md`, `ROADMAP.md`, `PARITY_MATRIX.md`, `SOURCE_MANIFEST.md`
+- `docs/{SERVER_RUNTIME,RUNTIME_DATA_PROVENANCE,CLASSIC_CLIENT_772,RUNTIME_CLASSIFICATION}.md`
+- `docs/protocol772/SOURCE_TRUTH.md`
+- `scripts/server/{prepare,start,status,network_smoke,runtime_smoke,stop,reset}_wsl.sh`
+- `evidence/runtime/SERVER-RUNTIME-SMOKE-001.md`
+- archived prior handoff and this handoff
 
 ## Tests executed
 
-- `ARCHIVE-INTEGRITY-002`
-- `BUNDLE-INTEGRITY-001` plus `git fsck --full`
-- exhaustive snapshot/blob comparison
-- complete `TIBIA772` search/trace
-- `REFERENCE-BYTE-MATCH-001`
-- `SOURCE-SELECTION-STATIC-REVIEW-001` by an independent agent
-- `BUILD-GAME-772-001`
-- `BUILD-LOGIN-772-001`
-- `BUILD-QUERYMANAGER-SQLITE-001`
-- staged-content sensitivity scan before commit
+- historical runtime archive SHA-256 revalidation
+- exact expected data-manifest and three binary hash gates
+- `bash -n` on all orchestration scripts
+- repeated prepare/start/status/network-smoke/stop cycles
+- full destructive generated-state reset followed by start/smoke/stop
+- `SERVER-RUNTIME-SMOKE-001`
+- `SERVER-RUNTIME-REVIEW-001` (independent `REJECT`, defects fixed)
+- `SERVER-RUNTIME-REVIEW-002` (independent fresh prepare/start/smoke/stop, `ACCEPT`)
+- staged secret/material scan, `git diff --check`, `git diff -- reference`
 
 ## Results
 
-All integrity checks passed. Independent review accepted candidate selection as the strongest static baseline. All three components built with exit 0 on Ubuntu 26.04 WSL2; Game/Login logs show explicit `-DTIBIA772=1`. No server process, historical binary, runtime, database, or classic client was launched.
+The corrected local run and a fresh independent run both passed. Query Manager, Game and Login were simultaneously alive; internal Game/Login authorization succeeded; exact synthetic DB and world assertions passed; TCP connect/close did not kill services; RSA installation matched without exposing key material; effective secret permissions passed; clean shutdown removed PID/start files and left no listeners on 7171-7173. `reference/` remained unchanged.
 
 ## Evidence produced
 
-`evidence/protocol/BOOTSTRAP-SOURCES-001.md` and `evidence/build/{game-772-build,login-772-build,querymanager-sqlite-build}.log`.
+`evidence/runtime/SERVER-RUNTIME-SMOKE-001.md`, supported by `docs/SERVER_RUNTIME.md` and `docs/RUNTIME_DATA_PROVENANCE.md`.
 
 ## What is PASS
 
-Archive/bundle integrity, byte-correct curated materialization, independently reviewed static candidate selection, and three clean component builds. No protocol/gameplay/parity certification.
+- expected archive/data/binary integrity gates
+- sanitized SQLite initialization and synthetic seed
+- fresh shared Game/Login RSA installation and restrictive effective access modes
+- internal component authorization and exact ports
+- Game world load: 9,873 sectors / 8,533,464 objects
+- bounded network connect/close
+- reset and clean shutdown
+
+`SERVER-RUNTIME-SMOKE-001 = CERTIFIED` within this exact internal-runtime scope after independent live repetition.
 
 ## What remains UNVERIFIED
 
-Runtime/schema/data compatibility; sanitized configuration and key generation; service startup; world resolution; classic executable/IP Changer addresses; character login and game entry; packet fixtures; all parity and Unreal work.
+Classic Tibia 7.72 executable identity and provenance; exact client patch addresses; fresh-modulus compatibility in a real client; character-list login; Game login; `JoinGame`; initial world display; packet fixtures; gameplay/parity; all Unreal work.
 
 ## Blockers
 
-A legitimate classic Tibia 7.72 client is absent. A sanitized runtime has not been constructed. Runtime compatibility requires live verification.
+No legitimate classic Tibia 7.72 executable/DAT/SPR/PIC artifact exists in the workspace. Therefore `CLASSIC-LOGIN-772-001`, `CLASSIC-CHARLIST-772-001` and `CLASSIC-GAME-ENTRY-772-001` are `BLOCKED_CLIENT_ABSENT`.
 
 ## Risks
 
-Manual decompilation defects; incomplete 7.72 adaptation despite exhaustive guard search; OpenSSL deprecated RSA API; historical data sensitivity; sample config credentials accidentally reused; classic client/modulus mismatch; IP Changer address dependence; false inference from build success.
+Manual decompilation defects; classic executable/IP Changer address mismatch; client RSA modulus mismatch; `/tmp` may be cleared when WSL is restarted and then requires preparation again; exact build hashes intentionally bind preparation to the reviewed Ubuntu 26.04 toolchain; world/runtime evidence does not imply external protocol correctness.
 
 ## Exact next recommended task
 
-`SERVER-BASELINE-772-001` - construct a minimal sanitized runtime from selected sources and quarantined reference data; generate fresh shared RSA material and credentials; launch Query Manager, Game and Login; then authenticate and enter the world using an exact, legitimate Tibia 7.72 client. If the client remains absent, complete server startup evidence and record the client test as blocked rather than substituting another client.
+`CLASSIC-CLIENT-772-001`: accept only a legitimate exact Tibia 7.72 client artifact, hash and record its provenance, audit/build the selected IP Changer source or an exact controlled equivalent, patch host/port/fresh public modulus, then prove Login authentication, character list and Game world entry using one generated synthetic identity.
 
 ## Exact files/functions the next agent should inspect
 
-- `SOURCE_MANIFEST.md`, `docs/RUNTIME_CLASSIFICATION.md`, `evidence/protocol/BOOTSTRAP-SOURCES-001.md`
-- `reference/querymanager/{README.md,config.cfg.dist,sqlite/schema.sql,sqlite/z-999-initial-data.sql}` and startup/config functions
-- `reference/login/{config.cfg.dist,src/main.cc,src/query.cc,src/connections.cc}`
-- `reference/game/{README.md,src/config.cc,src/query.cc,src/communication.cc,src/main.cc}`
-- Historical archive paths only through selective extraction: required `dat`, `origmap`, `npc`, `mon`; never `usr`, logs, dotfiles, backups or `bin`
+- `docs/CLASSIC_CLIENT_772.md`
+- `docs/SERVER_RUNTIME.md`
+- `evidence/runtime/SERVER-RUNTIME-SMOKE-001.md`
+- `scripts/server/*.sh`
+- Login `reference/login/src/connections.cc` and `src/query.cc`
+- Game `reference/game/src/communication.cc::HandleLogin`, `connections.cc::JoinGame`, and initial send functions
+- IP Changer candidate revision/provenance in `SOURCE_MANIFEST.md` and bootstrap evidence; never execute its historical binary
 
 ## Useful commands
 
 ```powershell
 git status --short --branch
 git rev-parse HEAD
-wsl.exe -d Ubuntu-26.04 -- bash /mnt/c/Users/dell/Desktop/fusion32/tests/build_reference_wsl.sh /mnt/c/Users/dell/Desktop/fusion32
-rg -n "TIBIA772" reference/game reference/login reference/querymanager
+wsl.exe -d Ubuntu-26.04 -- bash /mnt/c/Users/dell/Desktop/fusion32/scripts/server/prepare_wsl.sh /mnt/c/Users/dell/Desktop/fusion32
+wsl.exe -d Ubuntu-26.04 -- bash /mnt/c/Users/dell/Desktop/fusion32/scripts/server/start_wsl.sh /mnt/c/Users/dell/Desktop/fusion32
+wsl.exe -d Ubuntu-26.04 -- bash /mnt/c/Users/dell/Desktop/fusion32/scripts/server/runtime_smoke_wsl.sh /mnt/c/Users/dell/Desktop/fusion32
+wsl.exe -d Ubuntu-26.04 -- bash /mnt/c/Users/dell/Desktop/fusion32/scripts/server/stop_wsl.sh /mnt/c/Users/dell/Desktop/fusion32
 ```
+
+If `/tmp/fusion32-server-baseline-772-$UID` already exists, use `reset_wsl.sh` only when intentionally discarding all generated local test state and secrets.
 
 ## Critical context for the next agent
 
-Reference files are not implementation workspaces. Build/runtime changes belong in generated areas. Never commit PEM/private keys, generated `config.cfg`, runtime accounts/logs, or historical binaries. Candidate choice has independent static review, but the combination is still `REQUIRES_RUNTIME_VERIFICATION`. A build PASS is not server, protocol, login, or parity PASS.
+The server baseline's internal runtime is certified, not the classic-client protocol. Never weaken this distinction. Runtime credentials and public modulus are generated outside Git under the private WSL runtime; do not print or commit them. A reset changes passwords and RSA modulus. Do not download or run a random classic client or historical IP Changer binary. Do not start Unreal until classic login/world entry is proven or an explicit orchestration decision accepts the client-artifact-only blocker.

@@ -3,7 +3,7 @@
 Current phase: `PHASE 0 - SERVER BASELINE` (`PASS` for static source baseline and sanitized runtime smoke; classic-client gate remains `BLOCKED`)
 Current milestone: `TWO-CLIENT-VERTICAL-SLICE-001` (`NOT_STARTED`)
 Branch: `main`
-HEAD: starting commit for `SERVER-BASELINE-772-001` was `d6201d23f579678fbd60081c8dae205f80dcdb06`; resolve current exact HEAD with `git rev-parse HEAD`
+HEAD: implementation commit `ef9a09bb80adc7a0baed5899e615dfb966879c0a`; resolve the final handoff-metadata commit with `git rev-parse HEAD`
 Dirty worktree: expected clean after the current task commit
 
 Server reference source: immutable candidates selected, independently statically reviewed, materialized and `BUILD PASS`; `SERVER-RUNTIME-SMOKE-001 = CERTIFIED` after independent live repetition
