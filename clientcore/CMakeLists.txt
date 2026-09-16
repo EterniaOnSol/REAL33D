@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+find_package(OpenSSL REQUIRED COMPONENTS Crypto)
+
 add_library(protocol772_transport
     src/framed_connection.cpp
     src/framing.cpp
@@ -25,6 +27,30 @@ endif()
 
 if(WIN32)
     target_link_libraries(protocol772_transport PUBLIC ws2_32)
+endif()
+
+add_library(protocol772_crypto
+    src/crypto.cpp
+)
+
+target_include_directories(protocol772_crypto
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+target_link_libraries(protocol772_crypto
+    PRIVATE
+        OpenSSL::Crypto
+)
+
+if(MSVC)
+    target_compile_options(protocol772_crypto PRIVATE /W4 /WX /permissive-)
+else()
+    target_compile_options(protocol772_crypto PRIVATE -Wall -Wextra -Wpedantic -Werror)
+endif()
+
+if(WIN32)
+    target_link_libraries(protocol772_crypto PRIVATE bcrypt)
 endif()
 
 include(CTest)
@@ -48,4 +74,22 @@ if(BUILD_TESTING)
 
     add_test(NAME protocol772_transport_tests COMMAND protocol772_transport_tests)
     set_tests_properties(protocol772_transport_tests PROPERTIES TIMEOUT 30)
+
+    add_executable(protocol772_crypto_tests
+        tests/crypto_tests.cpp
+    )
+    target_link_libraries(protocol772_crypto_tests
+        PRIVATE
+            protocol772_crypto
+            protocol772_transport
+    )
+
+    if(MSVC)
+        target_compile_options(protocol772_crypto_tests PRIVATE /W4 /WX /permissive-)
+    else()
+        target_compile_options(protocol772_crypto_tests PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    endif()
+
+    add_test(NAME protocol772_crypto_tests COMMAND protocol772_crypto_tests)
+    set_tests_properties(protocol772_crypto_tests PROPERTIES TIMEOUT 30)
 endif()

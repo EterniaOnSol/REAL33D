@@ -1,6 +1,6 @@
 # Protocol 7.72 Source Truth - Initial Inventory
 
-Status: source baseline selected under independent static review. Sanitized internal runtime compatibility is `CERTIFIED` under independently repeated `SERVER-RUNTIME-SMOKE-001`. `CLIENTCORE-TRANSPORT-772-001 = PASS` for the bounded outer-framing/TCP layer; external crypto and application protocol behavior remain `IN_PROGRESS` and are not certified.
+Status: source baseline selected under independent static review. Sanitized internal runtime compatibility is `CERTIFIED` under independently repeated `SERVER-RUNTIME-SMOKE-001`. `CLIENTCORE-TRANSPORT-772-001 = PASS` and `CLIENTCORE-CRYPTO-772-001 = PASS` for their bounded layers; application Login/Game protocol remains `IN_PROGRESS` and is not certified.
 
 The immutable candidate revisions and artifact hashes are in `SOURCE_MANIFEST.md`. Curated reference trees are under `reference/`; tracked private PEM files were explicitly omitted.
 
@@ -56,7 +56,7 @@ A sanitized environment now generates one shared fresh 1024-bit PKCS#1 private k
 | Concern | Primary source / symbols | Initial confidence |
 | --- | --- | --- |
 | TCP and framing | game `src/communication.cc`: `OpenSocket`, `ReceiveCommand`, `WriteToSocket`, `ReadFromSocket`; login `src/connections.cc::CheckConnectionInput`, `PrepareXTEAResponse`, `SendXTEAResponse` | High; bounded client transport/framing implementation and deterministic fixtures PASS |
-| RSA / XTEA | game `src/crypto.cc`: `TRSAPrivateKey`, `TXTEASymmetricKey`; `communication.cc::HandleLogin` | High; public modulus/fixtures unverified |
+| RSA / XTEA | game `src/crypto.cc`: `TRSAPrivateKey`, `TXTEASymmetricKey`; `communication.cc::HandleLogin`; login `src/crypto.cc`, `connections.cc::ProcessLoginRequest/SendXTEAResponse` | High; bounded client implementation and byte fixtures PASS |
 | Client/server opcode symbols | game `src/connections.hh`: `ClientCommand`, `ServerCommand` | High for selected source only |
 | Client dispatch | game `src/receiving.cc`: `ReceiveData`, `C*` handlers | High; parser consumes one command per call |
 | Server serialization | game `src/sending.cc`: `Send*` functions | High; payload specs not yet extracted |
@@ -75,7 +75,7 @@ A sanitized environment now generates one shared fresh 1024-bit PKCS#1 private k
 
 Game and Login receive an outer little-endian `uint16` size followed by exactly that many bytes; the size excludes its own two-byte header. `CLIENTCORE-TRANSPORT-772-001 = PASS` implements that bounded outer framing with separate source-derived endpoint/direction limits and deterministic fragment/coalescing/error fixtures. Detailed symbols and derivations are in `docs/protocol772/TRANSPORT.md`.
 
-The first Game connection payload is unencrypted login. Subsequent Game payload size must align to eight bytes, is XTEA-decrypted, and begins with an inner little-endian plaintext length. Sending mirrors outer length, inner data length, data, and padding. RSA uses a 128-byte/1024-bit block with no padding; decrypted byte zero must be zero, followed by four little-endian XTEA words. These crypto statements still require golden fixtures and independent review before their own `PASS`.
+The first Game connection payload is unencrypted login. Subsequent Game payload size must align to eight bytes, is XTEA-decrypted, and begins with an inner little-endian plaintext length. Sending mirrors outer length, inner data length, data, and padding. RSA uses a 128-byte/1024-bit block with no padding; decrypted byte zero must be zero, followed by four little-endian XTEA words. `CLIENTCORE-CRYPTO-772-001 = PASS` implements and tests these bounded rules; detailed traceability is in `docs/protocol772/CRYPTO.md`. Application Login/Game Login fields remain outside that result.
 
 ## Known risks and unknowns
 

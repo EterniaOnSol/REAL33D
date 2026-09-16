@@ -16,7 +16,15 @@ wsl.exe -d Ubuntu-26.04 -- cmake --build /tmp/fusion32-clientcore-transport-buil
 wsl.exe -d Ubuntu-26.04 -- ctest --test-dir /tmp/fusion32-clientcore-transport-build --output-on-failure
 ```
 
-No crypto or application-packet fixture suite exists yet. Subsequent protocol tests should cover both directions:
+`clientcore/tests/crypto_tests.cpp` and `clientcore/tests/fixtures/crypto_772_vectors.h` now provide 25 RSA/XTEA/key/padding/error cases with byte-for-byte public fixtures. CTest executes both Transport and Crypto:
+
+```powershell
+wsl.exe -d Ubuntu-26.04 -- cmake -S /mnt/c/Users/dell/Desktop/fusion32/clientcore -B /tmp/fusion32-clientcore-crypto-build -DCMAKE_BUILD_TYPE=Debug
+wsl.exe -d Ubuntu-26.04 -- cmake --build /tmp/fusion32-clientcore-crypto-build --parallel
+wsl.exe -d Ubuntu-26.04 -- ctest --test-dir /tmp/fusion32-clientcore-crypto-build --output-on-failure
+```
+
+No application Login/opcode fixture suite exists yet. Subsequent protocol tests should cover both directions:
 
 - known packet bytes -> expected typed semantic event;
 - typed client command -> expected packet bytes.

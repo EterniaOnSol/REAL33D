@@ -12,7 +12,7 @@ Gate: selected source revisions, repeatable build commands, and fixture tests fo
 ## Gate 1 - Protocol772Core (`IN_PROGRESS`)
 
 1. `CLIENTCORE-TRANSPORT-772-001` (`PASS`): portable TCP lifecycle, buffered stream reads/writes, source-traced two-byte outer framing, endpoint/direction limits, explicit errors and 20 deterministic normal plus ASan/UBSan cases. Native Windows execution and independent repetition remain unverified; neither is required to begin the next bounded task.
-2. `CLIENTCORE-CRYPTO-772-001` (`NOT_STARTED`): source-traced RSA public-block construction and XTEA at the established framed-packet boundary, with golden byte fixtures.
+2. `CLIENTCORE-CRYPTO-772-001` (`PASS`): source-traced raw 128-byte RSA public operation, decimal modulus/fixed exponent, secure move-only XTEA key lifecycle, exact XTEA inner length/padding and byte-for-byte fixtures; 25 Crypto plus 20 retained Transport cases pass normally and under ASan/UBSan.
 3. `CLIENTCORE-LOGIN-772-001` (`NOT_STARTED`): character-list request/response and typed result, using deterministic fixtures before a bounded live test.
 4. `CLIENTCORE-GAMELOGIN-772-001` (`NOT_STARTED`): Game login and initial-world handoff without implementing the full opcode surface.
 
@@ -24,7 +24,7 @@ Gate: deterministic byte fixtures, negative tests and source traceability for ea
 2. The selected operator-supplied local Tibia 7.72 EXE/DAT/SPR/PIC set is hashed and functionally usable; original source/chain of custody remains `UNKNOWN`. Obtain a verifiably sourced authorized copy only if provenance certification is required.
 3. The built Fusion32 IP Changer revision `8215db18...` and generated `fusion32` entry passed static address checks and live host/port/fresh-modulus patching against the selected executable. Never execute an archived IP Changer binary.
 4. Classic character-list login, Game entry, initial world processing and a session exceeding 30 minutes are `PASS`; independent repetition with sanitized screenshots is still required for functional `CERTIFIED` status.
-5. Continue the standalone, Unreal-independent `Protocol772Core`: TCP framing is `PASS`; next are RSA public-block construction, XTEA, character-list login, game login, server-command loop, and typed semantic events. Golden byte fixtures precede live use.
+5. Continue the standalone, Unreal-independent `Protocol772Core`: TCP framing and RSA/XTEA are `PASS`; next are character-list login, game login, server-command loop, and typed semantic events. Golden byte fixtures precede live use.
 6. Parse only the initial vertical-slice set proven by source: init game, rights, full screen/map point/field data, floor changes, creature descriptors, add/change/delete field, move creature, player data/skills/state, ping, messages, and disconnect/error. Preserve tile linked-list order and stack position.
 7. Implement client commands required for login, logout/ping, cardinal movement/stop/turn and attack only after their exact payloads have fixtures.
 8. Create a minimal Unreal desktop project that consumes Protocol772Core via a network-thread event queue and applies WorldState on the game thread. Render ground as planes and players/creatures as capsules.

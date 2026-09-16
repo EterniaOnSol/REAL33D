@@ -2,7 +2,7 @@
 
 ## Target boundaries
 
-The Unreal-independent TCP/outer-framing portion below is implemented and deterministically tested under `CLIENTCORE-TRANSPORT-772-001 = PASS`. Crypto, protocol commands/events, WorldState and Unreal remain unimplemented or unverified as stated below.
+The Unreal-independent TCP/outer-framing and Crypto portions below are implemented and deterministically tested under `CLIENTCORE-TRANSPORT-772-001 = PASS` and `CLIENTCORE-CRYPTO-772-001 = PASS`. Protocol commands/events, WorldState and Unreal remain unimplemented or unverified as stated below.
 
 ```text
 Classic Tibia 7.72 ---------+
@@ -40,11 +40,11 @@ TCP byte stream
     -> TcpTransport
     -> FrameDecoder / EncodeFrame
     -> owned FramedPacket
-    -> future CryptoStage
+    -> RSA/XTEA CryptoStage
     -> future Protocol772 decoder
 ```
 
-`TcpTransport` owns socket lifecycle and byte I/O. `FrameDecoder` incrementally preserves partial input and extracts every complete outer packet in order. `FramedConnection` composes them but does not decrypt, decode opcodes, apply gameplay state or call Unreal. Full behavior and source traceability are in `docs/protocol772/TRANSPORT.md`.
+`TcpTransport` owns socket lifecycle and byte I/O. `FrameDecoder` incrementally preserves partial input and extracts every complete outer packet in order. `FramedConnection` composes them without crypto or protocol behavior. `protocol772_crypto` then performs only RSA public operations, XTEA key/block processing and encrypted inner-length/padding validation. It preserves ciphertext and returns owned plaintext/padding; it does not decode opcodes, apply gameplay state or call Unreal. Full behavior and source traceability are in `docs/protocol772/TRANSPORT.md` and `docs/protocol772/CRYPTO.md`.
 
 ## Source architecture discovered
 

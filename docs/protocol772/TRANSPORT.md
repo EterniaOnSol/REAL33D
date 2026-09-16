@@ -13,7 +13,7 @@ TCP stream
     -> TcpTransport
     -> FrameDecoder / EncodeFrame
     -> FramedPacket (owned outer payload)
-    -> future CryptoStage
+    -> CryptoStage (implemented by CLIENTCORE-CRYPTO-772-001)
     -> future Protocol772 decoder
     -> future semantic event queue
 ```
@@ -77,10 +77,10 @@ This layer owns framing only. It never drops the remainder of an outer packet be
 
 The deterministic suite covers fragment boundaries, coalesced frames, malformed lengths, preserved bytes, write framing, local connection/refusal, clean and remote disconnects, reconnect, and partial-frame EOF. It runs without Internet, Fusion32 services, the classic client or Unreal. Debug and AddressSanitizer/UBSan builds pass on WSL2 Linux x86_64.
 
-Not yet verified:
+Transport-specific items not yet verified:
 
 - a native Windows/MSVC build and Windows loopback run;
 - a live Fusion32 transport smoke test (optional for this task and intentionally not run);
-- RSA/XTEA behavior, login messages, opcodes or application semantics;
+- login messages, opcodes or application semantics; RSA/XTEA now have their own bounded `PASS` in `docs/protocol772/CRYPTO.md`;
 - use of optional server-side local-proxy preambles (`ALLOW_LOCAL_PROXY`), which a normal direct client does not send;
 - independent repetition of this task's test procedure.
