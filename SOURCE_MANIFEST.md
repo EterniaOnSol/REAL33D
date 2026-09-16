@@ -2,7 +2,7 @@
 
 TARGET: Tibia 7.72 / `TIBIA772`
 
-Selection status: `PASS` under independent static review for immutable candidate choice. Sanitized three-service startup compatibility is `CERTIFIED` under independently repeated `SERVER-RUNTIME-SMOKE-001`. Classic-client protocol/gameplay compatibility remains unverified.
+Selection status: `PASS` under independent static review for immutable candidate choice. Sanitized three-service startup compatibility is `CERTIFIED` under independently repeated `SERVER-RUNTIME-SMOKE-001`. Bounded classic Login, character-list and Game-entry compatibility is `PASS` for the selected local client hashes; full protocol/gameplay compatibility remains unverified.
 
 ## GAME
 
@@ -50,7 +50,15 @@ Selection status: `PASS` under independent static review for immutable candidate
 - materialized: `reference/ipchanger`; all six upstream blobs match the selected commit
 - build: Windows x86 `BUILD PASS` from source; no archived binary was used or executed
 - review: `IPCHANGER-772-REVIEW-001 = ACCEPT` after independent bundle, blob, address-table, build-output and configuration verification
-- live status: `BLOCKED_CLIENT_ABSENT`; the source-defined 7.72 addresses require validation against the supplied legitimate executable before client-login PASS
+- live status: `IPCHANGER-772-LIVE-001 = PASS` for the selected local Tibia 7.72 executable hash and fresh generated modulus; independent repetition remains pending
+
+## CLASSIC CLIENT (LOCAL TEST ARTIFACT, NOT SOURCE AUTHORITY)
+
+- location: ignored `build/classic-client-772/app/`; never commit the client binaries/data by default
+- identity: exact EXE/DAT/SPR/PIC hashes are recorded in `evidence/client/CLASSIC-CLIENT-772-001.md`
+- provenance: `USER-SUPPLIED_LOCAL_COPY`; pre-existing on the operator's computer; original URL/archive/date/chain of custody `UNKNOWN`
+- metadata: PE resources report `Tibia Player` version `7.72`, company `CipSoft GmbH`; no `Zone.Identifier` was present
+- status: static address-table validation, Login, character list, Game entry and sustained session `PASS`; provenance certification and independent functional repetition pending
 
 ## LOOSE GAME SNAPSHOTS
 

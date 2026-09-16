@@ -1,6 +1,6 @@
 # Sanitized Fusion32 7.72 Runtime
 
-Status: `SERVER-RUNTIME-SMOKE-001 = CERTIFIED` after independent live repetition. Classic-client login and world entry remain blocked because no legitimate Tibia 7.72 client artifact is present.
+Status: `SERVER-RUNTIME-SMOKE-001 = CERTIFIED` after independent live repetition. The selected local classic-client artifact set subsequently passed Login, character list, Game entry and a sustained session; historical acquisition provenance is `UNKNOWN` and independent client repetition is `NOT_STARTED`.
 
 ## Topology
 
@@ -47,8 +47,9 @@ A reset returns database, map and user state to a fresh synthetic baseline by re
 - `SERVER-RUNTIME-SMOKE-001`: `CERTIFIED` for sanitized internal startup/liveness/data/shutdown scope.
 - `NETWORK-SMOKE-772-001`: `PASS`; connect/close on 7171, 7172 and 7173 did not terminate services.
 - `SERVER-SHUTDOWN-001`: `PASS`.
-- `CLASSIC-LOGIN-772-001`: `BLOCKED` (client absent).
-- `CLASSIC-CHARLIST-772-001`: `BLOCKED` (client absent).
-- `CLASSIC-GAME-ENTRY-772-001`: `BLOCKED` (client absent).
+- `CLASSIC-LOGIN-772-001`: `PASS`.
+- `CLASSIC-CHARLIST-772-001`: `PASS`.
+- `CLASSIC-GAME-ENTRY-772-001`: `PASS`.
+- `CLASSIC-SESSION-SUSTAIN-001`: `PASS` for the observed interval greater than 30 minutes.
 
-Runtime PASS proves the selected components can initialize together with sanitized data. It does not prove the external Tibia protocol, character login, gameplay or parity.
+Runtime certification proves the selected components can initialize together with sanitized data. The later classic-client results prove the bounded Login/Game-entry flow for the exact recorded client hashes; they do not prove complete protocol behavior, gameplay parity or Unreal behavior.

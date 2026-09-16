@@ -9,7 +9,7 @@ The immutable candidate revisions and artifact hashes are in `SOURCE_MANIFEST.md
 - Six loose `game-*` archives: three source snapshots in both ZIP and TAR.GZ form. `game-master` and `game-3fd1...` are content-identical; `game-db505...` differs only in `src/operate.cc`. They describe themselves as a manual decompilation of a leaked Tibia 7.7 server with changes and possible translation errors: `REFERENCE / DERIVED`.
 - `tibiacacaca.zip`: container with Git bundles for game, login, querymanager, web, and ipchanger. Selected heads: game `386fa9b8078a1b32187dfcbfc2a0ed7543e16346`, login `f1c839fe7c0334fa036549a641487f21205d0129`, querymanager `edea08d11cc306955d8d732164ec383d37ea1f62`, and Fusion32 IP Changer `8215db18abbae05b62bcbd5c4f086856168283a4`; web `c61e2918e52e929722e5bd97ddaa1747d7ed1744` remains supporting reference only. The four selected revisions have independent source-selection review; client-memory compatibility of the IP Changer still requires the exact client executable.
 - `tibia-game.tarball.tar.gz`: large legacy runtime with binaries, config, map/origmap/map backups, objects and conversion data, monsters, NPCs, logs, users and backups. Treat as sensitive/untrusted reference; do not execute or import wholesale.
-- No classic client and no Unreal project were found.
+- The initial source/runtime inventory contained no classic client and no Unreal project. A later operator-supplied local Tibia 7.72 EXE/DAT/SPR/PIC set is recorded by exact hash in `evidence/client/CLASSIC-CLIENT-772-001.md`; it is functional test input, not protocol source authority, and its historical provenance is `UNKNOWN`. No Unreal project has been found.
 
 Archive SHA-256 values are recorded in `evidence/protocol/PHASE-0-AUDIT.md`.
 
@@ -41,7 +41,7 @@ Login sends account/password/client-IP to Query Manager query `11`; no login-iss
 
 Static inspection and independent review found aligned application IDs, query IDs, LE framing, shared-auth convention, world endpoint fields, and default port 7173 among the selected Game/Login/Query Manager revisions. Query Manager contains ancestor `8c2a846...`, required for Login's world-status query authorization and robust header input. Both Game and Login fail startup without Query Manager.
 
-Runtime verification now proves a clean SQLite schema/seed, internal Game and Login authorization, world resolution, Game world load, simultaneous liveness on Query Manager `7173`, Game `7172`, Login `7171`, bounded TCP connect/close resilience, and clean shutdown. It does not prove classic-client login or game entry.
+Runtime verification proves a clean SQLite schema/seed, internal Game and Login authorization, world resolution, Game world load, simultaneous liveness on Query Manager `7173`, Game `7172`, Login `7171`, bounded TCP connect/close resilience, and clean shutdown. That runtime test alone does not prove external protocol behavior. Subsequent bounded classic-client evidence proves Login, character list, Game entry and a sustained connection for the exact recorded local client hashes; it does not provide golden packet fixtures or full gameplay parity.
 
 Query Manager applies `sqlite/schema.sql` to a fresh DB and then patch files alphabetically. The synthetic seed contains one world plus two independent accounts/characters. Account `Auth` is 64 bytes: `SHA256(SHA256(password) XOR random_32_byte_salt) || salt`. Passwords/auth blobs remain generated ignored state.
 
@@ -49,19 +49,19 @@ Query Manager applies `sqlite/schema.sql` to a fresh DB and then patch files alp
 
 Selected Game and Login commits track byte-identical 1024-bit reference private keys, which are compromised and excluded from materialized sources. Their public modulus does not match the default modulus embedded in the inspected IP Changer source example. The project-selected Fusion32 IP Changer revision `8215db...` explicitly supports client 7.72 and patches five login endpoints plus the decimal RSA modulus in process memory.
 
-A sanitized environment now generates one shared fresh 1024-bit PKCS#1 private key for Login and Game. `SERVER-RUNTIME-SMOKE-001` verifies their installed files match without exposing them and verifies that hexadecimal/decimal public modulus forms are equivalent and fit the IP Changer limit. The selected IP Changer has Windows x86 `BUILD PASS`. Its exact addresses are source-defined but live compatibility remains `UNKNOWN` until tested against the legitimate client. No private key contents are documented.
+A sanitized environment now generates one shared fresh 1024-bit PKCS#1 private key for Login and Game. `SERVER-RUNTIME-SMOKE-001` verifies their installed files match without exposing them and verifies that hexadecimal/decimal public modulus forms are equivalent and fit the IP Changer limit. The selected IP Changer has Windows x86 `BUILD PASS`. `IPCHANGER-772-LIVE-001 = PASS` validates its source-defined 7.72 addresses and fresh-modulus patch for the exact client executable hash recorded in `evidence/client/CLASSIC-CLIENT-772-001.md`. Historical client provenance remains `UNKNOWN`, independent functional repetition is `NOT_STARTED`, and no private key contents are documented.
 
 ## Source map
 
 | Concern | Primary source / symbols | Initial confidence |
 | --- | --- | --- |
-| TCP and framing | game `src/communication.cc`: `OpenSocket`, `ReceiveCommand`, `WriteToSocket`, `ReadFromSocket` | High for game endpoint; untested |
+| TCP and framing | game `src/communication.cc`: `OpenSocket`, `ReceiveCommand`, `WriteToSocket`, `ReadFromSocket` | High for game endpoint; classic live path PASS, byte fixtures pending |
 | RSA / XTEA | game `src/crypto.cc`: `TRSAPrivateKey`, `TXTEASymmetricKey`; `communication.cc::HandleLogin` | High; public modulus/fixtures unverified |
 | Client/server opcode symbols | game `src/connections.hh`: `ClientCommand`, `ServerCommand` | High for selected source only |
 | Client dispatch | game `src/receiving.cc`: `ReceiveData`, `C*` handlers | High; parser consumes one command per call |
 | Server serialization | game `src/sending.cc`: `Send*` functions | High; payload specs not yet extracted |
-| Game login / initial world | `communication.cc::HandleLogin`; `connections.cc::JoinGame`; `crplayer.cc`; `sending.cc::SendInitGame/SendFullScreen` | High; no fixture/live test |
-| Character list | login `src/connections.cc`, query path in `src/query.cc` | High for source trace; no byte fixture/live client test |
+| Game login / initial world | `communication.cc::HandleLogin`; `connections.cc::JoinGame`; `crplayer.cc`; `sending.cc::SendInitGame/SendFullScreen` | High; bounded classic live PASS, no byte fixture |
+| Character list | login `src/connections.cc`, query path in `src/query.cc` | High; bounded classic live PASS, no byte fixture |
 | Map / tile things | `sending.cc::SendMapObject/SendMapPoint/SendFullScreen/SendFloors`; `map.cc` | Medium |
 | Movement/use/client commands | `receiving.cc`; `cract.cc`; `operate.cc`; `moveuse.cc` | Medium |
 | Items/types | `objects.cc/.hh`, `map.cc/.hh`, runtime `dat/objects.srv`, `dat/conversion.lst` | Medium |
@@ -78,8 +78,8 @@ Game receive reads an outer little-endian `uint16` size followed by exactly that
 ## Known risks and unknowns
 
 - Exact relationship among loose snapshots and the newer game bundle is unresolved.
-- Character-list request/response is source-traced but lacks golden byte fixtures and a live classic-client test.
-- Fresh RSA public-modulus derivation and the IP Changer decimal representation are proven equivalent. Client use of that modulus, checksum behavior if any, RSA padding-byte behavior, and live compatibility remain unverified.
+- Character-list request/response is source-traced and bounded classic live `PASS`, but lacks golden byte fixtures.
+- Fresh RSA public-modulus derivation and the IP Changer decimal representation are proven equivalent; live use is `PASS` for the exact recorded client hash. Checksum behavior if any, RSA padding-byte behavior beyond the observed path, and independent repetition remain unverified.
 - `ReceiveData` dispatches one logical client opcode; multi-command packet behavior is unverified.
 - Tile order begins from the map container linked list; `PlaceObject` orders priorities BANK, CLIP, BOTTOM, TOP, CREATURE, LOW. Reverse stack lookup and full flag semantics remain untraced.
 - Selected-source startup against the bounded legacy data subset is runtime-smoke PASS. Archived binaries remain unexecuted and their 7.72 status is unknown.
