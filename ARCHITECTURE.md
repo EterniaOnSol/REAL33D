@@ -41,10 +41,14 @@ TCP byte stream
     -> FrameDecoder / EncodeFrame
     -> owned FramedPacket
     -> RSA/XTEA CryptoStage
-    -> future Protocol772 decoder
+    -> Login / Game Login
+    -> Initial World (FULLSCREEN) -> WorldState
+    -> future Protocol772 decoders for the remaining commands
 ```
 
-`TcpTransport` owns socket lifecycle and byte I/O. `FrameDecoder` incrementally preserves partial input and extracts every complete outer packet in order. `FramedConnection` composes them without crypto or protocol behavior. `protocol772_crypto` performs RSA public operations, XTEA key/block processing and encrypted inner-length/padding validation. `protocol772_login` builds the source-traced 7.72 Login request and parses only MOTD/error/character-list responses. `protocol772_gamelogin` builds Game Login, owns the persistent session and recognizes only initial authentication messages; fullscreen/map bytes remain preserved. Neither layer applies gameplay state or calls Unreal. Full behavior and source traceability are in `docs/protocol772/TRANSPORT.md`, `docs/protocol772/CRYPTO.md`, `docs/protocol772/LOGIN.md` and `docs/protocol772/GAMELOGIN.md`.
+`TcpTransport` owns socket lifecycle and byte I/O. `FrameDecoder` incrementally preserves partial input and extracts every complete outer packet in order. `FramedConnection` composes them without crypto or protocol behavior. `protocol772_crypto` performs RSA public operations, XTEA key/block processing and encrypted inner-length/padding validation. `protocol772_login` builds the source-traced 7.72 Login request and parses only MOTD/error/character-list responses. `protocol772_gamelogin` builds Game Login, owns the persistent session and recognizes only initial authentication messages; fullscreen/map bytes remain preserved. `protocol772_initial_world` consumes exactly those preserved bytes, decodes the `FULLSCREEN` snapshot and folds it into a minimal `WorldState`; every other server command stays named but unparsed. No layer calls Unreal. Full behavior and source traceability are in `docs/protocol772/TRANSPORT.md`, `docs/protocol772/CRYPTO.md`, `docs/protocol772/LOGIN.md`, `docs/protocol772/GAMELOGIN.md` and `docs/protocol772/INITIAL_WORLD.md`.
+
+The map encoding is not self-describing: `reference/game/src/sending.cc::SendItem` decides an item's on-wire length from server object type flags the protocol never carries. `ObjectTypeTable` is therefore an explicit, injected dependency of the decoder, loaded from the server's own `dat/objects.srv`, rather than knowledge baked into the parser.
 
 ## Source architecture discovered
 

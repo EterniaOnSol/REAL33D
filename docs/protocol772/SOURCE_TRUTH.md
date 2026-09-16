@@ -62,9 +62,9 @@ A sanitized environment now generates one shared fresh 1024-bit PKCS#1 private k
 | Server serialization | game `src/sending.cc`: `Send*` functions | High; payload specs not yet extracted |
 | Game login / initial world | `communication.cc::HandleLogin`; `connections.cc::JoinGame`; `crplayer.cc`; `sending.cc::SendInitGame/SendFullScreen` | High; bounded classic live PASS, no byte fixture |
 | Character list | login `src/connections.cc`, query path in `src/query.cc` | High; bounded classic live PASS, no byte fixture |
-| Map / tile things | `sending.cc::SendMapObject/SendMapPoint/SendFullScreen/SendFloors`; `map.cc` | Medium |
+| Map / tile things | `sending.cc::SendMapObject/SendMapPoint/SendFullScreen/SkipFlush/SendItem/SendOutfit`; `connections.cc` terminal geometry and `NewKnownCreature`; `map.cc` | High for `SendFullScreen`; byte fixtures and a live round trip PASS. `SendRow`/`SendFloors`/`SendFieldData` reuse the same tile encoding but their headers are not yet extracted |
 | Movement/use/client commands | `receiving.cc`; `cract.cc`; `operate.cc`; `moveuse.cc` | Medium |
-| Items/types | `objects.cc/.hh`, `map.cc/.hh`, runtime `dat/objects.srv`, `dat/conversion.lst` | Medium |
+| Items/types | `objects.cc/.hh`, `map.cc/.hh`, runtime `dat/objects.srv`, `dat/conversion.lst` | High for the three wire-relevant flags; `dat/objects.srv` invariants verified by `tests/verify_object_type_invariants.py`. Everything else remains Medium |
 | Creatures/combat | `cr*.cc/.hh`, especially `crcombat.cc`; receiving/sending | Medium |
 | Magic/effects | `magic.cc/.hh`; sending effect functions | Medium |
 | Stats/skills | `crskill.cc`; player serialization | Medium |
@@ -80,8 +80,14 @@ accepts terminal types 1 or 2 and hands the authenticated character to the game
 thread. The initial send path in `crplayer.cc` calls `SendInitGame`, optional
 `SendRights`, then `SendFullScreen`; these are Game `ServerCommand` values 10,
 11 and 100. `CLIENTCORE-GAMELOGIN-772-001` has deterministic fixtures and a
-bounded local synthetic-account smoke for this handoff; map/fullscreen parsing
-remains intentionally unimplemented.
+bounded local synthetic-account smoke for this handoff.
+
+`INITIALWORLD-772-001` decodes the `FULLSCREEN` snapshot itself. Because
+`sending.cc::SendItem` derives an item's on-wire length from server object type
+flags the protocol never carries, the decoder takes an explicit object type
+table loaded from `dat/objects.srv`. Full derivation, the wire layout and the
+verified data invariants are in `docs/protocol772/INITIAL_WORLD.md`. Every other
+server command remains recognized by name and unparsed.
 
 ## Framing/crypto interpretation
 

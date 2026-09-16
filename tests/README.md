@@ -24,7 +24,15 @@ wsl.exe -d Ubuntu-26.04 -- cmake --build /tmp/fusion32-clientcore-crypto-build -
 wsl.exe -d Ubuntu-26.04 -- ctest --test-dir /tmp/fusion32-clientcore-crypto-build --output-on-failure
 ```
 
-No application Login/opcode fixture suite exists yet. Subsequent protocol tests should cover both directions:
+`clientcore/tests/initial_world_tests.cpp` and `clientcore/tests/fixtures/fullscreen_772_vectors.h` cover the `FULLSCREEN` world snapshot. The fixtures header carries a literal port of the server emitter (`SendFullScreen`, `SendMapPoint`, `SkipFlush`, `SendMapObject`, `SendItem`, `SendOutfit`), which is first asserted to reproduce three hand-computed golden hex messages byte for byte and only then used to build the structural and negative cases.
+
+`verify_object_type_invariants.py` proves the assumptions that decoder relies on against the shipped `dat/objects.srv`: that the creature markers 97/98/99 cannot collide with a map item, that no type id reaches the `0xFF00` skip-marker page, that at most one extra byte follows a type id, and that every disguise target shares its source's wire-relevant flags:
+
+```powershell
+wsl.exe -d Ubuntu-26.04 -- python3 /mnt/c/Users/dell/Desktop/fusion32/tests/verify_object_type_invariants.py /mnt/c/Users/dell/Desktop/fusion32/tibia-game.tarball.tar.gz
+```
+
+Client command encoding is still untested in either direction. Subsequent protocol tests should cover both:
 
 - known packet bytes -> expected typed semantic event;
 - typed client command -> expected packet bytes.

@@ -26,3 +26,18 @@ The source-traced Login/Character List layer is documented in
 [`docs/protocol772/LOGIN.md`](../docs/protocol772/LOGIN.md), with evidence in
 [`CLIENTCORE-LOGIN-772-001.md`](../evidence/clientcore/CLIENTCORE-LOGIN-772-001.md).
 It deliberately stops before Game Login and world protocol processing.
+
+Game Login, the persistent session and the initial authentication messages are
+documented in [`docs/protocol772/GAMELOGIN.md`](../docs/protocol772/GAMELOGIN.md),
+with evidence in
+[`CLIENTCORE-GAMELOGIN-772-001.md`](../evidence/clientcore/CLIENTCORE-GAMELOGIN-772-001.md).
+
+`protocol772_initial_world` decodes the `FULLSCREEN` world snapshot that follows
+Game Login into a minimal `WorldState`, and names every other server command
+without parsing it. Because the 7.72 item encoding depends on server object type
+flags the wire omits, the decoder takes an explicit `ObjectTypeTable` loaded from
+the server's `dat/objects.srv`. See
+[`docs/protocol772/INITIAL_WORLD.md`](../docs/protocol772/INITIAL_WORLD.md) and
+[`INITIALWORLD-772-001.md`](../evidence/clientcore/INITIALWORLD-772-001.md).
+The invariants that table relies on are checked by
+[`tests/verify_object_type_invariants.py`](../tests/verify_object_type_invariants.py).

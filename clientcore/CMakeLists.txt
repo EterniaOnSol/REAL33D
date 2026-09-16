@@ -96,6 +96,23 @@ else()
     target_compile_options(protocol772_gamelogin PRIVATE -Wall -Wextra -Wpedantic -Werror)
 endif()
 
+add_library(protocol772_initial_world
+    src/initial_world.cpp
+    src/object_types.cpp
+    src/worldstate.cpp
+)
+
+target_include_directories(protocol772_initial_world
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+if(MSVC)
+    target_compile_options(protocol772_initial_world PRIVATE /W4 /WX /permissive-)
+else()
+    target_compile_options(protocol772_initial_world PRIVATE -Wall -Wextra -Wpedantic -Werror)
+endif()
+
 include(CTest)
 if(BUILD_TESTING)
     find_package(Threads REQUIRED)
@@ -174,4 +191,25 @@ if(BUILD_TESTING)
 
     add_test(NAME protocol772_gamelogin_tests COMMAND protocol772_gamelogin_tests)
     set_tests_properties(protocol772_gamelogin_tests PROPERTIES TIMEOUT 30)
+
+    add_executable(protocol772_initial_world_tests
+        tests/initial_world_tests.cpp
+    )
+    target_link_libraries(protocol772_initial_world_tests
+        PRIVATE
+            protocol772_initial_world
+            protocol772_gamelogin
+            protocol772_login
+            protocol772_crypto
+            protocol772_transport
+    )
+
+    if(MSVC)
+        target_compile_options(protocol772_initial_world_tests PRIVATE /W4 /WX /permissive-)
+    else()
+        target_compile_options(protocol772_initial_world_tests PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    endif()
+
+    add_test(NAME protocol772_initial_world_tests COMMAND protocol772_initial_world_tests)
+    set_tests_properties(protocol772_initial_world_tests PROPERTIES TIMEOUT 60)
 endif()
