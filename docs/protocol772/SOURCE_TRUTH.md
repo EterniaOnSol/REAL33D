@@ -33,7 +33,7 @@ The RSA plaintext-zero validations added in the version-support commits are unco
 
 ## Login / character list source trace
 
-Selected Login `connections.cc` reads an outer LE `uint16` size and requires a 145-byte request payload: command byte `1`, terminal type/version LE words, three LE signature quads, and 128-byte RSA ciphertext. RSA plaintext is zero byte, four LE XTEA quads, account ID quad, and length-prefixed password. The encrypted response contains optional MOTD, character-list opcode `100`, a byte count, per-character name/world strings, IPv4 in network order, LE port, then LE premium days. Source-traced, not packet-fixture PASS.
+Selected Login `connections.cc` reads an outer LE `uint16` size and requires a 145-byte request payload: command byte `1`, terminal type/version LE words, three LE signature quads, and 128-byte RSA ciphertext. RSA plaintext is zero byte, four LE XTEA quads, account ID quad, and length-prefixed password. The encrypted response contains optional MOTD, character-list opcode `100`, a byte count, per-character name/world strings, IPv4 in network order, LE port, then LE premium days. `CLIENTCORE-LOGIN-772-001` now has deterministic request/response fixtures and a bounded local synthetic-account smoke; Game Login remains separate.
 
 Login sends account/password/client-IP to Query Manager query `11`; no login-issued token was found. The classic client opens a separate Game connection using the returned endpoint.
 

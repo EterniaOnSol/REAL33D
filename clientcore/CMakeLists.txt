@@ -53,6 +53,27 @@ if(WIN32)
     target_link_libraries(protocol772_crypto PRIVATE bcrypt)
 endif()
 
+add_library(protocol772_login
+    src/login.cpp
+)
+
+target_include_directories(protocol772_login
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+target_link_libraries(protocol772_login
+    PUBLIC
+        protocol772_crypto
+        protocol772_transport
+)
+
+if(MSVC)
+    target_compile_options(protocol772_login PRIVATE /W4 /WX /permissive-)
+else()
+    target_compile_options(protocol772_login PRIVATE -Wall -Wextra -Wpedantic -Werror)
+endif()
+
 include(CTest)
 if(BUILD_TESTING)
     find_package(Threads REQUIRED)
@@ -92,4 +113,23 @@ if(BUILD_TESTING)
 
     add_test(NAME protocol772_crypto_tests COMMAND protocol772_crypto_tests)
     set_tests_properties(protocol772_crypto_tests PROPERTIES TIMEOUT 30)
+
+    add_executable(protocol772_login_tests
+        tests/login_tests.cpp
+    )
+    target_link_libraries(protocol772_login_tests
+        PRIVATE
+            protocol772_login
+            protocol772_crypto
+            protocol772_transport
+    )
+
+    if(MSVC)
+        target_compile_options(protocol772_login_tests PRIVATE /W4 /WX /permissive-)
+    else()
+        target_compile_options(protocol772_login_tests PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    endif()
+
+    add_test(NAME protocol772_login_tests COMMAND protocol772_login_tests)
+    set_tests_properties(protocol772_login_tests PROPERTIES TIMEOUT 30)
 endif()

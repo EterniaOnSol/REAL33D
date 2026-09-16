@@ -21,3 +21,8 @@ Crypto source traceability is documented in
 [`docs/protocol772/CRYPTO.md`](../docs/protocol772/CRYPTO.md), with executed
 evidence in
 [`CLIENTCORE-CRYPTO-772-001.md`](../evidence/clientcore/CLIENTCORE-CRYPTO-772-001.md).
+
+The source-traced Login/Character List layer is documented in
+[`docs/protocol772/LOGIN.md`](../docs/protocol772/LOGIN.md), with evidence in
+[`CLIENTCORE-LOGIN-772-001.md`](../evidence/clientcore/CLIENTCORE-LOGIN-772-001.md).
+It deliberately stops before Game Login and world protocol processing.

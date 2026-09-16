@@ -44,7 +44,7 @@ TCP byte stream
     -> future Protocol772 decoder
 ```
 
-`TcpTransport` owns socket lifecycle and byte I/O. `FrameDecoder` incrementally preserves partial input and extracts every complete outer packet in order. `FramedConnection` composes them without crypto or protocol behavior. `protocol772_crypto` then performs only RSA public operations, XTEA key/block processing and encrypted inner-length/padding validation. It preserves ciphertext and returns owned plaintext/padding; it does not decode opcodes, apply gameplay state or call Unreal. Full behavior and source traceability are in `docs/protocol772/TRANSPORT.md` and `docs/protocol772/CRYPTO.md`.
+`TcpTransport` owns socket lifecycle and byte I/O. `FrameDecoder` incrementally preserves partial input and extracts every complete outer packet in order. `FramedConnection` composes them without crypto or protocol behavior. `protocol772_crypto` performs RSA public operations, XTEA key/block processing and encrypted inner-length/padding validation. `protocol772_login` builds the source-traced 7.72 Login request and parses only MOTD/error/character-list responses into typed values. Neither layer applies gameplay state or calls Unreal. Full behavior and source traceability are in `docs/protocol772/TRANSPORT.md`, `docs/protocol772/CRYPTO.md` and `docs/protocol772/LOGIN.md`.
 
 ## Source architecture discovered
 

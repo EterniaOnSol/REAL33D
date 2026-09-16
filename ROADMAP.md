@@ -13,7 +13,7 @@ Gate: selected source revisions, repeatable build commands, and fixture tests fo
 
 1. `CLIENTCORE-TRANSPORT-772-001` (`PASS`): portable TCP lifecycle, buffered stream reads/writes, source-traced two-byte outer framing, endpoint/direction limits, explicit errors and 20 deterministic normal plus ASan/UBSan cases. Native Windows execution and independent repetition remain unverified; neither is required to begin the next bounded task.
 2. `CLIENTCORE-CRYPTO-772-001` (`PASS`): source-traced raw 128-byte RSA public operation, decimal modulus/fixed exponent, secure move-only XTEA key lifecycle, exact XTEA inner length/padding and byte-for-byte fixtures; 25 Crypto plus 20 retained Transport cases pass normally and under ASan/UBSan.
-3. `CLIENTCORE-LOGIN-772-001` (`NOT_STARTED`): character-list request/response and typed result, using deterministic fixtures before a bounded live test.
+3. `CLIENTCORE-LOGIN-772-001` (`PASS` offline): character-list request/response and typed result, with deterministic request/response and negative fixtures. Bounded live new-client Login smoke remains unverified.
 4. `CLIENTCORE-GAMELOGIN-772-001` (`NOT_STARTED`): Game login and initial-world handoff without implementing the full opcode surface.
 
 Gate: deterministic byte fixtures, negative tests and source traceability for each completed layer. Unreal does not enter this gate.
