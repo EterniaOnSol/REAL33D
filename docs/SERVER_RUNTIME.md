@@ -34,7 +34,7 @@ Startup order is Query Manager, Game, Login. Game opens its socket before it is 
 
 ## Generated secrets and identities
 
-Preparation creates one fresh 1024-bit PKCS#1 PEM and installs byte-identical private material for Game and Login with effective mode `0600`, below a WSL-native runtime root with mode `0700`. It writes the public-key SHA-256 fingerprint and public modulus separately for future client patching. The private key, credentials, generated configs, database, binaries and logs live outside the repository and must never be copied into Git.
+Preparation creates one fresh 1024-bit PKCS#1 PEM and installs byte-identical private material for Game and Login with effective mode `0600`, below a WSL-native runtime root with mode `0700`. It writes the public-key SHA-256 fingerprint plus hexadecimal and decimal public-modulus forms. The decimal form is bounded and cross-checked for the Fusion32 IP Changer's 312-byte field. The private key, credentials, generated configs, database, binaries and logs live outside the repository and must never be copied into Git.
 
 The seed contains only `Fusion Test`, accounts `772001`/`772002`, and characters `Test Player A`/`Test Player B`. Passwords, Query Manager authentication and salted account `Auth` values are randomly generated locally. Historical accounts are neither extracted nor queried.
 

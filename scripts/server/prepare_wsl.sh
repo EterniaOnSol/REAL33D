@@ -78,6 +78,10 @@ runtime = Path(sys.argv[1])
 alphabet = string.ascii_letters + string.digits
 key = b"Pm-,o%yD"
 
+modulus_hex = (runtime / 'secrets' / 'public-modulus.hex').read_text(encoding='ascii').strip()
+(runtime / 'secrets' / 'public-modulus.decimal').write_text(
+    f"{int(modulus_hex, 16)}\n", encoding='ascii')
+
 def token(n):
     return ''.join(secrets.choice(alphabet) for _ in range(n))
 

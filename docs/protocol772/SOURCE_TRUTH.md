@@ -7,7 +7,7 @@ The immutable candidate revisions and artifact hashes are in `SOURCE_MANIFEST.md
 ## Artifacts and provenance
 
 - Six loose `game-*` archives: three source snapshots in both ZIP and TAR.GZ form. `game-master` and `game-3fd1...` are content-identical; `game-db505...` differs only in `src/operate.cc`. They describe themselves as a manual decompilation of a leaked Tibia 7.7 server with changes and possible translation errors: `REFERENCE / DERIVED`.
-- `tibiacacaca.zip`: container with Git bundles for game, login, querymanager, web, and ipchanger. Observed bundle heads: game `386fa9b8078a1b32187dfcbfc2a0ed7543e16346`, login `f1c839fe7c0334fa036549a641487f21205d0129`, querymanager `edea08d11cc306955d8d732164ec383d37ea1f62`, web `c61e2918e52e929722e5bd97ddaa1747d7ed1744`, ipchanger `8215db18abbae05b62bcbd5c4f086856168283a4`. Bundle histories were inspected in a temporary directory only; canonical revision remains `UNVERIFIED`.
+- `tibiacacaca.zip`: container with Git bundles for game, login, querymanager, web, and ipchanger. Selected heads: game `386fa9b8078a1b32187dfcbfc2a0ed7543e16346`, login `f1c839fe7c0334fa036549a641487f21205d0129`, querymanager `edea08d11cc306955d8d732164ec383d37ea1f62`, and Fusion32 IP Changer `8215db18abbae05b62bcbd5c4f086856168283a4`; web `c61e2918e52e929722e5bd97ddaa1747d7ed1744` remains supporting reference only. The four selected revisions have independent source-selection review; client-memory compatibility of the IP Changer still requires the exact client executable.
 - `tibia-game.tarball.tar.gz`: large legacy runtime with binaries, config, map/origmap/map backups, objects and conversion data, monsters, NPCs, logs, users and backups. Treat as sensitive/untrusted reference; do not execute or import wholesale.
 - No classic client and no Unreal project were found.
 
@@ -47,9 +47,9 @@ Query Manager applies `sqlite/schema.sql` to a fresh DB and then patch files alp
 
 ## RSA and classic client
 
-Selected Game and Login commits track byte-identical 1024-bit reference private keys, which are compromised and excluded from materialized sources. Their public modulus does not match the default modulus embedded in the inspected IP Changer source example. IP Changer revision `8215db...` explicitly supports client 7.72 and can patch login host, port, and RSA modulus in process memory.
+Selected Game and Login commits track byte-identical 1024-bit reference private keys, which are compromised and excluded from materialized sources. Their public modulus does not match the default modulus embedded in the inspected IP Changer source example. The project-selected Fusion32 IP Changer revision `8215db...` explicitly supports client 7.72 and patches five login endpoints plus the decimal RSA modulus in process memory.
 
-A sanitized environment now generates one shared fresh 1024-bit PKCS#1 private key for Login and Game. `SERVER-RUNTIME-SMOKE-001` verifies their installed files match without exposing them. The matching public modulus must still be configured in the exact legitimate classic client, likely through a controlled build of the IP Changer. Exact client executable addresses and live compatibility remain `UNKNOWN` until tested. No private key contents are documented.
+A sanitized environment now generates one shared fresh 1024-bit PKCS#1 private key for Login and Game. `SERVER-RUNTIME-SMOKE-001` verifies their installed files match without exposing them and verifies that hexadecimal/decimal public modulus forms are equivalent and fit the IP Changer limit. The selected IP Changer has Windows x86 `BUILD PASS`. Its exact addresses are source-defined but live compatibility remains `UNKNOWN` until tested against the legitimate client. No private key contents are documented.
 
 ## Source map
 
@@ -79,7 +79,7 @@ Game receive reads an outer little-endian `uint16` size followed by exactly that
 
 - Exact relationship among loose snapshots and the newer game bundle is unresolved.
 - Character-list request/response is source-traced but lacks golden byte fixtures and a live classic-client test.
-- RSA public modulus, checksum behavior if any, padding byte policy, and live compatibility are unverified.
+- Fresh RSA public-modulus derivation and the IP Changer decimal representation are proven equivalent. Client use of that modulus, checksum behavior if any, RSA padding-byte behavior, and live compatibility remain unverified.
 - `ReceiveData` dispatches one logical client opcode; multi-command packet behavior is unverified.
 - Tile order begins from the map container linked list; `PlaceObject` orders priorities BANK, CLIP, BOTTOM, TOP, CREATURE, LOW. Reverse stack lookup and full flag semantics remain untraced.
 - Selected-source startup against the bounded legacy data subset is runtime-smoke PASS. Archived binaries remain unexecuted and their 7.72 status is unknown.

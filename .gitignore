@@ -13,6 +13,7 @@
 /reference/runtime/
 /runtime/
 /.audit/
+/.agents/
 
 # Generated runtime secrets/configuration. Distribution templates remain tracked.
 *.pem

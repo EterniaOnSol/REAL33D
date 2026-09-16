@@ -29,6 +29,7 @@ TCP_CONNECT_CLOSE port=7173 PASS
 querymanager ALIVE exe=VERIFIED cwd=VERIFIED start=VERIFIED port=7173
 game ALIVE exe=VERIFIED cwd=VERIFIED start=VERIFIED port=7172
 login ALIVE exe=VERIFIED cwd=VERIFIED start=VERIFIED port=7171
+IPCHANGER_RSA_DECIMAL chars=309 max_with_nul=312 PASS
 SANITIZED_DB worlds=1 accounts=2 characters=2 PASS
 GAME_WORLD sectors=9873 objects=8533464 PASS
 RSA_SHARED_PRIVATE_MATERIAL_MATCH PASS
@@ -43,6 +44,7 @@ All services stopped cleanly.
 - Login advertised server/client version `7.72`, world `Fusion Test`, and remained alive after an empty TCP connect/close.
 - Game completed world load before Login startup. Opening its port was found to precede readiness, so the final script waits for the map-load marker.
 - Preparation verifies the archive hash before extraction and requires independently recorded expected hashes for the data manifest and all three binaries. Runtime smoke repeats those comparisons.
+- Runtime preparation now derives a decimal public modulus for the Fusion32 IP Changer; smoke proves equivalence with the hexadecimal modulus and enforces the 312-byte source limit without recording the value.
 - Binary hashes matched prior build evidence: Game `E0E96B...17C7`, Login `23F0E7...788F`, Query Manager `504749...25E4`.
 - The post-reset generated public-key fingerprint was `B99D7D00EB269DDFCF519375DC8652558C997661AEBBF550E1CB3AB7A83B68B7`; reset intentionally changed it from the preceding run.
 - Recorded PIDs are correlated with Linux process start token, exact executable, exact cwd and owned listening socket.

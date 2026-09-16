@@ -46,6 +46,19 @@ for secret in \
   assert_mode 600 "$secret"
 done
 
+python3 - "$runtime/secrets/public-modulus.hex" "$runtime/secrets/public-modulus.decimal" <<'PY'
+import sys
+from pathlib import Path
+
+hex_value = Path(sys.argv[1]).read_text(encoding="ascii").strip()
+decimal_value = Path(sys.argv[2]).read_text(encoding="ascii").strip()
+assert hex_value and all(ch in "0123456789ABCDEFabcdef" for ch in hex_value)
+assert decimal_value.isdecimal()
+assert int(hex_value, 16) == int(decimal_value, 10)
+assert len(decimal_value) + 1 <= 312
+print(f"IPCHANGER_RSA_DECIMAL chars={len(decimal_value)} max_with_nul=312 PASS")
+PY
+
 python3 - "$runtime/querymanager/state/tibia.db" <<'PY'
 import sqlite3
 import sys

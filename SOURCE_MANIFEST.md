@@ -45,8 +45,12 @@ Selection status: `PASS` under independent static review for immutable candidate
 ## IPCHANGER
 
 - artifact: `ipchanger.bundle`; SHA-256 `2CC5415809D036B7C9191433EA091F84ED242EAF796751B289F3084C8D48E044`
-- observed revision: `8215db18abbae05b62bcbd5c4f086856168283a4`
-- status: `SUPPORTING_REFERENCE`; contains explicit 7.72 address table and modulus patching; not materialized or live-validated
+- revision: `8215db18abbae05b62bcbd5c4f086856168283a4`; tree `aa78645284e1da20384dd9789840415cfa296234`
+- status: `CANONICAL_CANDIDATE`, `AUTHORITATIVE_REFERENCE` for classic-client host/port/RSA patching; this is the Fusion32-authored tool named by the Game README
+- materialized: `reference/ipchanger`; all six upstream blobs match the selected commit
+- build: Windows x86 `BUILD PASS` from source; no archived binary was used or executed
+- review: `IPCHANGER-772-REVIEW-001 = ACCEPT` after independent bundle, blob, address-table, build-output and configuration verification
+- live status: `BLOCKED_CLIENT_ABSENT`; the source-defined 7.72 addresses require validation against the supplied legitimate executable before client-login PASS
 
 ## LOOSE GAME SNAPSHOTS
 
