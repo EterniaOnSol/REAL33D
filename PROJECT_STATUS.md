@@ -4,7 +4,8 @@ Current phase: `PHASE 1 - CLIENT CORE` (`IN_PROGRESS`; classic functional baseli
 Current milestone: `TWO-CLIENT-VERTICAL-SLICE-001` (`NOT_STARTED`)
 Branch: `main`
 Classic baseline review commit: `f65f3a7645ff40b39b7cc8399760fd4f0b69ecee`
-Worktree: transport implementation in progress; final clean-state check pending
+Transport implementation commit: `abd2d0a25bd9632f5aa3955e822876268c7ca96c`
+Worktree: clean after the final Transport metadata/handoff commit
 
 Server reference source: immutable candidates selected, independently statically reviewed, materialized and `BUILD PASS`; `SERVER-RUNTIME-SMOKE-001 = CERTIFIED` after independent live repetition
 Protocol: `IN_PROGRESS`; `CLIENTCORE-TRANSPORT-772-001 = PASS` for source-traced outer framing and TCP lifecycle; crypto, login payloads and opcode fixtures remain unverified

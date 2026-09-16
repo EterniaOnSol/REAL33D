@@ -4,7 +4,7 @@ Status: `PASS`
 
 Date: 2026-09-15
 
-Implementation commit: recorded after the focused implementation commit is created
+Implementation commit: `abd2d0a25bd9632f5aa3955e822876268c7ca96c`
 
 Authority: selected Fusion32 Game/Login source revisions inventoried in `SOURCE_MANIFEST.md`
 
