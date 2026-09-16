@@ -5,7 +5,7 @@ Agent: Codex
 Role: CLASSIC CLIENT INTEGRATION EVIDENCE
 Branch: `main`
 Starting commit: `7d0202f9190febc001b9e0be2fc3a094a8197e5d`
-Ending commit: unchanged at `7d0202f9190febc001b9e0be2fc3a094a8197e5d`; current task changes are uncommitted
+Ending review commit: `f65f3a7645ff40b39b7cc8399760fd4f0b69ecee`; final metadata commit is repository HEAD
 Worktree: `C:\Users\dell\Desktop\fusion32`
 
 ## Objective
@@ -122,7 +122,7 @@ Historical client provenance cannot be certified from the current copy because i
 
 ## Exact next recommended task
 
-`PROTOCOL-LOGIN-001`: produce an Unreal-independent, fixture-first specification and implementation boundary for Login character-list and Game login. Derive every byte from selected Fusion32 source and captured/reproducible fixtures; do not infer from OpenTibia or memory. In parallel or afterward, request an independent reviewer for `CLASSIC-CLIENT-772-REVIEW-001`.
+`CLIENTCORE-TRANSPORT-772-001`: implement the smallest Unreal-independent TCP lifecycle, byte buffering and source-traced outer packet framing foundation with deterministic loopback and negative tests. Do not implement RSA/XTEA, Login payloads or Unreal. In parallel or afterward, request an independent reviewer for `CLASSIC-CLIENT-772-REVIEW-001`.
 
 ## Exact files/functions for the next agent
 
