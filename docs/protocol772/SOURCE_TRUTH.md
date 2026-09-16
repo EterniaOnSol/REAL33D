@@ -1,6 +1,6 @@
 # Protocol 7.72 Source Truth - Initial Inventory
 
-Status: source baseline selected under independent static review; protocol/runtime behavior remains `IN_PROGRESS` and not certified.
+Status: source baseline selected under independent static review. Sanitized internal runtime compatibility is `CERTIFIED` under independently repeated `SERVER-RUNTIME-SMOKE-001`. External Tibia protocol behavior remains `IN_PROGRESS` and is not certified.
 
 The immutable candidate revisions and artifact hashes are in `SOURCE_MANIFEST.md`. Curated reference trees are under `reference/`; tracked private PEM files were explicitly omitted.
 
@@ -41,13 +41,15 @@ Login sends account/password/client-IP to Query Manager query `11`; no login-iss
 
 Static inspection and independent review found aligned application IDs, query IDs, LE framing, shared-auth convention, world endpoint fields, and default port 7173 among the selected Game/Login/Query Manager revisions. Query Manager contains ancestor `8c2a846...`, required for Login's world-status query authorization and robust header input. Both Game and Login fail startup without Query Manager.
 
-This result is static only: `REQUIRES_RUNTIME_VERIFICATION` for database schema/data, world resolution, startup, authentication, and game entry.
+Runtime verification now proves a clean SQLite schema/seed, internal Game and Login authorization, world resolution, Game world load, simultaneous liveness on Query Manager `7173`, Game `7172`, Login `7171`, bounded TCP connect/close resilience, and clean shutdown. It does not prove classic-client login or game entry.
+
+Query Manager applies `sqlite/schema.sql` to a fresh DB and then patch files alphabetically. The synthetic seed contains one world plus two independent accounts/characters. Account `Auth` is 64 bytes: `SHA256(SHA256(password) XOR random_32_byte_salt) || salt`. Passwords/auth blobs remain generated ignored state.
 
 ## RSA and classic client
 
 Selected Game and Login commits track byte-identical 1024-bit reference private keys, which are compromised and excluded from materialized sources. Their public modulus does not match the default modulus embedded in the inspected IP Changer source example. IP Changer revision `8215db...` explicitly supports client 7.72 and can patch login host, port, and RSA modulus in process memory.
 
-A sanitized environment must generate one shared 1024-bit private key for Login and Game and configure the matching public modulus in the exact legitimate classic client, likely through the IP Changer. Exact client executable addresses and live compatibility remain `UNKNOWN` until tested. No private key contents are documented.
+A sanitized environment now generates one shared fresh 1024-bit PKCS#1 private key for Login and Game. `SERVER-RUNTIME-SMOKE-001` verifies their installed files match without exposing them. The matching public modulus must still be configured in the exact legitimate classic client, likely through a controlled build of the IP Changer. Exact client executable addresses and live compatibility remain `UNKNOWN` until tested. No private key contents are documented.
 
 ## Source map
 
@@ -59,7 +61,7 @@ A sanitized environment must generate one shared 1024-bit private key for Login 
 | Client dispatch | game `src/receiving.cc`: `ReceiveData`, `C*` handlers | High; parser consumes one command per call |
 | Server serialization | game `src/sending.cc`: `Send*` functions | High; payload specs not yet extracted |
 | Game login / initial world | `communication.cc::HandleLogin`; `connections.cc::JoinGame`; `crplayer.cc`; `sending.cc::SendInitGame/SendFullScreen` | High; no fixture/live test |
-| Character list | login bundle | `UNKNOWN` pending complete trace |
+| Character list | login `src/connections.cc`, query path in `src/query.cc` | High for source trace; no byte fixture/live client test |
 | Map / tile things | `sending.cc::SendMapObject/SendMapPoint/SendFullScreen/SendFloors`; `map.cc` | Medium |
 | Movement/use/client commands | `receiving.cc`; `cract.cc`; `operate.cc`; `moveuse.cc` | Medium |
 | Items/types | `objects.cc/.hh`, `map.cc/.hh`, runtime `dat/objects.srv`, `dat/conversion.lst` | Medium |
@@ -76,8 +78,8 @@ Game receive reads an outer little-endian `uint16` size followed by exactly that
 ## Known risks and unknowns
 
 - Exact relationship among loose snapshots and the newer game bundle is unresolved.
-- Exact character-list request/response is `UNKNOWN`.
+- Character-list request/response is source-traced but lacks golden byte fixtures and a live classic-client test.
 - RSA public modulus, checksum behavior if any, padding byte policy, and live compatibility are unverified.
 - `ReceiveData` dispatches one logical client opcode; multi-command packet behavior is unverified.
 - Tile order begins from the map container linked list; `PlaceObject` orders priorities BANK, CLIP, BOTTOM, TOP, CREATURE, LOW. Reverse stack lookup and full flag semantics remain untraced.
-- Legacy runtime/source compatibility, exact data formats, default ports, and 7.72 status of archived binaries are unverified.
+- Selected-source startup against the bounded legacy data subset is runtime-smoke PASS. Archived binaries remain unexecuted and their 7.72 status is unknown.

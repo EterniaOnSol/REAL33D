@@ -3,3 +3,4 @@
 /tests/*.sh text eol=lf
 /evidence/build/*.log text eol=lf
 *.md text eol=lf
+*.sh text eol=lf

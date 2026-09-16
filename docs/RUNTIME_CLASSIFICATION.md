@@ -14,4 +14,6 @@ Artifact: `tibia-game.tarball.tar.gz`, SHA-256 recorded in `SOURCE_MANIFEST.md`.
 | all `bin/` content | `LEGACY_BINARY_DO_NOT_EXECUTE` | Static inspection only under a future bounded task |
 | untraced miscellaneous files | `UNKNOWN` | Quarantine until classified; never assume safe |
 
-The sanitized runtime must use fresh accounts, credentials, a generated test RSA key shared by Login/Game, new writable map/user/save areas, and only minimum verified reference data.
+The sanitized runtime now does exactly this through `scripts/server/prepare_wsl.sh`: it selectively extracts the required reference candidates, creates new writable map/user/save areas, initializes a new SQLite database with two synthetic identities, and generates a fresh key shared by Login/Game. It never extracts historical accounts, logs, credentials, private keys or binaries. Exact materialized provenance is in `RUNTIME_DATA_PROVENANCE.md`.
+
+`owners.dat` is deliberately not extracted. Game can create a new disposable `owners.dat` in its generated runtime data directory during shutdown; this generated file is not historical provenance.
