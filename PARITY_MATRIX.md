@@ -2,7 +2,7 @@
 
 | Feature | Server understood | Protocol specified | Unreal implemented | Tested | 2D<->3D parity | Status |
 | --- | --- | --- | --- | --- | --- | --- |
-| Connection | Service topology/runtime PASS; classic live route PASS; client framing partial | Partial | No | Classic Login->Game connection and >30-minute session PASS | No | IN_PROGRESS |
+| Connection | Service topology/runtime PASS; classic live route PASS; client outer framing source-traced | Outer transport/framing implemented; crypto/login pending | No | `CLIENTCORE-TRANSPORT-772-001` 20/20 normal and sanitized tests PASS; classic Login->Game connection and >30-minute session PASS | No | IN_PROGRESS |
 | Login / character list | Source traced; sanitized Login runtime and exact classic client flow PASS | Partial, no byte fixtures | No | `CLASSIC-LOGIN-772-001` and `CLASSIC-CHARLIST-772-001` PASS | No | IN_PROGRESS |
 | Game login | Source traced; sanitized Game runtime and classic `JoinGame` flow PASS | Partial, no byte fixtures | No | `CLASSIC-GAME-ENTRY-772-001` PASS | No | IN_PROGRESS |
 | Keepalive | Located | No | No | No | No | NOT_STARTED |
@@ -26,3 +26,5 @@
 `Located` means a likely authoritative implementation symbol was found. It is not protocol understanding and never means `PASS`.
 
 `SERVER-RUNTIME-SMOKE-001` is infrastructure evidence only. The classic-client PASS results validate the 2D baseline, not an Unreal client. They do not change any 2D-to-3D parity cell to PASS.
+
+`CLIENTCORE-TRANSPORT-772-001 = PASS` is limited to the portable TCP and outer-framing component. It does not prove crypto, application login, world entry or 2D-to-3D parity.

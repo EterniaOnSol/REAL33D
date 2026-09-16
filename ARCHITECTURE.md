@@ -2,7 +2,7 @@
 
 ## Target boundaries
 
-The wire/crypto path below is source-traced but `UNVERIFIED` until packet fixtures and live tests exist.
+The Unreal-independent TCP/outer-framing portion below is implemented and deterministically tested under `CLIENTCORE-TRANSPORT-772-001 = PASS`. Crypto, protocol commands/events, WorldState and Unreal remain unimplemented or unverified as stated below.
 
 ```text
 Classic Tibia 7.72 ---------+
@@ -30,6 +30,21 @@ Fusion32 owns validity, movement, combat, loot, stats, creatures, items, contain
 - `Presentation`: placeholder or production visuals; never gameplay authority.
 
 Expected threading boundary: network thread produces immutable semantic events; the game thread applies them to WorldState and presentation. This is a design constraint, not yet an implemented or tested model.
+
+## Implemented client-core boundary
+
+`clientcore/` is a portable C++17 component with no Unreal dependency:
+
+```text
+TCP byte stream
+    -> TcpTransport
+    -> FrameDecoder / EncodeFrame
+    -> owned FramedPacket
+    -> future CryptoStage
+    -> future Protocol772 decoder
+```
+
+`TcpTransport` owns socket lifecycle and byte I/O. `FrameDecoder` incrementally preserves partial input and extracts every complete outer packet in order. `FramedConnection` composes them but does not decrypt, decode opcodes, apply gameplay state or call Unreal. Full behavior and source traceability are in `docs/protocol772/TRANSPORT.md`.
 
 ## Source architecture discovered
 
