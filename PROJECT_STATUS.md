@@ -7,7 +7,7 @@ Classic baseline review commit: `f65f3a7645ff40b39b7cc8399760fd4f0b69ecee`
 Transport implementation commit: `abd2d0a25bd9632f5aa3955e822876268c7ca96c`
 Crypto implementation commit: `64e9217ef64181d44cdce815a36b6bb1d2aa9038`
 Login implementation commit: `a56add56e7ad5a11fd2e28d642bada4390b16756`
-Game Login implementation commit: pending focused commit
+Game Login implementation commit: `3db23f9`
 Worktree: clean after the focused Game Login commit
 
 Server reference source: immutable candidates selected, independently statically reviewed, materialized and `BUILD PASS`; `SERVER-RUNTIME-SMOKE-001 = CERTIFIED` after independent live repetition
