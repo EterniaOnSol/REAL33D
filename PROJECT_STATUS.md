@@ -5,7 +5,8 @@ Current milestone: `TWO-CLIENT-VERTICAL-SLICE-001` (`NOT_STARTED`)
 Branch: `main`
 Classic baseline review commit: `f65f3a7645ff40b39b7cc8399760fd4f0b69ecee`
 Transport implementation commit: `abd2d0a25bd9632f5aa3955e822876268c7ca96c`
-Worktree: Crypto implementation in progress; final clean-state check pending
+Crypto implementation commit: `64e9217ef64181d44cdce815a36b6bb1d2aa9038`
+Worktree: clean after the final Crypto metadata/handoff commit
 
 Server reference source: immutable candidates selected, independently statically reviewed, materialized and `BUILD PASS`; `SERVER-RUNTIME-SMOKE-001 = CERTIFIED` after independent live repetition
 Protocol: `IN_PROGRESS`; `CLIENTCORE-TRANSPORT-772-001 = PASS` and `CLIENTCORE-CRYPTO-772-001 = PASS`; Login payloads and opcode fixtures remain unverified

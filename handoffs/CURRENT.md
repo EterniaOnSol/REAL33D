@@ -1,161 +1,186 @@
 # HANDOFF
 
-Date/time: 2026-09-15T21:29:57-06:00
+Date/time: 2026-09-15T22:12:35-06:00
 Agent: Codex
-Role: PROTOCOL772CORE TRANSPORT IMPLEMENTATION
+Role: PROTOCOL772CORE CRYPTO IMPLEMENTATION
 Branch: `main`
-Starting commit: `0119f589d83d5a5decd5001fd13f84b8ed0ff016`
-Implementation commit: `abd2d0a25bd9632f5aa3955e822876268c7ca96c`
+Starting commit: `4f5ec30faaee701fde51b2227419c21cce68718c`
+Implementation commit: `64e9217ef64181d44cdce815a36b6bb1d2aa9038`
 Ending metadata commit: repository HEAD after this handoff is committed
 Worktree: expected clean after the final metadata commit
 
 ## Objective
 
-Close the already verified classic-client documentation/evidence safely, then implement `CLIENTCORE-TRANSPORT-772-001`: the smallest deterministic, Unreal-independent TCP lifecycle and source-traced outer-framing layer required by a real Fusion32 Tibia 7.72 client. Do not implement RSA/XTEA, Login payloads, full protocol decoding, WorldState or Unreal.
+Implement `CLIENTCORE-CRYPTO-772-001` behind the existing `FramedPacket`: source-traced 1024-bit RSA public processing, XTEA encode/decode, XTEA key generation/ownership, exact inner lengths/padding/endian, explicit errors and deterministic golden fixtures. Do not implement application Login, Game Login, opcodes, WorldState or Unreal. Do not commit runtime secrets or any private key.
 
-## Starting state and classic baseline closeout
+## Starting state
 
-The classic closeout began from the earlier evidence work and produced review commit `f65f3a7645ff40b39b7cc8399760fd4f0b69ecee` plus metadata commit `0119f589d83d5a5decd5001fd13f84b8ed0ff016`. Before Transport began, the worktree was clean. No remote exists and nothing was pushed.
+Read all required project memory and the Transport handoff before editing. Git was present on `main` at `4f5ec30faaee701fde51b2227419c21cce68718c`, with a clean worktree and no remotes. `CLIENTCORE-TRANSPORT-772-001 = PASS`; the next documented task was Crypto.
 
-The exact classic EXE/DAT/SPR/PIC verifier passed again. The selected client remains functionally compatible: IP Changer patch, Login, character list, Game entry, initial world and a session over 30 minutes are `PASS`. `CLASSIC-CLIENT-772-001` remains `IN_PROGRESS`, historical provenance remains `UNKNOWN`, and independent fresh-runtime/RSA repetition with sanitized screenshots remains `NOT_STARTED`. Those certification items do not block Client Core development.
+The prior substantive handoff was archived byte-identically as `handoffs/archive/2026-09-15_CLIENTCORE-TRANSPORT-772-001.md`.
 
-The prior substantive handoff was archived unchanged as `handoffs/archive/2026-09-15_CLASSIC-CLIENT-772-001.md`.
+## Authoritative inspection
 
-## Required startup and authoritative inspection
+Inspected the selected read-only source symbols:
 
-Read `AGENTS.md`, all required project-memory documents, classic evidence/runtime classification, protocol source truth and the prior handoff. Git was present on `main` at `0119f589...`, with a clean worktree and no remotes.
+- Game `reference/game/src/crypto.cc::TRSAPrivateKey::initFromFile/decrypt`
+- Game `reference/game/src/crypto.cc::TXTEASymmetricKey::init/encrypt/decrypt`
+- Game `reference/game/src/communication.cc::GetPacketSize`, `WriteToSocket`, `HandleLogin`, encrypted `ReceiveCommand` branch
+- Login `reference/login/src/crypto.cc::RSADecrypt`, `XTEAEncrypt`, `XTEADecrypt`
+- Login `reference/login/src/common.hh::BufferRead32LE`, `BufferWrite32LE`, read/write buffers
+- Login `reference/login/src/connections.cc::PrepareXTEAResponse`, `SendXTEAResponse`, `ProcessLoginRequest`
+- Game key tools `reference/game/tools/genpem.go::GenerateDefaultKey` and `pubkey.go`
+- official IP Changer `reference/ipchanger/ipchanger.cc::ChangeIP`, 7.72 modulus patch surface and public sample modulus
+- every relevant Game/Login `TIBIA772` guard
 
-Inspected the exact authoritative transport/framing symbols:
-
-- Game `reference/game/src/communication.cc::GetPacketSize`, `WriteToSocket`, `SendData`, `ReadFromSocket`, `ReceiveCommand`, `HandleLogin`
-- Game `reference/game/src/connections.hh::TConnection::InData`, `OutData`
-- Game `reference/game/src/sending.cc` ring-buffer capacity enforcement
-- Login `reference/login/src/common.hh::BufferRead16LE`, `TConnection::Buffer`
-- Login `reference/login/src/connections.cc::CheckConnectionInput`, `PrepareXTEAResponse`, `SendXTEAResponse`, `TERMINALVERSION`
-- complete relevant `TIBIA772` guards in selected Game/Login source
-
-Canonical `reference/` content was read only and remains byte-unmodified by this work.
+No file under `reference/` was modified.
 
 ## Source findings
 
-Both Tibia-facing endpoints use a two-byte little-endian outer length that excludes the header. Zero is invalid. Login incrementally reads header/payload and caps client payload at 2,048 bytes. Game caps client payload at `InData[2048]`.
+Game requires `RSA_size == 128`; both Game and Login use a private 128-byte operation with `RSA_NO_PADDING`. Both require decrypted byte zero to be zero and then read four consecutive LE XTEA words. Selected Fusion32 key tooling fixes exponent 65,537. The classic 7.72 patch accepts/patches only a decimal modulus. Because classic client source is unavailable, the exponent conclusion is a high-confidence cross-source inference, also consistent with the already passed live classic path.
 
-Login responses use a 2,048-byte total buffer including the outer header, yielding a client receive outer-payload maximum of 2,046 bytes. Game's `OutData[16384]` plus `GetPacketSize` padding yields 16,394 total wire bytes and therefore a client receive outer-payload maximum of 16,392 bytes. Separate direction-aware profiles preserve this distinction.
+Game and Login XTEA implementations agree on two LE 32-bit halves, four LE key words, delta `0x9E3779B9` and 32 rounds. Encrypted payload is two-byte LE message length, message, and padding to an eight-byte boundary. Game input requires nonempty inner length fitting inside the decrypted block. It does not enforce a maximum padding count after decryption, so all remaining bytes must be surfaced rather than silently dropped.
 
-`TIBIA772` changes the accepted version and moves Game terminal type/version outside the RSA block; it does not change outer framing. After Game login, the same outer frame carries XTEA blocks and the decrypted content starts with a second LE length. That inner validation remains the next crypto layer, not Transport.
+`TIBIA772` changes accepted client version and relocates Game terminal type/version outside the RSA block. It does not change RSA, XTEA, inner length or padding.
+
+Server output uses `rand_r` padding bytes but never interprets their values. Client use of an OS CSPRNG is an implementation security choice that preserves the source-derived wire layout.
 
 ## Implementation
 
-Added `clientcore/`, a C++17/CMake component with no Unreal or third-party dependency:
+Added the separate `protocol772_crypto` CMake target and API:
 
-- `TcpTransport`: move-only socket ownership; bounded connect; explicit lifecycle; partial reads; full-write loop; timeouts, refusal, FIN and reconnect behavior; Windows/POSIX paths.
-- `FrameDecoder`: incremental header/payload buffering, ordered multi-frame extraction, explicit malformed/truncated/finished errors and preservation of unconsumed bytes.
-- `EncodeFrame`: endpoint/16-bit validation and exact LE header generation.
-- `FramedConnection`: composition boundary yielding owned outer payloads to the future `CryptoStage`.
-- deterministic local loopback harness and 20 focused tests.
+- `Rsa1024PublicKey`: decimal/big-endian public modulus, fixed exponent 65,537, raw 128-byte big-endian modular exponentiation through OpenSSL BIGNUM, range validation and source-required leading-zero protocol helper.
+- No private-key loading, storage or operation exists in Client Core.
+- `XteaKey`: move-only four-word key, explicit initialized state, LE serialization, overwrite on destruction and move-source invalidation.
+- secure generation through Linux `getrandom` or Windows `BCryptGenRandom`.
+- exact XTEA block encode/decode for any positive eight-byte multiple.
+- `EncryptXteaPayload`: inner length, plaintext, 0–7 random padding bytes, encryption and owned `FramedPacket` output.
+- `DecryptXteaPayload`: exact ciphertext preservation, decrypted copy, explicit message/padding and malformed-result bytes.
+- `CryptoError`: distinct configuration, key, random, block, inner-length, modulus, RSA range/leading-byte and backend errors.
+- callbacks that return false or throw become explicit random-generation failures; failed plaintext assembly is overwritten.
 
-Transport contains no opcode behavior, logical coordinates, gameplay authority, Actor mutation or Unreal dependency. It cannot discard a future packet remainder merely because an opcode is unsupported.
+Crypto is independent of sockets, Unreal, gameplay and protocol opcodes. The integration fixture proves that framing adds the outer header only after Crypto and that decoding returns the same complete encrypted payload to Crypto.
+
+## Golden fixtures
+
+`clientcore/tests/fixtures/crypto_772_vectors.h` contains only public/synthetic data:
+
+- the already-public 1024-bit sample modulus present in selected IP Changer source;
+- synthetic RSA plaintext bytes and raw-RSA ciphertext;
+- synthetic XTEA words, LE bytes, block cipher and inner-packet cipher.
+
+Expected RSA was independently calculated with Python integer `pow(message, 65537, modulus)` using the exact five decimal source fragments. XTEA was independently calculated from the selected source equations.
+
+The first external RSA calculation accidentally used an incomplete manual modulus transcription and produced a failing fixture. The test rejected it. Recalculation using all five exact source fragments produced a 309-digit/1024-bit modulus and matched C++/OpenSSL byte-for-byte; the erroneous expected value was removed before PASS.
 
 ## Files changed
 
 - `clientcore/CMakeLists.txt`
 - `clientcore/README.md`
-- `clientcore/include/fusion32/protocol772/framing.h`
-- `clientcore/include/fusion32/protocol772/tcp_transport.h`
-- `clientcore/include/fusion32/protocol772/framed_connection.h`
-- `clientcore/src/framing.cpp`
-- `clientcore/src/tcp_transport.cpp`
-- `clientcore/src/framed_connection.cpp`
-- `clientcore/tests/transport_tests.cpp`
+- `clientcore/include/fusion32/protocol772/crypto.h`
+- `clientcore/src/crypto.cpp`
+- `clientcore/tests/crypto_tests.cpp`
+- `clientcore/tests/fixtures/crypto_772_vectors.h`
+- `docs/protocol772/CRYPTO.md`
 - `docs/protocol772/TRANSPORT.md`
-- `evidence/clientcore/CLIENTCORE-TRANSPORT-772-001.md`
+- `docs/protocol772/SOURCE_TRUTH.md`
+- `evidence/clientcore/CLIENTCORE-CRYPTO-772-001.md`
 - `PROJECT_STATUS.md`
 - `ARCHITECTURE.md`
 - `ROADMAP.md`
 - `PARITY_MATRIX.md`
-- `docs/protocol772/SOURCE_TRUTH.md`
 - `tests/README.md`
-- `handoffs/archive/2026-09-15_CLASSIC-CLIENT-772-001.md`
+- `handoffs/archive/2026-09-15_CLIENTCORE-TRANSPORT-772-001.md`
 - `handoffs/CURRENT.md`
 
 ## Tests and results
 
-Validated environment: Ubuntu 26.04 under WSL2, Linux x86_64 kernel `6.18.33.2-microsoft-standard-WSL2`, CMake `4.2.3`, GCC/G++ `15.2.0`.
+Validated environment: Ubuntu 26.04 under WSL2, Linux x86_64, CMake `4.2.3`, GCC/G++ `15.2.0`, OpenSSL `3.5.5`.
 
-- Debug configure/build with C++17 and `-Wall -Wextra -Wpedantic -Werror`: `PASS`.
-- Normal CTest: `100% tests passed, 0 tests failed`.
-- Direct case summary: `passed=20 failed=0 total=20`.
-- Separate AddressSanitizer + UndefinedBehaviorSanitizer build: `PASS`; all 20 cases passed with no sanitizer diagnostic.
-- `git diff --check`: `PASS` after removing Markdown trailing whitespace.
-- staged secret-pattern scan: no credential/private-key assignment or PEM marker.
-- tracked key-file check: no tracked `.pem`, `.key`, `.pfx` or `.p12` file.
-- `reference/` status and diff: empty.
+- Debug configure/build, C++17, `-Wall -Wextra -Wpedantic -Werror`: `PASS`.
+- Normal CTest: `2/2 PASS`.
+- Crypto direct summary: `25/25 PASS`.
+- Retained Transport direct suite: `20/20 PASS` through CTest.
+- Separate AddressSanitizer + UndefinedBehaviorSanitizer configure/build: `PASS`.
+- Sanitized CTest: `2/2 PASS`; no sanitizer diagnostic.
 
-The first compile stopped on one warnings-as-errors diagnostic for a platform-specific test initializer. It was marked `[[maybe_unused]]` and both complete build variants and all tests were rerun.
+Positive cases include key endian/generation/move lifecycle, golden one/multiblock XTEA, golden inner packet, exact 2,046-to-2,048 boundary, public modulus parsing, exponent, golden raw RSA and complete Framing-to-Crypto roundtrip.
 
-Cases cover partial header/payload, arbitrary splits, multiple frames, complete-plus-partial, extraction order, buffer preservation, zero/oversize/16-bit-invalid lengths, exact endpoint-profile boundaries, write framing, EOF/truncation, clean/refused/remote lifecycle, loopback I/O and reconnect.
+Negative cases include uninitialized/null state, invalid block sizes, empty/oversized plaintext, endpoint overflow, random failure/exception, malformed ciphertext, zero/overrun inner lengths, malformed/short/large/even RSA moduli, invalid RSA leading byte and RSA message range. Ciphertext/decrypted bytes are retained according to the stage reached.
 
-No live Fusion32 smoke was run. It is optional and would not replace deterministic tests. No malformed traffic was sent to Fusion32 and no credentials were used.
+No live test was run. It is not a substitute for deterministic byte fixtures and application Login is outside this task.
+
+## Security and repository checks
+
+- No runtime modulus, generated key, password, account or credential was used or recorded.
+- No RSA private key or private operation exists in new code.
+- The fixture modulus is public and already tracked in canonical IP Changer source.
+- staged secret-marker scan found no PEM/private-exponent/password assignment.
+- no tracked `.pem`, `.key`, `.pfx` or `.p12` file exists.
+- `reference/` status/diff is empty.
+- builds remain outside the repository under WSL `/tmp`.
 
 ## Evidence and status
 
 Primary evidence:
 
-- `evidence/clientcore/CLIENTCORE-TRANSPORT-772-001.md`
-- `docs/protocol772/TRANSPORT.md`
+- `evidence/clientcore/CLIENTCORE-CRYPTO-772-001.md`
+- `docs/protocol772/CRYPTO.md`
+- `clientcore/tests/fixtures/crypto_772_vectors.h`
 
-`CLIENTCORE-TRANSPORT-772-001 = PASS`. This means the named normal and sanitized deterministic tests were executed and met their expected results. It is not `CERTIFIED`; independent reproduction and native Windows execution are still open.
+`CLIENTCORE-CRYPTO-772-001 = PASS`. This is a bounded executed-test result, not `CERTIFIED`, application Login, world entry or parity evidence.
 
 ## Remaining UNVERIFIED work
 
-- native Windows/MSVC compile and loopback test execution;
-- optional live Fusion32 transport-only smoke;
-- fault injection for a socket failure after a partial write;
-- one wall-clock connect deadline spanning every resolved address rather than the current per-candidate timeout;
-- RSA public-block construction and XTEA fixtures;
-- Login, character list, Game login, opcode decoding, semantic events and WorldState;
-- network-thread to consumer/game-thread event-queue implementation;
-- all Unreal integration and 2D-to-3D parity;
-- independent classic-client certification repetition and historical provenance.
+- native Windows/MSVC/OpenSSL build and `BCryptGenRandom` execution;
+- live new-client RSA/XTEA exchange;
+- exact application Login request/response serialization;
+- exact Game Login request serialization, including 7.72 terminal-field placement;
+- source-justified unused RSA plaintext tail policy in the future application encoder;
+- opcodes, semantic events, WorldState and threading/event queues;
+- all Unreal and 2D-to-3D parity;
+- independent repetition of Crypto fixtures/tests;
+- independent classic-client certification and historical provenance.
 
 ## Blockers
 
-None for `CLIENTCORE-CRYPTO-772-001`. Classic independent certification and client provenance remain separate concerns and do not block Client Core.
+None for `CLIENTCORE-LOGIN-772-001`. Native Windows verification is recommended before integration shipping but does not block deterministic Login implementation.
 
 ## Risks
 
-- The canonical Game source describes itself as manual decompilation with changes; continue citing exact symbols and validate every crypto rule with fixtures.
-- Native Windows behavior is implemented but not yet built in this environment.
-- Endpoint maximums are source-derived bounds; a live maximum-size Game response was not observed.
-- The optional `ALLOW_LOCAL_PROXY` preambles are deployment behavior and intentionally outside direct-client framing.
-- The classic client's successful session does not prove the new client or Unreal parity.
+- The Game source identifies itself as a manual decompilation with changes; continue exact symbol/fixture traceability.
+- Classic client source is unavailable, so exponent evidence is cross-source rather than direct client-code evidence.
+- OpenSSL `libcrypto` is now a Client Core build dependency for public BIGNUM RSA.
+- Do not invent RSA unused-tail bytes when implementing Login; trace what the server consumes and mark any client-only filler assumption explicitly.
+- A Crypto PASS does not prove authentication or gameplay.
 
 ## Exact next task
 
-`CLIENTCORE-CRYPTO-772-001`: implement only the source-traced 1024-bit RSA public-block construction and XTEA block processing behind `FramedPacket`, including inner-length/padding validation where the selected source requires it. Create deterministic golden byte fixtures and negative tests before any live Login work. Do not begin Login payloads, Game Login, full opcodes or Unreal.
+`CLIENTCORE-LOGIN-772-001`: implement only the source-traced character-list Login exchange using the existing Transport, Framing and Crypto layers. Build the exact 145-byte Login request and RSA plaintext fields justified by selected source, decode MOTD/error/character-list responses into typed Login results, and create golden request/response plus malformed-input tests before a bounded live smoke. Do not begin Game Login, world opcodes, WorldState or Unreal.
 
 Inspect at minimum:
 
-- `reference/game/src/crypto.cc` / `crypto.hh`: `TRSAPrivateKey`, `TXTEASymmetricKey`
-- `reference/game/src/communication.cc::HandleLogin`, `WriteToSocket`, encrypted branch of `ReceiveCommand`
-- `reference/login/src/crypto.cc` / `crypto.hh`: RSA and XTEA helpers
-- `reference/login/src/connections.cc::ProcessLoginRequest`, `SendXTEAResponse`
+- `reference/login/src/connections.cc::ProcessLoginRequest`, `PrepareXTEAResponse`, `SendXTEAResponse`, `SendLoginError`, `SendCharacterList`
+- `reference/login/src/query.cc` Login account/world response path
+- `reference/login/src/common.hh` read/write buffers and string encodings
+- `reference/game/src/communication.cc::HandleLogin` only to keep Game Login out of the Login task
 - `clientcore/include/fusion32/protocol772/framing.h`
-- `clientcore/include/fusion32/protocol772/framed_connection.h`
+- `clientcore/include/fusion32/protocol772/crypto.h`
 - `docs/protocol772/TRANSPORT.md`
+- `docs/protocol772/CRYPTO.md`
 
-Useful verification commands:
+Useful commands:
 
 ```powershell
-wsl.exe -d Ubuntu-26.04 -- cmake -S /mnt/c/Users/dell/Desktop/fusion32/clientcore -B /tmp/fusion32-clientcore-transport-build -DCMAKE_BUILD_TYPE=Debug
-wsl.exe -d Ubuntu-26.04 -- cmake --build /tmp/fusion32-clientcore-transport-build --parallel
-wsl.exe -d Ubuntu-26.04 -- ctest --test-dir /tmp/fusion32-clientcore-transport-build --output-on-failure
+wsl.exe -d Ubuntu-26.04 -- cmake -S /mnt/c/Users/dell/Desktop/fusion32/clientcore -B /tmp/fusion32-clientcore-crypto-build -DCMAKE_BUILD_TYPE=Debug
+wsl.exe -d Ubuntu-26.04 -- cmake --build /tmp/fusion32-clientcore-crypto-build --parallel
+wsl.exe -d Ubuntu-26.04 -- ctest --test-dir /tmp/fusion32-clientcore-crypto-build --output-on-failure
 git diff --check
 git status --short --branch
 ```
 
 ## Critical context
 
-Do not collapse the separate Login/Game direction limits into a guessed universal packet maximum. Outer framing and the encrypted inner message length are distinct layers. An owned `FramedPacket` must reach Crypto intact; an unsupported future opcode must not alter TCP synchronization. Fusion32 remains authoritative, and deleting any future 3D presentation/cache must never lose gameplay state.
+The RSA operation is raw and the application supplies an exact 128-byte block; Crypto only enforces the leading zero required by both servers. XTEA key bytes are four LE words. The encrypted inner length is not the outer frame length. Keep `Transport -> Framing -> Crypto -> Protocol772`; do not merge Login fields into Crypto or let malformed/unsupported application data corrupt stream synchronization.
 
-Generated credentials, RSA private keys, classic-client binaries/data, runtime logs and build products remain ignored/untracked. Never print or commit them. The exact classic artifact hashes in existing evidence identify its passed set; provenance remains `UNKNOWN`.
+Generated credentials, runtime modulus/private key, classic-client artifacts and build output remain ignored/untracked. Never print or commit them. Fusion32 remains authoritative and Unreal remains out of scope.

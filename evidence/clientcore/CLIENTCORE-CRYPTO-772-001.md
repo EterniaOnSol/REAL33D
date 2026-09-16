@@ -4,7 +4,7 @@ Status: `PASS`
 
 Date: 2026-09-15
 
-Implementation commit: recorded after the focused implementation commit is created
+Implementation commit: `64e9217ef64181d44cdce815a36b6bb1d2aa9038`
 
 Authority: selected Fusion32 Game/Login/IP Changer source revisions inventoried in `SOURCE_MANIFEST.md`
 
