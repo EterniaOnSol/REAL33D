@@ -2,9 +2,9 @@
 
 | Feature | Server understood | Protocol specified | Unreal implemented | Tested | 2D<->3D parity | Status |
 | --- | --- | --- | --- | --- | --- | --- |
-| Connection | Service topology/runtime PASS; classic live route PASS; client outer framing and crypto source-traced | Transport/framing/RSA/XTEA implemented; application Login pending | No | Transport 20/20 and Crypto 25/25 normal/sanitized tests PASS; classic Login->Game connection and >30-minute session PASS | No | IN_PROGRESS |
-| Login / character list | Source traced; sanitized Login runtime and exact classic client flow PASS | Source-traced request/response and typed character list implemented; live new-client exchange unverified | No | `CLASSIC-LOGIN-772-001`, `CLASSIC-CHARLIST-772-001` and offline `CLIENTCORE-LOGIN-772-001` PASS | No | IN_PROGRESS |
-| Game login | Source traced; sanitized Game runtime and classic `JoinGame` flow PASS | Partial, no byte fixtures | No | `CLASSIC-GAME-ENTRY-772-001` PASS | No | IN_PROGRESS |
+| Connection | Service topology/runtime PASS; classic live route PASS; client outer framing and crypto source-traced | Transport/framing/RSA/XTEA, Login and Game Login implemented; persistent session smoke PASS | No | 4/4 retained/new suites normal and sanitized; bounded Game Login smoke PASS | No | IN_PROGRESS |
+| Login / character list | Source traced; sanitized Login runtime and exact classic client flow PASS | Source-traced request/response and typed character list implemented | No | `CLASSIC-LOGIN-772-001`, `CLASSIC-CHARLIST-772-001` and `CLIENTCORE-LOGIN-772-001` PASS | No | IN_PROGRESS |
+| Game login | Source traced; sanitized Game runtime and classic `JoinGame` flow PASS | Source-traced request, initial messages and persistent session implemented; fullscreen/world parsing remains out of scope | No | `CLASSIC-GAME-ENTRY-772-001` and `CLIENTCORE-GAMELOGIN-772-001` PASS | No | IN_PROGRESS |
 | Keepalive | Located | No | No | No | No | NOT_STARTED |
 | Map | Located | No | No | No | No | NOT_STARTED |
 | Floors | Located | No | No | No | No | NOT_STARTED |

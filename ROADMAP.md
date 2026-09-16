@@ -5,7 +5,7 @@
 1. `BOOTSTRAP-SOURCES-001` (`PASS`): verified all bundles, compared loose snapshots, selected independently reviewed immutable candidates, materialized curated references, and produced clean Linux builds.
 2. `SERVER-BASELINE-772-001` (`PASS`): sanitized preparation, fresh key/config/data, three-service startup, internal authorization, world load, network smoke and shutdown are `CERTIFIED` under independently repeated `SERVER-RUNTIME-SMOKE-001`; classic Login, character list, Game entry and a sustained session also passed against this baseline.
 3. `CLASSIC-CLIENT-772-001` (`IN_PROGRESS`): the official Fusion32 IP Changer source is selected, materialized and `BUILD PASS`; its runtime-specific 7.72 configuration is reproducibly generated. The selected local EXE/DAT/SPR/PIC set is hashed, statically validated and live-compatible. `IPCHANGER-772-LIVE-001`, `CLASSIC-LOGIN-772-001`, `CLASSIC-CHARLIST-772-001`, `CLASSIC-GAME-ENTRY-772-001` and `CLASSIC-SESSION-SUSTAIN-001` are `PASS`. Historical client acquisition provenance is `UNKNOWN` and independent functional repetition is pending.
-4. `PROTOCOL-LOGIN-001`: fully specify character-list login plus game login, transport, framing, RSA/XTEA, source traceability, and byte fixtures. Independent review required.
+4. `PROTOCOL-LOGIN-001`: transport, framing, RSA/XTEA, character-list Login and Game Login are source-traced with byte fixtures; independent review remains required for certification.
 
 Gate: selected source revisions, repeatable build commands, and fixture tests for login/framing/crypto. Documentation alone does not close the gate.
 
@@ -13,8 +13,8 @@ Gate: selected source revisions, repeatable build commands, and fixture tests fo
 
 1. `CLIENTCORE-TRANSPORT-772-001` (`PASS`): portable TCP lifecycle, buffered stream reads/writes, source-traced two-byte outer framing, endpoint/direction limits, explicit errors and 20 deterministic normal plus ASan/UBSan cases. Native Windows execution and independent repetition remain unverified; neither is required to begin the next bounded task.
 2. `CLIENTCORE-CRYPTO-772-001` (`PASS`): source-traced raw 128-byte RSA public operation, decimal modulus/fixed exponent, secure move-only XTEA key lifecycle, exact XTEA inner length/padding and byte-for-byte fixtures; 25 Crypto plus 20 retained Transport cases pass normally and under ASan/UBSan.
-3. `CLIENTCORE-LOGIN-772-001` (`PASS` offline): character-list request/response and typed result, with deterministic request/response and negative fixtures. Bounded live new-client Login smoke remains unverified.
-4. `CLIENTCORE-GAMELOGIN-772-001` (`NOT_STARTED`): Game login and initial-world handoff without implementing the full opcode surface.
+3. `CLIENTCORE-LOGIN-772-001` (`PASS`): character-list request/response and typed result, with deterministic fixtures and bounded local synthetic-account smoke.
+4. `CLIENTCORE-GAMELOGIN-772-001` (`PASS`): Game Login, authenticated persistent session and initial `INIT_GAME`/optional `RIGHTS`/recognized-unparsed `FULLSCREEN` handoff, without implementing the full opcode surface.
 
 Gate: deterministic byte fixtures, negative tests and source traceability for each completed layer. Unreal does not enter this gate.
 

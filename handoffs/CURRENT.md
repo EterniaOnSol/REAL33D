@@ -1,73 +1,79 @@
 # HANDOFF
 
-Date/time: 2026-09-15
+Date/time: 2026-09-16
 Agent: Codex
-Role: PROTOCOL772CORE LOGIN IMPLEMENTATION
+Role: PROTOCOL772CORE GAME LOGIN IMPLEMENTATION
 Branch: `main`
-Starting commit: `35aa40081222da3f199b4b60345ce6ed5343b940`
-Ending commit: pending focused Login commit
+Starting commit: `a56add56e7ad5a11fd2e28d642bada4390b16756`
+Ending commit: pending focused Game Login commit
 Worktree: expected clean after commit
 
 ## Objective
 
-Complete `CLIENTCORE-LOGIN-772-001`: source-traced Tibia 7.72 Login request,
-RSA/XTEA response handling and typed Character List, without Game Login,
-WorldState, opcodes beyond the Login records or Unreal.
+Complete `CLIENTCORE-GAMELOGIN-772-001`: Character List endpoint to Game
+`:7172`, source-traced Tibia 7.72 Game Login, RSA/XTEA handoff, initial
+authentication messages and persistent session. Do not implement WorldState,
+movement, gameplay or Unreal.
 
 ## Inspection and source findings
 
-Inspected `reference/login/src/connections.cc` (`CheckConnectionInput`,
-`ProcessLoginRequest`, `PrepareXTEAResponse`, `SendXTEAResponse`,
-`SendLoginError`, `SendCharacterList`), `reference/login/src/common.hh` read/write
-buffers and `reference/login/src/query.cc::LoginAccount`. No `reference/` file
-was modified.
+Inspected selected immutable Game symbols:
 
-- Login receives an outer LE U16 payload size and requires exactly 145 payload
-  bytes: opcode 1, terminal type/version LE, three LE signatures, 128-byte RSA.
-- Under `TIBIA772`, Login accepts terminal types 0..2 with version 772.
-- RSA plaintext is zero, four LE XTEA words, LE account ID, LE length-prefixed
-  password and uninterpreted remaining bytes.
-- Login response is XTEA-encrypted with inner LE message length, optional MOTD
-  opcode 20, error opcode 10 or character-list opcode 100. Character entries
-  use strings, BE IPv4, LE port; premium days are LE U16.
+- `reference/game/src/communication.cc::HandleLogin` under `TIBIA772`:
+  command 10, terminal type/version outside RSA, raw 128-byte RSA, then RSA
+  plaintext zero/XTEA/GM/account/name/password.
+- `reference/game/src/connections.cc::JoinGame` and
+  `reference/game/src/receiving.cc::ReceiveData`: authenticated handoff and
+  client command 11.
+- `reference/game/src/sending.cc::SendInitGame`, `SendRights`,
+  `SendFullScreen`, and `connections.hh::ServerCommand`.
+- `communication.cc::WriteToSocket/ReceiveCommand`: encrypted inner size,
+  XTEA blocks, outer LE size and persistent receive lifecycle.
+
+`SendInitGame`, `SendRights` and `SendFullScreen` append to the server output
+ring and can share one encrypted frame. `SendRights` is optional: the source
+emits it only when at least one action is present.
 
 ## Changes
 
-- Added `clientcore/include/fusion32/protocol772/login.h` and `src/login.cpp`.
-- Added CMake target `protocol772_login` and deterministic `login_tests.cpp`.
-- Added `docs/protocol772/LOGIN.md` and
-  `evidence/clientcore/CLIENTCORE-LOGIN-772-001.md`.
-- Updated project status, architecture, roadmap, parity matrix and this handoff.
+- Added `clientcore/include/fusion32/protocol772/gamelogin.h` and
+  `clientcore/src/gamelogin.cpp`.
+- Added `protocol772_gamelogin` CMake target and deterministic
+  `clientcore/tests/gamelogin_tests.cpp`.
+- Added `docs/protocol772/GAMELOGIN.md` and
+  `evidence/clientcore/CLIENTCORE-GAMELOGIN-772-001.md`.
+- Updated project status, architecture, roadmap, parity matrix, source truth
+  and this handoff; archived the prior Login handoff.
 
-The request builder returns exact 145-byte payload plus outer-framed wire bytes,
-retains a move-owned XTEA key, injects deterministic random bytes in tests and
-rejects account zero, invalid terminal/version and passwords over 29 bytes. The
-response parser exposes `Decoded`, `Incomplete`, `Unsupported`, `Malformed`,
-`ProtocolViolation` and `CryptoError`; unknown opcode tails are preserved.
+`GameLoginSession` preserves pending frames when one TCP read returns several
+frames. The parser decodes INIT_GAME and optional RIGHTS, recognizes
+FULLSCREEN as intentionally unparsed, and preserves unknown/tail bytes.
 
 ## Tests/results
 
 Validated WSL Ubuntu 26.04, CMake 4.2.3, GCC 15.2.0, OpenSSL 3.5.5:
 
 - Debug build: PASS
-- CTest: 3/3 PASS (Transport, Crypto, Login)
-- Request RSA/framing fixture, MOTD/Character List fixture and negative cases: PASS
-- Sanitizer ASan/UBSan build/test: PASS (3/3)
-- Live smoke: PASS with one synthetic local account and one parsed character;
-  temporary harness and public-modulus/credential material were not tracked.
+- CTest: 4/4 PASS (Transport, Crypto, Login, Game Login)
+- ASan/UBSan CTest: 4/4 PASS
+- Deterministic RSA/framing and initial-message fixtures: PASS
+- Unknown/invalid/tail preservation: PASS
+- Live smoke: PASS with synthetic `ACCOUNT_A`; Game `INIT_GAME` and
+  `FULLSCREEN` observed, socket remained connected for two seconds. Rights
+  packet was absent because the synthetic account has no rights, which is
+  source-defined optional behavior.
+
+No credential, public modulus, private key or runtime secret was recorded. The
+temporary live harness and temporary modulus file were removed.
 
 ## Status and limits
 
-`CLIENTCORE-LOGIN-772-001 = PASS` covers deterministic fixtures and the bounded
-local Login smoke. Native Windows and independent test reproduction remain
-unverified. Game Login, initial world, full opcode decoding, WorldState and
-Unreal remain out of scope.
-Game Login, initial world, full opcode decoding, WorldState and Unreal remain
-out of scope.
+`CLIENTCORE-GAMELOGIN-772-001 = PASS` within this bounded scope. Native Windows
+and independent repetition remain unverified. Fullscreen/map data is preserved
+but not parsed; WorldState, movement, gameplay, command encoding and Unreal
+remain out of scope.
 
 ## Exact next task
 
-After this commit, review the live smoke result and prepare
-`CLIENTCORE-GAMELOGIN-772-001`; do not begin it automatically. Inspect
-`reference/game/src/communication.cc::HandleLogin` and `connections.cc::JoinGame`
-only when that task starts.
+`WORLDSTATE-INIT-772-001`: plan and source-trace the minimal semantic state
+needed after the preserved initial messages. Do not begin it automatically.

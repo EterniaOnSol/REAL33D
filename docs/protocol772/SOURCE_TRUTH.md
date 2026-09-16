@@ -71,6 +71,18 @@ A sanitized environment now generates one shared fresh 1024-bit PKCS#1 private k
 | Chat/NPC/trade | receiving/sending, `operate.cc`, `crnonpl.cc`, runtime NPC data | Medium/low |
 | Errors/disconnect | `communication.cc`, `receiving.cc::CQuitGame/CErrorFileEntry`, result/message senders | Medium |
 
+## Game Login / initial handoff
+
+Selected Game `communication.cc::HandleLogin` under `TIBIA772` reads command 10,
+terminal type/version as two LE words before the 128-byte RSA ciphertext, then
+decrypts zero/XTEA key/GM flag/account ID/character/password. `connections.cc::JoinGame`
+accepts terminal types 1 or 2 and hands the authenticated character to the game
+thread. The initial send path in `crplayer.cc` calls `SendInitGame`, optional
+`SendRights`, then `SendFullScreen`; these are Game `ServerCommand` values 10,
+11 and 100. `CLIENTCORE-GAMELOGIN-772-001` has deterministic fixtures and a
+bounded local synthetic-account smoke for this handoff; map/fullscreen parsing
+remains intentionally unimplemented.
+
 ## Framing/crypto interpretation
 
 Game and Login receive an outer little-endian `uint16` size followed by exactly that many bytes; the size excludes its own two-byte header. `CLIENTCORE-TRANSPORT-772-001 = PASS` implements that bounded outer framing with separate source-derived endpoint/direction limits and deterministic fragment/coalescing/error fixtures. Detailed symbols and derivations are in `docs/protocol772/TRANSPORT.md`.

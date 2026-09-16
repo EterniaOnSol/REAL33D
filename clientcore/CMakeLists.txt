@@ -74,6 +74,28 @@ else()
     target_compile_options(protocol772_login PRIVATE -Wall -Wextra -Wpedantic -Werror)
 endif()
 
+add_library(protocol772_gamelogin
+    src/gamelogin.cpp
+)
+
+target_include_directories(protocol772_gamelogin
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+
+target_link_libraries(protocol772_gamelogin
+    PUBLIC
+        protocol772_login
+        protocol772_crypto
+        protocol772_transport
+)
+
+if(MSVC)
+    target_compile_options(protocol772_gamelogin PRIVATE /W4 /WX /permissive-)
+else()
+    target_compile_options(protocol772_gamelogin PRIVATE -Wall -Wextra -Wpedantic -Werror)
+endif()
+
 include(CTest)
 if(BUILD_TESTING)
     find_package(Threads REQUIRED)
@@ -132,4 +154,24 @@ if(BUILD_TESTING)
 
     add_test(NAME protocol772_login_tests COMMAND protocol772_login_tests)
     set_tests_properties(protocol772_login_tests PROPERTIES TIMEOUT 30)
+
+    add_executable(protocol772_gamelogin_tests
+        tests/gamelogin_tests.cpp
+    )
+    target_link_libraries(protocol772_gamelogin_tests
+        PRIVATE
+            protocol772_gamelogin
+            protocol772_login
+            protocol772_crypto
+            protocol772_transport
+    )
+
+    if(MSVC)
+        target_compile_options(protocol772_gamelogin_tests PRIVATE /W4 /WX /permissive-)
+    else()
+        target_compile_options(protocol772_gamelogin_tests PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    endif()
+
+    add_test(NAME protocol772_gamelogin_tests COMMAND protocol772_gamelogin_tests)
+    set_tests_properties(protocol772_gamelogin_tests PROPERTIES TIMEOUT 30)
 endif()
