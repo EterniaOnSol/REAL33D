@@ -94,8 +94,8 @@ Minimal, semantic and tested, as the task required:
 - `MovementLedger`: separates steps this client asked for from relocations
   Fusion32 imposed. A move counts as ours only when a walk is outstanding and
   the player landed on exactly the field it asked for; a push arriving mid-walk
-  does not consume the request. 5 tests, including a replay of the eight-field
-  push that misled the first report.
+  does not consume the request. 6 tests, including a replay of the eight-field
+  push that misled the first report, and one for a move from a field to itself.
 - Four portability fixes surfaced by the first MSVC build.
 
 No previous milestone's behaviour was altered.
@@ -163,7 +163,7 @@ One run, one operator, no independent repetition. Both characters stayed on
 floor 7, so no floor transition was exercised in 3D; floor height in Unreal is a
 presentation choice recorded as `UNRESOLVED` in the data. Every mesh is an
 engine primitive, so nothing here demonstrates visual parity and the parity
-matrix claims none. Criterion 7 rests on human observation alone.
+matrix claims none. Criterion 7 rests on human observation of the original client, corroborated by machine evidence of the Unreal-originated walks accepted in the same window, but not machine-certified on the Tibia side.
 
 ## Not done, deliberately
 
