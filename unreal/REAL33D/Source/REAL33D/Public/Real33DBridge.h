@@ -124,6 +124,14 @@ struct FReal33DEvent
 	FString TalkMode;
 	bool bHasChannel = false;
 	int32 Channel = 0;
+	/**
+	 * How the speaker was identified, for evidence: `Resolved`, `NoMatch`,
+	 * `Ambiguous` or `NotPositional`. Anything but `Resolved` means
+	 * `CreatureId` is zero and the message belongs on the fallback surface,
+	 * because showing it above a guessed creature would be worse than not
+	 * showing it in the world at all.
+	 */
+	FString SpeakerResolution;
 };
 
 /** Counters the game thread may read for the on-screen diagnostic overlay. */
@@ -154,6 +162,10 @@ struct FReal33DStats
 	int32 LocalPlayerMoves = 0;
 	/** Talk commands decoded. Counted to show chat no longer stops the walk. */
 	int32 TalkMessages = 0;
+	/** Talk shown above the creature that said it. */
+	int32 TalkShownOnCreature = 0;
+	/** Talk shown on the fallback surface because no speaker could be proven. */
+	int32 TalkShownOnFallback = 0;
 	int32 Tiles = 0;
 	int32 VisibleCreatures = 0;
 	bool bViewportSynchronised = false;

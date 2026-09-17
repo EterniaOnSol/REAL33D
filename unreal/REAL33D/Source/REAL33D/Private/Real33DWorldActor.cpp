@@ -33,6 +33,23 @@ AReal33DWorld::AReal33DWorld()
 	// 18x14 fields is comfortably inside the frame.
 	Camera->SetRelativeLocation(FVector(-620.0, -620.0, 780.0));
 	Camera->SetRelativeRotation(FRotator(-42.0, 45.0, 0.0));
+
+	// Turn the film tone curve off.
+	//
+	// Measured, not guessed: with the curve on, speech set to gold
+	// (255,190,30) reached the screen as roughly (180,171,138), a near-grey
+	// beige whose red and green are within nine of each other. Against the
+	// green ground that reads as green, which is exactly what the operator
+	// reported. The curve is doing what it is for, mapping HDR film-like into
+	// display range, but this scene is flat-lit placeholder geometry with no
+	// HDR range to preserve, so it only costs saturation.
+	//
+	// A readable colour matters more here than a filmic image, and the same
+	// change stops the whole scene looking washed out.
+	Camera->PostProcessSettings.bOverride_ToneCurveAmount = true;
+	Camera->PostProcessSettings.ToneCurveAmount = 0.0f;
+	Camera->PostProcessSettings.bOverride_ColorSaturation = true;
+	Camera->PostProcessSettings.ColorSaturation = FVector4(1.15, 1.15, 1.15, 1.0);
 }
 
 void AReal33DWorld::BeginPlay()
@@ -71,6 +88,17 @@ void AReal33DWorld::BeginPlay()
 		*Config.Host, Config.LoginPort, *Config.Account);
 	Bridge->Connect(Config);
 	FirstFrameTime = FPlatformTime::Seconds();
+
+	// Overridable so a measured value can replace the unproven default without
+	// a rebuild. See docs/UNREAL_CHAT.md for why it is unproven.
+	float Seconds = 0.0f;
+	if (FParse::Value(FCommandLine::Get(), TEXT("-real33d-speech-seconds="), Seconds)
+		&& Seconds > 0.0f)
+	{
+		SpeechSeconds = Seconds;
+	}
+	UE_LOG(LogReal33D, Log,
+		TEXT("speech display lifetime %.1fs (NOT a proven 7.72 value)"), SpeechSeconds);
 
 	FString Directory;
 	if (!FParse::Value(FCommandLine::Get(), TEXT("-real33d-evidence="), Directory)
@@ -133,6 +161,10 @@ void AReal33DWorld::ClearWorld()
 	}
 	Creatures.Reset();
 	LocalCreatureId = 0;
+	// Speech attached to a creature died with its actor above. This is the
+	// other half: fallback lines belong to the session, so a reconnect must
+	// not inherit what the previous one was saying.
+	FallbackSpeech.Reset();
 }
 
 void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
@@ -204,8 +236,7 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 		break;
 
 	case EReal33DEventKind::Talk:
-		// Logged, not drawn. Chat presentation is out of scope; what matters
-		// here is that the command decoded and the stream carried on.
+		PresentSpeech(Event);
 		if (Event.bHasChannel)
 		{
 			UE_LOG(LogReal33D, Log, TEXT("talk [%s] channel %d, %s: \"%s\""),
@@ -215,10 +246,11 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 		}
 		else if (Event.TalkLayout == EReal33DTalkLayout::Positional)
 		{
-			UE_LOG(LogReal33D, Log, TEXT("talk [%s] at %d,%d,%d, %s: \"%s\""),
+			UE_LOG(LogReal33D, Log,
+				TEXT("talk [%s] at %d,%d,%d, %s: \"%s\"  speaker %s creature %u"),
 				*Event.TalkMode, Event.Position.X, Event.Position.Y, Event.Position.Z,
 				Event.Speaker.IsEmpty() ? TEXT("(unnamed)") : *Event.Speaker,
-				*Event.Detail);
+				*Event.Detail, *Event.SpeakerResolution, Event.CreatureId);
 		}
 		else
 		{
@@ -409,6 +441,23 @@ void AReal33DWorld::DrawOverlay()
 			Stats.RequestedSteps, Stats.AcceptedSelfWalks, Stats.RejectedSteps,
 			Stats.UnansweredSteps, Stats.ExternalRelocations,
 			Stats.bViewportSynchronised ? TEXT("in sync") : TEXT("waiting")));
+	// Speech with no provable speaker, kept readable on screen rather than
+	// only in a log. Drawn newest last, with its own message keys so it does
+	// not fight the counters above for a slot.
+	const double Now = FPlatformTime::Seconds();
+	for (int32 Index = FallbackSpeech.Num() - 1; Index >= 0; --Index)
+	{
+		if (FallbackSpeech[Index].ExpiresAt <= Now)
+		{
+			FallbackSpeech.RemoveAt(Index);
+		}
+	}
+	for (int32 Index = 0; Index < FallbackSpeech.Num(); ++Index)
+	{
+		GEngine->AddOnScreenDebugMessage(100 + Index, 0.0f, FColor(255, 255, 0),
+			FallbackSpeech[Index].Line);
+	}
+
 	GEngine->AddOnScreenDebugMessage(5, 0.0f, Clean,
 		FString::Printf(
 			TEXT("residual %d  unsupported %d  anomalies %d  dup %d  orphan %d"),
@@ -458,6 +507,46 @@ void AReal33DWorld::Tick(float DeltaSeconds)
 
 	UpdateCamera(DeltaSeconds);
 	DrawOverlay();
+}
+
+void AReal33DWorld::PresentSpeech(const FReal33DEvent& Event)
+{
+	check(IsInGameThread());
+
+	// A resolved speaker means exactly one visible creature matched both the
+	// position and, where present, the name. Anything else goes to the fallback
+	// rather than to a guess: speech above the wrong creature is a worse
+	// failure than speech that is merely not in the world.
+	if (Event.CreatureId != 0)
+	{
+		if (TObjectPtr<AReal33DCreature>* Found = Creatures.Find(Event.CreatureId))
+		{
+			if (Found->Get())
+			{
+				(*Found)->ShowSpeech(Event.Detail, SpeechSeconds);
+				++SpeechOnCreature;
+				return;
+			}
+		}
+	}
+
+	// Still visible, just not in the world. The operator must be able to read
+	// it without opening a log.
+	FString Line = Event.Speaker.IsEmpty()
+		? FString::Printf(TEXT("%s"), *Event.Detail)
+		: FString::Printf(TEXT("%s: %s"), *Event.Speaker, *Event.Detail);
+	if (Event.bHasChannel)
+	{
+		Line = FString::Printf(TEXT("[channel %d] %s"), Event.Channel, *Line);
+	}
+	FallbackSpeech.Add(FReal33DFallbackLine{ Line,
+		FPlatformTime::Seconds() + static_cast<double>(SpeechSeconds) });
+	// Bounded so a long session cannot grow it without limit.
+	while (FallbackSpeech.Num() > 6)
+	{
+		FallbackSpeech.RemoveAt(0);
+	}
+	++SpeechOnFallback;
 }
 
 void AReal33DWorld::JournalMovement(const FReal33DEvent& Event)
@@ -575,8 +664,12 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		TEXT("    \"creatures_vanished\": %d,\n")
 		TEXT("    \"creature_moves\": %d,\n")
 		TEXT("    \"duplicate_spawn_attempts\": %d,\n")
-		TEXT("    \"orphan_events\": %d\n")
+		TEXT("    \"orphan_events\": %d,\n")
+		TEXT("    \"speech_shown_on_creature\": %d,\n")
+		TEXT("    \"speech_shown_on_fallback\": %d,\n")
+		TEXT("    \"speech_seconds_NOT_PROVEN\": %.1f\n")
 		TEXT("  },\n")
+		TEXT("  \"talk_messages_decoded\": %d,\n")
 		TEXT("  \"last_diagnostic\": \"%s\",\n")
 		TEXT("  \"creatures\": [\n%s\n  ]\n")
 		TEXT("}\n"),
@@ -598,6 +691,8 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		Stats.VisibleCreatures, Stats.bViewportSynchronised ? TEXT("true") : TEXT("false"),
 		Tiles.Num(), Creatures.Num(), TilesSpawned, TilesRemoved, CreaturesAppeared,
 		CreaturesVanished, CreatureMoves, DuplicateSpawnAttempts, OrphanEvents,
+		SpeechOnCreature, SpeechOnFallback, SpeechSeconds,
+		Stats.TalkMessages,
 		LastDiagnostic.IsEmpty() ? TEXT("none") : *LastDiagnostic,
 		*FString::Join(CreatureLines, TEXT(",\n")));
 

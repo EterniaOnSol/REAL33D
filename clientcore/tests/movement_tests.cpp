@@ -1,5 +1,6 @@
 #include "fusion32/protocol772/movement.h"
 #include "fusion32/protocol772/movement_ledger.h"
+#include "fusion32/protocol772/talk_speaker.h"
 
 #include "fixtures/fullscreen_772_vectors.h"
 
@@ -1257,6 +1258,152 @@ void TestTalkDoesNotTouchWorldState() {
     CHECK(state.viewport_anchor.z == anchor_before.z);
 }
 
+// ------------------------------------------------- talk speaker resolution
+
+namespace {
+
+// One creature to place, kept small so the tests read as scenarios.
+struct PlacedCreature {
+    std::uint32_t id = 0;
+    std::string name;
+    MapPosition position;
+};
+
+PlacedCreature Speaker(std::uint32_t id, const std::string& name,
+                       const MapPosition& at) {
+    return PlacedCreature{id, name, at};
+}
+
+// Builds a world holding the given creatures by emitting a real FULLSCREEN and
+// decoding it, so resolution is tested against WorldState as the client
+// actually builds it rather than against a hand-made stub.
+WorldState WorldWithCreatures(const std::vector<PlacedCreature>& creatures) {
+    TileMap tiles;
+    for (const PlacedCreature& creature : creatures) {
+        tiles[creature.position] = {
+            vectors::PlainItem(100),
+            vectors::IntroducedCreature(creature.id, 0, creature.name)};
+    }
+    vectors::ServerEmitter emitter(Provider(tiles));
+    const MapPosition& anchor = creatures.front().position;
+    emitter.FullScreen(static_cast<std::uint16_t>(anchor.x),
+                       static_cast<std::uint16_t>(anchor.y),
+                       static_cast<std::uint8_t>(anchor.z));
+    const auto screen = DecodeFullScreen(emitter.bytes(), Types());
+    CHECK(screen.ok());
+    WorldState state;
+    CHECK(ApplyFullScreen(&state, screen.message).clean());
+    return state;
+}
+
+TalkUpdate PositionalTalk(const std::string& speaker, const MapPosition& at,
+                          const std::string& text) {
+    TalkUpdate talk;
+    talk.mode = static_cast<std::uint8_t>(TalkMode::Say);
+    talk.layout = TalkLayout::Positional;
+    talk.speaker = speaker;
+    talk.has_position = true;
+    talk.position = at;
+    talk.text = text;
+    return talk;
+}
+
+}  // namespace
+
+void TestTalkSpeakerResolvesByNameAndPosition() {
+    const MapPosition here{1000, 1000, 7};
+    const MapPosition there{1001, 1000, 7};
+    const WorldState state = WorldWithCreatures({
+        Speaker(1001, "Test Player A", here),
+        Speaker(1002, "Test Player B", there),
+    });
+
+    const auto resolved = ResolveTalkSpeaker(state, PositionalTalk("Test Player A", here, "hola"));
+    CHECK(resolved.outcome == TalkSpeakerOutcome::Resolved);
+    CHECK(resolved.creature_id == 1001);
+    CHECK(resolved.candidates == 1);
+
+    // The other creature, at its own field.
+    const auto other = ResolveTalkSpeaker(state, PositionalTalk("Test Player B", there, "hi"));
+    CHECK(other.outcome == TalkSpeakerOutcome::Resolved);
+    CHECK(other.creature_id == 1002);
+}
+
+// The failure that matters: speech must never appear above the wrong creature.
+void TestTalkSpeakerNeverPicksTheWrongCreature() {
+    const MapPosition here{1000, 1000, 7};
+    const MapPosition there{1001, 1000, 7};
+    const WorldState state = WorldWithCreatures({
+        Speaker(1001, "Test Player A", here),
+        Speaker(1002, "Test Player B", there),
+    });
+
+    // Right name, wrong position: the name alone must not be enough.
+    const auto moved = ResolveTalkSpeaker(state, PositionalTalk("Test Player A", there, "x"));
+    CHECK(moved.outcome == TalkSpeakerOutcome::NoMatch);
+    CHECK(moved.creature_id == 0);
+
+    // Right position, wrong name: the position alone must not be enough when a
+    // name is present on both sides.
+    const auto renamed = ResolveTalkSpeaker(state, PositionalTalk("Somebody Else", here, "x"));
+    CHECK(renamed.outcome == TalkSpeakerOutcome::NoMatch);
+    CHECK(renamed.creature_id == 0);
+
+    // A field nobody occupies.
+    const auto empty = ResolveTalkSpeaker(
+        state, PositionalTalk("Test Player A", MapPosition{1005, 1005, 7}, "x"));
+    CHECK(empty.outcome == TalkSpeakerOutcome::NoMatch);
+}
+
+// The ANIMAL modes send an empty sender: moveuse.cc passes "". Position alone
+// must then be allowed to decide.
+void TestTalkSpeakerAcceptsAnEmptySenderByPosition() {
+    const MapPosition here{1000, 1000, 7};
+    const WorldState state = WorldWithCreatures({Speaker(1001, "a snake", here)});
+
+    TalkUpdate animal = PositionalTalk("", here, "Zzzzzzt");
+    animal.mode = static_cast<std::uint8_t>(TalkMode::AnimalLow);
+    const auto resolved = ResolveTalkSpeaker(state, animal);
+    CHECK(resolved.outcome == TalkSpeakerOutcome::Resolved);
+    CHECK(resolved.creature_id == 1001);
+}
+
+void TestTalkSpeakerIgnoresNonPositionalForms() {
+    const WorldState state = WorldWithCreatures({Speaker(1001, "A", MapPosition{1000, 1000, 7})});
+
+    TalkUpdate channel;
+    channel.mode = static_cast<std::uint8_t>(TalkMode::ChannelCall);
+    channel.layout = TalkLayout::Channel;
+    channel.speaker = "A";
+    channel.has_channel = true;
+    channel.channel = 3;
+    channel.text = "in a channel";
+    const auto resolved = ResolveTalkSpeaker(state, channel);
+    CHECK(resolved.outcome == TalkSpeakerOutcome::NotPositional);
+    CHECK(resolved.creature_id == 0);
+}
+
+// A creature that has scrolled out of view stays in the known-creature mirror
+// but has no actor to speak above, so it must not resolve.
+void TestTalkSpeakerIgnoresCreaturesThatAreNotVisible() {
+    const MapPosition here{1000, 1000, 7};
+    WorldState state = WorldWithCreatures({Speaker(1001, "Test Player A", here)});
+
+    // Present in the mirror, absent from the map: exactly the state the mirror
+    // is designed to hold after a creature scrolls out.
+    CreatureRecord gone;
+    gone.creature_id = 1077;
+    gone.has_descriptor = true;
+    gone.name = "Far Away";
+    gone.position = MapPosition{1200, 1200, 7};
+    state.known_creatures[gone.creature_id] = gone;
+
+    const auto resolved = ResolveTalkSpeaker(
+        state, PositionalTalk("Far Away", MapPosition{1200, 1200, 7}, "x"));
+    CHECK(resolved.outcome == TalkSpeakerOutcome::NoMatch);
+    CHECK(resolved.candidates == 0);
+}
+
 // A step this client asked for is counted as ours only when the server puts us
 // on the field we asked for. Everything else is external.
 void TestLedgerAcceptsOnlyTheStepThatWasAskedFor() {
@@ -1426,6 +1573,11 @@ int main() {
         TestTalkNegativeCases();
         TestTalkLayoutClassification();
         TestTalkDoesNotTouchWorldState();
+        TestTalkSpeakerResolvesByNameAndPosition();
+        TestTalkSpeakerNeverPicksTheWrongCreature();
+        TestTalkSpeakerAcceptsAnEmptySenderByPosition();
+        TestTalkSpeakerIgnoresNonPositionalForms();
+        TestTalkSpeakerIgnoresCreaturesThatAreNotVisible();
         TestLedgerAcceptsOnlyTheStepThatWasAskedFor();
         TestLedgerNeverCountsAPushAsOurOwnStep();
         TestLedgerPushDoesNotConsumeAnOutstandingWalk();

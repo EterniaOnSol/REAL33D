@@ -45,6 +45,17 @@ public:
 
 	void SetFacing(uint8 Direction);
 
+	/**
+	 * Shows a line of speech above this creature for a while.
+	 *
+	 * The text is owned by the creature's own component, so a creature leaving
+	 * the viewport takes its speech with it: there is no separate registry that
+	 * could outlive the actor and no pointer anyone else has to clear.
+	 *
+	 * Game thread only.
+	 */
+	void ShowSpeech(const FString& Text, float Seconds);
+
 	uint32 GetCreatureId() const { return CreatureId; }
 	bool IsLocalPlayer() const { return bIsLocalPlayer; }
 	const Real33D::FMapPosition& GetLogicalPosition() const { return LogicalPosition; }
@@ -58,6 +69,12 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UTextRenderComponent> NameTag = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UTextRenderComponent> SpeechTag = nullptr;
+
+	/** When the current speech stops being shown. Zero means nothing is shown. */
+	double SpeechExpiresAt = 0.0;
 
 	Real33D::FMapPosition LogicalPosition;
 

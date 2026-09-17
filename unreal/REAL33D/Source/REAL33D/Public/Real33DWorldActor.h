@@ -41,6 +41,15 @@ private:
 	void HandleEvent(const FReal33DEvent& Event);
 
 	/**
+	 * Decides where a decoded talk becomes visible.
+	 *
+	 * Above the creature that said it when the bridge resolved a speaker;
+	 * otherwise on a small on-screen fallback list, which still has to be
+	 * readable without opening a log.
+	 */
+	void PresentSpeech(const FReal33DEvent& Event);
+
+	/**
 	 * Appends one line to the movement journal.
 	 *
 	 * The journal exists so the outgoing path can be read as a chain rather
@@ -93,4 +102,27 @@ private:
 
 	/** Where the movement journal is appended, decided once at BeginPlay. */
 	FString JournalPath;
+
+	/** One line of speech that had no provable speaker. */
+	struct FReal33DFallbackLine
+	{
+		FString Line;
+		double ExpiresAt = 0.0;
+	};
+	TArray<FReal33DFallbackLine> FallbackSpeech;
+
+	/**
+	 * How long a message stays on screen.
+	 *
+	 * NOT a proven 7.72 value. Fusion32 sends no duration and has no command to
+	 * retract speech, so lifetime is not server or protocol owned; the classic
+	 * client owns it, and this project has the client only as a binary, so the
+	 * exact rule is unproven. See docs/UNREAL_CHAT.md. Overridable with
+	 * -real33d-speech-seconds= so a measurement can replace it without a
+	 * rebuild.
+	 */
+	float SpeechSeconds = 6.0f;
+
+	int32 SpeechOnCreature = 0;
+	int32 SpeechOnFallback = 0;
 };

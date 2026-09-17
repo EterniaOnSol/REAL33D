@@ -1,0 +1,202 @@
+# Visible chat in Unreal
+
+Task: `UNREAL-CHAT-PRESENTATION-001`.
+
+`CHAT-772-001` decoded `SV_CMD_TALK` into a semantic `TalkUpdate` and stopped
+there, deliberately. Nothing was drawn, so when Player A spoke from the original
+`Tibia.exe` the operator saw nothing in Unreal. This milestone makes speech
+visible without moving responsibility between layers.
+
+The two claims are different and are kept apart:
+
+| Claim | Milestone |
+| --- | --- |
+| The talk packet is decoded correctly | `CHAT-772-001` |
+| The message is visible to the operator in Unreal | this one |
+
+## Ownership, established before implementing
+
+The question for each behaviour is *who historically owns it*, not what Unreal
+needs.
+
+### Lifetime and disappearance: NOT the server, NOT the protocol
+
+Proven from source, as a negative:
+
+- None of the three `SendTalk` overloads
+  (`reference/game/src/sending.cc:1328`, `:1365`, `:1402`) carries a duration.
+  Their full parameter lists are `StatementID, Sender, Mode, Text, Data`,
+  `StatementID, Sender, Mode, Channel, Text` and
+  `StatementID, Sender, Mode, x, y, z, Text`.
+- The server command list in `reference/game/src/connections.hh:95-139`
+  contains **no talk-removal command**. 170 is the only world talk command;
+  171-179 are channel and request-queue management, none of which retracts
+  speech already sent.
+- `StatementID` is not a lifetime handle. It comes from
+  `LogCommunication(CreatureID, Mode, Channel, Text)` in
+  `reference/game/src/operate.cc:2315` and is consumed by `LogListener`: it is
+  a moderation log id.
+
+So Fusion32 says a thing was said and never mentions it again. Lifetime cannot
+be server-owned or protocol-owned.
+
+    SPEECH_LIFETIME_OWNER = CLIENT_PRESENTATION
+
+### But the exact client rule is not provable here
+
+`reference/` contains `game`, `login`, `querymanager` and `ipchanger` — all
+server side. The classic client exists in this project only as the binary at
+`build/classic-client-772/app/Tibia.exe`. There is no client source to read.
+
+So while ownership is proven, the rule itself is not:
+
+    SPEECH_LIFETIME_PARITY = NOT_PROVEN
+
+Specifically unproven: the base duration, whether it scales with message
+length, whether it differs by talk mode, and whether a new message refreshes or
+replaces an existing one.
+
+The implementation uses a documented placeholder, overridable at runtime with
+`-real33d-speech-seconds=`, and logs on startup that the value is not a proven
+7.72 value. It is not represented as parity anywhere.
+
+Runtime observation of `Tibia.exe` could narrow this to an approximation, and
+that would be evidence of class `INFERRED`, not source truth. It has not been
+promoted to parity here.
+
+### Consecutive messages: same situation
+
+Fusion32 emits one independent talk command per utterance and never refers back
+to an earlier one, so the server has no opinion on what happens when two
+arrive together. That is client presentation too, and equally unprovable from
+this project's material.
+
+    CONSECUTIVE_MESSAGE_PARITY = NOT_PROVEN
+
+The smallest safe behaviour is used: a newer message replaces the creature's
+current one. No stacking, offsetting or queueing has been invented, because
+inventing one and calling it 7.72 would be exactly the sort of claim this
+project has already had to retract once.
+
+### Positional association: protocol-shaped, resolved in ClientCore
+
+The positional overload writes `Sender`, `Mode`, `x`, `y`, `z`, `Text`. It does
+**not** carry a creature id, so the speaker has to be recovered from world
+state the client already holds. That recovery is a protocol-adjacent decision
+and lives in `clientcore/src/talk_speaker.cpp`, not in Unreal.
+
+### Say versus Whisper: gameplay visibility is the server's
+
+Whether a whisper reaches a given player at all is decided by Fusion32 before
+anything is sent — `reference/game/src/operate.cc` chooses the spectators. The
+client is told only what it is allowed to know, so no range or filtering rule
+is implemented in Unreal. Doing so would be re-implementing a server decision
+from an assumption.
+
+Whether the classic client *renders* them differently is a presentation
+question and is not established from the binary. Both are shown the same way
+here, and that is recorded as unproven rather than styled on a guess.
+
+## The path
+
+```text
+Fusion32
+  -> SV_CMD_TALK                      (opcode never leaves ClientCore)
+  -> DecodeServerUpdate               -> TalkUpdate
+  -> ResolveTalkSpeaker(WorldState)   -> creature id, or a reason there is none
+  -> FReal33DEvent (worker thread)
+  --SPSC queue-->
+  -> AReal33DWorld::HandleEvent       (game thread)
+  -> AReal33DWorld::PresentSpeech
+       -> AReal33DCreature::ShowSpeech   when a speaker was resolved
+       -> on-screen fallback line        otherwise
+```
+
+The bridge resolves the speaker on the worker thread, where `WorldState` lives,
+and what crosses the boundary is a creature id the game thread already keys its
+actors by. Unreal never learns the name, the coordinates or the matching rule,
+and never searches for a speaker itself.
+
+Every Actor and component touch happens in `PresentSpeech` and
+`AReal33DCreature`, both game-thread only and both asserting it.
+
+## Speaker resolution
+
+`ResolveTalkSpeaker` matches on **both** fields and requires exactly one
+candidate:
+
+- the creature must be **visible**, meaning it stands on a stored tile. The
+  known-creature mirror deliberately retains creatures that scrolled out of
+  view, and those have no actor to speak above;
+- its position must equal the talk position exactly;
+- when the talk carries a name, the creature's name must match.
+
+An empty sender is not a failure: the positional overload's caller in
+`reference/game/src/moveuse.cc:941` passes `""` for the `ANIMAL` modes, so the
+name is genuinely absent and position alone decides. A field holds one
+creature, which is why one player can block another's step, so position is a
+sound key on its own.
+
+Outcomes are `Resolved`, `NoMatch`, `Ambiguous` and `NotPositional`. Only
+`Resolved` puts text above a creature. Everything else goes to the fallback,
+because speech above the wrong creature is a worse failure than speech that is
+merely not in the world.
+
+## Fallback
+
+A short on-screen list, newest last, bounded to six lines and expiring on the
+same timer. It exists so a message with no provable speaker is still readable
+without opening a log, which is part of this milestone's acceptance. It is not
+a chat console and is not intended to become one.
+
+## Cleanup
+
+Speech above a creature is a component of that creature's own actor, so a
+creature leaving the viewport takes its speech with it. There is no registry
+that could outlive an actor and no pointer for anyone else to clear.
+
+`ClearWorld`, which already runs on disconnect and before a reconnect, also
+empties the fallback list, so a new session never inherits what the previous
+one was saying.
+
+Nothing is stored in `WorldState`. `CHAT-772-001`'s decision stands: Fusion32
+keeps no per-connection chat history, so a transcript would be a feature this
+client does not have.
+
+## A known cosmetic limitation: the speech colour is approximate
+
+The operator asked for `#ffff00`. The code sets exactly that, and the screen
+shows something warmer and paler. This is recorded rather than quietly left as
+if it matched.
+
+What was measured, not assumed: gold `(255,190,30)` reached the screen at
+roughly `(180,171,138)` — red and green within nine of each other, which
+against the green ground reads as green, which is what the operator reported.
+
+Two causes, both in the renderer rather than in the value:
+
+1. `UTextRenderComponent` defaults to `DefaultTextMaterialOpaque`, which is
+   **lit**. The colour is treated as base colour and modulated by the scene's
+   warm key light and the sky light's blue ambient, which lifts the blue
+   channel of a pure yellow and desaturates it.
+2. The filmic tone curve compressed saturation further. That part is fixed: the
+   camera now sets `ToneCurveAmount = 0`, which also stops the whole scene
+   looking washed out.
+
+The obvious remedy is worse. `/Engine/EngineMaterials/UnlitText` gives the exact
+colour but ignores the font texture's alpha, so every character renders as a
+filled quad and the text becomes unreadable. That was tried live and rejected
+by the operator on sight.
+
+Getting an exact colour **and** readable glyphs needs an authored unlit,
+alpha-masked text material. That is content work and belongs with the visual
+pipeline, not here. Readable text in an approximate colour is the better state
+to stop at for a functional slice.
+
+    SPEECH_COLOUR_EXACT = NOT_ACHIEVED (readable; hue approximate)
+
+## Out of scope
+
+No chat console, channel tabs, private-message windows, NPC conversation UI,
+persistent history, or final typography. The presentation is deliberately plain
+and replaceable.

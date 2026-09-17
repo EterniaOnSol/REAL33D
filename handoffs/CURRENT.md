@@ -2,141 +2,93 @@
 
 Date/time: 2026-09-17
 Agent: Claude
-Role: CHAT DECODING
+Role: VISIBLE CHAT IN UNREAL
 Branch: `main`
-Starting commit: `e5add9c`
-Implementation commit: `e756bb7`
-Worktree: clean after the focused chat commit
+Starting commit: `5012d93`
+Implementation commit: this commit
+Worktree: clean after the focused commit
 Remote: `origin` = `https://github.com/EterniaOnSol/REAL33D.git`, `HEAD == origin/main`
 
-Previous handoff archived at `handoffs/archive/2026-09-17_UNREAL-SLICE-001.md`.
+Previous handoff archived at `handoffs/archive/2026-09-17_CHAT-772-001.md`.
 
 ## Objective
 
-`CHAT-772-001`: decode `SV_CMD_TALK` properly, from Fusion32 source truth, so
-an ordinary live session may use chat without an unsupported opcode, residual
-bytes or a parser desynchronisation. Not a byte skip, and not a chat UI.
+`UNREAL-CHAT-PRESENTATION-001`: make the speech `CHAT-772-001` decodes actually
+visible to the operator in Unreal, deriving behavioural ownership from source
+rather than inventing it.
 
 ## Result
 
-`PASS`, and `UNREAL-SLICE-001` criterion 12's qualification is removed for the
-tested scope.
+`QUALIFIED PASS`. Full record in
+`evidence/clientcore/UNREAL-CHAT-PRESENTATION-001.md`; design and ownership in
+`docs/UNREAL_CHAT.md`.
 
-Full record in `evidence/clientcore/CHAT-772-001.md`. Packet structure and the
-source trail in `docs/protocol772/TALK.md`.
+Visible incoming Say is proven live and confirmed by the operator. Whisper takes
+the identical path and decodes live but was **not** separately confirmed visible
+in this milestone, so it is not claimed.
 
-## What the source actually says
+## Ownership, proven as a negative
 
-Three `SendTalk` overloads in `reference/game/src/sending.cc` all emit opcode
-170 and share a head of `quad StatementID`, `string Sender`, `byte Mode`. The
-tail then differs, and the mode is the only thing that says which tail it is:
-the server picks an overload by argument types at the call site, and the client
-has to recover that choice from the mode alone.
+No `SendTalk` overload carries a duration, the complete server command list has
+**no talk-removal command**, and `StatementID` is a moderation log id from
+`LogCommunication`. So lifetime is neither server nor protocol owned:
 
-Two details would each have desynchronised a decoder written from assumption:
+    SPEECH_LIFETIME_OWNER = CLIENT_PRESENTATION
 
-- `TALK_ANONYMOUS_CHANNELCALL` sends an **empty** sender rather than omitting
-  the field. Treating anonymity as an absent field loses two bytes.
-- `TALK_GAMEMASTER_REQUEST` is the one mode that inserts a quad between the
-  mode and the text.
+But `reference/` holds only server sources and the classic client exists here as
+a binary, so the rule itself is unprovable:
 
-`enums.hh` also declares `ANONYMOUS_BROADCAST` 13 and `ANONYMOUS_MESSAGE` 15,
-which no overload accepts, and 18..23, which belong to `SendMessage` under a
-different opcode. An unrecognised mode is refused with `UnknownTalkMode` and
-consumes nothing, because the tail is unlocatable and guessing would corrupt
-everything after it.
+    SPEECH_LIFETIME_PARITY = NOT_PROVEN
+    CONSECUTIVE_MESSAGE_PARITY = NOT_PROVEN
 
-## Ownership decision
+A 6 s placeholder is used, overridable with `-real33d-speech-seconds=`, and the
+client logs that the value is not a proven 7.72 value on every startup.
 
-Talk stores nothing in `WorldState`. Fusion32 keeps no per-connection chat
-history: `SendTalk` serialises and forgets. A client-side transcript would be a
-feature this client does not have, and holding one in `WorldState` would make
-it look like server state comparable against a fresh `FULLSCREEN`. Talk reaches
-the caller as an event and ends there, exactly like the effects.
+## Speaker resolution
 
-## Tests and sanitizers
+`ResolveTalkSpeaker` in ClientCore requires exactly one **visible** creature
+matching the talk position, and the name too when present. Only `Resolved` puts
+text above a creature; `NoMatch`, `Ambiguous` and `NotPositional` go to a
+visible fallback, because speech above the wrong creature is worse than speech
+that is merely not in the world. Unreal receives a creature id, never the rule.
 
-Discovered and executed by `tests/build_clientcore_windows.cmd`; these are the
-totals that run reported, not figures carried forward.
+## Tests
 
-| Suite | Result |
-| --- | --- |
-| transport | 22/22 |
-| crypto | 25/25 |
-| login, gamelogin, initial_world, movement, player_state, worldview | `PASS` |
-| Windows MSVC `/W4 /WX /permissive-`, C++17 and C++20 | `WINDOWS CLIENTCORE: PASS` |
-| WSL GCC + ASan/UBSan via CTest | 8/8 |
-| `tests/secret_check.sh` | `PASS` |
+transport 22/22, crypto 25/25, the six named suites PASS, Windows MSVC at C++17
+and C++20 `WINDOWS CLIENTCORE: PASS`, WSL ASan/UBSan 8/8. Five new cases cover
+the resolution policy, including one asserting that a right name at the wrong
+position and a right position with the wrong name both resolve to nothing.
 
-Seven talk cases in `movement_tests.cpp`, including golden bytes per form,
-every mode each overload accepts, all truncation lengths, and three talks
-followed by a move and a ping decoded to exactly zero residual bytes.
+## Known cosmetic limitation
 
-## Two defects the tests caught
+The operator asked for `#ffff00`; the code sets it and the screen shows
+something warmer. Measured: gold `(255,190,30)` arrived at about
+`(180,171,138)`. `UTextRenderComponent` defaults to a **lit** material, so the
+colour is modulated by the key light and the sky light's blue ambient; the
+filmic tone curve compressed saturation further and is now disabled.
+`/Engine/EngineMaterials/UnlitText` gives the exact colour but ignores the font
+alpha and renders every glyph as a filled block, which was tried live and
+rejected on sight. Readable text in an approximate colour was chosen.
 
-1. A hand-computed golden encoded `y = 32218` as `0xBA` where it is `0xDA`.
-   The emitter was right and the golden was wrong, which is exactly why this
-   suite asserts goldens before letting structural tests depend on the emitter.
-2. `player_state_tests` listed opcode 170 among the commands that are *still
-   unsupported* — true until this milestone. Removing it silently would have
-   left nothing checking the claim, so the list now has a matching positive
-   assertion that a well-formed talk decodes whole.
+    SPEECH_COLOUR_EXACT = NOT_ACHIEVED (readable; hue approximate)
 
-## Live validation
-
-`Tibia.exe` 7.72 (Player A, operator-driven) + Fusion32 + Unreal running
-Protocol772Core (Player B). Three talk commands decoded:
-
-```text
-talk [Say]     at 32097,32205,7, Test Player A: "asdasdsa"
-talk [Whisper] at 32097,32205,7, Test Player A: "asadasd"
-talk [Whisper] at 32097,32205,7, Test Player A: "asdasd"
-```
-
-The decoded position cross-checks against the same snapshot's creature list,
-which places Player A at exactly `32097,32205,7` through an entirely separate
-path. Two unrelated decoders agreeing is stronger than any assertion inside the
-talk tests.
-
-Protocol health over 221 frames and 235 commands, with chat used:
-`unsupported_opcodes 0`, `protocol_anomalies 0`, `residual_bytes 0`,
-`last_diagnostic none`. Talk is decoded, not filtered out to reach those zeros.
-
-Parser continuity: two Unreal-driven walks after the chat were sent and
-accepted, each exactly one field on the requested axis.
-
-## What was not exercised live, and why
-
-`TALK_YELL` was attempted and refused by the server: yelling is level-gated in
-7.72 and both characters are level 1. That is Fusion32 being correct, not a
-decoder limitation.
-
-The channel and plain forms need a channel or a gamemaster, neither of which
-this sanitized two-account runtime has. They are covered deterministically and
-are not claimed as live-proven.
-
-## Regression
-
-Nothing from a previous milestone changed behaviour. The movement accounting
-introduced after the `UNREAL-SLICE-001` correction is intact, including the
-self-walk versus external-relocation distinction, which the live snapshot
-exercises directly: `walks_requested 2` = `accepted 2` + `rejected 0`, with
-`external_relocations 0`.
+Fixing it properly needs an authored unlit, alpha-masked text material, which is
+content work for the visual pipeline.
 
 ## Not done, deliberately
 
-No chat UI, no chat window, no text above creatures, no client-side talk
-sending, no channel management, no private-message handling. The Unreal module
-still contains no protocol knowledge: the bridge resolves the mode to a name so
-nothing above it sees a mode number.
+    OUTGOING_UNREAL_CHAT = NOT_IMPLEMENTED
+
+No chat console, channel tabs, private-message windows, NPC conversation UI,
+persistent history or final typography. Nothing is stored in `WorldState`:
+`CHAT-772-001`'s decision stands.
 
 ## Suggested next milestone, not started
 
-`CONTAINERS-772-001` or `TRADE-772-001` are the next undecoded command groups
-and would continue closing the ordinary-session surface.
+`UNREAL-CHAT-OUTGOING-001`, letting B speak from Unreal through a semantic
+ClientCore action, is the natural other half and was deliberately left out here.
 
-Alternatives: `ROOKGAARD-P0-MOCKUPS-001`, unblocked because the asset registry
-can adopt approved art without touching ClientCore or any Actor; or a
-floor-transition slice, which is the one movement case the 3D client has never
-exercised and the one place the presentation still uses a number
-(`UnitsPerFloor`) that the protocol never states.
+Alternatives: `CONTAINERS-772-001` or `TRADE-772-001`;
+`ROOKGAARD-P0-MOCKUPS-001`, unblocked because the asset registry can adopt
+approved art without touching ClientCore or any Actor; or a floor-transition
+slice, still the one movement case the 3D client has never exercised.

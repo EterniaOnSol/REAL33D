@@ -16,6 +16,7 @@ THIRD_PARTY_INCLUDES_START
 #include "fusion32/protocol772/login.h"
 #include "fusion32/protocol772/movement.h"
 #include "fusion32/protocol772/movement_ledger.h"
+#include "fusion32/protocol772/talk_speaker.h"
 #include "fusion32/protocol772/player_state.h"
 #include "fusion32/protocol772/worldview.h"
 THIRD_PARTY_INCLUDES_END
@@ -367,10 +368,21 @@ private:
 				switch (Talk.layout)
 				{
 				case p772::TalkLayout::Positional:
+				{
 					Spoken.TalkLayout = EReal33DTalkLayout::Positional;
 					Spoken.Position = ToBridge(Talk.position);
 					Spoken.PreviousPosition = Spoken.Position;
+					// Resolved here, against the WorldState this thread owns,
+					// so what crosses the boundary is a creature id the game
+					// thread already keys its actors by. Unreal never learns
+					// the rule, the name or the coordinates it was derived
+					// from, and never has to search for a speaker itself.
+					const auto Speaker = p772::ResolveTalkSpeaker(State, Talk);
+					Spoken.CreatureId = Speaker.creature_id;
+					Spoken.SpeakerResolution =
+						UTF8_TO_TCHAR(p772::TalkSpeakerOutcomeName(Speaker.outcome));
 					break;
+				}
 				case p772::TalkLayout::Channel:
 					Spoken.TalkLayout = EReal33DTalkLayout::Channel;
 					Spoken.bHasChannel = true;

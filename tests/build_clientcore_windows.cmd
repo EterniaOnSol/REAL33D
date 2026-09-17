@@ -43,7 +43,7 @@ mkdir "%LIBDIR%"
 mkdir "%LIBDIR20%"
 
 set "CORE=%ROOT%\clientcore"
-set "SOURCES=crypto framed_connection framing gamelogin initial_world login map_scan movement movement_ledger object_types player_state tcp_transport worldstate worldview"
+set "SOURCES=crypto framed_connection framing gamelogin initial_world login map_scan movement movement_ledger object_types talk_speaker player_state tcp_transport worldstate worldview"
 set "COMMON=/nologo /EHsc /W4 /WX /permissive- /MD /O2 /D_CRT_SECURE_NO_WARNINGS"
 set "FLAGS=/std:c++17 %COMMON%"
 set "INCS=/I"%CORE%\include" /I"%CORE%\tests" /I"%SSLINC%""
