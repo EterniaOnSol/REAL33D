@@ -20,6 +20,15 @@
 *.key
 **/config.cfg
 
+# The reference pack is derived from the client's Tibia.dat and Tibia.spr,
+# whose provenance is recorded as UNKNOWN. Previews are derivative works of
+# that artifact, so the pack is rebuilt locally and never published. See
+# visual/docs/REFERENCE_PACK.md for the one-command rebuild.
+/visual/reference_pack/
+
+__pycache__/
+*.pyc
+
 # Authoring scratch that must never be committed, not even through LFS.
 *.blend1
 *.blend2

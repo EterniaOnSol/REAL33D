@@ -86,6 +86,16 @@ Every manifest therefore carries a `sprite_geometry` column fixed at
 added as one more source without changing any other column, should an artifact
 with verifiable provenance become available.
 
+**Update, `VISUAL-REFERENCE-PACK-001`.** That reader now exists.
+`visual/tools/tibia772.py` decodes the appearance and sprite data, and
+`visual/tools/build_reference_pack.py` writes the geometry and sprite ids into
+`visual/reference_pack/manifests/appearances.csv` alongside a preview of every
+appearance. It is deliberately a **separate, gitignored output** rather than a
+column in these manifests: the manifests here are reproducible by anyone with
+the runtime archive, while the appearance data requires a client artifact this
+project does not redistribute. Keeping them apart preserves that difference
+instead of hiding it. See `visual/docs/REFERENCE_PACK.md`.
+
 **Art class for 2,752 object types.** 2,740 have a name that matched no art
 keyword and 12 have no name at all. Most are items and equipment whose art class
 is simply the item itself, but the inventory does not claim to know that, so

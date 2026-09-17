@@ -11,9 +11,12 @@ authority on what the server says; nothing here may change it.
 
 ```text
 visual/
-  docs/            art direction, technical standard, pipeline, sources
-  tools/           extractors that regenerate every manifest from source truth
+  docs/            art direction, technical standard, pipeline, sources,
+                   reference pack
+  tools/           extractors that regenerate every manifest from source truth,
+                   plus the 7.72 appearance readers and their tests
   manifests/       generated inventory, never hand-edited
+  reference_pack/  the artist catalogue, rebuilt locally, gitignored
   tracker/         the live tracker, human-owned status columns
   rookgaard_p0/    the first vertical slice subset
   mockups/         proposals awaiting review, one directory per asset
@@ -65,3 +68,17 @@ Every derived row says how it was reached:
 
 Read `docs/SOURCES.md` for what each dataset can and cannot answer, including
 what is still `UNRESOLVED` and why.
+
+## The artist catalogue
+
+The manifests say what exists. To see it, build the reference pack:
+
+```powershell
+wsl.exe -d Ubuntu-26.04 -- bash /mnt/c/Users/dell/Desktop/fusion32/visual/tools/setup_reference_pack.sh
+```
+
+That one command verifies the authorised Tibia 7.72 client data against its
+recorded hashes, regenerates the inventory and writes a filterable catalogue of
+all 5,284 appearances with their original sprites, plus a Rookgaard P0 queue.
+It is not in the repository because its previews derive from an artifact with
+`UNKNOWN` provenance. See `docs/REFERENCE_PACK.md`.
