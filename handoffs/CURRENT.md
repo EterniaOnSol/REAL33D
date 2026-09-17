@@ -8,7 +8,7 @@ Starting commit: `633a9c2`
 Implementation commit: `af3e3ac`
 Ending commit: this handoff commit
 Worktree: clean after the focused Player State commit
-Remote: `origin` = `https://github.com/EterniaOnSol/REAL33D.git`, full history pushed to `main`
+Remote: `origin` = `https://github.com/EterniaOnSol/REAL33D.git` configured; push `BLOCKED` on permissions (see the GitHub section)
 
 ## Objective
 
@@ -101,9 +101,31 @@ services stopped.
 
 ## GitHub
 
-`origin` was configured as `https://github.com/EterniaOnSol/REAL33D.git` and the
-full existing history was pushed to `main`. No history was rewritten and no
-force push was used. `tests/secret_check.sh` ran clean before the push.
+`origin` was configured as `https://github.com/EterniaOnSol/REAL33D.git`. The
+push is `BLOCKED`:
+
+```text
+remote: Permission to EterniaOnSol/REAL33D.git denied to leodavidsoto.
+fatal: ... The requested URL returned error: 403
+```
+
+Diagnosis: the repository exists and is public, the stored token carries the
+`repo` scope, but the authenticated account `leodavidsoto` holds only `READ` on
+it (`gh repo view EterniaOnSol/REAL33D` reports
+`"viewerPermission":"READ"`). This is a repository permission, not a scope or a
+URL problem, and it needs an owner decision. Any of these unblocks it:
+
+1. `EterniaOnSol` adds `leodavidsoto` as a collaborator with write access;
+2. authenticate as `EterniaOnSol` (`gh auth login`);
+3. push to a fork under `leodavidsoto` and open a pull request.
+
+Nothing was forced, no history was rewritten, and no alternative destination was
+invented. `HEAD` is 23 commits ahead of an `origin/main` that does not exist
+yet. Once access is granted the push is a plain `git push -u origin main`.
+
+`tests/secret_check.sh` ran clean before the attempt, and the check itself was
+repaired first: its private key scan had been passing vacuously. See the commit
+`f205519`.
 
 Reviewed and accepted rather than pushed silently, all recorded in the evidence:
 
