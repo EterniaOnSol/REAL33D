@@ -2,83 +2,74 @@
 
 Date/time: 2026-09-16
 Agent: Claude
-Role: PROTOCOL772CORE MOVEMENT IMPLEMENTATION
+Role: PROTOCOL772CORE PLAYER STATE IMPLEMENTATION
 Branch: `main`
-Starting commit: `630e846`
-Implementation commit: `37fa5f6`
+Starting commit: `633a9c2`
+Implementation commit: `af3e3ac`
 Ending commit: this handoff commit
-Worktree: clean after the focused Movement commit
+Worktree: clean after the focused Player State commit
+Remote: `origin` = `https://github.com/EterniaOnSol/REAL33D.git`, full history pushed to `main`
 
 ## Objective
 
-Complete `MOVEMENT-772-001`: cardinal walking end to end over the existing
-`WorldState`, derived only from the Fusion32 7.72 source. Do not implement
-combat, inventory or Unreal, and do not approximate diagonals.
+Complete `PLAYERSTATE-772-001`: close the minimal set of 7.72 messages needed to
+consume an ordinary session burst without stopping, derived only from the
+Fusion32 source. Do not implement combat, inventory semantics, chat, NPC
+interaction or Unreal.
 
 ## Inspection and source findings
 
 Inspected, in `reference/game/src`:
 
-- `operate.cc::Move` and `AnnounceMovingCreature` - the fixed order a creature
-  move produces.
-- `cract.cc::TCreature::NotifyGo`, `NotifyTurn` and `Go` - the mover's own
-  viewport updates and the blocked-step throw.
-- `sending.cc::SendRow`, `SendFloors`, `SendFieldData`, `SendAddField`,
-  `SendChangeField`, `SendDeleteField`, `SendMoveCreature`, `SendSnapback`,
-  `SendMessage`, `SendResult`.
-- `map.cc::PlaceObject`, `GetObjectPriority`, `MoveObject`, `CutObject`;
-  `map.hh` PRIORITY_* and `info.cc::GetObjectRNum`.
-- `receiving.cc::ReceiveData`, `CGoDirection`, `CGoPath`, `CQuitGame`.
-- `communication.cc::ReceiveCommand` - the client-to-server XTEA envelope.
+- `sending.cc::SendPing`, `SendAmbiente`, `SendGraphicalEffect`,
+  `SendTextualEffect`, `SendMissileEffect`, `SendMarkCreature`,
+  `SendCreatureHealth`, `SendCreatureLight`, `SendCreatureOutfit`,
+  `SendCreatureSpeed`, `SendCreatureSkull`, `SendCreatureParty`,
+  `SendPlayerData`, `SendPlayerSkills`, `SendPlayerState`, `SendClearTarget`,
+  `SendSetInventory`, `SendDeleteInventory`, `SendBuddyData`, `SendBuddyStatus`
+  and `SendOutfit(TConnection*)`.
+- `crplayer.cc::TPlayer::CheckState` lines 1213-1247 for the player state flag
+  table, `SyncState`, and the first-login branch at line 221.
+- `connections.cc` lines 25 and 78 and `receiving.cc::CPing` for the keepalive
+  contract.
+- `enums.hh::InventorySlot` for the slot bounds.
 
-Three findings shaped the design:
+Three findings worth carrying forward:
 
-1. **The viewport anchor.** `SendRow` and `SendFloors` carry no coordinates.
-   `NotifyGo` advances the player's `posx/posy/posz` one axis at a time and only
-   then emits them, while `AnnounceMovingCreature` runs earlier and reads the
-   still-old position. So the anchor advances with rows and floor changes and
-   never with `SV_CMD_MOVE_CREATURE`. After a completed step the anchor and the
-   local player's creature must agree, which is now a checked invariant rather
-   than an assumption.
-2. **`SV_CMD_ADD_FIELD` carries no stack index.** `PlaceObject` inserts by a
-   priority derived from `BANK`/`CLIP`/`BOTTOM`/`TOP` flags the wire never
-   carries, so `ObjectTypeEncoding` grew a priority column read from the same
-   `dat/objects.srv`. The four flags were verified mutually exclusive across all
-   5003 declared types, matching the if / else-if chain in `GetObjectPriority`.
-   Because `PRIORITY_CREATURE` is 4 and `PRIORITY_LOW` is 5, an item entering an
-   occupied field lands **above** the creature standing there while a creature
-   entering lands **below** any item already on it.
-3. **A refusal emits no map command.** `TCreature::Go` throws
-   `MOVENOTPOSSIBLE` and `SendResult` answers with `SV_CMD_MESSAGE` plus
-   `SV_CMD_SNAPBACK`. Queueing a second walk while one runs snaps back the same
-   way through `CGoDirection` calling `ToDoClear`.
-
-Diagonals are implemented by Fusion32 through the same `CGoDirection` with both
-offsets non-zero, produce an x row then a y row, and cost three times the walk
-delay. They are documented and left unexposed per the task scope; the anchor
-model already reproduces their two-row sequence without approximation.
+1. **A character's first login carries `SV_CMD_OUTFIT` (200).** `crplayer.cc`
+   line 221 sends the welcome message and the outfit chooser when
+   `LastLoginTime` is zero. The first live attempt stopped with exactly 11
+   residual bytes, which is precisely that command's length, confirming
+   everything before it had been consumed to an exact command boundary.
+2. **`SV_CMD_PLAYER_STATE` is conditional.** `CheckState` only emits when the
+   computed flags differ from `OldState`, and `SyncState` zeroes `OldState` at
+   login, so a character with no active condition receives none.
+   `WorldState::state.known` stays false until one arrives. My initial assertion
+   that the burst must deliver it was wrong.
+3. **`SV_CMD_PING` is server-initiated**, from the connection timer and
+   `EmergencyPing`. `CPing` is a no-op that only refreshes the timestamp, so the
+   client's own `CL_CMD_PING` is never answered with a ping.
 
 ## Changes
 
-- Added `clientcore/include/fusion32/protocol772/map_scan.h` and
-  `clientcore/src/map_scan.cpp`, holding the tile / skip walk extracted from the
-  full-screen decoder with no behaviour change.
-- Added `clientcore/include/fusion32/protocol772/movement.h` and
-  `clientcore/src/movement.cpp`.
-- Extended `object_types` with `ObjectPriority` and `MapStackInsertIndex`.
-- Extended `worldstate` with `viewport_anchor`, `local_creature_id`,
-  `AnchoredWindow`, `viewport_synchronized`, `visible_creature_ids` and four new
-  anomaly kinds.
-- Added `GameLoginSession::SendCommand` for authenticated client commands.
-- Rewrote `initial_world.cpp` onto the shared scanner; its suite is unchanged
-  and still passes.
-- Added `clientcore/tests/movement_tests.cpp` and grew the fixtures header with
-  a `ServerEmitter` port of the incremental senders.
-- Added `docs/protocol772/MOVEMENT.md` and
-  `evidence/clientcore/MOVEMENT-772-001.md`.
+- Added `clientcore/include/fusion32/protocol772/player_state.h` and
+  `clientcore/src/player_state.cpp`.
+- Extended `movement`'s single `DecodeServerUpdate` entry point to dispatch all
+  of them, and `ApplyServerUpdate` to apply only the demonstrated ones.
+- Extended `worldstate` with `PlayerStats`, `PlayerSkills`, `PlayerState` and
+  `AmbientLight`.
+- Exposed bounds-checked word, quad, outfit and `SendItem` reads from
+  `map_scan`, plus `FailScanner` and `MapDecodeError::InvalidInventorySlot`.
+- Added `clientcore/tests/player_state_tests.cpp` and grew the fixtures emitter.
+- Added `tests/secret_check.sh`.
+- Added `docs/protocol772/PLAYER_STATE.md` and
+  `evidence/clientcore/PLAYERSTATE-772-001.md`.
 - Updated project status, architecture, roadmap, parity matrix, source truth,
-  both READMEs, the initial-world doc and this handoff; archived the prior
-  Initial World handoff.
+  both READMEs and this handoff; archived the prior Movement handoff.
+
+One retained test changed meaning: `movement_tests` used opcode 141 as its
+"unsupported" example, which this task now decodes. It uses `SV_CMD_CONTAINER`
+(110) instead, which remains genuinely out of scope.
 
 ## Tests/results
 
@@ -86,78 +77,85 @@ Validated in WSL Ubuntu 26.04, CMake 4.2.3, GCC 15.2.0, OpenSSL 3.5.5, C++17
 with warnings as errors:
 
 - Debug build: `PASS`
-- CTest: `6/6 PASS`
-- ASan/UBSan CTest: `6/6 PASS`
-- Seven hand-computed golden hex commands, byte for byte, each first reproduced
-  by the literal port of the server emitter: `PASS`
-- Twelve-step cardinal walk compared against a freshly emitted
-  `SV_CMD_FULLSCREEN` after every step: `PASS`
-- Negatives - every truncation of each golden command, empty payload, empty type
-  table, out-of-range stack indexes, a row stepping off the addressable floors,
-  an unsupported opcode consuming nothing, and three application anomalies each
-  leaving the map snapshot unchanged: `PASS`
+- CTest: `7/7 PASS`
+- ASan/UBSan CTest: `7/7 PASS`
+- Eleven hand-computed golden hex commands, each first reproduced by the literal
+  port of the server emitter: `PASS`
+- A whole simulated login burst in `crplayer.cc` order walked to exactly zero
+  residual bytes: `PASS`
+- Negatives - every truncation of each golden command, an inventory slot outside
+  `INVENTORY_FIRST..INVENTORY_LAST`, an inventory item naming a server-internal
+  container type, an unknown inventory type id, and seven opcodes that remain
+  unsupported and consume nothing: `PASS`
 - `verify_object_type_invariants.py`: `PASS`
-- Live smoke, synthetic `ACCOUNT_A`: `LIVE PASS`. Six cardinal steps from
-  `(32097,32219,7)` to `(32097,32213,7)`, each landing the anchor exactly where
-  predicted with the viewport synchronized and zero anomalies; one observed
-  snapback that changed neither anchor, tiles nor things; then a clean
-  `CL_CMD_LOGOUT`, reconnect, and a fresh `SV_CMD_FULLSCREEN` reporting the same
-  position with the same 401 tiles and 571 things, all item stacks identical and
-  no phantom creatures. 125 of the 408 original tiles had left the window.
+- `tests/secret_check.sh`: `PASS`
+- Live smoke: `LIVE PASS`. Login burst 2417 payload bytes as 22 commands, session
+  traffic 1073 bytes as 32 commands, **3490 payload bytes and 54 commands with
+  zero residual bytes and no unsupported opcode**. Decoded stats matched a fresh
+  Rookgaard character: 150/150 hit points, 336 capacity, level 1, magic level 0,
+  100 soul points, every weapon skill at 10.
 
 No account id, password, modulus or key material was recorded. The temporary
 live harness, its driver script and its binary were deleted and the runtime
 services stopped.
 
+## GitHub
+
+`origin` was configured as `https://github.com/EterniaOnSol/REAL33D.git` and the
+full existing history was pushed to `main`. No history was rewritten and no
+force push was used. `tests/secret_check.sh` ran clean before the push.
+
+Reviewed and accepted rather than pushed silently, all recorded in the evidence:
+
+- `reference/login/config.cfg.dist` and
+  `reference/querymanager/config.cfg.dist` carry Fusion32's own upstream default
+  `QueryManagerPassword`. They are archived third-party source, not a secret of
+  this deployment, whose `config.cfg` is generated fresh and gitignored.
+- `clientcore/tests/fixtures/crypto_772_vectors.h` holds a public sample modulus
+  already present in the selected IP Changer source, labelled as test data.
+
 ## Status and limits
 
-`MOVEMENT-772-001 = PASS` within this bounded scope.
+`PLAYERSTATE-772-001 = PASS` within this bounded scope.
 
 Remaining `UNVERIFIED`:
 
-- Only surface walking on floor 7 was observed live. Floor changes, the
-  underground range and the four field commands are fixture-covered only.
-- Diagonal walking is decoded coherently but was neither exposed nor exercised.
-- The live refusal came from the `ToDoClear` path; the blocked-terrain
-  `MOVENOTPOSSIBLE` path is fixture-covered, through the same `SendSnapback`.
+- `SV_CMD_PING`, `SV_CMD_CLEAR_TARGET`, `SV_CMD_TEXTUAL_EFFECT`,
+  `SV_CMD_MISSILE_EFFECT`, `SV_CMD_MARK_CREATURE`, the buddy status pair and
+  four of the six creature attribute updates are fixture-covered only; the quiet
+  temple session did not emit them.
 - Native Windows execution and independent repetition.
 
-Out of scope and untouched: combat, inventory, containers, chat, path walking
-(`CL_CMD_GO_PATH`), object moves and Unreal.
-
-## Known boundary
-
-A server command this layer does not decode yields
-`ServerUpdateKind::Unsupported` with `bytes_consumed` zero, because guessing its
-length would desynchronize the stream. The login burst still contains such
-commands after `SV_CMD_FULLSCREEN`, starting with `SV_CMD_GRAPHICAL_EFFECT`, so
-a caller processing that first frame stops there with 240 bytes preserved. Walk
-frames observed live contained movement commands only.
+Out of scope and untouched: combat, inventory semantics, containers, chat, NPC
+interaction, trade and Unreal. Chat, the channel commands, containers, trade,
+the request queue and the text and list editors remain undecoded and still yield
+`ServerUpdateKind::Unsupported` with zero bytes consumed. That is correct
+behaviour: a caller sees exactly which opcode stopped it.
 
 ## Operational note
 
 WSL2 shuts the VM down between separate `wsl.exe` invocations and clears `/tmp`,
-which destroys both the sanitized runtime and any build directory there. Build
-under `/root/f32/...` instead, and run anything that spans prepare, start and a
-live client in a single `wsl.exe` invocation. Invoke such scripts through
-PowerShell, since Git Bash rewrites `/mnt/...` paths.
+destroying both the sanitized runtime and any build directory there. Build under
+`/root/f32/...`, and run anything spanning prepare, start and a live client in a
+single `wsl.exe` invocation launched from PowerShell, since Git Bash rewrites
+`/mnt/...` paths.
 
 ## Exact next task
 
-`PLAYERSTATE-772-001`: decode the rest of the login burst and the ambient and
-creature update commands, so a caller can consume a whole frame instead of
-stopping at the first unsupported opcode.
+`UNREAL-SLICE-001`: Protocol772Core now decodes an entire ordinary session, so
+the remaining vertical-slice gap is presentation. Create the minimal Unreal
+desktop project that consumes `Protocol772Core` through a network-thread event
+queue and applies `WorldState` on the game thread, rendering ground as planes
+and creatures as capsules, per `ROADMAP.md` step 8.
 
-Files and functions to start from, all in `reference/game/src/sending.cc`:
-`SendPlayerData` (160), `SendPlayerSkills` (161), `SendPlayerState` (162),
-`SendAmbiente` (130), `SendGraphicalEffect` (131), `SendTextualEffect` (132),
-`SendMissileEffect` (133), `SendMarkCreature` (134), and `SendCreatureHealth`
-(140) through `SendCreatureParty` (145). `SendPing` (30) and the matching
-`CL_CMD_PING` (30) close the keepalive gap.
+The protocol side needs nothing new for that slice. If presentation is deferred
+instead, the next protocol step is chat and containers: start from
+`reference/game/src/sending.cc::SendTalk` (170), `SendChannels` (171),
+`SendOpenChannel` (172), `SendPrivateChannel` (173), `SendContainer` (110),
+`SendCloseContainer` (111) and `SendCreateInContainer` (112) through
+`SendDeleteInContainer` (114).
 
-Add each decoder to `DecodeServerUpdate` in `clientcore/src/movement.cpp`, or
-split it into its own module if that file grows unwieldy. Do not begin it
-automatically.
+Do not begin either automatically.
 
 Commands to reproduce this task's results:
 
@@ -166,4 +164,5 @@ wsl.exe -d Ubuntu-26.04 -- cmake -S /mnt/c/Users/dell/Desktop/fusion32/clientcor
 wsl.exe -d Ubuntu-26.04 -- cmake --build /root/f32/build --parallel
 wsl.exe -d Ubuntu-26.04 -- ctest --test-dir /root/f32/build --output-on-failure
 wsl.exe -d Ubuntu-26.04 -- python3 /mnt/c/Users/dell/Desktop/fusion32/tests/verify_object_type_invariants.py /mnt/c/Users/dell/Desktop/fusion32/tibia-game.tarball.tar.gz
+wsl.exe -d Ubuntu-26.04 -- bash /mnt/c/Users/dell/Desktop/fusion32/tests/secret_check.sh /mnt/c/Users/dell/Desktop/fusion32
 ```
