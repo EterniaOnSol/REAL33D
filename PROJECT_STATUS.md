@@ -12,6 +12,7 @@ Initial World implementation commit: `fedd536`
 Movement implementation commit: `37fa5f6`
 Player State implementation commit: `af3e3ac`
 Two-client slice commit: `a048150`
+Visual inventory commit: `4260d98`
 Worktree: clean after the focused two-client slice commit
 Remote: `origin` = `https://github.com/EterniaOnSol/REAL33D.git`; full history pushed to `main` (24 commits), `HEAD == origin/main`. No history was rewritten and no force push was used. The first attempt returned HTTP 403 because the stored credential belonged to `leodavidsoto`, which holds only `READ` on that repo; the operator re-authenticated `gh` as `EterniaOnSol`, which holds `admin`
 
@@ -20,6 +21,7 @@ Protocol: `IN_PROGRESS`; Transport, Crypto, Login, Game Login, the `FULLSCREEN` 
 Client core: Unreal-independent C++17 TCP/framing/crypto/Login/Game Login/Initial World/Movement/Player State components implemented; retained and new suites pass in normal and ASan/UBSan WSL builds; native Windows build remains unverified
 Client: selected local Tibia 7.72 EXE/DAT/SPR/PIC set hashed and statically validated; Login, character list, Game entry and a session over 30 minutes are `PASS`; historical acquisition provenance is `UNKNOWN`
 IP Changer: official Fusion32 revision `8215db18...` independently reviewed, materialized and Windows x86 `BUILD PASS`; exact 7.72 address table and fresh-modulus live patch are `PASS` for the selected client hash
+Visual: `visual/` area created; master inventory regenerated entirely by tooling from `objects.srv`, `map.dat`, `origmap`, `monster.db`, `mon/`, `npc/` and the source enums. 5,690 tracker rows covering 5,003 object types, 159 monster races, 337 npcs, 152 outfit identities, 26 effects and 13 projectiles; 1,351 visual groups, so roughly three quarters of the object ids are reuse candidates. `VISUAL-ASSET-MASTER-INVENTORY-001 = PASS` over the available datasets, explicitly NOT complete in the visual sense because no appearance data is available
 Unreal: no Unreal project found (`NOT_STARTED`)
 Parity: `NOT_STARTED`
 
@@ -28,6 +30,6 @@ Latest functional tests: classic baseline IDs, `CLIENTCORE-TRANSPORT-772-001`, `
 Two-client result: the original `Tibia.exe` and Protocol772Core held two distinct characters in one world for 19 minutes; appearance, 11 tracked steps, viewport-edge departure and return, two accepted client-initiated moves, three refusals caused by the other player physically blocking the field, disconnect and reconnect, with 689 commands, zero residual bytes, zero anomalies and zero unsupported opcodes
 Current certification blockers: no verifiable original source/chain of custody for the operator-supplied local client copy; no independent repetition of the live client procedure; no retained sanitized character-list/world screenshots
 Closing ritual from `PLAYERSTATE-772-001` onwards: tests + sanitizers + evidence + docs + commit + handoff + push, with `tests/secret_check.sh` run before every push
-Next task: `UNREAL-SLICE-001` (plan/source-trace only; do not start automatically). Protocol coexistence with the original client is now demonstrated, so the remaining vertical-slice gap is presentation: the Unreal desktop project that consumes Protocol772Core through a network-thread event queue and applies WorldState on the game thread. Chat, containers and trade are the alternative next protocol step if presentation is deferred; chat in particular is what currently forces the operator to avoid the in-game chat during two-client runs.
+Next task: `ROOKGAARD-P0-MOCKUPS-001` or `UNREAL-SLICE-001` (plan only; do not start automatically). The visual area now has 456 P0 object types waiting on mockups, and the protocol side is ready for a presentation client. Protocol coexistence with the original client is now demonstrated, so the remaining vertical-slice gap is presentation: the Unreal desktop project that consumes Protocol772Core through a network-thread event queue and applies WorldState on the game thread. Chat, containers and trade are the alternative next protocol step if presentation is deferred; chat in particular is what currently forces the operator to avoid the in-game chat during two-client runs.
 
 Updated: 2026-09-16

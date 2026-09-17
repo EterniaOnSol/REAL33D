@@ -2,175 +2,147 @@
 
 Date/time: 2026-09-16
 Agent: Claude
-Role: TWO-CLIENT VERTICAL SLICE
+Role: VISUAL ASSET MASTER INVENTORY
 Branch: `main`
-Starting commit: `da67e78`
-Implementation commit: `a048150`
+Starting commit: `31d4be5`
+Implementation commit: `4260d98`
 Ending commit: this handoff commit
-Worktree: clean after the focused slice commit
+Worktree: clean after the focused inventory commit
 Remote: `origin` = `https://github.com/EterniaOnSol/REAL33D.git`, `HEAD == origin/main`
 
 ## Objective
 
-Complete `TWO-CLIENT-VERTICAL-SLICE-001`: demonstrate end to end that the
-original Tibia 7.72 client and Protocol772Core coexist as two independent
-clients inside the same Fusion32 world. Do not simulate the second client and do
-not substitute another ClientCore for `Tibia.exe`. Do not start Unreal, combat,
-chat, inventory or containers.
+Complete `VISUAL-ASSET-MASTER-INVENTORY-001`: create the REAL33D visual area and
+build a complete, reproducible master inventory of the visual assets needed to
+represent Fusion32 7.72 in 3D, not limited to Rookgaard. Do not modify
+ClientCore, protocol or gameplay. Do not implement Unreal. Do not produce models.
 
 ## Result
 
-`PASS` for one bounded live run, 19 minutes, two distinct synthetic characters:
+`PASS` over the datasets available, and explicitly **not complete in the visual
+sense**, because no appearance data is available to this repository. Full
+counts, sources and gaps in
+`evidence/visual/VISUAL-ASSET-MASTER-INVENTORY-001.md`.
 
-- Player A: the selected local `Tibia.exe` patched live by the Fusion32 IP
-  Changer. Character `Test Player A`, creature id 1001, driven by the operator.
-- Player B: Protocol772Core through a temporary non-tracked harness. Character
-  `Test Player B`, creature id 1002, driven by commands written into a control
-  file.
+Headline numbers: 5,690 tracker rows covering 5,003 object types, 159 monster
+races, 337 npcs, 152 outfit identities, 26 graphical effects and 13 projectiles.
+Those 5,003 object ids collapse into 1,351 visual groups, so roughly three
+quarters of the object inventory is expected to reuse an asset rather than
+receive its own.
 
-Every required transition was demonstrated with ids, positions and server
-corroboration; the full transcript is in
-`evidence/clientcore/TWO-CLIENT-VERTICAL-SLICE-001.md`. Totals: 689 commands
-over 657 frames, **zero residual bytes, zero anomalies, zero unsupported
-opcodes**.
+## What was built
 
-## Protocol surface
+```text
+visual/
+  README.md              how to regenerate, and the three-identity model
+  docs/                  SOURCES, ART_DIRECTION, TECHNICAL_STANDARD, PIPELINE
+  tools/                 extract_visual_inventory.py, sync_tracker.py
+  manifests/             generated: objects, creatures, npcs, outfits, effects,
+                         missiles, visual_groups, regions, summary.json
+  tracker/               VISUAL_TRACKER.csv, human-owned status columns
+  rookgaard_p0/          P0_ASSETS.csv and how the subset is chosen
+  mockups/ approved/ rejected/ production/
+```
 
-No opcode was added, and none was needed. Appearance
-(`ADD_FIELD` with a word-97 descriptor), movement (`MOVE_CREATURE`), turning
-(`CHANGE_FIELD`), departure (`DELETE_FIELD`) and refusal (`MESSAGE` plus
-`SNAPBACK`) were all already decoded. The run instead corrected two errors in
-how the known-creature mirror was maintained.
+Everything under `manifests/` is derived and regenerable in about 21 seconds.
+`sync_tracker.py` merges rather than overwrites, so human decisions survive a
+regeneration; verified by marking a row `MOCKUP`, regenerating and confirming
+`added 0, refreshed 5690` with the note intact.
 
-## Two corrections the live run forced
+## Design decisions worth keeping
 
-Both were found against the real server, not by reading, and both now have
-deterministic coverage in
-`clientcore/tests/movement_tests.cpp::TestSecondPlayerLifecycle`.
+**Two classification axes, not one.** Behaviour category comes from the object's
+own flags and is `DEMONSTRATED`. Art class comes from the object's own `Name`
+and is always `INFERRED`, because flags cannot separate a tree from a wall when
+both are merely `Unpass` and `Unmove`. Collapsing them would either lose the
+flag evidence or hide that the art class is a guess. This is why the behaviour
+axis reports 4 `traversal` objects while the art axis reports 75 stairs; both
+are correct for what they measure.
 
-1. **`SV_CMD_DELETE_FIELD` must not drop the creature from the mirror.** The
-   server sends the same command whether a creature scrolled out of view or was
-   destroyed, and `TConnection::KnownCreatureTable` only frees a slot in
-   `~TCreature` or when `NewKnownCreature` reuses it. Dropping the entry made a
-   later word-98 or word-99 reappearance unrecognisable, which showed up within
-   seconds as a nameless rabbit plus an `UnknownCreatureReference` anomaly.
-   `DELETE_FIELD` now removes the creature from the map only;
-   `visible_creature_ids()` answers what is on the map.
-2. **A word-97 whose evicted id equals the introduced id evicts nothing.**
-   `~TCreature` frees the slot without clearing its `CreatureID`, and
-   `TCreature::SetID` assigns `CreatureID = CharacterID`, so a player keeps its
-   id across logins and every relog reuses that very slot. This was being
-   flagged as evicting an unknown creature.
+**Three identities kept apart.** Logical id (Fusion32 type id), visual identity
+(`visual_group`), physical asset (produced file). `ALIAS_OF` is settled by
+`objects.hh::getDisguise`, which shows the client is told to draw the target
+type. `SHARED_CANDIDATE` is a proposal for an artist to confirm or split.
 
-## Keepalive, which any sustained session needs
+**Priorities from map evidence.** P0 is the object types in the sectors within
+one ring of `NewbieStart = [32097,32219,7]`, which `map.dat` declares and which
+is the field two live clients actually spawned on. P1 is the rest of the
+Rookgaard region by nearest named mark. P2 is everything else on the map,
+grouped by region, with no invented ordering. 2,031 types declared but never
+placed in `origmap` are `UNPRIORITIZED` and remain real inventory entries.
 
-`reference/game/src/connections.cc::TConnection::Process` disconnects a client
-whose last command is 90 rounds old, and `reference/game/src/main.cc` advances
-one round per second. `SV_CMD_PING` at 30 and 60 seconds does not require a
-reply; what resets the timer is any client command, and `ResetTimer` accepts
-`CL_CMD_PING`. A listening-only client is dropped after 90 seconds. Player B
-pinged every 20 seconds. Note that a ping does not refresh `TimeStampAction`, so
-it does not defeat the 15-minute idle warning or 16-minute idle logout.
+**No fidelity percentage.** `docs/ART_DIRECTION.md` states there is no 50/50 or
+any other ratio. The data fixes identity and context; how closely a 3D asset
+resembles a 32-pixel sprite is a judgement. The artist proposes, the director
+decides, rejected work is kept.
 
-## Player blocking is part of the evidence
+## Two findings
 
-Three of Player B's walk requests were refused, and cross-referencing B's own
-log shows Player A was standing on the destination field each time. That is the
-7.72 one-SQM rule, and it is the strongest available proof that both clients
-inhabit one authoritative world: one client's body constrained the other's
-movement, decided entirely by Fusion32. B's anchor and tile set were unchanged
-across all three and `viewport_synchronized()` held.
+**Stairs are not teleports in 7.72.** Exactly one object type carries
+`TeleportRelative` and one carries `TeleportAbsolute`. Level changes are decided
+by the height and climbing logic in `cract.cc::TCreature::Go`, not by a flag.
 
-## Changes
+**Flag spellings differ between the data and the enum.** `objects.srv` writes
+flags in CamelCase (`Bank`, `LiquidContainer`), resolved by name in
+`objects.cc::LoadObjects` against the uppercase `enum FLAG`. The first version
+of the extractor matched the C++ spelling and silently classified all 5,003
+types as `INFERRED`. Caught by the summary counters showing zero `DEMONSTRATED`
+rows, which is exactly what those counters exist for.
 
-- `clientcore/src/movement.cpp`: `DELETE_FIELD` no longer erases from the
-  mirror; the self-eviction rule added to `RecordCreature`.
-- `clientcore/src/initial_world.cpp`: the same self-eviction rule in
-  `ApplyFullScreen`.
-- `clientcore/tests/movement_tests.cpp`: added `TestSecondPlayerLifecycle` and
-  corrected `TestDeleteFieldRemovesCreature`, which had encoded the wrong
-  assumption.
-- Added `docs/TWO_CLIENT_SLICE.md` and
-  `evidence/clientcore/TWO-CLIENT-VERTICAL-SLICE-001.md`.
-- Updated project status, roadmap, parity matrix and this handoff; archived the
-  prior Player State handoff.
+## What is UNRESOLVED
 
-## Tests/results
+**Appearance.** Per-thing sprite dimensions, layer counts, animation frame
+counts, draw offsets and the pixels live in the client's `Tibia.dat` and
+`Tibia.spr`, which are not in this repository, are gitignored, and have
+`UNKNOWN` provenance per `docs/CLASSIC_CLIENT_772.md`. Depending on them would
+make the inventory non-reproducible and tie it to an artifact with no chain of
+custody. Every manifest carries a `sprite_geometry` column fixed at
+`UNRESOLVED`, and `summary.json` records the gap under `sources_unavailable`
+with the extractor hook. Nothing else in the schema changes when that source
+arrives.
 
-Ubuntu 26.04 under WSL2, CMake 4.2.3, GCC 15.2.0, OpenSSL 3.5.5, C++17,
-warnings as errors:
+**Art class for 2,752 object types**, reported as `UNRESOLVED` rather than
+bucketed by guess.
 
-- CTest: `7/7 PASS`
-- ASan/UBSan CTest: `7/7 PASS`
-- `verify_classic_client_772.py`: `PASS` (all artifact hashes and the static
-  address table)
+**Floor height in Unreal units**, left open in `docs/TECHNICAL_STANDARD.md` as a
+presentation choice the data does not declare.
+
+## Git LFS
+
+`.gitattributes` routes `.blend`, `.fbx`, `.glb`, `.gltf`, `.png`, `.jpg`,
+`.jpeg`, `.tga`, `.psd`, `.exr`, `.wav` and `.ogg` to LFS; `.gitignore` excludes
+Blender autosaves and local cache and bake directories. Manifests, tracker and
+tools stay in plain Git so they remain diffable. The entries are inert until
+`git lfs install` is run in a clone. **No binary asset was committed.**
+
+## Checks
+
 - `tests/secret_check.sh`: `PASS`
-- Live two-client run: `PASS`
-
-No account id, password, modulus or key material was recorded. The account line
-the operator needed for the original client was written to a scratch file
-outside the repository and deleted along with the harness, the driver script and
-the operator launcher. The runtime services were stopped.
-
-## Status and limits
-
-`TWO-CLIENT-VERTICAL-SLICE-001 = PASS` within this bounded scope.
-
-Remaining `UNVERIFIED`:
-
-- One run, one operator, no independent repetition, no retained screenshots.
-- Both characters stayed on floor 7, so no floor transition was exercised with
-  two clients connected.
-- Chat was deliberately avoided because `SV_CMD_TALK` is still undecoded and
-  would stop the frame walk.
-- Player A's observation of Player B moving is an operator report rather than a
-  machine-readable artifact; the server-side effect is corroborated by B's own
-  anchor advancing and by the blocking evidence.
-- Native Windows execution of Protocol772Core.
-
-Out of scope and untouched: Unreal, combat, chat, NPC interaction, inventory
-semantics, containers and trade.
-
-## Operational notes
-
-- WSL2 tears the VM down between separate `wsl.exe` invocations and clears
-  `/tmp`, destroying both the sanitized runtime and any build directory there.
-  Build under `/root/f32/...`, and run anything spanning prepare, start and a
-  live client in a single invocation launched from PowerShell, since Git Bash
-  rewrites `/mnt/...` paths.
-- The IP Changer needs the client window to already exist. Launching both from
-  one script usually loses the race; run `ipchanger.exe fusion32` again after
-  the client window is up.
-- A live harness driven by a control file should log `SNAPBACK` and `MESSAGE`.
-  This one did not, so three legitimate server refusals looked like silence and
-  briefly read as a bug. Also give each command a distinct token or a repeat of
-  the same command is ignored, and poll the file more often than the read loop's
-  worst-case latency.
+- `reference/` untouched
+- `clientcore/` untouched, confirmed by `git status --porcelain clientcore/`
+- No protocol, gameplay or Unreal work
+- No 3D model produced
 
 ## Exact next task
 
-`UNREAL-SLICE-001`: protocol coexistence with the original client is now
-demonstrated, so the remaining gap in the vertical slice is presentation. Create
-the minimal Unreal desktop project that consumes `Protocol772Core` through a
-network-thread event queue and applies `WorldState` on the game thread,
-rendering ground as planes and creatures as capsules, per `ROADMAP.md` step 8.
-The protocol side needs nothing new for it.
+Two candidates, neither started automatically.
 
-If presentation is deferred, the next protocol step is chat and containers,
-starting from `reference/game/src/sending.cc::SendTalk` (170), `SendChannels`
-(171), `SendOpenChannel` (172), `SendPrivateChannel` (173), `SendContainer`
-(110), `SendCloseContainer` (111) and `SendCreateInContainer` (112) through
-`SendDeleteInContainer` (114). Chat is what currently forces the operator to
-avoid the in-game chat during two-client runs.
+`ROOKGAARD-P0-MOCKUPS-001`: 456 P0 object types are waiting on mockups. Start
+from `visual/rookgaard_p0/P0_ASSETS.csv`, work group representatives first
+(`Representation = MESH`) since each covers several ids, and follow
+`visual/docs/PIPELINE.md`. The director's `APPROVED`/`REJECTED` decisions are
+what unblock modelling.
 
-Do not begin either automatically.
+`UNREAL-SLICE-001`: the protocol side is ready. Create the minimal Unreal
+desktop project that consumes `Protocol772Core` through a network-thread event
+queue and applies `WorldState` on the game thread, per `ROADMAP.md` step 8.
+`visual/docs/TECHNICAL_STANDARD.md` holds the provisional scale, pivots and
+naming it should follow, and the floor-height question it will have to settle.
 
 Commands to reproduce this task's results:
 
 ```powershell
-wsl.exe -d Ubuntu-26.04 -- cmake -S /mnt/c/Users/dell/Desktop/fusion32/clientcore -B /root/f32/build -DCMAKE_BUILD_TYPE=Debug
-wsl.exe -d Ubuntu-26.04 -- cmake --build /root/f32/build --parallel
-wsl.exe -d Ubuntu-26.04 -- ctest --test-dir /root/f32/build --output-on-failure
-wsl.exe -d Ubuntu-26.04 -- python3 /mnt/c/Users/dell/Desktop/fusion32/tests/verify_classic_client_772.py /mnt/c/Users/dell/Desktop/fusion32/build/classic-client-772/app/Tibia.exe
+wsl.exe -d Ubuntu-26.04 -- python3 /mnt/c/Users/dell/Desktop/fusion32/visual/tools/extract_visual_inventory.py --archive /mnt/c/Users/dell/Desktop/fusion32/tibia-game.tarball.tar.gz --source /mnt/c/Users/dell/Desktop/fusion32/reference/game/src --out /mnt/c/Users/dell/Desktop/fusion32/visual/manifests
+wsl.exe -d Ubuntu-26.04 -- python3 /mnt/c/Users/dell/Desktop/fusion32/visual/tools/sync_tracker.py --manifests /mnt/c/Users/dell/Desktop/fusion32/visual/manifests --tracker /mnt/c/Users/dell/Desktop/fusion32/visual/tracker/VISUAL_TRACKER.csv --p0-out /mnt/c/Users/dell/Desktop/fusion32/visual/rookgaard_p0/P0_ASSETS.csv
 wsl.exe -d Ubuntu-26.04 -- bash /mnt/c/Users/dell/Desktop/fusion32/tests/secret_check.sh /mnt/c/Users/dell/Desktop/fusion32
 ```
