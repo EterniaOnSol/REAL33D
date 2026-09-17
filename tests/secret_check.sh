@@ -34,13 +34,25 @@ else
 fi
 
 # 3. No private key material anywhere in reachable history.
-hits="$(git grep -I -l -e 'BEGIN RSA PRIVATE KEY' -e 'BEGIN PRIVATE KEY' \
-  -e 'BEGIN OPENSSH PRIVATE KEY' -e 'BEGIN EC PRIVATE KEY' \
-  $(git rev-list --all) -- 2>/dev/null | head -5 || true)"
-if [ -n "$hits" ]; then
-  fail "private key material found in history:"$'\n'"$hits"
+#    Real key material is always PEM-armoured, so the pattern requires the
+#    surrounding dashes. That is both more precise than a bare phrase match and
+#    the reason this script cannot flag its own committed copies, which mention
+#    the phrase without the armour. The needle is still assembled at run time so
+#    the literal never appears here either.
+#    The pattern starts with dashes, so it must be passed with -e or git grep
+#    parses it as an option.
+needle="$(printf -- '-----BEGIN [A-Z ]*PRIVATE%sKEY-----' ' ')"
+
+# Self-test: a check that cannot detect a planted key is worse than no check.
+if ! printf -- '-----BEGIN RSA PRIVATE%sKEY-----\n' ' ' | grep -qE -e "$needle"; then
+  fail "the private key pattern does not match PEM armour; the scan is vacuous"
 else
-  pass "no private key blocks in any reachable commit"
+  hits="$(git grep -I -l -E -e "$needle" $(git rev-list --all) -- 2>/dev/null | head -5 || true)"
+  if [ -n "$hits" ]; then
+    fail "private key material found in history:"$'\n'"$hits"
+  else
+    pass "no private key blocks in any reachable commit (pattern self-tested)"
+  fi
 fi
 
 # 4. No generated runtime credential values in the tracked tree. The
