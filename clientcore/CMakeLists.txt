@@ -98,6 +98,8 @@ endif()
 
 add_library(protocol772_initial_world
     src/initial_world.cpp
+    src/map_scan.cpp
+    src/movement.cpp
     src/object_types.cpp
     src/worldstate.cpp
 )
@@ -212,4 +214,21 @@ if(BUILD_TESTING)
 
     add_test(NAME protocol772_initial_world_tests COMMAND protocol772_initial_world_tests)
     set_tests_properties(protocol772_initial_world_tests PROPERTIES TIMEOUT 60)
+
+    add_executable(protocol772_movement_tests
+        tests/movement_tests.cpp
+    )
+    target_link_libraries(protocol772_movement_tests
+        PRIVATE
+            protocol772_initial_world
+    )
+
+    if(MSVC)
+        target_compile_options(protocol772_movement_tests PRIVATE /W4 /WX /permissive-)
+    else()
+        target_compile_options(protocol772_movement_tests PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    endif()
+
+    add_test(NAME protocol772_movement_tests COMMAND protocol772_movement_tests)
+    set_tests_properties(protocol772_movement_tests PROPERTIES TIMEOUT 120)
 endif()

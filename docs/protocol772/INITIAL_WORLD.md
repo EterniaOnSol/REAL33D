@@ -118,6 +118,11 @@ shipped `dat/objects.srv` (5003 declared types, ids 0..5090):
 failure is an explicit `MapDecodeError` carrying the byte offset and a short
 detail; no branch falls back to a default or drops bytes.
 
+`MOVEMENT-772-001` moved that walk into `clientcore/src/map_scan.cpp` without
+changing its behaviour, because `SendRow`, `SendFloors` and `SendFieldData`
+reuse `SendMapPoint` and `SkipFlush` exactly as `SendFullScreen` does. The
+fixtures and results below are unchanged and still pass.
+
 | Error | Meaning |
 | --- | --- |
 | `NotFullScreen` | the payload does not begin with opcode 100 |

@@ -41,3 +41,11 @@ the server's `dat/objects.srv`. See
 [`INITIALWORLD-772-001.md`](../evidence/clientcore/INITIALWORLD-772-001.md).
 The invariants that table relies on are checked by
 [`tests/verify_object_type_invariants.py`](../tests/verify_object_type_invariants.py).
+
+Cardinal movement and the incremental world updates a step produces are in
+`movement`, with the shared tile walk factored into `map_scan`. `SV_CMD_ROW_*`
+and `SV_CMD_FLOOR_UP/DOWN` carry no coordinates, so `WorldState` tracks a
+viewport anchor those commands step; `SV_CMD_ADD_FIELD` carries no stack index,
+so the object type table also holds the `PlaceObject` priority. See
+[`docs/protocol772/MOVEMENT.md`](../docs/protocol772/MOVEMENT.md) and
+[`MOVEMENT-772-001.md`](../evidence/clientcore/MOVEMENT-772-001.md).

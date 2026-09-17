@@ -294,6 +294,20 @@ FramedWriteResult GameLoginSession::SendLogin(const GameLoginRequest& request) {
     return connection_.SendFrame(request.payload);
 }
 
+FramedWriteResult GameLoginSession::SendCommand(const std::vector<std::uint8_t>& payload) {
+    if (payload.empty() || !xtea_key_.initialized()) {
+        return {FrameError::InvalidConfiguration,
+                {IoStatus::InvalidArgument, 0, 0, "no authenticated session"}};
+    }
+    const auto encoded = EncryptXteaPayload(
+        xtea_key_, payload, kGameClientFrameLimits.max_send_payload);
+    if (!encoded.ok()) {
+        return {FrameError::InvalidConfiguration,
+                {IoStatus::InvalidArgument, 0, 0, "xtea encode failed"}};
+    }
+    return connection_.SendFrame(encoded.packet.payload);
+}
+
 GameLoginSession::ReadResult GameLoginSession::ReadNextMessage() {
     for (int attempt = 0; attempt < 100; ++attempt) {
         FramedReadResult read;

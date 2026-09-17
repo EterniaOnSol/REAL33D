@@ -32,7 +32,9 @@ wsl.exe -d Ubuntu-26.04 -- ctest --test-dir /tmp/fusion32-clientcore-crypto-buil
 wsl.exe -d Ubuntu-26.04 -- python3 /mnt/c/Users/dell/Desktop/fusion32/tests/verify_object_type_invariants.py /mnt/c/Users/dell/Desktop/fusion32/tibia-game.tarball.tar.gz
 ```
 
-Client command encoding is still untested in either direction. Subsequent protocol tests should cover both:
+`clientcore/tests/movement_tests.cpp` covers cardinal movement in both directions. The fixtures header's server port grew `SendRow`, `SendFloors`, `SendFieldData`, the field commands, `SendMoveCreature`, `SendSnapback` and `SendMessage`, each asserted against hand-computed golden hex before use. Its strongest case walks twelve cardinal steps over a synthetic world and, after every single step, compares the incrementally updated `WorldState` against a freshly emitted `SV_CMD_FULLSCREEN` at the new position.
+
+Subsequent protocol tests should keep covering both directions:
 
 - known packet bytes -> expected typed semantic event;
 - typed client command -> expected packet bytes.

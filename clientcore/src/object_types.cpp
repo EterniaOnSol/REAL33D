@@ -59,6 +59,10 @@ bool ParseUnsigned(const std::string& text, std::uint32_t* output) {
 bool ParseFlags(const std::string& value, ObjectTypeEncoding* encoding) {
     if (value.size() < 2 || value.front() != '{' || value.back() != '}') return false;
     const std::string body = value.substr(1, value.size() - 2);
+    bool bank = false;
+    bool clip = false;
+    bool bottom = false;
+    bool top = false;
     std::size_t at = 0;
     while (at <= body.size()) {
         const std::size_t comma = body.find(',', at);
@@ -69,10 +73,31 @@ bool ParseFlags(const std::string& value, ObjectTypeEncoding* encoding) {
                 encoding->liquid_color = true;
             } else if (flag == "Cumulative") {
                 encoding->cumulative = true;
+            } else if (flag == "Bank") {
+                bank = true;
+            } else if (flag == "Clip") {
+                clip = true;
+            } else if (flag == "Bottom") {
+                bottom = true;
+            } else if (flag == "Top") {
+                top = true;
             }
         }
         if (comma == std::string::npos) break;
         at = comma + 1;
+    }
+
+    // Same order as GetObjectPriority: the first matching flag wins.
+    if (bank) {
+        encoding->priority = ObjectPriority::Bank;
+    } else if (clip) {
+        encoding->priority = ObjectPriority::Clip;
+    } else if (bottom) {
+        encoding->priority = ObjectPriority::Bottom;
+    } else if (top) {
+        encoding->priority = ObjectPriority::Top;
+    } else {
+        encoding->priority = ObjectPriority::Low;
     }
     return true;
 }
@@ -97,6 +122,37 @@ ObjectTypeEncoding ObjectTypeTable::Lookup(std::uint16_t type_id) const noexcept
     return entries_[type_id];
 }
 
+std::size_t MapStackInsertIndex(const std::vector<ObjectPriority>& existing,
+                                ObjectPriority inserted) noexcept {
+    // PlaceObject forces append for everything that is neither a creature nor
+    // a plain low-priority object.
+    const bool append = inserted != ObjectPriority::Creature
+                     && inserted != ObjectPriority::Low;
+    std::size_t index = 0;
+    while (index < existing.size()) {
+        const ObjectPriority current = existing[index];
+        if (append) {
+            if (current > inserted) break;
+        } else {
+            if (current >= inserted) break;
+        }
+        index += 1;
+    }
+    return index;
+}
+
+const char* ObjectPriorityName(ObjectPriority priority) noexcept {
+    switch (priority) {
+        case ObjectPriority::Bank: return "Bank";
+        case ObjectPriority::Clip: return "Clip";
+        case ObjectPriority::Bottom: return "Bottom";
+        case ObjectPriority::Top: return "Top";
+        case ObjectPriority::Creature: return "Creature";
+        case ObjectPriority::Low: return "Low";
+    }
+    return "Unknown";
+}
+
 ObjectTypeTableLoadResult LoadObjectTypeTableFromObjectsSrv(const std::string& text) {
     ObjectTypeTableLoadResult result;
     bool have_type = false;
@@ -107,6 +163,11 @@ ObjectTypeTableLoadResult LoadObjectTypeTableFromObjectsSrv(const std::string& t
 
     const auto flush = [&]() {
         if (!have_type) return true;
+        // GetObjectPriority tests isCreatureContainer after the flags, so the
+        // creature container always outranks whatever its record declares.
+        if (type_id == kTypeIdCreatureContainer) {
+            encoding.priority = ObjectPriority::Creature;
+        }
         if (!result.table.Declare(type_id, encoding)) {
             result.error = ObjectTypeTableError::DuplicateTypeId;
             result.detail = "type id declared twice";

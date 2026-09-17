@@ -132,6 +132,18 @@ struct CreatureRecord {
 };
 
 enum class WorldStateAnomalyKind {
+    // The viewport anchor drifted away from the local player's creature
+    // position. After a completed step the two must agree, so a mismatch means
+    // a row, floor change or creature move was lost.
+    ViewportDesynchronized,
+    // SV_CMD_CHANGE_FIELD or SV_CMD_DELETE_FIELD named a stack index the local
+    // tile does not hold.
+    StackIndexOutOfRange,
+    // SV_CMD_MOVE_CREATURE named an origin tile or stack index that does not
+    // hold the creature it claims to move.
+    MoveOriginMismatch,
+    // A field command addressed a position outside the current viewport.
+    FieldOutsideViewport,
     // A word-98 or word-99 descriptor named a creature the client had never
     // been introduced to. The server only emits those for entries present in
     // its own KnownCreatureTable, so the local mirror is out of step.
@@ -154,9 +166,37 @@ struct WorldState {
     std::vector<MapFloor> floors;
     std::map<std::uint32_t, CreatureRecord> known_creatures;
 
+    // The position the server's viewport is currently centred on. Source:
+    // reference/game/src/cract.cc::TCreature::NotifyGo updates the player's
+    // posx/posy/posz one axis at a time and only then calls SendRow or
+    // SendFloors, so the anchor advances with those commands and never with
+    // SV_CMD_MOVE_CREATURE.
+    MapPosition viewport_anchor;
+
+    // The creature this connection controls, learned from SV_CMD_INIT_GAME.
+    std::uint32_t local_creature_id = 0;
+
     const MapTile* FindTile(const MapPosition& position) const noexcept;
+    MapTile* FindTile(const MapPosition& position) noexcept;
     std::size_t tile_count() const noexcept;
     std::size_t thing_count() const noexcept;
+
+    // The window implied by the current anchor, which is what the server used
+    // when it built the last row or floor command.
+    MapWindow AnchoredWindow() const noexcept;
+
+    // True when the anchor and the local player's creature agree. Meaningful
+    // only once local_creature_id is known and a step has completed.
+    bool viewport_synchronized() const noexcept;
+
+    // Creature ids currently standing on a stored tile, in scan order.
+    //
+    // `known_creatures` is a mirror of TConnection::KnownCreatureTable and, like
+    // the server's own table, deliberately retains creatures that have scrolled
+    // out of view: reference/game/src/connections.cc::NewKnownCreature only
+    // drops an entry when it needs the slot. Use this when comparing against a
+    // freshly connected session, whose table starts empty.
+    std::vector<std::uint32_t> visible_creature_ids() const;
 };
 
 const char* CreatureDescriptorKindName(CreatureDescriptorKind kind) noexcept;

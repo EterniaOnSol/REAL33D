@@ -1,6 +1,7 @@
 #ifndef FUSION32_PROTOCOL772_INITIAL_WORLD_H
 #define FUSION32_PROTOCOL772_INITIAL_WORLD_H
 
+#include "fusion32/protocol772/map_scan.h"
 #include "fusion32/protocol772/object_types.h"
 #include "fusion32/protocol772/worldstate.h"
 
@@ -13,28 +14,6 @@ namespace fusion32::protocol772 {
 
 // Source: reference/game/src/connections.hh, enum ServerCommand.
 constexpr std::uint8_t kServerCommandFullScreen = 100;
-
-// Highest floor index the server can address. Source:
-// reference/game/src/sending.cc::SendFullScreen clamps EndZ with
-// std::min<int>(PlayerZ + 2, 15).
-constexpr std::int32_t kMaxFloor = 15;
-
-// Source: reference/game/src/sending.cc::SendFullScreen. A player at or above
-// the surface receives floors 7..0; otherwise PlayerZ-2 .. min(PlayerZ+2, 15).
-constexpr std::int32_t kSurfaceFloor = 7;
-
-enum class MapDecodeError {
-    None,
-    NotFullScreen,
-    Truncated,
-    InvalidPlayerFloor,
-    ReservedObjectTypeId,
-    UnknownObjectTypeId,
-    TooManyObjectsInTile,
-    CreatureNameTooLong,
-    SkipRunExceedsWindow,
-    EmptyObjectTypeTable,
-};
 
 struct FullScreenMessage {
     MapWindow window;
@@ -117,7 +96,6 @@ struct InitialWorldResult {
 InitialWorldResult DecodeInitialWorld(const std::vector<std::uint8_t>& preserved_bytes,
                                       const ObjectTypeTable& types);
 
-const char* MapDecodeErrorName(MapDecodeError error) noexcept;
 const char* InitialWorldStatusName(InitialWorldStatus status) noexcept;
 
 // Names every value of reference/game/src/connections.hh::ServerCommand so an

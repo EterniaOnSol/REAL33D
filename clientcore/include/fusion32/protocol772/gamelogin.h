@@ -104,6 +104,13 @@ public:
     ConnectResult Connect(const std::string& host, std::uint16_t port = 7172);
     void Disconnect() noexcept;
     FramedWriteResult SendLogin(const GameLoginRequest& request);
+
+    // Sends an authenticated client command. Source:
+    // reference/game/src/communication.cc::ReceiveCommand, which for a
+    // connection past CONNECTION_CONNECTED requires the outer size to be a
+    // multiple of eight and decrypts it as XTEA blocks carrying a leading
+    // little-endian payload length.
+    FramedWriteResult SendCommand(const std::vector<std::uint8_t>& payload);
     struct ReadResult {
         FramedReadResult transport;
         GameInitialMessage message;

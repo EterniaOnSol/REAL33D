@@ -62,8 +62,8 @@ A sanitized environment now generates one shared fresh 1024-bit PKCS#1 private k
 | Server serialization | game `src/sending.cc`: `Send*` functions | High; payload specs not yet extracted |
 | Game login / initial world | `communication.cc::HandleLogin`; `connections.cc::JoinGame`; `crplayer.cc`; `sending.cc::SendInitGame/SendFullScreen` | High; bounded classic live PASS, no byte fixture |
 | Character list | login `src/connections.cc`, query path in `src/query.cc` | High; bounded classic live PASS, no byte fixture |
-| Map / tile things | `sending.cc::SendMapObject/SendMapPoint/SendFullScreen/SkipFlush/SendItem/SendOutfit`; `connections.cc` terminal geometry and `NewKnownCreature`; `map.cc` | High for `SendFullScreen`; byte fixtures and a live round trip PASS. `SendRow`/`SendFloors`/`SendFieldData` reuse the same tile encoding but their headers are not yet extracted |
-| Movement/use/client commands | `receiving.cc`; `cract.cc`; `operate.cc`; `moveuse.cc` | Medium |
+| Map / tile things | `sending.cc::SendMapObject/SendMapPoint/SendFullScreen/SendRow/SendFloors/SendFieldData/SkipFlush/SendItem/SendOutfit`; `connections.cc` terminal geometry and `NewKnownCreature`; `map.cc::PlaceObject` | High; byte fixtures, a live round trip and a live walk PASS. The field-edit commands are fixture-covered only |
+| Movement/use/client commands | `receiving.cc::ReceiveData/CGoDirection`; `cract.cc::TCreature::Go/NotifyGo/NotifyTurn`; `operate.cc::Move/AnnounceMovingCreature`; `map.cc::PlaceObject`; `moveuse.cc` | High for cardinal walking, the map deltas and the refusal paths; byte fixtures and a live walk PASS. Use, path walking and object moves remain Medium |
 | Items/types | `objects.cc/.hh`, `map.cc/.hh`, runtime `dat/objects.srv`, `dat/conversion.lst` | High for the three wire-relevant flags; `dat/objects.srv` invariants verified by `tests/verify_object_type_invariants.py`. Everything else remains Medium |
 | Creatures/combat | `cr*.cc/.hh`, especially `crcombat.cc`; receiving/sending | Medium |
 | Magic/effects | `magic.cc/.hh`; sending effect functions | Medium |
@@ -86,8 +86,15 @@ bounded local synthetic-account smoke for this handoff.
 `sending.cc::SendItem` derives an item's on-wire length from server object type
 flags the protocol never carries, the decoder takes an explicit object type
 table loaded from `dat/objects.srv`. Full derivation, the wire layout and the
-verified data invariants are in `docs/protocol772/INITIAL_WORLD.md`. Every other
-server command remains recognized by name and unparsed.
+verified data invariants are in `docs/protocol772/INITIAL_WORLD.md`.
+
+`MOVEMENT-772-001` adds the incremental updates a cardinal step produces.
+`operate.cc::Move` fixes their order: `AnnounceMovingCreature` emits
+`SV_CMD_MOVE_CREATURE` from the creature's still-old position, then `MoveObject`
+relocates it, then `NotifyGo` advances the mover's own position one axis at a
+time and emits the coordinate-less `SV_CMD_ROW_*` and `SV_CMD_FLOOR_UP/DOWN`.
+`docs/protocol772/MOVEMENT.md` carries the derivation. Every server command
+outside that set remains recognized by name and unparsed.
 
 ## Framing/crypto interpretation
 

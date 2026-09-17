@@ -30,20 +30,44 @@ constexpr std::uint16_t kSkipMarkerBase = 0xFF00;
 // Source: reference/game/src/sending.cc, MAX_OBJECTS_PER_POINT.
 constexpr std::size_t kMapObjectsPerPointLimit = 10;
 
+// Stack insertion priority. Source: reference/game/src/map.hh and
+// reference/game/src/map.cc::GetObjectPriority, which tests the flags in this
+// exact order and falls through to PRIORITY_LOW. Verified mutually exclusive
+// across the shipped dat/objects.srv.
+enum class ObjectPriority : int {
+    Bank = 0,
+    Clip = 1,
+    Bottom = 2,
+    Top = 3,
+    Creature = 4,
+    Low = 5,
+};
+
 // Per-type information the wire format depends on but does not carry.
 // Source: reference/game/src/sending.cc::SendItem reads LIQUIDCONTAINER,
 // LIQUIDPOOL and CUMULATIVE from the server object type table, so a decoder
 // cannot know an item's on-wire length from the type id alone.
+// reference/game/src/map.cc::PlaceObject additionally needs the priority above,
+// because SV_CMD_ADD_FIELD carries no stack index.
 struct ObjectTypeEncoding {
     bool known = false;
     bool liquid_color = false;  // LIQUIDCONTAINER or LIQUIDPOOL
     bool cumulative = false;    // CUMULATIVE
+    ObjectPriority priority = ObjectPriority::Low;
 
     // Extra bytes that follow the type id word on the wire.
     std::size_t extra_bytes() const noexcept {
         return (liquid_color ? 1U : 0U) + (cumulative ? 1U : 0U);
     }
 };
+
+// Mirrors reference/game/src/map.cc::PlaceObject with Append = false, the form
+// MoveObject uses. Returns the index the object takes in the tile's object
+// list. `existing` must be the tile's current priorities in stack order.
+std::size_t MapStackInsertIndex(const std::vector<ObjectPriority>& existing,
+                                ObjectPriority inserted) noexcept;
+
+const char* ObjectPriorityName(ObjectPriority priority) noexcept;
 
 enum class ObjectTypeTableError {
     None,
