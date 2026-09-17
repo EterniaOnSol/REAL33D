@@ -31,6 +31,14 @@ vectors::FullScreenEncoder::TileProvider Provider(const TileMap& tiles) {
     };
 }
 
+// Provider captures its argument by reference, so a temporary would dangle.
+// Commands that carry no map data still need a provider; this gives them one
+// backed by storage that outlives the emitter.
+vectors::FullScreenEncoder::TileProvider NoTiles() {
+    static const TileMap empty;
+    return Provider(empty);
+}
+
 const ObjectTypeTable& Types() {
     static const ObjectTypeTable table = vectors::GoldenObjectTypeTable();
     return table;
@@ -918,6 +926,337 @@ void TestViewportDesynchronizationIsVisible() {
     CHECK(!state.viewport_synchronized());
 }
 
+// ---------------------------------------------------------------- talk
+//
+// The emitter is asserted against hand-computed bytes before any structural
+// test leans on it, the same way the rest of this suite treats its fixtures.
+
+void TestGoldenTalk() {
+    // SendTalk(..., StatementID=1, Sender="Bob", TALK_SAY, x=32097, y=32218,
+    //          z=7, Text="hi")
+    //
+    //   AA           SV_CMD_TALK = 170
+    //   01 00 00 00  StatementID, quad little-endian
+    //   03 00 42 6F 62   Sender "Bob": word length 3, then 'B' 'o' 'b'
+    //   01           TALK_SAY
+    //   61 7D        x = 32097  (0x7D61)
+    //   DA 7D        y = 32218  (0x7DDA)
+    //   07           z
+    //   02 00 68 69  Text "hi": word length 2, then 'h' 'i'
+    vectors::ServerEmitter emitter(NoTiles());
+    emitter.TalkPositional(1, "Bob", static_cast<std::uint8_t>(TalkMode::Say),
+                           MapPosition{32097, 32218, 7}, "hi");
+    const std::vector<std::uint8_t> expected{
+        0xAA, 0x01, 0x00, 0x00, 0x00, 0x03, 0x00, 0x42, 0x6F, 0x62,
+        0x01, 0x61, 0x7D, 0xDA, 0x7D, 0x07, 0x02, 0x00, 0x68, 0x69};
+    CHECK(emitter.bytes() == expected);
+
+    // Channel form: no coordinates, a word channel instead.
+    //   AA 07 00 00 00  StatementID 7
+    //   03 00 41 6D 79  "Amy"
+    //   05              TALK_CHANNEL_CALL
+    //   04 00           channel 4
+    //   02 00 79 6F     "yo"
+    vectors::ServerEmitter channel(NoTiles());
+    channel.TalkChannel(7, "Amy", static_cast<std::uint8_t>(TalkMode::ChannelCall),
+                        4, "yo");
+    const std::vector<std::uint8_t> expected_channel{
+        0xAA, 0x07, 0x00, 0x00, 0x00, 0x03, 0x00, 0x41, 0x6D, 0x79,
+        0x05, 0x04, 0x00, 0x02, 0x00, 0x79, 0x6F};
+    CHECK(channel.bytes() == expected_channel);
+
+    // Plain form with the one conditional quad.
+    //   AA 09 00 00 00  StatementID 9
+    //   02 00 47 4D     "GM"
+    //   06              TALK_GAMEMASTER_REQUEST
+    //   2A 00 00 00     Data 42
+    //   01 00 3F        "?"
+    vectors::ServerEmitter request(NoTiles());
+    request.TalkPlain(9, "GM", static_cast<std::uint8_t>(TalkMode::GamemasterRequest),
+                      "?", 42);
+    const std::vector<std::uint8_t> expected_request{
+        0xAA, 0x09, 0x00, 0x00, 0x00, 0x02, 0x00, 0x47, 0x4D,
+        0x06, 0x2A, 0x00, 0x00, 0x00, 0x01, 0x00, 0x3F};
+    CHECK(request.bytes() == expected_request);
+}
+
+// Every mode each overload accepts, decoded into the semantics the caller sees.
+// The assertions never mention an opcode.
+void TestTalkFormsDecode() {
+    const MapPosition anchor{32097, 32218, 7};
+    const ObjectTypeTable& types = Types();
+
+    struct PositionalCase {
+        TalkMode mode;
+    };
+    for (const PositionalCase& c : {PositionalCase{TalkMode::Say},
+                                    PositionalCase{TalkMode::Whisper},
+                                    PositionalCase{TalkMode::Yell},
+                                    PositionalCase{TalkMode::AnimalLow},
+                                    PositionalCase{TalkMode::AnimalLoud}}) {
+        vectors::ServerEmitter emitter(NoTiles());
+        emitter.TalkPositional(11, "Speaker", static_cast<std::uint8_t>(c.mode),
+                               MapPosition{32100, 32200, 6}, "text here");
+        const auto decoded = DecodeServerUpdate(emitter.bytes(), 0, anchor, types);
+        CHECK(decoded.ok());
+        CHECK(decoded.update.kind == ServerUpdateKind::Talk);
+        CHECK(decoded.update.talk.layout == TalkLayout::Positional);
+        CHECK(decoded.update.talk.statement_id == 11);
+        CHECK(decoded.update.talk.speaker == "Speaker");
+        CHECK(decoded.update.talk.text == "text here");
+        CHECK(decoded.update.talk.has_position);
+        CHECK(decoded.update.talk.position.x == 32100);
+        CHECK(decoded.update.talk.position.y == 32200);
+        CHECK(decoded.update.talk.position.z == 6);
+        CHECK(!decoded.update.talk.has_channel);
+        CHECK(!decoded.update.talk.has_request_data);
+        CHECK(decoded.update.bytes_consumed == emitter.bytes().size());
+    }
+
+    for (const TalkMode mode : {TalkMode::ChannelCall, TalkMode::GamemasterChannelCall,
+                                TalkMode::HighlightChannelCall}) {
+        vectors::ServerEmitter emitter(NoTiles());
+        emitter.TalkChannel(12, "Caller", static_cast<std::uint8_t>(mode), 9, "in channel");
+        const auto decoded = DecodeServerUpdate(emitter.bytes(), 0, anchor, types);
+        CHECK(decoded.ok());
+        CHECK(decoded.update.talk.layout == TalkLayout::Channel);
+        CHECK(decoded.update.talk.has_channel);
+        CHECK(decoded.update.talk.channel == 9);
+        CHECK(decoded.update.talk.speaker == "Caller");
+        CHECK(!decoded.update.talk.has_position);
+        CHECK(decoded.update.bytes_consumed == emitter.bytes().size());
+    }
+
+    // The anonymous channel mode carries an empty speaker by design, not by
+    // omitting the field. Decoding must see a present-but-empty string.
+    {
+        vectors::ServerEmitter emitter(NoTiles());
+        emitter.TalkChannel(13, "Hidden",
+                            static_cast<std::uint8_t>(TalkMode::AnonymousChannelCall),
+                            5, "anon");
+        const auto decoded = DecodeServerUpdate(emitter.bytes(), 0, anchor, types);
+        CHECK(decoded.ok());
+        CHECK(decoded.update.talk.layout == TalkLayout::Channel);
+        CHECK(decoded.update.talk.speaker.empty());
+        CHECK(decoded.update.talk.channel == 5);
+        CHECK(decoded.update.talk.text == "anon");
+        CHECK(decoded.update.bytes_consumed == emitter.bytes().size());
+    }
+
+    for (const TalkMode mode : {TalkMode::PrivateMessage, TalkMode::GamemasterAnswer,
+                                TalkMode::PlayerAnswer, TalkMode::GamemasterBroadcast,
+                                TalkMode::GamemasterMessage}) {
+        vectors::ServerEmitter emitter(NoTiles());
+        emitter.TalkPlain(14, "Sender", static_cast<std::uint8_t>(mode), "private words");
+        const auto decoded = DecodeServerUpdate(emitter.bytes(), 0, anchor, types);
+        CHECK(decoded.ok());
+        CHECK(decoded.update.talk.layout == TalkLayout::Plain);
+        CHECK(!decoded.update.talk.has_position);
+        CHECK(!decoded.update.talk.has_channel);
+        // Only GAMEMASTER_REQUEST carries the quad, so these must not claim it.
+        CHECK(!decoded.update.talk.has_request_data);
+        CHECK(decoded.update.talk.text == "private words");
+        CHECK(decoded.update.bytes_consumed == emitter.bytes().size());
+    }
+
+    {
+        vectors::ServerEmitter emitter(NoTiles());
+        emitter.TalkPlain(15, "GM",
+                          static_cast<std::uint8_t>(TalkMode::GamemasterRequest),
+                          "help me", 4242);
+        const auto decoded = DecodeServerUpdate(emitter.bytes(), 0, anchor, types);
+        CHECK(decoded.ok());
+        CHECK(decoded.update.talk.layout == TalkLayout::Plain);
+        CHECK(decoded.update.talk.has_request_data);
+        CHECK(decoded.update.talk.request_data == 4242);
+        CHECK(decoded.update.talk.text == "help me");
+        CHECK(decoded.update.bytes_consumed == emitter.bytes().size());
+    }
+}
+
+void TestTalkEmptyAndLongText() {
+    const MapPosition anchor{32097, 32218, 7};
+    const ObjectTypeTable& types = Types();
+
+    // An empty text is a zero-length string, not an absent field.
+    vectors::ServerEmitter empty(NoTiles());
+    empty.TalkPositional(1, "A", static_cast<std::uint8_t>(TalkMode::Say),
+                         MapPosition{32097, 32218, 7}, "");
+    const auto decoded_empty = DecodeServerUpdate(empty.bytes(), 0, anchor, types);
+    CHECK(decoded_empty.ok());
+    CHECK(decoded_empty.update.talk.text.empty());
+    CHECK(decoded_empty.update.bytes_consumed == empty.bytes().size());
+
+    // An empty speaker too, which is what the ANIMAL modes actually send:
+    // moveuse.cc passes "" as the sender.
+    vectors::ServerEmitter animal(NoTiles());
+    animal.TalkPositional(0, "", static_cast<std::uint8_t>(TalkMode::AnimalLow),
+                          MapPosition{32097, 32218, 7}, "Zzzzzzt");
+    const auto decoded_animal = DecodeServerUpdate(animal.bytes(), 0, anchor, types);
+    CHECK(decoded_animal.ok());
+    CHECK(decoded_animal.update.talk.speaker.empty());
+    CHECK(decoded_animal.update.talk.text == "Zzzzzzt");
+    CHECK(decoded_animal.update.bytes_consumed == animal.bytes().size());
+
+    const std::string long_text(600, 'x');
+    vectors::ServerEmitter longer(NoTiles());
+    longer.TalkPositional(2, "A", static_cast<std::uint8_t>(TalkMode::Yell),
+                          MapPosition{32097, 32218, 7}, long_text);
+    const auto decoded_long = DecodeServerUpdate(longer.bytes(), 0, anchor, types);
+    CHECK(decoded_long.ok());
+    CHECK(decoded_long.update.talk.text.size() == 600);
+    CHECK(decoded_long.update.bytes_consumed == longer.bytes().size());
+}
+
+// The case that matters most for stream health: a talk command must consume
+// exactly its own bytes, leaving the next command correctly aligned.
+void TestTalkKeepsTheStreamAligned() {
+    const MapPosition anchor{32097, 32218, 7};
+    const ObjectTypeTable& types = Types();
+
+    // One of each form, then an ordinary world command.
+    vectors::ServerEmitter emitter(NoTiles());
+    emitter.TalkPositional(1, "Bob", static_cast<std::uint8_t>(TalkMode::Say),
+                           MapPosition{32097, 32218, 7}, "hello");
+    emitter.TalkChannel(2, "Amy", static_cast<std::uint8_t>(TalkMode::ChannelCall),
+                        3, "channel text");
+    emitter.TalkPlain(3, "GM", static_cast<std::uint8_t>(TalkMode::GamemasterRequest),
+                      "req", 77);
+    emitter.MoveCreature(MapPosition{32097, 32218, 7}, 1, MapPosition{32098, 32218, 7});
+    emitter.Ping();
+
+    std::size_t at = 0;
+    const auto first = DecodeServerUpdate(emitter.bytes(), at, anchor, types);
+    CHECK(first.ok() && first.update.kind == ServerUpdateKind::Talk);
+    CHECK(first.update.talk.has_position);
+    at += first.update.bytes_consumed;
+
+    const auto second = DecodeServerUpdate(emitter.bytes(), at, anchor, types);
+    CHECK(second.ok() && second.update.kind == ServerUpdateKind::Talk);
+    CHECK(second.update.talk.channel == 3);
+    at += second.update.bytes_consumed;
+
+    const auto third = DecodeServerUpdate(emitter.bytes(), at, anchor, types);
+    CHECK(third.ok() && third.update.kind == ServerUpdateKind::Talk);
+    CHECK(third.update.talk.request_data == 77);
+    at += third.update.bytes_consumed;
+
+    // The world command after three talks must decode normally.
+    const auto move = DecodeServerUpdate(emitter.bytes(), at, anchor, types);
+    CHECK(move.ok());
+    CHECK(move.update.kind == ServerUpdateKind::MoveCreature);
+    CHECK(move.update.move_creature.destination.x == 32098);
+    at += move.update.bytes_consumed;
+
+    const auto ping = DecodeServerUpdate(emitter.bytes(), at, anchor, types);
+    CHECK(ping.ok() && ping.update.kind == ServerUpdateKind::Ping);
+    at += ping.update.bytes_consumed;
+
+    // Exactly consumed: no residual bytes.
+    CHECK(at == emitter.bytes().size());
+}
+
+void TestTalkNegativeCases() {
+    const MapPosition anchor{32097, 32218, 7};
+    const ObjectTypeTable& types = Types();
+
+    vectors::ServerEmitter emitter(NoTiles());
+    emitter.TalkPositional(1, "Bob", static_cast<std::uint8_t>(TalkMode::Say),
+                           MapPosition{32097, 32218, 7}, "hello");
+    const std::vector<std::uint8_t> complete = emitter.bytes();
+
+    // Every truncation must fail rather than over-read, at every length.
+    for (std::size_t length = 1; length < complete.size(); ++length) {
+        const std::vector<std::uint8_t> partial(complete.begin(),
+                                                complete.begin() + static_cast<long>(length));
+        const auto decoded = DecodeServerUpdate(partial, 0, anchor, types);
+        CHECK(!decoded.ok());
+        CHECK(decoded.error == MapDecodeError::Truncated);
+    }
+
+    // A mode no SendTalk overload accepts. ANONYMOUS_BROADCAST (13) and
+    // ANONYMOUS_MESSAGE (15) are declared in enums.hh but unreachable, so the
+    // tail is unknown and guessing one would desynchronise the stream.
+    for (const std::uint8_t mode : std::vector<std::uint8_t>{0, 13, 15, 18, 200}) {
+        vectors::ServerEmitter bad(NoTiles());
+        bad.TalkPlain(1, "Bob", mode, "text");
+        const auto decoded = DecodeServerUpdate(bad.bytes(), 0, anchor, types);
+        CHECK(!decoded.ok());
+        CHECK(decoded.error == MapDecodeError::UnknownTalkMode);
+        CHECK(decoded.update.bytes_consumed == 0);
+    }
+
+    // A text whose declared length runs past the buffer.
+    std::vector<std::uint8_t> overlong = complete;
+    overlong[overlong.size() - 7] = 0xFF;
+    overlong[overlong.size() - 6] = 0xFF;
+    const auto decoded_overlong = DecodeServerUpdate(overlong, 0, anchor, types);
+    CHECK(!decoded_overlong.ok());
+    CHECK(decoded_overlong.error == MapDecodeError::Truncated);
+}
+
+// The layout classification is source truth in table form, so assert it
+// directly rather than only through decoded packets.
+void TestTalkLayoutClassification() {
+    CHECK(TalkLayoutForMode(1) == TalkLayout::Positional);
+    CHECK(TalkLayoutForMode(2) == TalkLayout::Positional);
+    CHECK(TalkLayoutForMode(3) == TalkLayout::Positional);
+    CHECK(TalkLayoutForMode(16) == TalkLayout::Positional);
+    CHECK(TalkLayoutForMode(17) == TalkLayout::Positional);
+
+    CHECK(TalkLayoutForMode(5) == TalkLayout::Channel);
+    CHECK(TalkLayoutForMode(10) == TalkLayout::Channel);
+    CHECK(TalkLayoutForMode(12) == TalkLayout::Channel);
+    CHECK(TalkLayoutForMode(14) == TalkLayout::Channel);
+
+    CHECK(TalkLayoutForMode(4) == TalkLayout::Plain);
+    CHECK(TalkLayoutForMode(6) == TalkLayout::Plain);
+    CHECK(TalkLayoutForMode(7) == TalkLayout::Plain);
+    CHECK(TalkLayoutForMode(8) == TalkLayout::Plain);
+    CHECK(TalkLayoutForMode(9) == TalkLayout::Plain);
+    CHECK(TalkLayoutForMode(11) == TalkLayout::Plain);
+
+    // Declared in enums.hh, accepted by no overload.
+    CHECK(TalkLayoutForMode(13) == TalkLayout::Unsupported);
+    CHECK(TalkLayoutForMode(15) == TalkLayout::Unsupported);
+    // SendMessage's modes travel under a different opcode entirely.
+    CHECK(TalkLayoutForMode(18) == TalkLayout::Unsupported);
+    CHECK(TalkLayoutForMode(23) == TalkLayout::Unsupported);
+    CHECK(TalkLayoutForMode(0) == TalkLayout::Unsupported);
+}
+
+// Talk carries no world state, so applying it must leave WorldState untouched.
+void TestTalkDoesNotTouchWorldState() {
+    // A real world, built the way the rest of this suite builds one.
+    TileMap tiles;
+    tiles[{1000, 1000, 7}] = {vectors::PlainItem(100)};
+    tiles[{1001, 1000, 7}] = {vectors::PlainItem(101)};
+    vectors::ServerEmitter initial(Provider(tiles));
+    initial.FullScreen(1000, 1000, 7);
+    const auto screen = DecodeFullScreen(initial.bytes(), Types());
+    CHECK(screen.ok());
+
+    WorldState state;
+    CHECK(ApplyFullScreen(&state, screen.message).clean());
+    const std::size_t tiles_before = state.tile_count();
+    const MapPosition anchor_before = state.viewport_anchor;
+    const std::size_t creatures_before = state.visible_creature_ids().size();
+
+    vectors::ServerEmitter emitter(NoTiles());
+    emitter.TalkPositional(1, "Bob", static_cast<std::uint8_t>(TalkMode::Say),
+                           MapPosition{1000, 1000, 7}, "hello");
+    const auto decoded = DecodeServerUpdate(emitter.bytes(), 0, state.viewport_anchor, Types());
+    CHECK(decoded.ok());
+    const auto applied = ApplyServerUpdate(&state, decoded.update, Types());
+    CHECK(applied.anomalies.empty());
+
+    CHECK(state.tile_count() == tiles_before);
+    CHECK(state.visible_creature_ids().size() == creatures_before);
+    CHECK(state.viewport_anchor.x == anchor_before.x);
+    CHECK(state.viewport_anchor.y == anchor_before.y);
+    CHECK(state.viewport_anchor.z == anchor_before.z);
+}
+
 // A step this client asked for is counted as ours only when the server puts us
 // on the field we asked for. Everything else is external.
 void TestLedgerAcceptsOnlyTheStepThatWasAskedFor() {
@@ -1080,6 +1419,13 @@ int main() {
         TestNegativeCases();
         TestApplicationAnomalies();
         TestViewportDesynchronizationIsVisible();
+        TestGoldenTalk();
+        TestTalkFormsDecode();
+        TestTalkEmptyAndLongText();
+        TestTalkKeepsTheStreamAligned();
+        TestTalkNegativeCases();
+        TestTalkLayoutClassification();
+        TestTalkDoesNotTouchWorldState();
         TestLedgerAcceptsOnlyTheStepThatWasAskedFor();
         TestLedgerNeverCountsAPushAsOurOwnStep();
         TestLedgerPushDoesNotConsumeAnOutstandingWalk();

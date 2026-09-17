@@ -516,6 +516,63 @@ ServerUpdateDecodeResult DecodeServerUpdate(const std::vector<std::uint8_t>& byt
         return result;
     }
 
+    if (opcode == kServerCommandTalk) {
+        result.update.kind = ServerUpdateKind::Talk;
+        TalkUpdate& talk = result.update.talk;
+
+        // The common head every SendTalk overload writes.
+        if (!ReadScannerQuad(&scanner, &talk.statement_id, "talk statement id")) {
+            return fail(scanner);
+        }
+        if (!ReadScannerString(&scanner, &talk.speaker, "talk speaker")) {
+            return fail(scanner);
+        }
+        if (!ReadScannerByte(&scanner, &talk.mode, "talk mode")) {
+            return fail(scanner);
+        }
+
+        // The mode is what says which tail follows. An unrecognised one makes
+        // the rest of the command unlocatable, so this stops rather than
+        // guessing a length and desynchronising the stream.
+        talk.layout = TalkLayoutForMode(talk.mode);
+        if (talk.layout == TalkLayout::Unsupported) {
+            result.error = MapDecodeError::UnknownTalkMode;
+            result.error_offset = scanner.at() - 1;
+            result.detail = "no SendTalk overload accepts this talk mode";
+            return result;
+        }
+
+        if (talk.layout == TalkLayout::Positional) {
+            std::uint16_t x = 0;
+            std::uint16_t y = 0;
+            std::uint8_t z = 0;
+            if (!ReadScannerWord(&scanner, &x, "talk x")) return fail(scanner);
+            if (!ReadScannerWord(&scanner, &y, "talk y")) return fail(scanner);
+            if (!ReadScannerByte(&scanner, &z, "talk z")) return fail(scanner);
+            talk.has_position = true;
+            talk.position.x = static_cast<std::int32_t>(x);
+            talk.position.y = static_cast<std::int32_t>(y);
+            talk.position.z = static_cast<std::int32_t>(z);
+        } else if (talk.layout == TalkLayout::Channel) {
+            if (!ReadScannerWord(&scanner, &talk.channel, "talk channel")) {
+                return fail(scanner);
+            }
+            talk.has_channel = true;
+        } else if (talk.mode == static_cast<std::uint8_t>(TalkMode::GamemasterRequest)) {
+            // The only mode whose overload writes a quad before the text.
+            if (!ReadScannerQuad(&scanner, &talk.request_data, "talk request data")) {
+                return fail(scanner);
+            }
+            talk.has_request_data = true;
+        }
+
+        if (!ReadScannerString(&scanner, &talk.text, "talk text")) {
+            return fail(scanner);
+        }
+        result.update.bytes_consumed = scanner.at() - offset;
+        return result;
+    }
+
     if (opcode == kServerCommandMessage) {
         result.update.kind = ServerUpdateKind::Message;
         if (!ReadScannerByte(&scanner, &result.update.message.mode, "message mode")) {
@@ -886,10 +943,69 @@ WorldStateApplyResult ApplyServerUpdate(WorldState* state, const ServerUpdate& u
         case ServerUpdateKind::ClearTarget:
         case ServerUpdateKind::Ping:
         case ServerUpdateKind::Message:
+        // Talk is decoded, typed and surfaced, and stores nothing.
+        //
+        // WorldState mirrors what the server keeps about the world. Fusion32
+        // keeps no chat history per connection: SendTalk serialises and
+        // forgets. A client-side transcript would be a feature this client
+        // does not have, and holding one in WorldState would make it look like
+        // server state. Talk therefore reaches the caller as an event and ends
+        // there, exactly like the effects.
+        case ServerUpdateKind::Talk:
         case ServerUpdateKind::Unsupported:
             return result;
     }
     return result;
+}
+
+TalkLayout TalkLayoutForMode(std::uint8_t mode) noexcept {
+    // One case per mode each SendTalk overload accepts, in the order
+    // reference/game/src/sending.cc tests them. Anything absent here is absent
+    // there, and must not be given a tail it never had.
+    switch (static_cast<TalkMode>(mode)) {
+        case TalkMode::Say:
+        case TalkMode::Whisper:
+        case TalkMode::Yell:
+        case TalkMode::AnimalLow:
+        case TalkMode::AnimalLoud:
+            return TalkLayout::Positional;
+
+        case TalkMode::ChannelCall:
+        case TalkMode::GamemasterChannelCall:
+        case TalkMode::HighlightChannelCall:
+        case TalkMode::AnonymousChannelCall:
+            return TalkLayout::Channel;
+
+        case TalkMode::PrivateMessage:
+        case TalkMode::GamemasterRequest:
+        case TalkMode::GamemasterAnswer:
+        case TalkMode::PlayerAnswer:
+        case TalkMode::GamemasterBroadcast:
+        case TalkMode::GamemasterMessage:
+            return TalkLayout::Plain;
+    }
+    return TalkLayout::Unsupported;
+}
+
+const char* TalkModeName(std::uint8_t mode) noexcept {
+    switch (static_cast<TalkMode>(mode)) {
+        case TalkMode::Say: return "Say";
+        case TalkMode::Whisper: return "Whisper";
+        case TalkMode::Yell: return "Yell";
+        case TalkMode::PrivateMessage: return "PrivateMessage";
+        case TalkMode::ChannelCall: return "ChannelCall";
+        case TalkMode::GamemasterRequest: return "GamemasterRequest";
+        case TalkMode::GamemasterAnswer: return "GamemasterAnswer";
+        case TalkMode::PlayerAnswer: return "PlayerAnswer";
+        case TalkMode::GamemasterBroadcast: return "GamemasterBroadcast";
+        case TalkMode::GamemasterChannelCall: return "GamemasterChannelCall";
+        case TalkMode::GamemasterMessage: return "GamemasterMessage";
+        case TalkMode::HighlightChannelCall: return "HighlightChannelCall";
+        case TalkMode::AnonymousChannelCall: return "AnonymousChannelCall";
+        case TalkMode::AnimalLow: return "AnimalLow";
+        case TalkMode::AnimalLoud: return "AnimalLoud";
+    }
+    return "UnknownTalkMode";
 }
 
 const char* ServerUpdateKindName(ServerUpdateKind kind) noexcept {
@@ -904,6 +1020,7 @@ const char* ServerUpdateKindName(ServerUpdateKind kind) noexcept {
         case ServerUpdateKind::MoveCreature: return "MoveCreature";
         case ServerUpdateKind::Snapback: return "Snapback";
         case ServerUpdateKind::Message: return "Message";
+        case ServerUpdateKind::Talk: return "Talk";
         case ServerUpdateKind::Ping: return "Ping";
         case ServerUpdateKind::Ambient: return "Ambient";
         case ServerUpdateKind::GraphicalEffect: return "GraphicalEffect";

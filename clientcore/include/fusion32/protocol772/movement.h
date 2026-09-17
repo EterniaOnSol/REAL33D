@@ -45,6 +45,8 @@ constexpr std::uint8_t kServerCommandAddField = 106;
 constexpr std::uint8_t kServerCommandChangeField = 107;
 constexpr std::uint8_t kServerCommandDeleteField = 108;
 constexpr std::uint8_t kServerCommandMoveCreature = 109;
+// reference/game/src/connections.hh: SV_CMD_TALK = 170.
+constexpr std::uint8_t kServerCommandTalk = 170;
 constexpr std::uint8_t kServerCommandMessage = 180;
 constexpr std::uint8_t kServerCommandSnapback = 181;
 constexpr std::uint8_t kServerCommandFloorUp = 190;
@@ -89,6 +91,7 @@ enum class ServerUpdateKind {
     MoveCreature,
     Snapback,
     Message,
+    Talk,
     Ping,
     Ambient,
     GraphicalEffect,
@@ -154,6 +157,89 @@ struct MessageUpdate {
     std::string text;
 };
 
+// Talk. Source: reference/game/src/sending.cc declares three SendTalk
+// overloads, all emitting SV_CMD_TALK, all beginning
+//
+//     byte  SV_CMD_TALK
+//     quad  StatementID
+//     string Sender          (uint16 length + bytes, per SendString)
+//     byte  Mode
+//
+// and then differing. The mode decides which tail follows, and the overload
+// that accepts a mode is the only thing that says which tail it is:
+//
+//   SendTalk(..., int x, int y, int z, Text)   "positional"
+//       modes SAY, WHISPER, YELL, ANIMAL_LOW, ANIMAL_LOUD
+//       word x, word y, byte z, string Text
+//
+//   SendTalk(..., int Channel, Text)           "channel"
+//       modes CHANNEL_CALL, GAMEMASTER_CHANNELCALL, HIGHLIGHT_CHANNELCALL,
+//             ANONYMOUS_CHANNELCALL
+//       word Channel, string Text
+//       ANONYMOUS_CHANNELCALL sends an empty Sender rather than omitting it.
+//
+//   SendTalk(..., const char *Text, int Data)  "plain"
+//       modes PRIVATE_MESSAGE, GAMEMASTER_REQUEST, GAMEMASTER_ANSWER,
+//             PLAYER_ANSWER, GAMEMASTER_BROADCAST, GAMEMASTER_MESSAGE
+//       quad Data, but only when the mode is GAMEMASTER_REQUEST
+//       string Text
+//
+// TALK_MODE in enums.hh also declares ANONYMOUS_BROADCAST (13) and
+// ANONYMOUS_MESSAGE (15), which no overload accepts, and 18..23, which belong
+// to SendMessage and a different opcode. None of those can arrive here.
+enum class TalkMode : std::uint8_t {
+    Say = 1,
+    Whisper = 2,
+    Yell = 3,
+    PrivateMessage = 4,
+    ChannelCall = 5,
+    GamemasterRequest = 6,
+    GamemasterAnswer = 7,
+    PlayerAnswer = 8,
+    GamemasterBroadcast = 9,
+    GamemasterChannelCall = 10,
+    GamemasterMessage = 11,
+    HighlightChannelCall = 12,
+    AnonymousChannelCall = 14,
+    AnimalLow = 16,
+    AnimalLoud = 17,
+};
+
+// Which tail the mode implies. Derived from the overload that accepts it.
+enum class TalkLayout {
+    Positional,
+    Channel,
+    Plain,
+    // No SendTalk overload accepts this mode, so the tail is unknown.
+    Unsupported,
+};
+
+TalkLayout TalkLayoutForMode(std::uint8_t mode) noexcept;
+const char* TalkModeName(std::uint8_t mode) noexcept;
+
+struct TalkUpdate {
+    std::uint32_t statement_id = 0;
+    // Empty for ANONYMOUS_CHANNELCALL, which the server blanks deliberately,
+    // and for the ANIMAL modes, whose only caller passes "".
+    std::string speaker;
+    std::uint8_t mode = 0;
+    TalkLayout layout = TalkLayout::Unsupported;
+    std::string text;
+
+    // Present only for the positional modes.
+    bool has_position = false;
+    MapPosition position;
+
+    // Present only for the channel modes.
+    bool has_channel = false;
+    std::uint16_t channel = 0;
+
+    // Present only for GAMEMASTER_REQUEST, which is the one mode whose overload
+    // writes an extra quad between the mode and the text.
+    bool has_request_data = false;
+    std::uint32_t request_data = 0;
+};
+
 struct ServerUpdate {
     ServerUpdateKind kind = ServerUpdateKind::Unsupported;
     std::uint8_t opcode = 0;
@@ -175,6 +261,7 @@ struct ServerUpdate {
     MoveCreatureUpdate move_creature;
     SnapbackUpdate snapback;
     MessageUpdate message;
+    TalkUpdate talk;
 
     AmbientUpdate ambient;
     GraphicalEffectUpdate graphical_effect;

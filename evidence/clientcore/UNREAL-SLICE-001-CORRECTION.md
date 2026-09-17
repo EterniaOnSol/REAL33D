@@ -277,6 +277,12 @@ recorded in `UNREAL-SLICE-001.md`.
 | 8 | A refused move leaves no false actor position | `PASS` | MACHINE | Request 1 refused; no `accepted` line, `WorldState` unchanged |
 | 10 (movement accounting) | A push is never counted as a self-walk | `PASS` | MACHINE | 6 external relocations at `input_id: 0`, two of them diagonal; `walks_accepted` counts only requested steps |
 
-Criterion 12 is unchanged and still qualified: `SV_CMD_TALK` remains undecoded.
-It was not worked on here and is not claimed to be solved.
+Criterion 12 was unchanged and still qualified at the time of this correction:
+`SV_CMD_TALK` remained undecoded, was not worked on here, and was not claimed
+to be solved.
+
+**Superseded by `CHAT-772-001`**, which decoded talk from Fusion32 source truth
+and demonstrated a live session using chat with zero unsupported opcodes, zero
+protocol anomalies and zero residual bytes. See `CHAT-772-001.md` for what that
+removal does and does not cover.
 

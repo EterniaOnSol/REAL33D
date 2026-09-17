@@ -2,183 +2,141 @@
 
 Date/time: 2026-09-17
 Agent: Claude
-Role: UNREAL VERTICAL SLICE
+Role: CHAT DECODING
 Branch: `main`
-Starting commit: `d3f0e5d`
-Implementation commit: `da36b86`
-Corrective commit: `cae6450`
-Worktree: clean after the focused slice commit
+Starting commit: `e5add9c`
+Implementation commit: this commit
+Worktree: clean after the focused chat commit
 Remote: `origin` = `https://github.com/EterniaOnSol/REAL33D.git`, `HEAD == origin/main`
+
+Previous handoff archived at `handoffs/archive/2026-09-17_UNREAL-SLICE-001.md`.
 
 ## Objective
 
-Complete `UNREAL-SLICE-001`: build the first end-to-end chain
-`Fusion32 -> Protocol772Core -> semantic events -> WorldState -> Unreal bridge
--> game thread -> 3D representation`, without reimplementing Protocol 772 or
-gameplay inside Unreal, and prove it with a real run rather than a mock.
+`CHAT-772-001`: decode `SV_CMD_TALK` properly, from Fusion32 source truth, so
+an ordinary live session may use chat without an unsupported opcode, residual
+bytes or a parser desynchronisation. Not a byte skip, and not a chat UI.
 
 ## Result
 
-`PASS`, with acceptance criterion 12 qualified, **after a corrective run**. The
-first report's claim that eleven criteria held unconditionally was withdrawn.
+`PASS`, and `UNREAL-SLICE-001` criterion 12's qualification is removed for the
+tested scope.
 
-### The correction
+Full record in `evidence/clientcore/CHAT-772-001.md`. Packet structure and the
+source trail in `docs/protocol772/TALK.md`.
 
-The first report credited the outgoing input path — Unreal input reaching
-Fusion32 — to a session in which the operator never controlled B from Unreal. B
-moved there because A pushed him from the original client, which Fusion32
-resolved authoritatively. That is evidence of the incoming chain only.
+## What the source actually says
 
-Independently, the numbers that report quoted for criterion 6 came from a
-snapshot read mid-session and then overwritten. Every retained snapshot from
-that session shows `steps_requested: 0`.
+Three `SendTalk` overloads in `reference/game/src/sending.cc` all emit opcode
+170 and share a head of `quad StatementID`, `string Sender`, `byte Mode`. The
+tail then differs, and the mode is the only thing that says which tail it is:
+the server picks an overload by argument types at the call site, and the client
+has to recover that choice from the mode alone.
 
-Criteria 6 and 7 were withdrawn and re-established by a run in which the
-operator drove B from the Unreal window: 19 requests, 18 accepted, 1 refused, 0
-unanswered, each joined from key press to authoritative position by an
-`input_id`, plus 6 external relocations counted apart — two of them diagonal,
-which this client cannot request at all.
+Two details would each have desynchronised a decoder written from assumption:
 
-Full statement in `evidence/clientcore/UNREAL-SLICE-001-CORRECTION.md`.
+- `TALK_ANONYMOUS_CHANNELCALL` sends an **empty** sender rather than omitting
+  the field. Treating anonymity as an absent field loses two bytes.
+- `TALK_GAMEMASTER_REQUEST` is the one mode that inserts a quad between the
+  mode and the text.
 
-### The rest
+`enums.hh` also declares `ANONYMOUS_BROADCAST` 13 and `ANONYMOUS_MESSAGE` 15,
+which no overload accepts, and 18..23, which belong to `SendMessage` under a
+different opcode. An unrecognised mode is refused with `UnknownTalkMode` and
+consumes nothing, because the tail is unlocatable and guessing would corrupt
+everything after it.
 
-The original `Tibia.exe` 7.72 (Player A) and the Unreal client (Player B) in one
-sanitized Fusion32 world at the same time. A appeared in Unreal by name and
-position; A's steps moved his capsule; refused steps changed nothing on screen;
-A left and re-entered B's viewport cleanly; a real server-side drop tore the
-scene down to zero actors and an in-session reconnect rebuilt it.
+## Ownership decision
 
-Criterion 12 remains qualified: `protocol_anomalies` was zero throughout and
-residual/unsupported were zero across two multi-minute windows, but
-`SV_CMD_TALK` is still undecoded. It was not worked on here.
-
-## Architecture, and what enforces it
-
-```text
-worker thread                                game thread
-TcpTransport -> GameLoginSession
-  -> DecodeServerUpdate / ApplyServerUpdate
-  -> WorldState
-  -> WorldView::Diff        --SPSC queue-->  UReal33DBridge::DrainEvents
-                                              -> AReal33DWorld
-                                                 -> AReal33DTile / AReal33DCreature
-  <--intent queue-- RequestWalk <------------- AReal33DPlayerController
-```
-
-Three mechanisms, none of which rely on anyone remembering a rule:
-
-1. `REAL33D.Build.cs` links `build/clientcore-windows/protocol772core.lib` and
-   throws if it is absent. No protocol source exists inside the Unreal module.
-2. Only `Private/Real33DBridge.cpp` may include a protocol header. No public
-   header names `fusion32::protocol772`; `Real33DCoords.h` mirrors
-   `MapPosition` as three integers rather than including the real one.
-3. The WorldState-to-events diff lives in ClientCore as `protocol772_worldview`,
-   covered by `worldview_tests.cpp`, not in a Tick function.
-
-Movement is asymmetric on purpose. There is no code path by which a key moves an
-Actor: input becomes an intent, Fusion32 decides, and the actor follows only
-what WorldState confirms. A refusal therefore has nothing to undo.
-
-## What changed in ClientCore
-
-Minimal, semantic and tested, as the task required:
-
-- `protocol772_worldview`: `WorldView::Diff` turns successive `WorldState`s into
-  `WorldEvent`s. 8 tests.
-- `TcpTransport::SetReadTimeout`, forwarded by `GameLoginSession`: separates the
-  read poll interval from the connect timeout. 2 tests.
-- `ObjectTypeEncoding::unpass`: parses the `UNPASS` flag from `objects.srv`, so
-  presentation can tell a wall from walkable clutter without guessing. Covered
-  in `initial_world_tests.cpp`.
-- `MovementLedger`: separates steps this client asked for from relocations
-  Fusion32 imposed. A move counts as ours only when a walk is outstanding and
-  the player landed on exactly the field it asked for; a push arriving mid-walk
-  does not consume the request. 6 tests, including a replay of the eight-field
-  push that misled the first report, and one for a move from a field to itself.
-- Four portability fixes surfaced by the first MSVC build.
-
-No previous milestone's behaviour was altered.
+Talk stores nothing in `WorldState`. Fusion32 keeps no per-connection chat
+history: `SendTalk` serialises and forgets. A client-side transcript would be a
+feature this client does not have, and holding one in `WorldState` would make
+it look like server state comparable against a fresh `FULLSCREEN`. Talk reaches
+the caller as an event and ends there, exactly like the effects.
 
 ## Tests and sanitizers
 
+Discovered and executed by `tests/build_clientcore_windows.cmd`; these are the
+totals that run reported, not figures carried forward.
+
 | Suite | Result |
 | --- | --- |
-| Windows MSVC `/W4 /WX /permissive-`, C++17 and C++20 | `WINDOWS CLIENTCORE: PASS` |
 | transport | 22/22 |
 | crypto | 25/25 |
 | login, gamelogin, initial_world, movement, player_state, worldview | `PASS` |
-| WSL GCC 15.2 + ASan/UBSan via CTest | 8/8 |
+| Windows MSVC `/W4 /WX /permissive-`, C++17 and C++20 | `WINDOWS CLIENTCORE: PASS` |
+| WSL GCC + ASan/UBSan via CTest | 8/8 |
 | `tests/secret_check.sh` | `PASS` |
 
-`tests/build_clientcore_windows.cmd` resolves the project's longest-standing
-`UNVERIFIED` item. Every suite had only ever been built by GCC under WSL; the
-first native build found four defects GCC accepts silently.
+Seven talk cases in `movement_tests.cpp`, including golden bytes per form,
+every mode each overload accepts, all truncation lengths, and three talks
+followed by a move and a ping decoded to exactly zero residual bytes.
 
-## Defects found by running
+## Two defects the tests caught
 
-Each was invisible offline. Details in the evidence file.
+1. A hand-computed golden encoded `y = 32218` as `0xBA` where it is `0xDA`.
+   The emitter was right and the golden was wrong, which is exactly why this
+   suite asserts goldens before letting structural tests depend on the emitter.
+2. `player_state_tests` listed opcode 170 among the commands that are *still
+   unsupported* — true until this milestone. Removing it silently would have
+   left nothing checking the claim, so the list now has a matching positive
+   assertion that a well-formed talk decodes whole.
 
-1. The 3000 ms socket timeout doubled as the walk-intent poll interval, so a
-   keypress could wait three seconds to be sent. The operator called it "massive
-   lagg" and confirmed the fix.
-2. `SetReadTimeout` initially reported a bad argument through `SetFailure`,
-   which marks the connection `Failed`. Caught by its own new test.
-3. The transport suite's total was a hardcoded `20`; adding two cases made it
-   run 22 and report 20. Counts are quoted as evidence, so it now counts.
-4. `steps_accepted` counted any local-player move, not accepted requests. A live
-   run recorded eight against zero requests. Renamed `local_player_moves`.
-5. An unsupported opcode was a bare number. It now names the command and the
-   bytes left unwalked.
-6. Every non-ground object was drawn as the same block, so walkable clutter
-   looked like walls. The operator reported walking "through cubes"; `UNPASS`
-   now separates them.
+## Live validation
 
-## Environment notes worth keeping
+`Tibia.exe` 7.72 (Player A, operator-driven) + Fusion32 + Unreal running
+Protocol772Core (Player B). Three talk commands decoded:
 
-- `/tmp` is tmpfs in Ubuntu-26.04. WSL shutting down between two commands
-  silently erased the prepared runtime. Pin the VM with a long-running process.
-- The Game service performs a scheduled server save and exits, logging
-  `Reboot-Skript existiert nicht`. Nothing restarts it; run `start_wsl.sh`.
-- Activating a window makes Windows synthesise a key burst that reaches the
-  input path. Capture with `SWP_NOACTIVATE` and post keys with `PostMessage`,
-  or the measurement perturbs what it measures.
-
-## How to run it
-
-```bat
-tests\build_clientcore_windows.cmd
-"C:\Program Files\Epic Games\UE_5.8\Engine\Build\BatchFiles\Build.bat" ^
-  REAL33DEditor Win64 Development -Project="%CD%\unreal\REAL33D\REAL33D.uproject" -WaitMutex
-scripts\client\run_unreal_slice.cmd B
+```text
+talk [Say]     at 32097,32205,7, Test Player A: "asdasdsa"
+talk [Whisper] at 32097,32205,7, Test Player A: "asadasd"
+talk [Whisper] at 32097,32205,7, Test Player A: "asdasd"
 ```
 
-Server side unchanged: `prepare_wsl.sh` then `start_wsl.sh`. Player A via
-`scripts\client\run_player_a.cmd`, which starts the client, patches it with the
-IP Changer and opens the credentials file for the operator to read.
+The decoded position cross-checks against the same snapshot's creature list,
+which places Player A at exactly `32097,32205,7` through an entirely separate
+path. Two unrelated decoders agreeing is stronger than any assertion inside the
+talk tests.
 
-## Limits
+Protocol health over 221 frames and 235 commands, with chat used:
+`unsupported_opcodes 0`, `protocol_anomalies 0`, `residual_bytes 0`,
+`last_diagnostic none`. Talk is decoded, not filtered out to reach those zeros.
 
-One run, one operator, no independent repetition. Both characters stayed on
-floor 7, so no floor transition was exercised in 3D; floor height in Unreal is a
-presentation choice recorded as `UNRESOLVED` in the data. Every mesh is an
-engine primitive, so nothing here demonstrates visual parity and the parity
-matrix claims none. Criterion 7 rests on human observation of the original client, corroborated by machine evidence of the Unreal-originated walks accepted in the same window, but not machine-certified on the Tibia side.
+Parser continuity: two Unreal-driven walks after the chat were sent and
+accepted, each exactly one field on the requested axis.
+
+## What was not exercised live, and why
+
+`TALK_YELL` was attempted and refused by the server: yelling is level-gated in
+7.72 and both characters are level 1. That is Fusion32 being correct, not a
+decoder limitation.
+
+The channel and plain forms need a channel or a gamemaster, neither of which
+this sanitized two-account runtime has. They are covered deterministically and
+are not claimed as live-proven.
+
+## Regression
+
+Nothing from a previous milestone changed behaviour. The movement accounting
+introduced after the `UNREAL-SLICE-001` correction is intact, including the
+self-walk versus external-relocation distinction, which the live snapshot
+exercises directly: `walks_requested 2` = `accepted 2` + `rejected 0`, with
+`external_relocations 0`.
 
 ## Not done, deliberately
 
-No chat, inventory, containers, combat UI, spells, runes, final effects,
-equipment visuals, full UI, minimap, audio, final art, mobile, offline full-map
-conversion, map editor or server-side change. `visual/reference_pack` and the
-APPROVED/REJECTED decisions were not touched.
+No chat UI, no chat window, no text above creatures, no client-side talk
+sending, no channel management, no private-message handling. The Unreal module
+still contains no protocol knowledge: the bridge resolves the mode to a name so
+nothing above it sees a mode number.
 
 ## Suggested next milestone, not started
 
-`CHAT-772-001`: decode `SV_CMD_TALK`. It is the only opcode standing between an
-ordinary session and an unconditional criterion 12, it already forces the
-operator to avoid the in-game chat during every live run, and it is small and
-well bounded next to containers or trade.
+`CONTAINERS-772-001` or `TRADE-772-001` are the next undecoded command groups
+and would continue closing the ordinary-session surface.
 
-Alternatives: `ROOKGAARD-P0-MOCKUPS-001` now that the registry can adopt
-approved art without touching any Actor, or a floor-transition slice, which is
-the one movement case the 3D client has never exercised.
+Alternatives: `ROOKGAARD-P0-MOCKUPS-001`, unblocked because the asset registry
+can adopt approved art without touching ClientCore or any Actor; or a
+floor-transition slice, which is the one movement case the 3D client has never
+exercised and the one place the presentation still uses a number
+(`UnitsPerFloor`) that the protocol never states.

@@ -353,6 +353,39 @@ private:
 				++Stats.UnsupportedOpcodes;
 				break;
 			}
+			if (Decoded.update.kind == p772::ServerUpdateKind::Talk)
+			{
+				const p772::TalkUpdate& Talk = Decoded.update.talk;
+				FReal33DEvent Spoken;
+				Spoken.Kind = EReal33DEventKind::Talk;
+				Spoken.Speaker = UTF8_TO_TCHAR(Talk.speaker.c_str());
+				Spoken.Detail = UTF8_TO_TCHAR(Talk.text.c_str());
+				// Resolved to a name here, inside the only file allowed to know
+				// the protocol, so nothing above this sees a mode number.
+				Spoken.TalkMode = UTF8_TO_TCHAR(p772::TalkModeName(Talk.mode));
+				Spoken.Direction = kNoDirection;
+				switch (Talk.layout)
+				{
+				case p772::TalkLayout::Positional:
+					Spoken.TalkLayout = EReal33DTalkLayout::Positional;
+					Spoken.Position = ToBridge(Talk.position);
+					Spoken.PreviousPosition = Spoken.Position;
+					break;
+				case p772::TalkLayout::Channel:
+					Spoken.TalkLayout = EReal33DTalkLayout::Channel;
+					Spoken.bHasChannel = true;
+					Spoken.Channel = static_cast<int32>(Talk.channel);
+					break;
+				default:
+					Spoken.TalkLayout = EReal33DTalkLayout::Plain;
+					break;
+				}
+				Publish(MoveTemp(Spoken));
+
+				FScopeLock Lock(&StatsMutex);
+				++Stats.TalkMessages;
+			}
+
 			if (Decoded.update.kind == p772::ServerUpdateKind::Snapback)
 			{
 				// Fusion32 refused a step. The ledger says which one, so the

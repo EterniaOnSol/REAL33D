@@ -36,6 +36,10 @@ enum class MapDecodeError {
     InvalidDirection,
     TrailingBytes,
     InvalidInventorySlot,
+    // A talk command whose mode none of Fusion32's three SendTalk overloads
+    // accepts. The mode decides the tail layout, so an unrecognised one leaves
+    // the rest of the command unlocatable; guessing would invent semantics.
+    UnknownTalkMode,
 };
 
 const char* MapDecodeErrorName(MapDecodeError error) noexcept;

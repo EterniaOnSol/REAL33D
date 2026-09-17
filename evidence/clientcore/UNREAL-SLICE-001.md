@@ -23,6 +23,12 @@
 > The text below is left as written, as the historical record. The corrected
 > assessment, and the live re-test of the outgoing path, are in
 > `UNREAL-SLICE-001-CORRECTION.md`.
+>
+> **Criterion 12's qualification is also superseded.** It was qualified only
+> because `SV_CMD_TALK` was undecoded and stopped the frame walk whenever
+> anyone spoke. `CHAT-772-001` decoded it, and a live session using chat now
+> reaches zero unsupported opcodes, zero anomalies and zero residual bytes.
+> See `CHAT-772-001.md`.
 
 Vertical slice: `Fusion32 -> Protocol772Core -> semantic events -> WorldState ->
 Unreal bridge -> game thread -> 3D representation`.

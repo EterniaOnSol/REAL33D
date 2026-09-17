@@ -298,6 +298,62 @@ public:
         encoder_.Str(text);
     }
 
+    // The three SendTalk overloads, each a literal port of
+    // reference/game/src/sending.cc. They share a head and differ in the tail,
+    // and which tail applies is decided by the mode, exactly as the server's
+    // overload resolution decides it there.
+
+    // SendTalk(Connection, StatementID, Sender, Mode, x, y, z, Text)
+    // Modes SAY, WHISPER, YELL, ANIMAL_LOW, ANIMAL_LOUD.
+    void TalkPositional(std::uint32_t statement_id, const std::string& sender,
+                        std::uint8_t mode, const MapPosition& position,
+                        const std::string& text) {
+        encoder_.Byte(kServerCommandTalk);
+        encoder_.Quad(statement_id);
+        encoder_.Str(sender);
+        encoder_.Byte(mode);
+        encoder_.Word(static_cast<std::uint16_t>(position.x));
+        encoder_.Word(static_cast<std::uint16_t>(position.y));
+        encoder_.Byte(static_cast<std::uint8_t>(position.z));
+        encoder_.Str(text);
+    }
+
+    // SendTalk(Connection, StatementID, Sender, Mode, Channel, Text)
+    // Modes CHANNEL_CALL, GAMEMASTER_CHANNELCALL, HIGHLIGHT_CHANNELCALL,
+    // ANONYMOUS_CHANNELCALL. The server blanks the sender for the anonymous
+    // mode rather than omitting the field, so this does the same.
+    void TalkChannel(std::uint32_t statement_id, const std::string& sender,
+                     std::uint8_t mode, std::uint16_t channel,
+                     const std::string& text) {
+        encoder_.Byte(kServerCommandTalk);
+        encoder_.Quad(statement_id);
+        if (mode != static_cast<std::uint8_t>(TalkMode::AnonymousChannelCall)) {
+            encoder_.Str(sender);
+        } else {
+            encoder_.Str("");
+        }
+        encoder_.Byte(mode);
+        encoder_.Word(channel);
+        encoder_.Str(text);
+    }
+
+    // SendTalk(Connection, StatementID, Sender, Mode, Text, Data)
+    // Modes PRIVATE_MESSAGE, GAMEMASTER_REQUEST, GAMEMASTER_ANSWER,
+    // PLAYER_ANSWER, GAMEMASTER_BROADCAST, GAMEMASTER_MESSAGE. Only
+    // GAMEMASTER_REQUEST writes Data.
+    void TalkPlain(std::uint32_t statement_id, const std::string& sender,
+                   std::uint8_t mode, const std::string& text,
+                   std::uint32_t data = 0) {
+        encoder_.Byte(kServerCommandTalk);
+        encoder_.Quad(statement_id);
+        encoder_.Str(sender);
+        encoder_.Byte(mode);
+        if (mode == static_cast<std::uint8_t>(TalkMode::GamemasterRequest)) {
+            encoder_.Quad(data);
+        }
+        encoder_.Str(text);
+    }
+
     // ---- session and player state commands ---------------------------------
 
     void Ping() { encoder_.Byte(kServerCommandPing); }

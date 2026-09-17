@@ -51,7 +51,25 @@ enum class EReal33DEventKind : uint8
 	/** Fusion32 moved us for its own reasons: a push, or anything not ours. */
 	ExternalRelocation,
 	/** A walk was neither accepted nor refused before it expired. */
-	WalkUnanswered
+	WalkUnanswered,
+
+	/**
+	 * Someone spoke. Carries the decoded semantics, never protocol bytes.
+	 *
+	 * This milestone decodes talk so an ordinary session stops producing an
+	 * unsupported opcode. Presentation of chat is out of scope: the event is
+	 * logged and counted, and nothing draws it.
+	 */
+	Talk
+};
+
+/** Which shape of talk this was, mirroring the three forms Fusion32 emits. */
+UENUM()
+enum class EReal33DTalkLayout : uint8
+{
+	Positional,
+	Channel,
+	Plain
 };
 
 /**
@@ -97,6 +115,15 @@ struct FReal33DEvent
 	uint32 InputId = 0;
 	/** Identifies the walk command on the wire, assigned by the ledger. */
 	uint32 RequestId = 0;
+
+	// Talk. Populated only for EReal33DTalkKind::Talk; `Position` carries the
+	// speech position when the form has one, and `Detail` carries the text.
+	FString Speaker;
+	EReal33DTalkLayout TalkLayout = EReal33DTalkLayout::Plain;
+	/** The mode's name, resolved inside the bridge so Unreal never sees a number. */
+	FString TalkMode;
+	bool bHasChannel = false;
+	int32 Channel = 0;
 };
 
 /** Counters the game thread may read for the on-screen diagnostic overlay. */
@@ -125,6 +152,8 @@ struct FReal33DStats
 	int32 UnansweredSteps = 0;
 	/** Every local-player move, whatever its cause. The sum of the two above. */
 	int32 LocalPlayerMoves = 0;
+	/** Talk commands decoded. Counted to show chat no longer stops the walk. */
+	int32 TalkMessages = 0;
 	int32 Tiles = 0;
 	int32 VisibleCreatures = 0;
 	bool bViewportSynchronised = false;

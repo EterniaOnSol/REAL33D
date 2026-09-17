@@ -1,0 +1,44 @@
+{
+  "milestone": "UNREAL-SLICE-001",
+  "written_at": "2026-09-17T19:00:33.394Z",
+  "reason": "Manual",
+  "seconds_in_session": 394.3,
+  "connected_at_close": true,
+  "local_creature_id": 1002,
+  "local_position": { "x": 32098, "y": 32207, "z": 7 },
+  "origin": { "set": true, "x": 32098, "y": 32205, "z": 7 },
+  "anchor": { "x": 32098, "y": 32207, "z": 7 },
+  "clientcore": {
+    "frames": 221,
+    "commands": 235,
+    "residual_bytes": 0,
+    "unsupported_opcodes": 0,
+    "protocol_anomalies": 0,
+    "walks_requested_from_unreal": 2,
+    "walks_accepted": 2,
+    "walks_rejected": 0,
+    "walks_unanswered": 0,
+    "external_relocations": 0,
+    "local_player_moves_total": 2,
+    "worldstate_tiles": 420,
+    "worldstate_visible_creatures": 3,
+    "viewport_synchronised": true
+  },
+  "presentation": {
+    "tile_actors": 420,
+    "creature_actors": 3,
+    "tiles_spawned": 486,
+    "tiles_removed": 66,
+    "creatures_appeared": 4,
+    "creatures_vanished": 1,
+    "creature_moves": 214,
+    "duplicate_spawn_attempts": 0,
+    "orphan_events": 0
+  },
+  "last_diagnostic": "none",
+  "creatures": [
+    { "id": 1001, "local": false, "x": 32097, "y": 32205, "z": 7 },
+    { "id": 1002, "local": true, "x": 32098, "y": 32207, "z": 7 },
+    { "id": 1073742052, "local": false, "x": 32105, "y": 32208, "z": 6 }
+  ]
+}

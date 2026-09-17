@@ -420,6 +420,7 @@ const char* MapDecodeErrorName(MapDecodeError error) noexcept {
         case MapDecodeError::InvalidDirection: return "InvalidDirection";
         case MapDecodeError::TrailingBytes: return "TrailingBytes";
         case MapDecodeError::InvalidInventorySlot: return "InvalidInventorySlot";
+        case MapDecodeError::UnknownTalkMode: return "UnknownTalkMode";
     }
     return "Unknown";
 }

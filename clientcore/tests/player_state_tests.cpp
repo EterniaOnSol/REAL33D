@@ -579,10 +579,15 @@ void TestNegativeCases() {
     unknown_item[3] = 0x05;  // 1337
     CHECK(Decode(unknown_item).error == MapDecodeError::UnknownObjectTypeId);
 
-    // Still unsupported: this task did not claim chat, containers or trade.
+    // Still unsupported: this task did not claim containers or trade.
+    //
+    // 170 (SV_CMD_TALK) was in this list until CHAT-772-001 decoded it, and is
+    // deliberately not here any more. It is asserted as supported below, so
+    // that removing an opcode from this list cannot pass unnoticed.
+    //
     // Explicitly typed: a bare braced list deduces initializer_list<int>, and
     // MSVC at /W4 rejects the narrowing that GCC accepts silently.
-    const std::vector<std::uint8_t> still_unsupported{110, 112, 125, 150, 170, 171, 174};
+    const std::vector<std::uint8_t> still_unsupported{110, 112, 125, 150, 171, 174};
     for (const std::uint8_t opcode : still_unsupported) {
         const auto decoded = Decode({opcode, 1, 2, 3, 4, 5, 6, 7});
         CHECK(decoded.ok());
@@ -590,6 +595,21 @@ void TestNegativeCases() {
         CHECK(decoded.update.bytes_consumed == 0);
         CHECK(!IsPlayerStateCommand(opcode));
     }
+    // Talk is decoded now. A well-formed one is consumed whole; a malformed one
+    // fails rather than being waved through as "unsupported", which is what
+    // leaving it in the list above would have quietly restored.
+    {
+        // SV_CMD_TALK, statement 1, sender "A", TALK_SAY, 1,2,3, text "x".
+        const std::vector<std::uint8_t> say{
+            170, 0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 'A', 0x01,
+            0x01, 0x00, 0x02, 0x00, 0x03, 0x01, 0x00, 'x'};
+        const auto decoded = Decode(say);
+        CHECK(decoded.ok());
+        CHECK(decoded.update.kind == ServerUpdateKind::Talk);
+        CHECK(decoded.update.bytes_consumed == say.size());
+        CHECK(!IsPlayerStateCommand(170));
+    }
+
     CHECK(IsPlayerStateCommand(160));
     CHECK(IsPlayerStateCommand(30));
     CHECK(IsPlayerStateCommand(200));

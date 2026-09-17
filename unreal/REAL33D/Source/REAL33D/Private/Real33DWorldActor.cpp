@@ -203,6 +203,32 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 		UE_LOG(LogReal33D, Warning, TEXT("a walk request expired unanswered"));
 		break;
 
+	case EReal33DEventKind::Talk:
+		// Logged, not drawn. Chat presentation is out of scope; what matters
+		// here is that the command decoded and the stream carried on.
+		if (Event.bHasChannel)
+		{
+			UE_LOG(LogReal33D, Log, TEXT("talk [%s] channel %d, %s: \"%s\""),
+				*Event.TalkMode, Event.Channel,
+				Event.Speaker.IsEmpty() ? TEXT("(anonymous)") : *Event.Speaker,
+				*Event.Detail);
+		}
+		else if (Event.TalkLayout == EReal33DTalkLayout::Positional)
+		{
+			UE_LOG(LogReal33D, Log, TEXT("talk [%s] at %d,%d,%d, %s: \"%s\""),
+				*Event.TalkMode, Event.Position.X, Event.Position.Y, Event.Position.Z,
+				Event.Speaker.IsEmpty() ? TEXT("(unnamed)") : *Event.Speaker,
+				*Event.Detail);
+		}
+		else
+		{
+			UE_LOG(LogReal33D, Log, TEXT("talk [%s] %s: \"%s\""),
+				*Event.TalkMode,
+				Event.Speaker.IsEmpty() ? TEXT("(anonymous)") : *Event.Speaker,
+				*Event.Detail);
+		}
+		break;
+
 	case EReal33DEventKind::Diagnostic:
 		// Prose from the client core about something it could not consume.
 		// Kept so the evidence can say which command, not just how many.
