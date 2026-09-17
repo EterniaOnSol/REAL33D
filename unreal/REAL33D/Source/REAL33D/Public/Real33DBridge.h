@@ -35,8 +35,33 @@ enum class EReal33DEventKind : uint8
 	Disconnected,
 	Failed,
 	/** Something the client core could not fully consume. Carries prose only. */
-	Diagnostic
+	Diagnostic,
+
+	// The outgoing walk path, reported back so the whole chain from a key press
+	// to an authoritative position can be correlated in evidence rather than
+	// inferred. A live session moved the local player eight fields while the
+	// client had sent nothing, so "the player moved" proves nothing on its own.
+
+	/** A walk command reached the wire. Carries InputId and RequestId. */
+	WalkSent,
+	/** Fusion32 answered a walk by moving us to the field it asked for. */
+	WalkAccepted,
+	/** Fusion32 refused a walk. Position is unchanged by definition. */
+	WalkRejected,
+	/** Fusion32 moved us for its own reasons: a push, or anything not ours. */
+	ExternalRelocation,
+	/** A walk was neither accepted nor refused before it expired. */
+	WalkUnanswered
 };
+
+/**
+ * Stands for "this event has no direction".
+ *
+ * Zero cannot mean that: enums.hh gives north the value 0, so a defaulted field
+ * reads as a real heading. A push has no direction anyone requested, and saying
+ * "north" about it is the same class of mistake as calling it an accepted step.
+ */
+inline constexpr uint8 kNoDirection = 0xFF;
 
 /** One thing on a field, flattened so nothing points back into WorldState. */
 struct FReal33DThing
@@ -63,10 +88,15 @@ struct FReal33DEvent
 	Real33D::FMapPosition PreviousPosition;
 	uint32 CreatureId = 0;
 	FString CreatureName;
+	/** enums.hh direction, or kNoDirection when the event has none. */
 	uint8 Direction = 0;
 	bool bIsLocalPlayer = false;
 	TArray<FReal33DThing> Things;
 	FString Detail;
+	/** Identifies the key press this event belongs to, 0 when it belongs to none. */
+	uint32 InputId = 0;
+	/** Identifies the walk command on the wire, assigned by the ledger. */
+	uint32 RequestId = 0;
 };
 
 /** Counters the game thread may read for the on-screen diagnostic overlay. */
@@ -77,19 +107,24 @@ struct FReal33DStats
 	int32 ResidualBytes = 0;
 	int32 UnsupportedOpcodes = 0;
 	int32 Anomalies = 0;
-	/** Walk intents handed to Fusion32. Says nothing about the outcome. */
+	/** Walk commands this client actually put on the wire. */
 	int32 RequestedSteps = 0;
-	/**
-	 * Times Fusion32 moved the local player, whatever the cause.
-	 *
-	 * Deliberately not called "accepted steps". A live run recorded eight of
-	 * these against zero requests: the server moves a player for its own
-	 * reasons too, and calling that an accepted request would have read as
-	 * proof of something the client never asked for.
-	 */
-	int32 LocalPlayerMoves = 0;
-	/** Intents Fusion32 refused, counted from the snapback it sends back. */
+	/** Requests answered by a move to exactly the field the request asked for. */
+	int32 AcceptedSelfWalks = 0;
+	/** Requests Fusion32 refused, counted from the snapback it sends back. */
 	int32 RejectedSteps = 0;
+	/**
+	 * Position changes that were not ours: a push from another creature, or
+	 * anything else Fusion32 decided. Counted apart from accepted walks on
+	 * purpose. A live run recorded eight of these against zero requests, and
+	 * the counter then in use reported them as accepted steps, which read as
+	 * proof of an input path that had never been exercised.
+	 */
+	int32 ExternalRelocations = 0;
+	/** Requests that were neither accepted nor refused before expiry. */
+	int32 UnansweredSteps = 0;
+	/** Every local-player move, whatever its cause. The sum of the two above. */
+	int32 LocalPlayerMoves = 0;
 	int32 Tiles = 0;
 	int32 VisibleCreatures = 0;
 	bool bViewportSynchronised = false;
@@ -133,8 +168,12 @@ public:
 	 * Posts a walk intent. This does not move anything: it asks Fusion32, and
 	 * the Actor only follows once WorldState confirms it.
 	 * Direction uses enums.hh: 0 north, 1 east, 2 south, 3 west.
+	 *
+	 * Returns the input id that identifies this key press for the rest of its
+	 * life, so evidence can join "a key was pressed" to "the server moved us"
+	 * instead of assuming the second followed from the first.
 	 */
-	void RequestWalk(uint8 Direction);
+	uint32 RequestWalk(uint8 Direction);
 
 	FReal33DStats GetStats() const;
 
@@ -144,4 +183,6 @@ public:
 private:
 	FReal33DWorker* Worker = nullptr;
 	FRunnableThread* Thread = nullptr;
+	/** Game thread only. Numbers key presses so evidence can follow one. */
+	uint32 NextInputId = 0;
 };

@@ -39,6 +39,16 @@ public:
 
 private:
 	void HandleEvent(const FReal33DEvent& Event);
+
+	/**
+	 * Appends one line to the movement journal.
+	 *
+	 * The journal exists so the outgoing path can be read as a chain rather
+	 * than assumed: a key press, the command that reached the wire, and the
+	 * authoritative answer, joined by an input id. Position changes that belong
+	 * to no request are written too, and marked as such.
+	 */
+	void JournalMovement(const FReal33DEvent& Event);
 	void ClearWorld();
 	void UpdateCamera(float DeltaSeconds);
 	void DrawOverlay();
@@ -80,4 +90,7 @@ private:
 	int32 DuplicateSpawnAttempts = 0;
 	int32 OrphanEvents = 0;
 	double FirstFrameTime = 0.0;
+
+	/** Where the movement journal is appended, decided once at BeginPlay. */
+	FString JournalPath;
 };

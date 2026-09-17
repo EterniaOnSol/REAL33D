@@ -71,6 +71,19 @@ void AReal33DWorld::BeginPlay()
 		*Config.Host, Config.LoginPort, *Config.Account);
 	Bridge->Connect(Config);
 	FirstFrameTime = FPlatformTime::Seconds();
+
+	FString Directory;
+	if (!FParse::Value(FCommandLine::Get(), TEXT("-real33d-evidence="), Directory)
+		|| Directory.IsEmpty())
+	{
+		Directory = FPaths::ProjectSavedDir();
+	}
+	FPlatformFileManager::Get().GetPlatformFile().CreateDirectoryTree(*Directory);
+	JournalPath = FPaths::Combine(Directory, TEXT("movement_journal.jsonl"));
+	// Started fresh per session: a journal that mixed two runs would let a step
+	// from one be read as the answer to a press from the other.
+	FFileHelper::SaveStringToFile(FString(), *JournalPath,
+		FFileHelper::EEncodingOptions::ForceUTF8WithoutBOM);
 }
 
 void AReal33DWorld::EndPlay(const EEndPlayReason::Type Reason)
@@ -150,6 +163,44 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 		Origin = FWorldOrigin();
 		WriteEvidence(TEXT("AfterCleanup"));
 		DisconnectedAt = FPlatformTime::Seconds();
+		break;
+
+	// The outgoing chain. None of these touch an Actor: the walk that matters
+	// arrives as an ordinary CreatureMoved for the local player, and these say
+	// what caused it.
+	case EReal33DEventKind::WalkSent:
+		JournalMovement(Event);
+		UE_LOG(LogReal33D, Log, TEXT("input %u: walk command %u sent to Fusion32"),
+			Event.InputId, Event.RequestId);
+		break;
+
+	case EReal33DEventKind::WalkAccepted:
+		JournalMovement(Event);
+		UE_LOG(LogReal33D, Log,
+			TEXT("input %u: Fusion32 accepted request %u, %d,%d,%d -> %d,%d,%d"),
+			Event.InputId, Event.RequestId,
+			Event.PreviousPosition.X, Event.PreviousPosition.Y, Event.PreviousPosition.Z,
+			Event.Position.X, Event.Position.Y, Event.Position.Z);
+		break;
+
+	case EReal33DEventKind::WalkRejected:
+		JournalMovement(Event);
+		UE_LOG(LogReal33D, Warning,
+			TEXT("input %u: Fusion32 refused request %u; position unchanged"),
+			Event.InputId, Event.RequestId);
+		break;
+
+	case EReal33DEventKind::ExternalRelocation:
+		JournalMovement(Event);
+		UE_LOG(LogReal33D, Log,
+			TEXT("Fusion32 relocated us with no request outstanding, %d,%d,%d -> %d,%d,%d"),
+			Event.PreviousPosition.X, Event.PreviousPosition.Y, Event.PreviousPosition.Z,
+			Event.Position.X, Event.Position.Y, Event.Position.Z);
+		break;
+
+	case EReal33DEventKind::WalkUnanswered:
+		JournalMovement(Event);
+		UE_LOG(LogReal33D, Warning, TEXT("a walk request expired unanswered"));
 		break;
 
 	case EReal33DEventKind::Diagnostic:
@@ -327,8 +378,10 @@ void AReal33DWorld::DrawOverlay()
 		FString::Printf(TEXT("tiles %d actors  creatures %d actors   worldstate %d / %d"),
 			Tiles.Num(), Creatures.Num(), Stats.Tiles, Stats.VisibleCreatures));
 	GEngine->AddOnScreenDebugMessage(4, 0.0f, FColor::White,
-		FString::Printf(TEXT("steps asked %d  refused %d   server moved us %d   viewport %s"),
-			Stats.RequestedSteps, Stats.RejectedSteps, Stats.LocalPlayerMoves,
+		FString::Printf(
+			TEXT("walks asked %d  accepted %d  refused %d  unanswered %d   pushed %d   viewport %s"),
+			Stats.RequestedSteps, Stats.AcceptedSelfWalks, Stats.RejectedSteps,
+			Stats.UnansweredSteps, Stats.ExternalRelocations,
 			Stats.bViewportSynchronised ? TEXT("in sync") : TEXT("waiting")));
 	GEngine->AddOnScreenDebugMessage(5, 0.0f, Clean,
 		FString::Printf(
@@ -379,6 +432,46 @@ void AReal33DWorld::Tick(float DeltaSeconds)
 
 	UpdateCamera(DeltaSeconds);
 	DrawOverlay();
+}
+
+void AReal33DWorld::JournalMovement(const FReal33DEvent& Event)
+{
+	if (JournalPath.IsEmpty())
+	{
+		return;
+	}
+
+	const TCHAR* Phase = TEXT("unknown");
+	switch (Event.Kind)
+	{
+	case EReal33DEventKind::WalkSent:          Phase = TEXT("sent"); break;
+	case EReal33DEventKind::WalkAccepted:      Phase = TEXT("accepted"); break;
+	case EReal33DEventKind::WalkRejected:      Phase = TEXT("rejected"); break;
+	case EReal33DEventKind::ExternalRelocation: Phase = TEXT("external_relocation"); break;
+	case EReal33DEventKind::WalkUnanswered:    Phase = TEXT("unanswered"); break;
+	default: return;
+	}
+
+	static const TCHAR* const Names[] = { TEXT("north"), TEXT("east"),
+		TEXT("south"), TEXT("west") };
+	const TCHAR* DirectionText =
+		Event.Direction < 4 ? Names[Event.Direction] : TEXT("none");
+
+	// One JSON object per line, appended as it happens, so the order in the
+	// file is the order it occurred and a truncated run still says what it got
+	// to. Positions are the server's, never the Actor's transform.
+	const FString Line = FString::Printf(
+		TEXT("{\"t\":%.3f,\"phase\":\"%s\",\"input_id\":%u,\"request_id\":%u,")
+		TEXT("\"direction\":\"%s\",\"from\":{\"x\":%d,\"y\":%d,\"z\":%d},")
+		TEXT("\"to\":{\"x\":%d,\"y\":%d,\"z\":%d}}\n"),
+		FirstFrameTime > 0.0 ? FPlatformTime::Seconds() - FirstFrameTime : 0.0,
+		Phase, Event.InputId, Event.RequestId, DirectionText,
+		Event.PreviousPosition.X, Event.PreviousPosition.Y, Event.PreviousPosition.Z,
+		Event.Position.X, Event.Position.Y, Event.Position.Z);
+
+	FFileHelper::SaveStringToFile(Line, *JournalPath,
+		FFileHelper::EEncodingOptions::ForceUTF8WithoutBOM,
+		&IFileManager::Get(), FILEWRITE_Append);
 }
 
 void AReal33DWorld::WriteEvidence(const FString& Reason)
@@ -437,9 +530,12 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		TEXT("    \"residual_bytes\": %d,\n")
 		TEXT("    \"unsupported_opcodes\": %d,\n")
 		TEXT("    \"protocol_anomalies\": %d,\n")
-		TEXT("    \"steps_requested\": %d,\n")
-		TEXT("    \"steps_rejected\": %d,\n")
-		TEXT("    \"local_player_moves\": %d,\n")
+		TEXT("    \"walks_requested_from_unreal\": %d,\n")
+		TEXT("    \"walks_accepted\": %d,\n")
+		TEXT("    \"walks_rejected\": %d,\n")
+		TEXT("    \"walks_unanswered\": %d,\n")
+		TEXT("    \"external_relocations\": %d,\n")
+		TEXT("    \"local_player_moves_total\": %d,\n")
 		TEXT("    \"worldstate_tiles\": %d,\n")
 		TEXT("    \"worldstate_visible_creatures\": %d,\n")
 		TEXT("    \"viewport_synchronised\": %s\n")
@@ -469,7 +565,9 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		Origin.Position.X, Origin.Position.Y, Origin.Position.Z,
 		Stats.Anchor.X, Stats.Anchor.Y, Stats.Anchor.Z,
 		Stats.Frames, Stats.Commands, Stats.ResidualBytes, Stats.UnsupportedOpcodes,
-		Stats.Anomalies, Stats.RequestedSteps, Stats.RejectedSteps, Stats.LocalPlayerMoves,
+		Stats.Anomalies, Stats.RequestedSteps, Stats.AcceptedSelfWalks,
+		Stats.RejectedSteps, Stats.UnansweredSteps, Stats.ExternalRelocations,
+		Stats.LocalPlayerMoves,
 		Stats.Tiles,
 		Stats.VisibleCreatures, Stats.bViewportSynchronised ? TEXT("true") : TEXT("false"),
 		Tiles.Num(), Creatures.Num(), TilesSpawned, TilesRemoved, CreaturesAppeared,

@@ -18,21 +18,39 @@ gameplay inside Unreal, and prove it with a real run rather than a mock.
 
 ## Result
 
-`PASS`, with acceptance criterion 12 qualified and stated as such.
+`PASS`, with acceptance criterion 12 qualified, **after a corrective run**. The
+first report's claim that eleven criteria held unconditionally was withdrawn.
 
-Eleven of the twelve live criteria hold unconditionally. Criterion 12 asks for
-zero residual bytes and zero unsupported opcodes; `protocol_anomalies` was zero
-throughout, and residual/unsupported were zero across two multi-minute windows,
-but `SV_CMD_TALK` is still undecoded and the operator used the in-game chat
-during the run. Full statement in `evidence/clientcore/UNREAL-SLICE-001.md`.
+### The correction
 
-The run: the original `Tibia.exe` 7.72 (Player A, operator-driven) and the
-Unreal client (Player B, Protocol772Core) in one sanitized Fusion32 world at the
-same time. A appeared in Unreal by name and position; A's steps moved his
-capsule; B's steps from Unreal were seen by the operator on the original client;
-refused steps changed nothing on screen; A left and re-entered B's viewport
-cleanly; a real server-side drop tore the scene down to zero actors and an
-in-session reconnect rebuilt it.
+The first report credited the outgoing input path — Unreal input reaching
+Fusion32 — to a session in which the operator never controlled B from Unreal. B
+moved there because A pushed him from the original client, which Fusion32
+resolved authoritatively. That is evidence of the incoming chain only.
+
+Independently, the numbers that report quoted for criterion 6 came from a
+snapshot read mid-session and then overwritten. Every retained snapshot from
+that session shows `steps_requested: 0`.
+
+Criteria 6 and 7 were withdrawn and re-established by a run in which the
+operator drove B from the Unreal window: 19 requests, 18 accepted, 1 refused, 0
+unanswered, each joined from key press to authoritative position by an
+`input_id`, plus 6 external relocations counted apart — two of them diagonal,
+which this client cannot request at all.
+
+Full statement in `evidence/clientcore/UNREAL-SLICE-001-CORRECTION.md`.
+
+### The rest
+
+The original `Tibia.exe` 7.72 (Player A) and the Unreal client (Player B) in one
+sanitized Fusion32 world at the same time. A appeared in Unreal by name and
+position; A's steps moved his capsule; refused steps changed nothing on screen;
+A left and re-entered B's viewport cleanly; a real server-side drop tore the
+scene down to zero actors and an in-session reconnect rebuilt it.
+
+Criterion 12 remains qualified: `protocol_anomalies` was zero throughout and
+residual/unsupported were zero across two multi-minute windows, but
+`SV_CMD_TALK` is still undecoded. It was not worked on here.
 
 ## Architecture, and what enforces it
 
@@ -72,6 +90,11 @@ Minimal, semantic and tested, as the task required:
 - `ObjectTypeEncoding::unpass`: parses the `UNPASS` flag from `objects.srv`, so
   presentation can tell a wall from walkable clutter without guessing. Covered
   in `initial_world_tests.cpp`.
+- `MovementLedger`: separates steps this client asked for from relocations
+  Fusion32 imposed. A move counts as ours only when a walk is outstanding and
+  the player landed on exactly the field it asked for; a push arriving mid-walk
+  does not consume the request. 5 tests, including a replay of the eight-field
+  push that misled the first report.
 - Four portability fixes surfaced by the first MSVC build.
 
 No previous milestone's behaviour was altered.

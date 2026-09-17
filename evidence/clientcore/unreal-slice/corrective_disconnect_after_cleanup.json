@@ -1,0 +1,42 @@
+{
+  "milestone": "UNREAL-SLICE-001",
+  "written_at": "2026-09-17T18:00:25.945Z",
+  "reason": "AfterCleanup",
+  "seconds_in_session": 401.6,
+  "connected_at_close": false,
+  "local_creature_id": 0,
+  "local_position": { "x": 0, "y": 0, "z": 0 },
+  "origin": { "set": false, "x": 0, "y": 0, "z": 0 },
+  "anchor": { "x": 32096, "y": 32200, "z": 7 },
+  "clientcore": {
+    "frames": 210,
+    "commands": 413,
+    "residual_bytes": 36,
+    "unsupported_opcodes": 1,
+    "protocol_anomalies": 0,
+    "walks_requested_from_unreal": 19,
+    "walks_accepted": 8,
+    "walks_rejected": 11,
+    "walks_unanswered": 0,
+    "external_relocations": 0,
+    "local_player_moves_total": 8,
+    "worldstate_tiles": 445,
+    "worldstate_visible_creatures": 4,
+    "viewport_synchronised": true
+  },
+  "presentation": {
+    "tile_actors": 0,
+    "creature_actors": 0,
+    "tiles_spawned": 685,
+    "tiles_removed": 240,
+    "creatures_appeared": 8,
+    "creatures_vanished": 4,
+    "creature_moves": 300,
+    "duplicate_spawn_attempts": 0,
+    "orphan_events": 0
+  },
+  "last_diagnostic": "SV_CMD_TALK is not decoded; 36 bytes of the payload left unwalked",
+  "creatures": [
+
+  ]
+}

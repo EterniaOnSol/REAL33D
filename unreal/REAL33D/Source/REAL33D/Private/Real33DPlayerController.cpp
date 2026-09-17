@@ -43,14 +43,16 @@ void AReal33DPlayerController::Request(uint8 Direction)
 	{
 		return;
 	}
-	// Every intent is logged with the key that produced it. A walk request that
-	// no one can account for is a defect, not noise: it would mean the client
-	// asks Fusion32 to move for reasons the operator did not choose.
+	// Every intent is logged with the key that produced it and the id that will
+	// follow it through the rest of the chain. A walk request nobody can
+	// account for is a defect, not noise; and a position change with no
+	// request behind it is not this client's doing, which is exactly the
+	// distinction a previous run failed to make.
 	static const TCHAR* const Names[] = { TEXT("north"), TEXT("east"),
 		TEXT("south"), TEXT("west") };
-	UE_LOG(LogReal33D, Log, TEXT("walk intent %s"),
-		Direction < 4 ? Names[Direction] : TEXT("?"));
-	Bridge->RequestWalk(Direction);
+	const uint32 InputId = Bridge->RequestWalk(Direction);
+	UE_LOG(LogReal33D, Log, TEXT("input %u: walk %s requested from Unreal"),
+		InputId, Direction < 4 ? Names[Direction] : TEXT("?"));
 }
 
 void AReal33DPlayerController::WalkNorth() { Request(0); }

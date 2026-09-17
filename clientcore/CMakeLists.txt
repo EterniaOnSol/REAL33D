@@ -100,6 +100,7 @@ add_library(protocol772_initial_world
     src/initial_world.cpp
     src/map_scan.cpp
     src/movement.cpp
+    src/movement_ledger.cpp
     src/object_types.cpp
     src/player_state.cpp
     src/worldstate.cpp

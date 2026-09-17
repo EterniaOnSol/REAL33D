@@ -1,4 +1,5 @@
 #include "fusion32/protocol772/movement.h"
+#include "fusion32/protocol772/movement_ledger.h"
 
 #include "fixtures/fullscreen_772_vectors.h"
 
@@ -917,6 +918,146 @@ void TestViewportDesynchronizationIsVisible() {
     CHECK(!state.viewport_synchronized());
 }
 
+// A step this client asked for is counted as ours only when the server puts us
+// on the field we asked for. Everything else is external.
+void TestLedgerAcceptsOnlyTheStepThatWasAskedFor() {
+    MovementLedger ledger;
+    const MapPosition start{32097, 32218, 7};
+
+    const std::uint32_t north = ledger.NoteRequestSent(CardinalDirection::North, 1.0);
+    CHECK(north == 1);
+    CHECK(ledger.outstanding() == 1);
+
+    const auto accepted = ledger.NoteLocalMove(start, StepPosition(start, CardinalDirection::North), 1.2);
+    CHECK(accepted.cause == LocalMoveCause::SelfWalkAccepted);
+    CHECK(accepted.request_id == north);
+    CHECK(accepted.direction == CardinalDirection::North);
+    CHECK(ledger.outstanding() == 0);
+    CHECK(ledger.counts().requested == 1);
+    CHECK(ledger.counts().accepted == 1);
+    CHECK(ledger.counts().external == 0);
+}
+
+// The regression this whole ledger exists for.
+//
+// reference/game/src/cract.cc TCreature::Move displaces whoever stands on the
+// destination field, so another player walking into this one pushes them. A
+// live session recorded eight such moves against zero requests, and the counter
+// then in use called them accepted steps. It must be impossible to reach that
+// conclusion again.
+void TestLedgerNeverCountsAPushAsOurOwnStep() {
+    MovementLedger ledger;
+    MapPosition at{32098, 32216, 7};
+
+    // Nothing was ever requested; another player pushes us eight fields north.
+    for (int i = 0; i < 8; ++i) {
+        const MapPosition pushed{at.x, at.y - 1, at.z};
+        const auto outcome = ledger.NoteLocalMove(at, pushed, 1.0 + i);
+        CHECK(outcome.cause == LocalMoveCause::ExternalRelocation);
+        CHECK(outcome.request_id == 0);
+        at = pushed;
+    }
+
+    CHECK(ledger.counts().requested == 0);
+    CHECK(ledger.counts().accepted == 0);
+    CHECK(ledger.counts().rejected == 0);
+    CHECK(ledger.counts().external == 8);
+}
+
+// A push while a walk is outstanding must not consume that walk: the request is
+// still unanswered, and the displacement is still not ours.
+void TestLedgerPushDoesNotConsumeAnOutstandingWalk() {
+    MovementLedger ledger;
+    const MapPosition at{32100, 32200, 7};
+
+    ledger.NoteRequestSent(CardinalDirection::East, 1.0);
+    // Pushed west while waiting for the answer to an eastward walk.
+    const auto pushed = ledger.NoteLocalMove(at, MapPosition{at.x - 1, at.y, at.z}, 1.1);
+    CHECK(pushed.cause == LocalMoveCause::ExternalRelocation);
+    CHECK(ledger.outstanding() == 1);
+    CHECK(ledger.counts().accepted == 0);
+    CHECK(ledger.counts().external == 1);
+
+    // The walk is then answered from the field we were pushed to.
+    const MapPosition after{at.x - 1, at.y, at.z};
+    const auto accepted = ledger.NoteLocalMove(after, StepPosition(after, CardinalDirection::East), 1.4);
+    CHECK(accepted.cause == LocalMoveCause::SelfWalkAccepted);
+    CHECK(ledger.counts().accepted == 1);
+    CHECK(ledger.counts().external == 1);
+}
+
+// Observed live: after refusing a step the server re-announces the position,
+// which arrives as a move from a field to itself. Counting that as an external
+// relocation inflated a number the evidence relies on.
+void TestLedgerIgnoresAMoveThatDoesNotMove() {
+    MovementLedger ledger;
+    const MapPosition at{32096, 32200, 7};
+
+    const auto still = ledger.NoteLocalMove(at, at, 1.0);
+    CHECK(still.cause == LocalMoveCause::NoMovement);
+    CHECK(ledger.counts().external == 0);
+    CHECK(ledger.counts().accepted == 0);
+
+    // And it must not consume an outstanding request either.
+    ledger.NoteRequestSent(CardinalDirection::North, 2.0);
+    CHECK(ledger.NoteLocalMove(at, at, 2.1).cause == LocalMoveCause::NoMovement);
+    CHECK(ledger.outstanding() == 1);
+    CHECK(ledger.counts().external == 0);
+}
+
+void TestLedgerRejectionAndExpiry() {
+    MovementLedger ledger;
+
+    const std::uint32_t blocked = ledger.NoteRequestSent(CardinalDirection::South, 1.0);
+    const auto refused = ledger.NoteSnapback(1.3);
+    CHECK(refused.matched);
+    CHECK(refused.request_id == blocked);
+    // The refusal reports the direction that was actually asked for, so a
+    // rejection cannot be written down against a direction nobody requested.
+    CHECK(refused.direction == CardinalDirection::South);
+    CHECK(ledger.counts().rejected == 1);
+    CHECK(ledger.counts().accepted == 0);
+    CHECK(ledger.outstanding() == 0);
+
+    // A snapback with nothing outstanding is still counted, and reports no
+    // request, because inventing one would be worse than admitting surprise.
+    const auto unmatched = ledger.NoteSnapback(1.5);
+    CHECK(!unmatched.matched);
+    CHECK(unmatched.request_id == 0);
+    CHECK(ledger.counts().rejected == 2);
+
+    // An answer that never arrives must not mis-attribute a later move.
+    ledger.NoteRequestSent(CardinalDirection::West, 2.0);
+    CHECK(ledger.ExpireBefore(5.0) == 1);
+    CHECK(ledger.counts().unanswered == 1);
+    CHECK(ledger.outstanding() == 0);
+
+    const MapPosition at{32100, 32200, 7};
+    const auto later = ledger.NoteLocalMove(at, MapPosition{at.x - 1, at.y, at.z}, 6.0);
+    CHECK(later.cause == LocalMoveCause::ExternalRelocation);
+}
+
+// Ordering: the server answers a connection's commands in order, so the oldest
+// outstanding request is the only candidate.
+void TestLedgerMatchesRequestsInOrder() {
+    MovementLedger ledger;
+    MapPosition at{32100, 32200, 7};
+
+    const std::uint32_t first = ledger.NoteRequestSent(CardinalDirection::North, 1.0);
+    const std::uint32_t second = ledger.NoteRequestSent(CardinalDirection::North, 1.1);
+    CHECK(second == first + 1);
+
+    for (const std::uint32_t expected : {first, second}) {
+        const MapPosition next = StepPosition(at, CardinalDirection::North);
+        const auto outcome = ledger.NoteLocalMove(at, next, 1.5);
+        CHECK(outcome.cause == LocalMoveCause::SelfWalkAccepted);
+        CHECK(outcome.request_id == expected);
+        at = next;
+    }
+    CHECK(ledger.counts().accepted == 2);
+    CHECK(ledger.counts().external == 0);
+}
+
 }  // namespace
 
 int main() {
@@ -939,6 +1080,12 @@ int main() {
         TestNegativeCases();
         TestApplicationAnomalies();
         TestViewportDesynchronizationIsVisible();
+        TestLedgerAcceptsOnlyTheStepThatWasAskedFor();
+        TestLedgerNeverCountsAPushAsOurOwnStep();
+        TestLedgerPushDoesNotConsumeAnOutstandingWalk();
+        TestLedgerIgnoresAMoveThatDoesNotMove();
+        TestLedgerRejectionAndExpiry();
+        TestLedgerMatchesRequestsInOrder();
         std::cout << "protocol772_movement_tests: PASS\n";
         return 0;
     } catch (const std::exception& error) {

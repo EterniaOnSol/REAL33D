@@ -1,5 +1,29 @@
 # UNREAL-SLICE-001
 
+> **CORRECTION, 2026-09-17. Criteria 6 and 7 below are WITHDRAWN.**
+>
+> This document originally reported eleven of twelve criteria as holding
+> unconditionally. That is not supported by the evidence and is retracted.
+>
+> The operator never controlled Player B from Unreal. B's movement during the
+> session recorded here was caused by Player A pushing him from the original
+> `Tibia.exe`: Fusion32 relocated B authoritatively, and the client faithfully
+> followed. That demonstrates the *incoming* path and says nothing about
+> whether Unreal input reaches Fusion32.
+>
+> Separately, and independently of the operator's correction: the numbers this
+> document cited for criterion 6 came from a snapshot that was read during the
+> session and then overwritten. **Every retained snapshot in
+> `evidence/clientcore/unreal-slice/` shows `steps_requested: 0`.** There was
+> no preserved machine artifact behind the claim.
+>
+> `snapshot_4_after_reconnect.json` shows the confusion exactly: `0` requests
+> and `8` moves, under a field then named `steps_accepted`.
+>
+> The text below is left as written, as the historical record. The corrected
+> assessment, and the live re-test of the outgoing path, are in
+> `UNREAL-SLICE-001-CORRECTION.md`.
+
 Vertical slice: `Fusion32 -> Protocol772Core -> semantic events -> WorldState ->
 Unreal bridge -> game thread -> 3D representation`.
 
@@ -53,8 +77,8 @@ Machine-readable snapshots are in `evidence/clientcore/unreal-slice/`:
 | `snapshot_3_player_a_returned.json` | Player A back inside it |
 | `snapshot_4_after_reconnect.json` | the session after a real drop and reconnect |
 | `snapshot_5_passability.json` | a later session with the passability fix, every counter zero |
-| `unreal_slice_evidence_Disconnected.json` | the scene at the instant the session died |
-| `unreal_slice_evidence_AfterCleanup.json` | the same scene after teardown |
+| ~~`unreal_slice_evidence_Disconnected.json`~~ | **not retained.** Written per run and overwritten by the next one; the criterion 10 figures below were read live and never committed. Retained equivalents from a repeat of the same test are `corrective_disconnect_at_drop.json` and `corrective_disconnect_after_cleanup.json` |
+| ~~`unreal_slice_evidence_AfterCleanup.json`~~ | as above |
 | `shot_player_a_visible.png`, `shot_both_players_after_return.png` | what was on screen, both players present |
 | `shot_passability.png` | the same temple once `UNPASS` separated walls from clutter |
 

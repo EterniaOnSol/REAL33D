@@ -15,6 +15,7 @@ THIRD_PARTY_INCLUDES_START
 #include "fusion32/protocol772/initial_world.h"
 #include "fusion32/protocol772/login.h"
 #include "fusion32/protocol772/movement.h"
+#include "fusion32/protocol772/movement_ledger.h"
 #include "fusion32/protocol772/player_state.h"
 #include "fusion32/protocol772/worldview.h"
 THIRD_PARTY_INCLUDES_END
@@ -148,9 +149,9 @@ public:
 
 	virtual void Stop() override { bStopping = true; }
 
-	void PostIntent(uint8 Direction)
+	void PostIntent(uint32 InputId, uint8 Direction)
 	{
-		Intents.Enqueue(Direction);
+		Intents.Enqueue(FIntent{ InputId, Direction });
 	}
 
 	bool Dequeue(FReal33DEvent& OutEvent) { return Events.Dequeue(OutEvent); }
@@ -354,8 +355,23 @@ private:
 			}
 			if (Decoded.update.kind == p772::ServerUpdateKind::Snapback)
 			{
+				// Fusion32 refused a step. The ledger says which one, so the
+				// refusal can be joined to the key press that caused it.
+				const auto Match = Ledger.NoteSnapback(FPlatformTime::Seconds());
+				FReal33DEvent Refused;
+				Refused.Kind = EReal33DEventKind::WalkRejected;
+				Refused.RequestId = Match.request_id;
+				Refused.InputId = TakeInputFor(Match.request_id);
+				// A refusal moves nothing, so both positions are the one the
+				// player is still standing on. Saying so beats leaving a zero.
+				Refused.Position = ToBridge(State.viewport_anchor);
+				Refused.PreviousPosition = Refused.Position;
+				Refused.Direction = Match.matched
+					? static_cast<uint8>(Match.direction) : kNoDirection;
+				Publish(MoveTemp(Refused));
+
 				FScopeLock Lock(&StatsMutex);
-				++Stats.RejectedSteps;
+				Stats.RejectedSteps = static_cast<int32>(Ledger.counts().rejected);
 			}
 			const auto Applied = p772::ApplyServerUpdate(&State, Decoded.update, Types);
 			if (!Applied.anomalies.empty())
@@ -406,10 +422,7 @@ private:
 				Out.Kind = EReal33DEventKind::CreatureMoved;
 				if (Event.is_local_player)
 				{
-					// Fusion32 moved us. Whether we asked for it is a separate
-					// question this counter deliberately does not answer.
-					FScopeLock Lock(&StatsMutex);
-					++Stats.LocalPlayerMoves;
+					ClassifyLocalMove(Event.previous_position, Event.position);
 				}
 				break;
 			case p772::WorldEventKind::CreatureVanished:
@@ -436,29 +449,113 @@ private:
 		}
 	}
 
+	/**
+	 * Decides whose move this was and says so, rather than assuming it was ours.
+	 *
+	 * A creature walking into this player displaces them
+	 * (reference/game/src/cract.cc TCreature::Move), and on the wire that is an
+	 * ordinary move naming our own creature. Only the ledger can tell it apart
+	 * from the answer to a walk we asked for, and it does so by requiring the
+	 * landing field to be the one the outstanding request named.
+	 */
+	void ClassifyLocalMove(const p772::MapPosition& From, const p772::MapPosition& To)
+	{
+		const auto Outcome = Ledger.NoteLocalMove(From, To, FPlatformTime::Seconds());
+		if (Outcome.cause == p772::LocalMoveCause::NoMovement)
+		{
+			return;
+		}
+
+		FReal33DEvent Out;
+		Out.Position = ToBridge(To);
+		Out.PreviousPosition = ToBridge(From);
+		Out.bIsLocalPlayer = true;
+		if (Outcome.cause == p772::LocalMoveCause::SelfWalkAccepted)
+		{
+			Out.Kind = EReal33DEventKind::WalkAccepted;
+			Out.RequestId = Outcome.request_id;
+			Out.InputId = TakeInputFor(Outcome.request_id);
+			Out.Direction = static_cast<uint8>(Outcome.direction);
+		}
+		else
+		{
+			Out.Kind = EReal33DEventKind::ExternalRelocation;
+			// Nobody asked for this, so it has no requested direction.
+			Out.Direction = kNoDirection;
+		}
+		Publish(MoveTemp(Out));
+
+		FScopeLock Lock(&StatsMutex);
+		Stats.AcceptedSelfWalks = static_cast<int32>(Ledger.counts().accepted);
+		Stats.ExternalRelocations = static_cast<int32>(Ledger.counts().external);
+		++Stats.LocalPlayerMoves;
+	}
+
 	void DrainIntents()
 	{
-		uint8 Direction = 0;
-		while (Intents.Dequeue(Direction))
+		FIntent Intent;
+		while (Intents.Dequeue(Intent))
 		{
 			p772::CardinalDirection Cardinal = p772::CardinalDirection::North;
-			switch (Direction)
+			switch (Intent.Direction)
 			{
 			case 1: Cardinal = p772::CardinalDirection::East; break;
 			case 2: Cardinal = p772::CardinalDirection::South; break;
 			case 3: Cardinal = p772::CardinalDirection::West; break;
 			default: break;
 			}
-			// An intent, not a movement. Fusion32 decides, so all that can be
-			// counted here is that the question was asked. The answer is
-			// counted where it arrives: a local-player move for acceptance, a
-			// snapback for refusal.
-			if (Session.SendCommand(p772::BuildWalkCommand(Cardinal)).ok())
+			// An intent, not a movement. Fusion32 decides, so all that happens
+			// here is that the question is asked and recorded. The answer is
+			// matched to it by the ledger when it arrives.
+			if (!Session.SendCommand(p772::BuildWalkCommand(Cardinal)).ok())
 			{
-				FScopeLock Lock(&StatsMutex);
-				++Stats.RequestedSteps;
+				continue;
 			}
+			const std::uint32_t RequestId =
+				Ledger.NoteRequestSent(Cardinal, FPlatformTime::Seconds());
+
+			FReal33DEvent Sent;
+			Sent.Kind = EReal33DEventKind::WalkSent;
+			Sent.InputId = Intent.InputId;
+			Sent.RequestId = RequestId;
+			Sent.Direction = Intent.Direction;
+			// Where the player stood when the question was asked, so the
+			// journal shows what the request was relative to rather than zeros.
+			Sent.PreviousPosition = ToBridge(State.viewport_anchor);
+			Sent.Position = Sent.PreviousPosition;
+			Publish(MoveTemp(Sent));
+
+			InputForRequest.Add(RequestId, Intent.InputId);
+
+			FScopeLock Lock(&StatsMutex);
+			Stats.RequestedSteps = static_cast<int32>(Ledger.counts().requested);
 		}
+
+		// A reply that never comes must not be allowed to claim a later move.
+		// Three seconds is far longer than a local round trip; the server's own
+		// step timing is well inside it.
+		const double Now = FPlatformTime::Seconds();
+		if (Ledger.ExpireBefore(Now - 3.0) > 0)
+		{
+			FReal33DEvent Expired;
+			Expired.Kind = EReal33DEventKind::WalkUnanswered;
+			Expired.Direction = kNoDirection;
+			Publish(MoveTemp(Expired));
+			FScopeLock Lock(&StatsMutex);
+			Stats.UnansweredSteps = static_cast<int32>(Ledger.counts().unanswered);
+		}
+	}
+
+	/** Looks up and forgets the key press a request came from. */
+	uint32 TakeInputFor(std::uint32_t RequestId)
+	{
+		uint32 InputId = 0;
+		if (const uint32* Found = InputForRequest.Find(RequestId))
+		{
+			InputId = *Found;
+			InputForRequest.Remove(RequestId);
+		}
+		return InputId;
 	}
 
 	// ----------------------------------------------------------- publishing
@@ -494,8 +591,18 @@ private:
 	p772::WorldState State;
 	p772::WorldView View;
 
+	p772::MovementLedger Ledger;
+	/** Joins a wire request back to the key press it came from. Worker only. */
+	TMap<uint32, uint32> InputForRequest;
+
+	struct FIntent
+	{
+		uint32 InputId = 0;
+		uint8 Direction = 0;
+	};
+
 	TQueue<FReal33DEvent, EQueueMode::Spsc> Events;
-	TQueue<uint8, EQueueMode::Spsc> Intents;
+	TQueue<FIntent, EQueueMode::Spsc> Intents;
 
 	mutable FCriticalSection StatsMutex;
 	FReal33DStats Stats;
@@ -572,12 +679,17 @@ void UReal33DBridge::DrainEvents(TArray<FReal33DEvent>& OutEvents)
 	}
 }
 
-void UReal33DBridge::RequestWalk(uint8 Direction)
+uint32 UReal33DBridge::RequestWalk(uint8 Direction)
 {
-	if (Worker != nullptr)
+	if (Worker == nullptr)
 	{
-		Worker->PostIntent(Direction);
+		return 0;
 	}
+	// Numbered on the game thread, at the moment the key was pressed, so the
+	// identity of a press exists before anything else in the chain happens.
+	const uint32 InputId = ++NextInputId;
+	Worker->PostIntent(InputId, Direction);
+	return InputId;
 }
 
 FReal33DStats UReal33DBridge::GetStats() const
