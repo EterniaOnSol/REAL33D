@@ -2,181 +2,166 @@
 
 Date/time: 2026-09-16
 Agent: Claude
-Role: PROTOCOL772CORE PLAYER STATE IMPLEMENTATION
+Role: TWO-CLIENT VERTICAL SLICE
 Branch: `main`
-Starting commit: `633a9c2`
-Implementation commit: `af3e3ac`
+Starting commit: `da67e78`
+Implementation commit: `a048150`
 Ending commit: this handoff commit
-Worktree: clean after the focused Player State commit
-Remote: `origin` = `https://github.com/EterniaOnSol/REAL33D.git`, full history pushed to `main`, `HEAD == origin/main`
+Worktree: clean after the focused slice commit
+Remote: `origin` = `https://github.com/EterniaOnSol/REAL33D.git`, `HEAD == origin/main`
 
 ## Objective
 
-Complete `PLAYERSTATE-772-001`: close the minimal set of 7.72 messages needed to
-consume an ordinary session burst without stopping, derived only from the
-Fusion32 source. Do not implement combat, inventory semantics, chat, NPC
-interaction or Unreal.
+Complete `TWO-CLIENT-VERTICAL-SLICE-001`: demonstrate end to end that the
+original Tibia 7.72 client and Protocol772Core coexist as two independent
+clients inside the same Fusion32 world. Do not simulate the second client and do
+not substitute another ClientCore for `Tibia.exe`. Do not start Unreal, combat,
+chat, inventory or containers.
 
-## Inspection and source findings
+## Result
 
-Inspected, in `reference/game/src`:
+`PASS` for one bounded live run, 19 minutes, two distinct synthetic characters:
 
-- `sending.cc::SendPing`, `SendAmbiente`, `SendGraphicalEffect`,
-  `SendTextualEffect`, `SendMissileEffect`, `SendMarkCreature`,
-  `SendCreatureHealth`, `SendCreatureLight`, `SendCreatureOutfit`,
-  `SendCreatureSpeed`, `SendCreatureSkull`, `SendCreatureParty`,
-  `SendPlayerData`, `SendPlayerSkills`, `SendPlayerState`, `SendClearTarget`,
-  `SendSetInventory`, `SendDeleteInventory`, `SendBuddyData`, `SendBuddyStatus`
-  and `SendOutfit(TConnection*)`.
-- `crplayer.cc::TPlayer::CheckState` lines 1213-1247 for the player state flag
-  table, `SyncState`, and the first-login branch at line 221.
-- `connections.cc` lines 25 and 78 and `receiving.cc::CPing` for the keepalive
-  contract.
-- `enums.hh::InventorySlot` for the slot bounds.
+- Player A: the selected local `Tibia.exe` patched live by the Fusion32 IP
+  Changer. Character `Test Player A`, creature id 1001, driven by the operator.
+- Player B: Protocol772Core through a temporary non-tracked harness. Character
+  `Test Player B`, creature id 1002, driven by commands written into a control
+  file.
 
-Three findings worth carrying forward:
+Every required transition was demonstrated with ids, positions and server
+corroboration; the full transcript is in
+`evidence/clientcore/TWO-CLIENT-VERTICAL-SLICE-001.md`. Totals: 689 commands
+over 657 frames, **zero residual bytes, zero anomalies, zero unsupported
+opcodes**.
 
-1. **A character's first login carries `SV_CMD_OUTFIT` (200).** `crplayer.cc`
-   line 221 sends the welcome message and the outfit chooser when
-   `LastLoginTime` is zero. The first live attempt stopped with exactly 11
-   residual bytes, which is precisely that command's length, confirming
-   everything before it had been consumed to an exact command boundary.
-2. **`SV_CMD_PLAYER_STATE` is conditional.** `CheckState` only emits when the
-   computed flags differ from `OldState`, and `SyncState` zeroes `OldState` at
-   login, so a character with no active condition receives none.
-   `WorldState::state.known` stays false until one arrives. My initial assertion
-   that the burst must deliver it was wrong.
-3. **`SV_CMD_PING` is server-initiated**, from the connection timer and
-   `EmergencyPing`. `CPing` is a no-op that only refreshes the timestamp, so the
-   client's own `CL_CMD_PING` is never answered with a ping.
+## Protocol surface
+
+No opcode was added, and none was needed. Appearance
+(`ADD_FIELD` with a word-97 descriptor), movement (`MOVE_CREATURE`), turning
+(`CHANGE_FIELD`), departure (`DELETE_FIELD`) and refusal (`MESSAGE` plus
+`SNAPBACK`) were all already decoded. The run instead corrected two errors in
+how the known-creature mirror was maintained.
+
+## Two corrections the live run forced
+
+Both were found against the real server, not by reading, and both now have
+deterministic coverage in
+`clientcore/tests/movement_tests.cpp::TestSecondPlayerLifecycle`.
+
+1. **`SV_CMD_DELETE_FIELD` must not drop the creature from the mirror.** The
+   server sends the same command whether a creature scrolled out of view or was
+   destroyed, and `TConnection::KnownCreatureTable` only frees a slot in
+   `~TCreature` or when `NewKnownCreature` reuses it. Dropping the entry made a
+   later word-98 or word-99 reappearance unrecognisable, which showed up within
+   seconds as a nameless rabbit plus an `UnknownCreatureReference` anomaly.
+   `DELETE_FIELD` now removes the creature from the map only;
+   `visible_creature_ids()` answers what is on the map.
+2. **A word-97 whose evicted id equals the introduced id evicts nothing.**
+   `~TCreature` frees the slot without clearing its `CreatureID`, and
+   `TCreature::SetID` assigns `CreatureID = CharacterID`, so a player keeps its
+   id across logins and every relog reuses that very slot. This was being
+   flagged as evicting an unknown creature.
+
+## Keepalive, which any sustained session needs
+
+`reference/game/src/connections.cc::TConnection::Process` disconnects a client
+whose last command is 90 rounds old, and `reference/game/src/main.cc` advances
+one round per second. `SV_CMD_PING` at 30 and 60 seconds does not require a
+reply; what resets the timer is any client command, and `ResetTimer` accepts
+`CL_CMD_PING`. A listening-only client is dropped after 90 seconds. Player B
+pinged every 20 seconds. Note that a ping does not refresh `TimeStampAction`, so
+it does not defeat the 15-minute idle warning or 16-minute idle logout.
+
+## Player blocking is part of the evidence
+
+Three of Player B's walk requests were refused, and cross-referencing B's own
+log shows Player A was standing on the destination field each time. That is the
+7.72 one-SQM rule, and it is the strongest available proof that both clients
+inhabit one authoritative world: one client's body constrained the other's
+movement, decided entirely by Fusion32. B's anchor and tile set were unchanged
+across all three and `viewport_synchronized()` held.
 
 ## Changes
 
-- Added `clientcore/include/fusion32/protocol772/player_state.h` and
-  `clientcore/src/player_state.cpp`.
-- Extended `movement`'s single `DecodeServerUpdate` entry point to dispatch all
-  of them, and `ApplyServerUpdate` to apply only the demonstrated ones.
-- Extended `worldstate` with `PlayerStats`, `PlayerSkills`, `PlayerState` and
-  `AmbientLight`.
-- Exposed bounds-checked word, quad, outfit and `SendItem` reads from
-  `map_scan`, plus `FailScanner` and `MapDecodeError::InvalidInventorySlot`.
-- Added `clientcore/tests/player_state_tests.cpp` and grew the fixtures emitter.
-- Added `tests/secret_check.sh`.
-- Added `docs/protocol772/PLAYER_STATE.md` and
-  `evidence/clientcore/PLAYERSTATE-772-001.md`.
-- Updated project status, architecture, roadmap, parity matrix, source truth,
-  both READMEs and this handoff; archived the prior Movement handoff.
-
-One retained test changed meaning: `movement_tests` used opcode 141 as its
-"unsupported" example, which this task now decodes. It uses `SV_CMD_CONTAINER`
-(110) instead, which remains genuinely out of scope.
+- `clientcore/src/movement.cpp`: `DELETE_FIELD` no longer erases from the
+  mirror; the self-eviction rule added to `RecordCreature`.
+- `clientcore/src/initial_world.cpp`: the same self-eviction rule in
+  `ApplyFullScreen`.
+- `clientcore/tests/movement_tests.cpp`: added `TestSecondPlayerLifecycle` and
+  corrected `TestDeleteFieldRemovesCreature`, which had encoded the wrong
+  assumption.
+- Added `docs/TWO_CLIENT_SLICE.md` and
+  `evidence/clientcore/TWO-CLIENT-VERTICAL-SLICE-001.md`.
+- Updated project status, roadmap, parity matrix and this handoff; archived the
+  prior Player State handoff.
 
 ## Tests/results
 
-Validated in WSL Ubuntu 26.04, CMake 4.2.3, GCC 15.2.0, OpenSSL 3.5.5, C++17
-with warnings as errors:
+Ubuntu 26.04 under WSL2, CMake 4.2.3, GCC 15.2.0, OpenSSL 3.5.5, C++17,
+warnings as errors:
 
-- Debug build: `PASS`
 - CTest: `7/7 PASS`
 - ASan/UBSan CTest: `7/7 PASS`
-- Eleven hand-computed golden hex commands, each first reproduced by the literal
-  port of the server emitter: `PASS`
-- A whole simulated login burst in `crplayer.cc` order walked to exactly zero
-  residual bytes: `PASS`
-- Negatives - every truncation of each golden command, an inventory slot outside
-  `INVENTORY_FIRST..INVENTORY_LAST`, an inventory item naming a server-internal
-  container type, an unknown inventory type id, and seven opcodes that remain
-  unsupported and consume nothing: `PASS`
-- `verify_object_type_invariants.py`: `PASS`
+- `verify_classic_client_772.py`: `PASS` (all artifact hashes and the static
+  address table)
 - `tests/secret_check.sh`: `PASS`
-- Live smoke: `LIVE PASS`. Login burst 2417 payload bytes as 22 commands, session
-  traffic 1073 bytes as 32 commands, **3490 payload bytes and 54 commands with
-  zero residual bytes and no unsupported opcode**. Decoded stats matched a fresh
-  Rookgaard character: 150/150 hit points, 336 capacity, level 1, magic level 0,
-  100 soul points, every weapon skill at 10.
+- Live two-client run: `PASS`
 
-No account id, password, modulus or key material was recorded. The temporary
-live harness, its driver script and its binary were deleted and the runtime
-services stopped.
-
-## GitHub
-
-`origin` was configured as `https://github.com/EterniaOnSol/REAL33D.git` and the
-full existing history, 24 commits, was pushed to `main`. `HEAD == origin/main`.
-No history was rewritten and no force push was used.
-
-The first attempt returned HTTP 403:
-
-```text
-remote: Permission to EterniaOnSol/REAL33D.git denied to leodavidsoto.
-```
-
-`EterniaOnSol` is a personal account, not an organisation, and the credential
-stored on this machine belonged to a different personal account,
-`leodavidsoto`, whose permissions on the repo were `pull: true, push: false`.
-That is a repository permission rather than a scope or URL problem, so it needed
-an operator decision. The operator re-authenticated `gh` as `EterniaOnSol`
-through the device flow; that account reports `admin: true` and the push then
-succeeded unchanged. Both accounts remain registered in `gh`, with
-`EterniaOnSol` active.
-
-Worth remembering, because it is a common trap: git identity (`user.name` and
-`user.email`) is only a label written into the commit, while the token is what
-GitHub checks for write access. Changing the first does nothing for the second.
-
-`tests/secret_check.sh` ran clean immediately before the push, and the check
-itself was repaired first: its private key scan had been passing vacuously. See
-commit `f205519`.
-
-Reviewed and accepted rather than pushed silently, all recorded in the evidence:
-
-- `reference/login/config.cfg.dist` and
-  `reference/querymanager/config.cfg.dist` carry Fusion32's own upstream default
-  `QueryManagerPassword`. They are archived third-party source, not a secret of
-  this deployment, whose `config.cfg` is generated fresh and gitignored.
-- `clientcore/tests/fixtures/crypto_772_vectors.h` holds a public sample modulus
-  already present in the selected IP Changer source, labelled as test data.
+No account id, password, modulus or key material was recorded. The account line
+the operator needed for the original client was written to a scratch file
+outside the repository and deleted along with the harness, the driver script and
+the operator launcher. The runtime services were stopped.
 
 ## Status and limits
 
-`PLAYERSTATE-772-001 = PASS` within this bounded scope.
+`TWO-CLIENT-VERTICAL-SLICE-001 = PASS` within this bounded scope.
 
 Remaining `UNVERIFIED`:
 
-- `SV_CMD_PING`, `SV_CMD_CLEAR_TARGET`, `SV_CMD_TEXTUAL_EFFECT`,
-  `SV_CMD_MISSILE_EFFECT`, `SV_CMD_MARK_CREATURE`, the buddy status pair and
-  four of the six creature attribute updates are fixture-covered only; the quiet
-  temple session did not emit them.
-- Native Windows execution and independent repetition.
+- One run, one operator, no independent repetition, no retained screenshots.
+- Both characters stayed on floor 7, so no floor transition was exercised with
+  two clients connected.
+- Chat was deliberately avoided because `SV_CMD_TALK` is still undecoded and
+  would stop the frame walk.
+- Player A's observation of Player B moving is an operator report rather than a
+  machine-readable artifact; the server-side effect is corroborated by B's own
+  anchor advancing and by the blocking evidence.
+- Native Windows execution of Protocol772Core.
 
-Out of scope and untouched: combat, inventory semantics, containers, chat, NPC
-interaction, trade and Unreal. Chat, the channel commands, containers, trade,
-the request queue and the text and list editors remain undecoded and still yield
-`ServerUpdateKind::Unsupported` with zero bytes consumed. That is correct
-behaviour: a caller sees exactly which opcode stopped it.
+Out of scope and untouched: Unreal, combat, chat, NPC interaction, inventory
+semantics, containers and trade.
 
-## Operational note
+## Operational notes
 
-WSL2 shuts the VM down between separate `wsl.exe` invocations and clears `/tmp`,
-destroying both the sanitized runtime and any build directory there. Build under
-`/root/f32/...`, and run anything spanning prepare, start and a live client in a
-single `wsl.exe` invocation launched from PowerShell, since Git Bash rewrites
-`/mnt/...` paths.
+- WSL2 tears the VM down between separate `wsl.exe` invocations and clears
+  `/tmp`, destroying both the sanitized runtime and any build directory there.
+  Build under `/root/f32/...`, and run anything spanning prepare, start and a
+  live client in a single invocation launched from PowerShell, since Git Bash
+  rewrites `/mnt/...` paths.
+- The IP Changer needs the client window to already exist. Launching both from
+  one script usually loses the race; run `ipchanger.exe fusion32` again after
+  the client window is up.
+- A live harness driven by a control file should log `SNAPBACK` and `MESSAGE`.
+  This one did not, so three legitimate server refusals looked like silence and
+  briefly read as a bug. Also give each command a distinct token or a repeat of
+  the same command is ignored, and poll the file more often than the read loop's
+  worst-case latency.
 
 ## Exact next task
 
-`UNREAL-SLICE-001`: Protocol772Core now decodes an entire ordinary session, so
-the remaining vertical-slice gap is presentation. Create the minimal Unreal
-desktop project that consumes `Protocol772Core` through a network-thread event
-queue and applies `WorldState` on the game thread, rendering ground as planes
-and creatures as capsules, per `ROADMAP.md` step 8.
+`UNREAL-SLICE-001`: protocol coexistence with the original client is now
+demonstrated, so the remaining gap in the vertical slice is presentation. Create
+the minimal Unreal desktop project that consumes `Protocol772Core` through a
+network-thread event queue and applies `WorldState` on the game thread,
+rendering ground as planes and creatures as capsules, per `ROADMAP.md` step 8.
+The protocol side needs nothing new for it.
 
-The protocol side needs nothing new for that slice. If presentation is deferred
-instead, the next protocol step is chat and containers: start from
-`reference/game/src/sending.cc::SendTalk` (170), `SendChannels` (171),
-`SendOpenChannel` (172), `SendPrivateChannel` (173), `SendContainer` (110),
-`SendCloseContainer` (111) and `SendCreateInContainer` (112) through
-`SendDeleteInContainer` (114).
+If presentation is deferred, the next protocol step is chat and containers,
+starting from `reference/game/src/sending.cc::SendTalk` (170), `SendChannels`
+(171), `SendOpenChannel` (172), `SendPrivateChannel` (173), `SendContainer`
+(110), `SendCloseContainer` (111) and `SendCreateInContainer` (112) through
+`SendDeleteInContainer` (114). Chat is what currently forces the operator to
+avoid the in-game chat during two-client runs.
 
 Do not begin either automatically.
 
@@ -186,6 +171,6 @@ Commands to reproduce this task's results:
 wsl.exe -d Ubuntu-26.04 -- cmake -S /mnt/c/Users/dell/Desktop/fusion32/clientcore -B /root/f32/build -DCMAKE_BUILD_TYPE=Debug
 wsl.exe -d Ubuntu-26.04 -- cmake --build /root/f32/build --parallel
 wsl.exe -d Ubuntu-26.04 -- ctest --test-dir /root/f32/build --output-on-failure
-wsl.exe -d Ubuntu-26.04 -- python3 /mnt/c/Users/dell/Desktop/fusion32/tests/verify_object_type_invariants.py /mnt/c/Users/dell/Desktop/fusion32/tibia-game.tarball.tar.gz
+wsl.exe -d Ubuntu-26.04 -- python3 /mnt/c/Users/dell/Desktop/fusion32/tests/verify_classic_client_772.py /mnt/c/Users/dell/Desktop/fusion32/build/classic-client-772/app/Tibia.exe
 wsl.exe -d Ubuntu-26.04 -- bash /mnt/c/Users/dell/Desktop/fusion32/tests/secret_check.sh /mnt/c/Users/dell/Desktop/fusion32
 ```
