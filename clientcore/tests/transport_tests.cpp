@@ -497,6 +497,49 @@ void TestRefusedConnection() {
     CHECK(transport.state() == ConnectionState::Failed);
 }
 
+void TestReadTimeoutIsSeparateFromConnectTimeout() {
+    // A connection that never sends anything. The read must come back on the
+    // short timeout it was given, not on the generous one Connect used, which
+    // is what lets an interactive caller poll its own outbound queue.
+    LoopbackServer server([](TestSocket) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+    });
+
+    TcpTransport transport;
+    CHECK(transport.Connect("127.0.0.1", server.port(),
+                            std::chrono::milliseconds(3000)).ok());
+    CHECK(transport.SetReadTimeout(std::chrono::milliseconds(80)));
+
+    const auto started = std::chrono::steady_clock::now();
+    auto read = transport.ReadSome();
+    const auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - started);
+
+    CHECK(read.status == IoStatus::TimedOut);
+    // Comfortably under the 3000 ms connect timeout, and generous enough that a
+    // loaded scheduler does not turn this into a flaky test.
+    CHECK(elapsed < std::chrono::milliseconds(1200));
+
+    transport.Disconnect();
+    server.Join();
+}
+
+void TestReadTimeoutRejectsUnusableValues() {
+    TcpTransport disconnected;
+    // Nothing to apply the option to yet.
+    CHECK(!disconnected.SetReadTimeout(std::chrono::milliseconds(50)));
+
+    LoopbackServer server([](TestSocket) {});
+    TcpTransport transport;
+    CHECK(transport.Connect("127.0.0.1", server.port()).ok());
+    CHECK(!transport.SetReadTimeout(std::chrono::milliseconds(0)));
+    CHECK(!transport.SetReadTimeout(std::chrono::milliseconds(-5)));
+    // A rejected value must leave the connection usable.
+    CHECK(transport.connected());
+    transport.Disconnect();
+    server.Join();
+}
+
 void TestRemoteDisconnect() {
     LoopbackServer server([](TestSocket) {});
     TcpTransport transport;
@@ -631,7 +674,7 @@ struct TestCase {
 int main() {
     try {
         [[maybe_unused]] TestSocketRuntime socket_runtime;
-        const std::array<TestCase, 19> tests{{
+        const std::array<TestCase, 21> tests{{
             {"partial header", TestPartialHeader},
             {"partial payload", TestPartialPayload},
             {"frame split across several reads", TestFrameSplitAcrossSeveralReads},
@@ -646,6 +689,9 @@ int main() {
             {"finish detects truncation", TestFinishDetectsTruncation},
             {"local connection and clean disconnect", TestSuccessfulLocalConnectionAndCleanDisconnect},
             {"refused connection", TestRefusedConnection},
+            {"read timeout separate from connect timeout",
+             TestReadTimeoutIsSeparateFromConnectTimeout},
+            {"read timeout rejects unusable values", TestReadTimeoutRejectsUnusableValues},
             {"remote disconnect", TestRemoteDisconnect},
             {"loopback partial header and payload", TestLoopbackPartialHeaderAndPayload},
             {"loopback multiple frames", TestLoopbackMultipleFramesOneWrite},
@@ -675,8 +721,12 @@ int main() {
                       << error.what() << '\n';
         }
 
-        std::cout << "SUMMARY passed=" << (20 - failures)
-                  << " failed=" << failures << " total=20\n";
+        // Counted, not written down. A hardcoded total silently under-reports
+        // the moment a case is added, and these counts are quoted as evidence.
+        // The +1 is the case above, which runs outside the table on purpose.
+        const int total = static_cast<int>(tests.size()) + 1;
+        std::cout << "SUMMARY passed=" << (total - failures)
+                  << " failed=" << failures << " total=" << total << '\n';
         return failures == 0 ? 0 : 1;
     } catch (const std::exception& error) {
         std::cerr << "FATAL test setup: " << error.what() << '\n';

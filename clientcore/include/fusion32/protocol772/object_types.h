@@ -55,6 +55,18 @@ struct ObjectTypeEncoding {
     bool cumulative = false;    // CUMULATIVE
     ObjectPriority priority = ObjectPriority::Low;
 
+    // UNPASS: the field cannot be walked onto. Source:
+    // reference/game/src/enums.hh declares it, and reference/game/src/cract.cc
+    // TCreature movement, crmain.cc and crnonpl.cc all refuse a destination
+    // whose field carries it.
+    //
+    // Unlike the fields above, the wire format does not depend on this: it is
+    // carried because a presentation layer that draws every object identically
+    // tells the player nothing about where they can walk, and guessing
+    // passability from stack priority would be inventing a category the server
+    // never stated. This is the server's own answer.
+    bool unpass = false;
+
     // Extra bytes that follow the type id word on the wire.
     std::size_t extra_bytes() const noexcept {
         return (liquid_color ? 1U : 0U) + (cumulative ? 1U : 0U);

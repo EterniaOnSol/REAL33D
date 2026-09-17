@@ -580,7 +580,10 @@ void TestNegativeCases() {
     CHECK(Decode(unknown_item).error == MapDecodeError::UnknownObjectTypeId);
 
     // Still unsupported: this task did not claim chat, containers or trade.
-    for (const std::uint8_t opcode : {110, 112, 125, 150, 170, 171, 174}) {
+    // Explicitly typed: a bare braced list deduces initializer_list<int>, and
+    // MSVC at /W4 rejects the narrowing that GCC accepts silently.
+    const std::vector<std::uint8_t> still_unsupported{110, 112, 125, 150, 170, 171, 174};
+    for (const std::uint8_t opcode : still_unsupported) {
         const auto decoded = Decode({opcode, 1, 2, 3, 4, 5, 6, 7});
         CHECK(decoded.ok());
         CHECK(decoded.update.kind == ServerUpdateKind::Unsupported);

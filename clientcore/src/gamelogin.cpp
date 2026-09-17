@@ -220,23 +220,25 @@ GameInitialMessage ParseGameInitialMessage(const XteaDecodeResult& decrypted) {
     }
     if (opcode == kGameLoginErrorOpcode || opcode == kGameLoginPremiumOpcode
         || opcode == kGameLoginWaitingListOpcode) {
-        std::size_t at = 1;
-        if (!ReadString(bytes, &at, &result.text)) {
+        // Named apart from the outer cursor above: MSVC at /W4 rejects the
+        // shadowing that GCC accepts, and these two track different reads.
+        std::size_t notice_at = 1;
+        if (!ReadString(bytes, &notice_at, &result.text)) {
             result.status = GameMessageStatus::Incomplete;
             Preserve(bytes, 0, &result);
             return result;
         }
         if (opcode == kGameLoginWaitingListOpcode) {
-            if (at >= bytes.size()) {
+            if (notice_at >= bytes.size()) {
                 result.status = GameMessageStatus::Incomplete;
                 Preserve(bytes, 0, &result);
                 return result;
             }
-            result.wait_seconds = bytes[at++];
+            result.wait_seconds = bytes[notice_at++];
         }
-        if (at != bytes.size()) {
+        if (notice_at != bytes.size()) {
             result.status = GameMessageStatus::Malformed;
-            Preserve(bytes, at, &result);
+            Preserve(bytes, notice_at, &result);
             return result;
         }
         result.status = opcode == kGameLoginErrorOpcode

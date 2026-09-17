@@ -58,6 +58,40 @@ The map encoding is not self-describing in two places, and both are handled the 
 
 `SV_CMD_ROW_*` and `SV_CMD_FLOOR_UP/DOWN` carry no coordinates at all: `reference/game/src/cract.cc::TCreature::NotifyGo` advances the player one axis at a time and only then emits them. `WorldState` therefore tracks a `viewport_anchor` that those commands step, while `SV_CMD_MOVE_CREATURE` never does. Once a step completes the anchor and the local player's creature must agree, which turns viewport desynchronization into a reported condition instead of silent drift.
 
+## Implemented Unreal boundary
+
+`unreal/REAL33D/` is an Unreal Engine 5.8 project with a single runtime module. It is the presentation consumer of `clientcore/` and nothing else:
+
+```text
+worker thread                                game thread
+-------------                                -----------
+TcpTransport / FramedConnection
+    -> GameLoginSession
+    -> DecodeServerUpdate / ApplyServerUpdate
+    -> WorldState
+    -> WorldView::Diff        --SPSC queue--> UReal33DBridge::DrainEvents
+                                              -> AReal33DWorld
+                                                 -> AReal33DTile / AReal33DCreature
+                                                 -> UReal33DAssetRegistry -> mesh
+    <--intent queue-- UReal33DBridge::RequestWalk <- AReal33DPlayerController
+```
+
+Three mechanisms keep the boundary from eroding, and none of them depend on anyone remembering a rule.
+
+**One implementation, linked rather than copied.** `REAL33D.Build.cs` links `build/clientcore-windows/protocol772core.lib` and raises a `BuildException` if it is absent. No protocol source exists inside the Unreal module, so none can drift.
+
+**One file may include a protocol header.** `Private/Real33DBridge.cpp`, which owns the worker. No public header of the module names `fusion32::protocol772`; `Real33DCoords.h` mirrors `MapPosition` as three integers instead of including the real one. Unreal never sees a byte, an opcode or a frame.
+
+**The WorldState-to-events diff lives in ClientCore.** `protocol772_worldview` turns successive `WorldState`s into `WorldEvent`s and is covered by `clientcore/tests/worldview_tests.cpp`. The translation from "the world changed" to "these things changed" is therefore deterministic and tested, rather than living in a Tick function.
+
+`FReal33DEvent` crosses the thread boundary by value, so the game thread holds nothing the worker can free. Actors and components are touched only on the game thread; `DrainEvents` asserts it.
+
+Movement is deliberately asymmetric. A remote creature's position is a copy of the server's truth. The local player's position is also a copy of the server's truth: input becomes an intent posted to the worker, and no code path exists by which a key could move an Actor. A refused step therefore changes nothing on screen, because nothing moved in the first place.
+
+`UReal33DAssetRegistry` is the only place that maps a Fusion32 identity to a mesh. Every resolution currently returns an engine primitive marked `bIsPlaceholder`, so approved art can be adopted without touching Protocol772Core or any Actor. The coordinate transform is `Real33D::ToWorld` alone, at `1 SQM = 100 Unreal Units`, relative to an origin fixed at the session's first anchor.
+
+Full behaviour, exact versions, the acceptance run and its limits are in `docs/UNREAL_SLICE.md`.
+
 ## Source architecture discovered
 
 The archived Fusion32 system consists of game, login, querymanager, web, and ipchanger Git bundles plus a large legacy runtime. The game README states querymanager is required for game startup, login produces character lists, and web manages accounts. Game sources use GNU Make, C++11, Linux/pthreads, librt, and OpenSSL libcrypto. No Unreal tree or classic client was found.

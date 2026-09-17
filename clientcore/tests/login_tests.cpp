@@ -38,7 +38,7 @@ Rsa1024PublicKey TestRsa() {
 }
 
 RandomBytesFunction SequenceRandom() {
-    auto next = std::make_shared<std::uint8_t>(0);
+    auto next = std::make_shared<std::uint8_t>(std::uint8_t{0});
     return [next](std::uint8_t* destination, std::size_t size) {
         if (destination == nullptr) return false;
         for (std::size_t i = 0; i < size; ++i) destination[i] = (*next)++;
@@ -111,7 +111,7 @@ void TestResponseAndNegatives() {
     const auto encoded = EncryptXteaPayload(
         key, message, kLoginFrameLimits.max_receive_payload,
         [](std::uint8_t* destination, std::size_t size) {
-            std::fill(destination, destination + size, 0xA5); return true;
+            std::fill(destination, destination + size, std::uint8_t{0xA5}); return true;
         });
     CHECK(encoded.ok());
     const auto decoded = DecryptXteaPayload(key, encoded.packet);
@@ -127,7 +127,7 @@ void TestResponseAndNegatives() {
     std::vector<std::uint8_t> unknown{77, 1, 2, 3};
     const auto unknown_encoded = EncryptXteaPayload(key, unknown, 2046,
         [](std::uint8_t* destination, std::size_t size) {
-            std::fill(destination, destination + size, 0); return true;
+            std::fill(destination, destination + size, std::uint8_t{0}); return true;
         });
     const auto unknown_result = ParseLoginResponse(DecryptXteaPayload(key, unknown_encoded.packet));
     CHECK(unknown_result.status == LoginParseStatus::Unsupported);
@@ -137,7 +137,7 @@ void TestResponseAndNegatives() {
     std::vector<std::uint8_t> incomplete{100, 1, 2};
     const auto incomplete_encoded = EncryptXteaPayload(key, incomplete, 2046,
         [](std::uint8_t* destination, std::size_t size) {
-            std::fill(destination, destination + size, 0); return true;
+            std::fill(destination, destination + size, std::uint8_t{0}); return true;
         });
     const auto incomplete_result = ParseLoginResponse(DecryptXteaPayload(key, incomplete_encoded.packet));
     CHECK(incomplete_result.status == LoginParseStatus::Incomplete);

@@ -102,6 +102,13 @@ public:
         std::chrono::milliseconds timeout = std::chrono::milliseconds(3000));
 
     ConnectResult Connect(const std::string& host, std::uint16_t port = 7172);
+    // See TcpTransport::SetReadTimeout. An interactive caller wants this much
+    // shorter than the connect timeout, because it bounds how long the session
+    // sits inside a read before the caller gets control back.
+    bool SetReadTimeout(std::chrono::milliseconds timeout) {
+        return connection_.transport().SetReadTimeout(timeout);
+    }
+
     void Disconnect() noexcept;
     FramedWriteResult SendLogin(const GameLoginRequest& request);
 

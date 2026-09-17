@@ -1,158 +1,160 @@
 # HANDOFF
 
-Date/time: 2026-09-16
+Date/time: 2026-09-17
 Agent: Claude
-Role: VISUAL REFERENCE PACK
+Role: UNREAL VERTICAL SLICE
 Branch: `main`
-Starting commit: `dde7cd6`
-Implementation commit: `3e0bea0`
-Ending commit: this handoff commit
-Worktree: clean after the focused reference pack commit
+Starting commit: `d3f0e5d`
+Implementation commit: this commit
+Worktree: clean after the focused slice commit
 Remote: `origin` = `https://github.com/EterniaOnSol/REAL33D.git`, `HEAD == origin/main`
 
 ## Objective
 
-Complete `VISUAL-REFERENCE-PACK-001`: turn the master visual inventory into a
-navigable workstation where the artist can see what to reinterpret, with the
-original visual reference, without needing to understand Fusion32, Protocol772,
-`objects.srv`, internal ids or the master CSVs. Do not modify ClientCore,
-protocol or gameplay. No 3D art. No Unreal.
+Complete `UNREAL-SLICE-001`: build the first end-to-end chain
+`Fusion32 -> Protocol772Core -> semantic events -> WorldState -> Unreal bridge
+-> game thread -> 3D representation`, without reimplementing Protocol 772 or
+gameplay inside Unreal, and prove it with a real run rather than a mock.
 
 ## Result
 
-`PASS`. 5,284 appearances decoded and catalogued, 10,926 sprites decoded with
-zero failures, 5,284 previews rendered with zero failures, 456 of them the
-Rookgaard P0 queue. Full counts in
-`evidence/visual/VISUAL-REFERENCE-PACK-001.md`.
+`PASS`, with acceptance criterion 12 qualified and stated as such.
 
-## The visual source
+Eleven of the twelve live criteria hold unconditionally. Criterion 12 asks for
+zero residual bytes and zero unsupported opcodes; `protocol_anomalies` was zero
+throughout, and residual/unsupported were zero across two multi-minute windows,
+but `SV_CMD_TALK` is still undecoded and the operator used the in-game chat
+during the run. Full statement in `evidence/clientcore/UNREAL-SLICE-001.md`.
 
-Found already present and pinned in the project's own authorised workspace by
-`CLASSIC-CLIENT-772-001`:
+The run: the original `Tibia.exe` 7.72 (Player A, operator-driven) and the
+Unreal client (Player B, Protocol772Core) in one sanitized Fusion32 world at the
+same time. A appeared in Unreal by name and position; A's steps moved his
+capsule; B's steps from Unreal were seen by the operator on the original client;
+refused steps changed nothing on screen; A left and re-entered B's viewport
+cleanly; a real server-side drop tore the scene down to zero actors and an
+in-session reconnect rebuilt it.
+
+## Architecture, and what enforces it
 
 ```text
-build/classic-client-772/app/Tibia.dat   3C5E857F...9677AEDD
-build/classic-client-772/app/Tibia.spr   86ABBF5F...CCE0C64A
+worker thread                                game thread
+TcpTransport -> GameLoginSession
+  -> DecodeServerUpdate / ApplyServerUpdate
+  -> WorldState
+  -> WorldView::Diff        --SPSC queue-->  UReal33DBridge::DrainEvents
+                                              -> AReal33DWorld
+                                                 -> AReal33DTile / AReal33DCreature
+  <--intent queue-- RequestWalk <------------- AReal33DPlayerController
 ```
 
-Nothing was downloaded, no substitute was used, and neither file is committed.
+Three mechanisms, none of which rely on anyone remembering a rule:
 
-One argument for the version **does not hold**, and the evidence says so:
-`reference/login/src/connections.cc` lines 598-600 read `DATSIGNATURE`,
-`SPRSIGNATURE` and `PICSIGNATURE` and discard them, so a successful live login
-proves nothing about which appearance data the client used. What does support it
-is that the client's declared counts line up with the server's own content three
-independent ways, listed in the evidence. Provenance of the copy itself remains
-`UNKNOWN`, unchanged.
+1. `REAL33D.Build.cs` links `build/clientcore-windows/protocol772core.lib` and
+   throws if it is absent. No protocol source exists inside the Unreal module.
+2. Only `Private/Real33DBridge.cpp` may include a protocol header. No public
+   header names `fusion32::protocol772`; `Real33DCoords.h` mirrors
+   `MapPosition` as three integers rather than including the real one.
+3. The WorldState-to-events diff lives in ClientCore as `protocol772_worldview`,
+   covered by `worldview_tests.cpp`, not in a Tick function.
 
-## Format established, not assumed
+Movement is asymmetric on purpose. There is no code path by which a key moves an
+Actor: input becomes an intent, Fusion32 decides, and the actor follows only
+what WorldState confirms. A refusal therefore has nothing to undo.
 
-No `Tibia.dat` specification exists in this project's source truth, so
-`visual/tools/tibia772.py` treats the layout as a hypothesis and proves it four
-ways: the records consume the file to exactly EOF, the header counts match,
-every sprite id falls inside the sprite file, and the client's option bytes
-agree with the server's object flags across thousands of items.
+## What changed in ClientCore
 
-That last check is the independent one, since the reader never opens
-`objects.srv`. Nine of fifteen correlations are exact; the rest run 97.5 to
-99.0 percent with disagreement almost entirely one-directional, the server
-carrying flags the client need not draw. A misread layout would give scattered
-two-way noise instead.
+Minimal, semantic and tested, as the task required:
 
-`patternZ` is present in this format. The first ground reads
-`01 01 01 04 04 01 01` followed by sprite ids 136..151: sixteen sprites and
-exactly sixteen valid ids. Omitting the field would shift every later read out
-of range, which is what makes it detectable rather than assumed.
+- `protocol772_worldview`: `WorldView::Diff` turns successive `WorldState`s into
+  `WorldEvent`s. 8 tests.
+- `TcpTransport::SetReadTimeout`, forwarded by `GameLoginSession`: separates the
+  read poll interval from the connect timeout. 2 tests.
+- `ObjectTypeEncoding::unpass`: parses the `UNPASS` flag from `objects.srv`, so
+  presentation can tell a wall from walkable clutter without guessing. Covered
+  in `initial_world_tests.cpp`.
+- Four portability fixes surfaced by the first MSVC build.
 
-## Visual families revalidated
+No previous milestone's behaviour was altered.
 
-The master inventory's 1,351 groups came from name and category, which was
-inference. Against real artwork: 4,587 distinct sprite sets across the 5,284
-appearances, 310 of them used by more than one appearance covering 835 ids.
-Those 310 are **demonstrated** identical pictures.
+## Tests and sanitizers
 
-The docs state plainly that neither figure is a model count. A wall drawn from
-four directions is four sprite sets and one mesh; a 4x4 ground pattern is one
-sprite set that may want one mesh plus a varying material. `Representation` in
-the tracker stays editable because that call belongs to the artist.
+| Suite | Result |
+| --- | --- |
+| Windows MSVC `/W4 /WX /permissive-`, C++17 and C++20 | `WINDOWS CLIENTCORE: PASS` |
+| transport | 22/22 |
+| crypto | 25/25 |
+| login, gamelogin, initial_world, movement, player_state, worldview | `PASS` |
+| WSL GCC 15.2 + ASan/UBSan via CTest | 8/8 |
+| `tests/secret_check.sh` | `PASS` |
 
-Every Fusion32 id keeps its mapping: `appearances.csv` carries the tracker id,
-client id, inventory name, category, priority and visual group on every row.
+`tests/build_clientcore_windows.cmd` resolves the project's longest-standing
+`UNVERIFIED` item. Every suite had only ever been built by GCC under WSL; the
+first native build found four defects GCC accepts silently.
 
-## Unresolved, named rather than hidden
+## Defects found by running
 
-- **100 outfits** the client ships that no monster file, npc file or
-  player-selectable range references. Real appearances with real sprites,
-  catalogued and previewed, with nothing in the server data pointing at them.
-- **Object type 5090**, `a treasure map`, declared server side but the client's
-  item ids stop at 5089. Ranges are otherwise contiguous and gapless on both
-  sides, so this is one known id, not general ambiguity.
-- **36 empty sprite slots** of 10,962.
+Each was invisible offline. Details in the evidence file.
 
-All 5,284 appearances map to exactly one inventory identity. No association is
-ambiguous.
+1. The 3000 ms socket timeout doubled as the walk-intent poll interval, so a
+   keypress could wait three seconds to be sent. The operator called it "massive
+   lagg" and confirmed the fix.
+2. `SetReadTimeout` initially reported a bad argument through `SetFailure`,
+   which marks the connection `Failed`. Caught by its own new test.
+3. The transport suite's total was a hardcoded `20`; adding two cases made it
+   run 22 and report 20. Counts are quoted as evidence, so it now counts.
+4. `steps_accepted` counted any local-player move, not accepted requests. A live
+   run recorded eight against zero requests. Renamed `local_player_moves`.
+5. An unsupported opcode was a bare number. It now names the command and the
+   bytes left unwalked.
+6. Every non-ground object was drawn as the same block, so walkable clutter
+   looked like walls. The operator reported walking "through cubes"; `UNPASS`
+   now separates them.
 
-## Repository policy
+## Environment notes worth keeping
 
-Neither the client data nor the 99 MB of derived previews is committed.
-`/visual/reference_pack/` was added to `.gitignore` because previews are
-derivative works of an artifact with `UNKNOWN` provenance. The existing LFS
-rules for future original 3D assets are unchanged; no binary was committed.
+- `/tmp` is tmpfs in Ubuntu-26.04. WSL shutting down between two commands
+  silently erased the prepared runtime. Pin the VM with a long-running process.
+- The Game service performs a scheduled server save and exits, logging
+  `Reboot-Skript existiert nicht`. Nothing restarts it; run `start_wsl.sh`.
+- Activating a window makes Windows synthesise a key burst that reaches the
+  input path. Capture with `SWP_NOACTIVATE` and post keys with `PostMessage`,
+  or the measurement perturbs what it measures.
 
-`visual/tools/setup_reference_pack.sh` is the single setup command. It verifies
-both client files against their recorded SHA-256 and refuses to continue on a
-mismatch, so a different client version cannot quietly produce a catalogue
-describing a different game.
+## How to run it
 
-The flow for a fresh clone is: clone, drop the two authorised client files into
-`build/classic-client-772/app/`, run that one script, open
-`visual/reference_pack/catalogue.html`.
-
-## Tests
-
-`visual/tools/test_tibia772.py`, 24 tests, all passing. Every fixture is built
-byte by byte inside the test, so the suite runs without the client data and
-nothing proprietary is committed. Covers geometry, the `patternZ` shape, the
-exact-size rule, option payloads, the correlation check in both directions, RLE
-decoding, PNG output and nearest-neighbour scaling; failure cases include
-trailing bytes, every truncation of a file, unknown option bytes, RLE overruns,
-a truncated offset table and a short header.
-
-```powershell
-wsl.exe -d Ubuntu-26.04 -- python3 /mnt/c/Users/dell/Desktop/fusion32/visual/tools/test_tibia772.py
+```bat
+tests\build_clientcore_windows.cmd
+"C:\Program Files\Epic Games\UE_5.8\Engine\Build\BatchFiles\Build.bat" ^
+  REAL33DEditor Win64 Development -Project="%CD%\unreal\REAL33D\REAL33D.uproject" -WaitMutex
+scripts\client\run_unreal_slice.cmd B
 ```
 
-## Checks
+Server side unchanged: `prepare_wsl.sh` then `start_wsl.sh`. Player A via
+`scripts\client\run_player_a.cmd`, which starts the client, patches it with the
+IP Changer and opens the credentials file for the operator to read.
 
-- Parser tests: 24/24 `PASS`
-- `tests/secret_check.sh`: `PASS`
-- `reference/` untouched
-- `clientcore/` untouched; no protocol or gameplay change
-- No 3D art, no Unreal work
-- No proprietary or derived binary committed
+## Limits
 
-## Exact next task
+One run, one operator, no independent repetition. Both characters stayed on
+floor 7, so no floor transition was exercised in 3D; floor height in Unreal is a
+presentation choice recorded as `UNRESOLVED` in the data. Every mesh is an
+engine primitive, so nothing here demonstrates visual parity and the parity
+matrix claims none. Criterion 7 rests on human observation alone.
 
-`ROOKGAARD-P0-MOCKUPS-001`, and it is now unblocked in a way it was not before.
+## Not done, deliberately
 
-The artist can open `visual/reference_pack/p0_rookgaard.html`, see all 456 P0
-object types with their original sprites, and start proposing. Work the group
-representatives first, the rows whose `Representation` is `MESH`, since each
-covers several ids. Record the version in the tracker's `Mockup Version`, move
-the row to `REVIEW`, and the project director decides `APPROVED` or `REJECTED`.
-There is no fidelity percentage; `visual/docs/ART_DIRECTION.md` is unchanged.
+No chat, inventory, containers, combat UI, spells, runes, final effects,
+equipment visuals, full UI, minimap, audio, final art, mobile, offline full-map
+conversion, map editor or server-side change. `visual/reference_pack` and the
+APPROVED/REJECTED decisions were not touched.
 
-The alternative remains `UNREAL-SLICE-001`: the protocol side has been ready
-since `TWO-CLIENT-VERTICAL-SLICE-001`, and
-`visual/docs/TECHNICAL_STANDARD.md` holds the provisional scale, pivots and
-naming plus the floor-height question it will have to settle.
+## Suggested next milestone, not started
 
-Do not begin either automatically.
+`CHAT-772-001`: decode `SV_CMD_TALK`. It is the only opcode standing between an
+ordinary session and an unconditional criterion 12, it already forces the
+operator to avoid the in-game chat during every live run, and it is small and
+well bounded next to containers or trade.
 
-Commands to reproduce this task's results:
-
-```powershell
-wsl.exe -d Ubuntu-26.04 -- python3 /mnt/c/Users/dell/Desktop/fusion32/visual/tools/test_tibia772.py
-wsl.exe -d Ubuntu-26.04 -- bash /mnt/c/Users/dell/Desktop/fusion32/visual/tools/setup_reference_pack.sh
-wsl.exe -d Ubuntu-26.04 -- bash /mnt/c/Users/dell/Desktop/fusion32/tests/secret_check.sh /mnt/c/Users/dell/Desktop/fusion32
-```
+Alternatives: `ROOKGAARD-P0-MOCKUPS-001` now that the registry can adopt
+approved art without touching any Actor, or a floor-transition slice, which is
+the one movement case the 3D client has never exercised.

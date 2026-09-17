@@ -1,0 +1,42 @@
+{
+  "milestone": "UNREAL-SLICE-001",
+  "written_at": "2026-09-17T10:49:37.885Z",
+  "reason": "Manual",
+  "seconds_in_session": 800.8,
+  "connected_at_close": true,
+  "local_creature_id": 1002,
+  "local_position": { "x": 32096, "y": 32201, "z": 7 },
+  "origin": { "set": true, "x": 32098, "y": 32208, "z": 7 },
+  "anchor": { "x": 32096, "y": 32201, "z": 7 },
+  "clientcore": {
+    "frames": 55,
+    "commands": 79,
+    "residual_bytes": 0,
+    "unsupported_opcodes": 0,
+    "protocol_anomalies": 0,
+    "steps_requested": 0,
+    "steps_accepted": 8,
+    "steps_rejected": 0,
+    "worldstate_tiles": 434,
+    "worldstate_visible_creatures": 4,
+    "viewport_synchronised": true
+  },
+  "presentation": {
+    "tile_actors": 434,
+    "creature_actors": 4,
+    "tiles_spawned": 1483,
+    "tiles_removed": 631,
+    "creatures_appeared": 10,
+    "creatures_vanished": 3,
+    "creature_moves": 490,
+    "duplicate_spawn_attempts": 0,
+    "orphan_events": 0
+  },
+  "last_diagnostic": "SV_CMD_TALK is not decoded; 35 bytes of the payload left unwalked",
+  "creatures": [
+    { "id": 1001, "local": false, "x": 32096, "y": 32202, "z": 7 },
+    { "id": 1002, "local": true, "x": 32096, "y": 32201, "z": 7 },
+    { "id": 1073742052, "local": false, "x": 32105, "y": 32207, "z": 6 },
+    { "id": 1073742025, "local": false, "x": 32103, "y": 32196, "z": 7 }
+  ]
+}

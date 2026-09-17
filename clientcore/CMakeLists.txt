@@ -103,6 +103,7 @@ add_library(protocol772_initial_world
     src/object_types.cpp
     src/player_state.cpp
     src/worldstate.cpp
+    src/worldview.cpp
 )
 
 target_include_directories(protocol772_initial_world
@@ -249,4 +250,21 @@ if(BUILD_TESTING)
 
     add_test(NAME protocol772_player_state_tests COMMAND protocol772_player_state_tests)
     set_tests_properties(protocol772_player_state_tests PROPERTIES TIMEOUT 120)
+
+    add_executable(protocol772_worldview_tests
+        tests/worldview_tests.cpp
+    )
+    target_link_libraries(protocol772_worldview_tests
+        PRIVATE
+            protocol772_initial_world
+    )
+
+    if(MSVC)
+        target_compile_options(protocol772_worldview_tests PRIVATE /W4 /WX /permissive-)
+    else()
+        target_compile_options(protocol772_worldview_tests PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    endif()
+
+    add_test(NAME protocol772_worldview_tests COMMAND protocol772_worldview_tests)
+    set_tests_properties(protocol772_worldview_tests PROPERTIES TIMEOUT 120)
 endif()

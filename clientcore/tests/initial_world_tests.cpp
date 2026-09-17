@@ -80,17 +80,36 @@ void TestObjectsSrvLoader() {
         "Flags       = {MultiUse,LiquidContainer,Take}\n"
         "\n"
         "TypeID      = 400\n"
-        "Flags       = {LiquidPool,Unmove}\n";
+        "Flags       = {LiquidPool,Unmove}\n"
+        "\n"
+        "TypeID      = 500\n"
+        "Name        = \"a wall\"\n"
+        "Flags       = {Bottom,Unpass,Unmove,Unlay}\n"
+        "\n"
+        "TypeID      = 600\n"
+        "Name        = \"a walkable border\"\n"
+        "Flags       = {Clip,Unmove}\n";
     const auto loaded = LoadObjectTypeTableFromObjectsSrv(text);
     CHECK(loaded.ok());
-    CHECK(loaded.table.declared() == 5);
-    CHECK(loaded.table.max_type_id() == 400);
+    CHECK(loaded.table.declared() == 7);
+    CHECK(loaded.table.max_type_id() == 600);
     CHECK(loaded.table.Lookup(0).known && !loaded.table.Lookup(0).cumulative);
     CHECK(loaded.table.Lookup(100).known && loaded.table.Lookup(100).extra_bytes() == 0);
     CHECK(loaded.table.Lookup(200).cumulative && !loaded.table.Lookup(200).liquid_color);
     CHECK(loaded.table.Lookup(300).liquid_color && !loaded.table.Lookup(300).cumulative);
     CHECK(loaded.table.Lookup(400).liquid_color);
-    CHECK(!loaded.table.Lookup(500).known);
+    CHECK(!loaded.table.Lookup(700).known);
+
+    // UNPASS is read, and is independent of stack priority: a Bottom object
+    // carries it while a Clip object does not, which is exactly why priority
+    // must not be used as a stand-in for passability.
+    CHECK(loaded.table.Lookup(500).unpass);
+    CHECK(loaded.table.Lookup(500).priority == ObjectPriority::Bottom);
+    CHECK(!loaded.table.Lookup(600).unpass);
+    CHECK(loaded.table.Lookup(600).priority == ObjectPriority::Clip);
+    // It must not disturb what the wire format actually depends on.
+    CHECK(loaded.table.Lookup(500).extra_bytes() == 0);
+    CHECK(!loaded.table.Lookup(100).unpass);
 
     // A `#` inside a quoted name must not truncate the record.
     const auto hashed = LoadObjectTypeTableFromObjectsSrv(

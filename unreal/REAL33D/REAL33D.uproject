@@ -1,0 +1,13 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "5.8",
+	"Category": "",
+	"Description": "REAL33D presentation client. Consumes Protocol772Core; never speaks the protocol itself.",
+	"Modules": [
+		{
+			"Name": "REAL33D",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}

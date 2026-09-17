@@ -29,7 +29,7 @@ Rsa1024PublicKey TestRsa() {
 }
 
 RandomBytesFunction SequenceRandom() {
-    auto next = std::make_shared<std::uint8_t>(0);
+    auto next = std::make_shared<std::uint8_t>(std::uint8_t{0});
     return [next](std::uint8_t* destination, std::size_t size) {
         if (destination == nullptr) return false;
         for (std::size_t i = 0; i < size; ++i) destination[i] = (*next)++;
@@ -88,7 +88,7 @@ void TestInitialMessages() {
         EncryptXteaPayload(key, std::vector<std::uint8_t>{10, 0x78, 0x56, 0x34, 0x12,
                                                           0x34, 0x12, 1}, 2046,
             [](std::uint8_t* destination, std::size_t size) {
-                std::fill(destination, destination + size, 0); return true;
+                std::fill(destination, destination + size, std::uint8_t{0}); return true;
             }).packet));
     CHECK(init.status == GameMessageStatus::InitGame);
     CHECK(init.creature_id == 0x12345678U && init.beat == 0x1234 && init.bug_reports);
@@ -98,7 +98,7 @@ void TestInitialMessages() {
     const auto rights_result = ParseGameInitialMessage(DecryptXteaPayload(key,
         EncryptXteaPayload(key, rights, 2046,
             [](std::uint8_t* destination, std::size_t size) {
-                std::fill(destination, destination + size, 0); return true;
+                std::fill(destination, destination + size, std::uint8_t{0}); return true;
             }).packet));
     CHECK(rights_result.status == GameMessageStatus::Rights);
     CHECK(rights_result.rights.size() == 32 && rights_result.rights[31] == 31);
@@ -109,7 +109,7 @@ void TestInitialMessages() {
     const auto combined = ParseGameInitialMessage(DecryptXteaPayload(key,
         EncryptXteaPayload(key, initial, 2046,
             [](std::uint8_t* destination, std::size_t size) {
-                std::fill(destination, destination + size, 0); return true;
+                std::fill(destination, destination + size, std::uint8_t{0}); return true;
             }).packet));
     CHECK(combined.status == GameMessageStatus::FullScreenUnparsed);
     CHECK(combined.init_game_received && combined.rights_received);
@@ -119,7 +119,7 @@ void TestInitialMessages() {
     const auto full_result = ParseGameInitialMessage(DecryptXteaPayload(key,
         EncryptXteaPayload(key, fullscreen, 2046,
             [](std::uint8_t* destination, std::size_t size) {
-                std::fill(destination, destination + size, 0); return true;
+                std::fill(destination, destination + size, std::uint8_t{0}); return true;
             }).packet));
     CHECK(full_result.status == GameMessageStatus::FullScreenUnparsed);
     CHECK(full_result.unparsed_bytes == fullscreen);
@@ -128,7 +128,7 @@ void TestInitialMessages() {
     const auto unknown_result = ParseGameInitialMessage(DecryptXteaPayload(key,
         EncryptXteaPayload(key, unknown, 2046,
             [](std::uint8_t* destination, std::size_t size) {
-                std::fill(destination, destination + size, 0); return true;
+                std::fill(destination, destination + size, std::uint8_t{0}); return true;
             }).packet));
     CHECK(unknown_result.status == GameMessageStatus::Unsupported);
     CHECK(unknown_result.unparsed_bytes == unknown);

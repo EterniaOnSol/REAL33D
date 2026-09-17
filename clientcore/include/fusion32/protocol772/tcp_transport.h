@@ -67,6 +67,20 @@ public:
         std::uint16_t port,
         std::chrono::milliseconds timeout = std::chrono::milliseconds(3000));
 
+    // How long a read may block waiting for bytes, separate from how long
+    // Connect may spend establishing the socket.
+    //
+    // They are set together at connect time because one value is all a
+    // connection needs to be usable, but they answer different questions. A
+    // connect timeout bounds a one-off handshake and wants to be generous. A
+    // read timeout is the poll interval of whatever loop owns the socket: an
+    // interactive client that only looks at its outbound queue between reads
+    // cannot react faster than this. Leaving both at three seconds made a
+    // keypress wait up to three seconds to be sent.
+    //
+    // Requires an established connection.
+    bool SetReadTimeout(std::chrono::milliseconds timeout);
+
     void Disconnect() noexcept;
 
     ReadResult ReadSome(std::size_t max_bytes = 4096);

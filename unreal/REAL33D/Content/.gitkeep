@@ -1,0 +1,3 @@
+The slice draws with engine primitives from /Engine/BasicShapes, so this
+directory is empty on purpose. Approved art from the visual pipeline will land
+here, tracked with Git LFS per .gitattributes.

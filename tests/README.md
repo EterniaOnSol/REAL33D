@@ -36,6 +36,16 @@ wsl.exe -d Ubuntu-26.04 -- python3 /mnt/c/Users/dell/Desktop/fusion32/tests/veri
 
 `clientcore/tests/player_state_tests.cpp` covers the rest of an ordinary session burst: ping, ambience, the effect commands, the six creature attribute updates, player data/skills/state, clear target, inventory, buddy and the first-login outfit chooser. Its strongest case walks a whole simulated login burst, in the order `crplayer.cc` emits it, to exactly zero residual bytes.
 
+`build_clientcore_windows.cmd` builds Protocol772Core natively on Windows with MSVC and runs every suite against it. Until `UNREAL-SLICE-001` the suites had only ever been built by GCC under WSL, and the first native run surfaced four portability defects that GCC accepts silently: a shadowed variable, three narrowing conversions in `std::fill`/`std::make_shared` calls, and an `initializer_list<int>` deduced where `std::uint8_t` was meant. It links the engine's own OpenSSL, so it proves the exact combination the Unreal module links:
+
+```bat
+tests\build_clientcore_windows.cmd
+```
+
+It compiles the same sources twice. The C++17 build is the one the suites run against and is what keeps the component portable; the C++20 build is archived as `build/clientcore-windows/protocol772core.lib`, because UE 5.8 refuses to compile a module at C++17 and both sides of a static-library link should agree on the standard. Two compilations of one implementation, never two implementations. Both use `/W4 /WX /permissive-`.
+
+Run it from an x64 Native Tools Command Prompt, or call `vcvars64.bat` first. The Unreal module's `Build.cs` fails with these instructions if the archive is missing.
+
 `secret_check.sh` scans the tracked tree and the whole reachable history for private keys, credentials and runtime secrets, and verifies `reference/` was not modified outside its baseline commits. Run it before every push:
 
 ```powershell

@@ -187,17 +187,10 @@ bool WaitForConnect(
     return true;
 }
 
-bool SetSocketOptions(
+bool SetSocketTimeouts(
     NativeSocket socket,
     std::chrono::milliseconds timeout,
     int* error) {
-    int no_delay = 1;
-    if (setsockopt(socket, IPPROTO_TCP, TCP_NODELAY,
-                   reinterpret_cast<const char*>(&no_delay), sizeof(no_delay)) != 0) {
-        *error = LastSocketError();
-        return false;
-    }
-
 #ifdef _WIN32
     const DWORD timeout_ms = static_cast<DWORD>(timeout.count());
     if (setsockopt(socket, SOL_SOCKET, SO_RCVTIMEO,
@@ -220,6 +213,19 @@ bool SetSocketOptions(
     }
 #endif
     return true;
+}
+
+bool SetSocketOptions(
+    NativeSocket socket,
+    std::chrono::milliseconds timeout,
+    int* error) {
+    int no_delay = 1;
+    if (setsockopt(socket, IPPROTO_TCP, TCP_NODELAY,
+                   reinterpret_cast<const char*>(&no_delay), sizeof(no_delay)) != 0) {
+        *error = LastSocketError();
+        return false;
+    }
+    return SetSocketTimeouts(socket, timeout, error);
 }
 
 int ReceiveBytes(NativeSocket socket, std::uint8_t* data, std::size_t size) {
@@ -387,6 +393,32 @@ ConnectResult TcpTransport::Connect(
     SetFailure(final_error, final_message);
     const IoStatus status = IsTimeout(final_error) ? IoStatus::TimedOut : IoStatus::Failed;
     return {status, final_error, final_message};
+}
+
+bool TcpTransport::SetReadTimeout(std::chrono::milliseconds timeout) {
+    // Refusing the request must not tear the connection down. SetFailure moves
+    // the transport to Failed, which is right for an I/O error and wrong for a
+    // caller passing a bad argument or asking too early: the socket in that
+    // case is exactly as usable as it was before. Record why and say no.
+    if (state_ != ConnectionState::Connected) {
+        last_platform_error_ = 0;
+        last_error_message_ = "read timeout requires an established connection";
+        return false;
+    }
+    if (timeout.count() <= 0) {
+        last_platform_error_ = 0;
+        last_error_message_ = "read timeout must be positive";
+        return false;
+    }
+    int error = 0;
+    if (!SetSocketTimeouts(static_cast<NativeSocket>(socket_), timeout, &error)) {
+        // The option did not apply, but the connection itself is untouched, so
+        // this is reported rather than treated as a disconnection.
+        last_platform_error_ = error;
+        last_error_message_ = "could not set the read timeout";
+        return false;
+    }
+    return true;
 }
 
 void TcpTransport::Disconnect() noexcept {

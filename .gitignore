@@ -42,3 +42,15 @@ __pycache__/
 /DerivedDataCache/
 /Intermediate/
 /Saved/
+
+# Unreal generates these beside the project, not at the repository root, so the
+# anchored rules above do not reach them.
+/unreal/**/Binaries/
+/unreal/**/Build/
+/unreal/**/DerivedDataCache/
+/unreal/**/Intermediate/
+/unreal/**/Saved/
+/unreal/**/*.sln
+/unreal/**/.vs/
+/unreal/**/.vscode/
+/unreal/**/.idea/
