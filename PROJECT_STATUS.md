@@ -14,9 +14,9 @@ Player State implementation commit: `af3e3ac`
 Two-client slice commit: `a048150`
 Visual inventory commit: `4260d98`
 Visual reference pack commit: `3e0bea0`
-Unreal slice commit: this commit
-Worktree: clean after the focused visual reference pack commit
-Remote: `origin` = `https://github.com/EterniaOnSol/REAL33D.git`; full history pushed to `main` (24 commits), `HEAD == origin/main`. No history was rewritten and no force push was used. The first attempt returned HTTP 403 because the stored credential belonged to `leodavidsoto`, which holds only `READ` on that repo; the operator re-authenticated `gh` as `EterniaOnSol`, which holds `admin`
+Unreal slice commit: `da36b86`
+Worktree: clean after the focused Unreal slice commit
+Remote: `origin` = `https://github.com/EterniaOnSol/REAL33D.git`; full history pushed to `main`, `HEAD == origin/main`. Screenshots are the first binaries committed and go through Git LFS per `.gitattributes`. No history was rewritten and no force push was used. The first attempt returned HTTP 403 because the stored credential belonged to `leodavidsoto`, which holds only `READ` on that repo; the operator re-authenticated `gh` as `EterniaOnSol`, which holds `admin`
 
 Server reference source: immutable candidates selected, independently statically reviewed, materialized and `BUILD PASS`; `SERVER-RUNTIME-SMOKE-001 = CERTIFIED` after independent live repetition
 Protocol: `IN_PROGRESS`; Transport, Crypto, Login, Game Login, the `FULLSCREEN` initial world snapshot, cardinal movement with its incremental map updates, and the player/session command set are `PASS` for deterministic fixtures plus bounded local synthetic-account smoke. A whole login burst and ordinary session traffic now decode with zero residual bytes; chat, containers, trade, the request queue and the editors remain recognized by name but unparsed
