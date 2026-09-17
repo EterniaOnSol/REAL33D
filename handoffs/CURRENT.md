@@ -8,7 +8,7 @@ Starting commit: `633a9c2`
 Implementation commit: `af3e3ac`
 Ending commit: this handoff commit
 Worktree: clean after the focused Player State commit
-Remote: `origin` = `https://github.com/EterniaOnSol/REAL33D.git` configured; push `BLOCKED` on permissions (see the GitHub section)
+Remote: `origin` = `https://github.com/EterniaOnSol/REAL33D.git`, full history pushed to `main`, `HEAD == origin/main`
 
 ## Objective
 
@@ -101,31 +101,32 @@ services stopped.
 
 ## GitHub
 
-`origin` was configured as `https://github.com/EterniaOnSol/REAL33D.git`. The
-push is `BLOCKED`:
+`origin` was configured as `https://github.com/EterniaOnSol/REAL33D.git` and the
+full existing history, 24 commits, was pushed to `main`. `HEAD == origin/main`.
+No history was rewritten and no force push was used.
+
+The first attempt returned HTTP 403:
 
 ```text
 remote: Permission to EterniaOnSol/REAL33D.git denied to leodavidsoto.
-fatal: ... The requested URL returned error: 403
 ```
 
-Diagnosis: the repository exists and is public, the stored token carries the
-`repo` scope, but the authenticated account `leodavidsoto` holds only `READ` on
-it (`gh repo view EterniaOnSol/REAL33D` reports
-`"viewerPermission":"READ"`). This is a repository permission, not a scope or a
-URL problem, and it needs an owner decision. Any of these unblocks it:
+`EterniaOnSol` is a personal account, not an organisation, and the credential
+stored on this machine belonged to a different personal account,
+`leodavidsoto`, whose permissions on the repo were `pull: true, push: false`.
+That is a repository permission rather than a scope or URL problem, so it needed
+an operator decision. The operator re-authenticated `gh` as `EterniaOnSol`
+through the device flow; that account reports `admin: true` and the push then
+succeeded unchanged. Both accounts remain registered in `gh`, with
+`EterniaOnSol` active.
 
-1. `EterniaOnSol` adds `leodavidsoto` as a collaborator with write access;
-2. authenticate as `EterniaOnSol` (`gh auth login`);
-3. push to a fork under `leodavidsoto` and open a pull request.
+Worth remembering, because it is a common trap: git identity (`user.name` and
+`user.email`) is only a label written into the commit, while the token is what
+GitHub checks for write access. Changing the first does nothing for the second.
 
-Nothing was forced, no history was rewritten, and no alternative destination was
-invented. `HEAD` is 23 commits ahead of an `origin/main` that does not exist
-yet. Once access is granted the push is a plain `git push -u origin main`.
-
-`tests/secret_check.sh` ran clean before the attempt, and the check itself was
-repaired first: its private key scan had been passing vacuously. See the commit
-`f205519`.
+`tests/secret_check.sh` ran clean immediately before the push, and the check
+itself was repaired first: its private key scan had been passing vacuously. See
+commit `f205519`.
 
 Reviewed and accepted rather than pushed silently, all recorded in the evidence:
 

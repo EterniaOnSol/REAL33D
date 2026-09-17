@@ -12,7 +12,7 @@ Initial World implementation commit: `fedd536`
 Movement implementation commit: `37fa5f6`
 Player State implementation commit: `af3e3ac`
 Worktree: clean after the focused Player State commit
-Remote: `origin` = `https://github.com/EterniaOnSol/REAL33D.git` configured; push `BLOCKED` on repository permissions. The authenticated GitHub account `leodavidsoto` holds `READ` on that repo, so `git push -u origin main` returns HTTP 403. Nothing was force-pushed and no history was rewritten; `HEAD` is 23 commits ahead of an unwritten `origin/main`
+Remote: `origin` = `https://github.com/EterniaOnSol/REAL33D.git`; full history pushed to `main` (24 commits), `HEAD == origin/main`. No history was rewritten and no force push was used. The first attempt returned HTTP 403 because the stored credential belonged to `leodavidsoto`, which holds only `READ` on that repo; the operator re-authenticated `gh` as `EterniaOnSol`, which holds `admin`
 
 Server reference source: immutable candidates selected, independently statically reviewed, materialized and `BUILD PASS`; `SERVER-RUNTIME-SMOKE-001 = CERTIFIED` after independent live repetition
 Protocol: `IN_PROGRESS`; Transport, Crypto, Login, Game Login, the `FULLSCREEN` initial world snapshot, cardinal movement with its incremental map updates, and the player/session command set are `PASS` for deterministic fixtures plus bounded local synthetic-account smoke. A whole login burst and ordinary session traffic now decode with zero residual bytes; chat, containers, trade, the request queue and the editors remain recognized by name but unparsed
