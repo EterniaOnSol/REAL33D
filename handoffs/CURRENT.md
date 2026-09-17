@@ -2,147 +2,157 @@
 
 Date/time: 2026-09-16
 Agent: Claude
-Role: VISUAL ASSET MASTER INVENTORY
+Role: VISUAL REFERENCE PACK
 Branch: `main`
-Starting commit: `31d4be5`
-Implementation commit: `4260d98`
+Starting commit: `dde7cd6`
+Implementation commit: `3e0bea0`
 Ending commit: this handoff commit
-Worktree: clean after the focused inventory commit
+Worktree: clean after the focused reference pack commit
 Remote: `origin` = `https://github.com/EterniaOnSol/REAL33D.git`, `HEAD == origin/main`
 
 ## Objective
 
-Complete `VISUAL-ASSET-MASTER-INVENTORY-001`: create the REAL33D visual area and
-build a complete, reproducible master inventory of the visual assets needed to
-represent Fusion32 7.72 in 3D, not limited to Rookgaard. Do not modify
-ClientCore, protocol or gameplay. Do not implement Unreal. Do not produce models.
+Complete `VISUAL-REFERENCE-PACK-001`: turn the master visual inventory into a
+navigable workstation where the artist can see what to reinterpret, with the
+original visual reference, without needing to understand Fusion32, Protocol772,
+`objects.srv`, internal ids or the master CSVs. Do not modify ClientCore,
+protocol or gameplay. No 3D art. No Unreal.
 
 ## Result
 
-`PASS` over the datasets available, and explicitly **not complete in the visual
-sense**, because no appearance data is available to this repository. Full
-counts, sources and gaps in
-`evidence/visual/VISUAL-ASSET-MASTER-INVENTORY-001.md`.
+`PASS`. 5,284 appearances decoded and catalogued, 10,926 sprites decoded with
+zero failures, 5,284 previews rendered with zero failures, 456 of them the
+Rookgaard P0 queue. Full counts in
+`evidence/visual/VISUAL-REFERENCE-PACK-001.md`.
 
-Headline numbers: 5,690 tracker rows covering 5,003 object types, 159 monster
-races, 337 npcs, 152 outfit identities, 26 graphical effects and 13 projectiles.
-Those 5,003 object ids collapse into 1,351 visual groups, so roughly three
-quarters of the object inventory is expected to reuse an asset rather than
-receive its own.
+## The visual source
 
-## What was built
+Found already present and pinned in the project's own authorised workspace by
+`CLASSIC-CLIENT-772-001`:
 
 ```text
-visual/
-  README.md              how to regenerate, and the three-identity model
-  docs/                  SOURCES, ART_DIRECTION, TECHNICAL_STANDARD, PIPELINE
-  tools/                 extract_visual_inventory.py, sync_tracker.py
-  manifests/             generated: objects, creatures, npcs, outfits, effects,
-                         missiles, visual_groups, regions, summary.json
-  tracker/               VISUAL_TRACKER.csv, human-owned status columns
-  rookgaard_p0/          P0_ASSETS.csv and how the subset is chosen
-  mockups/ approved/ rejected/ production/
+build/classic-client-772/app/Tibia.dat   3C5E857F...9677AEDD
+build/classic-client-772/app/Tibia.spr   86ABBF5F...CCE0C64A
 ```
 
-Everything under `manifests/` is derived and regenerable in about 21 seconds.
-`sync_tracker.py` merges rather than overwrites, so human decisions survive a
-regeneration; verified by marking a row `MOCKUP`, regenerating and confirming
-`added 0, refreshed 5690` with the note intact.
+Nothing was downloaded, no substitute was used, and neither file is committed.
 
-## Design decisions worth keeping
+One argument for the version **does not hold**, and the evidence says so:
+`reference/login/src/connections.cc` lines 598-600 read `DATSIGNATURE`,
+`SPRSIGNATURE` and `PICSIGNATURE` and discard them, so a successful live login
+proves nothing about which appearance data the client used. What does support it
+is that the client's declared counts line up with the server's own content three
+independent ways, listed in the evidence. Provenance of the copy itself remains
+`UNKNOWN`, unchanged.
 
-**Two classification axes, not one.** Behaviour category comes from the object's
-own flags and is `DEMONSTRATED`. Art class comes from the object's own `Name`
-and is always `INFERRED`, because flags cannot separate a tree from a wall when
-both are merely `Unpass` and `Unmove`. Collapsing them would either lose the
-flag evidence or hide that the art class is a guess. This is why the behaviour
-axis reports 4 `traversal` objects while the art axis reports 75 stairs; both
-are correct for what they measure.
+## Format established, not assumed
 
-**Three identities kept apart.** Logical id (Fusion32 type id), visual identity
-(`visual_group`), physical asset (produced file). `ALIAS_OF` is settled by
-`objects.hh::getDisguise`, which shows the client is told to draw the target
-type. `SHARED_CANDIDATE` is a proposal for an artist to confirm or split.
+No `Tibia.dat` specification exists in this project's source truth, so
+`visual/tools/tibia772.py` treats the layout as a hypothesis and proves it four
+ways: the records consume the file to exactly EOF, the header counts match,
+every sprite id falls inside the sprite file, and the client's option bytes
+agree with the server's object flags across thousands of items.
 
-**Priorities from map evidence.** P0 is the object types in the sectors within
-one ring of `NewbieStart = [32097,32219,7]`, which `map.dat` declares and which
-is the field two live clients actually spawned on. P1 is the rest of the
-Rookgaard region by nearest named mark. P2 is everything else on the map,
-grouped by region, with no invented ordering. 2,031 types declared but never
-placed in `origmap` are `UNPRIORITIZED` and remain real inventory entries.
+That last check is the independent one, since the reader never opens
+`objects.srv`. Nine of fifteen correlations are exact; the rest run 97.5 to
+99.0 percent with disagreement almost entirely one-directional, the server
+carrying flags the client need not draw. A misread layout would give scattered
+two-way noise instead.
 
-**No fidelity percentage.** `docs/ART_DIRECTION.md` states there is no 50/50 or
-any other ratio. The data fixes identity and context; how closely a 3D asset
-resembles a 32-pixel sprite is a judgement. The artist proposes, the director
-decides, rejected work is kept.
+`patternZ` is present in this format. The first ground reads
+`01 01 01 04 04 01 01` followed by sprite ids 136..151: sixteen sprites and
+exactly sixteen valid ids. Omitting the field would shift every later read out
+of range, which is what makes it detectable rather than assumed.
 
-## Two findings
+## Visual families revalidated
 
-**Stairs are not teleports in 7.72.** Exactly one object type carries
-`TeleportRelative` and one carries `TeleportAbsolute`. Level changes are decided
-by the height and climbing logic in `cract.cc::TCreature::Go`, not by a flag.
+The master inventory's 1,351 groups came from name and category, which was
+inference. Against real artwork: 4,587 distinct sprite sets across the 5,284
+appearances, 310 of them used by more than one appearance covering 835 ids.
+Those 310 are **demonstrated** identical pictures.
 
-**Flag spellings differ between the data and the enum.** `objects.srv` writes
-flags in CamelCase (`Bank`, `LiquidContainer`), resolved by name in
-`objects.cc::LoadObjects` against the uppercase `enum FLAG`. The first version
-of the extractor matched the C++ spelling and silently classified all 5,003
-types as `INFERRED`. Caught by the summary counters showing zero `DEMONSTRATED`
-rows, which is exactly what those counters exist for.
+The docs state plainly that neither figure is a model count. A wall drawn from
+four directions is four sprite sets and one mesh; a 4x4 ground pattern is one
+sprite set that may want one mesh plus a varying material. `Representation` in
+the tracker stays editable because that call belongs to the artist.
 
-## What is UNRESOLVED
+Every Fusion32 id keeps its mapping: `appearances.csv` carries the tracker id,
+client id, inventory name, category, priority and visual group on every row.
 
-**Appearance.** Per-thing sprite dimensions, layer counts, animation frame
-counts, draw offsets and the pixels live in the client's `Tibia.dat` and
-`Tibia.spr`, which are not in this repository, are gitignored, and have
-`UNKNOWN` provenance per `docs/CLASSIC_CLIENT_772.md`. Depending on them would
-make the inventory non-reproducible and tie it to an artifact with no chain of
-custody. Every manifest carries a `sprite_geometry` column fixed at
-`UNRESOLVED`, and `summary.json` records the gap under `sources_unavailable`
-with the extractor hook. Nothing else in the schema changes when that source
-arrives.
+## Unresolved, named rather than hidden
 
-**Art class for 2,752 object types**, reported as `UNRESOLVED` rather than
-bucketed by guess.
+- **100 outfits** the client ships that no monster file, npc file or
+  player-selectable range references. Real appearances with real sprites,
+  catalogued and previewed, with nothing in the server data pointing at them.
+- **Object type 5090**, `a treasure map`, declared server side but the client's
+  item ids stop at 5089. Ranges are otherwise contiguous and gapless on both
+  sides, so this is one known id, not general ambiguity.
+- **36 empty sprite slots** of 10,962.
 
-**Floor height in Unreal units**, left open in `docs/TECHNICAL_STANDARD.md` as a
-presentation choice the data does not declare.
+All 5,284 appearances map to exactly one inventory identity. No association is
+ambiguous.
 
-## Git LFS
+## Repository policy
 
-`.gitattributes` routes `.blend`, `.fbx`, `.glb`, `.gltf`, `.png`, `.jpg`,
-`.jpeg`, `.tga`, `.psd`, `.exr`, `.wav` and `.ogg` to LFS; `.gitignore` excludes
-Blender autosaves and local cache and bake directories. Manifests, tracker and
-tools stay in plain Git so they remain diffable. The entries are inert until
-`git lfs install` is run in a clone. **No binary asset was committed.**
+Neither the client data nor the 99 MB of derived previews is committed.
+`/visual/reference_pack/` was added to `.gitignore` because previews are
+derivative works of an artifact with `UNKNOWN` provenance. The existing LFS
+rules for future original 3D assets are unchanged; no binary was committed.
+
+`visual/tools/setup_reference_pack.sh` is the single setup command. It verifies
+both client files against their recorded SHA-256 and refuses to continue on a
+mismatch, so a different client version cannot quietly produce a catalogue
+describing a different game.
+
+The flow for a fresh clone is: clone, drop the two authorised client files into
+`build/classic-client-772/app/`, run that one script, open
+`visual/reference_pack/catalogue.html`.
+
+## Tests
+
+`visual/tools/test_tibia772.py`, 24 tests, all passing. Every fixture is built
+byte by byte inside the test, so the suite runs without the client data and
+nothing proprietary is committed. Covers geometry, the `patternZ` shape, the
+exact-size rule, option payloads, the correlation check in both directions, RLE
+decoding, PNG output and nearest-neighbour scaling; failure cases include
+trailing bytes, every truncation of a file, unknown option bytes, RLE overruns,
+a truncated offset table and a short header.
+
+```powershell
+wsl.exe -d Ubuntu-26.04 -- python3 /mnt/c/Users/dell/Desktop/fusion32/visual/tools/test_tibia772.py
+```
 
 ## Checks
 
+- Parser tests: 24/24 `PASS`
 - `tests/secret_check.sh`: `PASS`
 - `reference/` untouched
-- `clientcore/` untouched, confirmed by `git status --porcelain clientcore/`
-- No protocol, gameplay or Unreal work
-- No 3D model produced
+- `clientcore/` untouched; no protocol or gameplay change
+- No 3D art, no Unreal work
+- No proprietary or derived binary committed
 
 ## Exact next task
 
-Two candidates, neither started automatically.
+`ROOKGAARD-P0-MOCKUPS-001`, and it is now unblocked in a way it was not before.
 
-`ROOKGAARD-P0-MOCKUPS-001`: 456 P0 object types are waiting on mockups. Start
-from `visual/rookgaard_p0/P0_ASSETS.csv`, work group representatives first
-(`Representation = MESH`) since each covers several ids, and follow
-`visual/docs/PIPELINE.md`. The director's `APPROVED`/`REJECTED` decisions are
-what unblock modelling.
+The artist can open `visual/reference_pack/p0_rookgaard.html`, see all 456 P0
+object types with their original sprites, and start proposing. Work the group
+representatives first, the rows whose `Representation` is `MESH`, since each
+covers several ids. Record the version in the tracker's `Mockup Version`, move
+the row to `REVIEW`, and the project director decides `APPROVED` or `REJECTED`.
+There is no fidelity percentage; `visual/docs/ART_DIRECTION.md` is unchanged.
 
-`UNREAL-SLICE-001`: the protocol side is ready. Create the minimal Unreal
-desktop project that consumes `Protocol772Core` through a network-thread event
-queue and applies `WorldState` on the game thread, per `ROADMAP.md` step 8.
+The alternative remains `UNREAL-SLICE-001`: the protocol side has been ready
+since `TWO-CLIENT-VERTICAL-SLICE-001`, and
 `visual/docs/TECHNICAL_STANDARD.md` holds the provisional scale, pivots and
-naming it should follow, and the floor-height question it will have to settle.
+naming plus the floor-height question it will have to settle.
+
+Do not begin either automatically.
 
 Commands to reproduce this task's results:
 
 ```powershell
-wsl.exe -d Ubuntu-26.04 -- python3 /mnt/c/Users/dell/Desktop/fusion32/visual/tools/extract_visual_inventory.py --archive /mnt/c/Users/dell/Desktop/fusion32/tibia-game.tarball.tar.gz --source /mnt/c/Users/dell/Desktop/fusion32/reference/game/src --out /mnt/c/Users/dell/Desktop/fusion32/visual/manifests
-wsl.exe -d Ubuntu-26.04 -- python3 /mnt/c/Users/dell/Desktop/fusion32/visual/tools/sync_tracker.py --manifests /mnt/c/Users/dell/Desktop/fusion32/visual/manifests --tracker /mnt/c/Users/dell/Desktop/fusion32/visual/tracker/VISUAL_TRACKER.csv --p0-out /mnt/c/Users/dell/Desktop/fusion32/visual/rookgaard_p0/P0_ASSETS.csv
+wsl.exe -d Ubuntu-26.04 -- python3 /mnt/c/Users/dell/Desktop/fusion32/visual/tools/test_tibia772.py
+wsl.exe -d Ubuntu-26.04 -- bash /mnt/c/Users/dell/Desktop/fusion32/visual/tools/setup_reference_pack.sh
 wsl.exe -d Ubuntu-26.04 -- bash /mnt/c/Users/dell/Desktop/fusion32/tests/secret_check.sh /mnt/c/Users/dell/Desktop/fusion32
 ```
