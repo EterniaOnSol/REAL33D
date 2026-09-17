@@ -653,7 +653,22 @@ void TestDeleteFieldRemovesCreature() {
                                             Types());
     CHECK(decoded.ok());
     CHECK(ApplyServerUpdate(&state, decoded.update, Types()).clean());
-    CHECK(state.known_creatures.count(other_id) == 0);
+    // The creature leaves the map but stays in the mirror, because the server
+    // sends this command both when a creature scrolls out of view and when it
+    // is destroyed, and TConnection::KnownCreatureTable only frees an entry in
+    // ~TCreature or when NewKnownCreature reuses the slot.
+    CHECK(state.FindTile(guest) == nullptr
+          || [&] {
+                 for (const MapThing& thing : state.FindTile(guest)->things) {
+                     if (thing.kind == MapThingKind::Creature
+                         && thing.creature.creature_id == other_id) {
+                         return false;
+                     }
+                 }
+                 return true;
+             }());
+    CHECK(state.visible_creature_ids() == (std::vector<std::uint32_t>{player_id}));
+    CHECK(state.known_creatures.count(other_id) == 1);
     CHECK(state.known_creatures.count(player_id) == 1);
 }
 
@@ -758,6 +773,126 @@ void TestApplicationAnomalies() {
     CHECK(ApplyServerUpdate(nullptr, decoded.update, Types()).clean());
 }
 
+// The second-client lifecycle the vertical slice depends on: another player
+// appears in view, walks, disconnects and comes back, all while this client
+// stays connected and stationary.
+void TestSecondPlayerLifecycle() {
+    const std::uint32_t self_id = 1002;
+    const std::uint32_t other_id = 1001;  // a player keeps its CharacterID
+    const MapPosition self{1000, 1000, 7};
+    TileMap tiles = BuildWorld(self, self_id);
+
+    vectors::ServerEmitter initial(Provider(tiles));
+    initial.FullScreen(1000, 1000, 7);
+    const auto screen = DecodeFullScreen(initial.bytes(), Types());
+    CHECK(screen.ok());
+    WorldState state;
+    state.local_creature_id = self_id;
+    CHECK(ApplyFullScreen(&state, screen.message).clean());
+    CHECK(state.visible_creature_ids() == (std::vector<std::uint32_t>{self_id}));
+    const MapPosition anchor_before = state.viewport_anchor;
+
+    // 1. The other player logs in nearby. Create ends in
+    // AnnounceChangedObject(OBJECT_CREATED), so this client gets ADD_FIELD
+    // carrying a word-97 descriptor with the name.
+    const MapPosition arrival{1002, 1000, 7};
+    vectors::ServerEmitter appear(Provider(tiles));
+    appear.AddField(arrival, vectors::IntroducedCreature(other_id, 0, "Test Player A"));
+    auto decoded = DecodeServerUpdate(appear.bytes(), 0, state.viewport_anchor, Types());
+    CHECK(decoded.ok());
+    CHECK(ApplyServerUpdate(&state, decoded.update, Types()).clean());
+    CHECK(state.visible_creature_ids() == (std::vector<std::uint32_t>{other_id, self_id}));
+    CHECK(state.known_creatures.at(other_id).name == "Test Player A");
+    CHECK(state.known_creatures.at(other_id).position == arrival);
+    CHECK(state.FindTile(arrival) != nullptr);
+
+    // 2. The other player walks one field west, towards this client.
+    const MapPosition stepped{1001, 1000, 7};
+    const std::size_t stack = state.known_creatures.at(other_id).stack_position;
+    vectors::ServerEmitter walk(Provider(tiles));
+    walk.MoveCreature(arrival, static_cast<std::uint8_t>(stack), stepped);
+    decoded = DecodeServerUpdate(walk.bytes(), 0, state.viewport_anchor, Types());
+    CHECK(decoded.ok());
+    CHECK(ApplyServerUpdate(&state, decoded.update, Types()).clean());
+    CHECK(state.known_creatures.at(other_id).position == stepped);
+    CHECK(state.FindTile(stepped) != nullptr);
+    // The vacated field keeps its ground but no longer holds the creature.
+    const MapTile* vacated = state.FindTile(arrival);
+    CHECK(vacated != nullptr);
+    for (const MapThing& thing : vacated->things) CHECK(thing.kind != MapThingKind::Creature);
+    // This client did not move.
+    CHECK(state.viewport_anchor == anchor_before);
+    CHECK(state.viewport_synchronized());
+
+    // 3. The other player disconnects. Delete ends in
+    // AnnounceChangedObject(OBJECT_DELETED), so this client gets DELETE_FIELD.
+    const std::size_t stack_after = state.known_creatures.at(other_id).stack_position;
+    vectors::ServerEmitter leave(Provider(tiles));
+    leave.DeleteField(stepped, static_cast<std::uint8_t>(stack_after));
+    decoded = DecodeServerUpdate(leave.bytes(), 0, state.viewport_anchor, Types());
+    CHECK(decoded.ok());
+    CHECK(ApplyServerUpdate(&state, decoded.update, Types()).clean());
+    // No ghost on the map. The mirror keeps the entry, because this same
+    // command also means "scrolled out of view" and the server's own table only
+    // frees a slot in ~TCreature or when NewKnownCreature reuses it. Dropping it
+    // would make a later word-98 or word-99 reappearance unrecognisable.
+    CHECK(state.visible_creature_ids() == (std::vector<std::uint32_t>{self_id}));
+    CHECK(state.known_creatures.count(other_id) == 1);
+    CHECK(state.FindTile(stepped) != nullptr);
+    for (const MapThing& thing : state.FindTile(stepped)->things) {
+        CHECK(thing.kind != MapThingKind::Creature);
+    }
+
+    // A creature that merely scrolled out of view and returns is announced with
+    // a word-99 descriptor carrying no name, which the retained mirror entry
+    // makes recognisable.
+    vectors::ServerEmitter glimpse(Provider(tiles));
+    glimpse.AddField(stepped, vectors::KnownCreature(other_id, 1));
+    auto seen_again = DecodeServerUpdate(glimpse.bytes(), 0, state.viewport_anchor, Types());
+    CHECK(seen_again.ok());
+    CHECK(ApplyServerUpdate(&state, seen_again.update, Types()).clean());
+    CHECK(state.known_creatures.at(other_id).name == "Test Player A");
+    CHECK(state.known_creatures.at(other_id).position == stepped);
+
+    // Put it back out of view for the relog step below.
+    const std::size_t glimpsed_stack = state.known_creatures.at(other_id).stack_position;
+    vectors::ServerEmitter leave_again(Provider(tiles));
+    leave_again.DeleteField(stepped, static_cast<std::uint8_t>(glimpsed_stack));
+    decoded = DecodeServerUpdate(leave_again.bytes(), 0, state.viewport_anchor, Types());
+    CHECK(decoded.ok());
+    CHECK(ApplyServerUpdate(&state, decoded.update, Types()).clean());
+    CHECK(state.visible_creature_ids() == (std::vector<std::uint32_t>{self_id}));
+
+    // 4. The other player logs back in. ~TCreature marked this client's slot
+    // free without clearing its creature id, so NewKnownCreature reuses that
+    // very slot and the word-97 descriptor evicts the same id it introduces.
+    // That must not be read as evicting an unknown creature.
+    MapThing relog = vectors::IntroducedCreature(other_id, other_id, "Test Player A");
+    vectors::ServerEmitter back(Provider(tiles));
+    back.AddField(arrival, relog);
+    decoded = DecodeServerUpdate(back.bytes(), 0, state.viewport_anchor, Types());
+    CHECK(decoded.ok());
+    const auto applied = ApplyServerUpdate(&state, decoded.update, Types());
+    CHECK(applied.clean());
+    CHECK(state.visible_creature_ids() == (std::vector<std::uint32_t>{other_id, self_id}));
+    CHECK(state.known_creatures.count(other_id) == 1);
+    CHECK(state.known_creatures.at(other_id).position == arrival);
+    CHECK(state.known_creatures.at(other_id).name == "Test Player A");
+    CHECK(state.viewport_anchor == anchor_before);
+    CHECK(state.viewport_synchronized());
+
+    // A word-97 evicting a genuinely different creature is still reported.
+    MapThing stranger = vectors::IntroducedCreature(1003, 999999, "Ghost");
+    vectors::ServerEmitter evict(Provider(tiles));
+    evict.AddField({1000, 1002, 7}, stranger);
+    decoded = DecodeServerUpdate(evict.bytes(), 0, state.viewport_anchor, Types());
+    CHECK(decoded.ok());
+    const auto evicted = ApplyServerUpdate(&state, decoded.update, Types());
+    CHECK(!evicted.clean());
+    CHECK(evicted.anomalies[0].kind == WorldStateAnomalyKind::UnknownEvictedCreature);
+    CHECK(evicted.anomalies[0].creature_id == 999999);
+}
+
 void TestViewportDesynchronizationIsVisible() {
     const std::uint32_t player_id = 31;
     MapPosition player{1000, 1000, 7};
@@ -795,6 +930,7 @@ int main() {
         TestStackPriority();
         TestWalkMatchesFreshFullScreen();
         TestKnownCreatureMirrorRetainsScrolledOutCreatures();
+        TestSecondPlayerLifecycle();
         TestPlayerStackPositionFollowsPriority();
         TestRejectedStepLeavesWorldUntouched();
         TestFloorChangeKeepsOnlyVisibleFloors();

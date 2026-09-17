@@ -135,7 +135,11 @@ void RemoveTileIfEmpty(WorldState* state, const MapPosition& position) {
 void RecordCreature(WorldState* state, const CreatureThing& creature,
                     const MapPosition& position, std::size_t stack,
                     std::vector<WorldStateAnomaly>* anomalies) {
-    if (creature.evicts_slot && creature.removed_creature_id != 0) {
+    // See the matching note in ApplyFullScreen: a word-97 whose evicted id
+    // equals the introduced id is the server reusing this creature's own slot,
+    // which is what every relog produces. It evicts nothing.
+    if (creature.evicts_slot && creature.removed_creature_id != 0
+        && creature.removed_creature_id != creature.creature_id) {
         if (state->known_creatures.erase(creature.removed_creature_id) == 0) {
             anomalies->push_back({WorldStateAnomalyKind::UnknownEvictedCreature,
                                   creature.removed_creature_id, position});
@@ -747,14 +751,18 @@ WorldStateApplyResult ApplyServerUpdate(WorldState* state, const ServerUpdate& u
                                             0, update.delete_field.position});
                 return result;
             }
-            const MapThing removed = tile->things[update.delete_field.stack_index];
             tile->things.erase(tile->things.begin()
                                + static_cast<std::ptrdiff_t>(update.delete_field.stack_index));
             const MapTile snapshot = *tile;
             RefreshTileCreatures(state, snapshot);
-            if (removed.kind == MapThingKind::Creature) {
-                state->known_creatures.erase(removed.creature.creature_id);
-            }
+            // A removed creature leaves the map but stays in the mirror. The
+            // server sends this same command whether the creature scrolled out
+            // of view or was destroyed, and TConnection::KnownCreatureTable
+            // only frees an entry in ~TCreature or when NewKnownCreature reuses
+            // the slot. Dropping it here would make the server answer a later
+            // reappearance with a word-98 or word-99 descriptor this client no
+            // longer recognises. Use visible_creature_ids() for what is on the
+            // map.
             RemoveTileIfEmpty(state, update.delete_field.position);
             return result;
         }

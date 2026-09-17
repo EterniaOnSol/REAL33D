@@ -108,7 +108,14 @@ WorldStateApplyResult ApplyFullScreen(WorldState* state, const FullScreenMessage
                 if (thing.kind != MapThingKind::Creature) continue;
                 const CreatureThing& creature = thing.creature;
 
-                if (creature.evicts_slot && creature.removed_creature_id != 0) {
+                // NewKnownCreature returns the id of the slot it reused. When
+                // that id equals the creature being introduced, the server is
+                // refreshing an entry it already held for this same creature,
+                // which happens on every relog because a player keeps its
+                // CreatureID and ~TCreature only marks the slot free without
+                // clearing its id. That is not an eviction of anything.
+                if (creature.evicts_slot && creature.removed_creature_id != 0
+                    && creature.removed_creature_id != creature.creature_id) {
                     if (state->known_creatures.erase(creature.removed_creature_id) == 0) {
                         result.anomalies.push_back(
                             {WorldStateAnomalyKind::UnknownEvictedCreature,
