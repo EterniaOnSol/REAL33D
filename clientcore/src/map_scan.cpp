@@ -262,6 +262,59 @@ bool ReadScannerByte(MapScanner* scanner, std::uint8_t* value, const char* what)
     return true;
 }
 
+bool FailScanner(MapScanner* scanner, MapDecodeError code, const char* detail) {
+    return scanner->Fail(code, scanner->at_, detail);
+}
+
+bool ReadScannerWord(MapScanner* scanner, std::uint16_t* value, const char* what) {
+    if (!scanner->ReadU16(value)) {
+        return scanner->Fail(MapDecodeError::Truncated, scanner->at_, what);
+    }
+    return true;
+}
+
+bool ReadScannerQuad(MapScanner* scanner, std::uint32_t* value, const char* what) {
+    if (!scanner->ReadU32(value)) {
+        return scanner->Fail(MapDecodeError::Truncated, scanner->at_, what);
+    }
+    return true;
+}
+
+bool ReadScannerOutfit(MapScanner* scanner, OutfitDescriptor* value) {
+    return scanner->ReadOutfit(value);
+}
+
+bool ReadScannerItem(MapScanner* scanner, ItemThing* value) {
+    const std::size_t start = scanner->at_;
+    std::uint16_t type_id = 0;
+    if (!scanner->ReadU16(&type_id)) {
+        return scanner->Fail(MapDecodeError::Truncated, start, "item type id");
+    }
+    if (type_id <= kTypeIdLastBodyContainer || type_id == kTypeIdCreatureContainer) {
+        return scanner->Fail(MapDecodeError::ReservedObjectTypeId, start,
+                             "server-internal container type id carried as an item");
+    }
+    value->type_id = type_id;
+    const ObjectTypeEncoding encoding = scanner->types_.Lookup(type_id);
+    if (!encoding.known) {
+        return scanner->Fail(MapDecodeError::UnknownObjectTypeId, start,
+                             "object type id absent from the type table");
+    }
+    if (encoding.liquid_color) {
+        value->has_liquid_color = true;
+        if (!scanner->ReadU8(&value->liquid_color)) {
+            return scanner->Fail(MapDecodeError::Truncated, scanner->at_, "liquid color");
+        }
+    }
+    if (encoding.cumulative) {
+        value->has_amount = true;
+        if (!scanner->ReadU8(&value->amount)) {
+            return scanner->Fail(MapDecodeError::Truncated, scanner->at_, "cumulative amount");
+        }
+    }
+    return true;
+}
+
 bool ReadScannerString(MapScanner* scanner, std::string* value, const char* what) {
     const std::size_t start = scanner->at_;
     std::uint16_t length = 0;
@@ -366,6 +419,7 @@ const char* MapDecodeErrorName(MapDecodeError error) noexcept {
         case MapDecodeError::InvalidStackIndex: return "InvalidStackIndex";
         case MapDecodeError::InvalidDirection: return "InvalidDirection";
         case MapDecodeError::TrailingBytes: return "TrailingBytes";
+        case MapDecodeError::InvalidInventorySlot: return "InvalidInventorySlot";
     }
     return "Unknown";
 }

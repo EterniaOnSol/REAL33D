@@ -683,11 +683,12 @@ void TestNegativeCases() {
                              ObjectTypeTable{}).error == MapDecodeError::EmptyObjectTypeTable);
 
     // An opcode this layer does not decode consumes nothing and is named.
-    const auto unsupported = DecodeServerUpdate({141, 1, 2, 3, 4, 5, 6}, 0, anchor, Types());
+    // Containers are out of scope for both this task and PLAYERSTATE-772-001.
+    const auto unsupported = DecodeServerUpdate({110, 1, 2, 3, 4, 5, 6}, 0, anchor, Types());
     CHECK(unsupported.ok());
     CHECK(unsupported.update.kind == ServerUpdateKind::Unsupported);
     CHECK(unsupported.update.bytes_consumed == 0);
-    CHECK(std::string(unsupported.update.name) == "SV_CMD_CREATURE_LIGHT");
+    CHECK(std::string(unsupported.update.name) == "SV_CMD_CONTAINER");
     CHECK(std::string(ServerUpdateKindName(ServerUpdateKind::Row)) == "Row");
 
     // Stack indexes at or beyond MAX_OBJECTS_PER_POINT cannot be produced by

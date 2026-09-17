@@ -34,6 +34,14 @@ wsl.exe -d Ubuntu-26.04 -- python3 /mnt/c/Users/dell/Desktop/fusion32/tests/veri
 
 `clientcore/tests/movement_tests.cpp` covers cardinal movement in both directions. The fixtures header's server port grew `SendRow`, `SendFloors`, `SendFieldData`, the field commands, `SendMoveCreature`, `SendSnapback` and `SendMessage`, each asserted against hand-computed golden hex before use. Its strongest case walks twelve cardinal steps over a synthetic world and, after every single step, compares the incrementally updated `WorldState` against a freshly emitted `SV_CMD_FULLSCREEN` at the new position.
 
+`clientcore/tests/player_state_tests.cpp` covers the rest of an ordinary session burst: ping, ambience, the effect commands, the six creature attribute updates, player data/skills/state, clear target, inventory, buddy and the first-login outfit chooser. Its strongest case walks a whole simulated login burst, in the order `crplayer.cc` emits it, to exactly zero residual bytes.
+
+`secret_check.sh` scans the tracked tree and the whole reachable history for private keys, credentials and runtime secrets, and verifies `reference/` was not modified outside its baseline commits. Run it before every push:
+
+```powershell
+wsl.exe -d Ubuntu-26.04 -- bash /mnt/c/Users/dell/Desktop/fusion32/tests/secret_check.sh /mnt/c/Users/dell/Desktop/fusion32
+```
+
 Subsequent protocol tests should keep covering both directions:
 
 - known packet bytes -> expected typed semantic event;

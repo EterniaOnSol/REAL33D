@@ -49,3 +49,11 @@ viewport anchor those commands step; `SV_CMD_ADD_FIELD` carries no stack index,
 so the object type table also holds the `PlaceObject` priority. See
 [`docs/protocol772/MOVEMENT.md`](../docs/protocol772/MOVEMENT.md) and
 [`MOVEMENT-772-001.md`](../evidence/clientcore/MOVEMENT-772-001.md).
+
+`player_state` closes the command set an ordinary session emits, so a caller can
+walk a decrypted payload to its end instead of stopping at the first opcode it
+cannot size. Only commands with demonstrated semantics reach `WorldState`;
+effects, inventory, buddy and the first-login outfit chooser are decoded and
+surfaced but store nothing. See
+[`docs/protocol772/PLAYER_STATE.md`](../docs/protocol772/PLAYER_STATE.md) and
+[`PLAYERSTATE-772-001.md`](../evidence/clientcore/PLAYERSTATE-772-001.md).

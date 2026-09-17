@@ -4,6 +4,7 @@
 #include "fusion32/protocol772/initial_world.h"
 #include "fusion32/protocol772/map_scan.h"
 #include "fusion32/protocol772/object_types.h"
+#include "fusion32/protocol772/player_state.h"
 #include "fusion32/protocol772/worldstate.h"
 
 #include <cstddef>
@@ -69,6 +70,12 @@ std::vector<std::uint8_t> BuildWalkCommand(CardinalDirection direction);
 std::vector<std::uint8_t> BuildTurnCommand(CardinalDirection direction);
 std::vector<std::uint8_t> BuildStopCommand();
 
+// Keepalive and clean exit. Source: reference/game/src/receiving.cc::CPing,
+// which reads nothing, and CQuitGame, which logs out immediately when
+// LogoutPossible returns 0.
+std::vector<std::uint8_t> BuildPingCommand();
+std::vector<std::uint8_t> BuildLogoutCommand();
+
 // ---------------------------------------------------------------- server side
 
 enum class ServerUpdateKind {
@@ -82,6 +89,20 @@ enum class ServerUpdateKind {
     MoveCreature,
     Snapback,
     Message,
+    Ping,
+    Ambient,
+    GraphicalEffect,
+    TextualEffect,
+    MissileEffect,
+    MarkCreature,
+    CreatureAttribute,
+    PlayerData,
+    PlayerSkills,
+    PlayerState,
+    ClearTarget,
+    Inventory,
+    Buddy,
+    OutfitDialog,
     Unsupported,
 };
 
@@ -154,6 +175,19 @@ struct ServerUpdate {
     MoveCreatureUpdate move_creature;
     SnapbackUpdate snapback;
     MessageUpdate message;
+
+    AmbientUpdate ambient;
+    GraphicalEffectUpdate graphical_effect;
+    TextualEffectUpdate textual_effect;
+    MissileEffectUpdate missile_effect;
+    MarkCreatureUpdate mark_creature;
+    CreatureAttributeUpdate creature_attribute;
+    PlayerDataUpdate player_data;
+    PlayerSkillsUpdate player_skills;
+    PlayerStateUpdate player_state;
+    InventoryUpdate inventory;
+    BuddyUpdate buddy;
+    OutfitDialogUpdate outfit_dialog;
 };
 
 struct ServerUpdateDecodeResult {

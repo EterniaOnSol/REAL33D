@@ -35,6 +35,7 @@ enum class MapDecodeError {
     InvalidStackIndex,
     InvalidDirection,
     TrailingBytes,
+    InvalidInventorySlot,
 };
 
 const char* MapDecodeErrorName(MapDecodeError error) noexcept;
@@ -107,8 +108,13 @@ private:
     friend bool ReadViewportHeader(MapScanner* scanner, std::uint16_t* x,
                                    std::uint16_t* y, std::uint8_t* z);
     friend bool ReadFieldPosition(MapScanner* scanner, MapPosition* position);
+    friend bool FailScanner(MapScanner* scanner, MapDecodeError code, const char* detail);
     friend bool ReadScannerByte(MapScanner* scanner, std::uint8_t* value, const char* what);
+    friend bool ReadScannerWord(MapScanner* scanner, std::uint16_t* value, const char* what);
+    friend bool ReadScannerQuad(MapScanner* scanner, std::uint32_t* value, const char* what);
     friend bool ReadScannerString(MapScanner* scanner, std::string* value, const char* what);
+    friend bool ReadScannerOutfit(MapScanner* scanner, OutfitDescriptor* value);
+    friend bool ReadScannerItem(MapScanner* scanner, ItemThing* value);
     bool ReadMapThing(MapThing* output);
 
     const std::vector<std::uint8_t>& bytes_;
@@ -138,11 +144,27 @@ bool ReadViewportHeader(MapScanner* scanner, std::uint16_t* x, std::uint16_t* y,
 // coordinates name an arbitrary field rather than a viewport centre.
 bool ReadFieldPosition(MapScanner* scanner, MapPosition* position);
 
+// Records an explicit decode failure at the scanner's current offset. Always
+// returns false so callers can `return FailScanner(...)`.
+bool FailScanner(MapScanner* scanner, MapDecodeError code, const char* detail);
+
 // Reads one unsigned byte through the scanner's bounds checking.
 bool ReadScannerByte(MapScanner* scanner, std::uint8_t* value, const char* what);
 
+// Reads a little-endian word and quad through the scanner's bounds checking.
+bool ReadScannerWord(MapScanner* scanner, std::uint16_t* value, const char* what);
+bool ReadScannerQuad(MapScanner* scanner, std::uint32_t* value, const char* what);
+
 // Reads a SendString-encoded text.
 bool ReadScannerString(MapScanner* scanner, std::string* value, const char* what);
+
+// Reads a SendOutfit-encoded outfit.
+bool ReadScannerOutfit(MapScanner* scanner, OutfitDescriptor* value);
+
+// Reads a SendItem-encoded object: the type id word plus whatever extra bytes
+// its flags call for. Unlike SendMapObject this never carries a creature
+// descriptor, so no creature marker is recognised here.
+bool ReadScannerItem(MapScanner* scanner, ItemThing* value);
 
 }  // namespace fusion32::protocol772
 

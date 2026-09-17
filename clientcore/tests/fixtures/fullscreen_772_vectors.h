@@ -298,7 +298,152 @@ public:
         encoder_.Str(text);
     }
 
+    // ---- session and player state commands ---------------------------------
+
+    void Ping() { encoder_.Byte(kServerCommandPing); }
+    void ClearTarget() { encoder_.Byte(kServerCommandClearTarget); }
+
+    void Ambient(std::uint8_t brightness, std::uint8_t color) {
+        encoder_.Byte(kServerCommandAmbient);
+        encoder_.Byte(brightness);
+        encoder_.Byte(color);
+    }
+
+    void GraphicalEffect(const MapPosition& position, std::uint8_t effect) {
+        encoder_.Byte(kServerCommandGraphicalEffect);
+        Position(position);
+        encoder_.Byte(effect);
+    }
+
+    void TextualEffect(const MapPosition& position, std::uint8_t color,
+                       const std::string& text) {
+        encoder_.Byte(kServerCommandTextualEffect);
+        Position(position);
+        encoder_.Byte(color);
+        encoder_.Str(text);
+    }
+
+    void MissileEffect(const MapPosition& origin, const MapPosition& destination,
+                       std::uint8_t effect) {
+        encoder_.Byte(kServerCommandMissileEffect);
+        Position(origin);
+        Position(destination);
+        encoder_.Byte(effect);
+    }
+
+    void MarkCreature(std::uint32_t creature_id, std::uint8_t color) {
+        encoder_.Byte(kServerCommandMarkCreature);
+        encoder_.Quad(creature_id);
+        encoder_.Byte(color);
+    }
+
+    void CreatureHealth(std::uint32_t creature_id, std::uint8_t health) {
+        encoder_.Byte(kServerCommandCreatureHealth);
+        encoder_.Quad(creature_id);
+        encoder_.Byte(health);
+    }
+
+    void CreatureLight(std::uint32_t creature_id, std::uint8_t brightness,
+                       std::uint8_t color) {
+        encoder_.Byte(kServerCommandCreatureLight);
+        encoder_.Quad(creature_id);
+        encoder_.Byte(brightness);
+        encoder_.Byte(color);
+    }
+
+    void CreatureOutfit(std::uint32_t creature_id, const OutfitDescriptor& outfit) {
+        encoder_.Byte(kServerCommandCreatureOutfit);
+        encoder_.Quad(creature_id);
+        encoder_.Outfit(outfit);
+    }
+
+    void CreatureSpeed(std::uint32_t creature_id, std::uint16_t speed) {
+        encoder_.Byte(kServerCommandCreatureSpeed);
+        encoder_.Quad(creature_id);
+        encoder_.Word(speed);
+    }
+
+    void CreatureSkull(std::uint32_t creature_id, std::uint8_t mark) {
+        encoder_.Byte(kServerCommandCreatureSkull);
+        encoder_.Quad(creature_id);
+        encoder_.Byte(mark);
+    }
+
+    void CreatureParty(std::uint32_t creature_id, std::uint8_t mark) {
+        encoder_.Byte(kServerCommandCreatureParty);
+        encoder_.Quad(creature_id);
+        encoder_.Byte(mark);
+    }
+
+    void PlayerData(const PlayerStats& stats) {
+        encoder_.Byte(kServerCommandPlayerData);
+        encoder_.Word(stats.hitpoints);
+        encoder_.Word(stats.max_hitpoints);
+        encoder_.Word(stats.capacity);
+        encoder_.Quad(stats.experience);
+        encoder_.Word(stats.level);
+        encoder_.Byte(stats.level_percent);
+        encoder_.Word(stats.mana);
+        encoder_.Word(stats.max_mana);
+        encoder_.Byte(stats.magic_level);
+        encoder_.Byte(stats.magic_level_percent);
+        encoder_.Byte(stats.soul_points);
+    }
+
+    void PlayerSkillSet(const PlayerSkills& skills) {
+        encoder_.Byte(kServerCommandPlayerSkills);
+        const PlayerSkill order[] = {skills.fist, skills.club, skills.sword, skills.axe,
+                                     skills.distance, skills.shielding, skills.fishing};
+        for (const PlayerSkill& skill : order) {
+            encoder_.Byte(skill.level);
+            encoder_.Byte(skill.percent);
+        }
+    }
+
+    void PlayerStateFlags(std::uint8_t flags) {
+        encoder_.Byte(kServerCommandPlayerState);
+        encoder_.Byte(flags);
+    }
+
+    void SetInventory(std::uint8_t slot, const ItemThing& item) {
+        encoder_.Byte(kServerCommandSetInventory);
+        encoder_.Byte(slot);
+        Item(item);
+    }
+
+    void DeleteInventory(std::uint8_t slot) {
+        encoder_.Byte(kServerCommandDeleteInventory);
+        encoder_.Byte(slot);
+    }
+
+    void BuddyData(std::uint32_t character_id, const std::string& name, bool online) {
+        encoder_.Byte(kServerCommandBuddyData);
+        encoder_.Quad(character_id);
+        encoder_.Str(name);
+        encoder_.Byte(online ? 1 : 0);
+    }
+
+    void OutfitDialog(const OutfitDescriptor& current, std::uint16_t first,
+                      std::uint16_t last) {
+        encoder_.Byte(kServerCommandOutfitDialog);
+        encoder_.Outfit(current);
+        encoder_.Word(first);
+        encoder_.Word(last);
+    }
+
+    void BuddyStatus(std::uint32_t character_id, bool online) {
+        encoder_.Byte(online ? kServerCommandBuddyOnline : kServerCommandBuddyOffline);
+        encoder_.Quad(character_id);
+    }
+
 private:
+    // Mirrors reference/game/src/sending.cc::SendItem.
+    void Item(const ItemThing& item) {
+        encoder_.Word(item.type_id);
+        if (item.has_liquid_color) encoder_.Byte(item.liquid_color);
+        if (item.has_amount) encoder_.Byte(item.amount);
+    }
+
     void Position(const MapPosition& position) {
         encoder_.Word(static_cast<std::uint16_t>(position.x));
         encoder_.Word(static_cast<std::uint16_t>(position.y));
@@ -411,6 +556,51 @@ inline const char* kGoldenMoveCreatureHex =
 inline const char* kGoldenRejectedStepHex =
     "b4" "17" "1400" "536f7272792c206e6f7420706f737369626c652e"
     "b5" "01";
+
+// Hand-computed golden bytes for the session and player state commands.
+//
+// SV_CMD_PLAYER_DATA: 185/185 hp, 470 cap, 4200 exp, level 8 at 42%, 90/90
+// mana, magic level 3 at 17%, 100 soul points.
+inline const char* kGoldenPlayerDataHex =
+    "a0" "b900" "b900" "d601" "68100000" "0800" "2a" "5a00" "5a00" "03" "11" "64";
+
+// SV_CMD_PLAYER_SKILLS: fist 10/0, club 11/5, sword 12/10, axe 13/15,
+// distance 14/20, shielding 15/25, fishing 16/30, in SendPlayerSkills order.
+inline const char* kGoldenPlayerSkillsHex =
+    "a1" "0a00" "0b05" "0c0a" "0d0f" "0e14" "0f19" "101e";
+
+// SV_CMD_PLAYER_STATE carrying mana shield plus logout blocked.
+inline const char* kGoldenPlayerStateHex = "a2" "90";
+
+// SV_CMD_AMBIENTE with brightness 40 and colour 215.
+inline const char* kGoldenAmbientHex = "82" "28" "d7";
+
+// SV_CMD_GRAPHICAL_EFFECT at the Rookgaard temple field, effect 12.
+inline const char* kGoldenGraphicalEffectHex = "83" "617d" "db7d" "07" "0c";
+
+// SV_CMD_MISSILE_EFFECT three fields east, effect 3.
+inline const char* kGoldenMissileEffectHex =
+    "85" "617d" "db7d" "07" "647d" "db7d" "07" "03";
+
+// SV_CMD_CREATURE_LIGHT for creature 1001 with no light.
+inline const char* kGoldenCreatureLightHex = "8d" "e9030000" "00" "00";
+
+// SV_CMD_SET_INVENTORY placing a cumulative stack of 40 in the bag slot.
+inline const char* kGoldenSetInventoryHex = "78" "03" "c800" "28";
+
+// SV_CMD_BUDDY_DATA for an offline buddy: id, name and the online flag.
+inline const char* kGoldenBuddyDataHex =
+    "d2" "ea030000" "0d00" "5465737420506c617965722042" "00";
+
+// SV_CMD_OUTFIT, the chooser the server offers on a character's first login:
+// the current outfit followed by the selectable range for a male non-premium
+// character.
+inline const char* kGoldenOutfitDialogHex =
+    "c8" "8000" "4e453a4c" "8000" "8300";
+
+// SV_CMD_PING and SV_CMD_CLEAR_TARGET carry no payload at all.
+inline const char* kGoldenPingHex = "1e";
+inline const char* kGoldenClearTargetHex = "a3";
 
 // Type 100 stands in for a ground tile (Bank), 400 for a Top object and the
 // rest for ordinary Low objects, so the stack-priority rules are exercised.

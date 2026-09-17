@@ -66,8 +66,8 @@ A sanitized environment now generates one shared fresh 1024-bit PKCS#1 private k
 | Movement/use/client commands | `receiving.cc::ReceiveData/CGoDirection`; `cract.cc::TCreature::Go/NotifyGo/NotifyTurn`; `operate.cc::Move/AnnounceMovingCreature`; `map.cc::PlaceObject`; `moveuse.cc` | High for cardinal walking, the map deltas and the refusal paths; byte fixtures and a live walk PASS. Use, path walking and object moves remain Medium |
 | Items/types | `objects.cc/.hh`, `map.cc/.hh`, runtime `dat/objects.srv`, `dat/conversion.lst` | High for the three wire-relevant flags; `dat/objects.srv` invariants verified by `tests/verify_object_type_invariants.py`. Everything else remains Medium |
 | Creatures/combat | `cr*.cc/.hh`, especially `crcombat.cc`; receiving/sending | Medium |
-| Magic/effects | `magic.cc/.hh`; sending effect functions | Medium |
-| Stats/skills | `crskill.cc`; player serialization | Medium |
+| Magic/effects | `sending.cc::SendGraphicalEffect/SendTextualEffect/SendMissileEffect/SendMarkCreature`; `magic.cc/.hh` | High for the four wire records, which are fixture-covered and decoded; the magic system itself remains Medium |
+| Stats/skills | `sending.cc::SendPlayerData/SendPlayerSkills/SendPlayerState`; `crplayer.cc::CheckState/SyncState`; `crskill.cc` | High for the three wire records and the state flag table; byte fixtures and a live burst PASS. The skill formulas behind the values remain Medium |
 | Chat/NPC/trade | receiving/sending, `operate.cc`, `crnonpl.cc`, runtime NPC data | Medium/low |
 | Errors/disconnect | `communication.cc`, `receiving.cc::CQuitGame/CErrorFileEntry`, result/message senders | Medium |
 
@@ -93,8 +93,14 @@ verified data invariants are in `docs/protocol772/INITIAL_WORLD.md`.
 `SV_CMD_MOVE_CREATURE` from the creature's still-old position, then `MoveObject`
 relocates it, then `NotifyGo` advances the mover's own position one axis at a
 time and emits the coordinate-less `SV_CMD_ROW_*` and `SV_CMD_FLOOR_UP/DOWN`.
-`docs/protocol772/MOVEMENT.md` carries the derivation. Every server command
-outside that set remains recognized by name and unparsed.
+`docs/protocol772/MOVEMENT.md` carries the derivation.
+
+`PLAYERSTATE-772-001` closes the set an ordinary session emits: ping, ambience,
+the effect commands, the six creature attribute updates, player data/skills/
+state, clear target, the inventory pair, the buddy trio and the first-login
+outfit chooser at `crplayer.cc` line 221. `docs/protocol772/PLAYER_STATE.md`
+carries the derivation and the `CheckState` flag table. Chat, containers, trade,
+the request queue and the editors remain recognized by name and unparsed.
 
 ## Framing/crypto interpretation
 

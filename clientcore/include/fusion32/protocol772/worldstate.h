@@ -114,6 +114,67 @@ struct MapWindow {
     std::int32_t height = kTerminalHeight;
 };
 
+// Source: reference/game/src/sending.cc::SendPlayerData.
+struct PlayerStats {
+    bool known = false;
+    std::uint16_t hitpoints = 0;
+    std::uint16_t max_hitpoints = 0;
+    std::uint16_t capacity = 0;  // free capacity in whole oz
+    std::uint32_t experience = 0;
+    std::uint16_t level = 0;
+    std::uint8_t level_percent = 0;
+    std::uint16_t mana = 0;
+    std::uint16_t max_mana = 0;
+    std::uint8_t magic_level = 0;
+    std::uint8_t magic_level_percent = 0;
+    std::uint8_t soul_points = 0;
+};
+
+// Source: reference/game/src/sending.cc::SendPlayerSkills, in emission order.
+struct PlayerSkill {
+    std::uint8_t level = 0;
+    std::uint8_t percent = 0;
+};
+
+struct PlayerSkills {
+    bool known = false;
+    PlayerSkill fist;
+    PlayerSkill club;
+    PlayerSkill sword;
+    PlayerSkill axe;
+    PlayerSkill distance;
+    PlayerSkill shielding;
+    PlayerSkill fishing;
+};
+
+// Source: reference/game/src/crplayer.cc::TPlayer::CheckState, lines 1213-1247.
+enum class PlayerStateFlag : std::uint8_t {
+    Poisoned = 0x01,
+    Burning = 0x02,
+    Electrified = 0x04,
+    Drunk = 0x08,
+    ManaShield = 0x10,
+    Slowed = 0x20,
+    Hasted = 0x40,
+    LogoutBlocked = 0x80,
+};
+
+struct PlayerState {
+    bool known = false;
+    std::uint8_t flags = 0;
+
+    bool has(PlayerStateFlag flag) const noexcept {
+        return (flags & static_cast<std::uint8_t>(flag)) != 0;
+    }
+};
+
+// Source: reference/game/src/sending.cc::SendAmbiente.
+struct AmbientLight {
+    bool known = false;
+    std::uint8_t brightness = 0;
+    std::uint8_t color = 0;
+};
+
 // What the decoded FULLSCREEN establishes about a creature, and nothing more.
 struct CreatureRecord {
     std::uint32_t creature_id = 0;
@@ -175,6 +236,13 @@ struct WorldState {
 
     // The creature this connection controls, learned from SV_CMD_INIT_GAME.
     std::uint32_t local_creature_id = 0;
+
+    // Local player condition, each carried by its own server command. `known`
+    // stays false until the corresponding command has actually arrived.
+    PlayerStats stats;
+    PlayerSkills skills;
+    PlayerState state;
+    AmbientLight ambient_light;
 
     const MapTile* FindTile(const MapPosition& position) const noexcept;
     MapTile* FindTile(const MapPosition& position) noexcept;

@@ -44,7 +44,8 @@ TCP byte stream
     -> Login / Game Login
     -> Initial World (FULLSCREEN) -> WorldState
     -> Movement (ROW / FLOOR / FIELD / MOVE_CREATURE / SNAPBACK) -> WorldState
-    -> future Protocol772 decoders for the remaining commands
+    -> Player State (stats / skills / state / ambience / creature updates) -> WorldState
+    -> future Protocol772 decoders for chat, containers and trade
 ```
 
 `TcpTransport` owns socket lifecycle and byte I/O. `FrameDecoder` incrementally preserves partial input and extracts every complete outer packet in order. `FramedConnection` composes them without crypto or protocol behavior. `protocol772_crypto` performs RSA public operations, XTEA key/block processing and encrypted inner-length/padding validation. `protocol772_login` builds the source-traced 7.72 Login request and parses only MOTD/error/character-list responses. `protocol772_gamelogin` builds Game Login, owns the persistent session and recognizes only initial authentication messages; fullscreen/map bytes remain preserved. `protocol772_initial_world` consumes exactly those preserved bytes, decodes the `FULLSCREEN` snapshot and folds it into a minimal `WorldState`; every other server command stays named but unparsed. No layer calls Unreal. Full behavior and source traceability are in `docs/protocol772/TRANSPORT.md`, `docs/protocol772/CRYPTO.md`, `docs/protocol772/LOGIN.md`, `docs/protocol772/GAMELOGIN.md` and `docs/protocol772/INITIAL_WORLD.md`.
@@ -52,6 +53,8 @@ TCP byte stream
 `protocol772_movement` adds the client walk/turn/stop commands and the incremental server updates a step produces. `map_scan` owns the tile and skip-marker walk that `SV_CMD_FULLSCREEN`, `SV_CMD_ROW_*`, `SV_CMD_FLOOR_UP/DOWN` and `SV_CMD_FIELD_DATA` all share, mirroring how the server shares `SendMapPoint` and `SkipFlush` between them. Behaviour, source traceability and limits are in `docs/protocol772/MOVEMENT.md`.
 
 The map encoding is not self-describing in two places, and both are handled the same way. `reference/game/src/sending.cc::SendItem` decides an item's on-wire length from server object type flags the protocol never carries, and `reference/game/src/map.cc::PlaceObject` decides where an added object lands in a tile stack from a priority derived from other flags, while `SV_CMD_ADD_FIELD` carries no stack index. `ObjectTypeTable` therefore holds both the length flags and the priority, and is an explicit, injected dependency of the decoders, loaded from the server's own `dat/objects.srv`, rather than knowledge baked into a parser.
+
+`protocol772_player_state` closes the command set an ordinary session emits, so a caller can walk a decrypted payload to its end rather than stopping at the first opcode it cannot size. It routes through the same single `DecodeServerUpdate` entry point. Only commands with demonstrated semantics reach `WorldState`: player stats, skills, state flags, ambient light and the creature attribute updates. Effects, inventory, the buddy list and the first-login outfit chooser are decoded, typed and surfaced but store nothing, because those features are not yet claimed. Details in `docs/protocol772/PLAYER_STATE.md`.
 
 `SV_CMD_ROW_*` and `SV_CMD_FLOOR_UP/DOWN` carry no coordinates at all: `reference/game/src/cract.cc::TCreature::NotifyGo` advances the player one axis at a time and only then emits them. `WorldState` therefore tracks a `viewport_anchor` that those commands step, while `SV_CMD_MOVE_CREATURE` never does. Once a step completes the anchor and the local player's creature must agree, which turns viewport desynchronization into a reported condition instead of silent drift.
 

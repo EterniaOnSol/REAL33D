@@ -233,6 +233,14 @@ std::vector<std::uint8_t> BuildStopCommand() {
     return {kClientCommandGoStop};
 }
 
+std::vector<std::uint8_t> BuildPingCommand() {
+    return {kClientCommandPing};
+}
+
+std::vector<std::uint8_t> BuildLogoutCommand() {
+    return {kClientCommandLogout};
+}
+
 ObjectPriority ThingPriority(const MapThing& thing, const ObjectTypeTable& types) noexcept {
     if (thing.kind == MapThingKind::Creature) return ObjectPriority::Creature;
     return types.Lookup(thing.item.type_id).priority;
@@ -516,6 +524,113 @@ ServerUpdateDecodeResult DecodeServerUpdate(const std::vector<std::uint8_t>& byt
         return result;
     }
 
+    // Zero-payload commands.
+    if (opcode == kServerCommandPing || opcode == kServerCommandClearTarget) {
+        result.update.kind = opcode == kServerCommandPing ? ServerUpdateKind::Ping
+                                                          : ServerUpdateKind::ClearTarget;
+        result.update.bytes_consumed = 1;
+        return result;
+    }
+
+    if (opcode == kServerCommandAmbient) {
+        result.update.kind = ServerUpdateKind::Ambient;
+        if (!DecodeAmbient(&scanner, &result.update.ambient)) return fail(scanner);
+        result.update.bytes_consumed = scanner.at() - offset;
+        return result;
+    }
+
+    if (opcode == kServerCommandGraphicalEffect) {
+        result.update.kind = ServerUpdateKind::GraphicalEffect;
+        if (!DecodeGraphicalEffect(&scanner, &result.update.graphical_effect)) {
+            return fail(scanner);
+        }
+        result.update.bytes_consumed = scanner.at() - offset;
+        return result;
+    }
+
+    if (opcode == kServerCommandTextualEffect) {
+        result.update.kind = ServerUpdateKind::TextualEffect;
+        if (!DecodeTextualEffect(&scanner, &result.update.textual_effect)) {
+            return fail(scanner);
+        }
+        result.update.bytes_consumed = scanner.at() - offset;
+        return result;
+    }
+
+    if (opcode == kServerCommandMissileEffect) {
+        result.update.kind = ServerUpdateKind::MissileEffect;
+        if (!DecodeMissileEffect(&scanner, &result.update.missile_effect)) {
+            return fail(scanner);
+        }
+        result.update.bytes_consumed = scanner.at() - offset;
+        return result;
+    }
+
+    if (opcode == kServerCommandMarkCreature) {
+        result.update.kind = ServerUpdateKind::MarkCreature;
+        if (!DecodeMarkCreature(&scanner, &result.update.mark_creature)) {
+            return fail(scanner);
+        }
+        result.update.bytes_consumed = scanner.at() - offset;
+        return result;
+    }
+
+    if (opcode >= kServerCommandCreatureHealth && opcode <= kServerCommandCreatureParty) {
+        result.update.kind = ServerUpdateKind::CreatureAttribute;
+        if (!DecodeCreatureAttribute(&scanner, opcode, &result.update.creature_attribute)) {
+            return fail(scanner);
+        }
+        result.update.bytes_consumed = scanner.at() - offset;
+        return result;
+    }
+
+    if (opcode == kServerCommandPlayerData) {
+        result.update.kind = ServerUpdateKind::PlayerData;
+        if (!DecodePlayerData(&scanner, &result.update.player_data)) return fail(scanner);
+        result.update.bytes_consumed = scanner.at() - offset;
+        return result;
+    }
+
+    if (opcode == kServerCommandPlayerSkills) {
+        result.update.kind = ServerUpdateKind::PlayerSkills;
+        if (!DecodePlayerSkills(&scanner, &result.update.player_skills)) return fail(scanner);
+        result.update.bytes_consumed = scanner.at() - offset;
+        return result;
+    }
+
+    if (opcode == kServerCommandPlayerState) {
+        result.update.kind = ServerUpdateKind::PlayerState;
+        if (!DecodePlayerState(&scanner, &result.update.player_state)) return fail(scanner);
+        result.update.bytes_consumed = scanner.at() - offset;
+        return result;
+    }
+
+    if (opcode == kServerCommandSetInventory || opcode == kServerCommandDeleteInventory) {
+        result.update.kind = ServerUpdateKind::Inventory;
+        if (!DecodeInventory(&scanner, opcode, types, &result.update.inventory)) {
+            return fail(scanner);
+        }
+        result.update.bytes_consumed = scanner.at() - offset;
+        return result;
+    }
+
+    if (opcode == kServerCommandBuddyData || opcode == kServerCommandBuddyOnline
+        || opcode == kServerCommandBuddyOffline) {
+        result.update.kind = ServerUpdateKind::Buddy;
+        if (!DecodeBuddy(&scanner, opcode, &result.update.buddy)) return fail(scanner);
+        result.update.bytes_consumed = scanner.at() - offset;
+        return result;
+    }
+
+    if (opcode == kServerCommandOutfitDialog) {
+        result.update.kind = ServerUpdateKind::OutfitDialog;
+        if (!DecodeOutfitDialog(&scanner, &result.update.outfit_dialog)) {
+            return fail(scanner);
+        }
+        result.update.bytes_consumed = scanner.at() - offset;
+        return result;
+    }
+
     result.update.kind = ServerUpdateKind::Unsupported;
     result.update.bytes_consumed = 0;
     return result;
@@ -696,6 +811,72 @@ WorldStateApplyResult ApplyServerUpdate(WorldState* state, const ServerUpdate& u
             return result;
         }
 
+        case ServerUpdateKind::CreatureAttribute: {
+            const CreatureAttributeUpdate& update_attribute = update.creature_attribute;
+            const auto found = state->known_creatures.find(update_attribute.creature_id);
+            if (found == state->known_creatures.end()) {
+                // AnnounceChangedCreature only reaches connections that already
+                // know the creature, so a miss means the local mirror is behind.
+                result.anomalies.push_back({WorldStateAnomalyKind::UnknownCreatureReference,
+                                            update_attribute.creature_id, MapPosition{}});
+                return result;
+            }
+            CreatureRecord& record = found->second;
+            switch (update_attribute.attribute) {
+                case CreatureAttribute::Health:
+                    record.health_percent = update_attribute.health_percent;
+                    break;
+                case CreatureAttribute::Light:
+                    record.light_brightness = update_attribute.light_brightness;
+                    record.light_color = update_attribute.light_color;
+                    break;
+                case CreatureAttribute::Outfit:
+                    record.outfit = update_attribute.outfit;
+                    break;
+                case CreatureAttribute::Speed:
+                    record.speed = update_attribute.speed;
+                    break;
+                case CreatureAttribute::Skull:
+                    record.playerkilling_mark = update_attribute.playerkilling_mark;
+                    break;
+                case CreatureAttribute::Party:
+                    record.party_mark = update_attribute.party_mark;
+                    break;
+            }
+            return result;
+        }
+
+        case ServerUpdateKind::Ambient:
+            state->ambient_light.known = true;
+            state->ambient_light.brightness = update.ambient.brightness;
+            state->ambient_light.color = update.ambient.color;
+            return result;
+
+        case ServerUpdateKind::PlayerData:
+            state->stats = update.player_data.stats;
+            return result;
+
+        case ServerUpdateKind::PlayerSkills:
+            state->skills = update.player_skills.skills;
+            return result;
+
+        case ServerUpdateKind::PlayerState:
+            state->state.known = true;
+            state->state.flags = update.player_state.flags;
+            return result;
+
+        // Decoded so a frame can be walked, but carrying no WorldState
+        // semantics this task has demonstrated. Presentation effects, the
+        // inventory and the buddy list are all out of scope.
+        case ServerUpdateKind::GraphicalEffect:
+        case ServerUpdateKind::TextualEffect:
+        case ServerUpdateKind::MissileEffect:
+        case ServerUpdateKind::MarkCreature:
+        case ServerUpdateKind::Inventory:
+        case ServerUpdateKind::Buddy:
+        case ServerUpdateKind::OutfitDialog:
+        case ServerUpdateKind::ClearTarget:
+        case ServerUpdateKind::Ping:
         case ServerUpdateKind::Message:
         case ServerUpdateKind::Unsupported:
             return result;
@@ -715,6 +896,20 @@ const char* ServerUpdateKindName(ServerUpdateKind kind) noexcept {
         case ServerUpdateKind::MoveCreature: return "MoveCreature";
         case ServerUpdateKind::Snapback: return "Snapback";
         case ServerUpdateKind::Message: return "Message";
+        case ServerUpdateKind::Ping: return "Ping";
+        case ServerUpdateKind::Ambient: return "Ambient";
+        case ServerUpdateKind::GraphicalEffect: return "GraphicalEffect";
+        case ServerUpdateKind::TextualEffect: return "TextualEffect";
+        case ServerUpdateKind::MissileEffect: return "MissileEffect";
+        case ServerUpdateKind::MarkCreature: return "MarkCreature";
+        case ServerUpdateKind::CreatureAttribute: return "CreatureAttribute";
+        case ServerUpdateKind::PlayerData: return "PlayerData";
+        case ServerUpdateKind::PlayerSkills: return "PlayerSkills";
+        case ServerUpdateKind::PlayerState: return "PlayerState";
+        case ServerUpdateKind::ClearTarget: return "ClearTarget";
+        case ServerUpdateKind::Inventory: return "Inventory";
+        case ServerUpdateKind::Buddy: return "Buddy";
+        case ServerUpdateKind::OutfitDialog: return "OutfitDialog";
         case ServerUpdateKind::Unsupported: return "Unsupported";
     }
     return "Unknown";
