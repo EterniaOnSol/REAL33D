@@ -1,0 +1,160 @@
+race,name,article,outfit_id,outfit_colors,outfit_object_type,corpse_type_id,blood,spawn_points,priority,priority_evidence,category,subcategory,confidence,source,sprite_geometry
+234,Apocalypse,,35,0-0-0-0,,4097,Fire,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/apocalypse.mon,UNRESOLVED
+91,Ashmunrah,,91,0-0-0-0,,4215,Bones,1,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/pharaohashmunrah.mon,UNRESOLVED
+230,Bazir,,35,0-0-0-0,,4097,Fire,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/bazir.mon,UNRESOLVED
+204,Demodras,,204,0-0-0-0,,4062,Blood,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/demodras.mon,UNRESOLVED
+203,Dharalion,,203,0-0-0-0,,4160,Blood,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/dharalion.mon,UNRESOLVED
+87,Dipthrah,,87,0-0-0-0,,4215,Bones,1,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/pharaohdipthrah.mon,UNRESOLVED
+206,Fernfang,,206,0-0-0-0,,4240,Blood,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/fernfang.mon,UNRESOLVED
+231,Ferumbras,,130,57-113-95-113,,4240,Slime,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/ferumbras.mon,UNRESOLVED
+75,Gamemaster,a,75,0-0-0-0,,4240,Blood,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/gamemaster.mon,UNRESOLVED
+207,General Murius,,207,0-0-0-0,,4057,Blood,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/murius.mon,UNRESOLVED
+205,Grorlam,,205,0-0-0-0,,4133,Bones,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/grorlam.mon,UNRESOLVED
+233,Infernatil,,35,0-0-0-0,,4097,Fire,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/infernatil.mon,UNRESOLVED
+86,Mahrdis,,86,0-0-0-0,,4197,Bones,1,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/pharaohmahrdis.mon,UNRESOLVED
+229,Morgaroth,,35,0-0-0-0,,4097,Fire,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/morgaroth.mon,UNRESOLVED
+84,Morguthis,,84,0-0-0-0,,4197,Bones,1,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/pharaohmorguthis.mon,UNRESOLVED
+209,Necropharus,,209,0-0-0-0,,4240,Blood,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/necropharus.mon,UNRESOLVED
+90,Omruc,,90,0-0-0-0,,4197,Bones,1,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/pharaohomruc.mon,UNRESOLVED
+201,Orshabaal,,201,0-0-0-0,,4097,Fire,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/orshabaal.mon,UNRESOLVED
+88,Rahemos,,88,0-0-0-0,,4215,Bones,1,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/pharaohrahemos.mon,UNRESOLVED
+89,Thalas,,89,0-0-0-0,,4197,Bones,1,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/pharaohthalas.mon,UNRESOLVED
+210,The Evil Eye,,210,0-0-0-0,,4233,Blood,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/evileye.mon,UNRESOLVED
+232,The Halloween Hare,,74,0-0-0-0,,,Blood,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/halloweenhare.mon,UNRESOLVED
+202,The Horned Fox,,202,0-0-0-0,,4057,Blood,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/hornedfox.mon,UNRESOLVED
+208,The Old Widow,,208,0-0-0-0,,4038,Slime,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/oldwidow.mon,UNRESOLVED
+85,Vashresamun,,85,0-0-0-0,,4197,Bones,1,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/pharaohvashresamun.mon,UNRESOLVED
+77,amazon,an,137,113-120-95-115,,4247,Blood,32,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/amazon.mon,UNRESOLVED
+79,ancient scarab,an,79,0-0-0-0,,4185,Slime,44,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/ancientscarab.mon,UNRESOLVED
+224,assassin,an,129,95-95-95-95,,4240,Blood,23,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/assassin.mon,UNRESOLVED
+105,badger,a,105,0-0-0-0,,4224,Blood,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/badger.mon,UNRESOLVED
+223,bandit,a,129,58-40-24-95,,4240,Blood,18,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/bandit.mon,UNRESOLVED
+78,banshee,a,78,0-0-0-0,,4179,Bones,32,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/banshee.mon,UNRESOLVED
+122,bat,a,122,0-0-0-0,,4363,Blood,18,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/bat.mon,UNRESOLVED
+16,bear,a,16,0-0-0-0,,4030,Blood,43,P1,spawn nearest mark Rookgaard,creature,monster,DEMONSTRATED,./mon/bear.mon,UNRESOLVED
+55,behemoth,a,55,0-0-0-0,,4112,Blood,29,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/behemoth.mon,UNRESOLVED
+17,beholder,a,17,0-0-0-0,,4089,Blood,123,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/beholder.mon,UNRESOLVED
+46,black knight,a,131,95-95-95-95,,4240,Blood,4,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/blackknight.mon,UNRESOLVED
+13,black sheep,a,13,0-0-0-0,,4095,Blood,2,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/blacksheep.mon,UNRESOLVED
+80,blue djinn,a,80,0-0-0-0,,4182,Blood,22,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/bluedjinn.mon,UNRESOLVED
+101,bonebeast,a,101,0-0-0-0,,4212,Bones,55,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/bonebeast.mon,UNRESOLVED
+45,bug,a,45,0-0-0-0,,4083,Slime,146,P1,spawn nearest mark Rookgaard,creature,monster,DEMONSTRATED,./mon/bug.mon,UNRESOLVED
+227,butterfly,a,227,0-0-0-0,,4993,Slime,20,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/butterflyblue.mon,UNRESOLVED
+213,butterfly,a,213,0-0-0-0,,4992,Slime,65,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/butterflypurple.mon,UNRESOLVED
+228,butterfly,a,228,0-0-0-0,,4991,Slime,16,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/butterflyred.mon,UNRESOLVED
+235,butterfly,a,10,0-0-0-0,,5013,Slime,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/butterflyyellow.mon,UNRESOLVED
+120,carniphila,a,120,0-0-0-0,,4345,Slime,34,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/carniphila.mon,UNRESOLVED
+56,cave rat,a,56,0-0-0-0,,3994,Blood,106,P1,spawn nearest mark Rookgaard,creature,monster,DEMONSTRATED,./mon/caverat.mon,UNRESOLVED
+124,centipede,a,124,0-0-0-0,,4354,Blood,111,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/centipede.mon,UNRESOLVED
+111,chicken,a,111,0-0-0-0,,4330,Blood,11,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/chicken.mon,UNRESOLVED
+81,cobra,a,81,0-0-0-0,,4188,Blood,89,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/cobra.mon,UNRESOLVED
+112,crab,a,112,0-0-0-0,,4318,Blood,9,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/crab.mon,UNRESOLVED
+119,crocodile,a,119,0-0-0-0,,4342,Blood,38,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/crocodile.mon,UNRESOLVED
+100,crypt shambler,a,100,0-0-0-0,,4209,Bones,119,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/cryptshambler.mon,UNRESOLVED
+22,cyclops,a,22,0-0-0-0,,3989,Blood,99,P1,spawn nearest mark Rookgaard,creature,monster,DEMONSTRATED,./mon/cyclops.mon,UNRESOLVED
+225,dark monk,a,225,0-0-0-0,,4240,Blood,28,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/darkmonk.mon,UNRESOLVED
+102,deathslicer,a,102,0-0-0-0,,3138,Bones,5,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/deathslicer.mon,UNRESOLVED
+31,deer,a,31,0-0-0-0,,4016,Blood,91,P1,spawn nearest mark Rookgaard,creature,monster,DEMONSTRATED,./mon/deer.mon,UNRESOLVED
+35,demon,a,35,0-0-0-0,,4097,Fire,15,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/demon.mon,UNRESOLVED
+107,demon,a,107,0-0-0-0,,4121,Blood,3,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/illusion.mon,UNRESOLVED
+37,demon skeleton,a,37,0-0-0-0,,3990,Bones,346,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/demonskeleton.mon,UNRESOLVED
+32,dog,a,32,0-0-0-0,,4020,Blood,8,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/dog.mon,UNRESOLVED
+34,dragon,a,34,0-0-0-0,,4025,Blood,108,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/dragon.mon,UNRESOLVED
+39,dragon lord,a,39,0-0-0-0,,4062,Blood,63,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/dragonlord.mon,UNRESOLVED
+69,dwarf,a,69,0-0-0-0,,4141,Blood,84,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/dwarf.mon,UNRESOLVED
+66,dwarf geomancer,a,66,0-0-0-0,,4168,Blood,8,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/dwarfgeomancer.mon,UNRESOLVED
+70,dwarf guard,a,70,0-0-0-0,,4164,Blood,126,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/dwarfguard.mon,UNRESOLVED
+71,dwarf soldier,a,71,0-0-0-0,,4166,Blood,113,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/dwarfsoldier.mon,UNRESOLVED
+215,dworc fleshhunter,a,215,0-0-0-0,,4372,Blood,84,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/dworcfleshhunter.mon,UNRESOLVED
+216,dworc venomsniper,a,216,0-0-0-0,,4375,Blood,86,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/dworcvenomsniper.mon,UNRESOLVED
+214,dworc voodoomaster,a,214,0-0-0-0,,4369,Blood,40,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/dworcvoodoomaster.mon,UNRESOLVED
+103,efreet,an,103,0-0-0-0,,4218,Blood,12,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/efreet.mon,UNRESOLVED
+108,elder beholder,an,108,0-0-0-0,,4233,Blood,8,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/elderbeholder.mon,UNRESOLVED
+211,elephant,an,211,0-0-0-0,,4360,Blood,12,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/elephant.mon,UNRESOLVED
+62,elf,an,62,0-0-0-0,,4126,Blood,45,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/elf.mon,UNRESOLVED
+63,elf arcanist,an,63,0-0-0-0,,4160,Blood,17,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/elfarcanist.mon,UNRESOLVED
+64,elf scout,an,64,0-0-0-0,,4162,Blood,46,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/elfscout.mon,UNRESOLVED
+40,fire devil,a,40,0-0-0-0,,4067,Blood,40,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/firedevil.mon,UNRESOLVED
+49,fire elemental,a,49,0-0-0-0,,2118,Fire,72,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/fireelemental.mon,UNRESOLVED
+93,flamethrower,a,0,,0,2472,Bones,15,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/flamethrower.mon,UNRESOLVED
+212,flamingo,a,212,0-0-0-0,,4366,Blood,35,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/flamingo.mon,UNRESOLVED
+53,frost troll,a,53,0-0-0-0,,4109,Blood,24,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/frosttroll.mon,UNRESOLVED
+95,gargoyle,a,95,0-0-0-0,,4203,Bones,58,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/gargoyle.mon,UNRESOLVED
+109,gazer,a,109,0-0-0-0,,4230,Blood,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/gazer.mon,UNRESOLVED
+48,ghost,a,48,0-0-0-0,,4094,Bones,189,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/ghost.mon,UNRESOLVED
+18,ghoul,a,18,0-0-0-0,,4034,Blood,375,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/ghoul.mon,UNRESOLVED
+38,giant spider,a,38,0-0-0-0,,4038,Slime,53,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/giantspider.mon,UNRESOLVED
+61,goblin,a,61,0-0-0-0,,4121,Blood,90,P1,spawn nearest mark Rookgaard,creature,monster,DEMONSTRATED,./mon/goblin.mon,UNRESOLVED
+51,green djinn,a,51,0-0-0-0,,4170,Blood,46,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/greendjinn.mon,UNRESOLVED
+73,hero,a,73,0-0-0-0,,4240,Blood,5,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/hero.mon,UNRESOLVED
+1,human,a,1,0-0-0-0,,,Blood,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/human.mon,UNRESOLVED
+11,hunter,a,129,95-116-120-115,,4240,Blood,19,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/hunter.mon,UNRESOLVED
+94,hyaena,a,94,0-0-0-0,,4200,Blood,33,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/hyaena.mon,UNRESOLVED
+121,hydra,a,121,0-0-0-0,,4348,Blood,22,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/hydra.mon,UNRESOLVED
+116,kongra,a,116,0-0-0-0,,4333,Blood,99,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/kongra.mon,UNRESOLVED
+82,larva,a,82,0-0-0-0,,4191,Slime,583,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/larva.mon,UNRESOLVED
+99,lich,a,99,0-0-0-0,,4206,Bones,22,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/lich.mon,UNRESOLVED
+41,lion,a,41,0-0-0-0,,4070,Blood,30,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/lion.mon,UNRESOLVED
+114,lizard sentinel,a,114,0-0-0-0,,4324,Blood,38,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/lizardsentinel.mon,UNRESOLVED
+115,lizard snakecharmer,a,115,0-0-0-0,,4327,Blood,17,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/lizardsnakecharmer.mon,UNRESOLVED
+113,lizard templar,a,113,0-0-0-0,,4321,Blood,31,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/lizardtemplar.mon,UNRESOLVED
+98,magicthrower,a,0,,0,2472,Bones,54,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/magicthrower.mon,UNRESOLVED
+104,marid,a,104,0-0-0-0,,4221,Blood,10,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/marid.mon,UNRESOLVED
+117,merlkin,a,117,0-0-0-0,,4336,Blood,56,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/merlkin.mon,UNRESOLVED
+92,mimic,a,92,0-0-0-0,,2472,Bones,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/mimic.mon,UNRESOLVED
+25,minotaur,a,25,0-0-0-0,,4011,Blood,119,P1,spawn nearest mark Rookgaard,creature,monster,DEMONSTRATED,./mon/minotaur.mon,UNRESOLVED
+24,minotaur archer,a,24,0-0-0-0,,4052,Blood,63,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/minotaurarcher.mon,UNRESOLVED
+29,minotaur guard,a,29,0-0-0-0,,4057,Blood,51,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/minotaurguard.mon,UNRESOLVED
+23,minotaur mage,a,23,0-0-0-0,,4047,Blood,37,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/minotaurmage.mon,UNRESOLVED
+57,monk,a,57,0-0-0-0,,4240,Blood,39,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/monk.mon,UNRESOLVED
+65,mummy,a,65,0-0-0-0,,4130,Bones,236,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/mummy.mon,UNRESOLVED
+9,necromancer,a,9,0-0-0-0,,4240,Blood,55,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/necromancer.mon,UNRESOLVED
+5,orc,an,5,0-0-0-0,,4001,Blood,79,P1,spawn nearest mark Rookgaard,creature,monster,DEMONSTRATED,./mon/orc.mon,UNRESOLVED
+8,orc berserker,an,8,0-0-0-0,,4045,Blood,79,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/orcberserker.mon,UNRESOLVED
+59,orc leader,an,59,0-0-0-0,,4119,Blood,30,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/orcleader.mon,UNRESOLVED
+4,orc rider,an,4,0-0-0-0,,4153,Blood,11,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/orcrider.mon,UNRESOLVED
+6,orc shaman,an,6,0-0-0-0,,4041,Blood,51,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/orcshaman.mon,UNRESOLVED
+50,orc spearman,an,50,0-0-0-0,,4101,Blood,95,P1,spawn nearest mark Rookgaard,creature,monster,DEMONSTRATED,./mon/orcspearman.mon,UNRESOLVED
+2,orc warlord,an,2,0-0-0-0,,4148,Blood,7,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/orcwarlord.mon,UNRESOLVED
+7,orc warrior,an,7,0-0-0-0,,4043,Blood,97,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/orcwarrior.mon,UNRESOLVED
+123,panda,a,123,0-0-0-0,,4351,Blood,12,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/panda.mon,UNRESOLVED
+217,parrot,a,217,0-0-0-0,,4379,Blood,10,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/parrot.mon,UNRESOLVED
+60,pig,a,60,0-0-0-0,,4116,Blood,16,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/pig.mon,UNRESOLVED
+96,plaguethrower,a,0,,0,2472,Bones,16,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/plaguethrower.mon,UNRESOLVED
+36,poison spider,a,36,0-0-0-0,,4029,Slime,250,P1,spawn nearest mark Rookgaard,creature,monster,DEMONSTRATED,./mon/poisonspider.mon,UNRESOLVED
+42,polar bear,a,42,0-0-0-0,,4074,Blood,7,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/polarbear.mon,UNRESOLVED
+58,priestess,a,58,0-0-0-0,,4247,Blood,25,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/priestess.mon,UNRESOLVED
+74,rabbit,a,74,0-0-0-0,,4173,Blood,94,P1,spawn nearest mark Rookgaard,creature,monster,DEMONSTRATED,./mon/rabbit.mon,UNRESOLVED
+21,rat,a,21,0-0-0-0,,3994,Blood,170,P1,spawn nearest mark Rookgaard,creature,monster,DEMONSTRATED,./mon/rat.mon,UNRESOLVED
+26,rotworm,a,26,0-0-0-0,,4005,Blood,505,P1,spawn nearest mark Rookgaard,creature,monster,DEMONSTRATED,./mon/rotworm.mon,UNRESOLVED
+83,scarab,a,83,0-0-0-0,,4194,Slime,450,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/scarab.mon,UNRESOLVED
+43,scorpion,a,43,0-0-0-0,,4078,Slime,160,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/scorpion.mon,UNRESOLVED
+220,serpent spawn,a,220,0-0-0-0,,4388,Blood,8,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/serpentspawn.mon,UNRESOLVED
+14,sheep,a,14,0-0-0-0,,4086,Blood,7,P1,spawn nearest mark Rookgaard,creature,monster,DEMONSTRATED,./mon/sheep.mon,UNRESOLVED
+97,shredderthrower,a,0,,0,2472,Bones,20,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/shredderthrower.mon,UNRESOLVED
+118,sibang,a,118,0-0-0-0,,4339,Blood,95,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/sibang.mon,UNRESOLVED
+33,skeleton,a,33,0-0-0-0,,4024,Bones,302,P1,spawn nearest mark Rookgaard,creature,monster,DEMONSTRATED,./mon/skeleton.mon,UNRESOLVED
+106,skunk,a,106,0-0-0-0,,4227,Blood,14,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/skunk.mon,UNRESOLVED
+19,slime,a,19,0-0-0-0,,2121,Slime,177,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/slime.mon,UNRESOLVED
+20,slime,a,19,0-0-0-0,,2121,Slime,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/slime2.mon,UNRESOLVED
+222,smuggler,a,134,95-0-113-115,,4240,Blood,13,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/smuggler.mon,UNRESOLVED
+28,snake,a,28,0-0-0-0,,3998,Blood,235,P1,spawn nearest mark Rookgaard,creature,monster,DEMONSTRATED,./mon/snake.mon,UNRESOLVED
+30,spider,a,30,0-0-0-0,,3988,Slime,124,P1,spawn nearest mark Rookgaard,creature,monster,DEMONSTRATED,./mon/spider.mon,UNRESOLVED
+221,spit nettle,a,221,0-0-0-0,,4391,Slime,66,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/spitnettle.mon,UNRESOLVED
+72,stalker,a,128,97-116-95-95,,4240,Blood,151,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/stalker.mon,UNRESOLVED
+67,stone golem,a,67,0-0-0-0,,4133,Bones,45,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/stonegolem.mon,UNRESOLVED
+76,swamp troll,a,76,0-0-0-0,,4176,Blood,82,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/swamptroll.mon,UNRESOLVED
+219,tarantula,a,219,0-0-0-0,,4385,Slime,41,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/tarantula.mon,UNRESOLVED
+218,terror bird,a,218,0-0-0-0,,4382,Blood,11,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/terrorbird.mon,UNRESOLVED
+125,tiger,a,125,0-0-0-0,,4357,Blood,21,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/tiger.mon,UNRESOLVED
+15,troll,a,15,0-0-0-0,,3987,Blood,217,P1,spawn nearest mark Rookgaard,creature,monster,DEMONSTRATED,./mon/troll.mon,UNRESOLVED
+12,valkyrie,a,139,113-38-76-96,,4247,Blood,19,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/valkyrie.mon,UNRESOLVED
+68,vampire,a,68,0-0-0-0,,4137,Bones,154,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/vampire.mon,UNRESOLVED
+3,war wolf,a,3,0-0-0-0,,4150,Blood,13,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/warwolf.mon,UNRESOLVED
+10,warlock,a,130,0-52-128-95,,4240,Blood,13,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/warlock.mon,UNRESOLVED
+44,wasp,a,44,0-0-0-0,,4080,Slime,123,P1,spawn nearest mark Rookgaard,creature,monster,DEMONSTRATED,./mon/wasp.mon,UNRESOLVED
+47,wild warrior,a,131,38-38-38-38,,4240,Blood,41,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/wildwarrior.mon,UNRESOLVED
+52,winter wolf,a,52,0-0-0-0,,4105,Blood,8,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/winterwolf.mon,UNRESOLVED
+54,witch,a,54,0-0-0-0,,4247,Blood,34,P2,./dat/monster.db spawn points,creature,monster,DEMONSTRATED,./mon/witch.mon,UNRESOLVED
+27,wolf,a,27,0-0-0-0,,4007,Blood,137,P1,spawn nearest mark Rookgaard,creature,monster,DEMONSTRATED,./mon/wolf.mon,UNRESOLVED
+110,yeti,a,110,0-0-0-0,,4236,Blood,0,UNPRIORITIZED,declared but no spawn point,creature,monster,DEMONSTRATED,./mon/yeti.mon,UNRESOLVED

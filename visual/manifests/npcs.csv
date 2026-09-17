@@ -1,0 +1,338 @@
+name,sex,race,outfit_id,outfit_colors,outfit_object_type,home_x,home_y,home_z,region,priority,priority_evidence,category,subcategory,confidence,source,sprite_geometry
+A Ghostly Woman,female,1,136,0-0-0-0,,32191,31811,5,Ghostlands,P2,home nearest mark Ghostlands,creature,npc,DEMONSTRATED,./npc/spooky.npc,UNRESOLVED
+A Lost Soul,male,1,48,0-0-0-0,,32209,31924,12,KingsIsle,P2,home nearest mark KingsIsle,creature,npc,DEMONSTRATED,./npc/soullost.npc,UNRESOLVED
+A Prisoner,male,1,130,81-40-55-94,,32393,32137,13,Minocity,P2,home nearest mark Minocity,creature,npc,DEMONSTRATED,./npc/prisoner.npc,UNRESOLVED
+A Strange Fellow,male,1,128,76-43-38-76,,32910,32077,9,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/stranger.npc,UNRESOLVED
+A Sweaty Cyclops,male,22,22,0-0-0-0,,32697,31674,3,HellsGate,P2,home nearest mark HellsGate,creature,npc,DEMONSTRATED,./npc/bigben.npc,UNRESOLVED
+A Tainted Soul,male,1,48,0-0-0-0,,32216,31927,12,KingsIsle,P2,home nearest mark KingsIsle,creature,npc,DEMONSTRATED,./npc/soultainted.npc,UNRESOLVED
+A Tortured Soul,male,1,48,0-0-0-0,,32207,31928,12,KingsIsle,P2,home nearest mark KingsIsle,creature,npc,DEMONSTRATED,./npc/soultortured.npc,UNRESOLVED
+A Wrinkled Beholder,male,17,17,0-0-0-0,,32788,31690,13,Necropolis,P2,home nearest mark Necropolis,creature,npc,DEMONSTRATED,./npc/beholder.npc,UNRESOLVED
+Abran Ironeye,male,1,73,0-0-0-0,,32907,32116,5,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/ironeye.npc,UNRESOLVED
+Adrenius,male,1,9,0-0-0-0,,32660,32112,8,Desert,P2,home nearest mark Desert,creature,npc,DEMONSTRATED,./npc/adrenius.npc,UNRESOLVED
+Ahmet,male,1,130,38-40-39-114,,33126,32810,6,Ankrahmun,P2,home nearest mark Ankrahmun,creature,npc,DEMONSTRATED,./npc/ahmet.npc,UNRESOLVED
+Al Dee,male,1,128,97-77-87-115,,32063,32180,7,Rookgaard,P1,home nearest mark Rookgaard,creature,npc,DEMONSTRATED,./npc/aldee.npc,UNRESOLVED
+Albert,male,1,130,78-0-49-95,,33312,31762,7,Stonehome,P2,home nearest mark Stonehome,creature,npc,DEMONSTRATED,./npc/albert.npc,UNRESOLVED
+Aldo,male,1,128,40-37-116-76,,32953,32110,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/aldo.npc,UNRESOLVED
+Alesar,male,80,80,0-0-0-0,,33048,32621,5,Efreet,P2,home nearest mark Efreet,creature,npc,DEMONSTRATED,./npc/alesar.npc,UNRESOLVED
+Alexander,male,1,130,96-63-71-97,,33256,31839,3,Edron,P2,home nearest mark Edron,creature,npc,DEMONSTRATED,./npc/alexander.npc,UNRESOLVED
+Alia,female,1,138,96-95-0-95,,32360,31785,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/alia.npc,UNRESOLVED
+Allen,male,1,128,76-43-38-76,,32991,32062,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/allen.npc,UNRESOLVED
+Alwin,male,1,131,113-113-113-115,,32875,32125,6,VenoreDragons,P2,home nearest mark VenoreDragons,creature,npc,DEMONSTRATED,./npc/alwin.npc,UNRESOLVED
+Amanda,female,1,138,96-95-0-95,,33222,31814,8,Edron,P2,home nearest mark Edron,creature,npc,DEMONSTRATED,./npc/amanda.npc,UNRESOLVED
+Amber,female,1,137,59-113-132-76,,32103,32182,8,Rookgaard,P1,home nearest mark Rookgaard,creature,npc,DEMONSTRATED,./npc/amber.npc,UNRESOLVED
+An Apparition,male,1,48,0-0-0-0,,32204,31788,5,Ghostlands,P2,home nearest mark Ghostlands,creature,npc,DEMONSTRATED,./npc/apparition.npc,UNRESOLVED
+An Old Dragonlord,male,39,39,0-0-0-0,,32796,31557,2,DragonIsle,P2,home nearest mark DragonIsle,creature,npc,DEMONSTRATED,./npc/olddragon.npc,UNRESOLVED
+Anderson,male,1,129,79-113-68-67,,32127,31660,7,Senja,P2,home nearest mark Senja,creature,npc,DEMONSTRATED,./npc/ferryman2.npc,UNRESOLVED
+Anerui,female,62,63,0-0-0-0,,32669,31659,7,HellsGate,P2,home nearest mark HellsGate,creature,npc,DEMONSTRATED,./npc/anerui.npc,UNRESOLVED
+Aneus,male,1,129,0-50-58-116,,32426,31666,7,Fieldofglory,P2,home nearest mark Fieldofglory,creature,npc,DEMONSTRATED,./npc/aneus.npc,UNRESOLVED
+Angelina,female,1,136,57-79-98-95,,32635,32402,10,Camp,P2,home nearest mark Camp,creature,npc,DEMONSTRATED,./npc/angelina.npc,UNRESOLVED
+Angus,male,1,133,57-113-95-113,,32670,32730,7,PortHope,P2,home nearest mark PortHope,creature,npc,DEMONSTRATED,./npc/angus.npc,UNRESOLVED
+Arito,male,1,132,59-74-62-115,,33069,32886,6,Chor,P2,home nearest mark Chor,creature,npc,DEMONSTRATED,./npc/arito.npc,UNRESOLVED
+Arkhothep,male,1,91,0-0-0-0,,33150,32842,4,Ankrahmun,P2,home nearest mark Ankrahmun,creature,npc,DEMONSTRATED,./npc/arkhothep.npc,UNRESOLVED
+Arnold,male,1,131,113-113-113-115,,32945,32070,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/arnold.npc,UNRESOLVED
+Aruda,female,1,140,77-83-79-95,,32368,32215,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/aruda.npc,UNRESOLVED
+Ashtamor,male,1,130,19-114-76-114,,32958,32088,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/ashtamor.npc,UNRESOLVED
+Asima,female,1,138,97-70-94-76,,33220,32404,7,Darashia,P2,home nearest mark Darashia,creature,npc,DEMONSTRATED,./npc/asima.npc,UNRESOLVED
+Asrak,male,1,29,0-0-0-0,,32932,32074,11,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/asrak.npc,UNRESOLVED
+Avar Tar,male,1,73,0-0-0-0,,33250,31764,7,Stonehome,P2,home nearest mark Stonehome,creature,npc,DEMONSTRATED,./npc/avar.npc,UNRESOLVED
+Azil,male,1,129,95-10-12-119,,33217,32431,7,Darashia,P2,home nearest mark Darashia,creature,npc,DEMONSTRATED,./npc/azil.npc,UNRESOLVED
+Baa'leal,male,51,51,0-0-0-0,,33048,32620,4,Efreet,P2,home nearest mark Efreet,creature,npc,DEMONSTRATED,./npc/baaleal.npc,UNRESOLVED
+Bambi Bonecrusher,female,1,139,96-19-68-95,,32341,31749,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/bambi.npc,UNRESOLVED
+Barbara,female,1,139,78-52-64-115,,32320,31752,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/barbara.npc,UNRESOLVED
+Bashira,female,62,144,78-62-97-76,,32669,31655,8,HellsGate,P2,home nearest mark HellsGate,creature,npc,DEMONSTRATED,./npc/bashira.npc,UNRESOLVED
+Basilisk,male,28,28,0-0-0-0,,32641,31943,15,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/basilisk.npc,UNRESOLVED
+Baxter,male,1,131,96-29-29-115,,32322,32188,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/baxter.npc,UNRESOLVED
+Beatrice,female,1,136,96-102-69-95,,33214,31803,6,Edron,P2,home nearest mark Edron,creature,npc,DEMONSTRATED,./npc/beatrice.npc,UNRESOLVED
+Benjamin,male,1,128,116-79-117-76,,32350,32219,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/benjamin.npc,UNRESOLVED
+Bezil,female,69,160,116-79-117-57,,32657,31909,9,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/bezil.npc,UNRESOLVED
+Billy,male,1,128,58-63-58-115,,32037,32205,7,Rookgaard,P1,home nearest mark Rookgaard,creature,npc,DEMONSTRATED,./npc/billy.npc,UNRESOLVED
+Blind Orc,male,5,5,0-0-0-0,,32102,32130,4,Minoroom,P2,home nearest mark Minoroom,creature,npc,DEMONSTRATED,./npc/blindorc.npc,UNRESOLVED
+Blossom Bonecrusher,female,1,139,96-19-63-95,,32390,31787,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/blossom.npc,UNRESOLVED
+Bo'ques,male,80,80,0-0-0-0,,33101,32520,5,Marid,P2,home nearest mark Marid,creature,npc,DEMONSTRATED,./npc/boques.npc,UNRESOLVED
+Bonifacius,male,1,128,59-82-58-95,,33165,31801,7,Edron,P2,home nearest mark Edron,creature,npc,DEMONSTRATED,./npc/bonifacius.npc,UNRESOLVED
+Boozer,male,1,128,76-20-116-76,,32921,32068,5,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/boozer.npc,UNRESOLVED
+Borkas,male,1,128,77-43-38-76,,32992,32068,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/borkas.npc,UNRESOLVED
+Bozo,male,1,128,86-93-82-79,,32313,32183,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/bozo.npc,UNRESOLVED
+Brasith,male,62,144,60-94-58-76,,32692,31589,7,HellsGate,P2,home nearest mark HellsGate,creature,npc,DEMONSTRATED,./npc/brasith.npc,UNRESOLVED
+Brengus,male,1,132,79-57-57-95,,32634,32747,6,PortHope,P2,home nearest mark PortHope,creature,npc,DEMONSTRATED,./npc/brengus.npc,UNRESOLVED
+Brewster,male,1,133,57-115-115-95,,32595,32744,7,PortHope,P2,home nearest mark PortHope,creature,npc,DEMONSTRATED,./npc/brewster.npc,UNRESOLVED
+Briasol,male,62,144,3-86-87-76,,32635,31667,8,Ab'Dendriel,P2,home nearest mark Ab'Dendriel,creature,npc,DEMONSTRATED,./npc/briasol.npc,UNRESOLVED
+Brodrosch,male,69,66,0-0-0-0,,32661,31957,15,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/brodrosch.npc,UNRESOLVED
+Bruno,male,1,128,113-10-95-95,,32486,31604,7,Northport,P2,home nearest mark Northport,creature,npc,DEMONSTRATED,./npc/bruno.npc,UNRESOLVED
+Budrik,male,69,160,94-76-58-95,,32524,31906,8,Hills,P2,home nearest mark Hills,creature,npc,DEMONSTRATED,./npc/budrik.npc,UNRESOLVED
+Bunny Bonecrusher,female,1,139,96-3-79-115,,32315,31756,6,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/bunny.npc,UNRESOLVED
+Busty Bonecrusher,female,1,139,96-19-66-95,,32294,31791,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/busty.npc,UNRESOLVED
+Captain Bluebear,male,1,129,19-69-107-50,,32310,32210,6,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/captain1.npc,UNRESOLVED
+Captain Fearless,male,1,129,19-113-95-115,,32955,32022,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/captain5.npc,UNRESOLVED
+Captain Greyhound,male,1,129,96-113-95-115,,32388,31822,6,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/captain2.npc,UNRESOLVED
+Captain Jack,male,1,132,19-70-95-115,,32189,31957,6,KingsIsle,P2,home nearest mark KingsIsle,creature,npc,DEMONSTRATED,./npc/ferrymanjack.npc,UNRESOLVED
+Captain Seagull,male,1,129,60-113-95-115,,32735,31668,6,Necropolis,P2,home nearest mark Necropolis,creature,npc,DEMONSTRATED,./npc/captain3.npc,UNRESOLVED
+Captain Seahorse,male,1,129,19-113-95-115,,33176,31764,6,Edron,P2,home nearest mark Edron,creature,npc,DEMONSTRATED,./npc/captain4.npc,UNRESOLVED
+Captain Sinbeard,male,1,134,95-10-56-77,,33094,32884,6,Ankrahmun,P2,home nearest mark Ankrahmun,creature,npc,DEMONSTRATED,./npc/captain7.npc,UNRESOLVED
+Carina,female,69,138,97-70-94-76,,33015,32048,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/carina.npc,UNRESOLVED
+Carlson,male,1,129,19-113-68-67,,32029,31692,7,Vega,P2,home nearest mark Vega,creature,npc,DEMONSTRATED,./npc/ferryman4.npc,UNRESOLVED
+Charles,male,1,134,57-29-95-98,,32529,32785,6,PortHope,P2,home nearest mark PortHope,creature,npc,DEMONSTRATED,./npc/charles.npc,UNRESOLVED
+Chatterbone,male,1,18,0-0-0-0,,32981,32080,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/chatterbone.npc,UNRESOLVED
+Chemar,male,1,130,95-3-14-76,,33270,32439,6,Darashia,P2,home nearest mark Darashia,creature,npc,DEMONSTRATED,./npc/chemar.npc,UNRESOLVED
+Chephan,male,1,128,2-26-115-76,,32890,32077,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/chephan.npc,UNRESOLVED
+Chester Kahs,male,1,131,10-28-47-95,,32348,32184,6,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/chester.npc,UNRESOLVED
+Christoph,male,1,131,113-113-113-115,,32885,32031,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/christoph.npc,UNRESOLVED
+Chrystal,female,1,136,116-79-117-76,,33174,31811,7,Edron,P2,home nearest mark Edron,creature,npc,DEMONSTRATED,./npc/chrystal.npc,UNRESOLVED
+Cipfried,male,1,57,0-0-0-0,,32097,32217,7,Rookgaard,P1,home nearest mark Rookgaard,creature,npc,DEMONSTRATED,./npc/cipfried.npc,UNRESOLVED
+Clark,male,1,129,19-79-98-95,,32636,32796,7,PortHope,P2,home nearest mark PortHope,creature,npc,DEMONSTRATED,./npc/clark.npc,UNRESOLVED
+Clyde,male,1,128,98-40-48-95,,32573,32753,7,PortHope,P2,home nearest mark PortHope,creature,npc,DEMONSTRATED,./npc/clyde.npc,UNRESOLVED
+Cobra,male,1,0,,2051,33366,32855,14,Ankrahmun,P2,home nearest mark Ankrahmun,creature,npc,DEMONSTRATED,./npc/cobra.npc,UNRESOLVED
+Cornelia,female,1,139,95-57-102-115,,32334,31796,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/cornelia.npc,UNRESOLVED
+Costello,male,1,57,0-0-0-0,,32180,31936,7,KingsIsle,P2,home nearest mark KingsIsle,creature,npc,DEMONSTRATED,./npc/costello.npc,UNRESOLVED
+Dabui,male,1,129,95-10-26-76,,33229,32409,7,Darashia,P2,home nearest mark Darashia,creature,npc,DEMONSTRATED,./npc/dabui.npc,UNRESOLVED
+Dagomir,male,1,130,0-2-41-76,,33018,32047,5,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/dagomir.npc,UNRESOLVED
+Dalbrect,male,1,129,76-97-105-76,,32211,31756,7,Ghostlands,P2,home nearest mark Ghostlands,creature,npc,DEMONSTRATED,./npc/windtrouser.npc,UNRESOLVED
+Dallheim,male,1,131,76-38-76-95,,32093,32180,6,Rookgaard,P1,home nearest mark Rookgaard,creature,npc,DEMONSTRATED,./npc/dallheim.npc,UNRESOLVED
+Dane,female,1,136,79-58-86-96,,32308,31838,8,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/dane.npc,UNRESOLVED
+Daniel Steelsoul,male,1,73,0-0-0-0,,33191,31795,7,Edron,P2,home nearest mark Edron,creature,npc,DEMONSTRATED,./npc/daniel.npc,UNRESOLVED
+Dario,male,62,144,3-58-41-115,,33156,32810,4,Ankrahmun,P2,home nearest mark Ankrahmun,creature,npc,DEMONSTRATED,./npc/dario.npc,UNRESOLVED
+Demon Skeleton,male,37,37,0-0-0-0,,32666,31676,15,Ab'Dendriel,P2,home nearest mark Ab'Dendriel,creature,npc,DEMONSTRATED,./npc/demonskeleton.npc,UNRESOLVED
+Demonguard,male,1,131,113-113-94-113,,32854,32318,10,Mists,P2,home nearest mark Mists,creature,npc,DEMONSTRATED,./npc/demongrd.npc,UNRESOLVED
+Dermot,male,1,129,76-49-19-95,,32165,32437,7,Fibula,P2,home nearest mark Fibula,creature,npc,DEMONSTRATED,./npc/dermot.npc,UNRESOLVED
+Digger,male,1,9,0-0-0-0,,32970,32087,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/digger.npc,UNRESOLVED
+Dixi,female,1,136,96-99-76-115,,32105,32207,6,Rookgaard,P1,home nearest mark Rookgaard,creature,npc,DEMONSTRATED,./npc/dixi.npc,UNRESOLVED
+Djema,female,1,136,77-9-86-131,,33101,32520,3,Marid,P2,home nearest mark Marid,creature,npc,DEMONSTRATED,./npc/djema.npc,UNRESOLVED
+Donald McRonald,male,1,128,41-94-79-76,,32391,32229,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/don.npc,UNRESOLVED
+Dove,female,1,136,59-86-106-115,,32919,32075,7,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/dove.npc,UNRESOLVED
+Duria,female,69,70,0-0-0-0,,32617,31938,8,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/duria.npc,UNRESOLVED
+Dustrunner,male,1,32,0-0-0-0,,32914,32076,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/dustrunner.npc,UNRESOLVED
+Ebenizer,male,1,128,59-95-87-76,,33175,31801,7,Edron,P2,home nearest mark Edron,creature,npc,DEMONSTRATED,./npc/ebenizer.npc,UNRESOLVED
+Edala,female,62,63,0-0-0-0,,32698,31718,2,Ab'Dendriel,P2,home nearest mark Ab'Dendriel,creature,npc,DEMONSTRATED,./npc/edala.npc,UNRESOLVED
+Eddy,male,1,128,60-64-0-95,,32168,32431,7,Fibula,P2,home nearest mark Fibula,creature,npc,DEMONSTRATED,./npc/eddy.npc,UNRESOLVED
+Edoch,male,1,129,95-0-40-116,,33232,32430,7,Darashia,P2,home nearest mark Darashia,creature,npc,DEMONSTRATED,./npc/edoch.npc,UNRESOLVED
+Edowir,male,1,130,0-58-96-95,,32343,32363,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/edowir.npc,UNRESOLVED
+Edvard,male,1,128,59-115-96-95,,33229,31831,7,Edron,P2,home nearest mark Edron,creature,npc,DEMONSTRATED,./npc/edvard.npc,UNRESOLVED
+Elane,female,1,137,113-63-120-119,,32343,32239,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/elane.npc,UNRESOLVED
+Elathriel,male,62,64,0-0-0-0,,32684,31671,9,HellsGate,P2,home nearest mark HellsGate,creature,npc,DEMONSTRATED,./npc/elathriel.npc,UNRESOLVED
+Elf Guard,male,62,63,0-0-0-0,,32642,31709,6,Ab'Dendriel,P2,home nearest mark Ab'Dendriel,creature,npc,DEMONSTRATED,./npc/elfguard.npc,UNRESOLVED
+Elvith,male,62,144,76-3-0-76,,32669,31607,7,HellsGate,P2,home nearest mark HellsGate,creature,npc,DEMONSTRATED,./npc/elvith.npc,UNRESOLVED
+Emperor Kruzak,male,69,66,0-0-0-0,,32627,31923,3,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/kruzak.npc,UNRESOLVED
+Eremo,male,1,130,0-109-128-95,,33322,31883,7,Eremo,P2,home nearest mark Eremo,creature,npc,DEMONSTRATED,./npc/eremo.npc,UNRESOLVED
+Eroth,male,62,63,0-0-0-0,,32661,31685,6,Ab'Dendriel,P2,home nearest mark Ab'Dendriel,creature,npc,DEMONSTRATED,./npc/eroth.npc,UNRESOLVED
+Etzel,male,69,66,0-0-0-0,,32626,31917,5,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/etzel.npc,UNRESOLVED
+Eva,female,1,136,96-60-95-0,,32325,31780,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/eva.npc,UNRESOLVED
+Fa'hradin,male,80,80,0-0-0-0,,33106,32541,5,Marid,P2,home nearest mark Marid,creature,npc,DEMONSTRATED,./npc/fahradin.npc,UNRESOLVED
+Falk,male,1,131,76-11-11-76,,33190,31777,7,Edron,P2,home nearest mark Edron,creature,npc,DEMONSTRATED,./npc/falk.npc,UNRESOLVED
+Faluae,female,62,62,0-0-0-0,,32660,31673,7,Ab'Dendriel,P2,home nearest mark Ab'Dendriel,creature,npc,DEMONSTRATED,./npc/faluae.npc,UNRESOLVED
+Feizuhl,male,1,133,98-116-43-95,,33066,32886,7,Chor,P2,home nearest mark Chor,creature,npc,DEMONSTRATED,./npc/feizuhl.npc,UNRESOLVED
+Fenbala,female,1,139,77-52-64-115,,32320,31755,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/fenbala.npc,UNRESOLVED
+Fenech,male,1,132,76-40-49-117,,33131,32820,5,Ankrahmun,P2,home nearest mark Ankrahmun,creature,npc,DEMONSTRATED,./npc/fenech.npc,UNRESOLVED
+Ferks,male,1,128,78-52-118-115,,32634,32738,6,PortHope,P2,home nearest mark PortHope,creature,npc,DEMONSTRATED,./npc/ferks.npc,UNRESOLVED
+Frans,male,1,0,,3114,32971,32080,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/frans.npc,UNRESOLVED
+Frodo,male,1,128,58-68-109-131,,32356,32209,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/frodo.npc,UNRESOLVED
+Gabel,male,80,80,0-0-0-0,,33102,32520,1,Marid,P2,home nearest mark Marid,creature,npc,DEMONSTRATED,./npc/gabel.npc,UNRESOLVED
+Gail,female,1,140,77-64-52-95,,32621,32738,6,PortHope,P2,home nearest mark PortHope,creature,npc,DEMONSTRATED,./npc/gail.npc,UNRESOLVED
+Galuna,female,1,137,40-96-95-96,,32342,32246,6,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/galuna.npc,UNRESOLVED
+Gamel,male,1,129,79-132-115-116,,32337,32207,8,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/gamel.npc,UNRESOLVED
+Gamon,male,1,128,97-58-105-120,,32408,32170,7,Minocity,P2,home nearest mark Minocity,creature,npc,DEMONSTRATED,./npc/gamon.npc,UNRESOLVED
+Gorn,male,1,129,58-68-101-95,,32377,32200,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/gorn.npc,UNRESOLVED
+Graubart,male,1,128,98-87-12-114,,32489,31622,07,Northport,P2,home nearest mark Northport,creature,npc,DEMONSTRATED,./npc/graubart.npc,UNRESOLVED
+Gregor,male,1,131,38-38-38-38,,32407,32202,6,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/gregor.npc,UNRESOLVED
+"Grof, the guard",male,1,131,19-19-19-19,,32373,32184,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/grof.npc,UNRESOLVED
+Gundralph,male,9,9,0-0-0-0,,33268,31849,5,Eremo,P2,home nearest mark Eremo,creature,npc,DEMONSTRATED,./npc/gundralph.npc,UNRESOLVED
+Gurbasch,male,69,66,0-0-0-0,,33313,31989,15,Cormaya,P2,home nearest mark Cormaya,creature,npc,DEMONSTRATED,./npc/gurbasch.npc,UNRESOLVED
+H.L.,male,1,131,12-76-0-95,,32643,32212,7,Camp,P2,home nearest mark Camp,creature,npc,DEMONSTRATED,./npc/hl.npc,UNRESOLVED
+Habdel,male,1,129,95-2-0-97,,33225,32434,7,Darashia,P2,home nearest mark Darashia,creature,npc,DEMONSTRATED,./npc/habdel.npc,UNRESOLVED
+Hagor,male,1,129,19-58-105-94,,32654,32151,10,Desert,P2,home nearest mark Desert,creature,npc,DEMONSTRATED,./npc/hagor.npc,UNRESOLVED
+Hairycles,male,1,117,0-0-0-0,,32826,32574,6,Banuta,P2,home nearest mark Banuta,creature,npc,DEMONSTRATED,./npc/hairycles.npc,UNRESOLVED
+Halif,male,1,128,95-2-10-131,,33217,32423,7,Darashia,P2,home nearest mark Darashia,creature,npc,DEMONSTRATED,./npc/halif.npc,UNRESOLVED
+Hanna,female,1,136,113-65-0-96,,32407,32219,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/hanna.npc,UNRESOLVED
+Hardek,male,1,129,96-86-63-115,,32272,32339,7,FibulaDungeon,P2,home nearest mark FibulaDungeon,creature,npc,DEMONSTRATED,./npc/hardek.npc,UNRESOLVED
+Harkath Bloodblade,male,1,131,76-38-38-76,,32342,32184,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/blood.npc,UNRESOLVED
+Haroun,male,80,80,0-0-0-0,,33108,32525,4,Marid,P2,home nearest mark Marid,creature,npc,DEMONSTRATED,./npc/haroun.npc,UNRESOLVED
+Harsky,male,1,131,79-79-79-79,,32312,32170,6,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/harsky.npc,UNRESOLVED
+Helor,male,1,134,57-79-95-98,,32572,32753,6,PortHope,P2,home nearest mark PortHope,creature,npc,DEMONSTRATED,./npc/helor.npc,UNRESOLVED
+Hofech,male,1,128,95-2-2-57,,33270,32441,7,Darashia,P2,home nearest mark Darashia,creature,npc,DEMONSTRATED,./npc/hofech.npc,UNRESOLVED
+Hoggle,male,1,128,20-46-88-94,,32537,32143,6,Sternum,P2,home nearest mark Sternum,creature,npc,DEMONSTRATED,./npc/hoggle.npc,UNRESOLVED
+Hugo,male,1,130,14-81-80-93,,32951,32103,5,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/hugo.npc,UNRESOLVED
+Humgolf,male,69,69,0-0-0-0,,32598,31880,9,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/humgolf.npc,UNRESOLVED
+Humphrey,male,1,133,0-96-101-76,,32359,31683,6,Fieldofglory,P2,home nearest mark Fieldofglory,creature,npc,DEMONSTRATED,./npc/humphrey.npc,UNRESOLVED
+Hyacinth,male,1,130,11-123-123-94,,32137,32171,4,Rookgaard,P1,home nearest mark Rookgaard,creature,npc,DEMONSTRATED,./npc/hyacinth.npc,UNRESOLVED
+Imalas,male,1,128,115-10-39-114,,32334,31801,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/imalas.npc,UNRESOLVED
+Imbul,male,1,128,95-2-63-115,,32558,32781,7,PortHope,P2,home nearest mark PortHope,creature,npc,DEMONSTRATED,./npc/imbul.npc,UNRESOLVED
+Irea,female,62,64,0-0-0-0,,32688,31610,7,HellsGate,P2,home nearest mark HellsGate,creature,npc,DEMONSTRATED,./npc/irea.npc,UNRESOLVED
+Ishebad,male,1,65,0-0-0-0,,33158,32848,7,Ankrahmun,P2,home nearest mark Ankrahmun,creature,npc,DEMONSTRATED,./npc/ishebad.npc,UNRESOLVED
+Ishina,female,1,138,95-9-87-95,,33231,32423,7,Darashia,P2,home nearest mark Darashia,creature,npc,DEMONSTRATED,./npc/ishina.npc,UNRESOLVED
+Isimov,male,69,160,115-0-19-95,,32653,31925,11,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/isimov.npc,UNRESOLVED
+Iwan,male,1,128,0-112-88-113,,33217,31833,7,Edron,P2,home nearest mark Edron,creature,npc,DEMONSTRATED,./npc/iwan.npc,UNRESOLVED
+Iwar,male,69,160,58-108-63-76,,32618,31917,8,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/iwar.npc,UNRESOLVED
+Jakahr,male,1,133,95-37-32-40,,33066,32876,7,Chor,P2,home nearest mark Chor,creature,npc,DEMONSTRATED,./npc/jakahr.npc,UNRESOLVED
+James,male,1,128,115-41-45-118,,33280,31771,7,Stonehome,P2,home nearest mark Stonehome,creature,npc,DEMONSTRATED,./npc/james.npc,UNRESOLVED
+Jean Claude,male,1,131,113-113-113-115,,33006,32053,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/jeanclaude.npc,UNRESOLVED
+Jezzara,female,1,138,3-43-91-97,,33126,32821,6,Ankrahmun,P2,home nearest mark Ankrahmun,creature,npc,DEMONSTRATED,./npc/jezzara.npc,UNRESOLVED
+Jimbin,male,69,160,97-69-58-76,,32636,31886,9,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/jimbin.npc,UNRESOLVED
+Julian,male,1,128,55-30-23-115,,32883,32076,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/julian.npc,UNRESOLVED
+Karl,male,1,128,58-68-109-131,,32318,31797,8,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/karl.npc,UNRESOLVED
+Kasmir,male,1,130,76-0-38-95,,33212,32452,1,Darashia,P2,home nearest mark Darashia,creature,npc,DEMONSTRATED,./npc/kasmir.npc,UNRESOLVED
+Kawill,male,69,66,0-0-0-0,,32644,31969,12,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/kawill.npc,UNRESOLVED
+Kazzan,male,1,130,95-13-15-76,,33231,32389,6,Darashia,P2,home nearest mark Darashia,creature,npc,DEMONSTRATED,./npc/kazzan.npc,UNRESOLVED
+Kevin,male,1,128,76-43-38-76,,32569,32018,6,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/kevin.npc,UNRESOLVED
+King Tibianus,male,1,130,21-87-107-95,,32311,32171,6,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/king.npc,UNRESOLVED
+Kroox,male,69,160,0-100-105-76,,32650,31887,9,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/kroox.npc,UNRESOLVED
+"Kulag, the guard",male,1,131,19-19-19-19,,32287,32264,07,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/kulag.npc,UNRESOLVED
+Lea,female,1,138,59-95-94-113,,32348,31828,6,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/lea.npc,UNRESOLVED
+Lector,male,1,128,79-38-0-124,,32351,31795,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/lector.npc,UNRESOLVED
+Lee'Delle,female,1,136,78-76-72-96,,32024,32196,7,Rookgaard,P1,home nearest mark Rookgaard,creature,npc,DEMONSTRATED,./npc/leedelle.npc,UNRESOLVED
+Leeland,male,1,130,19-36-96-76,,32883,32082,5,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/leeland.npc,UNRESOLVED
+Legola,female,1,137,72-105-105-95,,32298,31784,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/legola.npc,UNRESOLVED
+Liane,female,1,136,77-60-79-114,,32332,31784,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/liane.npc,UNRESOLVED
+Lightfoot,male,1,32,0-0-0-0,,32914,32080,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/lightfoot.npc,UNRESOLVED
+Lily,female,1,138,78-101-86-115,,32068,32225,7,Rookgaard,P1,home nearest mark Rookgaard,creature,npc,DEMONSTRATED,./npc/lily.npc,UNRESOLVED
+Livielle,female,1,138,114-94-132-132,,32982,32036,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/livielle.npc,UNRESOLVED
+Lokur,male,69,160,57-79-98-95,,32647,31904,8,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/lokur.npc,UNRESOLVED
+Lorbas,male,1,57,0-0-0-0,,32695,32310,7,Camp,P2,home nearest mark Camp,creature,npc,DEMONSTRATED,./npc/lorbas.npc,UNRESOLVED
+Lorek,male,1,132,19-10-38-95,,32679,32775,7,PortHope,P2,home nearest mark PortHope,creature,npc,DEMONSTRATED,./npc/lorek.npc,UNRESOLVED
+Loria,female,1,138,96-118-82-95,,32385,32131,7,Minocity,P2,home nearest mark Minocity,creature,npc,DEMONSTRATED,./npc/loria.npc,UNRESOLVED
+Loui,male,1,57,0-0-0-0,,32014,32190,7,Rookgaard,P1,home nearest mark Rookgaard,creature,npc,DEMONSTRATED,./npc/loui.npc,UNRESOLVED
+Lubo,male,1,129,38-39-96-114,,32488,32119,7,Sternum,P2,home nearest mark Sternum,creature,npc,DEMONSTRATED,./npc/lubo.npc,UNRESOLVED
+Lugri,male,1,9,0-0-0-0,,32389,32118,8,Minocity,P2,home nearest mark Minocity,creature,npc,DEMONSTRATED,./npc/lugri.npc,UNRESOLVED
+Luna,female,1,137,0-118-100-115,,33254,31840,5,Edron,P2,home nearest mark Edron,creature,npc,DEMONSTRATED,./npc/luna.npc,UNRESOLVED
+Lungelen,female,1,138,77-19-95-115,,32303,32267,6,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/lungelen.npc,UNRESOLVED
+Lynda,female,1,138,79-83-86-114,,32333,32200,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/lynda.npc,UNRESOLVED
+Maealil,female,62,63,0-0-0-0,,32732,31631,7,DragonIsle,P2,home nearest mark DragonIsle,creature,npc,DEMONSTRATED,./npc/maealil.npc,UNRESOLVED
+Malor,male,51,51,0-0-0-0,,33044,32621,1,Efreet,P2,home nearest mark Efreet,creature,npc,DEMONSTRATED,./npc/malor.npc,UNRESOLVED
+Maria,female,1,136,77-79-61-131,,32912,32082,9,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/maria.npc,UNRESOLVED
+Markwin,male,23,23,0-0-0-0,,32418,32147,15,Minocity,P2,home nearest mark Minocity,creature,npc,DEMONSTRATED,./npc/markwin.npc,UNRESOLVED
+Marlene,female,1,136,96-111-16-96,,32483,31624,7,Northport,P2,home nearest mark Northport,creature,npc,DEMONSTRATED,./npc/marlene.npc,UNRESOLVED
+Marvik,male,1,130,0-101-121-95,,32444,32213,8,Trollcaves,P2,home nearest mark Trollcaves,creature,npc,DEMONSTRATED,./npc/marvik.npc,UNRESOLVED
+Maryza,female,69,160,60-110-58-76,,32634,31889,9,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/maryza.npc,UNRESOLVED
+Mehkesh,male,1,130,19-92-113-40,,33130,32811,5,Ankrahmun,P2,home nearest mark Ankrahmun,creature,npc,DEMONSTRATED,./npc/mehkesh.npc,UNRESOLVED
+Melchior,male,1,130,0-25-59-115,,33143,32828,7,Ankrahmun,P2,home nearest mark Ankrahmun,creature,npc,DEMONSTRATED,./npc/melchior.npc,UNRESOLVED
+Memech,male,1,131,21-21-40-116,,33135,32810,6,Ankrahmun,P2,home nearest mark Ankrahmun,creature,npc,DEMONSTRATED,./npc/memech.npc,UNRESOLVED
+Mirabell,female,1,136,96-12-87-77,,33174,31801,6,Edron,P2,home nearest mark Edron,creature,npc,DEMONSTRATED,./npc/mirabell.npc,UNRESOLVED
+Miraia,female,1,136,95-0-7-115,,33238,32483,7,Darashia,P2,home nearest mark Darashia,creature,npc,DEMONSTRATED,./npc/miraia.npc,UNRESOLVED
+Mortimer,male,1,133,57-113-95-113,,32499,31626,07,Northport,P2,home nearest mark Northport,creature,npc,DEMONSTRATED,./npc/mortimer.npc,UNRESOLVED
+Morun,male,1,129,95-5-26-76,,33240,32393,6,Darashia,P2,home nearest mark Darashia,creature,npc,DEMONSTRATED,./npc/morun.npc,UNRESOLVED
+Mugluf,male,1,128,95-0-0-96,,33220,32416,7,Darashia,P2,home nearest mark Darashia,creature,npc,DEMONSTRATED,./npc/mugluf.npc,UNRESOLVED
+Muriel,male,1,130,115-94-97-57,,32296,32263,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/muriel.npc,UNRESOLVED
+Muzir,male,1,128,95-4-11-76,,33222,32390,7,Darashia,P2,home nearest mark Darashia,creature,npc,DEMONSTRATED,./npc/muzir.npc,UNRESOLVED
+Myra,female,1,140,115-0-19-95,,32580,32751,6,PortHope,P2,home nearest mark PortHope,creature,npc,DEMONSTRATED,./npc/myra.npc,UNRESOLVED
+Nah'bob,male,80,80,0-0-0-0,,33104,32520,2,Marid,P2,home nearest mark Marid,creature,npc,DEMONSTRATED,./npc/nahbob.npc,UNRESOLVED
+Nelliem,male,69,160,115-100-105-76,,32883,32086,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/nelliem.npc,UNRESOLVED
+Nemal,male,1,129,57-97-45-115,,32615,32108,10,Desert,P2,home nearest mark Desert,creature,npc,DEMONSTRATED,./npc/nemal.npc,UNRESOLVED
+Nezil,male,69,160,115-78-116-57,,32661,31912,9,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/nezil.npc,UNRESOLVED
+Nielson,male,1,129,114-113-68-67,,32232,31677,7,Senja,P2,home nearest mark Senja,creature,npc,DEMONSTRATED,./npc/ferryman1.npc,UNRESOLVED
+Noodles,male,32,32,0-0-0-0,,32315,32178,6,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/noodles.npc,UNRESOLVED
+Norbert,male,1,128,6-79-93-14,,32953,32103,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/norbert.npc,UNRESOLVED
+Norf,male,1,57,0-0-0-0,,32346,32363,6,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/norf.npc,UNRESOLVED
+Norma,female,1,136,78-76-72-96,,32098,32180,7,Rookgaard,P1,home nearest mark Rookgaard,creature,npc,DEMONSTRATED,./npc/norma.npc,UNRESOLVED
+Nydala,female,1,136,76-86-86-96,,32327,31827,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/nydala.npc,UNRESOLVED
+Obi,male,1,128,39-63-96-38,,32109,32204,7,Rookgaard,P1,home nearest mark Rookgaard,creature,npc,DEMONSTRATED,./npc/obi.npc,UNRESOLVED
+Odemara,female,69,138,22-99-5-76,,33015,32058,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/odemara.npc,UNRESOLVED
+Old Adall,male,1,130,95-26-115-76,,32628,32772,7,PortHope,P2,home nearest mark PortHope,creature,npc,DEMONSTRATED,./npc/oldadall.npc,UNRESOLVED
+Oldrak,male,1,57,0-0-0-0,,32816,32260,6,Havoc,P2,home nearest mark Havoc,creature,npc,DEMONSTRATED,./npc/oldrak.npc,UNRESOLVED
+Olrik,male,1,128,115-79-117-76,,32675,31698,7,Ab'Dendriel,P2,home nearest mark Ab'Dendriel,creature,npc,DEMONSTRATED,./npc/olrik.npc,UNRESOLVED
+Omur,male,1,128,95-0-6-116,,33228,32416,7,Darashia,P2,home nearest mark Darashia,creature,npc,DEMONSTRATED,./npc/omur.npc,UNRESOLVED
+Ormuhn,male,1,18,0-0-0-0,,33160,32810,5,Ankrahmun,P2,home nearest mark Ankrahmun,creature,npc,DEMONSTRATED,./npc/ormuhn.npc,UNRESOLVED
+Oswald,male,1,128,115-0-67-114,,32381,32220,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/oswald.npc,UNRESOLVED
+Padreia,female,1,138,0-87-85-95,,32300,31816,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/padreia.npc,UNRESOLVED
+Partos,male,1,128,116-56-95-122,,32323,32280,8,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/partos.npc,UNRESOLVED
+Pemaret,male,1,128,79-10-127-127,,33287,31956,6,Cormaya,P2,home nearest mark Cormaya,creature,npc,DEMONSTRATED,./npc/pemaret.npc,UNRESOLVED
+Penny,female,1,137,96-79-95-96,,32315,31936,7,Home,P2,home nearest mark Home,creature,npc,DEMONSTRATED,./npc/penny.npc,UNRESOLVED
+Perac,male,1,129,78-52-68-114,,32295,31784,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/perac.npc,UNRESOLVED
+Perod,male,1,128,58-68-12-114,,32635,32739,5,PortHope,P2,home nearest mark PortHope,creature,npc,DEMONSTRATED,./npc/perod.npc,UNRESOLVED
+Petros,male,1,128,79-10-127-127,,33289,32481,6,Darashia,P2,home nearest mark Darashia,creature,npc,DEMONSTRATED,./npc/captain6.npc,UNRESOLVED
+Phillip,male,1,128,116-54-68-76,,32369,31764,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/phillip.npc,UNRESOLVED
+Pino,male,1,128,115-0-67-114,,33192,31783,3,Edron,P2,home nearest mark Edron,creature,npc,DEMONSTRATED,./npc/pino.npc,UNRESOLVED
+Puffels,male,1,21,0-0-0-0,,33269,31850,8,Eremo,P2,home nearest mark Eremo,creature,npc,DEMONSTRATED,./npc/puffels.npc,UNRESOLVED
+Pydar,male,69,160,95-94-132-118,,32655,31893,11,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/pydar.npc,UNRESOLVED
+Queen Eloise,female,1,138,96-94-79-115,,32315,31753,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/queen.npc,UNRESOLVED
+Quentin,male,1,57,0-0-0-0,,32369,32239,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/quentin.npc,UNRESOLVED
+Quero,male,1,128,55-30-23-115,,32390,32220,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/quero.npc,UNRESOLVED
+Rachel,female,1,136,58-84-86-114,,32343,31828,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/rachel.npc,UNRESOLVED
+Rahkem,male,1,130,0-77-87-116,,33194,32848,7,Ankrahmun,P2,home nearest mark Ankrahmun,creature,npc,DEMONSTRATED,./npc/rahkem.npc,UNRESOLVED
+Rata'mari,male,21,21,0-0-0-0,,33036,32625,7,Efreet,P2,home nearest mark Efreet,creature,npc,DEMONSTRATED,./npc/ratamari.npc,UNRESOLVED
+Ray,male,1,128,10-96-106-115,,32621,32747,6,PortHope,P2,home nearest mark PortHope,creature,npc,DEMONSTRATED,./npc/ray.npc,UNRESOLVED
+Razan,male,1,129,95-19-10-58,,33239,32409,7,Darashia,P2,home nearest mark Darashia,creature,npc,DEMONSTRATED,./npc/razan.npc,UNRESOLVED
+Riddler,male,48,48,0-0-0-0,,32479,31902,2,Hills,P2,home nearest mark Hills,creature,npc,DEMONSTRATED,./npc/riddler.npc,UNRESOLVED
+Robin,male,1,129,77-118-118-115,,32287,32252,6,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/robin.npc,UNRESOLVED
+Roderick,male,1,130,38-129-129-19,,32672,31699,6,Ab'Dendriel,P2,home nearest mark Ab'Dendriel,creature,npc,DEMONSTRATED,./npc/roderick.npc,UNRESOLVED
+Rodney,male,1,128,95-100-116-76,,32971,32041,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/rodney.npc,UNRESOLVED
+Rokyn,male,1,160,58-87-57-95,,33021,32053,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/rokyn.npc,UNRESOLVED
+Romella,female,1,139,79-39-77-115,,32913,32117,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/romella.npc,UNRESOLVED
+Rose,female,1,136,79-77-112-116,,32971,32034,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/rose.npc,UNRESOLVED
+Rowenna,female,1,139,132-38-76-38,,32324,31794,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/rowenna.npc,UNRESOLVED
+Rudolph,male,1,128,41-29-78-76,,33212,31812,6,Edron,P2,home nearest mark Edron,creature,npc,DEMONSTRATED,./npc/rudolph.npc,UNRESOLVED
+Sam,male,1,131,57-112-48-95,,32360,32199,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/sam.npc,UNRESOLVED
+Sandra,female,1,137,115-63-95-38,,33258,31840,7,Edron,P2,home nearest mark Edron,creature,npc,DEMONSTRATED,./npc/sandra.npc,UNRESOLVED
+Sarina,female,1,136,41-72-95-96,,32334,31808,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/sarina.npc,UNRESOLVED
+Scott,male,1,131,75-38-77-96,,32138,31659,7,Senja,P2,home nearest mark Senja,creature,npc,DEMONSTRATED,./npc/scott.npc,UNRESOLVED
+Seymour,male,1,128,115-69-87-116,,32103,32195,7,Rookgaard,P1,home nearest mark Rookgaard,creature,npc,DEMONSTRATED,./npc/seymour.npc,UNRESOLVED
+Shalmar,male,1,130,95-8-65-0,,33221,32408,7,Darashia,P2,home nearest mark Darashia,creature,npc,DEMONSTRATED,./npc/shalmar.npc,UNRESOLVED
+Shanar,male,62,144,0-93-105-76,,32657,31655,8,HellsGate,P2,home nearest mark HellsGate,creature,npc,DEMONSTRATED,./npc/shanar.npc,UNRESOLVED
+Shauna,female,1,139,78-95-38-58,,32384,31778,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/shauna.npc,UNRESOLVED
+Sherry McRonald,female,1,136,78-94-38-58,,32390,32241,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/sherry.npc,UNRESOLVED
+Shiantis,female,1,136,0-36-13-76,,32890,32086,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/shiantis.npc,UNRESOLVED
+Shiriel,female,62,144,2-103-0-95,,32670,31657,6,HellsGate,P2,home nearest mark HellsGate,creature,npc,DEMONSTRATED,./npc/shiriel.npc,UNRESOLVED
+Shirith,male,62,144,59-97-58-76,,32646,31655,9,HellsGate,P2,home nearest mark HellsGate,creature,npc,DEMONSTRATED,./npc/shirith.npc,UNRESOLVED
+Sigurd,male,69,69,0-0-0-0,,32626,31923,5,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/sigurd.npc,UNRESOLVED
+Simon the Beggar,male,1,128,116-123-32-40,,32186,32468,7,Fibula,P2,home nearest mark Fibula,creature,npc,DEMONSTRATED,./npc/simon.npc,UNRESOLVED
+Skjaar,male,9,9,0-0-0-0,,32450,32038,8,Sternum,P2,home nearest mark Sternum,creature,npc,DEMONSTRATED,./npc/skjaar.npc,UNRESOLVED
+Smiley,male,1,37,0-0-0-0,,32979,32087,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/smiley.npc,UNRESOLVED
+Snake Eye,male,1,73,0-0-0-0,,32657,32190,8,Camp,P2,home nearest mark Camp,creature,npc,DEMONSTRATED,./npc/snakeeye.npc,UNRESOLVED
+Stutch,male,1,131,79-79-79-79,,32310,32170,6,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/stutch.npc,UNRESOLVED
+Suzy,female,1,136,78-10-96-95,,32320,32258,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/suzy.npc,UNRESOLVED
+Svenson,male,1,129,77-113-68-67,,32044,31582,7,Folda,P2,home nearest mark Folda,creature,npc,DEMONSTRATED,./npc/ferryman3.npc,UNRESOLVED
+Sylvester,male,1,131,113-113-113-115,,32897,32145,4,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/sylvester.npc,UNRESOLVED
+Talesia,female,1,138,114-78-77-116,,32979,32035,5,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/talesia.npc,UNRESOLVED
+Talphion,male,69,160,11-86-87-106,,32563,31894,12,Hills,P2,home nearest mark Hills,creature,npc,DEMONSTRATED,./npc/talphion.npc,UNRESOLVED
+Tandros,male,1,132,78-79-113-95,,32621,32739,5,PortHope,P2,home nearest mark PortHope,creature,npc,DEMONSTRATED,./npc/tandros.npc,UNRESOLVED
+Tesha,female,1,140,77-32-81-93,,33135,32821,6,Ankrahmun,P2,home nearest mark Ankrahmun,creature,npc,DEMONSTRATED,./npc/tesha.npc,UNRESOLVED
+Tezila,female,69,160,3-92-110-115,,32657,31922,9,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/tezila.npc,UNRESOLVED
+Thanita,female,1,139,78-52-64-52,,32535,31773,1,Hills,P2,home nearest mark Hills,creature,npc,DEMONSTRATED,./npc/thanita.npc,UNRESOLVED
+The Blind Prophet,male,1,117,0-0-0-0,,33022,32604,7,Efreet,P2,home nearest mark Efreet,creature,npc,DEMONSTRATED,./npc/blindprophet.npc,UNRESOLVED
+The Crone,female,1,78,0-0-0-0,,33229,32522,14,Darashia,P2,home nearest mark Darashia,creature,npc,DEMONSTRATED,./npc/crone.npc,UNRESOLVED
+The Gatekeeper,female,1,0,,2031,32035,32183,6,Rookgaard,P1,home nearest mark Rookgaard,creature,npc,DEMONSTRATED,./npc/gatekeeper.npc,UNRESOLVED
+The Oracle,female,1,0,,2031,32104,32190,6,Rookgaard,P1,home nearest mark Rookgaard,creature,npc,DEMONSTRATED,./npc/oracle.npc,UNRESOLVED
+The Orc King,male,1,19,0-0-0-0,,32983,31728,9,Orc,P2,home nearest mark Orc,creature,npc,DEMONSTRATED,./npc/orcking.npc,UNRESOLVED
+The Queen of the Banshee,female,1,78,0-0-0-0,,32260,31863,14,Ghostlands,P2,home nearest mark Ghostlands,creature,npc,DEMONSTRATED,./npc/bansheequeen.npc,UNRESOLVED
+Thomas,male,1,128,116-11-101-76,,33256,31838,4,Edron,P2,home nearest mark Edron,creature,npc,DEMONSTRATED,./npc/thomas.npc,UNRESOLVED
+Tibra,female,1,138,60-92-90-95,,32318,31783,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/tibra.npc,UNRESOLVED
+"Tim, the guard",male,1,131,19-19-19-19,,32428,32226,6,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/tim.npc,UNRESOLVED
+Timur,male,1,128,0-116-102-95,,32191,32443,7,Fibula,P2,home nearest mark Fibula,creature,npc,DEMONSTRATED,./npc/timur.npc,UNRESOLVED
+Todd,male,1,128,115-0-67-114,,32363,32210,6,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/todd.npc,UNRESOLVED
+Tokel,male,1,128,78-96-30-114,,32256,32056,7,Greenshore,P2,home nearest mark Greenshore,creature,npc,DEMONSTRATED,./npc/tokel.npc,UNRESOLVED
+Tom,male,1,129,113-115-58-115,,32085,32199,7,Rookgaard,P1,home nearest mark Rookgaard,creature,npc,DEMONSTRATED,./npc/tom.npc,UNRESOLVED
+Topsy,female,1,139,78-52-64-115,,32415,32170,7,Minocity,P2,home nearest mark Minocity,creature,npc,DEMONSTRATED,./npc/topsy.npc,UNRESOLVED
+Tothdral,male,1,65,0-0-0-0,,33148,32867,6,Ankrahmun,P2,home nearest mark Ankrahmun,creature,npc,DEMONSTRATED,./npc/tothdral.npc,UNRESOLVED
+Trimegis,male,1,130,57-109-94-0,,32307,32185,5,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/trimegis.npc,UNRESOLVED
+Trisha,female,1,139,94-67-38-95,,32348,31748,7,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/trisha.npc,UNRESOLVED
+Tulf,male,69,71,0-0-0-0,,32586,31928,3,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/tulf.npc,UNRESOLVED
+Turvy,female,1,139,78-52-64-115,,32414,32177,7,Minocity,P2,home nearest mark Minocity,creature,npc,DEMONSTRATED,./npc/turvy.npc,UNRESOLVED
+Ubaid,male,51,51,0-0-0-0,,33046,32622,6,Efreet,P2,home nearest mark Efreet,creature,npc,DEMONSTRATED,./npc/ubaid.npc,UNRESOLVED
+Ukea,female,62,144,78-58-64-58,,32651,31665,6,Ab'Dendriel,P2,home nearest mark Ab'Dendriel,creature,npc,DEMONSTRATED,./npc/ukea.npc,UNRESOLVED
+Ulrik,male,1,131,60-70-97-95,,32282,32056,7,Greenshore,P2,home nearest mark Greenshore,creature,npc,DEMONSTRATED,./npc/ulrik.npc,UNRESOLVED
+Umar,male,80,80,0-0-0-0,,33102,32531,6,Marid,P2,home nearest mark Marid,creature,npc,DEMONSTRATED,./npc/umar.npc,UNRESOLVED
+Urkalio,male,1,128,39-40-118-76,,32913,32081,10,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/urkalio.npc,UNRESOLVED
+Ursula,female,54,54,0-0-0-0,,33268,31849,7,Eremo,P2,home nearest mark Eremo,creature,npc,DEMONSTRATED,./npc/ursula.npc,UNRESOLVED
+Uso,male,1,160,79-39-77-115,,32580,32756,8,PortHope,P2,home nearest mark PortHope,creature,npc,DEMONSTRATED,./npc/uso.npc,UNRESOLVED
+Ustan,male,1,132,0-24-13-76,,32580,32757,6,PortHope,P2,home nearest mark PortHope,creature,npc,DEMONSTRATED,./npc/ustan.npc,UNRESOLVED
+Uzgod,male,69,160,77-79-56-115,,32664,31894,9,Kazordoon,P2,home nearest mark Kazordoon,creature,npc,DEMONSTRATED,./npc/uzgod.npc,UNRESOLVED
+Uzon,male,1,130,95-5-18-76,,32537,31836,4,Hills,P2,home nearest mark Hills,creature,npc,DEMONSTRATED,./npc/uzon.npc,UNRESOLVED
+Velvet,female,1,136,59-96-115-95,,32943,32104,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/velvet.npc,UNRESOLVED
+Vera,female,1,136,59-96-115-95,,32138,31672,7,Senja,P2,home nearest mark Senja,creature,npc,DEMONSTRATED,./npc/vera.npc,UNRESOLVED
+Vladruc,male,1,68,0-0-0-0,,32976,32079,5,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/vladruc.npc,UNRESOLVED
+Wally,male,1,129,96-113-95-115,,32566,32019,7,Sternum,P2,home nearest mark Sternum,creature,npc,DEMONSTRATED,./npc/wally.npc,UNRESOLVED
+"Walter, the guard",male,1,131,19-19-19-19,,32338,32278,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/walter.npc,UNRESOLVED
+Warbert,male,1,131,113-113-113-115,,32935,32141,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/warbert.npc,UNRESOLVED
+Willard,male,1,131,58-104-19-116,,33214,31793,6,Edron,P2,home nearest mark Edron,creature,npc,DEMONSTRATED,./npc/willard.npc,UNRESOLVED
+William,male,1,128,115-0-67-114,,32314,31802,8,Carlin,P2,home nearest mark Carlin,creature,npc,DEMONSTRATED,./npc/william.npc,UNRESOLVED
+Willie,male,1,128,58-63-58-115,,32047,32204,7,Rookgaard,P1,home nearest mark Rookgaard,creature,npc,DEMONSTRATED,./npc/willie.npc,UNRESOLVED
+Wyat,male,1,129,98-96-95-116,,32325,32276,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/wyat.npc,UNRESOLVED
+Wyda,female,54,54,0-0-0-0,,32726,31980,6,Swamp,P2,home nearest mark Swamp,creature,npc,DEMONSTRATED,./npc/wyda.npc,UNRESOLVED
+Xed,male,1,129,78-36-57-97,,32904,32117,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/xed.npc,UNRESOLVED
+Xodet,male,1,130,19-86-87-95,,32399,32222,7,Thais,P2,home nearest mark Thais,creature,npc,DEMONSTRATED,./npc/xodet.npc,UNRESOLVED
+Yaman,male,51,51,0-0-0-0,,33045,32620,2,Efreet,P2,home nearest mark Efreet,creature,npc,DEMONSTRATED,./npc/yaman.npc,UNRESOLVED
+Yanni,male,1,131,22-22-22-57,,32909,32111,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/yanni.npc,UNRESOLVED
+Yberius,male,1,57,0-0-0-0,,32961,32076,7,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/yberius.npc,UNRESOLVED
+Yoem,male,1,128,41-112-105-96,,33305,31966,7,Cormaya,P2,home nearest mark Cormaya,creature,npc,DEMONSTRATED,./npc/yoem.npc,UNRESOLVED
+Yulas,male,1,128,58-43-38-76,,33000,32065,6,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/yulas.npc,UNRESOLVED
+Zaidal,male,1,128,76-43-77-76,,32621,32747,5,PortHope,P2,home nearest mark PortHope,creature,npc,DEMONSTRATED,./npc/zaidal.npc,UNRESOLVED
+Zebron,male,1,128,95-15-109-76,,32931,32071,9,Venore,P2,home nearest mark Venore,creature,npc,DEMONSTRATED,./npc/zebron.npc,UNRESOLVED
+Zerbrus,male,1,131,76-38-76-95,,32022,32203,6,Rookgaard,P1,home nearest mark Rookgaard,creature,npc,DEMONSTRATED,./npc/zerbrus.npc,UNRESOLVED
+Zoltan,male,1,130,95-94-95-57,,33268,31849,4,Eremo,P2,home nearest mark Eremo,creature,npc,DEMONSTRATED,./npc/zoltan.npc,UNRESOLVED

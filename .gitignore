@@ -20,6 +20,13 @@
 *.key
 **/config.cfg
 
+# Authoring scratch that must never be committed, not even through LFS.
+*.blend1
+*.blend2
+/visual/**/cache/
+/visual/**/bake/
+/visual/**/*.autosave
+
 # Generated output.
 /build/
 /Binaries/

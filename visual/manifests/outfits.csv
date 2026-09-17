@@ -1,0 +1,153 @@
+outfit_id,users,sample_users,category,subcategory,confidence,source,sprite_geometry
+1,1,mon:human,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+2,1,mon:orc warlord,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+3,1,mon:war wolf,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+4,1,mon:orc rider,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+5,2,mon:orc;npc:Blind Orc,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+6,1,mon:orc shaman,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+7,1,mon:orc warrior,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+8,1,mon:orc berserker,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+9,6,mon:necromancer;npc:Adrenius;npc:Digger;npc:Gundralph;npc:Lugri;npc:Skjaar,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+10,1,mon:butterfly,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+13,1,mon:black sheep,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+14,1,mon:sheep,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+15,1,mon:troll,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+16,1,mon:bear,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+17,2,mon:beholder;npc:A Wrinkled Beholder,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+18,3,mon:ghoul;npc:Chatterbone;npc:Ormuhn,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+19,3,mon:slime;mon:slime;npc:The Orc King,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+21,3,mon:rat;npc:Puffels;npc:Rata'mari,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+22,2,mon:cyclops;npc:A Sweaty Cyclops,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+23,2,mon:minotaur mage;npc:Markwin,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+24,1,mon:minotaur archer,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+25,1,mon:minotaur,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+26,1,mon:rotworm,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+27,1,mon:wolf,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+28,2,mon:snake;npc:Basilisk,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+29,2,mon:minotaur guard;npc:Asrak,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+30,1,mon:spider,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+31,1,mon:deer,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+32,4,mon:dog;npc:Dustrunner;npc:Lightfoot;npc:Noodles,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+33,1,mon:skeleton,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+34,1,mon:dragon,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+35,5,mon:Apocalypse;mon:Bazir;mon:Infernatil;mon:Morgaroth;mon:demon,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+36,1,mon:poison spider,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+37,3,mon:demon skeleton;npc:Demon Skeleton;npc:Smiley,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+38,1,mon:giant spider,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+39,2,mon:dragon lord;npc:An Old Dragonlord,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+40,1,mon:fire devil,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+41,1,mon:lion,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+42,1,mon:polar bear,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+43,1,mon:scorpion,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+44,1,mon:wasp,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+45,1,mon:bug,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+48,6,mon:ghost;npc:A Lost Soul;npc:A Tainted Soul;npc:A Tortured Soul;npc:An Apparition;npc:Riddler,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+49,1,mon:fire elemental,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+50,1,mon:orc spearman,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+51,5,mon:green djinn;npc:Baa'leal;npc:Malor;npc:Ubaid;npc:Yaman,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+52,1,mon:winter wolf,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+53,1,mon:frost troll,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+54,3,mon:witch;npc:Ursula;npc:Wyda,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+55,1,mon:behemoth,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+56,1,mon:cave rat,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+57,9,mon:monk;npc:Cipfried;npc:Costello;npc:Lorbas;npc:Loui;npc:Norf,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+58,1,mon:priestess,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+59,1,mon:orc leader,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+60,1,mon:pig,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+61,1,mon:goblin,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+62,2,mon:elf;npc:Faluae,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+63,6,mon:elf arcanist;npc:Anerui;npc:Edala;npc:Elf Guard;npc:Eroth;npc:Maealil,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+64,3,mon:elf scout;npc:Elathriel;npc:Irea,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+65,3,mon:mummy;npc:Ishebad;npc:Tothdral,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+66,6,mon:dwarf geomancer;npc:Brodrosch;npc:Emperor Kruzak;npc:Etzel;npc:Gurbasch;npc:Kawill,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+67,1,mon:stone golem,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+68,2,mon:vampire;npc:Vladruc,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+69,3,mon:dwarf;npc:Humgolf;npc:Sigurd,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+70,2,mon:dwarf guard;npc:Duria,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+71,2,mon:dwarf soldier;npc:Tulf,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+73,5,mon:hero;npc:Abran Ironeye;npc:Avar Tar;npc:Daniel Steelsoul;npc:Snake Eye,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+74,2,mon:The Halloween Hare;mon:rabbit,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+75,1,mon:Gamemaster,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+76,1,mon:swamp troll,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+78,3,mon:banshee;npc:The Crone;npc:The Queen of the Banshee,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+79,1,mon:ancient scarab,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+80,8,mon:blue djinn;npc:Alesar;npc:Bo'ques;npc:Fa'hradin;npc:Gabel;npc:Haroun,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+81,1,mon:cobra,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+82,1,mon:larva,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+83,1,mon:scarab,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+84,1,mon:Morguthis,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+85,1,mon:Vashresamun,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+86,1,mon:Mahrdis,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+87,1,mon:Dipthrah,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+88,1,mon:Rahemos,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+89,1,mon:Thalas,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+90,1,mon:Omruc,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+91,2,mon:Ashmunrah;npc:Arkhothep,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+92,1,mon:mimic,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+94,1,mon:hyaena,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+95,1,mon:gargoyle,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+99,1,mon:lich,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+100,1,mon:crypt shambler,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+101,1,mon:bonebeast,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+102,1,mon:deathslicer,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+103,1,mon:efreet,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+104,1,mon:marid,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+105,1,mon:badger,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+106,1,mon:skunk,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+107,1,mon:demon,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+108,1,mon:elder beholder,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+109,1,mon:gazer,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+110,1,mon:yeti,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+111,1,mon:chicken,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+112,1,mon:crab,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+113,1,mon:lizard templar,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+114,1,mon:lizard sentinel,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+115,1,mon:lizard snakecharmer,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+116,1,mon:kongra,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+117,3,mon:merlkin;npc:Hairycles;npc:The Blind Prophet,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+118,1,mon:sibang,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+119,1,mon:crocodile,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+120,1,mon:carniphila,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+121,1,mon:hydra,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+122,1,mon:bat,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+123,1,mon:panda,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+124,1,mon:centipede,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+125,1,mon:tiger,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+128,63,mon:stalker;npc:A Strange Fellow;npc:Al Dee;npc:Aldo;npc:Allen;npc:Benjamin,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+129,34,mon:assassin;mon:bandit;mon:hunter;npc:Anderson;npc:Aneus;npc:Azil,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+130,29,mon:Ferumbras;mon:warlock;npc:A Prisoner;npc:Ahmet;npc:Albert;npc:Alexander,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+131,29,mon:black knight;mon:wild warrior;npc:Alwin;npc:Arnold;npc:Baxter;npc:Chester Kahs,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+132,7,npc:Arito;npc:Brengus;npc:Captain Jack;npc:Fenech;npc:Lorek;npc:Tandros,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+133,6,npc:Angus;npc:Brewster;npc:Feizuhl;npc:Humphrey;npc:Jakahr;npc:Mortimer,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+134,4,mon:smuggler;npc:Captain Sinbeard;npc:Charles;npc:Helor,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+136,26,npc:A Ghostly Woman;npc:Angelina;npc:Beatrice;npc:Chrystal;npc:Dane;npc:Dixi,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+137,8,mon:amazon;npc:Amber;npc:Elane;npc:Galuna;npc:Legola;npc:Luna,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+138,17,npc:Alia;npc:Amanda;npc:Asima;npc:Carina;npc:Ishina;npc:Jezzara,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+139,15,mon:valkyrie;npc:Bambi Bonecrusher;npc:Barbara;npc:Blossom Bonecrusher;npc:Bunny Bonecrusher;npc:Busty Bonecrusher,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+140,4,npc:Aruda;npc:Gail;npc:Myra;npc:Tesha,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+144,9,npc:Bashira;npc:Brasith;npc:Briasol;npc:Dario;npc:Elvith;npc:Shanar,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+160,16,npc:Bezil;npc:Budrik;npc:Isimov;npc:Iwar;npc:Jimbin;npc:Kroox,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+201,1,mon:Orshabaal,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+202,1,mon:The Horned Fox,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+203,1,mon:Dharalion,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+204,1,mon:Demodras,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+205,1,mon:Grorlam,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+206,1,mon:Fernfang,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+207,1,mon:General Murius,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+208,1,mon:The Old Widow,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+209,1,mon:Necropharus,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+210,1,mon:The Evil Eye,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+211,1,mon:elephant,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+212,1,mon:flamingo,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+213,1,mon:butterfly,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+214,1,mon:dworc voodoomaster,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+215,1,mon:dworc fleshhunter,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+216,1,mon:dworc venomsniper,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+217,1,mon:parrot,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+218,1,mon:terror bird,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+219,1,mon:tarantula,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+220,1,mon:serpent spawn,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+221,1,mon:spit nettle,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+225,1,mon:dark monk,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+227,1,mon:butterfly,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED
+228,1,mon:butterfly,outfit,creature_or_npc,DEMONSTRATED,./mon/*.mon and ./npc/*.npc Outfit fields,UNRESOLVED

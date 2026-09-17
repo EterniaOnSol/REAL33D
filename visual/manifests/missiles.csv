@@ -1,0 +1,14 @@
+missile_attribute,missile_id,used_by_type_ids,category,subcategory,confidence,source,sprite_geometry
+AmmoMissile,14,3450,projectile,AmmoMissile,DEMONSTRATED,./dat/objects.srv attributes,UNRESOLVED
+AmmoMissile,2,3446,projectile,AmmoMissile,DEMONSTRATED,./dat/objects.srv attributes,UNRESOLVED
+AmmoMissile,3,3447,projectile,AmmoMissile,DEMONSTRATED,./dat/objects.srv attributes,UNRESOLVED
+AmmoMissile,6,3448,projectile,AmmoMissile,DEMONSTRATED,./dat/objects.srv attributes,UNRESOLVED
+AmmoMissile,7,3449,projectile,AmmoMissile,DEMONSTRATED,./dat/objects.srv attributes,UNRESOLVED
+ThrowMissile,1,3277,projectile,ThrowMissile,DEMONSTRATED,./dat/objects.srv attributes,UNRESOLVED
+ThrowMissile,10,1781,projectile,ThrowMissile,DEMONSTRATED,./dat/objects.srv attributes,UNRESOLVED
+ThrowMissile,13,2992,projectile,ThrowMissile,DEMONSTRATED,./dat/objects.srv attributes,UNRESOLVED
+ThrowMissile,8,3287,projectile,ThrowMissile,DEMONSTRATED,./dat/objects.srv attributes,UNRESOLVED
+ThrowMissile,9,3298,projectile,ThrowMissile,DEMONSTRATED,./dat/objects.srv attributes,UNRESOLVED
+WandMissile,15,3065;3066;3072,projectile,WandMissile,DEMONSTRATED,./dat/objects.srv attributes,UNRESOLVED
+WandMissile,4,3069;3071;3075,projectile,WandMissile,DEMONSTRATED,./dat/objects.srv attributes,UNRESOLVED
+WandMissile,5,3067;3070;3073;3074,projectile,WandMissile,DEMONSTRATED,./dat/objects.srv attributes,UNRESOLVED

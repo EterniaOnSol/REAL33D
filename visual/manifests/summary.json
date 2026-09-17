@@ -1,0 +1,164 @@
+{
+  "schema_version": "1.0.0",
+  "inventory_completeness": "COMPLETE over the datasets listed in sources_used. NOT complete in the visual sense: no appearance data was available, see sources_unavailable.",
+  "sources_used": [
+    "./dat/map.dat",
+    "./dat/monster.db",
+    "./dat/objects.srv",
+    "./mon/*.mon",
+    "./npc/*.npc",
+    "./origmap/*.sec",
+    "reference/game/src/enums.hh"
+  ],
+  "sources_missing": [],
+  "sources_unavailable": [
+    {
+      "source": "client Tibia.dat / Tibia.spr (7.72)",
+      "would_provide": "per-thing sprite dimensions, layer counts, animation frame counts, draw offsets and the sprite pixels themselves",
+      "why_unavailable": "not part of this repository, covered by .gitignore, and its provenance is recorded as UNKNOWN in docs/CLASSIC_CLIENT_772.md",
+      "affected_columns": [
+        "sprite_geometry"
+      ],
+      "extractor_hook": "add a reader alongside parse_objects and fill the sprite_geometry column; no other column changes"
+    }
+  ],
+  "objects": {
+    "declared_total": 5003,
+    "with_name": 4991,
+    "without_name": 12,
+    "unresolved_category": 0,
+    "inferred_category": 309,
+    "demonstrated_category": 4694,
+    "by_category": {
+      "container": 122,
+      "creature_remains": 341,
+      "decoration": 1239,
+      "effect_object": 31,
+      "equipment": 307,
+      "furniture": 6,
+      "item": 550,
+      "readable": 117,
+      "structure": 465,
+      "terrain": 1392,
+      "traversal": 4,
+      "usable": 429
+    },
+    "by_art_class": {
+      "bone": 50,
+      "furniture": 183,
+      "rock": 422,
+      "roof": 53,
+      "sign": 8,
+      "stairs": 75,
+      "statue": 53,
+      "unclassified_named": 2740,
+      "unnamed": 12,
+      "vegetation": 568,
+      "wall": 533,
+      "water": 306
+    },
+    "art_class_unresolved": 2752,
+    "present_on_map": 2972,
+    "absent_from_map": 2031
+  },
+  "visual_groups": {
+    "total": 1351,
+    "multi_member": 489,
+    "ids_in_multi_member_groups": 4141,
+    "disguise_aliases": 53
+  },
+  "priorities": {
+    "P0": 456,
+    "P1": 139,
+    "P2": 2377,
+    "UNPRIORITIZED": 2031
+  },
+  "creatures": {
+    "monster_races": 159,
+    "rookgaard_races": 20,
+    "spawn_points": 9615
+  },
+  "npcs": {
+    "total": 337,
+    "rookgaard": 18
+  },
+  "effects": 26,
+  "missiles": 13,
+  "outfits": 152,
+  "map": {
+    "sectors_scanned": 9873,
+    "tiles_scanned": 7846045,
+    "bounds": {
+      "sectorxmin": 996,
+      "sectorxmax": 1043,
+      "sectorymin": 984,
+      "sectorymax": 1031,
+      "sectorzmin": 0,
+      "sectorzmax": 15
+    },
+    "newbie_start": [
+      32097,
+      32219,
+      7
+    ],
+    "veteran_start": [
+      32369,
+      32241,
+      7
+    ],
+    "marks": 50,
+    "p0_sectors": [
+      "1002-1005-05",
+      "1002-1005-06",
+      "1002-1005-07",
+      "1002-1005-08",
+      "1002-1005-09",
+      "1002-1005-10",
+      "1002-1005-11",
+      "1002-1006-05",
+      "1002-1006-06",
+      "1002-1006-07",
+      "1002-1006-08",
+      "1002-1006-09",
+      "1002-1006-10",
+      "1002-1006-11",
+      "1002-1007-06",
+      "1002-1007-07",
+      "1002-1007-08",
+      "1002-1007-09",
+      "1002-1007-10",
+      "1003-1005-05",
+      "1003-1005-06",
+      "1003-1005-07",
+      "1003-1005-08",
+      "1003-1005-09",
+      "1003-1005-10",
+      "1003-1006-05",
+      "1003-1006-06",
+      "1003-1006-07",
+      "1003-1006-08",
+      "1003-1006-09",
+      "1003-1006-10",
+      "1003-1007-06",
+      "1003-1007-07",
+      "1003-1007-08",
+      "1004-1005-03",
+      "1004-1005-04",
+      "1004-1005-05",
+      "1004-1005-06",
+      "1004-1005-07",
+      "1004-1005-08",
+      "1004-1005-09",
+      "1004-1006-06",
+      "1004-1006-07",
+      "1004-1006-08",
+      "1004-1006-09",
+      "1004-1007-06",
+      "1004-1007-07",
+      "1004-1007-08"
+    ]
+  },
+  "unresolved_fields": {
+    "sprite_geometry": "Per-thing sprite dimensions, layer counts, animation frame counts and draw offsets live in the client Tibia.dat/Tibia.spr, which are not part of this repository and whose provenance is UNKNOWN. Every manifest carries a sprite_geometry column set to UNRESOLVED so the extractor can fill it once an artifact with verifiable provenance is available."
+  }
+}
