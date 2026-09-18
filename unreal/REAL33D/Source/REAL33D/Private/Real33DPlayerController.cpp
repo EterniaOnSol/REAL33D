@@ -42,9 +42,7 @@ void AReal33DPlayerController::SetupInputComponent()
 	InputComponent->BindKey(EKeys::Enter, IE_Pressed, this,
 		&AReal33DPlayerController::ToggleChat);
 	InputComponent->BindKey(EKeys::F2, IE_Pressed, this,
-		&AReal33DPlayerController::ToggleYell);
-	InputComponent->BindKey(EKeys::F3, IE_Pressed, this,
-		&AReal33DPlayerController::ToggleWhisper);
+		&AReal33DPlayerController::CycleTalkMode);
 	InputComponent->BindKey(EKeys::Escape, IE_Pressed, this,
 		&AReal33DPlayerController::CancelChat);
 	InputComponent->BindKey(EKeys::BackSpace, IE_Pressed, this,
@@ -95,20 +93,48 @@ void AReal33DPlayerController::TypeCharacter(TCHAR Glyph)
 	Composing.AppendChar(Glyph);
 }
 
-void AReal33DPlayerController::ToggleChat()    { OpenOrSend(TEXT(""), TEXT("say")); }
-void AReal33DPlayerController::ToggleYell()    { OpenOrSend(TEXT("#y "), TEXT("yell")); }
-void AReal33DPlayerController::ToggleWhisper() { OpenOrSend(TEXT("#w "), TEXT("whisper")); }
+const TCHAR* AReal33DPlayerController::TalkModePrefix() const
+{
+	switch (TalkMode)
+	{
+	case 1:  return TEXT("#w ");
+	case 2:  return TEXT("#y ");
+	default: return TEXT("");
+	}
+}
 
-void AReal33DPlayerController::OpenOrSend(const TCHAR* Prefix, const TCHAR* Label)
+const TCHAR* AReal33DPlayerController::TalkModeLabel() const
+{
+	switch (TalkMode)
+	{
+	case 1:  return TEXT("whisper");
+	case 2:  return TEXT("yell");
+	default: return TEXT("say");
+	}
+}
+
+void AReal33DPlayerController::CycleTalkMode()
+{
+	// Changing mode does not open or close a line: the mode is a property of the
+	// player, not of the message being typed. Cycling mid-line is therefore
+	// allowed and simply changes how the line will be sent.
+	TalkMode = static_cast<uint8>((TalkMode + 1) % 3);
+	UE_LOG(LogReal33D, Log, TEXT("talk mode is now %s"), TalkModeLabel());
+}
+
+void AReal33DPlayerController::ToggleChat() { OpenOrSend(); }
+
+void AReal33DPlayerController::OpenOrSend()
 {
 	if (!bComposing)
 	{
 		bComposing = true;
-		// The prefix is seeded rather than typed, so the mode is chosen by the
-		// key that opened the line. The bridge still parses the prefix, which
-		// keeps one code path for both the key and the classic convention.
-		Composing = Prefix;
-		UE_LOG(LogReal33D, Log, TEXT("%s line opened; walk keys are inert"), Label);
+		// Only what the player types is held here. The mode is applied on send,
+		// not seeded into the buffer, so cycling the mode while a line is open
+		// changes how it goes out instead of leaving a stale prefix behind.
+		Composing.Empty();
+		UE_LOG(LogReal33D, Log, TEXT("%s line opened; walk keys are inert"),
+			TalkModeLabel());
 		return;
 	}
 
@@ -134,8 +160,11 @@ void AReal33DPlayerController::OpenOrSend(const TCHAR* Prefix, const TCHAR* Labe
 
 	// An intent, exactly like a walk. Fusion32 decides whether anyone hears it,
 	// and the authoritative talk it broadcasts is what this client will draw.
-	const uint32 SayId = Bridge->RequestSay(Text);
-	UE_LOG(LogReal33D, Log, TEXT("say %u: \"%s\" handed to Fusion32"), SayId, *Text);
+	// The mode is applied here, at send, so it reflects whatever the mode is now
+	// rather than what it was when the line was opened.
+	const uint32 SayId = Bridge->RequestSay(FString(TalkModePrefix()) + Text);
+	UE_LOG(LogReal33D, Log, TEXT("%s %u: \"%s\" handed to Fusion32"),
+		TalkModeLabel(), SayId, *Text);
 }
 
 void AReal33DPlayerController::CancelChat()
@@ -161,12 +190,26 @@ void AReal33DPlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
 
+	if (GEngine == nullptr)
+	{
+		return;
+	}
+
 	// The line has to be visible while it is typed, or the operator is typing
-	// blind into a client that looks identical whether chat is open or not.
-	if (bComposing && GEngine != nullptr)
+	// blind into a client that looks identical whether chat is open or not. The
+	// prompt names the mode, because a mode that persists and is invisible is a
+	// mode that sends the wrong thing: the player would have no way to know a
+	// yell three messages ago is still in force.
+	if (bComposing)
 	{
 		GEngine->AddOnScreenDebugMessage(200, 0.0f, FColor(120, 220, 255),
-			FString::Printf(TEXT("say> %s_"), *Composing));
+			FString::Printf(TEXT("%s> %s_"), TalkModeLabel(), *Composing));
+	}
+	else if (TalkMode != 0)
+	{
+		// Shown even with no line open, for the same reason.
+		GEngine->AddOnScreenDebugMessage(201, 0.0f, FColor(200, 200, 120),
+			FString::Printf(TEXT("talk mode: %s  (F2 to change)"), TalkModeLabel()));
 	}
 }
 

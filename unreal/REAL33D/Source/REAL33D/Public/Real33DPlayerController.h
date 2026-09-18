@@ -44,14 +44,20 @@ private:
 	// by unbinding, so there is one place where the rule lives and no window in
 	// which the bindings are half-swapped.
 
-	// One key per talk mode. The bridge also parses the classic "#y " and "#w "
-	// prefixes, but "#" is unbound and needs a modifier on most layouts, so a
-	// typed prefix left yell and whisper unreachable: the operator could not
-	// enter the character at all. The key seeds the prefix instead.
+	// The talk mode persists until changed, which is how the operator describes
+	// the original: a speaker control in the chat panel sets a mode and it stays
+	// set. F2 cycles it. Everything typed afterwards goes out that way, rather
+	// than the mode being re-chosen for every line.
+	//
+	// The mode is carried to the bridge as the classic "#y " / "#w " prefix, so
+	// the key and the typed convention share one path. A typed prefix alone was
+	// not enough: "#" is unbound here and needs a modifier on most layouts, so
+	// yell and whisper were unreachable entirely.
 	void ToggleChat();
-	void ToggleYell();
-	void ToggleWhisper();
-	void OpenOrSend(const TCHAR* Prefix, const TCHAR* Label);
+	void CycleTalkMode();
+	void OpenOrSend();
+	const TCHAR* TalkModePrefix() const;
+	const TCHAR* TalkModeLabel() const;
 	void CancelChat();
 	void Backspace();
 	void TypeCharacter(TCHAR Glyph);
@@ -59,4 +65,7 @@ private:
 
 	bool bComposing = false;
 	FString Composing;
+
+	/** 0 say, 1 whisper, 2 yell. Survives sending, like the classic control. */
+	uint8 TalkMode = 0;
 };

@@ -201,6 +201,61 @@ The lesson is the same one this project keeps relearning: a wrong-looking
 screen is not evidence of where the fault is. Logging the value turned a
 suspected pipeline bug into a two-line threshold correction.
 
+## Operator observations of a chat UI
+
+    EVIDENCE_GRADE = THIRD_PARTY_CLIENT
+
+Weaker than Fusion32 source and weaker than the original binary. The operator
+supplied a screenshot of a **different** client, a modern reimplementation, and
+described the original's behaviour from memory of playing it. Recorded because
+it corroborates choices made blind, never as parity proof. Nothing here
+overrides source, and nothing here is cited as a 7.72 rule.
+
+What the screenshot shows:
+
+- Say lines render **yellow** in the default channel. Independent corroboration
+  of the colour this client draws, arrived at separately by measuring pixels.
+- Line format is `HH:MM Name: text`.
+- Channels are tabs: Default, Server Log, RL-Chat, Trade, plus a per-person
+  private tab. Consistent with `CTalk` distinguishing channel modes, which carry
+  a channel word, from addressed modes, which carry a name.
+- A **"Chat off"** toggle exists.
+
+What the operator reports of the original: talk mode is selected by a speaker
+control in the corner of the chat panel, and it **persists** until changed.
+
+### Why these two matter
+
+**"Chat off" corroborates a rule this client already enforces.** Typing and
+walking are mutually exclusive here, implemented as a single `bComposing` check
+at the top of `Request` so that typing "was" cannot walk west, north and south.
+That was chosen to avoid a defect, not copied from anywhere. The classic UI
+treating it as a first-class, user-visible mode suggests the constraint is
+inherent to a client that binds letters to both purposes, rather than an
+artefact of this implementation.
+
+**A persistent mode is not what this client does.** F2 and F3 open a one-shot
+line and the mode reverts to Say afterwards, so the mode is chosen per message.
+The classic affordance sets a mode that stays set. Both produce identical
+`CL_CMD_TALK` bytes — the mode byte is the mode byte — so this is presentation,
+in the same category as speech lifetime, and equally unprovable from source.
+
+    TALK_MODE_PERSISTENCE = NOT_PROVEN (operator-reported, third-party corroboration)
+
+### The colour drifts with the in-game time of day
+
+A live session showed Say looking greenish while Whisper looked correct, then
+both looking correct later, with no code change in between. `PresentSpeech`
+never reads the mode and both had resolved to the same creature, so the two were
+drawn by the same component in the same colour: a per-mode difference is not
+possible. The variable was time, not mode.
+
+Fusion32 sends `SV_CMD_AMBIENT` for the day/night cycle, six times in that
+session. The text material is lit, so world light level changes its apparent
+hue. Nothing was changed in response, and the observation is recorded here
+rather than acted on, because it is another face of the limitation below rather
+than a separate defect.
+
 ## A known cosmetic limitation: the speech colour is approximate
 
 The operator asked for `#ffff00`. The code sets exactly that, and the screen
