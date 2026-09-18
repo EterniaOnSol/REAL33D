@@ -27,6 +27,8 @@ constexpr std::uint8_t kClientCommandRotateNorth = 111;
 constexpr std::uint8_t kClientCommandRotateEast = 112;
 constexpr std::uint8_t kClientCommandRotateSouth = 113;
 constexpr std::uint8_t kClientCommandRotateWest = 114;
+// reference/game/src/connections.hh: CL_CMD_TALK = 150.
+constexpr std::uint8_t kClientCommandTalk = 150;
 
 // Fusion32 also accepts CL_CMD_GO_NORTHEAST (106) through CL_CMD_GO_NORTHWEST
 // (109), routed through the same CGoDirection with both offsets non-zero, and
@@ -216,6 +218,13 @@ enum class TalkLayout {
 
 TalkLayout TalkLayoutForMode(std::uint8_t mode) noexcept;
 const char* TalkModeName(std::uint8_t mode) noexcept;
+
+// The modes SV_CMD_MESSAGE carries. These are TALK_MODE values too, but they
+// travel under a different opcode and no SendTalk overload accepts them, so
+// TalkModeName does not name them: asking it would answer "UnknownTalkMode"
+// about a mode that is perfectly well known. Source:
+// reference/game/src/sending.cc::SendMessage and enums.hh.
+const char* MessageModeName(std::uint8_t mode) noexcept;
 
 struct TalkUpdate {
     std::uint32_t statement_id = 0;

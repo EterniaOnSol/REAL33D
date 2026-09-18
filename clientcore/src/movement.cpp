@@ -1008,6 +1008,19 @@ const char* TalkModeName(std::uint8_t mode) noexcept {
     return "UnknownTalkMode";
 }
 
+const char* MessageModeName(std::uint8_t mode) noexcept {
+    // reference/game/src/sending.cc::SendMessage whitelists exactly these.
+    switch (mode) {
+        case 18: return "AdminMessage";
+        case 19: return "EventMessage";
+        case 20: return "LoginMessage";
+        case 21: return "StatusMessage";
+        case 22: return "InfoMessage";
+        case 23: return "FailureMessage";
+        default: return "UnknownMessageMode";
+    }
+}
+
 const char* ServerUpdateKindName(ServerUpdateKind kind) noexcept {
     switch (kind) {
         case ServerUpdateKind::FullScreen: return "FullScreen";

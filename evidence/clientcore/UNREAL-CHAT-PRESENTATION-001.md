@@ -133,8 +133,58 @@ did not break the input path, the bridge or the game-thread presentation.
 
       SPEECH_COLOUR_EXACT = NOT_ACHIEVED (readable; hue approximate)
 
-- **Outgoing chat from Unreal**: `OUTGOING_UNREAL_CHAT = NOT_IMPLEMENTED`. It
-  was outside the mandatory scope and was not started.
+## Outgoing chat: implemented and live
+
+`OUTGOING_UNREAL_CHAT = IMPLEMENTED_AND_LIVE_VERIFIED`.
+
+Derived from `reference/game/src/receiving.cc::CTalk`; packet layout and the
+client/server mode asymmetry are in `docs/UNREAL_CHAT.md`.
+
+The full round trip, from `chat_outgoing_live.log`:
+
+```text
+chat line opened; walk keys are inert
+say 12: "hola" handed to Fusion32
+talk [Say] at 32096,32206,7, Test Player B: "hola"  speaker Resolved creature 1002
+```
+
+A key press became a semantic ClientCore action, reached Fusion32, and came back
+67 ms later as an authoritative `SV_CMD_TALK` that resolved to creature 1002,
+Player B himself. Nothing was drawn optimistically: the text on screen is the
+server's broadcast, not a local echo.
+
+**Operator observation, HUMAN:** *"funciona el chat... lo veo en clasic"* — the
+message typed in Unreal was visible to Player A in the original `Tibia.exe`.
+
+## Yell, and why nothing appeared
+
+Yell was finally testable once Player A reached level 2, and the operator
+yelled from underground. **Nothing appeared in Unreal, and that is correct.**
+
+`reference/game/src/operate.cc` picks the spectators, with the Fusion32 authors'
+own comment on the rule:
+
+```cpp
+}else if(Mode == TALK_YELL || Mode == TALK_ANIMAL_LOUD){
+    if(DistanceX > 30 || DistanceY > 30) continue;
+    // TODO(fusion): This seems to be correct. Underground yells
+    // aren't multi floor.
+    if(DistanceZ > 0 && (Spectator->posz > 7 || Creature->posz > 7)) continue;
+}
+```
+
+A was underground and B on floor 7, so the floors differed and one party was
+below ground: Fusion32 never sent the command. No talk packet reached the client
+at all, which the log confirms. The client drew nothing because there was
+nothing to draw.
+
+This is evidence of fidelity rather than a gap: a client that displayed the yell
+would be showing something the server deliberately withheld.
+
+The same block holds another server-side decision worth recording: a whisper
+beyond one field is delivered to the spectator as the literal text `"pspsps"`
+rather than the real message. What a player is allowed to hear is Fusion32's
+call, not the client's.
 
 ## Tests
 

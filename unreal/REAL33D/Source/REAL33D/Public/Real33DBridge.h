@@ -56,11 +56,17 @@ enum class EReal33DEventKind : uint8
 	/**
 	 * Someone spoke. Carries the decoded semantics, never protocol bytes.
 	 *
-	 * This milestone decodes talk so an ordinary session stops producing an
-	 * unsupported opcode. Presentation of chat is out of scope: the event is
-	 * logged and counted, and nothing draws it.
+	 * `CreatureId` is the resolved speaker when the bridge could prove one, and
+	 * zero otherwise; see `SpeakerResolution`.
 	 */
-	Talk
+	Talk,
+
+	/**
+	 * A creature's health changed, so its name colour must follow.
+	 *
+	 * Carries `CreatureId` and `HealthPercent`.
+	 */
+	CreatureHealth
 };
 
 /** Which shape of talk this was, mirroring the three forms Fusion32 emits. */
@@ -132,6 +138,9 @@ struct FReal33DEvent
 	 * showing it in the world at all.
 	 */
 	FString SpeakerResolution;
+
+	/** 0..100 as the server reports it. Meaningful for creature events. */
+	uint8 HealthPercent = 100;
 };
 
 /** Counters the game thread may read for the on-screen diagnostic overlay. */
@@ -162,6 +171,12 @@ struct FReal33DStats
 	int32 LocalPlayerMoves = 0;
 	/** Talk commands decoded. Counted to show chat no longer stops the walk. */
 	int32 TalkMessages = 0;
+	/** Health changes applied to a creature's name colour. */
+	int32 HealthUpdates = 0;
+	/** Say commands this client put on the wire. */
+	int32 SaysRequested = 0;
+	/** Say commands ClientCore refused before sending, with the reason logged. */
+	int32 SaysRefusedLocally = 0;
 	/** Talk shown above the creature that said it. */
 	int32 TalkShownOnCreature = 0;
 	/** Talk shown on the fallback surface because no speaker could be proven. */
@@ -215,6 +230,19 @@ public:
 	 * instead of assuming the second followed from the first.
 	 */
 	uint32 RequestWalk(uint8 Direction);
+
+	/**
+	 * Asks Fusion32 to say something out loud where this player stands.
+	 *
+	 * An intent, exactly like a walk. Pressing Enter is not proof the server
+	 * accepted or broadcast anything: Fusion32 decides who hears it, and the
+	 * authoritative talk it sends back is what this client draws. Nothing is
+	 * displayed optimistically.
+	 *
+	 * Returns the id identifying this line for the rest of its life, so the
+	 * request can be correlated with what comes back.
+	 */
+	uint32 RequestSay(const FString& Text);
 
 	FReal33DStats GetStats() const;
 

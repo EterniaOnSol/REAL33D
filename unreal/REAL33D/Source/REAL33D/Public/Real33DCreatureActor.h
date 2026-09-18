@@ -56,6 +56,18 @@ public:
 	 */
 	void ShowSpeech(const FString& Text, float Seconds);
 
+	/**
+	 * Colours the name by how hurt the creature is.
+	 *
+	 * The server sends a health percentage in the creature descriptor and in
+	 * SV_CMD_CREATURE_HEALTH; what colour that becomes is client presentation.
+	 * Fusion32 defines no colours and no thresholds, so the bands here are the
+	 * operator's specification, not 7.72 parity. See docs/UNREAL_CHAT.md.
+	 *
+	 * Game thread only.
+	 */
+	void SetHealthPercent(uint8 Percent);
+
 	uint32 GetCreatureId() const { return CreatureId; }
 	bool IsLocalPlayer() const { return bIsLocalPlayer; }
 	const Real33D::FMapPosition& GetLogicalPosition() const { return LogicalPosition; }
@@ -85,4 +97,5 @@ private:
 	uint32 CreatureId = 0;
 	bool bIsLocalPlayer = false;
 	bool bPlaced = false;
+	uint8 HealthPercent = 100;
 };

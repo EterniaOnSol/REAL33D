@@ -1,5 +1,6 @@
 #include "fusion32/protocol772/movement.h"
 #include "fusion32/protocol772/movement_ledger.h"
+#include "fusion32/protocol772/talk_command.h"
 #include "fusion32/protocol772/talk_speaker.h"
 
 #include "fixtures/fullscreen_772_vectors.h"
@@ -1223,6 +1224,12 @@ void TestTalkLayoutClassification() {
     // SendMessage's modes travel under a different opcode entirely.
     CHECK(TalkLayoutForMode(18) == TalkLayout::Unsupported);
     CHECK(TalkLayoutForMode(23) == TalkLayout::Unsupported);
+
+    // SendMessage's modes are named by their own function: asking TalkModeName
+    // about them would answer "UnknownTalkMode" about a perfectly known mode.
+    CHECK(std::string(MessageModeName(20)) == "LoginMessage");
+    CHECK(std::string(MessageModeName(23)) == "FailureMessage");
+    CHECK(std::string(MessageModeName(1)) == "UnknownMessageMode");
     CHECK(TalkLayoutForMode(0) == TalkLayout::Unsupported);
 }
 
@@ -1256,6 +1263,124 @@ void TestTalkDoesNotTouchWorldState() {
     CHECK(state.viewport_anchor.x == anchor_before.x);
     CHECK(state.viewport_anchor.y == anchor_before.y);
     CHECK(state.viewport_anchor.z == anchor_before.z);
+}
+
+// ------------------------------------------------------ outgoing talk
+
+// Golden bytes for the ordinary case, hand-computed from CTalk's reads.
+void TestGoldenSayCommand() {
+    //   96        CL_CMD_TALK = 150
+    //   01        TALK_SAY
+    //   04 00     text length 4
+    //   68 6F 6C 61   "hola"
+    const auto say = BuildSayCommand("hola");
+    CHECK(say.ok());
+    const std::vector<std::uint8_t> expected{0x96, 0x01, 0x04, 0x00, 0x68, 0x6F, 0x6C, 0x61};
+    CHECK(say.payload == expected);
+
+    // An addressed mode inserts the addressee between mode and text.
+    //   96 04     CL_CMD_TALK, TALK_PRIVATE_MESSAGE
+    //   01 00 42  "B"
+    //   02 00 68 69  "hi"
+    const auto whisper_to = BuildTalkCommand(
+        static_cast<std::uint8_t>(TalkMode::PrivateMessage), "hi", "B");
+    CHECK(whisper_to.ok());
+    const std::vector<std::uint8_t> expected_pm{
+        0x96, 0x04, 0x01, 0x00, 0x42, 0x02, 0x00, 0x68, 0x69};
+    CHECK(whisper_to.payload == expected_pm);
+
+    // A channel mode inserts a word instead.
+    //   96 05     CL_CMD_TALK, TALK_CHANNEL_CALL
+    //   03 00     channel 3
+    //   02 00 79 6F  "yo"
+    const auto channel = BuildTalkCommand(
+        static_cast<std::uint8_t>(TalkMode::ChannelCall), "yo", "", 3);
+    CHECK(channel.ok());
+    const std::vector<std::uint8_t> expected_channel{
+        0x96, 0x05, 0x03, 0x00, 0x02, 0x00, 0x79, 0x6F};
+    CHECK(channel.payload == expected_channel);
+}
+
+// The client's accepted mode set is NOT the server's, and the difference runs
+// both ways. Getting this wrong by reusing the incoming table would send modes
+// the server discards and refuse modes it accepts.
+void TestClientTalkModeSetDiffersFromTheServers() {
+    // Accepted by CTalk and emitted by SendTalk: the common ground.
+    for (const std::uint8_t mode : std::vector<std::uint8_t>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 14}) {
+        CHECK(IsClientTalkMode(mode));
+    }
+
+    // Accepted by CTalk, emitted by no SendTalk overload. Send-only: a client
+    // may say these and can never be told them.
+    CHECK(IsClientTalkMode(13));   // TALK_ANONYMOUS_BROADCAST
+    CHECK(IsClientTalkMode(15));   // TALK_ANONYMOUS_MESSAGE
+    CHECK(TalkLayoutForMode(13) == TalkLayout::Unsupported);
+    CHECK(TalkLayoutForMode(15) == TalkLayout::Unsupported);
+
+    // Emitted by SendTalk, rejected by CTalk. Receive-only: the server may tell
+    // a client these and a client may never send them.
+    CHECK(!IsClientTalkMode(12));  // TALK_HIGHLIGHT_CHANNELCALL
+    CHECK(!IsClientTalkMode(16));  // TALK_ANIMAL_LOW
+    CHECK(!IsClientTalkMode(17));  // TALK_ANIMAL_LOUD
+    CHECK(TalkLayoutForMode(12) == TalkLayout::Channel);
+    CHECK(TalkLayoutForMode(16) == TalkLayout::Positional);
+    CHECK(TalkLayoutForMode(17) == TalkLayout::Positional);
+
+    // Neither: SendMessage's modes and plain nonsense.
+    CHECK(!IsClientTalkMode(0));
+    CHECK(!IsClientTalkMode(18));
+    CHECK(!IsClientTalkMode(23));
+    CHECK(!IsClientTalkMode(200));
+}
+
+void TestOutgoingTalkFieldSelection() {
+    // Addressee only for the four addressed modes.
+    CHECK(TalkModeNeedsAddressee(4));
+    CHECK(TalkModeNeedsAddressee(7));
+    CHECK(TalkModeNeedsAddressee(11));
+    CHECK(TalkModeNeedsAddressee(15));
+    CHECK(!TalkModeNeedsAddressee(1));
+    CHECK(!TalkModeNeedsAddressee(5));
+
+    // Channel only for the three channel modes.
+    CHECK(TalkModeNeedsChannel(5));
+    CHECK(TalkModeNeedsChannel(10));
+    CHECK(TalkModeNeedsChannel(14));
+    CHECK(!TalkModeNeedsChannel(1));
+    CHECK(!TalkModeNeedsChannel(4));
+
+    // A field the mode does not carry must not reach the wire, however
+    // insistently the caller supplies it.
+    const auto say = BuildTalkCommand(static_cast<std::uint8_t>(TalkMode::Say),
+                                      "hola", "ignored", 99);
+    CHECK(say.ok());
+    CHECK(say.payload == BuildSayCommand("hola").payload);
+}
+
+// Each refusal mirrors a check CTalk performs, so the player is told rather
+// than the server silently discarding the command.
+void TestOutgoingTalkRefusals() {
+    CHECK(BuildSayCommand("").error == TalkBuildError::EmptyText);
+    CHECK(BuildSayCommand(std::string(kMaxTalkTextLength + 1, 'x')).error
+          == TalkBuildError::TextTooLong);
+    CHECK(BuildSayCommand("two\nlines").error == TalkBuildError::TextContainsNewline);
+    CHECK(BuildTalkCommand(12, "x").error == TalkBuildError::UnsupportedMode);
+
+    // Exactly at the limit is fine: char Text[256] holds 255 plus a terminator.
+    const auto longest = BuildSayCommand(std::string(kMaxTalkTextLength, 'x'));
+    CHECK(longest.ok());
+    CHECK(longest.payload.size() == 2 + 2 + kMaxTalkTextLength);
+
+    // An addressed mode without an addressee is refused, and the limit is the
+    // server's char Addressee[30] minus its terminator.
+    const std::uint8_t pm = static_cast<std::uint8_t>(TalkMode::PrivateMessage);
+    CHECK(BuildTalkCommand(pm, "hi").error == TalkBuildError::MissingAddressee);
+    CHECK(BuildTalkCommand(pm, "hi", std::string(kMaxTalkAddresseeLength + 1, 'n')).error
+          == TalkBuildError::AddresseeTooLong);
+    CHECK(BuildTalkCommand(pm, "hi", std::string(kMaxTalkAddresseeLength, 'n')).ok());
+
+    // A refused command yields no bytes at all: nothing half-built escapes.
+    CHECK(BuildSayCommand("").payload.empty());
 }
 
 // ------------------------------------------------- talk speaker resolution
@@ -1573,6 +1698,10 @@ int main() {
         TestTalkNegativeCases();
         TestTalkLayoutClassification();
         TestTalkDoesNotTouchWorldState();
+        TestGoldenSayCommand();
+        TestClientTalkModeSetDiffersFromTheServers();
+        TestOutgoingTalkFieldSelection();
+        TestOutgoingTalkRefusals();
         TestTalkSpeakerResolvesByNameAndPosition();
         TestTalkSpeakerNeverPicksTheWrongCreature();
         TestTalkSpeakerAcceptsAnEmptySenderByPosition();

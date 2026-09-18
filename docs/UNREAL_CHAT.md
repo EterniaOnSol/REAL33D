@@ -163,6 +163,44 @@ Nothing is stored in `WorldState`. `CHAT-772-001`'s decision stands: Fusion32
 keeps no per-connection chat history, so a transcript would be a feature this
 client does not have.
 
+## Name colour by health
+
+The creature descriptor and `SV_CMD_CREATURE_HEALTH` both carry a health
+figure, and `reference/game/src/crmain.cc::TCreature::GetHealth` shows what it
+is: `CurrentHitPoints * 100 / MaxHitPoints`, clamped so a living creature never
+reports zero. A percentage, nothing more.
+
+**Fusion32 defines no colours and no thresholds.** Searching the server for any
+health-to-colour mapping returns nothing, which places this in the same
+category as speech lifetime: the server supplies the number, the client decides
+what it looks like.
+
+    HEALTH_COLOUR_OWNER  = CLIENT_PRESENTATION
+    HEALTH_COLOUR_PARITY = NOT_PROVEN
+
+The bands are the operator's specification, not 7.72 parity:
+
+| Health | Colour |
+| --- | --- |
+| 95% and above | green |
+| 40% to 94% | yellow |
+| 1% to 39% | red |
+| 0% | near-black |
+
+Applied when a creature appears and again on every health update, so the colour
+tracks damage live.
+
+### A finding worth keeping
+
+The first bands put yellow at 60% and above. A live run showed Player A's name
+in red, which looked like a broken health pipeline. It was not: the log said
+`creature 1001 "Test Player A" appeared ... health 58%`, so the server was
+right, the wiring was right, and 58% was simply falling past yellow into red.
+
+The lesson is the same one this project keeps relearning: a wrong-looking
+screen is not evidence of where the fault is. Logging the value turned a
+suspected pipeline bug into a two-line threshold correction.
+
 ## A known cosmetic limitation: the speech colour is approximate
 
 The operator asked for `#ffff00`. The code sets exactly that, and the screen
@@ -194,6 +232,96 @@ pipeline, not here. Readable text in an approximate colour is the better state
 to stop at for a functional slice.
 
     SPEECH_COLOUR_EXACT = NOT_ACHIEVED (readable; hue approximate)
+
+## Outgoing: speaking from Unreal
+
+Added by `UNREAL-CHAT-OUTGOING-001`, on top of the incoming presentation above.
+
+### Source trail
+
+`reference/game/src/receiving.cc::CTalk`, reached from `ReceiveData` on
+`CL_CMD_TALK` = 150 (`connections.hh:45`):
+
+```text
+byte    CL_CMD_TALK             150
+byte    Mode
+string  Addressee               PRIVATE_MESSAGE, GM_ANSWER, GM_MESSAGE, ANON_MESSAGE
+word    Channel                 CHANNEL_CALL, GM_CHANNELCALL, ANON_CHANNELCALL
+string  Text
+```
+
+`string` is a word length followed by that many bytes, per
+`utils.cc::TReadStream::readString`, which also accepts `0xFFFF` as an escape
+introducing a quad length; nothing here needs it.
+
+### The client's mode set is not the server's
+
+This is the detail that assuming symmetry would have got wrong, in both
+directions:
+
+| Mode | Client may send | Server may send |
+| --- | --- | --- |
+| `SAY` 1, `WHISPER` 2, `YELL` 3, `PRIVATE_MESSAGE` 4, `CHANNEL_CALL` 5, `GM_REQUEST` 6, `GM_ANSWER` 7, `PLAYER_ANSWER` 8, `GM_BROADCAST` 9, `GM_CHANNELCALL` 10, `GM_MESSAGE` 11, `ANON_CHANNELCALL` 14 | yes | yes |
+| `ANONYMOUS_BROADCAST` 13, `ANONYMOUS_MESSAGE` 15 | **yes** | no |
+| `HIGHLIGHT_CHANNELCALL` 12, `ANIMAL_LOW` 16, `ANIMAL_LOUD` 17 | no | **yes** |
+
+So a client may say things it can never be told, and be told things it may
+never say. `IsClientTalkMode` is therefore a separate table from
+`TalkLayoutForMode`, and `TestClientTalkModeSetDiffersFromTheServers` pins both
+directions.
+
+### Validation happens before the wire
+
+`BuildTalkCommand` enforces exactly what `CTalk` enforces, so a line the server
+would silently discard is refused here with a reason the player can be shown:
+empty text, text over 255 bytes (`char Text[256]`, which `readString`
+**truncates** rather than rejecting), embedded newlines, a missing addressee,
+and an addressee over 29 bytes (`char Addressee[30]`).
+
+The channel number is deliberately **not** validated: `CTalk` checks it against
+`GetNumberOfChannels()`, which is server state this client has no copy of.
+Guessing a bound would be inventing server knowledge.
+
+### Input
+
+`Enter` opens a line, `Enter` sends it, `Escape` abandons it, `Backspace`
+deletes. The composing line is drawn on screen as `say> ...` so the operator is
+not typing blind.
+
+While a line is open the walk keys are inert, checked at the top of `Request`
+rather than by unbinding and rebinding: one place holds the rule and there is no
+window in which the bindings are half-swapped. Typing `was` cannot walk the
+player west, north and south.
+
+Characters are bound one key at a time with the character each produces, because
+`UInputComponent` reports keys rather than characters and a plain
+`APlayerController` has no character event to subscribe to. Lower case, digits
+and space are enough to type a test phrase; this is a harness for the protocol
+path, not a chat client.
+
+### Known gap: only Say is reachable from the client
+
+The bridge honours the classic `#y ` and `#w ` prefixes and
+`BuildTalkCommand` handles every mode `CTalk` accepts, but the input binds only
+letters, digits and space. `#` is unbound and needs a modifier on most layouts,
+so the operator **cannot type it**: yell and whisper are unreachable from
+Unreal despite being implemented and unit-tested beneath.
+
+    OUTGOING_YELL_REACHABLE   = NO (implemented, not reachable from input)
+    OUTGOING_WHISPER_REACHABLE = NO (same)
+
+The fix is a key per mode rather than a typed prefix, which needs no modifier
+and no punctuation. Left for the next milestone rather than half-finished here.
+
+### Nothing is optimistic
+
+Pressing `Enter` is not proof the server accepted or broadcast anything.
+`RequestSay` posts an intent exactly like a walk; Fusion32 decides who hears it,
+and the authoritative `SV_CMD_TALK` it broadcasts is what the client draws. No
+text is displayed locally on send.
+
+Unreal never constructs a packet: `BuildSayCommand` lives in ClientCore and the
+bridge is the only thing that calls it.
 
 ## Out of scope
 

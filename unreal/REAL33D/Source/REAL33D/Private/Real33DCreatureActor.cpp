@@ -55,21 +55,24 @@ AReal33DCreature::AReal33DCreature()
 	SpeechTag->SetTextRenderColor(FColor(255, 255, 0));
 	SpeechTag->SetVisibility(false);
 
-	// The default text material is deliberately left in place.
+	// Text is drawn with the component's default material on purpose, and the
+	// lighting is what was changed instead.
 	//
-	// It is lit, so the colour set above is modulated by scene lighting and the
-	// blue ambient from the sky light: pure yellow reaches the screen closer to
-	// a warm off-white than to #ffff00. That was measured, not assumed, at
-	// roughly (180,171,138) before the tone curve was disabled.
+	// Three engine text materials exist and none is both solid and colour-exact.
+	// DefaultTextMaterialOpaque is solid but lit, so the colour is modulated by
+	// the scene. UnlitText is colour-exact but ignores the font alpha, turning
+	// every glyph into a filled quad. AntiAliasedTextMaterialTranslucent keeps
+	// the glyphs and the colour but is alpha-blended, and reads as faint.
 	//
-	// The obvious fix is worse. /Engine/EngineMaterials/UnlitText gives the
-	// exact colour but ignores the font texture's alpha, so every character
-	// renders as a filled quad and nothing is readable at all. Readable text in
-	// an approximate colour beats an exact colour nobody can read.
+	// Since the material must stay lit to stay solid, the fix is to stop the
+	// lighting from tinting it: AReal33DGameMode's key light is white and the
+	// sky light's blue ambient is gone, so a lit white surface reproduces its
+	// own colour closely. Measured before that change, #ffff00 arrived at about
+	// (180,171,138); the remaining error is brightness rather than hue.
 	//
-	// Getting both needs an authored unlit, alpha-masked text material, which
-	// is content work and belongs with the visual pipeline rather than here.
-	// Recorded in docs/UNREAL_CHAT.md as a known cosmetic limitation.
+	// A genuinely correct fix is an authored unlit, alpha-masked text material,
+	// which is content work for the visual pipeline. Recorded in
+	// docs/UNREAL_CHAT.md.
 }
 
 void AReal33DCreature::ShowSpeech(const FString& Text, float Seconds)
@@ -84,6 +87,44 @@ void AReal33DCreature::ShowSpeech(const FString& Text, float Seconds)
 	SpeechExpiresAt = FPlatformTime::Seconds() + static_cast<double>(Seconds);
 }
 
+void AReal33DCreature::SetHealthPercent(uint8 Percent)
+{
+	check(IsInGameThread());
+	HealthPercent = Percent;
+
+	// Bands specified by the operator, not derived from Fusion32: the server
+	// sends a percentage and says nothing about colour. Recorded as
+	// NOT_PROVEN in docs/UNREAL_CHAT.md rather than presented as 7.72 parity.
+	//
+	// Black last, because a creature at zero is about to stop existing and the
+	// name should read as such rather than quietly turning invisible.
+	// Four bands, as the operator specified: green, yellow, red, black.
+	//
+	// The first attempt put yellow at 60 and above, which sent a player sitting
+	// at 58% straight past yellow into red and looked like a defect in the
+	// health pipeline. It was not: the server was reporting 58% correctly. The
+	// bands were simply wrong, so the halfway point now sits inside yellow
+	// where a half-health creature belongs.
+	FColor Colour;
+	if (Percent >= 95)
+	{
+		Colour = FColor(0, 220, 0);        // effectively full
+	}
+	else if (Percent >= 40)
+	{
+		Colour = FColor(235, 235, 0);      // hurt
+	}
+	else if (Percent > 0)
+	{
+		Colour = FColor(230, 0, 0);        // badly hurt
+	}
+	else
+	{
+		Colour = FColor(10, 10, 10);       // dead, or health never reported
+	}
+	NameTag->SetTextRenderColor(Colour);
+}
+
 void AReal33DCreature::Configure(uint32 InCreatureId, bool bInIsLocalPlayer,
 	const FString& InName, const UReal33DAssetRegistry* Registry)
 {
@@ -95,7 +136,7 @@ void AReal33DCreature::Configure(uint32 InCreatureId, bool bInIsLocalPlayer,
 	// bodies apart.
 	NameTag->SetText(FText::FromString(
 		InName.IsEmpty() ? FString::Printf(TEXT("#%u"), InCreatureId) : InName));
-	NameTag->SetTextRenderColor(bIsLocalPlayer ? FColor(80, 180, 255) : FColor(255, 210, 160));
+	SetHealthPercent(HealthPercent);
 
 	if (Registry != nullptr && Registry->IsReady())
 	{

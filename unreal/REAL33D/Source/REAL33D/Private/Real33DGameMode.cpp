@@ -77,7 +77,7 @@ void AReal33DGameMode::StartPlay()
 		// drawn straight through the diagnostic overlay this run is read from.
 		// Legible numbers are worth more here than a lit back face.
 		SpawnLight(World, FRotator(-52.0, 35.0, 0.0), 3.4f,
-			FLinearColor(1.0f, 0.97f, 0.90f), TEXT("Key"), 1);
+			FLinearColor::White, TEXT("Key"), 1);
 
 		// The fill comes from the sky instead. An atmosphere gives the sky
 		// light something real to capture, so faces turned away from the sun

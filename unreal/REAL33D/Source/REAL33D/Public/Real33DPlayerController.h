@@ -25,6 +25,7 @@ public:
 	AReal33DPlayerController();
 
 	virtual void SetupInputComponent() override;
+	virtual void PlayerTick(float DeltaTime) override;
 
 private:
 	void WalkNorth();
@@ -34,4 +35,21 @@ private:
 	void DumpEvidence();
 
 	void Request(uint8 Direction);
+
+	// ------------------------------------------------------------ chat input
+	//
+	// Enter opens the line, Enter again sends it, Escape abandons it. While the
+	// line is open the walk keys are inert: a player typing "was" must not walk
+	// west, north and south. That is checked at the top of Request rather than
+	// by unbinding, so there is one place where the rule lives and no window in
+	// which the bindings are half-swapped.
+
+	void ToggleChat();
+	void CancelChat();
+	void Backspace();
+	void TypeCharacter(TCHAR Glyph);
+	void BindTypingKey(const FKey& Key, TCHAR Glyph);
+
+	bool bComposing = false;
+	FString Composing;
 };

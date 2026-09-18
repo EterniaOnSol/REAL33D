@@ -16,6 +16,7 @@ THIRD_PARTY_INCLUDES_START
 #include "fusion32/protocol772/login.h"
 #include "fusion32/protocol772/movement.h"
 #include "fusion32/protocol772/movement_ledger.h"
+#include "fusion32/protocol772/talk_command.h"
 #include "fusion32/protocol772/talk_speaker.h"
 #include "fusion32/protocol772/player_state.h"
 #include "fusion32/protocol772/worldview.h"
@@ -153,6 +154,11 @@ public:
 	void PostIntent(uint32 InputId, uint8 Direction)
 	{
 		Intents.Enqueue(FIntent{ InputId, Direction });
+	}
+
+	void PostSay(uint32 SayId, const FString& Text)
+	{
+		Says.Enqueue(FSay{ SayId, Text });
 	}
 
 	bool Dequeue(FReal33DEvent& OutEvent) { return Events.Dequeue(OutEvent); }
@@ -354,6 +360,35 @@ private:
 				++Stats.UnsupportedOpcodes;
 				break;
 			}
+			if (Decoded.update.kind == p772::ServerUpdateKind::Message)
+			{
+				// The server's own refusals arrive here: CTalk answers an
+				// illegal yell with TALK_FAILURE_MESSAGE, and without surfacing
+				// it the client looks broken when the server is simply saying
+				// no. Whoever sent the command is the one who is told.
+				FReal33DEvent Said;
+				Said.Kind = EReal33DEventKind::Diagnostic;
+				Said.Detail = FString::Printf(TEXT("server message [%hs]: %hs"),
+					p772::MessageModeName(Decoded.update.message.mode),
+					Decoded.update.message.text.c_str());
+				Publish(MoveTemp(Said));
+			}
+
+			if (Decoded.update.kind == p772::ServerUpdateKind::CreatureAttribute
+				&& Decoded.update.creature_attribute.attribute
+					== p772::CreatureAttribute::Health)
+			{
+				FReal33DEvent Health;
+				Health.Kind = EReal33DEventKind::CreatureHealth;
+				Health.CreatureId = Decoded.update.creature_attribute.creature_id;
+				Health.HealthPercent = Decoded.update.creature_attribute.health_percent;
+				Health.Direction = kNoDirection;
+				Publish(MoveTemp(Health));
+
+				FScopeLock Lock(&StatsMutex);
+				++Stats.HealthUpdates;
+			}
+
 			if (Decoded.update.kind == p772::ServerUpdateKind::Talk)
 			{
 				const p772::TalkUpdate& Talk = Decoded.update.talk;
@@ -451,6 +486,16 @@ private:
 			Out.CreatureName = UTF8_TO_TCHAR(Event.creature_name.c_str());
 			Out.Direction = Event.direction;
 			Out.bIsLocalPlayer = Event.is_local_player;
+			// Health travels with the creature, so the name can be coloured the
+			// moment the actor is spawned rather than only on the first change.
+			if (Event.creature_id != 0)
+			{
+				const auto Known = State.known_creatures.find(Event.creature_id);
+				if (Known != State.known_creatures.end())
+				{
+					Out.HealthPercent = Known->second.health_percent;
+				}
+			}
 			switch (Event.kind)
 			{
 			case p772::WorldEventKind::LocalPlayerIdentified:
@@ -576,6 +621,8 @@ private:
 			Stats.RequestedSteps = static_cast<int32>(Ledger.counts().requested);
 		}
 
+		DrainSays();
+
 		// A reply that never comes must not be allowed to claim a later move.
 		// Three seconds is far longer than a local round trip; the server's own
 		// step timing is well inside it.
@@ -588,6 +635,50 @@ private:
 			Publish(MoveTemp(Expired));
 			FScopeLock Lock(&StatsMutex);
 			Stats.UnansweredSteps = static_cast<int32>(Ledger.counts().unanswered);
+		}
+	}
+
+	void DrainSays()
+	{
+		FSay Say;
+		while (Says.Dequeue(Say))
+		{
+			// ClientCore builds the command and enforces exactly what CTalk
+			// enforces, so a line the server would discard is refused here with
+			// a reason the player can be told.
+			// The classic client's own convention: "#y " yells, "#w " whispers,
+			// anything else is ordinary speech. Mirrored here so the operator
+			// can reach the other positional modes without a chat UI, and so
+			// the modes CTalk accepts are reachable from the client that has to
+			// prove them.
+			FString Text = Say.Text;
+			std::uint8_t Mode = static_cast<std::uint8_t>(p772::TalkMode::Say);
+			if (Text.StartsWith(TEXT("#y "), ESearchCase::IgnoreCase))
+			{
+				Mode = static_cast<std::uint8_t>(p772::TalkMode::Yell);
+				Text.RightChopInline(3);
+			}
+			else if (Text.StartsWith(TEXT("#w "), ESearchCase::IgnoreCase))
+			{
+				Mode = static_cast<std::uint8_t>(p772::TalkMode::Whisper);
+				Text.RightChopInline(3);
+			}
+			const auto Built = p772::BuildTalkCommand(Mode, TCHAR_TO_UTF8(*Text));
+			if (!Built.ok())
+			{
+				Publish(MakeFailure(EReal33DEventKind::Diagnostic,
+					FString::Printf(TEXT("say %u refused before sending: %hs"),
+						Say.SayId, p772::TalkBuildErrorName(Built.error))));
+				FScopeLock Lock(&StatsMutex);
+				++Stats.SaysRefusedLocally;
+				continue;
+			}
+			if (!Session.SendCommand(Built.payload).ok())
+			{
+				continue;
+			}
+			FScopeLock Lock(&StatsMutex);
+			++Stats.SaysRequested;
 		}
 	}
 
@@ -645,6 +736,14 @@ private:
 		uint32 InputId = 0;
 		uint8 Direction = 0;
 	};
+
+	struct FSay
+	{
+		uint32 SayId = 0;
+		FString Text;
+	};
+
+	TQueue<FSay, EQueueMode::Spsc> Says;
 
 	TQueue<FReal33DEvent, EQueueMode::Spsc> Events;
 	TQueue<FIntent, EQueueMode::Spsc> Intents;
@@ -735,6 +834,19 @@ uint32 UReal33DBridge::RequestWalk(uint8 Direction)
 	const uint32 InputId = ++NextInputId;
 	Worker->PostIntent(InputId, Direction);
 	return InputId;
+}
+
+uint32 UReal33DBridge::RequestSay(const FString& Text)
+{
+	if (Worker == nullptr)
+	{
+		return 0;
+	}
+	// Numbered on the game thread like a walk, so a line can be followed from
+	// the key that closed it to whatever Fusion32 does about it.
+	const uint32 SayId = ++NextInputId;
+	Worker->PostSay(SayId, Text);
+	return SayId;
 }
 
 FReal33DStats UReal33DBridge::GetStats() const

@@ -235,6 +235,16 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 		UE_LOG(LogReal33D, Warning, TEXT("a walk request expired unanswered"));
 		break;
 
+	case EReal33DEventKind::CreatureHealth:
+		if (TObjectPtr<AReal33DCreature>* Hurt = Creatures.Find(Event.CreatureId))
+		{
+			if (Hurt->Get())
+			{
+				(*Hurt)->SetHealthPercent(Event.HealthPercent);
+			}
+		}
+		break;
+
 	case EReal33DEventKind::Talk:
 		PresentSpeech(Event);
 		if (Event.bHasChannel)
@@ -344,8 +354,12 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 			++OrphanEvents;
 			break;
 		}
+		Creature->SetHealthPercent(Event.HealthPercent);
 		Creature->Configure(Event.CreatureId, Event.bIsLocalPlayer, Event.CreatureName,
 			Registry);
+		UE_LOG(LogReal33D, Log, TEXT("creature %u \"%s\" appeared at %d,%d,%d health %u%%"),
+			Event.CreatureId, *Event.CreatureName,
+			Event.Position.X, Event.Position.Y, Event.Position.Z, Event.HealthPercent);
 		// An appearance is not a walk. Place it, do not slide it in.
 		Creature->CommitPosition(Origin, Event.Position, /*bSnap=*/true);
 		Creature->SetFacing(Event.Direction);
