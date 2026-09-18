@@ -36,13 +36,15 @@ void AReal33DPlayerController::SetupInputComponent()
 
 	// Chat line control.
 	//
-	// KNOWN GAP: only a say line can be opened from here. The bridge honours the
-	// classic "#y " and "#w " prefixes, but no punctuation key is bound and "#"
-	// needs a modifier on most layouts, so the operator cannot type it: yell and
-	// whisper are unreachable from this client. A key per mode is the fix and is
-	// left for the next milestone. See docs/UNREAL_CHAT.md.
+	// Enter says, F2 yells, F3 whispers. The mode is chosen by the key rather
+	// than a typed "#y " prefix, because "#" is unbound here and needs a
+	// modifier on most layouts, which made yell unreachable entirely.
 	InputComponent->BindKey(EKeys::Enter, IE_Pressed, this,
 		&AReal33DPlayerController::ToggleChat);
+	InputComponent->BindKey(EKeys::F2, IE_Pressed, this,
+		&AReal33DPlayerController::ToggleYell);
+	InputComponent->BindKey(EKeys::F3, IE_Pressed, this,
+		&AReal33DPlayerController::ToggleWhisper);
 	InputComponent->BindKey(EKeys::Escape, IE_Pressed, this,
 		&AReal33DPlayerController::CancelChat);
 	InputComponent->BindKey(EKeys::BackSpace, IE_Pressed, this,

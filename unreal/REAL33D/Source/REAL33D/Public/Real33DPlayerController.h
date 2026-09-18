@@ -44,7 +44,14 @@ private:
 	// by unbinding, so there is one place where the rule lives and no window in
 	// which the bindings are half-swapped.
 
+	// One key per talk mode. The bridge also parses the classic "#y " and "#w "
+	// prefixes, but "#" is unbound and needs a modifier on most layouts, so a
+	// typed prefix left yell and whisper unreachable: the operator could not
+	// enter the character at all. The key seeds the prefix instead.
 	void ToggleChat();
+	void ToggleYell();
+	void ToggleWhisper();
+	void OpenOrSend(const TCHAR* Prefix, const TCHAR* Label);
 	void CancelChat();
 	void Backspace();
 	void TypeCharacter(TCHAR Glyph);

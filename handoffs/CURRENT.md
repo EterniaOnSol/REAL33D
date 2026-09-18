@@ -1,5 +1,32 @@
 # HANDOFF
 
+> **START HERE: verify the Unreal build before anything else.**
+>
+> Commit `9046e3d` shipped `Real33DPlayerController.cpp` defining `ToggleYell`,
+> `ToggleWhisper` and `OpenOrSend` while the header declared only `ToggleChat`.
+> That does not compile. It happened because an edit reported as rejected had
+> actually landed, and the revert undid only the header half, and because the
+> Unreal module was committed without a compile.
+>
+> The following commit adds the missing declarations and binds F2 to yell and
+> F3 to whisper, which also closes the known gap that made those modes
+> unreachable. **It has not been compiled.** First action next session:
+>
+> ```bat
+> "C:\Program Files\Epic Games\UE_5.8\Engine\Build\BatchFiles\Build.bat" ^
+>   REAL33DEditor Win64 Development ^
+>   -Project="C:\Users\dell\Desktop\fusion32\unreal\REAL33D\REAL33D.uproject" -WaitMutex
+> ```
+>
+> Then live-test yell: in REAL33D press **F2**, type a phrase, press Enter.
+> Yell across floors only reaches a spectator when neither party is underground
+> (`operate.cc`: skip when `DistanceZ > 0 && (posz > 7 || posz > 7)`), so test
+> it with both players above ground, or with A one floor **up**.
+>
+> ClientCore is fully built and tested at `9046e3d`; only the Unreal module is
+> in question.
+
+
 Date/time: 2026-09-17
 Agent: Claude
 Role: VISIBLE CHAT IN UNREAL
