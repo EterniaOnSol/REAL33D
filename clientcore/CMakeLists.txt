@@ -101,6 +101,7 @@ add_library(protocol772_initial_world
     src/map_scan.cpp
     src/movement.cpp
     src/movement_ledger.cpp
+    src/chat_log.cpp
     src/talk_command.cpp
     src/talk_speaker.cpp
     src/object_types.cpp

@@ -1,121 +1,93 @@
 # HANDOFF
 
-> **START HERE: verify the Unreal build before anything else.**
->
-> Commit `9046e3d` shipped `Real33DPlayerController.cpp` defining `ToggleYell`,
-> `ToggleWhisper` and `OpenOrSend` while the header declared only `ToggleChat`.
-> That does not compile. It happened because an edit reported as rejected had
-> actually landed, and the revert undid only the header half, and because the
-> Unreal module was committed without a compile.
->
-> The following commit adds the missing declarations and binds F2 to yell and
-> F3 to whisper, which also closes the known gap that made those modes
-> unreachable. **It has not been compiled.** First action next session:
->
-> ```bat
-> "C:\Program Files\Epic Games\UE_5.8\Engine\Build\BatchFiles\Build.bat" ^
->   REAL33DEditor Win64 Development ^
->   -Project="C:\Users\dell\Desktop\fusion32\unreal\REAL33D\REAL33D.uproject" -WaitMutex
-> ```
->
-> Then live-test yell: in REAL33D press **F2**, type a phrase, press Enter.
-> Yell across floors only reaches a spectator when neither party is underground
-> (`operate.cc`: skip when `DistanceZ > 0 && (posz > 7 || posz > 7)`), so test
-> it with both players above ground, or with A one floor **up**.
->
-> ClientCore is fully built and tested at `9046e3d`; only the Unreal module is
-> in question.
-
-
-Date/time: 2026-09-17
+Date/time: 2026-09-18
 Agent: Claude
-Role: VISIBLE CHAT IN UNREAL
+Role: MINIMAL PLAYABLE CHAT SURFACE
 Branch: `main`
-Starting commit: `5012d93`
-Implementation commit: `cf034eb`
-Worktree: clean after the focused commit
-Remote: `origin` = `https://github.com/EterniaOnSol/REAL33D.git`, `HEAD == origin/main`
+Milestone: `UNREAL-CHAT-AREA-001`
+Status: **IN_PROGRESS** — ClientCore foundation landed, Unreal UI not started.
 
-Previous handoff archived at `handoffs/archive/2026-09-17_CHAT-772-001.md`.
+Previous milestone `UNREAL-CHAT-OUTGOING-001` is PASS and published; its record
+is `evidence/clientcore/unreal-slice/yell_live.md` and `docs/UNREAL_CHAT.md`.
 
-## Objective
+## What this commit contains
 
-`UNREAL-CHAT-PRESENTATION-001`: make the speech `CHAT-772-001` decodes actually
-visible to the operator in Unreal, deriving behavioural ownership from source
-rather than inventing it.
+`ChatLog` in ClientCore: a bounded, ordered transcript of what the player should
+be able to read, with deterministic tests. Nothing in the Unreal module changed.
 
-## Result
+It lives in ClientCore, not in Unreal, because the rules worth getting right
+here — ordering, bounding, eviction, formatting — are testable without a
+renderer. Whether the operator can actually *read* the result is a separate
+question only a live run answers, and this commit does not claim it.
 
-`QUALIFIED PASS`. Full record in
-`evidence/clientcore/UNREAL-CHAT-PRESENTATION-001.md`; design and ownership in
-`docs/UNREAL_CHAT.md`.
+    CHAT_HISTORY_CAPACITY = 60   REAL33D_UI_BEHAVIOUR, not 7.72 parity
 
-Visible incoming Say is proven live and confirmed by the operator. Whisper takes
-the identical path and decodes live but was **not** separately confirmed visible
-in this milestone, so it is not claimed.
+Nothing in Fusion32 states how many lines a client retains, because the server
+keeps no transcript at all.
 
-## Ownership, proven as a negative
+Deliberately NOT in `WorldState`. WorldState is what the server says the world
+is; a transcript is what this client chose to keep on screen.
 
-No `SendTalk` overload carries a duration, the complete server command list has
-**no talk-removal command**, and `StatementID` is a moderation log id from
-`LogCommunication`. So lifetime is neither server nor protocol owned:
+## Audit findings that shape the remaining work
 
-    SPEECH_LIFETIME_OWNER = CLIENT_PRESENTATION
+1. **The module has no Slate/UMG dependency and no widgets exist.** There is no
+   player-facing UI layer at all today. Plan: **pure Slate**, no `.uasset`,
+   matching the project's existing choice to bind input in code rather than ship
+   binary input assets. `Slate` + `SlateCore` added to `REAL33D.Build.cs`.
 
-But `reference/` holds only server sources and the classic client exists here as
-a binary, so the rule itself is unprovable:
+2. **Server messages are currently `Diagnostic` events** carrying the prose
+   `"server message [LoginMessage]: ..."`. The milestone brief requires player
+   messages and protocol diagnostics to be different things. A dedicated
+   `EReal33DEventKind::ServerMessage` is needed; the chat area must never
+   receive protocol diagnostics.
+
+3. **Outgoing talk mode travels as a typed `"#y "` prefix** parsed inside the
+   bridge. The brief forbids the UI mapping to protocol values, so a semantic
+   `EReal33DTalkMode { Say, Whisper, Yell }` is needed, mapped to the wire only
+   inside `Real33DBridge.cpp` — the one file permitted to include a protocol
+   header.
+
+## Next steps, in order
+
+1. `REAL33D.Build.cs`: add `Slate`, `SlateCore`.
+2. `EReal33DTalkMode` + `UReal33DBridge::RequestTalk(Mode, Text)` replacing
+   `RequestSay`; delete the `#y ` prefix parsing in `DrainSays`.
+   **This refactor was started and reverted in this session because it was
+   incomplete and would not compile.** Do it in one pass: header enum, bridge
+   mapping, `FSay` gains a mode field, `Real33DPlayerController` updated.
+3. `EReal33DEventKind::ServerMessage`, published where `ProcessPayload`
+   currently emits a `Diagnostic` for `ServerUpdateKind::Message`.
+4. `SReal33DChatPanel`: history list, Say/Whisper/Yell selector, editable text
+   box, Send button. Added via `GEngine->GameViewport->AddViewportWidgetContent`.
+5. Focus gating: movement suppressed while the text box holds focus. Gate it on
+   an explicit flag rather than relying on Slate focus semantics, so it is
+   deterministic and provable.
+6. Remove the fallback's `AddOnScreenDebugMessage` rendering; the chat area
+   replaces it. Keep the counters overlay separate.
+
+## The defect this milestone exists to close
+
+    DISTANT_SPEECH_READABLE = NO
+
+Proven live: `talk [Yell] at 32098,32204,7, Test Player A: "YOU SURE?" speaker
+NoMatch creature 0`. A was nine fields away, the viewport reaches six, so there
+was no actor to draw text above. Resolution and routing are correct; the
+fallback is drawn into the diagnostics overlay, where the operator cannot read
+it. Do not fix this by inventing an actor or widening the viewport.
+
+## Environment notes
+
+- Test Player B is now level 2, so `TALK_YELL` is no longer refused.
+  `YELL_MIN_LEVEL = 2` from `receiving.cc::CTalk`.
+- **The server caches players in memory and flushes on shutdown.** Editing a
+  `.usr` file while the server runs is silently discarded and then overwritten.
+  Any save-data change must be made with the server stopped.
+- Backup of B's pre-bump file:
+  `game/state/usr/02/1002.usr.bak-before-level-bump` inside the WSL runtime.
+
+## Qualifications that must not be quietly dropped
 
     SPEECH_LIFETIME_PARITY = NOT_PROVEN
-    CONSECUTIVE_MESSAGE_PARITY = NOT_PROVEN
-
-A 6 s placeholder is used, overridable with `-real33d-speech-seconds=`, and the
-client logs that the value is not a proven 7.72 value on every startup.
-
-## Speaker resolution
-
-`ResolveTalkSpeaker` in ClientCore requires exactly one **visible** creature
-matching the talk position, and the name too when present. Only `Resolved` puts
-text above a creature; `NoMatch`, `Ambiguous` and `NotPositional` go to a
-visible fallback, because speech above the wrong creature is worse than speech
-that is merely not in the world. Unreal receives a creature id, never the rule.
-
-## Tests
-
-transport 22/22, crypto 25/25, the six named suites PASS, Windows MSVC at C++17
-and C++20 `WINDOWS CLIENTCORE: PASS`, WSL ASan/UBSan 8/8. Five new cases cover
-the resolution policy, including one asserting that a right name at the wrong
-position and a right position with the wrong name both resolve to nothing.
-
-## Known cosmetic limitation
-
-The operator asked for `#ffff00`; the code sets it and the screen shows
-something warmer. Measured: gold `(255,190,30)` arrived at about
-`(180,171,138)`. `UTextRenderComponent` defaults to a **lit** material, so the
-colour is modulated by the key light and the sky light's blue ambient; the
-filmic tone curve compressed saturation further and is now disabled.
-`/Engine/EngineMaterials/UnlitText` gives the exact colour but ignores the font
-alpha and renders every glyph as a filled block, which was tried live and
-rejected on sight. Readable text in an approximate colour was chosen.
-
-    SPEECH_COLOUR_EXACT = NOT_ACHIEVED (readable; hue approximate)
-
-Fixing it properly needs an authored unlit, alpha-masked text material, which is
-content work for the visual pipeline.
-
-## Not done, deliberately
-
-    OUTGOING_UNREAL_CHAT = NOT_IMPLEMENTED
-
-No chat console, channel tabs, private-message windows, NPC conversation UI,
-persistent history or final typography. Nothing is stored in `WorldState`:
-`CHAT-772-001`'s decision stands.
-
-## Suggested next milestone, not started
-
-`UNREAL-CHAT-OUTGOING-001`, letting B speak from Unreal through a semantic
-ClientCore action, is the natural other half and was deliberately left out here.
-
-Alternatives: `CONTAINERS-772-001` or `TRADE-772-001`;
-`ROOKGAARD-P0-MOCKUPS-001`, unblocked because the asset registry can adopt
-approved art without touching ClientCore or any Actor; or a floor-transition
-slice, still the one movement case the 3D client has never exercised.
+    CONSECUTIVE_WORLD_SPEECH_PARITY = NOT_PROVEN
+    EXACT_SPEECH_COLOR_PARITY = NOT_PROVEN
+    TALK_MODE_PERSISTENCE = REAL33D_UI_BEHAVIOUR, not proven parity

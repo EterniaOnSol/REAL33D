@@ -1,5 +1,6 @@
 #include "fusion32/protocol772/movement.h"
 #include "fusion32/protocol772/movement_ledger.h"
+#include "fusion32/protocol772/chat_log.h"
 #include "fusion32/protocol772/talk_command.h"
 #include "fusion32/protocol772/talk_speaker.h"
 
@@ -1383,6 +1384,110 @@ void TestOutgoingTalkRefusals() {
     CHECK(BuildSayCommand("").payload.empty());
 }
 
+// ------------------------------------------------------------- chat log
+
+void TestChatLogKeepsReceiveOrder() {
+    ChatLog log;
+    log.AddSpeech("A", "Say", "one");
+    log.AddServerMessage("FailureMessage", "two");
+    log.AddSpeech("B", "Yell", "three");
+
+    CHECK(log.size() == 3);
+    // Arrival order, and nothing reorders it. In particular a message whose
+    // speaker could not be resolved keeps its place among the others: the
+    // fallback is a presentation decision, not a scheduling one.
+    CHECK(log.entries()[0].text == "one");
+    CHECK(log.entries()[1].text == "two");
+    CHECK(log.entries()[2].text == "three");
+    CHECK(log.entries()[0].sequence < log.entries()[1].sequence);
+    CHECK(log.entries()[1].sequence < log.entries()[2].sequence);
+}
+
+void TestChatLogAddsExactlyOneEntryPerEvent() {
+    ChatLog log;
+    CHECK(log.accepted() == 0);
+    log.AddSpeech("A", "Say", "hello");
+    CHECK(log.accepted() == 1);
+    CHECK(log.size() == 1);
+    log.AddServerMessage("LoginMessage", "welcome");
+    CHECK(log.accepted() == 2);
+    CHECK(log.size() == 2);
+}
+
+void TestChatLogIsBounded() {
+    ChatLog log(3);
+    CHECK(log.capacity() == 3);
+    for (int i = 0; i < 10; ++i) {
+        log.AddSpeech("A", "Say", std::to_string(i));
+    }
+    // Bounded, and it is the OLDEST that goes: what the player is reading now
+    // has to survive.
+    CHECK(log.size() == 3);
+    CHECK(log.entries()[0].text == "7");
+    CHECK(log.entries()[2].text == "9");
+    // Everything was still accepted; only the display is bounded.
+    CHECK(log.accepted() == 10);
+
+    // A zero capacity would silently swallow every message, which looks like a
+    // broken client rather than a bad setting.
+    ChatLog degenerate(0);
+    CHECK(degenerate.capacity() == 1);
+    degenerate.AddSpeech("A", "Say", "kept");
+    CHECK(degenerate.size() == 1);
+}
+
+void TestChatLogClearsForANewSession() {
+    ChatLog log;
+    log.AddSpeech("A", "Say", "old session");
+    const std::uint64_t before = log.accepted();
+    log.Clear();
+    CHECK(log.empty());
+
+    // The sequence keeps counting across a clear. It names an arrival, not a
+    // slot, so a reconnect must not produce a second message numbered like the
+    // first.
+    log.AddSpeech("A", "Say", "new session");
+    CHECK(log.entries()[0].sequence >= before);
+    CHECK(log.size() == 1);
+}
+
+void TestChatLogFormatsForAPlayerNotADeveloper() {
+    ChatLog::Entry say;
+    say.kind = ChatLog::EntryKind::Speech;
+    say.sender = "Test Player A";
+    say.mode = "Say";
+    say.text = "hola";
+    // Say is the overwhelming majority of lines, so it carries no label.
+    CHECK(ChatLog::Format(say) == "Test Player A: hola");
+
+    ChatLog::Entry yell = say;
+    yell.mode = "Yell";
+    yell.text = "HOLA";
+    // Anything else is labelled: a yell and a whisper that read identically
+    // would actively misinform.
+    CHECK(ChatLog::Format(yell) == "Test Player A [Yell]: HOLA");
+
+    ChatLog::Entry whisper = say;
+    whisper.mode = "Whisper";
+    CHECK(ChatLog::Format(whisper) == "Test Player A [Whisper]: hola");
+
+    // An empty sender is legitimate: moveuse.cc passes "" for the ANIMAL modes
+    // and the channel form blanks it for ANONYMOUS_CHANNELCALL. It must not
+    // produce a line starting with a stray colon.
+    ChatLog::Entry unnamed = say;
+    unnamed.sender.clear();
+    CHECK(ChatLog::Format(unnamed) == "Someone: hola");
+
+    ChatLog::Entry server;
+    server.kind = ChatLog::EntryKind::ServerMessage;
+    server.mode = "FailureMessage";
+    server.text = "You may not yell as long as you are on level 1.";
+    // The player is told what the server said, not which opcode carried it.
+    CHECK(ChatLog::Format(server)
+          == "Server: You may not yell as long as you are on level 1.");
+    CHECK(ChatLog::Format(server).find("FailureMessage") == std::string::npos);
+}
+
 // ------------------------------------------------- talk speaker resolution
 
 namespace {
@@ -1698,6 +1803,11 @@ int main() {
         TestTalkNegativeCases();
         TestTalkLayoutClassification();
         TestTalkDoesNotTouchWorldState();
+        TestChatLogKeepsReceiveOrder();
+        TestChatLogAddsExactlyOneEntryPerEvent();
+        TestChatLogIsBounded();
+        TestChatLogClearsForANewSession();
+        TestChatLogFormatsForAPlayerNotADeveloper();
         TestGoldenSayCommand();
         TestClientTalkModeSetDiffersFromTheServers();
         TestOutgoingTalkFieldSelection();
