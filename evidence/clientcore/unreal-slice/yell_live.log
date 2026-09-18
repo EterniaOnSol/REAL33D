@@ -1,0 +1,9 @@
+talk mode is now yell
+yell 1: "now yes please" handed to Fusion32
+talk [Yell] at 32097,32213,7, Test Player B: "NOW YES PLEASE"  speaker Resolved creature 1002
+talk [Yell] at 32098,32204,7, Test Player A: "YOU SURE?"  speaker NoMatch creature 0
+talk [Yell] at 32097,32213,7, Test Player B: "YES"  speaker Resolved creature 1002
+
+# Player A yelling from 9 fields north, outside B's viewport (reaches +-6 in Y):
+# the speaker cannot be resolved because there is no visible creature to
+# attribute it to, so it goes to the fallback rather than to a guess.

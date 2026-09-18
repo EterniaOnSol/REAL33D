@@ -201,6 +201,37 @@ The lesson is the same one this project keeps relearning: a wrong-looking
 screen is not evidence of where the fault is. Logging the value turned a
 suspected pipeline bug into a two-line threshold correction.
 
+## Two things the live yell established
+
+**The server shouts, not the client.** `operate.cc:2248` calls
+`strUpper(YellBuffer)`; the comment at 2168 confirms the text is uppercased only
+for `TALK_YELL`. The client sent `now yes please` and the server broadcast
+`NOW YES PLEASE`. Casing a yell belongs to Fusion32 and reaches every client, so
+REAL33D must not do it and must not undo it.
+
+**Yell has a level gate that looks exactly like a broken client.** `CTalk`
+refuses `TALK_YELL` below level 2 and answers `TALK_FAILURE_MESSAGE`, before
+`operate.cc` ever selects spectators. For ten sessions no yell reached this
+client and nothing was wrong with it. Surfacing `SV_CMD_MESSAGE` is what turned
+that from a mystery into a sentence.
+
+    YELL_MIN_LEVEL = 2   (receiving.cc::CTalk)
+
+## Known defect: speech with no provable speaker is unreadable
+
+    DISTANT_SPEECH_READABLE = NO
+
+A yell carries thirty fields but the viewport reaches six, so a distant speaker
+is not a visible creature and there is no actor to draw text above.
+`ResolveTalkSpeaker` correctly returns `NoMatch` and `PresentSpeech` routes the
+line to the fallback rather than guessing at a nearby creature.
+
+The routing is right and the presentation is wrong: the fallback is drawn with
+`AddOnScreenDebugMessage`, stacked under the frame and tile counters. The
+operator reports not seeing distant yells at all, and the log proves they
+arrive. A diagnostics overlay is not where a player reads chat; the classic
+client uses a console. A speech area separate from the counters is the fix.
+
 ## Operator observations of a chat UI
 
     EVIDENCE_GRADE = THIRD_PARTY_CLIENT
