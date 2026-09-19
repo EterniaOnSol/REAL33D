@@ -200,14 +200,35 @@ to `127.0.0.1`, which WSL2 forwards into the distribution.
 Credentials and the RSA modulus are read at runtime from
 `<runtime>/secrets/`. Nothing is baked into the binary and nothing is committed.
 
+### Controls
+
+| Gesture | Effect |
+| --- | --- |
+| `W` `A` `S` `D`, arrow keys | Request a step. Inert while the chat box has focus. |
+| `Enter` | Put the caret in the chat box, and send the line when it is already there. |
+| `Escape` | Abandon the line and give movement back. |
+| Right mouse button held, mouse moved | Orbit the camera around the player. |
+| Mouse wheel | Move the camera in and out. |
+| `F9` | Write a labelled evidence snapshot. |
+
+All of it is bound in code with `BindKey` and `BindAxisKey`; the project ships no
+binary input assets. The orbit's limits live in `AReal33DWorld`, not in the
+controller: pitch is clamped between -85 and -5 degrees and distance between 400
+and 3000 units, and the defaults reproduce the fixed view the camera had before
+the orbit existed.
+
 ## Live run
 
 <!-- LIVE RUN RESULTS -->
 
 ## Out of scope, and absent
 
-No chat, inventory, containers, combat UI, spells, runes, final effects,
-equipment visuals, full UI, minimap, audio, final art, mobile support, offline
-full-map conversion, map editor or server-side change. `SV_CMD_TALK` in
-particular is still undecoded, which is why an operator running this must stay
-out of the in-game chat.
+No inventory, containers, combat UI, spells, runes, final effects, equipment
+visuals, full UI, minimap, audio, final art, mobile support, offline full-map
+conversion, map editor or server-side change.
+
+Chat is no longer in this list. `SV_CMD_TALK` is decoded from the three
+`SendTalk` overloads, outgoing talk carries a semantic mode mapped to the wire
+only inside the bridge, and a Slate chat area renders the transcript; see
+`docs/UNREAL_CHAT.md` and `evidence/clientcore/unreal-slice/chat_area_live.md`.
+The earlier instruction to stay out of the in-game chat no longer applies.

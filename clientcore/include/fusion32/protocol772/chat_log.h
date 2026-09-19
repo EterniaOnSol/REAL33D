@@ -32,6 +32,16 @@ public:
         // Distinct from a protocol diagnostic, which is for the developer and
         // must never reach a player surface.
         ServerMessage,
+        // Something THIS CLIENT is telling the player, having refused to send
+        // their message before it reached the wire.
+        //
+        // A third kind rather than a ServerMessage, because the server never
+        // said it: BuildTalkCommand refused it locally. Formatting it as
+        // "Server: ..." would attribute a client decision to Fusion32, and this
+        // project's evidence is read later by people who were not present.
+        // Reachable in practice: the length limit CTalk imposes is 255 BYTES,
+        // so a line well inside any character count can still be refused.
+        ClientNotice,
     };
 
     struct Entry {
@@ -58,6 +68,7 @@ public:
                    const std::string& mode,
                    const std::string& text);
     void AddServerMessage(const std::string& mode, const std::string& text);
+    void AddClientNotice(const std::string& text);
 
     // Everything is dropped. Used when a session ends: a transcript from a
     // previous connection must not appear to belong to the new one.

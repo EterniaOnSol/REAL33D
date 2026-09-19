@@ -37,7 +37,35 @@ public:
 	/** Writes the machine-readable evidence file for the acceptance run. */
 	void WriteEvidence(const FString& Reason);
 
+	// ---------------------------------------------------------------- camera
+	//
+	// The camera orbits the player: the actor is already moved onto the local
+	// creature every frame, so yaw, pitch and distance are the whole state, and
+	// the player stays centred whatever the operator does with them.
+	//
+	// This exists because speech drawn above a creature was unreadable from the
+	// one fixed angle the camera used to have. The text component was never the
+	// problem; not being able to look at it from anywhere else was.
+
+	/** Swings the view around the player. Degrees. */
+	void AddCameraOrbit(float DeltaYawDegrees, float DeltaPitchDegrees);
+
+	/** Pulls the view back or pushes it in. Positive pulls back. */
+	void AddCameraDistance(float Delta);
+
 private:
+	/** Rebuilds the camera's relative transform from yaw, pitch and distance. */
+	void ApplyCameraTransform();
+
+	static constexpr float kCameraPitchMin = -85.0f;
+	static constexpr float kCameraPitchMax = -5.0f;
+	static constexpr float kCameraDistanceMin = 400.0f;
+	static constexpr float kCameraDistanceMax = 3000.0f;
+
+	float CameraYaw = 45.0f;
+	float CameraPitch = -42.0f;
+	float CameraDistance = 1173.5f;
+
 	void HandleEvent(const FReal33DEvent& Event);
 
 	/**
@@ -103,14 +131,6 @@ private:
 	/** Where the movement journal is appended, decided once at BeginPlay. */
 	FString JournalPath;
 
-	/** One line of speech that had no provable speaker. */
-	struct FReal33DFallbackLine
-	{
-		FString Line;
-		double ExpiresAt = 0.0;
-	};
-	TArray<FReal33DFallbackLine> FallbackSpeech;
-
 	/**
 	 * How long a message stays on screen.
 	 *
@@ -124,5 +144,10 @@ private:
 	float SpeechSeconds = 6.0f;
 
 	int32 SpeechOnCreature = 0;
-	int32 SpeechOnFallback = 0;
+	/** Speech with no provable speaker, readable only in the chat area. */
+	int32 SpeechInChatArea = 0;
+	/** Messages Fusion32 addressed to this player, counted apart from speech. */
+	int32 ServerMessagesReceived = 0;
+	/** Times this client refused to send a line, counted apart from the above. */
+	int32 ClientNoticesRaised = 0;
 };

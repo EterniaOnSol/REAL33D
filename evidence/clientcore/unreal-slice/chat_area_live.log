@@ -1,0 +1,17 @@
+REAL33D client log, account B, 2026-09-19. Runtime /var/lib/fusion32-server-baseline-772-0.
+
+[2026.09.19-11.11.00:572][  1]LogReal33D: server message [LoginMessage]: Your last visit in Tibia: 19. Sep 2026 05:08:36 CST.
+[2026.09.19-11.11.37:857][890]LogReal33D: talk [Yell] at 32097,32208,7, Test Player A: "AAAAMOOOOOOR DIVIIIINOOOOO, PRONTO TIENES QUE VOLVEEEEEER, AYYY AMOOOOOR DIVINOOOOOO PRONTO TIENES QUE VOLVEEEEER A MIIIII "  speaker NoMatch creature 0
+[2026.09.19-11.11.46:289][817]LogReal33D: talk mode is now Yell
+[2026.09.19-11.12.21:417][916]LogReal33D: talk [Yell] at 32097,32219,7, Test Player B: "YA ACEPTALO AWEONAO, NUNCA FUISTE SUFICIENTE SOLO AMOR."  speaker Resolved creature 1002
+[2026.09.19-11.13.05:347][ 14]LogReal33D: talk mode is now Say
+
+Server log, same run:
+
+19.09.2026 05:10:51 (57): Spieler Test Player A loggt ein an Socket 16 von 127.0.0.1.
+19.09.2026 05:10:55 (61): Spieler Test Player B loggt ein an Socket 15 von 127.0.0.1.
+
+Neither login logged "loggt zum ersten Mal ein -> Outfitwahl", so both characters
+were loaded from their seeded save files rather than created fresh.
+
+No TALK_YELL refusal was emitted for either speaker.

@@ -1302,6 +1302,50 @@ void TestGoldenSayCommand() {
     CHECK(channel.payload == expected_channel);
 }
 
+// The three modes a player can choose from the chat area, pinned to the byte.
+//
+// UNREAL-CHAT-AREA-001 replaced a typed "#y " prefix with a chosen mode that
+// the bridge maps to one of these. That mapping is the only place a choice
+// becomes a protocol value, and it is not reachable from a test, so what is
+// pinned here is the contract it has to hit: three commands differing in
+// exactly one byte, the mode, with an identical payload either side of it.
+void TestGoldenPositionalTalkCommands() {
+    const std::string text = "hola";
+    //   96        CL_CMD_TALK = 150
+    //   0n        the mode
+    //   04 00     text length 4
+    //   68 6F 6C 61   "hola"
+    const std::vector<std::uint8_t> say{0x96, 0x01, 0x04, 0x00, 0x68, 0x6F, 0x6C, 0x61};
+    const std::vector<std::uint8_t> whisper{0x96, 0x02, 0x04, 0x00, 0x68, 0x6F, 0x6C, 0x61};
+    const std::vector<std::uint8_t> yell{0x96, 0x03, 0x04, 0x00, 0x68, 0x6F, 0x6C, 0x61};
+
+    CHECK(BuildTalkCommand(static_cast<std::uint8_t>(TalkMode::Say), text).payload == say);
+    CHECK(BuildTalkCommand(static_cast<std::uint8_t>(TalkMode::Whisper), text).payload
+          == whisper);
+    CHECK(BuildTalkCommand(static_cast<std::uint8_t>(TalkMode::Yell), text).payload == yell);
+
+    // None of the three carries an addressee or a channel, which is why the
+    // chat area can offer exactly these three and no others: a mode needing a
+    // field the UI has no box for would build a command the server refuses.
+    for (const TalkMode mode : {TalkMode::Say, TalkMode::Whisper, TalkMode::Yell}) {
+        const auto raw = static_cast<std::uint8_t>(mode);
+        CHECK(IsClientTalkMode(raw));
+        CHECK(!TalkModeNeedsAddressee(raw));
+        CHECK(!TalkModeNeedsChannel(raw));
+        CHECK(BuildTalkCommand(raw, text).ok());
+    }
+
+    // The text is sent exactly as typed. A line that begins with the prefix the
+    // bridge used to parse out is now an ordinary message, which it always
+    // should have been: "#y hello" said in Say mode is four words, not a yell.
+    const auto literal = BuildTalkCommand(
+        static_cast<std::uint8_t>(TalkMode::Say), "#y hello");
+    CHECK(literal.ok());
+    CHECK(literal.payload[1] == static_cast<std::uint8_t>(TalkMode::Say));
+    const std::string carried(literal.payload.begin() + 4, literal.payload.end());
+    CHECK(carried == "#y hello");
+}
+
 // The client's accepted mode set is NOT the server's, and the difference runs
 // both ways. Getting this wrong by reusing the incoming table would send modes
 // the server discards and refuse modes it accepts.
@@ -1486,6 +1530,20 @@ void TestChatLogFormatsForAPlayerNotADeveloper() {
     CHECK(ChatLog::Format(server)
           == "Server: You may not yell as long as you are on level 1.");
     CHECK(ChatLog::Format(server).find("FailureMessage") == std::string::npos);
+
+    // A refusal this client made itself must not be dressed as the server's.
+    // CTalk's limit is 255 BYTES, so a line inside any character count can
+    // still be refused, which makes this reachable rather than theoretical.
+    ChatLog::Entry notice;
+    notice.kind = ChatLog::EntryKind::ClientNotice;
+    notice.text = "Your message was not sent: TextTooLong";
+    CHECK(ChatLog::Format(notice) == "* Your message was not sent: TextTooLong");
+    CHECK(ChatLog::Format(notice).find("Server") == std::string::npos);
+
+    // And it is not confusable with something a creature said either: speech
+    // never begins with the marker, whatever the sender is called.
+    CHECK(ChatLog::Format(say).rfind("* ", 0) != 0);
+    CHECK(ChatLog::Format(unnamed).rfind("* ", 0) != 0);
 }
 
 // ------------------------------------------------- talk speaker resolution
@@ -1809,6 +1867,7 @@ int main() {
         TestChatLogClearsForANewSession();
         TestChatLogFormatsForAPlayerNotADeveloper();
         TestGoldenSayCommand();
+        TestGoldenPositionalTalkCommands();
         TestClientTalkModeSetDiffersFromTheServers();
         TestOutgoingTalkFieldSelection();
         TestOutgoingTalkRefusals();

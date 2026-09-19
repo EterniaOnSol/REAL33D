@@ -35,6 +35,13 @@ void ChatLog::AddServerMessage(const std::string& mode, const std::string& text)
     Push(std::move(entry));
 }
 
+void ChatLog::AddClientNotice(const std::string& text) {
+    Entry entry;
+    entry.kind = EntryKind::ClientNotice;
+    entry.text = text;
+    Push(std::move(entry));
+}
+
 void ChatLog::Clear() {
     entries_.clear();
     // The sequence deliberately keeps counting. It identifies an arrival, not a
@@ -45,6 +52,11 @@ void ChatLog::Clear() {
 std::string ChatLog::Format(const Entry& entry) {
     if (entry.kind == EntryKind::ServerMessage) {
         return "Server: " + entry.text;
+    }
+    // Marked as coming from the client, not the server, and not named after a
+    // creature either, so it cannot be mistaken for something that was said.
+    if (entry.kind == EntryKind::ClientNotice) {
+        return "* " + entry.text;
     }
 
     // An unnamed speaker is a real case rather than an error, so it gets a

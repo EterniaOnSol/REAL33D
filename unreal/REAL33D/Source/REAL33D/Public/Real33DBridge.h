@@ -34,8 +34,35 @@ enum class EReal33DEventKind : uint8
 	Connected,
 	Disconnected,
 	Failed,
-	/** Something the client core could not fully consume. Carries prose only. */
+	/**
+	 * Something the client core could not fully consume. Carries prose only.
+	 *
+	 * For the developer. This must never reach a player-facing surface: a
+	 * player reading "SV_CMD_CONTAINER_OPEN is not decoded" learns nothing and
+	 * loses the message that mattered in the noise.
+	 */
 	Diagnostic,
+
+	/**
+	 * Something Fusion32 told this player directly, via SV_CMD_MESSAGE.
+	 *
+	 * A player message, not a protocol diagnostic. CTalk answers an illegal
+	 * yell this way, so without it the client looks broken when the server is
+	 * simply saying no. Carries the text in `Detail` and the server's own mode
+	 * name in `TalkMode`, resolved inside the bridge so nothing above sees a
+	 * number.
+	 */
+	ServerMessage,
+
+	/**
+	 * This client refused to send what the player typed, and is saying so.
+	 *
+	 * Neither a server message nor a diagnostic. The server never saw it, so
+	 * attributing it to Fusion32 would be false; and the player caused it and
+	 * can fix it, so hiding it on the developer surface would leave their
+	 * message silently vanishing. Carries the reason in `Detail`.
+	 */
+	ClientNotice,
 
 	// The outgoing walk path, reported back so the whole chain from a key press
 	// to an authoritative position can be correlated in evidence rather than
@@ -77,6 +104,31 @@ enum class EReal33DTalkLayout : uint8
 	Channel,
 	Plain
 };
+
+/**
+ * How the player chose to speak. Semantic, never a protocol value.
+ *
+ * The UI picks one of these and the bridge is the only thing that knows what
+ * byte each becomes, exactly as it is the only thing that knows what a walk
+ * direction becomes. An earlier version carried the mode as a typed "#y "
+ * prefix that the bridge parsed back out, which put a wire convention in the
+ * one place that must not have one.
+ *
+ * Only the three positional modes are offered. The addressed and channel modes
+ * `CTalk` also accepts need an addressee or a channel this client has no UI
+ * for, and offering a mode that cannot carry its required field would produce
+ * a command the server refuses.
+ */
+UENUM()
+enum class EReal33DTalkMode : uint8
+{
+	Say,
+	Whisper,
+	Yell
+};
+
+/** The mode's player-facing name. Presentation only; no protocol meaning. */
+REAL33D_API const TCHAR* Real33DTalkModeLabel(EReal33DTalkMode Mode);
 
 /**
  * Stands for "this event has no direction".
@@ -141,6 +193,18 @@ struct FReal33DEvent
 
 	/** 0..100 as the server reports it. Meaningful for creature events. */
 	uint8 HealthPercent = 100;
+};
+
+/** One line of the player-facing transcript, already formatted by ClientCore. */
+struct FReal33DChatLine
+{
+	FString Line;
+	/**
+	 * True when this line is the server or the client addressing the player,
+	 * rather than a creature speaking. Carried so the chat area can colour the
+	 * two apart without parsing the formatted text back open.
+	 */
+	bool bSystemLine = false;
 };
 
 /** Counters the game thread may read for the on-screen diagnostic overlay. */
@@ -209,6 +273,12 @@ class REAL33D_API UReal33DBridge : public UGameInstanceSubsystem
 	GENERATED_BODY()
 
 public:
+	/**
+	 * Declared, not defaulted inline, because `Transcript` points at a type this
+	 * header only forward-declares. Defined in the .cpp, where it is complete.
+	 */
+	virtual ~UReal33DBridge() override;
+
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 
@@ -232,17 +302,37 @@ public:
 	uint32 RequestWalk(uint8 Direction);
 
 	/**
-	 * Asks Fusion32 to say something out loud where this player stands.
+	 * Asks Fusion32 to speak, in the mode the player chose.
 	 *
-	 * An intent, exactly like a walk. Pressing Enter is not proof the server
+	 * An intent, exactly like a walk. Pressing Send is not proof the server
 	 * accepted or broadcast anything: Fusion32 decides who hears it, and the
 	 * authoritative talk it sends back is what this client draws. Nothing is
 	 * displayed optimistically.
 	 *
+	 * The mode is semantic here and becomes a protocol value only inside the
+	 * worker, which is the one place permitted to know one.
+	 *
 	 * Returns the id identifying this line for the rest of its life, so the
 	 * request can be correlated with what comes back.
 	 */
-	uint32 RequestSay(const FString& Text);
+	uint32 RequestTalk(EReal33DTalkMode Mode, const FString& Text);
+
+	/**
+	 * The transcript of what the player should be able to read, oldest first.
+	 *
+	 * Fed by DrainEvents from speech and server messages, never from protocol
+	 * diagnostics. Bounded and ordered by ClientCore's `ChatLog`, which owns
+	 * those rules because they are testable without a renderer.
+	 *
+	 * Game thread only, like DrainEvents: one owner on one thread.
+	 */
+	void GetChatTranscript(TArray<FReal33DChatLine>& OutLines) const;
+
+	/**
+	 * Changes whenever the transcript does, so a widget can rebuild only then
+	 * rather than every frame. Never reused, including across a reconnect.
+	 */
+	uint64 GetChatRevision() const;
 
 	FReal33DStats GetStats() const;
 
@@ -250,8 +340,24 @@ public:
 	static FReal33DConnectionConfig ConfigFromCommandLine();
 
 private:
+	/** Files one drained event into the transcript, if it belongs there. */
+	void NoteChat(const FReal33DEvent& Event);
+
 	FReal33DWorker* Worker = nullptr;
 	FRunnableThread* Thread = nullptr;
 	/** Game thread only. Numbers key presses so evidence can follow one. */
 	uint32 NextInputId = 0;
+
+	/**
+	 * ClientCore's ChatLog, held behind a pointer so this header stays free of
+	 * anything under fusion32/. Created in Initialize, destroyed in
+	 * Deinitialize, game thread only.
+	 *
+	 * A raw pointer rather than a TUniquePtr on purpose: a smart pointer would
+	 * instantiate its deleter wherever this header is included, including UHT's
+	 * generated constructor, and deleting an incomplete type there compiles to a
+	 * delete that skips the destructor. With a raw pointer every line that knows
+	 * what this is lives in the .cpp.
+	 */
+	struct FReal33DChatTranscript* Transcript = nullptr;
 };

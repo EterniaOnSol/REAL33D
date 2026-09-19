@@ -17,6 +17,45 @@
 #include "Real33DCreatureActor.h"
 #include "Real33DTileActor.h"
 
+namespace
+{
+	/**
+	 * Makes a string safe to put inside a JSON string literal.
+	 *
+	 * Chat text is typed by a player and arrives from other players, so it can
+	 * contain a quote or a backslash. Writing it raw would produce an evidence
+	 * file that does not parse, which is the one failure mode evidence must not
+	 * have.
+	 */
+	FString EscapeForJson(const FString& Value)
+	{
+		FString Out;
+		Out.Reserve(Value.Len() + 8);
+		for (const TCHAR Glyph : Value)
+		{
+			switch (Glyph)
+			{
+			case TEXT('"'):  Out += TEXT("\\\""); break;
+			case TEXT('\\'): Out += TEXT("\\\\"); break;
+			case TEXT('\n'): Out += TEXT("\\n"); break;
+			case TEXT('\r'): Out += TEXT("\\r"); break;
+			case TEXT('\t'): Out += TEXT("\\t"); break;
+			default:
+				if (Glyph < 0x20)
+				{
+					Out += FString::Printf(TEXT("\\u%04x"), Glyph);
+				}
+				else
+				{
+					Out.AppendChar(Glyph);
+				}
+				break;
+			}
+		}
+		return Out;
+	}
+}
+
 AReal33DWorld::AReal33DWorld()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -31,8 +70,13 @@ AReal33DWorld::AReal33DWorld()
 	Camera->SetupAttachment(CameraRoot);
 	// Looking down and to the north-west, far enough back that a viewport of
 	// 18x14 fields is comfortably inside the frame.
-	Camera->SetRelativeLocation(FVector(-620.0, -620.0, 780.0));
-	Camera->SetRelativeRotation(FRotator(-42.0, 45.0, 0.0));
+	//
+	// The three defaults below reproduce the fixed transform this camera carried
+	// until the orbit was added: relative location (-620,-620,780) and rotation
+	// (-42,45,0) are the same view expressed as yaw, pitch and distance, so an
+	// operator who never touches the right mouse button sees what they saw
+	// before.
+	ApplyCameraTransform();
 
 	// Turn the film tone curve off.
 	//
@@ -161,10 +205,9 @@ void AReal33DWorld::ClearWorld()
 	}
 	Creatures.Reset();
 	LocalCreatureId = 0;
-	// Speech attached to a creature died with its actor above. This is the
-	// other half: fallback lines belong to the session, so a reconnect must
-	// not inherit what the previous one was saying.
-	FallbackSpeech.Reset();
+	// Speech attached to a creature died with its actor above. The transcript
+	// is the other half and the bridge clears it on the same disconnect, so a
+	// reconnect inherits nothing the previous session was saying.
 }
 
 void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
@@ -273,9 +316,27 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 
 	case EReal33DEventKind::Diagnostic:
 		// Prose from the client core about something it could not consume.
-		// Kept so the evidence can say which command, not just how many.
+		// Kept so the evidence can say which command, not just how many. It
+		// reaches no player-facing surface: the chat area never sees this.
 		LastDiagnostic = Event.Detail;
 		UE_LOG(LogReal33D, Warning, TEXT("client core: %s"), *Event.Detail);
+		break;
+
+	case EReal33DEventKind::ServerMessage:
+		// Fusion32 talking to this player. Already filed in the transcript by
+		// the bridge, so there is nothing to draw here; logged because a
+		// refusal the player was shown should also be readable in evidence.
+		++ServerMessagesReceived;
+		UE_LOG(LogReal33D, Log, TEXT("server message [%s]: %s"),
+			*Event.TalkMode, *Event.Detail);
+		break;
+
+	case EReal33DEventKind::ClientNotice:
+		// This client refusing to send something, already in the transcript.
+		// Counted apart from the server's own messages so evidence cannot
+		// present a local refusal as something Fusion32 said.
+		++ClientNoticesRaised;
+		UE_LOG(LogReal33D, Warning, TEXT("client notice: %s"), *Event.Detail);
 		break;
 
 	case EReal33DEventKind::LocalPlayerIdentified:
@@ -416,6 +477,46 @@ void AReal33DWorld::UpdateCamera(float DeltaSeconds)
 	SetActorLocation(FMath::VInterpTo(GetActorLocation(), Desired, DeltaSeconds, 8.0));
 }
 
+void AReal33DWorld::ApplyCameraTransform()
+{
+	if (Camera == nullptr)
+	{
+		return;
+	}
+
+	// The actor sits on the player, so orbiting is entirely a matter of where
+	// the camera is placed relative to it. Put the camera one Distance back
+	// along the direction it looks, and the point it looks at is the actor's
+	// origin by construction — which is what keeps the player centred no matter
+	// how far the view is swung around.
+	const FRotator Look(CameraPitch, CameraYaw, 0.0f);
+	Camera->SetRelativeLocation(-Look.Vector() * CameraDistance);
+	Camera->SetRelativeRotation(Look);
+}
+
+void AReal33DWorld::AddCameraOrbit(float DeltaYawDegrees, float DeltaPitchDegrees)
+{
+	CameraYaw = FRotator::ClampAxis(CameraYaw + DeltaYawDegrees);
+
+	// Clamped to stay above the ground looking down. The floor is drawn as a
+	// plane, so a camera level with it or below sees a horizon of nothing, and
+	// there is no recovery gesture that would be obvious to an operator who got
+	// there by accident. The shallow end is left at -5 rather than 0 because
+	// reading a name or a speech tag above a creature is exactly what the
+	// shallow angles are for.
+	CameraPitch = FMath::Clamp(CameraPitch + DeltaPitchDegrees,
+		kCameraPitchMin, kCameraPitchMax);
+
+	ApplyCameraTransform();
+}
+
+void AReal33DWorld::AddCameraDistance(float Delta)
+{
+	CameraDistance = FMath::Clamp(CameraDistance + Delta,
+		kCameraDistanceMin, kCameraDistanceMax);
+	ApplyCameraTransform();
+}
+
 void AReal33DWorld::DrawOverlay()
 {
 	if (GEngine == nullptr)
@@ -455,23 +556,11 @@ void AReal33DWorld::DrawOverlay()
 			Stats.RequestedSteps, Stats.AcceptedSelfWalks, Stats.RejectedSteps,
 			Stats.UnansweredSteps, Stats.ExternalRelocations,
 			Stats.bViewportSynchronised ? TEXT("in sync") : TEXT("waiting")));
-	// Speech with no provable speaker, kept readable on screen rather than
-	// only in a log. Drawn newest last, with its own message keys so it does
-	// not fight the counters above for a slot.
-	const double Now = FPlatformTime::Seconds();
-	for (int32 Index = FallbackSpeech.Num() - 1; Index >= 0; --Index)
-	{
-		if (FallbackSpeech[Index].ExpiresAt <= Now)
-		{
-			FallbackSpeech.RemoveAt(Index);
-		}
-	}
-	for (int32 Index = 0; Index < FallbackSpeech.Num(); ++Index)
-	{
-		GEngine->AddOnScreenDebugMessage(100 + Index, 0.0f, FColor(255, 255, 0),
-			FallbackSpeech[Index].Line);
-	}
-
+	// Speech is deliberately absent from this overlay. It used to be drawn here
+	// with AddOnScreenDebugMessage, stacked under the counters, which is where
+	// the operator could not read it: a diagnostics overlay is not where a
+	// player reads chat. It goes to SReal33DChatPanel now, and these two
+	// surfaces stay apart.
 	GEngine->AddOnScreenDebugMessage(5, 0.0f, Clean,
 		FString::Printf(
 			TEXT("residual %d  unsupported %d  anomalies %d  dup %d  orphan %d"),
@@ -544,23 +633,12 @@ void AReal33DWorld::PresentSpeech(const FReal33DEvent& Event)
 		}
 	}
 
-	// Still visible, just not in the world. The operator must be able to read
-	// it without opening a log.
-	FString Line = Event.Speaker.IsEmpty()
-		? FString::Printf(TEXT("%s"), *Event.Detail)
-		: FString::Printf(TEXT("%s: %s"), *Event.Speaker, *Event.Detail);
-	if (Event.bHasChannel)
-	{
-		Line = FString::Printf(TEXT("[channel %d] %s"), Event.Channel, *Line);
-	}
-	FallbackSpeech.Add(FReal33DFallbackLine{ Line,
-		FPlatformTime::Seconds() + static_cast<double>(SpeechSeconds) });
-	// Bounded so a long session cannot grow it without limit.
-	while (FallbackSpeech.Num() > 6)
-	{
-		FallbackSpeech.RemoveAt(0);
-	}
-	++SpeechOnFallback;
+	// Still readable, just not in the world. Nothing is drawn here: the bridge
+	// filed this line in the transcript as it was drained, and the chat area
+	// reads that. Counting it is all this function has left to do, and the
+	// count is what proves the distant case took this path rather than being
+	// quietly attributed to a creature.
+	++SpeechInChatArea;
 }
 
 void AReal33DWorld::JournalMovement(const FReal33DEvent& Event)
@@ -610,6 +688,27 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		? GameInstance->GetSubsystem<UReal33DBridge>() : nullptr;
 	const FReal33DStats Stats = Bridge != nullptr ? Bridge->GetStats() : FReal33DStats();
 	const AReal33DCreature* Local = GetLocalPlayer();
+
+	// What the chat area is holding at this instant. Recorded because "the
+	// operator could read it" is the claim this milestone has to support, and a
+	// transcript that is empty when a distant yell was counted would contradict
+	// it in a way no screenshot could hide.
+	TArray<FReal33DChatLine> Transcript;
+	if (Bridge != nullptr)
+	{
+		Bridge->GetChatTranscript(Transcript);
+	}
+	const int32 TranscriptLines = Transcript.Num();
+
+	TArray<FString> TranscriptJson;
+	TranscriptJson.Reserve(TranscriptLines);
+	for (const FReal33DChatLine& Each : Transcript)
+	{
+		TranscriptJson.Add(FString::Printf(
+			TEXT("    { \"system_line\": %s, \"line\": \"%s\" }"),
+			Each.bSystemLine ? TEXT("true") : TEXT("false"),
+			*EscapeForJson(Each.Line)));
+	}
 
 	FString Directory;
 	if (!FParse::Value(FCommandLine::Get(), TEXT("-real33d-evidence="), Directory)
@@ -680,11 +779,15 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		TEXT("    \"duplicate_spawn_attempts\": %d,\n")
 		TEXT("    \"orphan_events\": %d,\n")
 		TEXT("    \"speech_shown_on_creature\": %d,\n")
-		TEXT("    \"speech_shown_on_fallback\": %d,\n")
+		TEXT("    \"speech_shown_in_chat_area_only\": %d,\n")
+		TEXT("    \"server_messages_received\": %d,\n")
+		TEXT("    \"client_notices_raised\": %d,\n")
+		TEXT("    \"chat_transcript_lines\": %d,\n")
 		TEXT("    \"speech_seconds_NOT_PROVEN\": %.1f\n")
 		TEXT("  },\n")
 		TEXT("  \"talk_messages_decoded\": %d,\n")
 		TEXT("  \"last_diagnostic\": \"%s\",\n")
+		TEXT("  \"chat_transcript\": [\n%s\n  ],\n")
 		TEXT("  \"creatures\": [\n%s\n  ]\n")
 		TEXT("}\n"),
 		*FDateTime::UtcNow().ToIso8601(), *Reason,
@@ -705,9 +808,11 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		Stats.VisibleCreatures, Stats.bViewportSynchronised ? TEXT("true") : TEXT("false"),
 		Tiles.Num(), Creatures.Num(), TilesSpawned, TilesRemoved, CreaturesAppeared,
 		CreaturesVanished, CreatureMoves, DuplicateSpawnAttempts, OrphanEvents,
-		SpeechOnCreature, SpeechOnFallback, SpeechSeconds,
+		SpeechOnCreature, SpeechInChatArea, ServerMessagesReceived,
+		ClientNoticesRaised, TranscriptLines, SpeechSeconds,
 		Stats.TalkMessages,
-		LastDiagnostic.IsEmpty() ? TEXT("none") : *LastDiagnostic,
+		LastDiagnostic.IsEmpty() ? TEXT("none") : *EscapeForJson(LastDiagnostic),
+		*FString::Join(TranscriptJson, TEXT(",\n")),
 		*FString::Join(CreatureLines, TEXT(",\n")));
 
 	if (FFileHelper::SaveStringToFile(Json, *Path))

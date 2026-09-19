@@ -4,6 +4,9 @@
 #include "GameFramework/PlayerController.h"
 #include "Real33DPlayerController.generated.h"
 
+class AReal33DWorld;
+class SReal33DChatPanel;
+
 /**
  * Turns key presses into intents and nothing else.
  *
@@ -24,8 +27,9 @@ class REAL33D_API AReal33DPlayerController : public APlayerController
 public:
 	AReal33DPlayerController();
 
+	virtual void BeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type Reason) override;
 	virtual void SetupInputComponent() override;
-	virtual void PlayerTick(float DeltaTime) override;
 
 private:
 	void WalkNorth();
@@ -36,36 +40,76 @@ private:
 
 	void Request(uint8 Direction);
 
+	// ----------------------------------------------------------- camera orbit
+	//
+	// Held right mouse button plus mouse movement swings the view around the
+	// player; the wheel moves it in and out. The controller decides nothing
+	// about where the camera ends up: it converts a gesture into a delta in
+	// degrees and hands it to the world actor, which owns the limits.
+	//
+	// The axis handlers fire on every mouse move whether or not the button is
+	// down, so each one leaves immediately unless a drag is in progress. No
+	// input mode is changed and no focus is taken: pressing a mouse button over
+	// the viewport already moves focus off the chat box, and the panel reports
+	// that through the same signal it always did.
+
+	void BeginOrbit();
+	void EndOrbit();
+	void OrbitYaw(float Value);
+	void OrbitPitch(float Value);
+	void ZoomCamera(float Value);
+
+	/**
+	 * The world actor, found once and remembered.
+	 *
+	 * Deliberately not a TActorIterator per call: mouse axes fire several times
+	 * a frame and the world holds thousands of tile actors, so searching it on
+	 * every mouse move would cost more than everything else this class does.
+	 */
+	AReal33DWorld* GetWorldActor();
+
+	TWeakObjectPtr<AReal33DWorld> WorldActor;
+
+	/** True between right button down and up. */
+	bool bOrbiting = false;
+
 	// ------------------------------------------------------------ chat input
 	//
-	// Enter opens the line, Enter again sends it, Escape abandons it. While the
-	// line is open the walk keys are inert: a player typing "was" must not walk
-	// west, north and south. That is checked at the top of Request rather than
-	// by unbinding, so there is one place where the rule lives and no window in
-	// which the bindings are half-swapped.
-
-	// The talk mode persists until changed, which is how the operator describes
-	// the original: a speaker control in the chat panel sets a mode and it stays
-	// set. F2 cycles it. Everything typed afterwards goes out that way, rather
-	// than the mode being re-chosen for every line.
+	// The chat area owns typing; this class owns movement. They meet at one
+	// boolean.
 	//
-	// The mode is carried to the bridge as the classic "#y " / "#w " prefix, so
-	// the key and the typed convention share one path. A typed prefix alone was
-	// not enough: "#" is unbound here and needs a modifier on most layouts, so
-	// yell and whisper were unreachable entirely.
-	void ToggleChat();
-	void CycleTalkMode();
-	void OpenOrSend();
-	const TCHAR* TalkModePrefix() const;
-	const TCHAR* TalkModeLabel() const;
-	void CancelChat();
-	void Backspace();
-	void TypeCharacter(TCHAR Glyph);
-	void BindTypingKey(const FKey& Key, TCHAR Glyph);
+	// While the player is typing the walk keys are inert, checked at the top of
+	// Request rather than by unbinding and rebinding: one place holds the rule
+	// and there is no window in which the bindings are half-swapped. Typing
+	// "was" must not walk the player west, north and south.
+	//
+	// The flag is set from an explicit signal the panel sends when its text box
+	// takes or releases focus, never inferred by asking Slate what has focus
+	// this frame. An inferred gate would be a question with a different answer
+	// depending on when it was asked; this one is a fact with a single owner,
+	// which is what makes "movement is suppressed while typing" provable rather
+	// than merely observed.
 
-	bool bComposing = false;
-	FString Composing;
+	/** Puts the caret in the chat box. Bound to Enter, as the classic client. */
+	void FocusChatInput();
 
-	/** 0 say, 1 whisper, 2 yell. Survives sending, like the classic control. */
-	uint8 TalkMode = 0;
+	/** Abandons the line and gives movement back. Bound to Escape. */
+	void CloseChatInput();
+
+	/** The panel's explicit signal. True means the player is typing. */
+	void HandleTypingChanged(bool bTyping);
+
+	TSharedPtr<SReal33DChatPanel> ChatPanel;
+
+	/**
+	 * Exactly the widget handed to AddViewportWidgetContent.
+	 *
+	 * Kept because removal matches on identity: passing the panel instead of
+	 * the box it was wrapped in would silently remove nothing and leave the
+	 * previous session's chat area on screen.
+	 */
+	TSharedPtr<SWidget> ChatRoot;
+
+	/** The gate. Nothing else may write it. */
+	bool bTypingActive = false;
 };

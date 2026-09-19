@@ -19,10 +19,11 @@ public class REAL33D : ModuleRules
 		// standard library. See tests\build_clientcore_windows.cmd.
 		CppStandard = CppStandardVersion.Cpp20;
 
-		// InputCore only: bindings are made in code with BindKey so the project
-		// carries no binary input assets. See Real33DPlayerController.
+		// Slate rather than UMG: the chat area is built in C++ like every other
+		// part of this project's presentation, so it carries no .uasset and no
+		// binary input asset. See SReal33DChatPanel and Real33DPlayerController.
 		PublicDependencyModuleNames.AddRange(new string[] {
-			"Core", "CoreUObject", "Engine", "InputCore"
+			"Core", "CoreUObject", "Engine", "InputCore", "Slate", "SlateCore"
 		});
 
 		// clientcore/ lives four directories up from Source/REAL33D.

@@ -11,6 +11,7 @@
 // Protocol772Core. Included only here, in the worker. Nothing above this file
 // may include a protocol header: that is the boundary.
 THIRD_PARTY_INCLUDES_START
+#include "fusion32/protocol772/chat_log.h"
 #include "fusion32/protocol772/gamelogin.h"
 #include "fusion32/protocol772/initial_world.h"
 #include "fusion32/protocol772/login.h"
@@ -28,11 +29,43 @@ THIRD_PARTY_INCLUDES_END
 
 namespace p772 = fusion32::protocol772;
 
+/**
+ * The transcript, wrapped so Real33DBridge.h needs nothing from fusion32/.
+ *
+ * ChatLog is documented as single-owner, single-thread. Its owner is the game
+ * thread, because that is where DrainEvents runs and where the widget reads.
+ * The worker never touches it.
+ */
+struct FReal33DChatTranscript
+{
+	p772::ChatLog Log;
+	uint64 Revision = 0;
+};
+
 namespace
 {
 	Real33D::FMapPosition ToBridge(const p772::MapPosition& Position)
 	{
 		return Real33D::FMapPosition{ Position.x, Position.y, Position.z };
+	}
+
+	/**
+	 * The one place a chosen mode becomes a protocol value.
+	 *
+	 * Nothing above the bridge may do this, which is why the enum above carries
+	 * no numbers of its own and why this function is not exported.
+	 */
+	std::uint8_t ToWireTalkMode(EReal33DTalkMode Mode)
+	{
+		switch (Mode)
+		{
+		case EReal33DTalkMode::Whisper:
+			return static_cast<std::uint8_t>(p772::TalkMode::Whisper);
+		case EReal33DTalkMode::Yell:
+			return static_cast<std::uint8_t>(p772::TalkMode::Yell);
+		default:
+			return static_cast<std::uint8_t>(p772::TalkMode::Say);
+		}
 	}
 
 	FString ReadTextFile(const FString& Path)
@@ -156,9 +189,9 @@ public:
 		Intents.Enqueue(FIntent{ InputId, Direction });
 	}
 
-	void PostSay(uint32 SayId, const FString& Text)
+	void PostSay(uint32 SayId, EReal33DTalkMode Mode, const FString& Text)
 	{
-		Says.Enqueue(FSay{ SayId, Text });
+		Says.Enqueue(FSay{ SayId, Mode, Text });
 	}
 
 	bool Dequeue(FReal33DEvent& OutEvent) { return Events.Dequeue(OutEvent); }
@@ -366,11 +399,19 @@ private:
 				// illegal yell with TALK_FAILURE_MESSAGE, and without surfacing
 				// it the client looks broken when the server is simply saying
 				// no. Whoever sent the command is the one who is told.
+				//
+				// Published as a ServerMessage rather than a Diagnostic. It was
+				// a Diagnostic, wrapped in the prose "server message [Mode]:",
+				// which put something a player must read on a developer surface
+				// and made the two indistinguishable downstream. The text is
+				// carried verbatim; the mode is named here, in the only file
+				// allowed to know one.
 				FReal33DEvent Said;
-				Said.Kind = EReal33DEventKind::Diagnostic;
-				Said.Detail = FString::Printf(TEXT("server message [%hs]: %hs"),
-					p772::MessageModeName(Decoded.update.message.mode),
-					Decoded.update.message.text.c_str());
+				Said.Kind = EReal33DEventKind::ServerMessage;
+				Said.TalkMode = UTF8_TO_TCHAR(
+					p772::MessageModeName(Decoded.update.message.mode));
+				Said.Detail = UTF8_TO_TCHAR(Decoded.update.message.text.c_str());
+				Said.Direction = kNoDirection;
 				Publish(MoveTemp(Said));
 			}
 
@@ -646,29 +687,29 @@ private:
 			// ClientCore builds the command and enforces exactly what CTalk
 			// enforces, so a line the server would discard is refused here with
 			// a reason the player can be told.
-			// The classic client's own convention: "#y " yells, "#w " whispers,
-			// anything else is ordinary speech. Mirrored here so the operator
-			// can reach the other positional modes without a chat UI, and so
-			// the modes CTalk accepts are reachable from the client that has to
-			// prove them.
-			FString Text = Say.Text;
-			std::uint8_t Mode = static_cast<std::uint8_t>(p772::TalkMode::Say);
-			if (Text.StartsWith(TEXT("#y "), ESearchCase::IgnoreCase))
-			{
-				Mode = static_cast<std::uint8_t>(p772::TalkMode::Yell);
-				Text.RightChopInline(3);
-			}
-			else if (Text.StartsWith(TEXT("#w "), ESearchCase::IgnoreCase))
-			{
-				Mode = static_cast<std::uint8_t>(p772::TalkMode::Whisper);
-				Text.RightChopInline(3);
-			}
-			const auto Built = p772::BuildTalkCommand(Mode, TCHAR_TO_UTF8(*Text));
+			//
+			// The text is sent exactly as typed. It once carried a "#y " or
+			// "#w " prefix that was parsed back out here, which meant the UI
+			// encoded a wire convention and a player who genuinely began a line
+			// with "#y " could not say so. The mode now arrives as itself.
+			const auto Built = p772::BuildTalkCommand(
+				ToWireTalkMode(Say.Mode), TCHAR_TO_UTF8(*Say.Text));
 			if (!Built.ok())
 			{
-				Publish(MakeFailure(EReal33DEventKind::Diagnostic,
-					FString::Printf(TEXT("say %u refused before sending: %hs"),
-						Say.SayId, p772::TalkBuildErrorName(Built.error))));
+				// A refusal the player caused and can act on, so it is told to
+				// them rather than filed as a protocol diagnostic. Not a
+				// ServerMessage: Fusion32 never saw this command.
+				FReal33DEvent Refused;
+				Refused.Kind = EReal33DEventKind::ClientNotice;
+				Refused.Detail = FString::Printf(
+					TEXT("Your message was not sent: %hs"),
+					p772::TalkBuildErrorName(Built.error));
+				Refused.Direction = kNoDirection;
+				Publish(MoveTemp(Refused));
+
+				UE_LOG(LogTemp, Warning, TEXT("REAL33D: talk %u refused before sending: %hs"),
+					Say.SayId, p772::TalkBuildErrorName(Built.error));
+
 				FScopeLock Lock(&StatsMutex);
 				++Stats.SaysRefusedLocally;
 				continue;
@@ -740,6 +781,8 @@ private:
 	struct FSay
 	{
 		uint32 SayId = 0;
+		/** Semantic. Becomes a protocol value in DrainSays and nowhere else. */
+		EReal33DTalkMode Mode = EReal33DTalkMode::Say;
 		FString Text;
 	};
 
@@ -754,14 +797,34 @@ private:
 
 // ---------------------------------------------------------------- subsystem
 
+const TCHAR* Real33DTalkModeLabel(EReal33DTalkMode Mode)
+{
+	switch (Mode)
+	{
+	case EReal33DTalkMode::Whisper: return TEXT("Whisper");
+	case EReal33DTalkMode::Yell:    return TEXT("Yell");
+	default:                        return TEXT("Say");
+	}
+}
+
+// Both of these are here, where FReal33DChatTranscript is a complete type.
+UReal33DBridge::~UReal33DBridge()
+{
+	delete Transcript;
+	Transcript = nullptr;
+}
+
 void UReal33DBridge::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
+	Transcript = new FReal33DChatTranscript();
 }
 
 void UReal33DBridge::Deinitialize()
 {
 	Disconnect();
+	delete Transcript;
+	Transcript = nullptr;
 	Super::Deinitialize();
 }
 
@@ -819,8 +882,88 @@ void UReal33DBridge::DrainEvents(TArray<FReal33DEvent>& OutEvents)
 	FReal33DEvent Event;
 	while (Worker->Dequeue(Event))
 	{
+		// Filed as it passes, so the transcript is complete whatever the
+		// presenter does with the event afterwards, and so there is exactly one
+		// place that decides what a player is allowed to read.
+		NoteChat(Event);
 		OutEvents.Add(MoveTemp(Event));
 	}
+}
+
+void UReal33DBridge::NoteChat(const FReal33DEvent& Event)
+{
+	if (Transcript == nullptr)
+	{
+		return;
+	}
+
+	switch (Event.Kind)
+	{
+	case EReal33DEventKind::Talk:
+		// Every utterance, including one that will also be drawn above its
+		// speaker. A console that omitted what was said nearby would be a
+		// partial record of a conversation, and the nearby case is exactly the
+		// one an operator uses to check the distant case is not lying.
+		Transcript->Log.AddSpeech(
+			TCHAR_TO_UTF8(*Event.Speaker),
+			TCHAR_TO_UTF8(*Event.TalkMode),
+			TCHAR_TO_UTF8(*Event.Detail));
+		++Transcript->Revision;
+		break;
+
+	case EReal33DEventKind::ServerMessage:
+		Transcript->Log.AddServerMessage(
+			TCHAR_TO_UTF8(*Event.TalkMode),
+			TCHAR_TO_UTF8(*Event.Detail));
+		++Transcript->Revision;
+		break;
+
+	case EReal33DEventKind::ClientNotice:
+		Transcript->Log.AddClientNotice(TCHAR_TO_UTF8(*Event.Detail));
+		++Transcript->Revision;
+		break;
+
+	case EReal33DEventKind::Disconnected:
+	case EReal33DEventKind::Failed:
+		// A transcript from a previous connection must not appear to belong to
+		// the new one. The sequence keeps counting, so two arrivals are never
+		// confusable in evidence even across the gap.
+		Transcript->Log.Clear();
+		++Transcript->Revision;
+		break;
+
+	// Diagnostic is deliberately absent. It is developer prose and has no
+	// player-facing surface; routing it here is the defect this milestone
+	// exists to close.
+	default:
+		break;
+	}
+}
+
+void UReal33DBridge::GetChatTranscript(TArray<FReal33DChatLine>& OutLines) const
+{
+	check(IsInGameThread());
+	OutLines.Reset();
+	if (Transcript == nullptr)
+	{
+		return;
+	}
+	const auto& Entries = Transcript->Log.entries();
+	OutLines.Reserve(static_cast<int32>(Entries.size()));
+	for (const auto& Entry : Entries)
+	{
+		FReal33DChatLine Out;
+		// Formatted by ClientCore, where the rule is tested, rather than by the
+		// widget, where it would only be observable live.
+		Out.Line = UTF8_TO_TCHAR(p772::ChatLog::Format(Entry).c_str());
+		Out.bSystemLine = Entry.kind != p772::ChatLog::EntryKind::Speech;
+		OutLines.Add(MoveTemp(Out));
+	}
+}
+
+uint64 UReal33DBridge::GetChatRevision() const
+{
+	return Transcript != nullptr ? Transcript->Revision : 0;
 }
 
 uint32 UReal33DBridge::RequestWalk(uint8 Direction)
@@ -836,16 +979,16 @@ uint32 UReal33DBridge::RequestWalk(uint8 Direction)
 	return InputId;
 }
 
-uint32 UReal33DBridge::RequestSay(const FString& Text)
+uint32 UReal33DBridge::RequestTalk(EReal33DTalkMode Mode, const FString& Text)
 {
 	if (Worker == nullptr)
 	{
 		return 0;
 	}
 	// Numbered on the game thread like a walk, so a line can be followed from
-	// the key that closed it to whatever Fusion32 does about it.
+	// the click that sent it to whatever Fusion32 does about it.
 	const uint32 SayId = ++NextInputId;
-	Worker->PostSay(SayId, Text);
+	Worker->PostSay(SayId, Mode, Text);
 	return SayId;
 }
 

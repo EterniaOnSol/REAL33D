@@ -1,15 +1,75 @@
 #include "Real33DPlayerController.h"
 
 #include "Engine/Engine.h"
-#include "EngineUtils.h"
 #include "Engine/GameInstance.h"
+#include "Engine/GameViewportClient.h"
+#include "EngineUtils.h"
 #include "REAL33D.h"
 #include "Real33DBridge.h"
+#include "Real33DChatPanel.h"
 #include "Real33DWorldActor.h"
+#include "Widgets/Layout/SBox.h"
 
 AReal33DPlayerController::AReal33DPlayerController()
 {
-	bShowMouseCursor = false;
+	// The chat area has to be clickable, which means a cursor. The input mode
+	// stays GameAndUI throughout: Slate gets first refusal on every key, and
+	// anything it does not want reaches the bindings below.
+	bShowMouseCursor = true;
+}
+
+void AReal33DPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+
+	if (GEngine == nullptr || GetWorld() == nullptr
+		|| GetWorld()->GetGameViewport() == nullptr)
+	{
+		UE_LOG(LogReal33D, Error,
+			TEXT("no game viewport; the chat area cannot be shown"));
+		return;
+	}
+
+	UGameInstance* GameInstance = GetGameInstance();
+	UReal33DBridge* Bridge = GameInstance != nullptr
+		? GameInstance->GetSubsystem<UReal33DBridge>() : nullptr;
+
+	ChatPanel = SNew(SReal33DChatPanel)
+		.Bridge(Bridge)
+		.OnTypingChanged(FReal33DOnTypingChanged::CreateUObject(
+			this, &AReal33DPlayerController::HandleTypingChanged));
+
+	// Bottom left, where a chat console belongs and where it cannot be confused
+	// with the counters overlay in the top left. Above the scene, below nothing.
+	ChatRoot = SNew(SBox)
+		.HAlign(HAlign_Left)
+		.VAlign(VAlign_Bottom)
+		.Padding(FMargin(12.0f, 0.0f, 0.0f, 12.0f))
+		[
+			ChatPanel.ToSharedRef()
+		];
+	GetWorld()->GetGameViewport()->AddViewportWidgetContent(
+		ChatRoot.ToSharedRef(), /*ZOrder=*/10);
+
+	SetInputMode(FInputModeGameAndUI().SetHideCursorDuringCapture(false));
+}
+
+void AReal33DPlayerController::EndPlay(const EEndPlayReason::Type Reason)
+{
+	// Removed explicitly. A viewport widget outlives the actor that made it,
+	// so a second session would otherwise open on top of the first one's panel
+	// and the operator would be typing into a box wired to a dead bridge.
+	if (ChatRoot.IsValid() && GetWorld() != nullptr
+		&& GetWorld()->GetGameViewport() != nullptr)
+	{
+		GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(
+			ChatRoot.ToSharedRef());
+	}
+	ChatRoot.Reset();
+	ChatPanel.Reset();
+	bTypingActive = false;
+
+	Super::EndPlay(Reason);
 }
 
 void AReal33DPlayerController::SetupInputComponent()
@@ -34,190 +94,78 @@ void AReal33DPlayerController::SetupInputComponent()
 	InputComponent->BindKey(EKeys::F9, IE_Pressed, this,
 		&AReal33DPlayerController::DumpEvidence);
 
-	// Chat line control.
-	//
-	// Enter says, F2 yells, F3 whispers. The mode is chosen by the key rather
-	// than a typed "#y " prefix, because "#" is unbound here and needs a
-	// modifier on most layouts, which made yell unreachable entirely.
+	// Enter reaches here only when the chat box does not already have focus,
+	// because Slate offers the key to the focused widget first and the box
+	// commits on it. So one key both opens the line and sends it, without the
+	// two paths having to know about each other.
 	InputComponent->BindKey(EKeys::Enter, IE_Pressed, this,
-		&AReal33DPlayerController::ToggleChat);
-	InputComponent->BindKey(EKeys::F2, IE_Pressed, this,
-		&AReal33DPlayerController::CycleTalkMode);
+		&AReal33DPlayerController::FocusChatInput);
+
+	// Held right button plus mouse movement orbits; the wheel zooms.
+	InputComponent->BindKey(EKeys::RightMouseButton, IE_Pressed, this,
+		&AReal33DPlayerController::BeginOrbit);
+	InputComponent->BindKey(EKeys::RightMouseButton, IE_Released, this,
+		&AReal33DPlayerController::EndOrbit);
+	InputComponent->BindAxisKey(EKeys::MouseX, this,
+		&AReal33DPlayerController::OrbitYaw);
+	InputComponent->BindAxisKey(EKeys::MouseY, this,
+		&AReal33DPlayerController::OrbitPitch);
+	InputComponent->BindAxisKey(EKeys::MouseWheelAxis, this,
+		&AReal33DPlayerController::ZoomCamera);
+
+	// Escape has to be bound, not left to Slate.
+	//
+	// FSlateEditableTextLayout::HandleEscape only reports the key handled when
+	// it had something to undo: a selection, a search, or text to revert. On an
+	// empty box it returns Unhandled, so an operator who opens the line and
+	// changes their mind would be left with the caret in the box, the gate shut
+	// and no way to walk. It bubbles here instead and is closed explicitly.
 	InputComponent->BindKey(EKeys::Escape, IE_Pressed, this,
-		&AReal33DPlayerController::CancelChat);
-	InputComponent->BindKey(EKeys::BackSpace, IE_Pressed, this,
-		&AReal33DPlayerController::Backspace);
-
-	// Typing. Bound once per key with the character it produces, because
-	// UInputComponent reports keys and not characters: there is no character
-	// event to subscribe to from a plain PlayerController. Lower case and
-	// digits are enough to type a test phrase, and this is a test harness for
-	// the protocol path rather than a chat client.
-	const FString Letters = TEXT("abcdefghijklmnopqrstuvwxyz");
-	for (int32 Index = 0; Index < Letters.Len(); ++Index)
-	{
-		BindTypingKey(FKey(*FString::Chr(FChar::ToUpper(Letters[Index]))), Letters[Index]);
-	}
-	static const FKey Digits[] = { EKeys::Zero, EKeys::One, EKeys::Two, EKeys::Three,
-		EKeys::Four, EKeys::Five, EKeys::Six, EKeys::Seven, EKeys::Eight, EKeys::Nine };
-	for (int32 Index = 0; Index < 10; ++Index)
-	{
-		BindTypingKey(Digits[Index], static_cast<TCHAR>(TEXT('0') + Index));
-	}
-	BindTypingKey(EKeys::SpaceBar, TEXT(' '));
+		&AReal33DPlayerController::CloseChatInput);
 }
 
-void AReal33DPlayerController::BindTypingKey(const FKey& Key, TCHAR Glyph)
+void AReal33DPlayerController::FocusChatInput()
 {
-	// Bound manually because BindKey has no payload overload, and one handler
-	// per letter would be twenty-six near-identical functions.
-	FInputKeyBinding Binding(FInputChord(Key), IE_Pressed);
-	Binding.KeyDelegate.GetDelegateForManualSet().BindLambda(
-		[this, Glyph]() { TypeCharacter(Glyph); });
-	InputComponent->KeyBindings.Emplace(MoveTemp(Binding));
-}
-
-void AReal33DPlayerController::TypeCharacter(TCHAR Glyph)
-{
-	if (!bComposing)
+	if (!ChatPanel.IsValid())
 	{
 		return;
 	}
-	// reference/game/src/receiving.cc::CTalk reads into char Text[256]; the
-	// builder refuses anything longer, so stop here rather than let the player
-	// type a line that will be rejected.
-	if (Composing.Len() >= 255)
+	// The gate opens here as well as on the focus the panel is about to
+	// receive, because both are explicit and BeginTyping is idempotent. What
+	// must never happen is the caret arriving in the box with the gate shut.
+	ChatPanel->BeginTyping();
+	SetInputMode(FInputModeGameAndUI()
+		.SetHideCursorDuringCapture(false)
+		.SetWidgetToFocus(ChatPanel->GetInputWidget()));
+}
+
+void AReal33DPlayerController::CloseChatInput()
+{
+	if (!ChatPanel.IsValid())
 	{
 		return;
 	}
-	Composing.AppendChar(Glyph);
+	// EndTyping fires the change, which returns focus to the viewport. Calling
+	// it when nothing was open is harmless: it is idempotent by design.
+	ChatPanel->EndTyping();
 }
 
-const TCHAR* AReal33DPlayerController::TalkModePrefix() const
+void AReal33DPlayerController::HandleTypingChanged(bool bTyping)
 {
-	switch (TalkMode)
+	bTypingActive = bTyping;
+	if (!bTyping)
 	{
-	case 1:  return TEXT("#w ");
-	case 2:  return TEXT("#y ");
-	default: return TEXT("");
-	}
-}
-
-const TCHAR* AReal33DPlayerController::TalkModeLabel() const
-{
-	switch (TalkMode)
-	{
-	case 1:  return TEXT("whisper");
-	case 2:  return TEXT("yell");
-	default: return TEXT("say");
-	}
-}
-
-void AReal33DPlayerController::CycleTalkMode()
-{
-	// Changing mode does not open or close a line: the mode is a property of the
-	// player, not of the message being typed. Cycling mid-line is therefore
-	// allowed and simply changes how the line will be sent.
-	TalkMode = static_cast<uint8>((TalkMode + 1) % 3);
-	UE_LOG(LogReal33D, Log, TEXT("talk mode is now %s"), TalkModeLabel());
-}
-
-void AReal33DPlayerController::ToggleChat() { OpenOrSend(); }
-
-void AReal33DPlayerController::OpenOrSend()
-{
-	if (!bComposing)
-	{
-		bComposing = true;
-		// Only what the player types is held here. The mode is applied on send,
-		// not seeded into the buffer, so cycling the mode while a line is open
-		// changes how it goes out instead of leaving a stale prefix behind.
-		Composing.Empty();
-		UE_LOG(LogReal33D, Log, TEXT("%s line opened; walk keys are inert"),
-			TalkModeLabel());
-		return;
-	}
-
-	// Closing. Send only if there is something to send: an empty line is what
-	// CTalk refuses, so treat Enter on an empty line as simply closing it.
-	const FString Text = Composing;
-	bComposing = false;
-	Composing.Empty();
-	if (Text.IsEmpty())
-	{
-		UE_LOG(LogReal33D, Log, TEXT("chat line closed empty; nothing sent"));
-		return;
-	}
-
-	UGameInstance* GameInstance = GetGameInstance();
-	UReal33DBridge* Bridge = GameInstance != nullptr
-		? GameInstance->GetSubsystem<UReal33DBridge>() : nullptr;
-	if (Bridge == nullptr || !Bridge->IsRunning())
-	{
-		UE_LOG(LogReal33D, Warning, TEXT("not connected; \"%s\" not sent"), *Text);
-		return;
-	}
-
-	// An intent, exactly like a walk. Fusion32 decides whether anyone hears it,
-	// and the authoritative talk it broadcasts is what this client will draw.
-	// The mode is applied here, at send, so it reflects whatever the mode is now
-	// rather than what it was when the line was opened.
-	const uint32 SayId = Bridge->RequestSay(FString(TalkModePrefix()) + Text);
-	UE_LOG(LogReal33D, Log, TEXT("%s %u: \"%s\" handed to Fusion32"),
-		TalkModeLabel(), SayId, *Text);
-}
-
-void AReal33DPlayerController::CancelChat()
-{
-	if (!bComposing)
-	{
-		return;
-	}
-	bComposing = false;
-	Composing.Empty();
-	UE_LOG(LogReal33D, Log, TEXT("chat line abandoned"));
-}
-
-void AReal33DPlayerController::Backspace()
-{
-	if (bComposing && Composing.Len() > 0)
-	{
-		Composing.LeftChopInline(1);
-	}
-}
-
-void AReal33DPlayerController::PlayerTick(float DeltaTime)
-{
-	Super::PlayerTick(DeltaTime);
-
-	if (GEngine == nullptr)
-	{
-		return;
-	}
-
-	// The line has to be visible while it is typed, or the operator is typing
-	// blind into a client that looks identical whether chat is open or not. The
-	// prompt names the mode, because a mode that persists and is invisible is a
-	// mode that sends the wrong thing: the player would have no way to know a
-	// yell three messages ago is still in force.
-	if (bComposing)
-	{
-		GEngine->AddOnScreenDebugMessage(200, 0.0f, FColor(120, 220, 255),
-			FString::Printf(TEXT("%s> %s_"), TalkModeLabel(), *Composing));
-	}
-	else if (TalkMode != 0)
-	{
-		// Shown even with no line open, for the same reason.
-		GEngine->AddOnScreenDebugMessage(201, 0.0f, FColor(200, 200, 120),
-			FString::Printf(TEXT("talk mode: %s  (F2 to change)"), TalkModeLabel()));
+		// Focus goes back to the viewport, so the next W is a step rather than
+		// a character typed into a box nobody is looking at.
+		SetInputMode(FInputModeGameAndUI().SetHideCursorDuringCapture(false));
 	}
 }
 
 void AReal33DPlayerController::Request(uint8 Direction)
 {
-	// The one place the rule lives: while a chat line is open, walk keys are
+	// The one place the rule lives: while the player is typing, walk keys are
 	// letters. Typing "was" must not walk the player west, north and south.
-	if (bComposing)
+	if (bTypingActive)
 	{
 		return;
 	}
@@ -245,6 +193,79 @@ void AReal33DPlayerController::WalkNorth() { Request(0); }
 void AReal33DPlayerController::WalkEast()  { Request(1); }
 void AReal33DPlayerController::WalkSouth() { Request(2); }
 void AReal33DPlayerController::WalkWest()  { Request(3); }
+
+namespace
+{
+	/**
+	 * Degrees of swing per unit of mouse movement.
+	 *
+	 * Chosen so a drag across a 1280-wide window is a little over a full turn,
+	 * which is enough to get behind a creature without the view feeling like it
+	 * is on ice. Not a measured value and nothing depends on it being exact.
+	 */
+	constexpr float kOrbitDegreesPerUnit = 0.35f;
+
+	/** World units of camera distance per wheel notch. */
+	constexpr float kZoomUnitsPerNotch = 120.0f;
+}
+
+AReal33DWorld* AReal33DPlayerController::GetWorldActor()
+{
+	if (AReal33DWorld* Cached = WorldActor.Get())
+	{
+		return Cached;
+	}
+	for (TActorIterator<AReal33DWorld> It(GetWorld()); It; ++It)
+	{
+		WorldActor = *It;
+		return *It;
+	}
+	return nullptr;
+}
+
+void AReal33DPlayerController::BeginOrbit() { bOrbiting = true; }
+void AReal33DPlayerController::EndOrbit()   { bOrbiting = false; }
+
+void AReal33DPlayerController::OrbitYaw(float Value)
+{
+	if (!bOrbiting || Value == 0.0f)
+	{
+		return;
+	}
+	if (AReal33DWorld* World = GetWorldActor())
+	{
+		World->AddCameraOrbit(Value * kOrbitDegreesPerUnit, 0.0f);
+	}
+}
+
+void AReal33DPlayerController::OrbitPitch(float Value)
+{
+	if (!bOrbiting || Value == 0.0f)
+	{
+		return;
+	}
+	if (AReal33DWorld* World = GetWorldActor())
+	{
+		// Negated so dragging down brings the camera towards eye level and
+		// dragging up lifts it towards looking straight down. Reading a speech
+		// tag above a creature is a shallow-angle job, and down is the
+		// direction an operator reaches for when they want to see a face.
+		World->AddCameraOrbit(0.0f, -Value * kOrbitDegreesPerUnit);
+	}
+}
+
+void AReal33DPlayerController::ZoomCamera(float Value)
+{
+	if (Value == 0.0f)
+	{
+		return;
+	}
+	if (AReal33DWorld* World = GetWorldActor())
+	{
+		// Wheel forward is positive and means closer, so the sign flips.
+		World->AddCameraDistance(-Value * kZoomUnitsPerNotch);
+	}
+}
 
 void AReal33DPlayerController::DumpEvidence()
 {
