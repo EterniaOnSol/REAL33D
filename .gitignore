@@ -38,6 +38,14 @@ __pycache__/
 
 # Generated output.
 /build/
+
+# A mistyped cmake invocation configures into a directory named after the
+# argument it failed to parse, which lands outside /build/ and is not ignored by
+# anything above. These two names are CMake's own and appear only in a configure
+# tree, so matching them catches a stray build wherever it is created without
+# ignoring anything a person would write.
+CMakeCache.txt
+CMakeFiles/
 /Binaries/
 /DerivedDataCache/
 /Intermediate/
