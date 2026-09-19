@@ -6,9 +6,9 @@ Status: `SERVER-RUNTIME-SMOKE-001 = CERTIFIED` after independent live repetition
 
 | Service | Bind / endpoint | Working directory | Persistent local state |
 | --- | --- | --- | --- |
-| Query Manager | loopback TCP `7173` | `/tmp/fusion32-server-baseline-772-$UID/querymanager` | `state/tibia.db` |
-| Game | TCP `7172` (world row supplies `127.0.0.1`) | `/tmp/fusion32-server-baseline-772-$UID/game` | `state/map`, `state/usr`, `state/save` |
-| Login | TCP `7171` | `/tmp/fusion32-server-baseline-772-$UID/login` | none beyond generated config/logs |
+| Query Manager | loopback TCP `7173` | `/var/lib/fusion32-server-baseline-772-$UID/querymanager` | `state/tibia.db` |
+| Game | TCP `7172` (world row supplies `127.0.0.1`) | `/var/lib/fusion32-server-baseline-772-$UID/game` | `state/map`, `state/usr`, `state/save` |
+| Login | TCP `7171` | `/var/lib/fusion32-server-baseline-772-$UID/login` | none beyond generated config/logs |
 
 Each process must run in its own working directory. Query Manager initializes SQLite from `sqlite/schema.sql`, then applies the synthetic seed patch once. Game and Login authenticate to Query Manager with a random generated shared secret. Game reads `.tibia`; Login and Query Manager read `config.cfg`.
 
@@ -28,7 +28,15 @@ wsl.exe -d Ubuntu-26.04 -- bash /mnt/c/Users/dell/Desktop/fusion32/scripts/serve
 wsl.exe -d Ubuntu-26.04 -- bash /mnt/c/Users/dell/Desktop/fusion32/scripts/server/stop_wsl.sh /mnt/c/Users/dell/Desktop/fusion32
 ```
 
-`prepare_wsl.sh` refuses to overwrite an existing runtime. `reset_wsl.sh` validates the exact `/tmp/fusion32-server-baseline-772-$UID` target, stops services, removes only that generated tree, then prepares it again. Reset deliberately destroys local test passwords, keys and state and creates replacements. The runtime is deliberately WSL-native: DrvFs did not enforce POSIX secret modes.
+`prepare_wsl.sh` refuses to overwrite an existing runtime. `reset_wsl.sh` validates the exact `/var/lib/fusion32-server-baseline-772-$UID` target, stops services, removes only that generated tree, then prepares it again. Reset deliberately destroys local test passwords, keys and state and creates replacements. The runtime is deliberately WSL-native: DrvFs did not enforce POSIX secret modes.
+
+### Why `/var/lib` and not `/tmp`
+
+The runtime lived under `/tmp` until 2026-09-19. On this distribution `/tmp` is a `tmpfs` mount, so the tree was held in RAM and destroyed every time WSL stopped the distribution — which happens on its own once the last process exits. Discarding a runtime is supposed to be a decision `reset_wsl.sh` makes, not something an idle timeout does.
+
+The loss was silent and it was not free. Every unplanned wipe destroyed the SQLite database, so both characters were recreated at level 1 and `TALK_YELL` went back to being refused; it destroyed the generated credentials, since `prepare_wsl.sh` mints fresh random passwords on every run; and it forced a full recompilation of all three binaries. A level-2 bump applied on 2026-09-18 was found gone on 2026-09-19 for exactly this reason, along with the backup file taken to protect it.
+
+`/var/lib` is on the distribution's ext4 disk and survives shutdown. The runtime stays WSL-native, so the POSIX mode argument above is unaffected, and roughly a gigabyte of reference data stops occupying RAM on an 11.8 GB machine.
 
 Startup order is Query Manager, Game, Login. Game opens its socket before it is ready; the start script therefore waits for the proven map-load marker rather than treating port `7172` as readiness. On error, it attempts a clean rollback. Shutdown uses `SIGTERM` for Login and Query Manager, and `SIGINT` for Game so the disposable smoke environment does not persist map mutations.
 

@@ -72,7 +72,7 @@ Selection status: `PASS` under independent static review for immutable candidate
 - artifact: `tibia-game.tarball.tar.gz`
 - SHA-256: `67B771D1E3B4A6EF48C554B9B8B0DB56DA39CAE6B0DE5444F7BF6E71C0B2DE8E`
 - classification: `HISTORICAL_DATA` containing candidate required references, `SENSITIVE` data, and `LEGACY_BINARY_DO_NOT_EXECUTE`
-- status: bounded reference data is materialized only into disposable WSL-native `/tmp/fusion32-server-baseline-772-$UID` by `scripts/server/prepare_wsl.sh`; historical accounts, logs, dotfiles, backups, credentials, private keys and binaries are excluded
+- status: bounded reference data is materialized only into WSL-native `/var/lib/fusion32-server-baseline-772-$UID` by `scripts/server/prepare_wsl.sh`, discarded by `reset_wsl.sh` and by nothing else; historical accounts, logs, dotfiles, backups, credentials, private keys and binaries are excluded
 - sanitized state: new SQLite database; synthetic accounts/characters; fresh shared 1024-bit RSA key; writable map copied from `origmap`; generated configs and credentials
 - evidence: `docs/RUNTIME_DATA_PROVENANCE.md` and `evidence/runtime/SERVER-RUNTIME-SMOKE-001.md`
 - repository status: `HISTORICAL_DATA` archive remains untracked; generated runtime and all secrets remain outside the repository

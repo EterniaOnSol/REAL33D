@@ -1,6 +1,10 @@
 # Preserve upstream reference bytes across Windows checkouts.
 /reference/** text eol=lf
 /tests/*.sh text eol=lf
+
+# Seeded character save files. Game writes these with LF and reads them back
+# itself, so a Windows checkout must not hand it CRLF.
+/tests/fixtures/usr/*.usr text eol=lf
 /evidence/build/*.log text eol=lf
 *.md text eol=lf
 *.sh text eol=lf

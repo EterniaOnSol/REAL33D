@@ -2,7 +2,7 @@
 set -euo pipefail
 
 workspace="$(realpath "${1:?usage: status_wsl.sh /mnt/c/path/to/fusion32}")"
-runtime="/tmp/fusion32-server-baseline-772-${UID}"
+runtime="/var/lib/fusion32-server-baseline-772-${UID}"
 failed=0
 
 check_process() {

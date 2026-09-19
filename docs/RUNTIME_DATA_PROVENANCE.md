@@ -3,7 +3,7 @@
 Source archive: `tibia-game.tarball.tar.gz`
 Revalidated SHA-256: `67B771D1E3B4A6EF48C554B9B8B0DB56DA39CAE6B0DE5444F7BF6E71C0B2DE8E`
 
-The archive remains untouched. Before extraction, `prepare_wsl.sh` requires the exact expected archive hash above. It asks `tar` for only the following bounded paths and materializes them below WSL-native `/tmp/fusion32-server-baseline-772-$UID/game/reference`.
+The archive remains untouched. Before extraction, `prepare_wsl.sh` requires the exact expected archive hash above. It asks `tar` for only the following bounded paths and materializes them below WSL-native `/var/lib/fusion32-server-baseline-772-$UID/game/reference`.
 
 | Source | Files | Destination | Why required | Classification / sanitization |
 | --- | ---: | --- | --- | --- |
@@ -16,4 +16,4 @@ The preparation-time manifest contains 10,453 file hashes. Its independently rec
 
 `game/reference/dat/owners.dat` may be created by Game during clean shutdown. It is generated disposable runtime state, not an extracted historical file, and is absent from the provenance manifest and fresh preparation.
 
-Explicitly excluded: archive `usr/`, accounts/passwords, logs, histories, backups, SSH/dotfiles, legacy configs and credentials, historical PEM/private keys, all archived executables and the mutable historical `map/`. No legacy binary is executed. The writable map starts as a copy of `origmap`; 100 empty user shard directories are created from scratch.
+Explicitly excluded: archive `usr/`, accounts/passwords, logs, histories, backups, SSH/dotfiles, legacy configs and credentials, historical PEM/private keys, all archived executables and the mutable historical `map/`. No legacy binary is executed. The writable map starts as a copy of `origmap`; 100 empty user shard directories are created from scratch. Two of them then receive `tests/fixtures/usr/{1001,1002}.usr`, the save files for the synthetic characters. Those are generated test data authored by this repository, not extracted history: they were produced by logging the two seeded characters in once and running `scripts/server/bump_level2_wsl.sh`, and they exist so `TALK_YELL`, which `receiving.cc::CTalk` refuses below level 2, is reachable on a fresh runtime.

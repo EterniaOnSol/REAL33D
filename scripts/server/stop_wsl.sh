@@ -2,7 +2,7 @@
 set -euo pipefail
 
 workspace="$(realpath "${1:?usage: stop_wsl.sh /mnt/c/path/to/fusion32}")"
-runtime="/tmp/fusion32-server-baseline-772-${UID}"
+runtime="/var/lib/fusion32-server-baseline-772-${UID}"
 
 stop_one() {
   local name="$1" signal="$2"

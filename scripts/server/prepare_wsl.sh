@@ -2,7 +2,7 @@
 set -euo pipefail
 
 workspace="$(realpath "${1:?usage: prepare_wsl.sh /mnt/c/path/to/fusion32}")"
-runtime="/tmp/fusion32-server-baseline-772-${UID}"
+runtime="/var/lib/fusion32-server-baseline-772-${UID}"
 archive="$workspace/tibia-game.tarball.tar.gz"
 umask 077
 
@@ -55,6 +55,20 @@ tar -xzf "$archive" -C "$runtime/game/reference" \
 
 cp -a "$runtime/game/reference/origmap/." "$runtime/game/state/map/"
 for n in $(seq -w 0 99); do mkdir -p "$runtime/game/state/usr/$n"; done
+
+# The two synthetic characters are seeded at level 2 instead of being born at
+# level 1. `receiving.cc::CTalk` refuses TALK_YELL below level 2, so without
+# this the yell path cannot be exercised at all and every fresh runtime silently
+# reopened the same defect.
+#
+# TEST DATA, not 7.72 parity. The values are the ones Fusion32 itself writes at
+# `crplayer.cc:162-168`; `scripts/server/bump_level2_wsl.sh` documents the field
+# mapping and produced these files. Seeding also means first login skips
+# Outfitwahl, which the Unreal client does not implement.
+test -f "$workspace/tests/fixtures/usr/1001.usr"
+test -f "$workspace/tests/fixtures/usr/1002.usr"
+install -m 600 "$workspace/tests/fixtures/usr/1001.usr" "$runtime/game/state/usr/01/1001.usr"
+install -m 600 "$workspace/tests/fixtures/usr/1002.usr" "$runtime/game/state/usr/02/1002.usr"
 
 cp "$workspace/reference/querymanager/sqlite/schema.sql" "$runtime/querymanager/sqlite/schema.sql"
 

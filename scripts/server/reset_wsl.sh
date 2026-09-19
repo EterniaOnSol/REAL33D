@@ -2,12 +2,12 @@
 set -euo pipefail
 
 workspace="$(realpath "${1:?usage: reset_wsl.sh /mnt/c/path/to/fusion32}")"
-runtime="/tmp/fusion32-server-baseline-772-${UID}"
+runtime="/var/lib/fusion32-server-baseline-772-${UID}"
 
 test -f "$workspace/AGENTS.md"
 test -d "$workspace/reference/game"
 case "$runtime" in
-  "/tmp/fusion32-server-baseline-772-${UID}") ;;
+  "/var/lib/fusion32-server-baseline-772-${UID}") ;;
   *) echo "Refusing unsafe reset target: $runtime" >&2; exit 2 ;;
 esac
 

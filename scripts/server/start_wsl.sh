@@ -2,7 +2,7 @@
 set -euo pipefail
 
 workspace="$(realpath "${1:?usage: start_wsl.sh /mnt/c/path/to/fusion32}")"
-runtime="/tmp/fusion32-server-baseline-772-${UID}"
+runtime="/var/lib/fusion32-server-baseline-772-${UID}"
 umask 077
 
 start_one() {

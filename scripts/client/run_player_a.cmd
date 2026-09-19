@@ -19,7 +19,7 @@ setlocal
 
 set "ROOT=%~dp0..\.."
 set "RUNTIME=%~1"
-if "%RUNTIME%"=="" set "RUNTIME=\\wsl.localhost\Ubuntu-26.04\tmp\fusion32-server-baseline-772-0"
+if "%RUNTIME%"=="" set "RUNTIME=\\wsl.localhost\Ubuntu-26.04\var\lib\fusion32-server-baseline-772-0"
 
 set "APP=%ROOT%\build\classic-client-772\app"
 set "IPC=%ROOT%\build\ipchanger"

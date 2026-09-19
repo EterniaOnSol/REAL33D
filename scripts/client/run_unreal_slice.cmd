@@ -19,7 +19,7 @@ set "ACCOUNT=%~1"
 if "%ACCOUNT%"=="" set "ACCOUNT=B"
 
 set "RUNTIME=%~2"
-if "%RUNTIME%"=="" set "RUNTIME=\\wsl.localhost\Ubuntu-26.04\tmp\fusion32-server-baseline-772-0"
+if "%RUNTIME%"=="" set "RUNTIME=\\wsl.localhost\Ubuntu-26.04\var\lib\fusion32-server-baseline-772-0"
 
 set "ENGINE=C:\Program Files\Epic Games\UE_5.8"
 set "EDITOR=%ENGINE%\Engine\Binaries\Win64\UnrealEditor.exe"

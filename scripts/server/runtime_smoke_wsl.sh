@@ -2,7 +2,7 @@
 set -euo pipefail
 
 workspace="$(realpath "${1:?usage: runtime_smoke_wsl.sh /mnt/c/path/to/fusion32}")"
-runtime="/tmp/fusion32-server-baseline-772-${UID}"
+runtime="/var/lib/fusion32-server-baseline-772-${UID}"
 
 expected_data_manifest_sha256='bb7f3dc393d8686ed89b3949d7fc5f6086d7b49810b54b7f9403e560b2e7acb5'
 expected_game_sha256='e0e96b863fb3fa061501e1eb59c6bac456733676a15e11f245c6b04505e817c7'
