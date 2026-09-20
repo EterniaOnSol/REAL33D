@@ -23,7 +23,7 @@ public class REAL33D : ModuleRules
 		// part of this project's presentation, so it carries no .uasset and no
 		// binary input asset. See SReal33DChatPanel and Real33DPlayerController.
 		PublicDependencyModuleNames.AddRange(new string[] {
-			"Core", "CoreUObject", "Engine", "InputCore", "Slate", "SlateCore"
+			"Core", "CoreUObject", "Engine", "InputCore", "Json", "Slate", "SlateCore"
 		});
 
 		// clientcore/ lives four directories up from Source/REAL33D.

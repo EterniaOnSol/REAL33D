@@ -1,0 +1,67 @@
+{
+  "schema": "real33d.experimental-v08-ingest-report.v1",
+  "milestone": "VISUAL-FULL-CATALOG-INGEST-TEST-001",
+  "test_only": true,
+  "approved": false,
+  "ready": false,
+  "production_integrated": false,
+  "source": {
+    "repository": "leodavidsoto/3DTIBIA",
+    "origin": "https://github.com/leodavidsoto/3DTIBIA.git",
+    "branch": "carril/ORQUESTADOR",
+    "commit": "21fafb57dd86b594223bab7dbe9076d1fa380640",
+    "catalog": "worklog/ORQUESTADOR/generaciones_assets/refinamiento_en_curso_v8/manifest.json",
+    "catalog_sha256": "0bedff089f2de9d6ec10a64264e2c53e013f167cf901d360a418fc53c95171e9",
+    "package_manifest": "worklog/ORQUESTADOR/generaciones_assets/MANIFIESTO.json",
+    "package_manifest_sha256": "07ec820022643d921cbb1ffc84fa80d3b71e24662a84c1b70ac9cd093ae71bcf"
+  },
+  "counts": {
+    "CATALOG_TOTAL": 4913,
+    "GLB_COUNT": 4913,
+    "MODEL_RESOLVED": 4913,
+    "IMPORTED_OK": 4913,
+    "IMPORT_FAILED": 0,
+    "NO_MODEL": 0,
+    "NOT_ATTEMPTED": 0,
+    "TEST_WARNING": 4913,
+    "NEEDS_ASSEMBLY": 12,
+    "TOTAL_SOURCE_GLB_SIZE": 485747980,
+    "UNREAL_IMPORTED_ASSET_COUNT": 15466,
+    "UNREAL_IMPORTED_SIZE": 1236082846,
+    "ESTIMATED_GIT_LFS_SIZE": 1236082846
+  },
+  "by_refinement_status": {
+    "IN_REVIEW": 599,
+    "NEEDS_ASSEMBLY": 12,
+    "PENDING": 4126,
+    "REFINED": 54,
+    "RETAINED_REFERENCE": 122
+  },
+  "by_geometry_quality": {
+    "APPROVED_PILOT_REFERENCE": 60,
+    "FAMILY_RECIPE": 2399,
+    "PROVISIONAL_SPRITE_RELIEF": 2454
+  },
+  "technical_warning_types": {
+    "DEGENERATE_UV_TRIANGLES": 4397,
+    "ZERO_AREA_TRIANGLES": 2272,
+    "PIVOT_NOT_AT_FLOOR": 1253,
+    "VERY_FLAT": 19
+  },
+  "import_warning_types": {
+    "IMPORTED_PIVOT_NOT_AT_FLOOR": 1253,
+    "IMPORTED_VERY_FLAT": 19
+  },
+  "all_warning_types": {
+    "ASSEMBLY_UNRESOLVED": 4913,
+    "DEGENERATE_UV_TRIANGLES": 4397,
+    "PROVISIONAL_SPRITE_RELIEF": 2454,
+    "FAMILY_RECIPE": 2399,
+    "ZERO_AREA_TRIANGLES": 2272,
+    "PIVOT_NOT_AT_FLOOR": 1253,
+    "IMPORTED_PIVOT_NOT_AT_FLOOR": 1253,
+    "VERY_FLAT": 19,
+    "IMPORTED_VERY_FLAT": 19
+  },
+  "failures": []
+}

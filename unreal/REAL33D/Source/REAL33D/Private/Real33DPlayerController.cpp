@@ -4,6 +4,8 @@
 #include "Engine/GameInstance.h"
 #include "Engine/GameViewportClient.h"
 #include "EngineUtils.h"
+#include "Misc/CommandLine.h"
+#include "Misc/Parse.h"
 #include "REAL33D.h"
 #include "Real33DBridge.h"
 #include "Real33DChatPanel.h"
@@ -21,6 +23,10 @@ AReal33DPlayerController::AReal33DPlayerController()
 void AReal33DPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
+	if (FParse::Param(FCommandLine::Get(), TEXT("real33d-gallery")))
+	{
+		return;
+	}
 
 	if (GEngine == nullptr || GetWorld() == nullptr
 		|| GetWorld()->GetGameViewport() == nullptr)

@@ -20,8 +20,8 @@
  * swap happens here alone: no change to Protocol772Core, no change to the
  * actors, no change to gameplay, because there is none.
  *
- * Until an approved asset exists for an identity, the registry answers with a
- * placeholder and says so. That is a resolution, not a failure.
+ * Only TypeId 3501 currently has an approved mesh. All other identities
+ * resolve to a placeholder, including the visually distinct TypeId 3508.
  */
 
 UENUM()
@@ -45,7 +45,7 @@ struct FReal33DVisual
 	UPROPERTY()
 	TObjectPtr<UMaterialInterface> Material = nullptr;
 
-	/** Scale applied to the engine primitive so it occupies one field. */
+	/** Presentation scale; imported production meshes arrive in Unreal units. */
 	UPROPERTY()
 	FVector Scale = FVector::OneVector;
 
@@ -59,6 +59,44 @@ struct FReal33DVisual
 	/** False once an approved asset from the visual pipeline backs this identity. */
 	UPROPERTY()
 	bool bIsPlaceholder = true;
+
+	/** True only for the command-line-gated V08 QA catalog. Never approval. */
+	UPROPERTY()
+	bool bIsExperimental = false;
+};
+
+/** One row of the local-only V08 QA catalog. */
+USTRUCT()
+struct FReal33DExperimentalCatalogEntry
+{
+	GENERATED_BODY()
+
+	UPROPERTY()
+	uint16 TypeId = 0;
+
+	UPROPERTY()
+	FString Name;
+
+	UPROPERTY()
+	FString Category;
+
+	UPROPERTY()
+	FString RefinementStatus;
+
+	UPROPERTY()
+	FString GeometryQuality;
+
+	UPROPERTY()
+	FString Generation;
+
+	UPROPERTY()
+	FString ImportStatus;
+
+	UPROPERTY()
+	FString MeshPath;
+
+	UPROPERTY()
+	FString Warnings;
 };
 
 UCLASS()
@@ -83,8 +121,16 @@ public:
 
 	bool IsReady() const { return bReady; }
 
+	bool IsExperimentalCatalogEnabled() const { return bExperimentalCatalogEnabled; }
+	const TArray<FReal33DExperimentalCatalogEntry>& GetExperimentalCatalog() const
+	{
+		return ExperimentalCatalog;
+	}
+
 private:
 	FReal33DVisual MakePlaceholder(EReal33DVisualKind Kind) const;
+	void LoadExperimentalCatalog();
+	bool TryResolveExperimental(uint16 TypeId, FReal33DVisual& OutVisual) const;
 
 	UPROPERTY()
 	TObjectPtr<UStaticMesh> PlaneMesh = nullptr;
@@ -97,6 +143,19 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UMaterialInterface> BaseMaterial = nullptr;
+
+	/** Artist-approved mailbox for Fusion32 object TypeId 3501 only. */
+	UPROPERTY()
+	TObjectPtr<UStaticMesh> Mailbox3501Mesh = nullptr;
+
+	/** One-shot, command-line-gated screenshot for the live acceptance run. */
+	mutable bool bMailbox3501EvidenceRequested = false;
+
+	UPROPERTY()
+	TArray<FReal33DExperimentalCatalogEntry> ExperimentalCatalog;
+
+	TMap<uint16, int32> ExperimentalCatalogById;
+	bool bExperimentalCatalogEnabled = false;
 
 	bool bReady = false;
 };

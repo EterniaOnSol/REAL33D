@@ -1,0 +1,55 @@
+# V08 full catalog local ingest report
+
+`TEST_IMPORTED != APPROVED != READY != production INTEGRATED`.
+
+## Counts
+
+| Metric | Value |
+|---|---:|
+| CATALOG_TOTAL | 4913 |
+| GLB_COUNT | 4913 |
+| MODEL_RESOLVED | 4913 |
+| IMPORTED_OK | 4913 |
+| IMPORT_FAILED | 0 |
+| NO_MODEL | 0 |
+| NOT_ATTEMPTED | 0 |
+| TEST_WARNING | 4913 |
+| NEEDS_ASSEMBLY | 12 |
+| TOTAL_SOURCE_GLB_SIZE | 485747980 |
+| UNREAL_IMPORTED_ASSET_COUNT | 15466 |
+| UNREAL_IMPORTED_SIZE | 1236082846 |
+| ESTIMATED_GIT_LFS_SIZE | 1236082846 |
+
+## Refinement state
+
+| State | Records |
+|---|---:|
+| IN_REVIEW | 599 |
+| NEEDS_ASSEMBLY | 12 |
+| PENDING | 4126 |
+| REFINED | 54 |
+| RETAINED_REFERENCE | 122 |
+
+## Geometry quality
+
+| Quality | Records |
+|---|---:|
+| APPROVED_PILOT_REFERENCE | 60 |
+| FAMILY_RECIPE | 2399 |
+| PROVISIONAL_SPRITE_RELIEF | 2454 |
+
+## Technical warnings
+
+- `DEGENERATE_UV_TRIANGLES`: 4397
+- `ZERO_AREA_TRIANGLES`: 2272
+- `PIVOT_NOT_AT_FLOOR`: 1253
+- `VERY_FLAT`: 19
+
+## Import warnings
+
+- `IMPORTED_PIVOT_NOT_AT_FLOOR`: 1253
+- `IMPORTED_VERY_FLAT`: 19
+
+## Failures
+
+- None

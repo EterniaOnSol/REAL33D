@@ -62,3 +62,8 @@ CMakeFiles/
 /unreal/**/.vs/
 /unreal/**/.vscode/
 /unreal/**/.idea/
+
+# Local-only output of VISUAL-FULL-CATALOG-INGEST-TEST-001. The text manifest,
+# scripts and reports remain reviewable; thousands of experimental .uasset
+# files stay outside Git until their LFS cost receives separate approval.
+/unreal/REAL33D/Content/Experimental/V08/

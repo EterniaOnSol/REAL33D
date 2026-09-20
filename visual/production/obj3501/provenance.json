@@ -1,0 +1,55 @@
+{
+  "schema": "real33d.visual.production.v1",
+  "identity": "obj:3501",
+  "name": "a mailbox",
+  "approval": {
+    "scope": "model for obj:3501 only",
+    "decision": "APPROVED",
+    "authority": "project owner visual decision, 2026-09-20",
+    "excludes": ["obj:3508", "all other TypeIds"]
+  },
+  "artist_source": {
+    "repository": "https://github.com/leodavidsoto/3DTIBIA.git",
+    "branch": "carril/ORQUESTADOR",
+    "commit": "21fafb57dd86b594223bab7dbe9076d1fa380640",
+    "first_model_generation": "piloto_60_3d_v3",
+    "catalogue_generation": "refinamiento_en_curso_v8",
+    "catalogue_classification": "RETAINED_REFERENCE",
+    "catalogue_new_v08_refinement": false,
+    "source_glb": "worklog/ORQUESTADOR/generaciones_assets/piloto_completo_4913/models/03501.glb",
+    "source_glb_sha256": "ff172ce12b191920ad3767643eadc439fa56a15bf23c534810e9c8c7105316c6",
+    "same_bytes_in": [
+      "worklog/ORQUESTADOR/generaciones_assets/piloto_60_3d_v3/models/03501_mailbox.glb",
+      "worklog/ORQUESTADOR/generaciones_assets/produccion_1544_sprites_v4/models/03501_mailbox.glb"
+    ],
+    "source_blend_reference": "worklog/ORQUESTADOR/generaciones_assets/produccion_1544_sprites_v4/sources/approved_pilot.blend",
+    "source_blend_sha256": "73b467a4de2f7bc90267609f2dfc6a35e3c680fce2b45e4a62f43794d8325eb5",
+    "source_sprite_reference": "worklog/ORQUESTADOR/generaciones_assets/items_desglosados/03501_mailbox/item.png",
+    "source_sprite_sha256": "ce7c95fbe305feb3bd25edfc4a70aac7da41f8ff87e37ed186cb8835a8e95566"
+  },
+  "production_glb": "visual/production/obj3501/export/decoration_bottom_overlay_obj3501_mailbox.glb",
+  "production_glb_sha256": "ff172ce12b191920ad3767643eadc439fa56a15bf23c534810e9c8c7105316c6",
+  "technical": {
+    "source_unit": "1 tile = 1 metre",
+    "real33d_unit": "1 tile = 100 Unreal Units",
+    "source_up_axis": "+Y (glTF)",
+    "unreal_up_axis": "+Z",
+    "expected_unreal_bounds_uu": {
+      "min": [-33.0, -32.5, 0.0],
+      "max": [33.0, 32.5, 136.5]
+    },
+    "source_index_triangles": 1216,
+    "source_zero_area_triangles": 24,
+    "unreal_nanite_triangles": 1192,
+    "unreal_generated_fallback_triangles": 598,
+    "expected_material_slots": 2,
+    "pivot": "centre of 66 x 65 UU footprint, on floor Z=0"
+  },
+  "unreal": {
+    "engine": "5.8.2",
+    "import_script": "visual/tools/import_obj3501_unreal.py",
+    "mesh_package": "/Game/Visual/obj3501/decoration_bottom_overlay_obj3501_mailbox/StaticMeshes/decoration_bottom_overlay_obj3501_mailbox",
+    "runtime_lookup": "UReal33DAssetRegistry::ResolveThing(TypeId=3501)"
+  },
+  "provenance_note": "The project owner identified the model as artist-delivered and approved only this model for REAL33D. The shared Blender batch and original 7.72 sprite remain external references; neither is bundled as a separate file. No independent license determination is asserted."
+}

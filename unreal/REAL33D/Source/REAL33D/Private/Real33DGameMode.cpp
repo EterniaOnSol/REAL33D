@@ -8,6 +8,9 @@
 #include "Components/SkyAtmosphereComponent.h"
 #include "EngineUtils.h"
 #include "REAL33D.h"
+#include "Misc/CommandLine.h"
+#include "Misc/Parse.h"
+#include "Real33DGalleryActor.h"
 #include "Real33DPlayerController.h"
 #include "Real33DWorldActor.h"
 
@@ -56,7 +59,13 @@ void AReal33DGameMode::StartPlay()
 	UWorld* World = GetWorld();
 	if (World != nullptr)
 	{
-		bool bHasWorldActor = false;
+		const bool bGallery = FParse::Param(FCommandLine::Get(), TEXT("real33d-gallery"));
+		bool bHasWorldActor = bGallery;
+		if (bGallery)
+		{
+			World->SpawnActor<AReal33DGalleryActor>(AReal33DGalleryActor::StaticClass(),
+				FVector::ZeroVector, FRotator::ZeroRotator);
+		}
 		for (TActorIterator<AReal33DWorld> It(World); It; ++It)
 		{
 			bHasWorldActor = true;
