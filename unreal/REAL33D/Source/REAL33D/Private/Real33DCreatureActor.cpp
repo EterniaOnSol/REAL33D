@@ -6,15 +6,9 @@
 
 namespace
 {
-	/**
-	 * How fast the drawn position catches up with the logical one.
-	 *
-	 * A step in Fusion32 takes at least a few hundred milliseconds, so easing
-	 * over roughly a sixth of a second stays well inside one step and cannot
-	 * make the body lag a whole field behind. This is presentation only: the
-	 * logical position has already changed by the time this runs.
-	 */
-	constexpr double InterpolationRate = 6.0;
+	/** Constant visual travel avoids a deceleration and restart at each tile. */
+	constexpr double WalkVisualSpeed = 220.0; // Unreal units per second
+	constexpr double WalkBobHeight = 3.0;
 
 	/**
 	 * Speech height in world units at the reference camera distance.
@@ -143,7 +137,8 @@ void AReal33DCreature::Configure(uint32 InCreatureId, bool bInIsLocalPlayer,
 		const FReal33DVisual Visual = Registry->ResolveCreature(InCreatureId, bIsLocalPlayer);
 		Body->SetStaticMesh(Visual.Mesh);
 		Body->SetRelativeScale3D(Visual.Scale);
-		Body->SetRelativeLocation(Visual.Offset);
+		BodyBaseOffset = Visual.Offset;
+		Body->SetRelativeLocation(BodyBaseOffset);
 		if (Visual.Material != nullptr)
 		{
 			UMaterialInstanceDynamic* Dynamic =
@@ -218,9 +213,15 @@ void AReal33DCreature::Tick(float DeltaSeconds)
 
 	if (!bPlaced || DrawnLocation.Equals(TargetLocation, 0.05))
 	{
+		Body->SetRelativeLocation(BodyBaseOffset);
 		return;
 	}
-	DrawnLocation = FMath::VInterpTo(DrawnLocation, TargetLocation, DeltaSeconds,
-		InterpolationRate);
+	const FVector Previous = DrawnLocation;
+	DrawnLocation = FMath::VInterpConstantTo(DrawnLocation, TargetLocation,
+		DeltaSeconds, WalkVisualSpeed);
 	SetActorLocation(DrawnLocation);
+	WalkPhase += FVector::Dist2D(Previous, DrawnLocation)
+		/ Real33D::UnitsPerSqm * 2.0 * PI;
+	Body->SetRelativeLocation(BodyBaseOffset + FVector(0.0, 0.0,
+		WalkBobHeight * FMath::Sin(WalkPhase)));
 }

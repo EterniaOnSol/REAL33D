@@ -205,6 +205,7 @@ void AReal33DWorld::ClearWorld()
 	}
 	Creatures.Reset();
 	LocalCreatureId = 0;
+	bFloorVisibilityDirty = true;
 	// Speech attached to a creature died with its actor above. The transcript
 	// is the other half and the bridge clears it on the same disconnect, so a
 	// reconnect inherits nothing the previous session was saying.
@@ -341,6 +342,7 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 
 	case EReal33DEventKind::LocalPlayerIdentified:
 		LocalCreatureId = Event.CreatureId;
+		bFloorVisibilityDirty = true;
 		UE_LOG(LogReal33D, Log, TEXT("local player is creature %u"), Event.CreatureId);
 		break;
 
@@ -375,6 +377,7 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 			++TilesSpawned;
 		}
 		Tile->ApplyStack(Event.Things, Registry);
+		bFloorVisibilityDirty = true;
 		break;
 	}
 
@@ -389,6 +392,7 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 			}
 			++TilesRemoved;
 		}
+		bFloorVisibilityDirty = true;
 		break;
 	}
 
@@ -426,6 +430,7 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 		Creature->SetFacing(Event.Direction);
 		Creatures.Add(Event.CreatureId, Creature);
 		++CreaturesAppeared;
+		bFloorVisibilityDirty = true;
 		break;
 	}
 
@@ -445,6 +450,7 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 		(*Found)->SetFacing(Event.Direction);
 		(*Found)->CommitPosition(Origin, Event.Position, /*bSnap=*/false);
 		++CreatureMoves;
+		bFloorVisibilityDirty = true;
 		break;
 	}
 
@@ -459,9 +465,52 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 			}
 			++CreaturesVanished;
 		}
+		bFloorVisibilityDirty = true;
 		break;
 	}
 	}
+}
+
+void AReal33DWorld::UpdateFloorVisibility()
+{
+	if (!bFloorVisibilityDirty) return;
+	const AReal33DCreature* Local = GetLocalPlayer();
+	if (Local == nullptr) return;
+	const Real33D::FMapPosition& Position = Local->GetLogicalPosition();
+	const bool bCovered = Position.Z > 0
+		&& Tiles.Contains(FIntVector(Position.X, Position.Y, Position.Z - 1))
+		&& Tiles[FIntVector(Position.X, Position.Y, Position.Z - 1)]
+		&& Tiles[FIntVector(Position.X, Position.Y, Position.Z - 1)]->HasCoveringContent();
+	int32 HiddenTiles = 0;
+	for (TPair<FIntVector, TObjectPtr<AReal33DTile>>& Pair : Tiles)
+	{
+		if (Pair.Value)
+		{
+			const bool bHide = bCovered && Pair.Key.Z < Position.Z;
+			Pair.Value->SetFloorVisible(!bHide);
+			HiddenTiles += bHide ? 1 : 0;
+		}
+	}
+	for (TPair<uint32, TObjectPtr<AReal33DCreature>>& Pair : Creatures)
+	{
+		if (Pair.Value)
+		{
+			Pair.Value->SetActorHiddenInGame(
+				bCovered && Pair.Value->GetLogicalPosition().Z < Position.Z);
+		}
+	}
+	bFloorVisibilityDirty = false;
+	UE_LOG(LogReal33D, Log, TEXT("floor visibility: player floor %d covered=%s hidden upper tiles=%d"),
+		Position.Z, bCovered ? TEXT("true") : TEXT("false"), HiddenTiles);
+}
+
+uint8 AReal33DWorld::CameraRelativeDirection(uint8 RelativeDirection) const
+{
+	const FVector Forward = FRotator(0.0f, CameraYaw, 0.0f).Vector();
+	const uint8 Cardinal = FMath::Abs(Forward.X) >= FMath::Abs(Forward.Y)
+		? (Forward.X >= 0.0 ? 1 : 3)
+		: (Forward.Y >= 0.0 ? 2 : 0);
+	return static_cast<uint8>((Cardinal + RelativeDirection) % 4);
 }
 
 void AReal33DWorld::UpdateCamera(float DeltaSeconds)
@@ -608,6 +657,7 @@ void AReal33DWorld::Tick(float DeltaSeconds)
 		}
 	}
 
+	UpdateFloorVisibility();
 	UpdateCamera(DeltaSeconds);
 	DrawOverlay();
 }

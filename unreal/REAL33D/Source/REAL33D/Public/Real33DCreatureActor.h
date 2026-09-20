@@ -93,6 +93,8 @@ private:
 	/** Where the body is drawn while it catches up with the logical position. */
 	FVector DrawnLocation = FVector::ZeroVector;
 	FVector TargetLocation = FVector::ZeroVector;
+	FVector BodyBaseOffset = FVector::ZeroVector;
+	double WalkPhase = 0.0;
 
 	uint32 CreatureId = 0;
 	bool bIsLocalPlayer = false;

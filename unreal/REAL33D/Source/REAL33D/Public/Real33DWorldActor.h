@@ -33,6 +33,7 @@ public:
 
 	/** The creature this client controls, once Fusion32 has identified it. */
 	AReal33DCreature* GetLocalPlayer() const;
+	const UReal33DAssetRegistry* GetAssetRegistry() const { return Registry; }
 
 	/** Writes the machine-readable evidence file for the acceptance run. */
 	void WriteEvidence(const FString& Reason);
@@ -52,6 +53,9 @@ public:
 
 	/** Pulls the view back or pushes it in. Positive pulls back. */
 	void AddCameraDistance(float Delta);
+
+	/** Maps W/D/S/A to the nearest server cardinal direction at the current camera yaw. */
+	uint8 CameraRelativeDirection(uint8 RelativeDirection) const;
 
 private:
 	/** Rebuilds the camera's relative transform from yaw, pitch and distance. */
@@ -88,6 +92,7 @@ private:
 	void JournalMovement(const FReal33DEvent& Event);
 	void ClearWorld();
 	void UpdateCamera(float DeltaSeconds);
+	void UpdateFloorVisibility();
 	void DrawOverlay();
 
 	UPROPERTY()
@@ -108,6 +113,7 @@ private:
 	Real33D::FWorldOrigin Origin;
 
 	uint32 LocalCreatureId = 0;
+	bool bFloorVisibilityDirty = true;
 	bool bConnected = false;
 
 	/** Last thing the client core said it could not consume, verbatim. */

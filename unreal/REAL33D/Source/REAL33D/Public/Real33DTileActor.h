@@ -24,9 +24,11 @@ public:
 
 	/** Rebuilds the stack. Game thread only. */
 	void ApplyStack(const TArray<FReal33DThing>& Things, const UReal33DAssetRegistry* Registry);
+	void SetFloorVisible(bool bVisible);
 
 	const Real33D::FMapPosition& GetMapPosition() const { return MapPosition; }
 	void SetMapPosition(const Real33D::FMapPosition& Position) { MapPosition = Position; }
+	bool HasCoveringContent() const { return bHasCoveringContent; }
 
 private:
 	void ClearComponents();
@@ -38,4 +40,6 @@ private:
 	TArray<TObjectPtr<UStaticMeshComponent>> StackComponents;
 
 	Real33D::FMapPosition MapPosition;
+	bool bHasCoveringContent = false;
+	bool bFloorVisible = true;
 };

@@ -28,6 +28,11 @@ void AReal33DTile::ApplyStack(const TArray<FReal33DThing>& Things,
 {
 	check(IsInGameThread());
 	ClearComponents();
+	// An empty/void tile above the player is not a roof.
+	bHasCoveringContent = Things.ContainsByPredicate([](const FReal33DThing& Thing)
+	{
+		return !Thing.bIsCreature && Thing.TypeId != 0 && Thing.TypeId != 100;
+	});
 	if (Registry == nullptr || !Registry->IsReady())
 	{
 		return;
@@ -63,9 +68,21 @@ void AReal33DTile::ApplyStack(const TArray<FReal33DThing>& Things,
 		Component->SetupAttachment(Root);
 		Component->RegisterComponent();
 		Component->SetStaticMesh(Visual.Mesh);
-		Component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		if (Visual.bIsExperimental)
+		{
+			// QA picking only: the inspector traces imported mesh geometry.
+			Component->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+			Component->SetCollisionResponseToAllChannels(ECR_Ignore);
+			Component->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
+			Component->ComponentTags.Add(FName(*FString::Printf(TEXT("V08_%u"), Thing.TypeId)));
+		}
+		else
+		{
+			Component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		}
 		Component->SetCastShadow(!bIsGround);
 		Component->SetRelativeScale3D(Visual.Scale);
+		Component->SetRelativeRotation(Visual.Rotation);
 		Component->SetRelativeLocation(Visual.Offset);
 
 		if (Visual.Material != nullptr)
@@ -80,5 +97,20 @@ void AReal33DTile::ApplyStack(const TArray<FReal33DThing>& Things,
 		}
 		StackComponents.Add(Component);
 		++Index;
+	}
+	SetFloorVisible(bFloorVisible);
+}
+
+void AReal33DTile::SetFloorVisible(bool bVisible)
+{
+	bFloorVisible = bVisible;
+	SetActorHiddenInGame(!bVisible);
+	SetActorEnableCollision(bVisible);
+	for (const TObjectPtr<UStaticMeshComponent>& Component : StackComponents)
+	{
+		if (!Component) continue;
+		Component->SetVisibility(bVisible);
+		Component->SetCollisionEnabled(bVisible && !Component->ComponentTags.IsEmpty()
+			? ECollisionEnabled::QueryOnly : ECollisionEnabled::NoCollision);
 	}
 }

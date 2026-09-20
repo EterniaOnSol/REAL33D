@@ -49,6 +49,10 @@ struct FReal33DVisual
 	UPROPERTY()
 	FVector Scale = FVector::OneVector;
 
+	/** Presentation rotation for a resolved mesh. */
+	UPROPERTY()
+	FRotator Rotation = FRotator::ZeroRotator;
+
 	/** Offset from the field's floor plane to the mesh pivot. */
 	UPROPERTY()
 	FVector Offset = FVector::ZeroVector;
@@ -63,6 +67,10 @@ struct FReal33DVisual
 	/** True only for the command-line-gated V08 QA catalog. Never approval. */
 	UPROPERTY()
 	bool bIsExperimental = false;
+
+	/** QA visual source; logical TypeId stays with the WorldState thing. */
+	UPROPERTY()
+	uint16 VisualSourceTypeId = 0;
 };
 
 /** One row of the local-only V08 QA catalog. */

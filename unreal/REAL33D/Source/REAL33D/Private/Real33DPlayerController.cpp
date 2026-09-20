@@ -4,16 +4,28 @@
 #include "Engine/GameInstance.h"
 #include "Engine/GameViewportClient.h"
 #include "EngineUtils.h"
+#include "HAL/FileManager.h"
+#include "Misc/DateTime.h"
+#include "Misc/FileHelper.h"
+#include "Misc/Paths.h"
 #include "Misc/CommandLine.h"
 #include "Misc/Parse.h"
 #include "REAL33D.h"
 #include "Real33DBridge.h"
 #include "Real33DChatPanel.h"
+#include "Real33DAssetRegistry.h"
+#include "Real33DTileActor.h"
 #include "Real33DWorldActor.h"
 #include "Widgets/Layout/SBox.h"
+#include "Widgets/Layout/SBorder.h"
+#include "Widgets/SBoxPanel.h"
+#include "Widgets/Input/SButton.h"
+#include "Widgets/Input/SEditableTextBox.h"
+#include "Widgets/Text/STextBlock.h"
 
 AReal33DPlayerController::AReal33DPlayerController()
 {
+	PrimaryActorTick.bCanEverTick = true;
 	// The chat area has to be clickable, which means a cursor. The input mode
 	// stays GameAndUI throughout: Slate gets first refusal on every key, and
 	// anything it does not want reaches the bindings below.
@@ -57,6 +69,61 @@ void AReal33DPlayerController::BeginPlay()
 	GetWorld()->GetGameViewport()->AddViewportWidgetContent(
 		ChatRoot.ToSharedRef(), /*ZOrder=*/10);
 
+	FString CatalogPath;
+	bInspectorEnabled = FParse::Value(FCommandLine::Get(),
+		TEXT("-real33d-experimental-catalog="), CatalogPath);
+	if (bInspectorEnabled)
+	{
+		FString EvidenceDirectory;
+		if (!FParse::Value(FCommandLine::Get(), TEXT("-real33d-evidence="), EvidenceDirectory))
+		{
+			EvidenceDirectory = FPaths::Combine(FPaths::ProjectSavedDir(), TEXT("V08QA"));
+		}
+		InspectorNotesPath = FPaths::Combine(EvidenceDirectory, TEXT("wall_inspector_notes.tsv"));
+		InspectorRoot = SNew(SBox)
+			.HAlign(HAlign_Right)
+			.VAlign(VAlign_Top)
+			.Padding(FMargin(0.0f, 12.0f, 12.0f, 0.0f))
+			[
+				SNew(SBorder).Padding(8.0f)
+				[
+					SNew(SVerticalBox)
+					+ SVerticalBox::Slot().AutoHeight()
+					[
+						SAssignNew(InspectorLabel, STextBlock)
+						.Text(FText::FromString(TEXT("V08: clic izquierdo en un objeto para ver su ID")))
+					]
+					+ SVerticalBox::Slot().AutoHeight().Padding(0.0f, 6.0f)
+					[
+						SAssignNew(InspectorNote, SEditableTextBox)
+						.HintText(FText::FromString(TEXT("Nota opcional sobre el objeto")))
+						.MinDesiredWidth(300.0f)
+					]
+					+ SVerticalBox::Slot().AutoHeight()
+					[
+						SNew(SHorizontalBox)
+						+ SHorizontalBox::Slot().AutoWidth()
+						[
+							SNew(SButton).Text(FText::FromString(TEXT("Bien")))
+							.OnClicked_Lambda([this]() { SaveInspectorNote(TEXT("OK")); return FReply::Handled(); })
+						]
+						+ SHorizontalBox::Slot().AutoWidth().Padding(6.0f, 0.0f)
+						[
+							SNew(SButton).Text(FText::FromString(TEXT("Girar 90")))
+							.OnClicked_Lambda([this]() { SaveInspectorNote(TEXT("ROTATE_90")); return FReply::Handled(); })
+						]
+						+ SHorizontalBox::Slot().AutoWidth()
+						[
+							SNew(SButton).Text(FText::FromString(TEXT("Guardar nota")))
+							.OnClicked_Lambda([this]() { SaveInspectorNote(TEXT("NOTE")); return FReply::Handled(); })
+						]
+					]
+				]
+			];
+		GetWorld()->GetGameViewport()->AddViewportWidgetContent(
+			InspectorRoot.ToSharedRef(), /*ZOrder=*/11);
+	}
+
 	SetInputMode(FInputModeGameAndUI().SetHideCursorDuringCapture(false));
 }
 
@@ -71,6 +138,14 @@ void AReal33DPlayerController::EndPlay(const EEndPlayReason::Type Reason)
 		GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(
 			ChatRoot.ToSharedRef());
 	}
+	if (InspectorRoot.IsValid() && GetWorld() != nullptr
+		&& GetWorld()->GetGameViewport() != nullptr)
+	{
+		GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(InspectorRoot.ToSharedRef());
+	}
+	InspectorRoot.Reset();
+	InspectorLabel.Reset();
+	InspectorNote.Reset();
 	ChatRoot.Reset();
 	ChatPanel.Reset();
 	bTypingActive = false;
@@ -87,14 +162,21 @@ void AReal33DPlayerController::SetupInputComponent()
 	}
 
 	// enums.hh: DIRECTION_NORTH 0, EAST 1, SOUTH 2, WEST 3.
-	InputComponent->BindKey(EKeys::W, IE_Pressed, this, &AReal33DPlayerController::WalkNorth);
+	InputComponent->BindKey(EKeys::W, IE_Pressed, this, &AReal33DPlayerController::WalkForward);
+	InputComponent->BindKey(EKeys::D, IE_Pressed, this, &AReal33DPlayerController::WalkRight);
+	InputComponent->BindKey(EKeys::S, IE_Pressed, this, &AReal33DPlayerController::WalkBackward);
+	InputComponent->BindKey(EKeys::A, IE_Pressed, this, &AReal33DPlayerController::WalkLeft);
+	InputComponent->BindKey(EKeys::W, IE_Released, this, &AReal33DPlayerController::ReleaseForward);
+	InputComponent->BindKey(EKeys::D, IE_Released, this, &AReal33DPlayerController::ReleaseRight);
+	InputComponent->BindKey(EKeys::S, IE_Released, this, &AReal33DPlayerController::ReleaseBackward);
+	InputComponent->BindKey(EKeys::A, IE_Released, this, &AReal33DPlayerController::ReleaseLeft);
 	InputComponent->BindKey(EKeys::Up, IE_Pressed, this, &AReal33DPlayerController::WalkNorth);
-	InputComponent->BindKey(EKeys::D, IE_Pressed, this, &AReal33DPlayerController::WalkEast);
 	InputComponent->BindKey(EKeys::Right, IE_Pressed, this, &AReal33DPlayerController::WalkEast);
-	InputComponent->BindKey(EKeys::S, IE_Pressed, this, &AReal33DPlayerController::WalkSouth);
 	InputComponent->BindKey(EKeys::Down, IE_Pressed, this, &AReal33DPlayerController::WalkSouth);
-	InputComponent->BindKey(EKeys::A, IE_Pressed, this, &AReal33DPlayerController::WalkWest);
 	InputComponent->BindKey(EKeys::Left, IE_Pressed, this, &AReal33DPlayerController::WalkWest);
+
+	InputComponent->BindKey(EKeys::LeftMouseButton, IE_Pressed, this,
+		&AReal33DPlayerController::InspectUnderCursor);
 
 	// Lets the operator take a labelled snapshot at any point of the run.
 	InputComponent->BindKey(EKeys::F9, IE_Pressed, this,
@@ -159,6 +241,10 @@ void AReal33DPlayerController::CloseChatInput()
 void AReal33DPlayerController::HandleTypingChanged(bool bTyping)
 {
 	bTypingActive = bTyping;
+	if (bTyping)
+	{
+		for (bool& bHeld : bHeldMovement) bHeld = false;
+	}
 	if (!bTyping)
 	{
 		// Focus goes back to the viewport, so the next W is a step rather than
@@ -171,7 +257,7 @@ void AReal33DPlayerController::Request(uint8 Direction)
 {
 	// The one place the rule lives: while the player is typing, walk keys are
 	// letters. Typing "was" must not walk the player west, north and south.
-	if (bTypingActive)
+	if (bTypingActive || (InspectorNote.IsValid() && InspectorNote->HasKeyboardFocus()))
 	{
 		return;
 	}
@@ -199,17 +285,73 @@ void AReal33DPlayerController::WalkNorth() { Request(0); }
 void AReal33DPlayerController::WalkEast()  { Request(1); }
 void AReal33DPlayerController::WalkSouth() { Request(2); }
 void AReal33DPlayerController::WalkWest()  { Request(3); }
+void AReal33DPlayerController::WalkForward() { SetMovementHeld(0, true); }
+void AReal33DPlayerController::WalkRight() { SetMovementHeld(1, true); }
+void AReal33DPlayerController::WalkBackward() { SetMovementHeld(2, true); }
+void AReal33DPlayerController::WalkLeft() { SetMovementHeld(3, true); }
+void AReal33DPlayerController::ReleaseForward() { SetMovementHeld(0, false); }
+void AReal33DPlayerController::ReleaseRight() { SetMovementHeld(1, false); }
+void AReal33DPlayerController::ReleaseBackward() { SetMovementHeld(2, false); }
+void AReal33DPlayerController::ReleaseLeft() { SetMovementHeld(3, false); }
+
+void AReal33DPlayerController::SetMovementHeld(uint8 RelativeDirection, bool bHeld)
+{
+	if (RelativeDirection >= 4) return;
+	const bool bWasHeld = bHeldMovement[RelativeDirection];
+	bHeldMovement[RelativeDirection] = bHeld;
+	if (bHeld)
+	{
+		ActiveHeldDirection = RelativeDirection;
+		if (!bWasHeld)
+		{
+			RequestRelative(RelativeDirection);
+			LastWalkIntentTime = FPlatformTime::Seconds();
+		}
+	}
+	else if (ActiveHeldDirection == RelativeDirection)
+	{
+		for (uint8 Direction = 0; Direction < 4; ++Direction)
+		{
+			if (bHeldMovement[Direction]) ActiveHeldDirection = Direction;
+		}
+	}
+}
+
+void AReal33DPlayerController::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	if (InspectorNote.IsValid() && InspectorNote->HasKeyboardFocus())
+	{
+		for (bool& bHeld : bHeldMovement) bHeld = false;
+		return;
+	}
+	if (!bHeldMovement[ActiveHeldDirection] || bTypingActive) return;
+	const double Now = FPlatformTime::Seconds();
+	if (Now - LastWalkIntentTime >= HeldWalkIntervalSeconds)
+	{
+		RequestRelative(ActiveHeldDirection);
+		LastWalkIntentTime = Now;
+	}
+}
+
+void AReal33DPlayerController::RequestRelative(uint8 RelativeDirection)
+{
+	if (AReal33DWorld* World = GetWorldActor())
+	{
+		Request(World->CameraRelativeDirection(RelativeDirection));
+	}
+}
 
 namespace
 {
 	/**
 	 * Degrees of swing per unit of mouse movement.
 	 *
-	 * Chosen so a drag across a 1280-wide window is a little over a full turn,
+	 * Chosen so a drag across a 1280-wide window is about 512 degrees,
 	 * which is enough to get behind a creature without the view feeling like it
 	 * is on ice. Not a measured value and nothing depends on it being exact.
 	 */
-	constexpr float kOrbitDegreesPerUnit = 0.35f;
+	constexpr float kOrbitDegreesPerUnit = 0.40f;
 
 	/** World units of camera distance per wheel notch. */
 	constexpr float kZoomUnitsPerNotch = 120.0f;
@@ -280,5 +422,91 @@ void AReal33DPlayerController::DumpEvidence()
 		It->WriteEvidence(TEXT("Manual"));
 		UE_LOG(LogReal33D, Log, TEXT("manual evidence snapshot requested"));
 		return;
+	}
+}
+
+void AReal33DPlayerController::InspectUnderCursor()
+{
+	if (!bInspectorEnabled || !InspectorLabel.IsValid()) return;
+	FHitResult Hit;
+	if (!GetHitResultUnderCursorByChannel(
+		UEngineTypes::ConvertToTraceType(ECC_Visibility), true, Hit)) return;
+	const AReal33DTile* Tile = Cast<AReal33DTile>(Hit.GetActor());
+	if (Tile == nullptr || Hit.GetComponent() == nullptr) return;
+
+	uint16 TypeId = 0;
+	bool bFoundTag = false;
+	for (const FName& Tag : Hit.GetComponent()->ComponentTags)
+	{
+		const FString Text = Tag.ToString();
+		if (Text.StartsWith(TEXT("V08_")))
+		{
+			TypeId = static_cast<uint16>(FCString::Atoi(*Text.RightChop(4)));
+			bFoundTag = true;
+			break;
+		}
+	}
+	if (!bFoundTag) return;
+
+	const AReal33DWorld* World = GetWorldActor();
+	const UReal33DAssetRegistry* Registry = World ? World->GetAssetRegistry() : nullptr;
+	if (Registry == nullptr) return;
+	const FReal33DExperimentalCatalogEntry* Entry = Registry->GetExperimentalCatalog().FindByPredicate(
+		[TypeId](const FReal33DExperimentalCatalogEntry& Candidate)
+		{ return Candidate.TypeId == TypeId; });
+	if (Entry == nullptr) return;
+
+	const Real33D::FMapPosition& Position = Tile->GetMapPosition();
+	InspectorTypeId = TypeId;
+	InspectorName = Entry->Name;
+	InspectorStatus = Entry->RefinementStatus;
+	InspectorPosition = FString::Printf(TEXT("%d,%d,%d"), Position.X, Position.Y, Position.Z);
+	bInspectorSelection = true;
+	const FReal33DVisual Display = Registry->ResolveThing(TypeId, false);
+	const FString SourceLabel = Display.VisualSourceTypeId != 0
+		&& Display.VisualSourceTypeId != TypeId
+		? FString::Printf(TEXT(" | mesh %05u"), Display.VisualSourceTypeId) : FString();
+	InspectorLabel->SetText(FText::FromString(FString::Printf(
+		TEXT("ID %05u | %s | %s | tile %s%s"), TypeId,
+		*InspectorName, *InspectorStatus, *InspectorPosition, *SourceLabel)));
+	if (InspectorNote.IsValid()) InspectorNote->SetText(FText::GetEmpty());
+	UE_LOG(LogReal33D, Log, TEXT("V08 inspector: TypeId=%u name=%s status=%s tile=%s"),
+		TypeId, *InspectorName, *InspectorStatus, *InspectorPosition);
+}
+
+void AReal33DPlayerController::SaveInspectorNote(const FString& Verdict)
+{
+	if (!bInspectorEnabled || !bInspectorSelection || !InspectorLabel.IsValid())
+	{
+		if (InspectorLabel.IsValid()) InspectorLabel->SetText(
+			FText::FromString(TEXT("Selecciona un objeto V08 antes de anotar.")));
+		return;
+	}
+	FString Note = InspectorNote.IsValid() ? InspectorNote->GetText().ToString() : FString();
+	Note.ReplaceInline(TEXT("\t"), TEXT(" "));
+	Note.ReplaceInline(TEXT("\r"), TEXT(" "));
+	Note.ReplaceInline(TEXT("\n"), TEXT(" "));
+	const FString Directory = FPaths::GetPath(InspectorNotesPath);
+	IFileManager::Get().MakeDirectory(*Directory, true);
+	const bool bExists = IFileManager::Get().FileExists(*InspectorNotesPath);
+	FString Line;
+	if (!bExists) Line = TEXT("utc\ttype_id\tname\trefinement_status\tmap_position\tverdict\tnote\n");
+	Line += FString::Printf(TEXT("%s\t%u\t%s\t%s\t%s\t%s\t%s\n"),
+		*FDateTime::UtcNow().ToIso8601(), InspectorTypeId, *InspectorName,
+		*InspectorStatus, *InspectorPosition, *Verdict, *Note);
+	const bool bSaved = FFileHelper::SaveStringToFile(Line, *InspectorNotesPath,
+		FFileHelper::EEncodingOptions::ForceUTF8WithoutBOM, &IFileManager::Get(), FILEWRITE_Append);
+	InspectorLabel->SetText(FText::FromString(FString::Printf(
+		TEXT("ID %05u | %s | %s"), InspectorTypeId,
+		bSaved ? TEXT("nota guardada") : TEXT("ERROR al guardar"), *InspectorPosition)));
+	if (bSaved)
+	{
+		UE_LOG(LogReal33D, Log, TEXT("V08 inspector note: TypeId=%u verdict=%s path=%s"),
+			InspectorTypeId, *Verdict, *InspectorNotesPath);
+	}
+	else
+	{
+		UE_LOG(LogReal33D, Error, TEXT("V08 inspector note could not be saved: %s"),
+			*InspectorNotesPath);
 	}
 }

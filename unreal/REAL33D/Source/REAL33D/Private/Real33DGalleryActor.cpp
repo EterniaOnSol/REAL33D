@@ -74,7 +74,7 @@ void AReal33DGalleryActor::Select(uint16 TypeId)
 	Preview->EmptyOverrideMaterials();
 	Preview->SetRelativeLocation(Visual.Offset);
 	Preview->SetRelativeScale3D(Visual.Scale);
-	Preview->SetRelativeRotation(FRotator::ZeroRotator);
+	Preview->SetRelativeRotation(Visual.Rotation);
 	if (Visual.Material != nullptr) Preview->SetMaterial(0, Visual.Material);
 }
 

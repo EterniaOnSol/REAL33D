@@ -19,8 +19,8 @@
  *
  * FLOOR HEIGHT IS A PRESENTATION CHOICE. The protocol fixes the horizontal
  * offset per floor but never states a vertical distance, which
- * TECHNICAL_STANDARD.md records as UNRESOLVED. This slice uses 100 uu, one
- * SQM, purely so multi-floor scenes are legible. It is not derived from the
+ * TECHNICAL_STANDARD.md records as UNRESOLVED. This presentation uses 220 uu, 2.2
+ * SQM, so walls and covered rooms have usable height. It is not derived from the
  * data and must not be treated as such.
  *
  * ORIGIN. Tibia coordinates sit around 32,000, which at 100 uu is 3,200,000 uu.
@@ -39,7 +39,7 @@ namespace Real33D
 	inline constexpr double UnitsPerSqm = 100.0;
 
 	/** Presentation-only, see the note above. */
-	inline constexpr double UnitsPerFloor = 100.0;
+	inline constexpr double UnitsPerFloor = 220.0;
 
 	/** A Fusion32 map position, mirrored here so the header needs no ClientCore include. */
 	struct FMapPosition

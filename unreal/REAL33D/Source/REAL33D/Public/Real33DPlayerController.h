@@ -6,6 +6,8 @@
 
 class AReal33DWorld;
 class SReal33DChatPanel;
+class STextBlock;
+class SEditableTextBox;
 
 /**
  * Turns key presses into intents and nothing else.
@@ -30,15 +32,28 @@ public:
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type Reason) override;
 	virtual void SetupInputComponent() override;
+	virtual void Tick(float DeltaSeconds) override;
 
 private:
 	void WalkNorth();
 	void WalkEast();
 	void WalkSouth();
 	void WalkWest();
+	void WalkForward();
+	void WalkRight();
+	void WalkBackward();
+	void WalkLeft();
+	void ReleaseForward();
+	void ReleaseRight();
+	void ReleaseBackward();
+	void ReleaseLeft();
+	void SetMovementHeld(uint8 RelativeDirection, bool bHeld);
 	void DumpEvidence();
+	void InspectUnderCursor();
+	void SaveInspectorNote(const FString& Verdict);
 
 	void Request(uint8 Direction);
+	void RequestRelative(uint8 RelativeDirection);
 
 	// ----------------------------------------------------------- camera orbit
 	//
@@ -72,6 +87,10 @@ private:
 
 	/** True between right button down and up. */
 	bool bOrbiting = false;
+	bool bHeldMovement[4] = { false, false, false, false };
+	uint8 ActiveHeldDirection = 0;
+	double LastWalkIntentTime = 0.0;
+	static constexpr double HeldWalkIntervalSeconds = 0.45;
 
 	// ------------------------------------------------------------ chat input
 	//
@@ -112,4 +131,16 @@ private:
 
 	/** The gate. Nothing else may write it. */
 	bool bTypingActive = false;
+
+	// The V08-only in-world identifier and note panel.
+	TSharedPtr<SWidget> InspectorRoot;
+	TSharedPtr<STextBlock> InspectorLabel;
+	TSharedPtr<SEditableTextBox> InspectorNote;
+	bool bInspectorEnabled = false;
+	bool bInspectorSelection = false;
+	uint16 InspectorTypeId = 0;
+	FString InspectorName;
+	FString InspectorStatus;
+	FString InspectorPosition;
+	FString InspectorNotesPath;
 };

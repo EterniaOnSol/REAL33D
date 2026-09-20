@@ -149,20 +149,56 @@ bool UReal33DAssetRegistry::TryResolveExperimental(uint16 TypeId,
 	{
 		return false;
 	}
-	UStaticMesh* Mesh = LoadObject<UStaticMesh>(nullptr, *Entry.MeshPath);
+	// The placed depot lockers keep their Fusion32 identities and container
+	// semantics. For V08 visual QA, each uses depot-chest 03502 as its appearance.
+	const bool bDepotLocker = TypeId >= 3497 && TypeId <= 3500;
+	// The inspected 1301 wall can borrow the reviewed 1294 wall appearance.
+	const uint16 VisualTypeId = bDepotLocker ? 3502 : (TypeId == 1301 ? 1294 : TypeId);
+	const int32* VisualIndex = ExperimentalCatalogById.Find(VisualTypeId);
+	const FReal33DExperimentalCatalogEntry& VisualEntry = VisualIndex != nullptr
+		? ExperimentalCatalog[*VisualIndex] : Entry;
+	UStaticMesh* Mesh = LoadObject<UStaticMesh>(nullptr, *VisualEntry.MeshPath);
 	if (Mesh == nullptr)
 	{
-		UE_LOG(LogReal33D, Warning, TEXT("experimental V08 mesh missing for obj:%u: %s"),
-			TypeId, *Entry.MeshPath);
+		UE_LOG(LogReal33D, Warning, TEXT("experimental V08 mesh missing for obj:%u visual:%u: %s"),
+			TypeId, VisualEntry.TypeId, *VisualEntry.MeshPath);
 		return false;
 	}
 	OutVisual.Mesh = Mesh;
 	OutVisual.Material = nullptr; // preserve the GLB's imported material slots
 	OutVisual.Scale = FVector::OneVector;
+	// Operator-marked V08 pieces use a yaw correction. Roofs 1158/1161 and
+	// wooden floor 0408 were explicitly excluded after annotation.
+	const bool bWall = Entry.Name.Equals(TEXT("wall"), ESearchCase::IgnoreCase)
+		|| Entry.Name.EndsWith(TEXT(" wall"), ESearchCase::IgnoreCase)
+		|| Entry.Name.EndsWith(TEXT(" wall window"), ESearchCase::IgnoreCase);
+	const bool bRotateYaw = TypeId == 429 || TypeId == 870 || TypeId == 1270
+		|| TypeId == 1271 || TypeId == 1281 || TypeId == 1282
+		|| TypeId == 1294 || TypeId == 1295 || TypeId == 1734
+		|| TypeId == 2154 || TypeId == 2156 || TypeId == 2162 || TypeId == 2164
+		|| TypeId == 4461 || TypeId == 4464 || TypeId == 4465;
+	const bool bLayFlat = Entry.Name.Equals(TEXT("counter"), ESearchCase::IgnoreCase)
+		|| Entry.Name.Equals(TEXT("table"), ESearchCase::IgnoreCase);
+	OutVisual.Rotation = bLayFlat ? FRotator(0.0, 0.0, 90.0)
+		: (bRotateYaw ? FRotator(0.0, 90.0, 0.0) : FRotator::ZeroRotator);
+	// Short wall meshes are scaled to fill the presentation floor height.
+	const double Height = Mesh->GetBoundingBox().GetSize().Z;
+	if (bWall && Height > KINDA_SMALL_NUMBER && Height < Real33D::UnitsPerFloor)
+	{
+		OutVisual.Scale.Z = Real33D::UnitsPerFloor / Height;
+	}
 	OutVisual.Offset = FVector::ZeroVector;
+	if (bLayFlat)
+	{
+		// Lay counter and plain-table reliefs across the tile, centered at Z=0.
+		const FBox Rotated = Mesh->GetBoundingBox().TransformBy(FTransform(OutVisual.Rotation));
+		OutVisual.Offset = FVector(-Rotated.GetCenter().X,
+			-Rotated.GetCenter().Y, -Rotated.Min.Z);
+	}
 	OutVisual.Tint = FLinearColor::White;
 	OutVisual.bIsPlaceholder = false;
 	OutVisual.bIsExperimental = true;
+	OutVisual.VisualSourceTypeId = VisualEntry.TypeId;
 	return true;
 }
 
@@ -355,6 +391,50 @@ bool FReal33DExperimentalV08RegistryTest::RunTest(const FString& Parameters)
 	TestTrue(TEXT("imported obj:602 marked experimental"), Sample.bIsExperimental);
 	TestFalse(TEXT("imported obj:602 is not its placeholder"), Sample.bIsPlaceholder);
 	TestNotNull(TEXT("imported obj:602 mesh loaded"), Sample.Mesh.Get());
+	const FReal33DVisual Depot = Registry->ResolveThing(3502, false);
+	TestNotNull(TEXT("depot chest 3502 mesh loaded"), Depot.Mesh.Get());
+	for (uint16 LockerId : { uint16(3497), uint16(3498), uint16(3499), uint16(3500) })
+	{
+		const FReal33DVisual Locker = Registry->ResolveThing(LockerId, true);
+		TestEqual(TEXT("locker uses 3502 visual source"), Locker.VisualSourceTypeId, uint16(3502));
+		TestTrue(TEXT("locker displays depot chest mesh"), Locker.Mesh == Depot.Mesh);
+	}
+	TestEqual(TEXT("operator-confirmed wall 1294 yaw"),
+		Registry->ResolveThing(1294, true).Rotation.Yaw, 90.0);
+	TestEqual(TEXT("operator-marked wall 1295 yaw"),
+		Registry->ResolveThing(1295, true).Rotation.Yaw, 90.0);
+	const FReal33DVisual ReusedWall = Registry->ResolveThing(1301, true);
+	TestEqual(TEXT("wall 1301 uses reviewed 1294 visual source"),
+		ReusedWall.VisualSourceTypeId, uint16(1294));
+	TestTrue(TEXT("wall 1301 displays 1294 mesh"),
+		ReusedWall.Mesh == Registry->ResolveThing(1294, true).Mesh);
+	for (uint16 MarkedId : { uint16(870), uint16(1270), uint16(1271),
+		uint16(1281), uint16(1282), uint16(1734), uint16(2156) })
+	{
+		TestEqual(TEXT("new operator-marked V08 yaw"),
+			Registry->ResolveThing(MarkedId, true).Rotation.Yaw, 90.0);
+	}
+	TestEqual(TEXT("wooden floor 408 stays unrotated"),
+		Registry->ResolveThing(408, false).Rotation.Yaw, 0.0);
+	TestEqual(TEXT("roof 1158 stays unrotated"),
+		Registry->ResolveThing(1158, false).Rotation.Yaw, 0.0);
+	for (uint16 CounterId : { uint16(2317), uint16(2318), uint16(2320), uint16(2321),
+		uint16(2342), uint16(2343), uint16(2344), uint16(2345) })
+	{
+		const FReal33DVisual Counter = Registry->ResolveThing(CounterId, true);
+		TestEqual(TEXT("counter laid flat around its X axis"), Counter.Rotation.Roll, 90.0);
+		const FBox Bounds = Counter.Mesh->GetBoundingBox().TransformBy(FTransform(Counter.Rotation));
+		TestTrue(TEXT("counter top is horizontal"),
+			Bounds.GetSize().Z < Bounds.GetSize().X && Bounds.GetSize().Z < Bounds.GetSize().Y);
+		TestTrue(TEXT("counter rests on floor"), FMath::Abs(Bounds.Min.Z + Counter.Offset.Z) < 0.1);
+	}
+	for (uint16 TableId = 2322; TableId <= 2333; ++TableId)
+	{
+		const FReal33DVisual Table = Registry->ResolveThing(TableId, true);
+		TestEqual(TEXT("plain table laid flat"), Table.Rotation.Roll, 90.0);
+		const FBox Bounds = Table.Mesh->GetBoundingBox().TransformBy(FTransform(Table.Rotation));
+		TestTrue(TEXT("plain table rests on floor"), FMath::Abs(Bounds.Min.Z + Table.Offset.Z) < 0.1);
+	}
 	return true;
 }
 
