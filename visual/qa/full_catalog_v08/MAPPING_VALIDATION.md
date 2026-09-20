@@ -15,6 +15,12 @@ Checked rows: 4913; mismatches: 0.
 | 1294 | stone wall | RETAINED_REFERENCE | `worklog/ORQUESTADOR/generaciones_assets/piloto_completo_4913/models/01294.glb` | `/Game/Experimental/V08/ID_01294/SM_V08_01294.SM_V08_01294` | MATCH | ? |
 | 1295 | stone wall | IN_REVIEW | `worklog/ORQUESTADOR/generaciones_assets/refinamiento_en_curso_v8/samples/models/01295.glb` | `/Game/Experimental/V08/ID_01295/SM_V08_01295.SM_V08_01295` | MATCH | DEGENERATE_UV_TRIANGLES |
 | 1301 | stone wall | PENDING | `worklog/ORQUESTADOR/generaciones_assets/piloto_completo_4913/models/01301.glb` | `/Game/Experimental/V08/ID_01301/SM_V08_01301.SM_V08_01301` | MATCH | DEGENERATE_UV_TRIANGLES, ZERO_AREA_TRIANGLES |
+| 1303 | stone wall | PENDING | `worklog/ORQUESTADOR/generaciones_assets/piloto_completo_4913/models/01303.glb` | `/Game/Experimental/V08/ID_01303/SM_V08_01303.SM_V08_01303` | MATCH | DEGENERATE_UV_TRIANGLES, ZERO_AREA_TRIANGLES |
+| 1626 | archway | IN_REVIEW | `worklog/ORQUESTADOR/generaciones_assets/refinamiento_en_curso_v8/samples/models/01626.glb` | `/Game/Experimental/V08/ID_01626/SM_V08_01626.SM_V08_01626` | MATCH | DEGENERATE_UV_TRIANGLES |
+| 1627 | archway | PENDING | `worklog/ORQUESTADOR/generaciones_assets/piloto_completo_4913/models/01627.glb` | `/Game/Experimental/V08/ID_01627/SM_V08_01627.SM_V08_01627` | MATCH | DEGENERATE_UV_TRIANGLES, ZERO_AREA_TRIANGLES |
+| 1735 | framework window | IN_REVIEW | `worklog/ORQUESTADOR/generaciones_assets/refinamiento_en_curso_v8/samples/models/01735.glb` | `/Game/Experimental/V08/ID_01735/SM_V08_01735.SM_V08_01735` | MATCH | DEGENERATE_UV_TRIANGLES |
+| 2173 | fence | IN_REVIEW | `worklog/ORQUESTADOR/generaciones_assets/refinamiento_en_curso_v8/samples/models/02173.glb` | `/Game/Experimental/V08/ID_02173/SM_V08_02173.SM_V08_02173` | MATCH | DEGENERATE_UV_TRIANGLES |
+| 2174 | fence | IN_REVIEW | `worklog/ORQUESTADOR/generaciones_assets/refinamiento_en_curso_v8/samples/models/02174.glb` | `/Game/Experimental/V08/ID_02174/SM_V08_02174.SM_V08_02174` | MATCH | DEGENERATE_UV_TRIANGLES |
 | 2303 | big table | NEEDS_ASSEMBLY | `worklog/ORQUESTADOR/generaciones_assets/piloto_completo_4913/models/02303.glb` | `/Game/Experimental/V08/ID_02303/SM_V08_02303.SM_V08_02303` | MATCH | DEGENERATE_UV_TRIANGLES, ZERO_AREA_TRIANGLES |
 | 2328 | table | PENDING | `worklog/ORQUESTADOR/generaciones_assets/piloto_completo_4913/models/02328.glb` | `/Game/Experimental/V08/ID_02328/SM_V08_02328.SM_V08_02328` | MATCH | DEGENERATE_UV_TRIANGLES, ZERO_AREA_TRIANGLES |
 | 2948 | wooden flute | REFINED | `worklog/ORQUESTADOR/generaciones_assets/refinamiento_23_instrumentos_v8/models/02948.glb` | `/Game/Experimental/V08/ID_02948/SM_V08_02948.SM_V08_02948` | MATCH | DEGENERATE_UV_TRIANGLES |
@@ -36,9 +42,11 @@ Fusion32 places locker TypeIds 3497 through 3500 in cities. They keep those logi
 | 3498 | `/Game/Experimental/V08/ID_03498/SM_V08_03498.SM_V08_03498` | `/Game/Experimental/V08/ID_03502/SM_V08_03502.SM_V08_03502` |
 | 3499 | `/Game/Experimental/V08/ID_03499/SM_V08_03499.SM_V08_03499` | `/Game/Experimental/V08/ID_03502/SM_V08_03502.SM_V08_03502` |
 | 3500 | `/Game/Experimental/V08/ID_03500/SM_V08_03500.SM_V08_03500` | `/Game/Experimental/V08/ID_03502/SM_V08_03502.SM_V08_03502` |
+| 1295 | `/Game/Experimental/V08/ID_01295/SM_V08_01295.SM_V08_01295` | `/Game/Experimental/V08/ID_01294/SM_V08_01294.SM_V08_01294` |
 | 1301 | `/Game/Experimental/V08/ID_01301/SM_V08_01301.SM_V08_01301` | `/Game/Experimental/V08/ID_01294/SM_V08_01294.SM_V08_01294` |
+| 1303 | `/Game/Experimental/V08/ID_01303/SM_V08_01303.SM_V08_01303` | `/Game/Experimental/V08/ID_01294/SM_V08_01294.SM_V08_01294` |
 
-The 1301 wall alias is an experimental appearance trial from the in-world note; TypeId 429 remains a stone tile and is not replaced by a wall mesh.
+Wall TypeIds 1295, 1301, and 1303 use the reviewed 1294 appearance in this experimental presentation. TypeId 429 remains a stone tile and is not replaced by a wall mesh. Every alias preserves its logical WorldState TypeId.
 
 ## QA warnings pending visual evaluation
 

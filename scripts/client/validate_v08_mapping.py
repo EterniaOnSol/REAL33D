@@ -51,7 +51,8 @@ for item_id, item in sorted(items.items()):
     if not asset.is_file():
         errors.append(f"{item_id}: imported .uasset is missing")
 
-sample = {408, 1270, 1294, 1295, 1301, 2328, 3497, 3498, 3499, 3500, 3501, 3502, 3508}
+sample = {408, 1270, 1294, 1295, 1301, 1303, 1626, 1627, 1735, 2173,
+          2174, 2328, 3497, 3498, 3499, 3500, 3501, 3502, 3508}
 for status in ("REFINED", "RETAINED_REFERENCE", "IN_REVIEW", "PENDING", "NEEDS_ASSEMBLY"):
     sample.add(min(item_id for item_id, row in items.items() if row["refinement_status"] == status))
 for warning in ("PIVOT_NOT_AT_FLOOR", "DEGENERATE_UV_TRIANGLES", "ZERO_AREA_TRIANGLES", "VERY_FLAT"):
@@ -89,8 +90,9 @@ lines += [
 ]
 for locker_id in (3497, 3498, 3499, 3500):
     lines.append(f"| {locker_id} | `{entries[locker_id]['mesh_path']}` | `{entries[3502]['mesh_path']}` |")
-lines.append(f"| 1301 | `{entries[1301]['mesh_path']}` | `{entries[1294]['mesh_path']}` |")
-lines += ["", "The 1301 wall alias is an experimental appearance trial from the in-world note; TypeId 429 remains a stone tile and is not replaced by a wall mesh.", "", "## QA warnings pending visual evaluation", "", "| Warning | Catalog entries |", "|---|---:|"]
+for wall_id in (1295, 1301, 1303):
+    lines.append(f"| {wall_id} | `{entries[wall_id]['mesh_path']}` | `{entries[1294]['mesh_path']}` |")
+lines += ["", "Wall TypeIds 1295, 1301, and 1303 use the reviewed 1294 appearance in this experimental presentation. TypeId 429 remains a stone tile and is not replaced by a wall mesh. Every alias preserves its logical WorldState TypeId.", "", "## QA warnings pending visual evaluation", "", "| Warning | Catalog entries |", "|---|---:|"]
 for warning in ("DEGENERATE_UV_TRIANGLES", "ZERO_AREA_TRIANGLES", "PIVOT_NOT_AT_FLOOR", "VERY_FLAT"):
     lines.append(f"| {warning} | {sum(warning in row['technical_warnings'] for row in items.values())} |")
 lines += ["", "These counts remain warnings; no visual severity conclusion is assigned.", "", "## Mismatches", ""]

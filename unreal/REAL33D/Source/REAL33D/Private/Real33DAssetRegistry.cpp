@@ -152,8 +152,9 @@ bool UReal33DAssetRegistry::TryResolveExperimental(uint16 TypeId,
 	// The placed depot lockers keep their Fusion32 identities and container
 	// semantics. For V08 visual QA, each uses depot-chest 03502 as its appearance.
 	const bool bDepotLocker = TypeId >= 3497 && TypeId <= 3500;
-	// The inspected 1301 wall can borrow the reviewed 1294 wall appearance.
-	const uint16 VisualTypeId = bDepotLocker ? 3502 : (TypeId == 1301 ? 1294 : TypeId);
+	// Operator-reviewed wall variants borrow 1294 appearance in V08 QA only.
+	const bool bReviewedWallAlias = TypeId == 1295 || TypeId == 1301 || TypeId == 1303;
+	const uint16 VisualTypeId = bDepotLocker ? 3502 : (bReviewedWallAlias ? 1294 : TypeId);
 	const int32* VisualIndex = ExperimentalCatalogById.Find(VisualTypeId);
 	const FReal33DExperimentalCatalogEntry& VisualEntry = VisualIndex != nullptr
 		? ExperimentalCatalog[*VisualIndex] : Entry;
@@ -174,8 +175,10 @@ bool UReal33DAssetRegistry::TryResolveExperimental(uint16 TypeId,
 		|| Entry.Name.EndsWith(TEXT(" wall window"), ESearchCase::IgnoreCase);
 	const bool bRotateYaw = TypeId == 429 || TypeId == 870 || TypeId == 1270
 		|| TypeId == 1271 || TypeId == 1281 || TypeId == 1282
-		|| TypeId == 1294 || TypeId == 1295 || TypeId == 1734
+		|| TypeId == 1294 || TypeId == 1295 || TypeId == 1301 || TypeId == 1303
+		|| TypeId == 1734 || TypeId == 1735
 		|| TypeId == 2154 || TypeId == 2156 || TypeId == 2162 || TypeId == 2164
+		|| TypeId == 2173 || TypeId == 2174
 		|| TypeId == 4461 || TypeId == 4464 || TypeId == 4465;
 	const bool bLayFlat = Entry.Name.Equals(TEXT("counter"), ESearchCase::IgnoreCase)
 		|| Entry.Name.Equals(TEXT("table"), ESearchCase::IgnoreCase);
@@ -194,6 +197,11 @@ bool UReal33DAssetRegistry::TryResolveExperimental(uint16 TypeId,
 		const FBox Rotated = Mesh->GetBoundingBox().TransformBy(FTransform(OutVisual.Rotation));
 		OutVisual.Offset = FVector(-Rotated.GetCenter().X,
 			-Rotated.GetCenter().Y, -Rotated.Min.Z);
+	}
+	if (TypeId == 1626 || TypeId == 1627)
+	{
+		// The arch spans the upper part of a room rather than starting on the floor.
+		OutVisual.Offset.Z = Real33D::UnitsPerFloor - Mesh->GetBoundingBox().Max.Z;
 	}
 	OutVisual.Tint = FLinearColor::White;
 	OutVisual.bIsPlaceholder = false;
@@ -403,13 +411,17 @@ bool FReal33DExperimentalV08RegistryTest::RunTest(const FString& Parameters)
 		Registry->ResolveThing(1294, true).Rotation.Yaw, 90.0);
 	TestEqual(TEXT("operator-marked wall 1295 yaw"),
 		Registry->ResolveThing(1295, true).Rotation.Yaw, 90.0);
-	const FReal33DVisual ReusedWall = Registry->ResolveThing(1301, true);
-	TestEqual(TEXT("wall 1301 uses reviewed 1294 visual source"),
-		ReusedWall.VisualSourceTypeId, uint16(1294));
-	TestTrue(TEXT("wall 1301 displays 1294 mesh"),
-		ReusedWall.Mesh == Registry->ResolveThing(1294, true).Mesh);
+	const FReal33DVisual ReviewedWall = Registry->ResolveThing(1294, true);
+	for (uint16 AliasId : { uint16(1295), uint16(1301), uint16(1303) })
+	{
+		const FReal33DVisual ReusedWall = Registry->ResolveThing(AliasId, true);
+		TestEqual(TEXT("wall uses reviewed 1294 visual source"),
+			ReusedWall.VisualSourceTypeId, uint16(1294));
+		TestTrue(TEXT("wall displays 1294 mesh"), ReusedWall.Mesh == ReviewedWall.Mesh);
+	}
 	for (uint16 MarkedId : { uint16(870), uint16(1270), uint16(1271),
-		uint16(1281), uint16(1282), uint16(1734), uint16(2156) })
+		uint16(1281), uint16(1282), uint16(1734), uint16(1735), uint16(2156),
+		uint16(2173), uint16(2174) })
 	{
 		TestEqual(TEXT("new operator-marked V08 yaw"),
 			Registry->ResolveThing(MarkedId, true).Rotation.Yaw, 90.0);
@@ -418,6 +430,14 @@ bool FReal33DExperimentalV08RegistryTest::RunTest(const FString& Parameters)
 		Registry->ResolveThing(408, false).Rotation.Yaw, 0.0);
 	TestEqual(TEXT("roof 1158 stays unrotated"),
 		Registry->ResolveThing(1158, false).Rotation.Yaw, 0.0);
+	for (uint16 ArchId : { uint16(1626), uint16(1627) })
+	{
+		const FReal33DVisual Arch = Registry->ResolveThing(ArchId, true);
+		TestTrue(TEXT("arch is lifted above floor"), Arch.Offset.Z > 0.0);
+		TestTrue(TEXT("arch top reaches floor ceiling"),
+			FMath::Abs(Arch.Offset.Z + Arch.Mesh->GetBoundingBox().Max.Z
+				- Real33D::UnitsPerFloor) < 0.1);
+	}
 	for (uint16 CounterId : { uint16(2317), uint16(2318), uint16(2320), uint16(2321),
 		uint16(2342), uint16(2343), uint16(2344), uint16(2345) })
 	{
