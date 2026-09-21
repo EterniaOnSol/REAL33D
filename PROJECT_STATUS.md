@@ -1,7 +1,7 @@
 # Project Status
 
 Current phase: `PHASE 2 - GAMEPLAY CLIENT PROGRAMMING` (`IN_PROGRESS`; the first 3D representation is live; V08 visual review is on operator-directed standby)
-Current milestone: `UNREAL-CHAT-PRESENTATION-001` (`QUALIFIED PASS`; incoming Say is visible in Unreal above the creature that said it, confirmed by the operator. Whisper takes the identical path and decodes live but was not separately confirmed visible. Speech lifetime, consecutive-message behaviour and exact colour are `NOT_PROVEN` or not achieved, and are recorded as such). See `evidence/clientcore/UNREAL-CHAT-PRESENTATION-001.md`
+Current milestone: UNREAL-WIDE-WORLD-001 (CERTIFIED_PASS; 32x32 live boundary round-trip and static/live reconciliation passed).
 Branch: `main`
 Classic baseline review commit: `f65f3a7645ff40b39b7cc8399760fd4f0b69ecee`
 Transport implementation commit: `abd2d0a25bd9632f5aa3955e822876268c7ca96c`
@@ -48,3 +48,11 @@ Updated: 2026-09-17
 ## Operator direction - 2026-09-21
 
 V08 visual certification is on standby, not PASS. Preserve the current imports and inspection notes; final gallery review, live identity proof, and artistic approval remain open. Resume gameplay client programming. The next feature has not yet been selected.
+
+## Wide-world streamer - 2026-09-21
+
+UNREAL-WIDE-WORLD-001 = CERTIFIED_PASS. Unreal loads strict, generated 32×32 .wws sector caches around the authoritative anchor, keeps the complete 18×14 live window owned by WorldState, suppresses static tiles as they enter live authority, retains parsed data for cache hits, and destroys distant sector actors on the game thread. Async work is restricted to file IO and row parsing. Static baseline sectors never invent dynamic state.
+
+Frozen V08 meshes resolve first. Missing physical V08 meshes use local gitignored classic previews as CLASSIC_SPRITE_FALLBACK; MISSING_PHYSICAL_ASSET remains separate and non-blocking. Thais exact-radius V08/fallback/missing occurrence counts are 12,286/0/0 at 32, 38,826/3/0 at 64, 71,845/8/0 at 96, and 110,073/17/0 at 128. TypeId 469 is explicitly CLASSIC_SPRITE_FALLBACK. The catalogue hash is unchanged and no V08 asset, ClientCore, protocol, server, or reference source changed. See evidence/clientcore/UNREAL-WIDE-WORLD-001.md.
+
+Live certification: at (32094,32203,7), three initial stationary visibility audits returned zero mismatches after correcting the classic billboard hidden-in-game default. A real round-trip across x=32096 loaded and unloaded nine sectors in each direction. Six crossing/return audits found zero static/live overlaps, zero visibility mismatches, and a live tile under the player. See evidence/clientcore/UNREAL-WIDE-WORLD-001.md.

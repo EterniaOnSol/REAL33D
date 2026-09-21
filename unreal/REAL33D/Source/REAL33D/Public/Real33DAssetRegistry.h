@@ -114,6 +114,7 @@ class REAL33D_API UReal33DAssetRegistry : public UObject
 
 public:
 	void Initialise();
+	void EnableFrozenCatalogForWideWorld();
 
 	/**
 	 * Resolves a map object sitting above the ground.
@@ -137,7 +138,7 @@ public:
 
 private:
 	FReal33DVisual MakePlaceholder(EReal33DVisualKind Kind) const;
-	void LoadExperimentalCatalog();
+	void LoadExperimentalCatalog(bool bWideWorldRequired = false);
 	bool TryResolveExperimental(uint16 TypeId, FReal33DVisual& OutVisual) const;
 
 	UPROPERTY()

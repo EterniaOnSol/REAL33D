@@ -1,6 +1,7 @@
 #include "Real33DWorldActor.h"
 
 #include "Camera/CameraComponent.h"
+#include "Async/Async.h"
 #include "Engine/Engine.h"
 #include "Engine/GameInstance.h"
 #include "Engine/World.h"
@@ -16,6 +17,7 @@
 #include "Real33DAssetRegistry.h"
 #include "Real33DCreatureActor.h"
 #include "Real33DTileActor.h"
+#include "Real33DStaticSectorActor.h"
 
 namespace
 {
@@ -102,6 +104,7 @@ void AReal33DWorld::BeginPlay()
 
 	Registry = NewObject<UReal33DAssetRegistry>(this);
 	Registry->Initialise();
+	InitialiseWideWorld();
 
 	// There is no pawn to possess, so the presenter is the view target itself.
 	// Tick re-asserts this once, because the controller may not exist yet when
@@ -195,6 +198,13 @@ void AReal33DWorld::ClearWorld()
 		}
 	}
 	Tiles.Reset();
+
+	for (TPair<FIntVector, TObjectPtr<AReal33DStaticSector>>& Pair : StaticSectors)
+	{
+		if (Pair.Value) Pair.Value->Destroy();
+	}
+	StaticSectors.Reset();
+	bWideWorldAnchorSet = false;
 
 	for (TPair<uint32, TObjectPtr<AReal33DCreature>>& Pair : Creatures)
 	{
@@ -351,6 +361,9 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 		// it afterwards: re-centring would shift every actor in the scene on
 		// each step. See Real33DCoords.h for why an origin exists at all.
 		Origin.EnsureSet(Event.Position);
+		WideWorldAnchor = Event.Position;
+		bWideWorldAnchorSet = true;
+		UpdateWideWorld();
 		break;
 
 	case EReal33DEventKind::TileUpserted:
@@ -616,6 +629,193 @@ void AReal33DWorld::DrawOverlay()
 			Stats.ResidualBytes, Stats.UnsupportedOpcodes, Stats.Anomalies,
 			DuplicateSpawnAttempts, OrphanEvents));
 }
+
+
+void AReal33DWorld::InitialiseWideWorld()
+{
+	WideWorldCacheDirectory = FPaths::Combine(
+		FPaths::ProjectSavedDir(), TEXT("WideWorldCache"));
+	FParse::Value(FCommandLine::Get(),
+		TEXT("-real33d-wide-world-cache="), WideWorldCacheDirectory);
+	WideWorldCacheDirectory = FPaths::ConvertRelativePathToFull(WideWorldCacheDirectory);
+	FPaths::CollapseRelativeDirectories(WideWorldCacheDirectory);
+
+	WideWorldPreviewDirectory = FPaths::Combine(
+		FPaths::ProjectDir(), TEXT("../../visual/reference_pack/previews/item"));
+	FParse::Value(FCommandLine::Get(),
+		TEXT("-real33d-wide-world-previews="), WideWorldPreviewDirectory);
+	WideWorldPreviewDirectory = FPaths::ConvertRelativePathToFull(WideWorldPreviewDirectory);
+	FPaths::CollapseRelativeDirectories(WideWorldPreviewDirectory);
+
+	int32 Radius = WideWorldVisualRadius;
+	if (FParse::Value(FCommandLine::Get(), TEXT("-real33d-visual-radius="), Radius))
+	{
+		WideWorldVisualRadius = FMath::Clamp(Radius, 32, 512);
+	}
+	bWideWorldEnabled = !FParse::Param(FCommandLine::Get(), TEXT("real33d-no-wide-world"))
+		&& FPaths::DirectoryExists(WideWorldCacheDirectory);
+	if (bWideWorldEnabled && Registry != nullptr)
+	{
+		Registry->EnableFrozenCatalogForWideWorld();
+	}
+	UE_LOG(LogReal33D, Log,
+		TEXT("wide world %s: radius=%d sector=32 cache=%s fallback=%s"),
+		bWideWorldEnabled ? TEXT("enabled") : TEXT("disabled"),
+		WideWorldVisualRadius, *WideWorldCacheDirectory, *WideWorldPreviewDirectory);
+}
+
+void AReal33DWorld::RequestStaticSector(const FIntVector& SectorKey)
+{
+	check(IsInGameThread());
+	if (PendingStaticSectors.Contains(SectorKey))
+	{
+		return;
+	}
+	PendingStaticSectors.Add(SectorKey);
+	const FString Path = FPaths::Combine(WideWorldCacheDirectory,
+		FString::Printf(TEXT("%d-%d-%d.wws"), SectorKey.X, SectorKey.Y, SectorKey.Z));
+	const TWeakObjectPtr<AReal33DWorld> WeakThis(this);
+	Async(EAsyncExecution::ThreadPool, [WeakThis, SectorKey, Path]()
+	{
+		TArray<FReal33DStaticItem> Items;
+		FString Error;
+		FString Source;
+		if (!FFileHelper::LoadFileToString(Source, *Path))
+		{
+			Error = TEXT("sector cache file absent");
+		}
+		else
+		{
+			TArray<FString> Lines;
+			Source.ParseIntoArrayLines(Lines, true);
+			for (const FString& Line : Lines)
+			{
+				TArray<FString> Fields;
+				Line.ParseIntoArrayWS(Fields);
+				if (Fields.Num() != 6)
+				{
+					Error = FString::Printf(TEXT("invalid cache row: %s"), *Line);
+					Items.Reset();
+					break;
+				}
+				FReal33DStaticItem Item;
+				Item.Position.X = FCString::Atoi(*Fields[0]);
+				Item.Position.Y = FCString::Atoi(*Fields[1]);
+				Item.Position.Z = FCString::Atoi(*Fields[2]);
+				Item.Stack = FCString::Atoi(*Fields[3]);
+				Item.TypeId = static_cast<uint16>(FCString::Atoi(*Fields[4]));
+				Item.SourceTypeId = static_cast<uint16>(FCString::Atoi(*Fields[5]));
+				Items.Add(Item);
+			}
+		}
+		AsyncTask(ENamedThreads::GameThread,
+			[WeakThis, SectorKey, Items = MoveTemp(Items), Error = MoveTemp(Error)]() mutable
+		{
+			if (AReal33DWorld* World = WeakThis.Get())
+			{
+				World->InstallStaticSector(SectorKey, Items, Error);
+			}
+		});
+	});
+}
+
+void AReal33DWorld::InstallStaticSector(const FIntVector& SectorKey,
+	const TArray<FReal33DStaticItem>& Items, const FString& Error)
+{
+	check(IsInGameThread());
+	PendingStaticSectors.Remove(SectorKey);
+	StaticSectorCache.Add(SectorKey, Items);
+	if (!Error.IsEmpty())
+	{
+		if (Error != TEXT("sector cache file absent"))
+		{
+			UE_LOG(LogReal33D, Error, TEXT("wide world %s: %s"),
+				*SectorKey.ToString(), *Error);
+		}
+		return;
+	}
+	const bool bStillDesired = bWideWorldAnchorSet
+		&& AReal33DStaticSector::DesiredSectors(
+			WideWorldAnchor, WideWorldVisualRadius).Contains(SectorKey);
+	if (!bWideWorldEnabled || !bStillDesired || Items.IsEmpty()
+		|| StaticSectors.Contains(SectorKey))
+	{
+		return;
+	}
+	FActorSpawnParameters Params;
+	Params.SpawnCollisionHandlingOverride =
+		ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	AReal33DStaticSector* Sector = GetWorld()->SpawnActor<AReal33DStaticSector>(
+		AReal33DStaticSector::StaticClass(), FVector::ZeroVector,
+		FRotator::ZeroRotator, Params);
+	if (Sector == nullptr)
+	{
+		return;
+	}
+	Sector->Build(Items, Registry, WideWorldPreviewDirectory, Origin);
+	Sector->ApplyView(WideWorldAnchor, WideWorldVisualRadius);
+	StaticSectors.Add(SectorKey, Sector);
+	++WideWorldLoads;
+	WideWorldV08Resolved += Sector->GetV08Resolved();
+	WideWorldClassicFallback += Sector->GetClassicFallback();
+	WideWorldMissingPhysical += Sector->GetMissingPhysicalAsset();
+	UE_LOG(LogReal33D, Log,
+		TEXT("wide world loaded sector %s: objects=%d V08_RESOLVED=%d CLASSIC_SPRITE_FALLBACK=%d MISSING_PHYSICAL_ASSET=%d"),
+		*SectorKey.ToString(), Items.Num(), Sector->GetV08Resolved(),
+		Sector->GetClassicFallback(), Sector->GetMissingPhysicalAsset());
+}
+
+void AReal33DWorld::UpdateWideWorld()
+{
+	check(IsInGameThread());
+	if (!bWideWorldEnabled || !bWideWorldAnchorSet || !Origin.bSet)
+	{
+		return;
+	}
+	const TSet<FIntVector> Desired = AReal33DStaticSector::DesiredSectors(
+		WideWorldAnchor, WideWorldVisualRadius);
+
+	TArray<FIntVector> Remove;
+	for (const TPair<FIntVector, TObjectPtr<AReal33DStaticSector>>& Pair : StaticSectors)
+	{
+		if (!Desired.Contains(Pair.Key))
+		{
+			Remove.Add(Pair.Key);
+		}
+	}
+	for (const FIntVector& Key : Remove)
+	{
+		TObjectPtr<AReal33DStaticSector> Sector;
+		if (StaticSectors.RemoveAndCopyValue(Key, Sector) && Sector)
+		{
+			Sector->Destroy();
+			++WideWorldUnloads;
+		}
+	}
+
+	for (const FIntVector& Key : Desired)
+	{
+		if (TObjectPtr<AReal33DStaticSector>* Existing = StaticSectors.Find(Key))
+		{
+			if (Existing->Get())
+			{
+				(*Existing)->ApplyView(WideWorldAnchor, WideWorldVisualRadius);
+			}
+			continue;
+		}
+		if (const TArray<FReal33DStaticItem>* Cached = StaticSectorCache.Find(Key))
+		{
+			if (!Cached->IsEmpty())
+			{
+				++WideWorldCacheHits;
+				InstallStaticSector(Key, *Cached, FString());
+			}
+			continue;
+		}
+		RequestStaticSector(Key);
+	}
+}
+
 
 void AReal33DWorld::Tick(float DeltaSeconds)
 {

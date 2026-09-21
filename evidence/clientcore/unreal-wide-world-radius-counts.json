@@ -1,0 +1,44 @@
+{
+  "schema": "real33d.wide-world-cache.v1",
+  "sector_size": 32,
+  "sectors": 199,
+  "center": [
+    32330,
+    32226
+  ],
+  "radii": {
+    "32": {
+      "V08_RESOLVED": 12286,
+      "CLASSIC_SPRITE_FALLBACK": 0,
+      "MISSING_PHYSICAL_ASSET": 0
+    },
+    "64": {
+      "V08_RESOLVED": 38826,
+      "CLASSIC_SPRITE_FALLBACK": 3,
+      "MISSING_PHYSICAL_ASSET": 0
+    },
+    "96": {
+      "V08_RESOLVED": 71845,
+      "CLASSIC_SPRITE_FALLBACK": 8,
+      "MISSING_PHYSICAL_ASSET": 0
+    },
+    "128": {
+      "V08_RESOLVED": 110073,
+      "CLASSIC_SPRITE_FALLBACK": 17,
+      "MISSING_PHYSICAL_ASSET": 0
+    }
+  },
+  "type_469": {
+    "IDENTITY": "KNOWN",
+    "V08_PHYSICAL_ASSET": "MISSING",
+    "WIDE_WORLD_RENDER": "CLASSIC_SPRITE_FALLBACK",
+    "occurrences": {
+      "V08_RESOLVED": 0,
+      "CLASSIC_SPRITE_FALLBACK": 17,
+      "MISSING_PHYSICAL_ASSET": 0
+    }
+  },
+  "classification": "static object occurrences; all floors; exact XY square radius",
+  "source": "local clean Fusion32 origmap; visible ID from objects.srv DisguiseTarget",
+  "reference_pack": "local gitignored classic 7.72 previews"
+}

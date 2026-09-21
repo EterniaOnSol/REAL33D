@@ -37,7 +37,7 @@ void UReal33DAssetRegistry::Initialise()
 	{
 		UE_LOG(LogReal33D, Log, TEXT("loaded approved visual for obj:3501"));
 	}
-	LoadExperimentalCatalog();
+	LoadExperimentalCatalog(false);
 
 	bReady = PlaneMesh != nullptr && CubeMesh != nullptr && CylinderMesh != nullptr;
 	if (!bReady)
@@ -46,12 +46,20 @@ void UReal33DAssetRegistry::Initialise()
 	}
 }
 
-void UReal33DAssetRegistry::LoadExperimentalCatalog()
+void UReal33DAssetRegistry::EnableFrozenCatalogForWideWorld()
+{
+	if (!bExperimentalCatalogEnabled)
+	{
+		LoadExperimentalCatalog(true);
+	}
+}
+
+void UReal33DAssetRegistry::LoadExperimentalCatalog(bool bWideWorldRequired)
 {
 	FString Path;
 	const bool bExplicitPath = FParse::Value(FCommandLine::Get(),
 		TEXT("-real33d-experimental-catalog="), Path);
-	if (!bExplicitPath
+	if (!bWideWorldRequired && !bExplicitPath
 		&& !FParse::Param(FCommandLine::Get(), TEXT("real33d-experimental-catalog"))
 		&& !FParse::Param(FCommandLine::Get(), TEXT("real33d-gallery")))
 	{

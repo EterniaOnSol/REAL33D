@@ -4,6 +4,7 @@
 #include "GameFramework/Actor.h"
 #include "Real33DBridge.h"
 #include "Real33DCoords.h"
+#include "Real33DStaticSectorActor.h"
 #include "Real33DWorldActor.generated.h"
 
 class AReal33DCreature;
@@ -94,12 +95,35 @@ private:
 	void UpdateCamera(float DeltaSeconds);
 	void UpdateFloorVisibility();
 	void DrawOverlay();
+	void InitialiseWideWorld();
+	void UpdateWideWorld();
+	void RequestStaticSector(const FIntVector& SectorKey);
+	void InstallStaticSector(const FIntVector& SectorKey,
+		const TArray<FReal33DStaticItem>& Items, const FString& Error);
 
 	UPROPERTY()
 	TObjectPtr<UReal33DAssetRegistry> Registry = nullptr;
 
 	UPROPERTY()
 	TMap<FIntVector, TObjectPtr<AReal33DTile>> Tiles;
+
+	UPROPERTY()
+	TMap<FIntVector, TObjectPtr<AReal33DStaticSector>> StaticSectors;
+
+	TMap<FIntVector, TArray<FReal33DStaticItem>> StaticSectorCache;
+	TSet<FIntVector> PendingStaticSectors;
+	FString WideWorldCacheDirectory;
+	FString WideWorldPreviewDirectory;
+	Real33D::FMapPosition WideWorldAnchor;
+	int32 WideWorldVisualRadius = 64;
+	int32 WideWorldLoads = 0;
+	int32 WideWorldCacheHits = 0;
+	int32 WideWorldUnloads = 0;
+	int32 WideWorldV08Resolved = 0;
+	int32 WideWorldClassicFallback = 0;
+	int32 WideWorldMissingPhysical = 0;
+	bool bWideWorldEnabled = false;
+	bool bWideWorldAnchorSet = false;
 
 	UPROPERTY()
 	TMap<uint32, TObjectPtr<AReal33DCreature>> Creatures;
