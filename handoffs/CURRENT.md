@@ -6,7 +6,7 @@ Role: Unreal V08 presentation and QA
 Task: VISUAL-FULL-CATALOG-INGEST-TEST-001, operator-directed presentation corrections, and Thais temple live session
 Branch: main; checkpoint based on 78c2797988295d396fe907ae0cb0298d4a1c4d89; ending commit: this handoff's commit
 Worktree: C:/Users/dell/Desktop/fusion32
-Status: IN_PROGRESS. This commit is authorized by the operator; visual certification and artistic approval remain open.
+Status: STANDBY by operator direction on 2026-09-21. Visual certification and artistic approval remain open; this milestone is not PASS.
 
 ## Scope and decisions
 
@@ -49,3 +49,13 @@ Status: IN_PROGRESS. This commit is authorized by the operator; visual certifica
 - `scripts/client/run_unreal_v08_experimental.cmd B`
 - `python scripts/client/validate_v08_mapping.py`
 - Review `evidence/clientcore/unreal-slice/v08-experimental/wall_inspector_notes.tsv` before any new orientation changes. The live client was closed to create a stable checkpoint.
+
+## Operator transition - 2026-09-21
+
+- Objective: checkpoint the current V08 inspection artifacts, commit and push them, then return to gameplay client programming. The exact next gameplay feature is not selected yet.
+- Starting branch/commit: main at 122ee73be4bccd7311a84cd57b5a148b85d61921; origin is the existing REAL33D remote.
+- Operator explicitly requested STANDBY for VISUAL-FULL-CATALOG-INGEST-TEST-001 and no PASS claim. This hold does not revoke the earlier, separately scoped PASS results.
+- Four additional inspector notes identify TypeIds 1295 and 2153. The modified movement journal and EndPlay snapshot are from different recent sessions; neither proves the pending visual acceptance criteria.
+- Visual assets remain TEST_IMPORTED=YES, APPROVED=NO, READY=NO, PRODUCTION_INTEGRATED=NO. Gallery screenshots, representative warning review, and live TypeId 3501/3508 identity proof are still pending.
+- No new visual build or test was run for this checkpoint. Run the repository secret check before push. Preserve all prior implementation and reference files.
+- Next gameplay candidates: outgoing chat from Unreal, containers/inventory, trade, combat, or a live floor transition. Inspect authoritative Fusion32 symbols and agree on one bounded scope before implementation.
