@@ -1,0 +1,142 @@
+[2026-09-21 19:13:55.091] [info] Operating system: Windows
+[2026-09-21 19:13:55.091] [info] OTClient - Redemption 4.x rev 0.000 (desenv) built on Sep 21 2026 for arch x64
+[2026-09-21 19:13:57.372] [info] [R33D] config: proto=772 os=2 rsa=custom envEffect=off
+[2026-09-21 19:13:57.394] [info] Startup done :]
+[2026-09-21 19:13:57.889] [info] [R33D] auto-login host=127.0.0.1 port=7171 acc=772001
+[2026-09-21 19:14:00.284] [info] [R33D-OP] op=10(0x0A) unread=2275
+[2026-09-21 19:14:00.288] [error] Unable to send extended opcode 1, extended opcodes are not enabled
+[2026-09-21 19:14:00.307] [error] Unable to send extended opcode 201, extended opcodes are not enabled
+[2026-09-21 19:14:00.321] [info] [R33D] EVENT onGameStart
+[2026-09-21 19:14:00.321] [info] [R33D-PH] phase driver armed
+[2026-09-21 19:14:00.321] [info] [R33D-OP] op=100(0x64) unread=2267
+[2026-09-21 19:14:00.323] [info] [R33D-OP] op=131(0x83) unread=124
+[2026-09-21 19:14:00.323] [info] [R33D-OP] op=120(0x78) unread=117
+[2026-09-21 19:14:00.323] [info] [R33D-OP] op=120(0x78) unread=113
+[2026-09-21 19:14:00.323] [info] [R33D-OP] op=120(0x78) unread=109
+[2026-09-21 19:14:00.323] [info] [R33D-OP] op=120(0x78) unread=105
+[2026-09-21 19:14:00.323] [info] [R33D-OP] op=160(0xA0) unread=101
+[2026-09-21 19:14:00.324] [info] [R33D-OP] op=130(0x82) unread=80
+[2026-09-21 19:14:00.324] [info] [R33D-OP] op=141(0x8D) unread=77
+[2026-09-21 19:14:00.324] [info] [R33D-OP] op=161(0xA1) unread=70
+[2026-09-21 19:14:00.325] [info] [R33D-OP] op=180(0xB4) unread=55
+[2026-09-21 19:14:00.325] [info] [R33D] MSG mode=16 Your last visit in Tibia: 21. Sep 2026 19:10:29 CST.
+[2026-09-21 19:14:00.639] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:14:02.335] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:14:04.314] [info] [R33D-PH] BASELINE name=Test Player A pos=(32098,32205,7) hp=144/150
+[2026-09-21 19:14:04.314] [info] [R33D-PH] ITEMS tile stack n=2 items=[870x1]
+[2026-09-21 19:14:04.314] [info] [R33D-PH] INVENTORY occupied=4 [3:2853,4:3561,6:3270,10:2920]
+[2026-09-21 19:14:04.334] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:14:06.332] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:14:06.814] [info] [R33D-PH] MOVE requesting North
+[2026-09-21 19:14:06.832] [info] [R33D-OP] op=109(0x6D) unread=220
+[2026-09-21 19:14:06.832] [info] [R33D-OP] op=101(0x65) unread=208
+[2026-09-21 19:14:08.333] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:14:09.313] [info] [R33D-PH] MOVE after North pos=(32098,32204,7)
+[2026-09-21 19:14:09.313] [info] [R33D-PH] MOVE requesting South
+[2026-09-21 19:14:09.332] [info] [R33D-OP] op=109(0x6D) unread=90
+[2026-09-21 19:14:09.332] [info] [R33D-OP] op=103(0x67) unread=78
+[2026-09-21 19:14:10.333] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:14:11.814] [info] [R33D-PH] MOVE after South pos=(32098,32205,7)
+[2026-09-21 19:14:11.814] [info] [R33D-PH] MOVE requesting East
+[2026-09-21 19:14:11.834] [info] [R33D-OP] op=109(0x6D) unread=184
+[2026-09-21 19:14:11.834] [info] [R33D-OP] op=102(0x66) unread=172
+[2026-09-21 19:14:12.333] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:14:14.314] [info] [R33D-PH] MOVE after East pos=(32099,32205,7)
+[2026-09-21 19:14:14.314] [info] [R33D-PH] MOVE requesting West
+[2026-09-21 19:14:14.334] [info] [R33D-OP] op=109(0x6D) unread=106
+[2026-09-21 19:14:14.334] [info] [R33D-OP] op=104(0x68) unread=94
+[2026-09-21 19:14:14.334] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:14:16.334] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:14:16.813] [info] [R33D-PH] MOVE after West pos=(32098,32205,7)
+[2026-09-21 19:14:16.813] [info] [R33D-PH] MOVE net displacement from baseline start=(32098,32205,7) now=(32098,32205,7)
+[2026-09-21 19:14:18.334] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:14:19.313] [info] [R33D-PH] CHAT sending say "REAL33D probe alpha"
+[2026-09-21 19:14:19.333] [info] [R33D-OP] op=170(0xAA) unread=46
+[2026-09-21 19:14:19.333] [info] [R33D] TALK from=Test Player A mode=1 ch=0 text=REAL33D probe alpha
+[2026-09-21 19:14:20.334] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:14:21.814] [info] [R33D-PH] CONTAINER opening inventory slot=3 id=2853
+[2026-09-21 19:14:21.883] [info] [R33D-OP] op=110(0x6E) unread=11
+[2026-09-21 19:14:22.334] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:14:24.314] [info] [R33D-PH] CONTAINER open cid=0 name=bag capacity=8 items=0 []
+[2026-09-21 19:14:24.333] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:14:26.332] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:14:26.814] [info] [R33D-PH] ITEM_MOVE moving inv slot=4 id=3561 -> container cid=0
+[2026-09-21 19:14:26.882] [info] [R33D-OP] op=121(0x79) unread=47
+[2026-09-21 19:14:26.883] [info] [R33D-OP] op=112(0x70) unread=45
+[2026-09-21 19:14:26.884] [info] [R33D-OP] op=160(0xA0) unread=41
+[2026-09-21 19:14:26.884] [info] [R33D-OP] op=160(0xA0) unread=20
+[2026-09-21 19:14:28.332] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:14:29.314] [info] [R33D-PH] CONTAINER closing cid=0
+[2026-09-21 19:14:29.334] [info] [R33D-OP] op=111(0x6F) unread=1
+[2026-09-21 19:14:30.334] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:14:31.814] [info] [R33D-PH] LOGOUT requesting safeLogout
+[2026-09-21 19:14:32.850] [info] [R33D] EVENT onGameEnd
+[2026-09-21 19:14:34.314] [info] [R33D-PH] LOGOUT confirmed offline
+[2026-09-21 19:14:36.812] [info] [R33D-PH] RECONNECT re-issuing login
+[2026-09-21 19:14:44.813] [info] [R33D-PH] RECONNECT online=false
+[2026-09-21 19:14:44.813] [info] [R33D-PH] AFTER_RECONNECT NO_LOCALPLAYER
+[2026-09-21 19:14:52.814] [info] [R33D-PH] PHASES COMPLETE
+[2026-09-21 19:15:23.084] [info] [R33D-OP] op=10(0x0A) unread=2271
+[2026-09-21 19:15:23.087] [error] Unable to send extended opcode 1, extended opcodes are not enabled
+[2026-09-21 19:15:23.106] [error] Unable to send extended opcode 201, extended opcodes are not enabled
+[2026-09-21 19:15:23.116] [info] [R33D] EVENT onGameStart
+[2026-09-21 19:15:23.117] [info] [R33D-OP] op=100(0x64) unread=2263
+[2026-09-21 19:15:23.119] [info] [R33D-OP] op=131(0x83) unread=120
+[2026-09-21 19:15:23.119] [info] [R33D-OP] op=120(0x78) unread=113
+[2026-09-21 19:15:23.119] [info] [R33D-OP] op=120(0x78) unread=109
+[2026-09-21 19:15:23.119] [info] [R33D-OP] op=120(0x78) unread=105
+[2026-09-21 19:15:23.120] [info] [R33D-OP] op=160(0xA0) unread=101
+[2026-09-21 19:15:23.121] [info] [R33D-OP] op=130(0x82) unread=80
+[2026-09-21 19:15:23.121] [info] [R33D-OP] op=141(0x8D) unread=77
+[2026-09-21 19:15:23.121] [info] [R33D-OP] op=161(0xA1) unread=70
+[2026-09-21 19:15:23.121] [info] [R33D-OP] op=180(0xB4) unread=55
+[2026-09-21 19:15:23.122] [info] [R33D] MSG mode=16 Your last visit in Tibia: 21. Sep 2026 19:14:00 CST.
+[2026-09-21 19:15:25.132] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:15:27.134] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:15:29.132] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:15:31.132] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:15:33.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:15:35.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:15:37.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:15:39.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:15:41.135] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:15:43.132] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:15:45.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:15:47.132] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:15:49.132] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:15:51.132] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:15:52.682] [info] [R33D-OP] op=30(0x1E) unread=0
+[2026-09-21 19:15:53.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:15:55.132] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:15:57.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:15:59.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:01.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:03.132] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:05.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:07.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:09.132] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:11.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:13.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:15.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:17.132] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:19.132] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:21.134] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:22.682] [info] [R33D-OP] op=30(0x1E) unread=0
+[2026-09-21 19:16:23.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:25.132] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:27.132] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:29.132] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:31.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:33.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:35.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:37.135] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:39.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:41.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:43.132] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:45.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:49.132] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:51.132] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:52.683] [info] [R33D-OP] op=30(0x1E) unread=0
+[2026-09-21 19:16:53.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:55.133] [info] [R33D-OP] op=109(0x6D) unread=11
+[2026-09-21 19:16:57.132] [info] [R33D-OP] o
