@@ -1,7 +1,9 @@
 # Project Status
 
-Current phase: `PHASE 2 - GAMEPLAY CLIENT PROGRAMMING` (`IN_PROGRESS`; the first 3D representation is live; V08 visual review is on operator-directed standby)
-Current milestone: UNREAL-WIDE-WORLD-001 (CERTIFIED_PASS; 32x32 live boundary round-trip and static/live reconciliation passed).
+Current phase: `PHASE 2 - GAMEPLAY CLIENT PROGRAMMING` (`IN_PROGRESS`; the first 3D representation is live, a stock 2D client now completes the ordinary 7.72 flow, and V08 visual review is on operator-directed standby)
+Current milestone: DUAL-CLIENT-ARCHITECTURE-CLOSEOUT-001 (documentation closeout; dual-client production architecture selected).
+Next milestone: REAL33D-2D-BOOTSTRAP-001 (NOT_STARTED).
+Last certified: UNREAL-WIDE-WORLD-001 CERTIFIED_PASS at `3fd5d1d`; DUAL_CLIENT_LIVE_CAPTURE PASS at `0f9bd505`.
 Branch: `main`
 Classic baseline review commit: `f65f3a7645ff40b39b7cc8399760fd4f0b69ecee`
 Transport implementation commit: `abd2d0a25bd9632f5aa3955e822876268c7ca96c`
@@ -16,6 +18,7 @@ Visual inventory commit: `4260d98`
 Visual reference pack commit: `3e0bea0`
 Unreal slice commit: `da36b86`; corrective certification commit: `cae6450`
 Chat commit: `e756bb7`; chat presentation commit: `cf034eb`
+Dual-client research commit: `faf8852`; live capture commit: `0f9bd505`
 Worktree: V08 presentation corrections and QA evidence recorded on main; final visual certification is `STANDBY` at the operator's direction
 Remote: `origin` = `https://github.com/EterniaOnSol/REAL33D.git`; V08 presentation corrections were published on `main` without force push. Screenshots are the first binaries committed and go through Git LFS per `.gitattributes`. No history was rewritten and no force push was used. The first attempt returned HTTP 403 because the stored credential belonged to `leodavidsoto`, which holds only `READ` on that repo; the operator re-authenticated `gh` as `EterniaOnSol`, which holds `admin`
 
@@ -60,3 +63,83 @@ UNREAL-WIDE-WORLD-001 = CERTIFIED_PASS. Unreal loads strict, generated 32×32 .w
 Frozen V08 meshes resolve first. Missing physical V08 meshes use local gitignored classic previews as CLASSIC_SPRITE_FALLBACK; MISSING_PHYSICAL_ASSET remains separate and non-blocking. Thais exact-radius V08/fallback/missing occurrence counts are 12,286/0/0 at 32, 38,826/3/0 at 64, 71,845/8/0 at 96, and 110,073/17/0 at 128. TypeId 469 is explicitly CLASSIC_SPRITE_FALLBACK. The catalogue hash is unchanged and no V08 asset, ClientCore, protocol, server, or reference source changed. See evidence/clientcore/UNREAL-WIDE-WORLD-001.md.
 
 Live certification: at (32094,32203,7), three initial stationary visibility audits returned zero mismatches after correcting the classic billboard hidden-in-game default. A real round-trip across x=32096 loaded and unloaded nine sectors in each direction. Six crossing/return audits found zero static/live overlaps, zero visibility mismatches, and a live tile under the player. See evidence/clientcore/UNREAL-WIDE-WORLD-001.md.
+
+## Dual-client architecture closeout - 2026-09-21
+
+`DUAL-CLIENT-ARCHITECTURE-CLOSEOUT-001`. Documentation only; no code, protocol,
+server, Unreal or V08 change.
+
+### Selected production architecture
+
+```
+                        Fusion32
+                           |
+             +-------------+-------------+
+             |                           |
+        REAL33D 2D                    REAL33D 3D
+     OTClient-derived                   Unreal
+             |                           |
+     own parser/model            ClientCore + WorldState
+             |                           |
+             +---- same protocol spec ---+
+                  shared fixtures
+```
+
+- `REAL33D_2D` = mehah/OTClient-derived production client.
+- `REAL33D_3D` = Unreal + ClientCore production client.
+- `Fusion32` = sole authoritative game server.
+- Official `Tibia.exe` 7.72 = QA / parity / reference only, **not** a production client.
+- IP changer = legacy QA utility only, **not** production infrastructure.
+
+OTClient keeps its own parser and game model; ClientCore remains the 3D
+implementation and the protocol reference. We do **not** replace OTClient's model
+with ClientCore's WorldState: its UI rests on 1,061 Lua bindings and 207 distinct
+`g_game.*`/`g_map.*` call sites over its own object model, so substitution would
+be a rewrite rather than an integration. The two clients share the protocol
+specification, byte-level fixtures, semantic expectations and Fusion32 authority,
+so drift surfaces as a failing fixture.
+
+### DUAL_CLIENT_LIVE_CAPTURE = PASS (`0f9bd505`)
+
+A stock `mehah/otclient` build completed the full ordinary 7.72 flow against the
+unmodified server with configuration only. `STOCK_OTCLIENT_CONNECT`, `LOGIN`,
+`CHARACTER_LIST`, `GAMELOGIN`, `INITIAL_WORLD`, `CLIENT_INITIATED_MOVEMENT`,
+`SAY_CHAT`, `ITEMS`, `INVENTORY`, `CONTAINERS`, `ITEM_MOVE` and
+`LOGOUT_RECONNECT` are all PASS. Incoming protocol decode errors, unknown
+incoming opcodes and unsupported incoming opcodes are each 0 over 103 traced
+packets and 20 distinct opcodes. `SERVER_CHANGES_REQUIRED = 0`,
+`STOCK_CLIENT_PARSER_PATCHES_REQUIRED = 0`, `REQUIRED_PRODUCTION_PATCHES = 1`.
+`OPTION_C_VIABLE_FOR_PRODUCTION = YES`.
+
+Remaining patch: `TALK_MODE_14 = KNOWN_PRODUCTION_PATCH_REQUIRED`,
+`NOT_LIVE_TESTED`, one `protocolcodes.cpp` table entry. It needs a gamemaster
+anonymous channel call this QA runtime cannot produce.
+
+DIV-08: `CATALOGUE_STATIC_MATCH = 4990/4990`, `LIVE_CONFIRMED = 5/5` observed
+TypeIds; cumulative and liquid classes are `NOT_LIVE_COVERED` because every
+TypeId seen live was zero-extra-byte. TypeId 5090 is
+`KNOWN_SERVER_ONLY_OR_UNREACHED_EXCEPTION`.
+
+### Commit attribution correction (documentary; no history rewritten)
+
+- `3fd5d1d` = `UNREAL-WIDE-WORLD-001` CERTIFIED_PASS.
+- `c7bcfe7` = principally `UNREAL-PLAYER-VITALS-001` and other concurrent work,
+  despite its message naming UNREAL-WIDE-WORLD-001.
+  `UNREAL-PLAYER-VITALS-001` remains `IMPLEMENTED_UNVERIFIED`.
+
+### Next milestone - REAL33D-2D-BOOTSTRAP-001 (NOT_STARTED)
+
+Turn the successful isolated OTClient probe into a clean, reproducible
+REAL33D-owned 2D client: pinned upstream commit, REAL33D branding, Fusion32
+host/port, protocol 772 preset, terminal OS/type, Fusion32 public RSA modulus,
+`GameEnvironmentEffect` compatibility, the TALK mode 14 entry, justified removal
+of irrelevant OTClient ecosystem startup modules, a reproducible Windows build,
+no embedded credentials, no private RSA/XTEA material, no accidental
+`Tibia.dat`/`Tibia.spr` publication, and a login to gameplay to logout/reconnect
+acceptance run.
+
+Out of scope: shops, extended opcode 50, new TerminalTypes, 8.6 protocol, new
+server features, Unreal changes, V08 changes, visual/art work.
+
+The probe scratch tree `C:\r33dprobe` stays untouched until the bootstrap
+reproduces the live PASS. Nothing in this repository references it.

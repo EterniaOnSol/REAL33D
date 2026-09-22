@@ -1,64 +1,156 @@
 # HANDOFF
 
 Date/time: 2026-09-21, America/Guatemala
-Agent: Codex
-Role: Unreal wide-world static streamer
-Task: UNREAL-WIDE-WORLD-001
+Task: DUAL-CLIENT-ARCHITECTURE-CLOSEOUT-001
 Branch: main
-Certification base commit: 4637437a495f22134af5206b93c342c97589be49
-Worktree: C:/Users/dell/Desktop/fusion32
-Status: CERTIFIED_PASS. Four radii loaded, and a live round-trip across the 32x32 boundary passed. V08 visual certification remains STANDBY.
+Status: **CLOSEOUT**. Documentation only. No code, protocol, server, Unreal or V08 change.
 
-## Objective and boundaries
+This handoff supersedes the UNREAL-WIDE-WORLD-001 handoff. That milestone is
+complete and certified; see the attribution note below for its correct commit.
 
-- Stream clean Fusion32 static .sec baseline beyond the 18×14 authoritative live window.
-- WorldState owns the whole live rectangle, including empty fields.
-- Outside live authority, render STATIC_BASELINE_ONLY. No creatures, players, combat, effects, moving items, door changes, or other runtime mutations are synthesized.
-- Preserve visible Fusion32 TypeId identity and keep missing V08 physical meshes non-blocking.
-- Keep V08 assets, aliases, mappings, materials, rotations, pivots, imported files, gallery, notes, and approval state frozen.
-- Keep ClientCore, protocol, server, and reference sources unchanged.
+## What is now certified
 
-## Implementation
+| Milestone | Status | Commit |
+| --- | --- | --- |
+| `UNREAL-WIDE-WORLD-001` | `CERTIFIED_PASS` | `3fd5d1d` |
+| `DUAL_CLIENT_LIVE_CAPTURE` | `PASS` | `0f9bd505` |
 
-- Added scripts/client/build_wide_world_cache.py, a strict .sec parser and local cache compiler. It handles flags, string and numeric attributes, recursive Content, exact stack order, and objects.srv disguise targets.
-- Generated cache rows store world coordinates, stack, visible TypeId, and raw source TypeId. Output goes to Unreal Saved/WideWorldCache and remains gitignored.
-- Added AReal33DStaticSector. It groups V08 meshes in HISM components, uses the local classic preview as a billboard for unresolved V08 identities, and uses a separately counted placeholder only if the classic preview is also absent.
-- Added async .wws read/parse and game-thread-only actor/component installation, suppression, and destruction.
-- Added configurable -real33d-visual-radius, default 64, accepted range 32–512.
-- Added parsed sector cache and reload without disk IO.
-- Added complete 18×14, floor-offset-aware static suppression and exact radius filtering per tile.
-- Added desired-sector calculation and distant actor unload.
+`OPTION_C_VIABLE_FOR_PRODUCTION = YES`
 
-## TypeId 469
+A stock `mehah/otclient` build ran the full ordinary 7.72 flow against the
+unmodified Fusion32 server with **configuration only**:
 
-- Source .sec TypeId: 451.
-- objects.srv visible DisguiseTarget: 469.
-- Identity: known stairs.
-- V08 physical mesh: missing.
-- Wide-world render: CLASSIC_SPRITE_FALLBACK.
-- All 17 exact radius-128 occurrences around the audited Thais center retain visible TypeId 469.
-- No physical equivalence or V08 alias was invented.
+```
+STOCK_OTCLIENT_CONNECT     PASS      CONTAINERS           PASS
+LOGIN                      PASS      ITEM_MOVE            PASS
+CHARACTER_LIST             PASS      ITEMS                PASS
+GAMELOGIN                  PASS      INVENTORY            PASS
+INITIAL_WORLD              PASS      SAY_CHAT             PASS
+CLIENT_INITIATED_MOVEMENT  PASS      LOGOUT_RECONNECT     PASS
 
-## Tests and evidence
+INCOMING_PROTOCOL_ERRORS     = 0
+UNKNOWN_INCOMING_OPCODES     = 0
+UNSUPPORTED_INCOMING_OPCODES = 0
 
-- Strict radius-128 cache compilation: PASS, 199 sectors.
-- Exact occurrence counts at radii 32/64/96/128 are in evidence/clientcore/unreal-wide-world-radius-counts.json.
-- UE 5.8 REAL33DEditor build: Result Succeeded.
-- REAL33D.WideWorld.AuthoritativeWindow automation: Success. Covers live bounds, floor offset, visual radius, static-to-live transition suppression, and load/unload candidates.
-- Live headless run connected Player B at 32094,32203 and loaded 62 cached sectors. Raw sector contents: V08_RESOLVED=41,506; CLASSIC_SPRITE_FALLBACK=14; MISSING_PHYSICAL_ASSET=0.
-- Frozen runtime catalogue SHA-256 remains 635b9c74a8a889be4764d87e27f742e4934f4a0e738100134fcf5ad0a2ea7a01.
-- No changed file under visual/qa/full_catalog_v08, Unreal Content/Experimental/V08, clientcore, or reference.
-- Four stationary headless performance runs loaded 25/62/104/141 sector Actors at radii 32/64/96/128. Full counts and unmeasured metrics: evidence/clientcore/UNREAL-WIDE-WORLD-001.md.
-- Initial TypeId-469 billboard visibility mismatches were diagnosed as Unreal billboard hidden-in-game defaults; the one-line WideWorld fix passed three consecutive stationary audits with zero mismatches. A real east/west round-trip crossed x=32096. Nine sectors loaded and nine unloaded in each direction; six audits returned zero mismatches and zero static/live overlaps. The live player tile remained present.
-- Full evidence: evidence/clientcore/UNREAL-WIDE-WORLD-001.md.
+SERVER_CHANGES_REQUIRED              = 0
+STOCK_CLIENT_PARSER_PATCHES_REQUIRED = 0
+REQUIRED_PRODUCTION_PATCHES          = 1
+```
 
-## Remaining limits
+Full evidence: `evidence/clientcore/DUAL_CLIENT_LIVE_CAPTURE.md`, with session
+logs `DUAL-CLIENT-LIVE-CAPTURE-001-session1.log` and `-session3.log`.
 
-- Classic sprite fallbacks are provisional 2.5D presentation. Final artistic and physical 3D fidelity are outside this milestone.
-- The local classic reference pack and generated cache must not be published.
-- V08 certification remains STANDBY and retains its previous approval state.
+## Selected production architecture
 
-## Subsequent operation
+```
+                        Fusion32
+                           |
+             +-------------+-------------+
+             |                           |
+        REAL33D 2D                    REAL33D 3D
+     OTClient-derived                   Unreal
+             |                           |
+     own parser/model            ClientCore + WorldState
+             |                           |
+             +---- same protocol spec ---+
+                  shared fixtures
+```
 
-- For a live visual run, regenerate or extend Saved/WideWorldCache around the chosen account position, then launch Unreal with the frozen experimental catalogue, cache path, preview path, and desired radius.
-- Review wide-world cold-start cost separately if a performance budget is later defined. The live radius-64 run loaded successfully; no FPS target belongs to this milestone.
+- **`REAL33D_2D`** — mehah/OTClient-derived **production** client.
+- **`REAL33D_3D`** — Unreal + ClientCore **production** client.
+- **`Fusion32`** — sole authoritative game server.
+- **Official `Tibia.exe` 7.72** — QA / parity / reference only. **Not a production client.**
+- **IP changer** — legacy QA utility only. **Not production infrastructure.**
+
+### The architectural choice, stated plainly
+
+OTClient **keeps its own parser and game model**. ClientCore remains the 3D
+implementation and the protocol reference. **We do not replace OTClient's model
+with ClientCore's WorldState.**
+
+The measurement behind that decision: OTClient's UI sits on 1,061 Lua binding
+registrations and 207 distinct `g_game.*` / `g_map.*` call sites across 76
+modules, all backed by its own `Map`, `Creature`, `Item` and `LocalPlayer`.
+Substituting WorldState would be a rewrite of the 2D client, not an integration.
+
+What the two clients share instead:
+
+- the protocol specification
+- byte-level fixtures
+- semantic expectations
+- Fusion32 authority
+
+Divergence is therefore caught by a failing fixture rather than by hoping two
+implementations stay aligned.
+
+## Known remaining patch
+
+```
+TALK_MODE_14 = KNOWN_PRODUCTION_PATCH_REQUIRED
+               NOT_LIVE_TESTED
+               one protocolcodes.cpp table entry
+```
+
+Wire mode 14 (`TALK_ANONYMOUS_CHANNELCALL`) has no entry in OTClient's
+`version >= 740` table, so `translateMessageModeFromServer` returns
+`MessageInvalid` and `parseTalk` reaches `default: throw` — a loud failure, not
+silent corruption. Producing it live needs a gamemaster anonymous channel call,
+which this sanitized QA runtime cannot generate. 14 of the 15 emittable modes
+already match exactly, tail included.
+
+## DIV-08 standing position
+
+```
+CATALOGUE_STATIC_MATCH        = 4990/4990
+LIVE_CONFIRMED                = 5/5 observed TypeIds
+cumulative/liquid live classes = NOT_LIVE_COVERED
+TypeId 5090                   = KNOWN_SERVER_ONLY_OR_UNREACHED_EXCEPTION
+```
+
+Every TypeId observed live was a zero-extra-byte item, so the one-byte classes
+rest on the catalogue-wide static match rather than on live observation.
+
+## Commit attribution — documentary, no history rewritten
+
+- `3fd5d1d` — `UNREAL-WIDE-WORLD-001` was already **CERTIFIED_PASS** here.
+- `c7bcfe7` — its message described the change set as UNREAL-WIDE-WORLD-001. It
+  contains principally **`UNREAL-PLAYER-VITALS-001`** and other concurrent work.
+  **`UNREAL-PLAYER-VITALS-001` remains `IMPLEMENTED_UNVERIFIED`.**
+- `faf8852` — dual-client research and first successful stock OTClient session.
+- `0f9bd505` — `DUAL_CLIENT_LIVE_CAPTURE = PASS`.
+
+## Next milestone — REAL33D-2D-BOOTSTRAP-001 (NOT STARTED)
+
+**Objective:** turn the successful isolated OTClient probe into a clean,
+reproducible REAL33D-owned 2D client.
+
+**Scope:**
+
+- exact pinned `mehah/otclient` upstream commit
+- REAL33D branding
+- Fusion32 host/port configuration
+- protocol 772 preset
+- terminal OS/type configuration
+- Fusion32 **public** RSA modulus configuration
+- `GameEnvironmentEffect` compatibility
+- TALK mode 14 one-entry patch
+- remove or disable irrelevant OTClient ecosystem startup modules where justified
+- reproducible Windows build
+- no embedded account or password
+- no private RSA or XTEA material
+- no accidental `Tibia.dat` / `Tibia.spr` publication
+- login → gameplay → logout/reconnect acceptance run
+
+**Explicitly out of scope:** shops, extended opcode 50, new TerminalTypes, 8.6
+protocol, new server features, Unreal changes, V08 changes, visual/art work.
+
+## Scratch tree
+
+`C:\r33dprobe` (~2.2 GB) holds the probe build, its pinned vcpkg, the probe mod
+and the session logs. **Keep it untouched until REAL33D-2D-BOOTSTRAP-001
+reproduces the live PASS.** Nothing in this repository references it.
+
+## Resume instruction
+
+Begin `REAL33D-2D-BOOTSTRAP-001` from the scope above. Do not re-run the live
+probe and do not redo the research; both are certified and published.

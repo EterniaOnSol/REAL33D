@@ -1,18 +1,45 @@
 # REAL33D — ChatGPT Project Context
 
-Updated: 2026-09-17
+Updated: 2026-09-21
 
 Purpose: durable recovery context for continuing REAL33D if conversational context is lost. Repository source truth and newer evidence always override this file.
 
 ## Project
 
-REAL33D is a true 3D client for the Fusion32/Tibia 7.72 world.
+REAL33D is a **dual-client** project on the Fusion32/Tibia 7.72 world: a 2D
+client and a 3D client sharing one authoritative server.
 
-Architecture:
+Selected production architecture (`DUAL-CLIENT-ARCHITECTURE-CLOSEOUT-001`):
 
-`Fusion32 7.72 → Protocol772Core → semantic events → WorldState → Unreal Bridge → Unreal Game Thread → 3D presentation`
+```
+                        Fusion32
+                           |
+             +-------------+-------------+
+             |                           |
+        REAL33D 2D                    REAL33D 3D
+     OTClient-derived                   Unreal
+             |                           |
+     own parser/model            ClientCore + WorldState
+             |                           |
+             +---- same protocol spec ---+
+                  shared fixtures
+```
 
-Fusion32 remains authoritative. Unreal must not independently parse Protocol 772 or become gameplay authority. Initial convention: `1 SQM ≈ 100 Unreal Units`.
+- `REAL33D_2D` = mehah/OTClient-derived production client.
+- `REAL33D_3D` = Unreal + ClientCore production client:
+  `Fusion32 7.72 → Protocol772Core → semantic events → WorldState → Unreal Bridge → Unreal Game Thread → 3D presentation`
+- `Fusion32` = sole authoritative game server.
+- Official `Tibia.exe` 7.72 = QA / parity / reference only, **not** a production client.
+- IP changer = legacy QA utility only, **not** production infrastructure.
+
+OTClient keeps its own parser and game model. ClientCore remains the 3D
+implementation and the protocol reference. We do **not** replace OTClient's model
+with ClientCore's WorldState. The clients share the protocol specification,
+byte-level fixtures, semantic expectations and Fusion32 authority.
+
+Fusion32 remains authoritative for both. Neither client may become gameplay
+authority. Unreal must not independently parse Protocol 772. Initial convention:
+`1 SQM ≈ 100 Unreal Units`.
 
 Future visual resolution boundary:
 
@@ -28,6 +55,9 @@ Future visual resolution boundary:
 - INITIALWORLD-772-001 — PASS + LIVE
 - MOVEMENT-772-001 — PASS + LIVE
 - PLAYERSTATE-772-001 — PASS + LIVE + published
+- UNREAL-WIDE-WORLD-001 — CERTIFIED_PASS (`3fd5d1d`)
+- DUAL_CLIENT_LIVE_CAPTURE — PASS (`0f9bd505`); OPTION_C_VIABLE_FOR_PRODUCTION = YES
+- DUAL-CLIENT-ARCHITECTURE-CLOSEOUT-001 — architecture selected
 
 ## TWO-CLIENT-VERTICAL-SLICE-001
 
@@ -109,7 +139,32 @@ Reference sheets are nearest-neighbor/pixel-exact. Artistic interpretation is se
 
 At this context checkpoint, the brother is cloning/setting up his workstation. A later fresh-workstation validation is useful but does not block Unreal engineering.
 
-## CURRENT MILESTONE — UNREAL-SLICE-001
+## CURRENT STATE — dual-client closeout (2026-09-21)
+
+- `UNREAL-WIDE-WORLD-001` = `CERTIFIED_PASS` at `3fd5d1d`.
+- `DUAL_CLIENT_LIVE_CAPTURE` = `PASS` at `0f9bd505`.
+  Stock mehah/otclient completed connect, login, character list, game login,
+  initial world, client-initiated movement, say chat, items, inventory,
+  containers, item move and logout/reconnect against the unmodified server with
+  configuration only. Incoming decode errors, unknown opcodes and unsupported
+  opcodes were 0 each. `OPTION_C_VIABLE_FOR_PRODUCTION = YES`.
+- Remaining patch: `TALK_MODE_14`, one `protocolcodes.cpp` table entry,
+  `NOT_LIVE_TESTED` (needs a gamemaster anonymous channel call).
+- DIV-08: static match 4990/4990; 5/5 observed TypeIds live-confirmed;
+  cumulative/liquid classes `NOT_LIVE_COVERED`; TypeId 5090 is
+  `KNOWN_SERVER_ONLY_OR_UNREACHED_EXCEPTION`.
+- Attribution, documentary only: `c7bcfe7` is principally
+  `UNREAL-PLAYER-VITALS-001` and other concurrent work, which remains
+  `IMPLEMENTED_UNVERIFIED`.
+- **Next milestone: `REAL33D-2D-BOOTSTRAP-001` (NOT_STARTED)** — turn the
+  isolated OTClient probe into a clean, reproducible REAL33D-owned 2D client.
+  Out of scope: shops, extended opcode 50, new TerminalTypes, 8.6 protocol, new
+  server features, Unreal changes, V08 changes, visual/art work.
+- Probe scratch tree `C:
+33dprobe` must stay untouched until the bootstrap
+  reproduces the live PASS.
+
+## EARLIER MILESTONE — UNREAL-SLICE-001
 
 **IN PROGRESS. DO NOT RESTART FROM ZERO.**
 
@@ -159,21 +214,35 @@ Live acceptance should demonstrate:
 
 Scope exclusions unless strictly required: final art, chat, inventory/containers, combat UI, spells/runes, final VFX, full UI, minimap, audio, mobile/tablet and monolithic offline map conversion.
 
-## Resume instruction for Codex
+## Resume instruction
 
-Continue `UNREAL-SLICE-001` exactly from the current workspace. The previous execution stopped only because of token limits while working on `unreal/REAL33D/Source/REAL33D/Public/Real33DBridge.h`.
+Start `REAL33D-2D-BOOTSTRAP-001`. Do **not** re-run the live probe and do **not**
+redo the dual-client research; both are certified and published at `0f9bd505`.
 
-Do not restart the milestone, recreate the project from zero or discard valid work. Inspect workspace, diff, TODOs and partial files first and continue from the first genuinely incomplete point.
+Objective: turn the successful isolated OTClient probe into a clean, reproducible
+REAL33D-owned 2D client.
 
-Maintain:
+Scope: pinned `mehah/otclient` upstream commit, REAL33D branding, Fusion32
+host/port configuration, protocol 772 preset, terminal OS/type configuration,
+Fusion32 **public** RSA modulus configuration, `GameEnvironmentEffect`
+compatibility, the TALK mode 14 one-entry patch, justified removal or disabling
+of irrelevant OTClient ecosystem startup modules, a reproducible Windows build,
+no embedded account or password, no private RSA or XTEA material, no accidental
+`Tibia.dat`/`Tibia.spr` publication, and a login to gameplay to logout/reconnect
+acceptance run.
 
-`Network → Protocol772Core → semantic events/WorldState → Unreal Bridge → Game Thread → Presentation`
+Out of scope: shops, extended opcode 50, new TerminalTypes, 8.6 protocol, new
+server features, Unreal changes, V08 changes, visual/art work.
 
-Unreal does not parse Protocol 772 and is not movement authority. Use placeholders and do not wait for final art.
+Keep the architecture intact: OTClient retains its own parser and game model;
+ClientCore stays the 3D implementation and the protocol reference; the two
+clients share the protocol specification, byte-level fixtures, semantic
+expectations and Fusion32 authority. Neither client is gameplay authority.
 
-Complete the thread-safe bridge, coordinate transform, Asset Registry, tiles/creatures/viewport/movement, live acceptance with Fusion32 + Tibia.exe, regressions, tests/sanitizers, evidence/docs/status/parity, secret check, commit/handoff/push.
+Keep `C:33dprobe` untouched until the bootstrap reproduces the live PASS.
 
-`UNREAL-SLICE-001` is PASS only with the previously defined live test. At close verify `HEAD == origin/main` and a clean worktree. Do not start the next milestone automatically.
+At close verify `HEAD == origin/main` and a clean worktree. Do not start the
+following milestone automatically.
 
 ## Parallel workstreams
 

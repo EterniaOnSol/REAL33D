@@ -1,5 +1,14 @@
 # Parity Matrix
 
+> **2D client note (2026-09-21).** The `2D<->3D parity` column now refers to
+> **REAL33D 2D**, the mehah/OTClient-derived production client, not to the
+> official `Tibia.exe` 7.72, which is QA/parity/reference only.
+> `DUAL_CLIENT_LIVE_CAPTURE = PASS` (`0f9bd505`) established the 2D side of the
+> ordinary 7.72 flow on a stock build with configuration only: zero server
+> changes, zero parser patches, and zero incoming decode errors, unknown
+> opcodes or unsupported opcodes. Rows below marked *2D live* were exercised in
+> that session. The 3D columns are unchanged by it.
+
 | Feature | Server understood | Protocol specified | Unreal implemented | Tested | 2D<->3D parity | Status |
 | --- | --- | --- | --- | --- | --- | --- |
 | Connection | Service topology/runtime PASS; classic live route PASS; client outer framing and crypto source-traced | Transport/framing/RSA/XTEA, Login and Game Login implemented; persistent session smoke PASS | Yes. `UReal33DBridge` runs Protocol772Core on a worker thread and publishes semantic events to the game thread; the module links the prebuilt `protocol772core.lib` and contains no protocol source | 4/4 retained/new suites normal and sanitized; bounded Game Login smoke PASS; native Windows MSVC build PASS | Partial. Unreal and the original `Tibia.exe` held a session against one Fusion32 world at the same time | IN_PROGRESS |
@@ -11,8 +20,8 @@
 | Movement | Source traced: `Move` ordering, `NotifyGo`, `CGoDirection`, the refusal paths | Cardinal walk/turn/stop commands and `MOVE_CREATURE`/`SNAPBACK`/`MESSAGE` implemented; diagonals and `GO_PATH` deliberately unexposed | Yes, and deliberately one-way. Input becomes an intent for Fusion32; there is no code path by which a key moves an Actor, so a refusal changes nothing on screen. A `MovementLedger` separates steps this client asked for from relocations Fusion32 imposed, such as being pushed | `MOVEMENT-772-001`, `TWO-CLIENT-VERTICAL-SLICE-001` PASS; `UNREAL-SLICE-001` corrective run PASS: 19 operator-driven requests from Unreal resolved as 18 accepted and 1 refused, each joined from key press to authoritative position by an `input_id`, with 6 external relocations counted apart | Partial. Operator-driven Unreal steps were seen on the original client (human observation, machine-corroborated), and the original client's steps moved the Unreal actor | IN_PROGRESS |
 | Creatures | Source traced for the three descriptor forms, the known-creature table and its lifetime, creature relocation and the six attribute updates | Descriptors, the known-creature mirror, creature moves and the 140-145 attribute updates decoded and applied; the mirror now retains entries exactly as `TConnection::KnownCreatureTable` does | Yes. One `AReal33DCreature` per visible creature, named, facing per `enums.hh`, with interpolation applied to drawing only and never to the logical position | The four suites above plus `UNREAL-SLICE-001`, where creature actors equalled WorldState's visible creatures at every sampled point, with zero duplicate spawns and zero orphan events | Partial. Both players were represented simultaneously in both clients through appearance, movement, viewport exit and return | IN_PROGRESS |
 | Items | Source traced for map items, including the object type flags and stack priority the wire omits | Map item encoding and `PlaceObject` stack insertion decoded via an explicit object type table; inventory and container items not started | Presence and passability only. Stack order is preserved and the `UNPASS` flag from `objects.srv` separates blocking objects from walkable clutter; every mesh is a placeholder | `INITIALWORLD-772-001` and `MOVEMENT-772-001` PASS; extra-byte, priority and `UNPASS` paths verified against the real `objects.srv` | No. Nothing about item appearance is comparable while every mesh is an engine primitive | IN_PROGRESS |
-| Inventory | Located | No | No | No | No | NOT_STARTED |
-| Containers | Located | No | No | No | No | NOT_STARTED |
+| Inventory | Located | Decoded live by the 2D client: `SET_INVENTORY` (120) and `DELETE_INVENTORY` (121) | No | 2D live: four occupied body slots read at login, three after an item move | 2D live, 3D not started | IN_PROGRESS |
+| Containers | Located | Decoded live by the 2D client: `CONTAINER` (110), `CLOSE_CONTAINER` (111), `CREATE_IN_CONTAINER` (112) | No | 2D live: bag opened (`cid=0`, capacity 8) and closed | 2D live, 3D not started | IN_PROGRESS |
 | Use / use-with | Located | No | No | No | No | NOT_STARTED |
 | Combat / follow | Located | No | No | No | No | NOT_STARTED |
 | Magic / effects | Source traced for the wire form of the graphical, textual and missile effects and creature marking | Decoded and surfaced as typed events; they carry no WorldState semantics and store nothing. Spell casting itself is untouched | No | `PLAYERSTATE-772-001` fixtures; one live graphical effect observed at login | No | IN_PROGRESS |
@@ -51,3 +60,27 @@ Operator direction (2026-09-21): V08 visual certification is STANDBY, with no ne
 UNREAL-WIDE-WORLD-001 = CERTIFIED_PASS. Strict generated 32×32 sector caches stream outside the complete WorldState-owned 18×14 live rectangle; async work reads and parses rows, while the game thread owns actor/component creation and destruction. Static tiles entering live authority are suppressed, distant sectors unload, parsed data is cached, and missing V08 meshes resolve to identity-retaining local classic sprite proxies or a separately counted non-blocking placeholder. This adds static-map reach and makes no dynamic-world or final-art parity claim. See evidence/clientcore/UNREAL-WIDE-WORLD-001.md.
 
 Live round-trip at x=32096: 9 sector loads and 9 unloads in each direction; all crossing/return audits had zero visibility mismatches and zero static/live overlaps. TypeId 469 uses the exact classic sprite fallback.
+
+## REAL33D 2D live coverage - DUAL_CLIENT_LIVE_CAPTURE (`0f9bd505`)
+
+Stock `mehah/otclient`, configuration only, against the unmodified Fusion32.
+
+| Feature | 2D live result | Authoritative evidence |
+| --- | --- | --- |
+| Connect / login / character list | PASS | server: `loggt ein an Socket 16` |
+| Game login | PASS | `op=10 (0x0A)` INIT_GAME, `onGameStart` |
+| Initial world | PASS | `op=100 (0x64)` FULLSCREEN; `pos=(32098,32205,7)` |
+| Client-initiated movement | PASS | N/S/E/W exact round trip; `op=109` + row updates; `op=181` SNAPBACK decoded when refused |
+| Say chat | PASS | `op=170 (0xAA)`, echo in 20 ms, `mode=1` TALK_SAY |
+| Items | PASS | tile stack `n=2`, TypeId 870 |
+| Inventory | PASS | 4 slots at login, 3 after the move |
+| Containers | PASS | `op=110` open, `op=111` close |
+| Item move | PASS | `op=121` + `op=112` 68 ms after the request; persisted across logout |
+| Logout / reconnect | PASS | two distinct server-side socket records |
+| Combat / follow | NOT_EXERCISED | out of the milestone's scope |
+
+Incoming protocol decode errors, unknown incoming opcodes and unsupported
+incoming opcodes: **0 each**, over 103 traced packets and 20 distinct opcodes.
+The only `[error]` lines were outbound OTClient ecosystem noise
+(`ExtendedIds.Locale = 1`, `GAME_SHOP_CODE = 201`), blocked client-side by
+`m_enableSendExtendedOpcode = false` and never transmitted to Fusion32.
