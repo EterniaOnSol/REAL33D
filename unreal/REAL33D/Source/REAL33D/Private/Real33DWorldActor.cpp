@@ -215,6 +215,7 @@ void AReal33DWorld::ClearWorld()
 	}
 	Creatures.Reset();
 	LocalCreatureId = 0;
+	PlayerVitals = FReal33DPlayerVitals{};
 	bFloorVisibilityDirty = true;
 	// Speech attached to a creature died with its actor above. The transcript
 	// is the other half and the bridge clears it on the same disconnect, so a
@@ -287,6 +288,10 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 	case EReal33DEventKind::WalkUnanswered:
 		JournalMovement(Event);
 		UE_LOG(LogReal33D, Warning, TEXT("a walk request expired unanswered"));
+		break;
+
+	case EReal33DEventKind::PlayerVitals:
+		PlayerVitals = Event.Vitals;
 		break;
 
 	case EReal33DEventKind::CreatureHealth:
@@ -549,7 +554,7 @@ void AReal33DWorld::ApplyCameraTransform()
 	// The actor sits on the player, so orbiting is entirely a matter of where
 	// the camera is placed relative to it. Put the camera one Distance back
 	// along the direction it looks, and the point it looks at is the actor's
-	// origin by construction — which is what keeps the player centred no matter
+	// origin by construction, which is what keeps the player centred no matter
 	// how far the view is swung around.
 	const FRotator Look(CameraPitch, CameraYaw, 0.0f);
 	Camera->SetRelativeLocation(-Look.Vector() * CameraDistance);

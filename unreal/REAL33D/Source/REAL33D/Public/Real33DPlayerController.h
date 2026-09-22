@@ -129,6 +129,11 @@ private:
 	 */
 	TSharedPtr<SWidget> ChatRoot;
 
+	/** Player-facing values received from Fusion32, distinct from diagnostics. */
+	TSharedPtr<SWidget> VitalsRoot;
+	TSharedPtr<STextBlock> VitalsLabel;
+	FString LastVitalsText;
+
 	/** The gate. Nothing else may write it. */
 	bool bTypingActive = false;
 

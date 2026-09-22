@@ -93,7 +93,9 @@ enum class EReal33DEventKind : uint8
 	 *
 	 * Carries `CreatureId` and `HealthPercent`.
 	 */
-	CreatureHealth
+	CreatureHealth,
+	/** Server-owned health, mana and level for the local player's HUD. */
+	PlayerVitals
 };
 
 /** Which shape of talk this was, mirroring the three forms Fusion32 emits. */
@@ -156,6 +158,17 @@ struct FReal33DThing
 	bool bBlocking = false;
 };
 
+/** Server-owned values for the local player's HUD, with an explicit unknown state. */
+struct FReal33DPlayerVitals
+{
+	bool bKnown = false;
+	uint16 Hitpoints = 0;
+	uint16 MaxHitpoints = 0;
+	uint16 Mana = 0;
+	uint16 MaxMana = 0;
+	uint16 Level = 0;
+};
+
 /** An event crossing the thread boundary. Copied, never shared. */
 struct FReal33DEvent
 {
@@ -193,6 +206,7 @@ struct FReal33DEvent
 
 	/** 0..100 as the server reports it. Meaningful for creature events. */
 	uint8 HealthPercent = 100;
+	FReal33DPlayerVitals Vitals;
 };
 
 /** One line of the player-facing transcript, already formatted by ClientCore. */

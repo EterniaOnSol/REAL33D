@@ -69,6 +69,19 @@ void AReal33DPlayerController::BeginPlay()
 	GetWorld()->GetGameViewport()->AddViewportWidgetContent(
 		ChatRoot.ToSharedRef(), /*ZOrder=*/10);
 
+	VitalsRoot = SNew(SBox)
+		.HAlign(HAlign_Right)
+		.VAlign(VAlign_Bottom)
+		.Padding(FMargin(0.0f, 0.0f, 12.0f, 12.0f))
+		[
+			SNew(SBorder).Padding(8.0f)
+			[
+				SAssignNew(VitalsLabel, STextBlock)
+				.Text(FText::FromString(TEXT("HP --/--   Mana --/--   Level --")))
+			]
+		];
+	GetWorld()->GetGameViewport()->AddViewportWidgetContent(
+		VitalsRoot.ToSharedRef(), /*ZOrder=*/10);
 	FString CatalogPath;
 	bInspectorEnabled = FParse::Value(FCommandLine::Get(),
 		TEXT("-real33d-experimental-catalog="), CatalogPath);
@@ -138,6 +151,12 @@ void AReal33DPlayerController::EndPlay(const EEndPlayReason::Type Reason)
 		GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(
 			ChatRoot.ToSharedRef());
 	}
+	if (VitalsRoot.IsValid() && GetWorld() != nullptr
+		&& GetWorld()->GetGameViewport() != nullptr)
+	{
+		GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(
+			VitalsRoot.ToSharedRef());
+	}
 	if (InspectorRoot.IsValid() && GetWorld() != nullptr
 		&& GetWorld()->GetGameViewport() != nullptr)
 	{
@@ -147,6 +166,9 @@ void AReal33DPlayerController::EndPlay(const EEndPlayReason::Type Reason)
 	InspectorLabel.Reset();
 	InspectorNote.Reset();
 	ChatRoot.Reset();
+	VitalsRoot.Reset();
+	VitalsLabel.Reset();
+	LastVitalsText.Empty();
 	ChatPanel.Reset();
 	bTypingActive = false;
 
@@ -320,6 +342,26 @@ void AReal33DPlayerController::SetMovementHeld(uint8 RelativeDirection, bool bHe
 void AReal33DPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+	if (VitalsLabel.IsValid())
+	{
+		const AReal33DWorld* World = GetWorldActor();
+		const FReal33DPlayerVitals Vitals = World != nullptr
+			? World->GetPlayerVitals() : FReal33DPlayerVitals{};
+		const FString Text = Vitals.bKnown
+			? FString::Printf(TEXT("HP %d/%d   Mana %d/%d   Level %d"),
+				static_cast<int32>(Vitals.Hitpoints),
+				static_cast<int32>(Vitals.MaxHitpoints),
+				static_cast<int32>(Vitals.Mana),
+				static_cast<int32>(Vitals.MaxMana),
+				static_cast<int32>(Vitals.Level))
+			: TEXT("HP --/--   Mana --/--   Level --");
+		if (Text != LastVitalsText)
+		{
+			LastVitalsText = Text;
+			VitalsLabel->SetText(FText::FromString(Text));
+			UE_LOG(LogReal33D, Log, TEXT("HUD vitals: %s"), *Text);
+		}
+	}
 	if (InspectorNote.IsValid() && InspectorNote->HasKeyboardFocus())
 	{
 		for (bool& bHeld : bHeldMovement) bHeld = false;

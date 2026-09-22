@@ -35,6 +35,7 @@ public:
 	/** The creature this client controls, once Fusion32 has identified it. */
 	AReal33DCreature* GetLocalPlayer() const;
 	const UReal33DAssetRegistry* GetAssetRegistry() const { return Registry; }
+	const FReal33DPlayerVitals& GetPlayerVitals() const { return PlayerVitals; }
 
 	/** Writes the machine-readable evidence file for the acceptance run. */
 	void WriteEvidence(const FString& Reason);
@@ -136,6 +137,7 @@ private:
 
 	Real33D::FWorldOrigin Origin;
 
+	FReal33DPlayerVitals PlayerVitals;
 	uint32 LocalCreatureId = 0;
 	bool bFloorVisibilityDirty = true;
 	bool bConnected = false;

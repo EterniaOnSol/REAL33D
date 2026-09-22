@@ -37,17 +37,21 @@ Chat result: a live session using chat reached zero unsupported opcodes, zero pr
 Unreal slice correction: the first report credited criteria 6 and 7 to a session in which the operator never controlled B from Unreal. B moved there because A pushed him, which Fusion32 resolved authoritatively; that is incoming-path evidence only. Every retained snapshot from that session shows `steps_requested: 0`, so the numbers the report quoted had no preserved artifact behind them. Both criteria were withdrawn and re-established by a corrective run in which the operator drove B from the Unreal window: 19 requests, 18 accepted, 1 refused, 0 unanswered, each joined from key press to authoritative position by an `input_id`, plus 6 external relocations counted apart, two of them diagonal and therefore impossible to have been requested. A `MovementLedger` in ClientCore now makes the distinction structurally, with six deterministic tests including a replay of the original eight-field push. Details in `evidence/clientcore/UNREAL-SLICE-001-CORRECTION.md`
 Current certification blockers: no verifiable original source/chain of custody for the operator-supplied local client copy; no independent repetition of the live client procedure; the Unreal slice is one run by one operator, with no floor transition exercised in 3D and criterion 7 resting on human observation alone
 Closing ritual from `PLAYERSTATE-772-001` onwards: tests + sanitizers + evidence + docs + commit + handoff + push, with `tests/secret_check.sh` run before every push
-Next task: recommendation only, do not start automatically. `UNREAL-CHAT-OUTGOING-001` would let B speak from Unreal, which is the natural other half of chat and was deliberately left out here. Alternatives: `CONTAINERS-772-001` or `TRADE-772-001` as the next undecoded command groups; `ROOKGAARD-P0-MOCKUPS-001`, unblocked because the asset registry can adopt approved art without touching ClientCore or any Actor; or a floor-transition slice, still the one movement case the 3D client has never exercised.
+Next gameplay candidate: inventory/containers, combat/follow, trade, or a live floor transition. Select one bounded scope from authoritative Fusion32 source before implementation. V08 certification remains on STANDBY.
 
 Updated: 2026-09-17
 
-## Visual ingest audit — 2026-09-20
+## Visual ingest audit â€” 2026-09-20
 
 `REAL33D-VISUAL-INGEST-AUDIT-001 = PASS` only for the internal `visual/` reference area; its former artist-source conclusion was corrected. `REAL33D-3DTIBIA-ART-AUDIT-001 = PASS` for a read-only inventory of the actual source clone `C:/Users/dell/3DTIBIA_leo/motor3d/assets` at `21fafb57dd86b594223bab7dbe9076d1fa380640`: 96,478 files, including four GLB and four BLEND. Four GLBs map `EXACT` to three 7.72 outfit visual identities by pixel-checked source evidence, but the source project documents all four as failed/rejected experiments. No primary-source 3D asset is ready for a P0 vertical import. `TECHNICAL_IMPORT`, `IN_ENGINE_RENDER` and `VISUAL_APPROVAL` remain `NOT_STARTED`; no Unreal, gameplay, protocol or ClientCore change was made. The chat milestone and prior functional claims above are unchanged. Corrected evidence and next step: `visual/docs/EXTERNAL_3DTIBIA_INGEST_AUDIT_2026-09-20.md`.
 
 ## Operator direction - 2026-09-21
 
 V08 visual certification is on standby, not PASS. Preserve the current imports and inspection notes; final gallery review, live identity proof, and artistic approval remain open. Resume gameplay client programming. The next feature has not yet been selected.
+
+## Gameplay client programming - 2026-09-21
+
+UNREAL-PLAYER-VITALS-001 is IMPLEMENTED_UNVERIFIED. The worker publishes semantic PlayerVitals after applying PlayerData to WorldState; the game thread stores it and the HUD shows HP, mana and level, clearing them on disconnect. No protocol, server, or V08 visual asset was changed. The live log showed Player B connected and the HUD changed from unknown to HP 145/145, Mana 0/65531, Level 1. See evidence/clientcore/UNREAL-PLAYER-VITALS-001.md. The V08 catalog remains STANDBY and is not PASS.
 
 ## Wide-world streamer - 2026-09-21
 

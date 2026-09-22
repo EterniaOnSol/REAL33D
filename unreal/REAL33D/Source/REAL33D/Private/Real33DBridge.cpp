@@ -500,6 +500,19 @@ private:
 				FScopeLock Lock(&StatsMutex);
 				Stats.Anomalies += static_cast<int32>(Applied.anomalies.size());
 			}
+			if (Decoded.update.kind == p772::ServerUpdateKind::PlayerData
+				&& State.stats.known)
+			{
+				FReal33DEvent Vitals;
+				Vitals.Kind = EReal33DEventKind::PlayerVitals;
+				Vitals.Vitals.bKnown = true;
+				Vitals.Vitals.Hitpoints = State.stats.hitpoints;
+				Vitals.Vitals.MaxHitpoints = State.stats.max_hitpoints;
+				Vitals.Vitals.Mana = State.stats.mana;
+				Vitals.Vitals.MaxMana = State.stats.max_mana;
+				Vitals.Vitals.Level = State.stats.level;
+				Publish(MoveTemp(Vitals));
+			}
 			At += Decoded.update.bytes_consumed;
 			++LocalCommands;
 		}
