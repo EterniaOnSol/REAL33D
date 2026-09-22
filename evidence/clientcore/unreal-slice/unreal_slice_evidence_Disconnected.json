@@ -1,18 +1,18 @@
 {
   "milestone": "UNREAL-SLICE-001",
-  "written_at": "2026-09-19T10:55:17.464Z",
+  "written_at": "2026-09-22T22:41:12.384Z",
   "reason": "Disconnected",
-  "seconds_in_session": 637.2,
+  "seconds_in_session": 492.6,
   "connected_at_close": false,
-  "local_creature_id": 1002,
-  "local_position": { "x": 32097, "y": 32219, "z": 7 },
-  "origin": { "set": true, "x": 32097, "y": 32219, "z": 7 },
-  "anchor": { "x": 32097, "y": 32219, "z": 7 },
+  "local_creature_id": 0,
+  "local_position": { "x": 0, "y": 0, "z": 0 },
+  "origin": { "set": false, "x": 0, "y": 0, "z": 0 },
+  "anchor": { "x": 0, "y": 0, "z": 0 },
   "clientcore": {
-    "frames": 296,
-    "commands": 309,
-    "residual_bytes": 0,
-    "unsupported_opcodes": 0,
+    "frames": 1,
+    "commands": 0,
+    "residual_bytes": 53,
+    "unsupported_opcodes": 1,
     "protocol_anomalies": 0,
     "walks_requested_from_unreal": 0,
     "walks_accepted": 0,
@@ -20,34 +20,33 @@
     "walks_unanswered": 0,
     "external_relocations": 0,
     "local_player_moves_total": 0,
-    "worldstate_tiles": 408,
-    "worldstate_visible_creatures": 2,
-    "viewport_synchronised": true
+    "worldstate_tiles": 0,
+    "worldstate_visible_creatures": 0,
+    "viewport_synchronised": false
   },
   "presentation": {
-    "tile_actors": 408,
-    "creature_actors": 2,
-    "tiles_spawned": 408,
-    "tiles_removed": 0,
-    "creatures_appeared": 3,
-    "creatures_vanished": 1,
-    "creature_moves": 289,
+    "tile_actors": 0,
+    "creature_actors": 0,
+    "tiles_spawned": 2993,
+    "tiles_removed": 2565,
+    "creatures_appeared": 39,
+    "creatures_vanished": 35,
+    "creature_moves": 460,
     "duplicate_spawn_attempts": 0,
     "orphan_events": 0,
-    "speech_shown_on_creature": 3,
+    "speech_shown_on_creature": 0,
     "speech_shown_in_chat_area_only": 0,
-    "server_messages_received": 2,
+    "server_messages_received": 13,
     "client_notices_raised": 0,
     "chat_transcript_lines": 0,
     "speech_seconds_NOT_PROVEN": 6.0
   },
-  "talk_messages_decoded": 3,
-  "last_diagnostic": "none",
+  "talk_messages_decoded": 0,
+  "last_diagnostic": "SV_CMD_LOGIN_ERROR is not decoded; 53 bytes of the payload left unwalked",
   "chat_transcript": [
 
   ],
   "creatures": [
-    { "id": 1002, "local": true, "x": 32097, "y": 32219, "z": 7 },
-    { "id": 1073741827, "local": false, "x": 32097, "y": 32218, "z": 7 }
+
   ]
 }

@@ -15,6 +15,7 @@
 #include "Real33DChatPanel.h"
 #include "Real33DAssetRegistry.h"
 #include "Real33DTileActor.h"
+#include "Real33DVitalsPanel.h"
 #include "Real33DWorldActor.h"
 #include "Widgets/Layout/SBox.h"
 #include "Widgets/Layout/SBorder.h"
@@ -76,8 +77,7 @@ void AReal33DPlayerController::BeginPlay()
 		[
 			SNew(SBorder).Padding(8.0f)
 			[
-				SAssignNew(VitalsLabel, STextBlock)
-				.Text(FText::FromString(TEXT("HP --/--   Mana --/--   Level --")))
+				SAssignNew(VitalsPanel, SReal33DVitalsPanel)
 			]
 		];
 	GetWorld()->GetGameViewport()->AddViewportWidgetContent(
@@ -167,7 +167,7 @@ void AReal33DPlayerController::EndPlay(const EEndPlayReason::Type Reason)
 	InspectorNote.Reset();
 	ChatRoot.Reset();
 	VitalsRoot.Reset();
-	VitalsLabel.Reset();
+	VitalsPanel.Reset();
 	LastVitalsText.Empty();
 	ChatPanel.Reset();
 	bTypingActive = false;
@@ -342,11 +342,16 @@ void AReal33DPlayerController::SetMovementHeld(uint8 RelativeDirection, bool bHe
 void AReal33DPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	if (VitalsLabel.IsValid())
+	if (VitalsPanel.IsValid())
 	{
 		const AReal33DWorld* World = GetWorldActor();
 		const FReal33DPlayerVitals Vitals = World != nullptr
 			? World->GetPlayerVitals() : FReal33DPlayerVitals{};
+		VitalsPanel->SetVitals(Vitals);
+
+		// The log records transitions, not frames. The values are printed
+		// exactly as the server sent them, unclamped, so the evidence file
+		// still shows a wire-level fault rather than a tidied-up version.
 		const FString Text = Vitals.bKnown
 			? FString::Printf(TEXT("HP %d/%d   Mana %d/%d   Level %d"),
 				static_cast<int32>(Vitals.Hitpoints),
@@ -358,7 +363,6 @@ void AReal33DPlayerController::Tick(float DeltaSeconds)
 		if (Text != LastVitalsText)
 		{
 			LastVitalsText = Text;
-			VitalsLabel->SetText(FText::FromString(Text));
 			UE_LOG(LogReal33D, Log, TEXT("HUD vitals: %s"), *Text);
 		}
 	}

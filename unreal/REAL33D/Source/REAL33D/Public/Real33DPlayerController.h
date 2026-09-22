@@ -6,6 +6,7 @@
 
 class AReal33DWorld;
 class SReal33DChatPanel;
+class SReal33DVitalsPanel;
 class STextBlock;
 class SEditableTextBox;
 
@@ -131,7 +132,14 @@ private:
 
 	/** Player-facing values received from Fusion32, distinct from diagnostics. */
 	TSharedPtr<SWidget> VitalsRoot;
-	TSharedPtr<STextBlock> VitalsLabel;
+	TSharedPtr<SReal33DVitalsPanel> VitalsPanel;
+
+	/**
+	 * The last vitals line written to the log, kept only so the log records a
+	 * change rather than a frame. The panel does its own redraw suppression;
+	 * this exists for the acceptance evidence, which is read as a sequence of
+	 * transitions.
+	 */
 	FString LastVitalsText;
 
 	/** The gate. Nothing else may write it. */

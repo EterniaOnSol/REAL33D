@@ -19,9 +19,13 @@ public class REAL33D : ModuleRules
 		// standard library. See tests\build_clientcore_windows.cmd.
 		CppStandard = CppStandardVersion.Cpp20;
 
-		// Slate rather than UMG: the chat area is built in C++ like every other
-		// part of this project's presentation, so it carries no .uasset and no
-		// binary input asset. See SReal33DChatPanel and Real33DPlayerController.
+		// Slate rather than UMG: every part of this project's presentation is
+		// built in C++, so it carries no .uasset and nothing an editor session
+		// has to regenerate. The UI art is the exception that proves it -- the
+		// health and mana images shared with the REAL33D 2D client are plain
+		// PNGs under Resources/UI, loaded at runtime by FReal33DUIStyle, so
+		// replacing one is a file copy. See SReal33DChatPanel,
+		// SReal33DVitalsPanel and Real33DPlayerController.
 		PublicDependencyModuleNames.AddRange(new string[] {
 			"Core", "CoreUObject", "Engine", "InputCore", "Json", "Slate", "SlateCore"
 		});
