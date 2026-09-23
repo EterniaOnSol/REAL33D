@@ -245,35 +245,19 @@ void SReal33DHUD::Construct(const FArguments& InArgs)
 			]
 		];
 
-	// --------------------------------------------------- the left column
-	//
-	// The generic object-use controls live here. They need a home that is
-	// visible without opening a dialog, and the left column is the space
-	// gameinterface.otui reserves and this client has nothing else to put in.
-
-	TSharedRef<SVerticalBox> Left = SNew(SVerticalBox);
-	Left->AddSlot()
-		.AutoHeight()
-		[
-			SNew(SReal33DMiniWindow)
-			.Title(FText::FromString(TEXT("Use Object")))
-			.ContentHeight(SReal33DHotkeyPanel::DesiredContentHeight())
-			[
-				SNew(SReal33DHotkeyPanel)
-			]
-		];
-
 	// ------------------------------------------------------------- assembly
+	//
+	// No left dock. gameinterface.otui reserves a column there, but in this
+	// client it would be empty: the only thing that had been put in it was a
+	// docked object-use panel, and that was the wrong shape for REAL33D 3D --
+	// those controls belong to the 2D's hotkey configuration dialog, and use
+	// here is meant to be mouse-driven with a temporary crosshair mode. An
+	// empty 176px strip would cost the player that much of the view for
+	// nothing, so the column is not built at all. The left action bar stays.
 
 	ChildSlot
 	[
 		SNew(SHorizontalBox)
-
-		+ SHorizontalBox::Slot()
-		.AutoWidth()
-		[
-			MakeSideColumn(Left)
-		]
 
 		// The left action column, gameinterface.otui's gameLeftActionPanel.
 		+ SHorizontalBox::Slot()
