@@ -208,6 +208,10 @@ void AReal33DWorld::GetBattleList(TArray<FReal33DBattleEntry>& OutEntries) const
 		Entry.Name = Creature->GetCreatureName();
 		Entry.HealthPercent = Creature->GetHealthPercent();
 		Entry.bIsLocalPlayer = Creature->IsLocalPlayer();
+		Entry.bAttacked = Combat.TargetCreatureId == Entry.CreatureId
+			&& !Combat.bFollowing;
+		Entry.bFollowed = Combat.TargetCreatureId == Entry.CreatureId
+			&& Combat.bFollowing;
 
 		// Chebyshev, because a Tibia field is reached diagonally in one step:
 		// the number of steps away is what "nearest" has always meant here, not
@@ -271,6 +275,7 @@ void AReal33DWorld::ClearWorld()
 	// session was never told about.
 	PlayerInventory = FReal33DInventory{};
 	OpenContainers.Reset();
+	Combat = FReal33DCombat{};
 	bFloorVisibilityDirty = true;
 	// Speech attached to a creature died with its actor above. The transcript
 	// is the other half and the bridge clears it on the same disconnect, so a
@@ -387,6 +392,19 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 			{ return A.Number < B.Number; });
 		break;
 	}
+
+	case EReal33DEventKind::CombatChanged:
+		Combat = Event.Combat;
+		RefreshCombatFeedback();
+		UE_LOG(LogReal33D, Log,
+			TEXT("combat state: target=%u action=%s tactics_sent=%s attack_mode=%d chase_mode=%d"),
+			Combat.TargetCreatureId,
+			Combat.TargetCreatureId == 0 ? TEXT("none")
+				: (Combat.bFollowing ? TEXT("follow") : TEXT("attack")),
+			Combat.bTacticsSent ? TEXT("true") : TEXT("false"),
+			static_cast<int32>(Combat.AttackMode),
+			static_cast<int32>(Combat.ChaseMode));
+		break;
 
 	case EReal33DEventKind::CreatureHealth:
 		if (TObjectPtr<AReal33DCreature>* Hurt = Creatures.Find(Event.CreatureId))
@@ -534,6 +552,9 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 		Creature->SetHealthPercent(Event.HealthPercent);
 		Creature->Configure(Event.CreatureId, Event.bIsLocalPlayer, Event.CreatureName,
 			Registry);
+		Creature->SetCombatFeedback(
+			Combat.TargetCreatureId == Event.CreatureId && !Combat.bFollowing,
+			Combat.TargetCreatureId == Event.CreatureId && Combat.bFollowing);
 		UE_LOG(LogReal33D, Log, TEXT("creature %u \"%s\" appeared at %d,%d,%d health %u%%"),
 			Event.CreatureId, *Event.CreatureName,
 			Event.Position.X, Event.Position.Y, Event.Position.Z, Event.HealthPercent);
@@ -580,6 +601,21 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 		bFloorVisibilityDirty = true;
 		break;
 	}
+	}
+}
+
+void AReal33DWorld::RefreshCombatFeedback()
+{
+	check(IsInGameThread());
+	for (TPair<uint32, TObjectPtr<AReal33DCreature>>& Pair : Creatures)
+	{
+		if (!Pair.Value)
+		{
+			continue;
+		}
+		Pair.Value->SetCombatFeedback(
+			Combat.TargetCreatureId == Pair.Key && !Combat.bFollowing,
+			Combat.TargetCreatureId == Pair.Key && Combat.bFollowing);
 	}
 }
 
@@ -1037,6 +1073,8 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		? GameInstance->GetSubsystem<UReal33DBridge>() : nullptr;
 	const FReal33DStats Stats = Bridge != nullptr ? Bridge->GetStats() : FReal33DStats();
 	const AReal33DCreature* Local = GetLocalPlayer();
+	const bool bTargetActorVisible = Combat.TargetCreatureId != 0
+		&& Creatures.Contains(Combat.TargetCreatureId);
 
 	// What the chat area is holding at this instant. Recorded because "the
 	// operator could read it" is the claim this milestone has to support, and a
@@ -1168,6 +1206,11 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		TEXT("    \"says_requested\": %d,\n")
 		TEXT("    \"moves_requested\": %d,\n")
 		TEXT("    \"uses_requested\": %d,\n")
+		TEXT("    \"attacks_requested\": %d,\n")
+		TEXT("    \"follows_requested\": %d,\n")
+		TEXT("    \"combat_cancels_requested\": %d,\n")
+		TEXT("    \"tactics_requested\": %d,\n")
+		TEXT("    \"target_clears_received\": %d,\n")
 		TEXT("    \"worldstate_tiles\": %d,\n")
 		TEXT("    \"worldstate_visible_creatures\": %d,\n")
 		TEXT("    \"viewport_synchronised\": %s\n")
@@ -1195,6 +1238,9 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		TEXT("  \"inventory\": [\n%s\n  ],\n")
 		TEXT("  \"open_containers\": %d,\n")
 		TEXT("  \"containers\": [\n%s\n  ],\n")
+		TEXT("  \"combat\": { \"target_creature_id\": %u, \"following\": %s,")
+		TEXT(" \"tactics_sent\": %s, \"attack_mode\": %d, \"chase_mode\": %d,")
+		TEXT(" \"target_actor_visible\": %s },\n")
 		TEXT("  \"chat_transcript\": [\n%s\n  ],\n")
 		TEXT("  \"creatures\": [\n%s\n  ]\n")
 		TEXT("}\n"),
@@ -1213,6 +1259,9 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		Stats.RejectedSteps, Stats.UnansweredSteps, Stats.ExternalRelocations,
 		Stats.LocalPlayerMoves,
 		Stats.SaysRequested, Stats.MovesRequested, Stats.UsesRequested,
+		Stats.AttacksRequested, Stats.FollowsRequested,
+		Stats.CombatCancelsRequested, Stats.TacticsRequested,
+		Stats.TargetClearsReceived,
 		Stats.Tiles,
 		Stats.VisibleCreatures, Stats.bViewportSynchronised ? TEXT("true") : TEXT("false"),
 		Tiles.Num(), Creatures.Num(), TilesSpawned, TilesRemoved, CreaturesAppeared,
@@ -1225,6 +1274,10 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		*FString::Join(InventoryLines, TEXT(",\n")),
 		GetContainers().Num(),
 		*FString::Join(ContainerLines, TEXT(",\n")),
+		Combat.TargetCreatureId, Combat.bFollowing ? TEXT("true") : TEXT("false"),
+		Combat.bTacticsSent ? TEXT("true") : TEXT("false"),
+		static_cast<int32>(Combat.AttackMode), static_cast<int32>(Combat.ChaseMode),
+		bTargetActorVisible ? TEXT("true") : TEXT("false"),
 		*FString::Join(TranscriptJson, TEXT(",\n")),
 		*FString::Join(CreatureLines, TEXT(",\n")));
 

@@ -83,3 +83,8 @@ CMakeFiles/
 # JSON snapshots beside them carry the type ids, which is what the claims rest
 # on, and are committed.
 /evidence/clientcore/unreal-inventory-containers/shots/
+
+# Ad-hoc EndPlay snapshots from container QA are superseded by the eight
+# retained step snapshots and the certified session report. Keep local reruns
+# without making the worktree dirty.
+/evidence/clientcore/unreal-inventory-containers/unreal_slice_evidence*.json

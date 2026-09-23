@@ -332,6 +332,90 @@ std::vector<std::uint8_t> BuildUseOnCreatureCommand(const MoveEndpoint& object,
     return command;
 }
 
+namespace {
+
+// CAttack reads one quad and nothing else, for both opcodes.
+std::vector<std::uint8_t> BuildCombatTargetCommand(std::uint8_t opcode,
+                                                   std::uint32_t creature_id) {
+    std::vector<std::uint8_t> command;
+    command.reserve(5);
+    command.push_back(opcode);
+    command.push_back(static_cast<std::uint8_t>(creature_id & 0xFF));
+    command.push_back(static_cast<std::uint8_t>((creature_id >> 8) & 0xFF));
+    command.push_back(static_cast<std::uint8_t>((creature_id >> 16) & 0xFF));
+    command.push_back(static_cast<std::uint8_t>((creature_id >> 24) & 0xFF));
+    return command;
+}
+
+}  // namespace
+
+std::vector<std::uint8_t> BuildAttackCommand(std::uint32_t creature_id) {
+    return BuildCombatTargetCommand(kClientCommandAttack, creature_id);
+}
+
+std::vector<std::uint8_t> BuildFollowCommand(std::uint32_t creature_id) {
+    return BuildCombatTargetCommand(kClientCommandFollow, creature_id);
+}
+
+std::vector<std::uint8_t> BuildCancelCommand() {
+    return std::vector<std::uint8_t>{kClientCommandCancel};
+}
+
+std::vector<std::uint8_t> BuildSetTacticsCommand(AttackMode attack,
+                                                 ChaseMode chase,
+                                                 SecureMode secure) {
+    return std::vector<std::uint8_t>{
+        kClientCommandSetTactics,
+        static_cast<std::uint8_t>(attack),
+        static_cast<std::uint8_t>(chase),
+        static_cast<std::uint8_t>(secure),
+    };
+}
+
+const char* AttackModeName(AttackMode mode) noexcept {
+    switch (mode) {
+        case AttackMode::Offensive: return "Offensive";
+        case AttackMode::Balanced: return "Balanced";
+        case AttackMode::Defensive: return "Defensive";
+    }
+    return "Unknown";
+}
+
+const char* ChaseModeName(ChaseMode mode) noexcept {
+    switch (mode) {
+        case ChaseMode::Stand: return "Stand";
+        case ChaseMode::Follow: return "Follow";
+    }
+    return "Unknown";
+}
+
+void NoteCombatRequest(WorldState* state, std::uint32_t creature_id,
+                       bool following) {
+    if (state == nullptr) {
+        return;
+    }
+    // SetAttackDest reads both of these as "stop", so neither can leave a
+    // target behind.
+    if (creature_id == 0 || creature_id == state->local_creature_id) {
+        state->combat.target_creature_id = 0;
+        state->combat.following = false;
+        return;
+    }
+    state->combat.target_creature_id = creature_id;
+    state->combat.following = following;
+}
+
+void NoteTacticsRequest(WorldState* state, AttackMode attack, ChaseMode chase,
+                        SecureMode secure) {
+    if (state == nullptr) {
+        return;
+    }
+    state->combat.tactics_sent = true;
+    state->combat.attack_mode = static_cast<std::uint8_t>(attack);
+    state->combat.chase_mode = static_cast<std::uint8_t>(chase);
+    state->combat.secure_mode = static_cast<std::uint8_t>(secure);
+}
+
 std::vector<std::uint8_t> BuildMoveObjectCommand(const MoveEndpoint& from,
                                                  std::uint16_t type_id,
                                                  std::uint8_t stack_index,
@@ -1133,10 +1217,18 @@ WorldStateApplyResult ApplyServerUpdate(WorldState* state, const ServerUpdate& u
             return result;
         }
 
+        // The one thing Fusion32 says about a combat target. It is sent from
+        // `TCombat::StopAttack(0)` and from nowhere else, which is why every
+        // way a target can end -- cancelled, refused, dead, out of range,
+        // gone, logged out -- arrives here as the same command.
+        case ServerUpdateKind::ClearTarget:
+            state->combat.target_creature_id = 0;
+            state->combat.following = false;
+            return result;
+
         case ServerUpdateKind::MarkCreature:
         case ServerUpdateKind::Buddy:
         case ServerUpdateKind::OutfitDialog:
-        case ServerUpdateKind::ClearTarget:
         case ServerUpdateKind::Ping:
         case ServerUpdateKind::Message:
         // Talk is decoded, typed and surfaced, and stores nothing.

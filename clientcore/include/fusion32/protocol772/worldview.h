@@ -29,6 +29,7 @@ enum class WorldEventKind {
     CreatureAppeared,
     CreatureMoved,
     CreatureVanished,
+    CombatChanged,
 };
 
 const char* WorldEventKindName(WorldEventKind kind) noexcept;
@@ -49,6 +50,10 @@ struct WorldEvent {
 
     // Only meaningful for TileUpserted: the tile's stack in order.
     std::vector<MapThing> things;
+
+    // Only meaningful for CombatChanged. This is a copy of WorldState's one
+    // combat record, never a presentation-owned selection.
+    CombatState combat;
 };
 
 // Diffs one WorldState against the last one it was shown.
@@ -81,6 +86,7 @@ private:
     MapPosition anchor_;
     std::map<MapPosition, std::vector<MapThing>> tiles_;
     std::map<std::uint32_t, CreatureView> creatures_;
+    CombatState combat_;
 };
 
 // True when two stacks would draw identically, used to avoid re-emitting a

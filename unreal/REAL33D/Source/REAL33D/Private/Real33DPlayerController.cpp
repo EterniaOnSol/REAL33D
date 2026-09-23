@@ -13,6 +13,7 @@
 #include "REAL33D.h"
 #include "Real33DBridge.h"
 #include "Real33DChatPanel.h"
+#include "Real33DCreatureActor.h"
 #include "Real33DAssetRegistry.h"
 #include "Real33DHUD.h"
 #include "Real33DTileActor.h"
@@ -226,13 +227,25 @@ void AReal33DPlayerController::FocusChatInput()
 
 void AReal33DPlayerController::CloseChatInput()
 {
-	if (!ChatPanel.IsValid())
+	if (HudRoot.IsValid() && HudRoot->IsTargeting())
 	{
+		HudRoot->CancelTargeting();
 		return;
 	}
-	// EndTyping fires the change, which returns focus to the viewport. Calling
-	// it when nothing was open is harmless: it is idempotent by design.
-	ChatPanel->EndTyping();
+	if (bTypingActive && ChatPanel.IsValid())
+	{
+		// EndTyping fires the change, which returns focus to the viewport.
+		ChatPanel->EndTyping();
+		return;
+	}
+	UGameInstance* GameInstance = GetGameInstance();
+	UReal33DBridge* Bridge = GameInstance != nullptr
+		? GameInstance->GetSubsystem<UReal33DBridge>() : nullptr;
+	if (Bridge != nullptr && Bridge->IsRunning())
+	{
+		const uint32 ActionId = Bridge->RequestCancelCombat();
+		UE_LOG(LogReal33D, Log, TEXT("combat input %u: general cancel"), ActionId);
+	}
 }
 
 void AReal33DPlayerController::HandleTypingChanged(bool bTyping)
@@ -377,6 +390,9 @@ namespace
 
 	/** World units of camera distance per wheel notch. */
 	constexpr float kZoomUnitsPerNotch = 120.0f;
+
+	/** Pointer units before a right-button gesture stops being a click. */
+	constexpr float kOrbitDragThreshold = 3.0f;
 }
 
 AReal33DWorld* AReal33DPlayerController::GetWorldActor()
@@ -393,8 +409,26 @@ AReal33DWorld* AReal33DPlayerController::GetWorldActor()
 	return nullptr;
 }
 
-void AReal33DPlayerController::BeginOrbit() { bOrbiting = true; }
-void AReal33DPlayerController::EndOrbit()   { bOrbiting = false; }
+void AReal33DPlayerController::BeginOrbit()
+{
+	bOrbiting = true;
+	bRightMouseDragged = false;
+	PendingOrbitYaw = 0.0f;
+	PendingOrbitPitch = 0.0f;
+}
+
+void AReal33DPlayerController::EndOrbit()
+{
+	const bool bWasDrag = bRightMouseDragged;
+	bOrbiting = false;
+	bRightMouseDragged = false;
+	PendingOrbitYaw = 0.0f;
+	PendingOrbitPitch = 0.0f;
+	if (!bWasDrag)
+	{
+		InteractUnderCursor();
+	}
+}
 
 void AReal33DPlayerController::OrbitYaw(float Value)
 {
@@ -402,9 +436,22 @@ void AReal33DPlayerController::OrbitYaw(float Value)
 	{
 		return;
 	}
-	if (AReal33DWorld* World = GetWorldActor())
+	PendingOrbitYaw += Value;
+	if (!bRightMouseDragged
+		&& FMath::Abs(PendingOrbitYaw) + FMath::Abs(PendingOrbitPitch)
+			>= kOrbitDragThreshold)
 	{
-		World->AddCameraOrbit(Value * kOrbitDegreesPerUnit, 0.0f);
+		bRightMouseDragged = true;
+	}
+	if (bRightMouseDragged)
+	{
+		if (AReal33DWorld* World = GetWorldActor())
+		{
+			World->AddCameraOrbit(PendingOrbitYaw * kOrbitDegreesPerUnit,
+				-PendingOrbitPitch * kOrbitDegreesPerUnit);
+		}
+		PendingOrbitYaw = 0.0f;
+		PendingOrbitPitch = 0.0f;
 	}
 }
 
@@ -414,13 +461,26 @@ void AReal33DPlayerController::OrbitPitch(float Value)
 	{
 		return;
 	}
-	if (AReal33DWorld* World = GetWorldActor())
+	PendingOrbitPitch += Value;
+	if (!bRightMouseDragged
+		&& FMath::Abs(PendingOrbitYaw) + FMath::Abs(PendingOrbitPitch)
+			>= kOrbitDragThreshold)
+	{
+		bRightMouseDragged = true;
+	}
+	if (bRightMouseDragged)
 	{
 		// Negated so dragging down brings the camera towards eye level and
 		// dragging up lifts it towards looking straight down. Reading a speech
 		// tag above a creature is a shallow-angle job, and down is the
 		// direction an operator reaches for when they want to see a face.
-		World->AddCameraOrbit(0.0f, -Value * kOrbitDegreesPerUnit);
+		if (AReal33DWorld* World = GetWorldActor())
+		{
+			World->AddCameraOrbit(PendingOrbitYaw * kOrbitDegreesPerUnit,
+				-PendingOrbitPitch * kOrbitDegreesPerUnit);
+		}
+		PendingOrbitYaw = 0.0f;
+		PendingOrbitPitch = 0.0f;
 	}
 }
 
@@ -449,12 +509,29 @@ void AReal33DPlayerController::DumpEvidence()
 
 void AReal33DPlayerController::InspectUnderCursor()
 {
-	if (!bInspectorEnabled || !InspectorLabel.IsValid()) return;
 	FHitResult Hit;
 	if (!GetHitResultUnderCursorByChannel(
 		UEngineTypes::ConvertToTraceType(ECC_Visibility), true, Hit)) return;
+
+	if (const AReal33DCreature* Creature = Cast<AReal33DCreature>(Hit.GetActor()))
+	{
+		const uint32 CreatureId = Creature->GetCreatureId();
+		if (HudRoot.IsValid()) HudRoot->CompleteUseOnCreature(CreatureId);
+		return;
+	}
+
 	const AReal33DTile* Tile = Cast<AReal33DTile>(Hit.GetActor());
 	if (Tile == nullptr || Hit.GetComponent() == nullptr) return;
+	uint16 TopTypeId = 0;
+	uint8 TopStackIndex = 0;
+	if (Tile->GetTopObject(TopTypeId, TopStackIndex)
+		&& HudRoot.IsValid()
+		&& HudRoot->CompleteUseOnField(Tile->GetMapPosition(), TopTypeId, TopStackIndex))
+	{
+		return;
+	}
+
+	if (!bInspectorEnabled || !InspectorLabel.IsValid()) return;
 
 	uint16 TypeId = 0;
 	bool bFoundTag = false;
@@ -494,6 +571,43 @@ void AReal33DPlayerController::InspectUnderCursor()
 	if (InspectorNote.IsValid()) InspectorNote->SetText(FText::GetEmpty());
 	UE_LOG(LogReal33D, Log, TEXT("V08 inspector: TypeId=%u name=%s status=%s tile=%s"),
 		TypeId, *InspectorName, *InspectorStatus, *InspectorPosition);
+}
+
+void AReal33DPlayerController::InteractUnderCursor()
+{
+	FHitResult Hit;
+	if (!GetHitResultUnderCursorByChannel(
+		UEngineTypes::ConvertToTraceType(ECC_Visibility), true, Hit)) return;
+
+	if (const AReal33DCreature* Creature = Cast<AReal33DCreature>(Hit.GetActor()))
+	{
+		const uint32 CreatureId = Creature->GetCreatureId();
+		if (HudRoot.IsValid() && HudRoot->CompleteUseOnCreature(CreatureId))
+		{
+			return;
+		}
+		UGameInstance* GameInstance = GetGameInstance();
+		UReal33DBridge* Bridge = GameInstance != nullptr
+			? GameInstance->GetSubsystem<UReal33DBridge>() : nullptr;
+		if (Bridge == nullptr || !Bridge->IsRunning() || Creature->IsLocalPlayer())
+		{
+			return;
+		}
+		const uint32 ActionId = Bridge->RequestAttack(CreatureId);
+		UE_LOG(LogReal33D, Log,
+			TEXT("combat input %u from world right-click: attack creature %u"),
+			ActionId, CreatureId);
+		return;
+	}
+
+	const AReal33DTile* Tile = Cast<AReal33DTile>(Hit.GetActor());
+	if (Tile == nullptr || !HudRoot.IsValid()) return;
+	uint16 TypeId = 0;
+	uint8 StackIndex = 0;
+	if (Tile->GetTopObject(TypeId, StackIndex))
+	{
+		HudRoot->UseWorldObject(Tile->GetMapPosition(), TypeId, StackIndex);
+	}
 }
 
 void AReal33DPlayerController::SaveInspectorNote(const FString& Verdict)

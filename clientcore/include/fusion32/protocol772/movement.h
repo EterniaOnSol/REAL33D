@@ -168,6 +168,111 @@ std::vector<std::uint8_t> BuildUseOnCreatureCommand(const MoveEndpoint& object,
                                                     std::uint8_t stack_index,
                                                     std::uint32_t creature_id);
 
+// ------------------------------------------------------------ combat commands
+//
+// Fusion32 has exactly four. Source: reference/game/src/connections.hh for the
+// opcodes and receiving.cc for the bodies, where CL_CMD_ATTACK and
+// CL_CMD_FOLLOW are the same handler, CAttack, told apart by one bool.
+
+constexpr std::uint8_t kClientCommandSetTactics = 160;
+constexpr std::uint8_t kClientCommandAttack = 161;
+constexpr std::uint8_t kClientCommandFollow = 162;
+constexpr std::uint8_t kClientCommandCancel = 190;
+
+// Source: reference/game/src/enums.hh. CSetTactics refuses any other value
+// outright, so these are the whole of what 7.72 accepts.
+enum class AttackMode : std::uint8_t {
+    Offensive = 1,
+    Balanced = 2,
+    Defensive = 3,
+};
+
+// CHASE_MODE_RANGE exists in the server enum but CSetTactics rejects it: the
+// switch there accepts NONE and CLOSE only. It is deliberately absent here,
+// because offering it would build a command the server drops on the floor.
+enum class ChaseMode : std::uint8_t {
+    Stand = 0,   // CHASE_MODE_NONE
+    Follow = 1,  // CHASE_MODE_CLOSE
+};
+
+enum class SecureMode : std::uint8_t {
+    Disabled = 0,
+    Enabled = 1,
+};
+
+/**
+ * Attacks a creature. CL_CMD_ATTACK, opcode 161.
+ *
+ * The body is the target's creature id and nothing else. Source:
+ * receiving.cc::CAttack, which reads one quad and hands it to
+ * `TCombat::SetAttackDest(TargetID, false)`.
+ *
+ * A creature id of zero is the documented cancel: SetAttackDest treats 0, and
+ * the player's own id, as "stop", and answers with SV_CMD_CLEAR_TARGET. This
+ * only asks. Fusion32 says nothing when it accepts a target; it speaks only to
+ * refuse, and then it both clears the target and sends the reason as a failure
+ * message.
+ */
+std::vector<std::uint8_t> BuildAttackCommand(std::uint32_t creature_id);
+
+/**
+ * Follows a creature. CL_CMD_FOLLOW, opcode 162.
+ *
+ * The same body and the same handler as the attack, with `Follow` true. The
+ * difference is on the server: a following combat skips every attack
+ * permission check, never strikes, and forces CHASE_MODE_CLOSE so the player
+ * walks after the target. Source: `TCombat::SetAttackDest` and
+ * `TCombat::CanToDoAttack`.
+ */
+std::vector<std::uint8_t> BuildFollowCommand(std::uint32_t creature_id);
+
+/**
+ * Stops attacking or following. CL_CMD_CANCEL, opcode 190, no body.
+ *
+ * Not the same as an attack on creature zero. CCancel also clears the player's
+ * to-do list and sends a snapback when it had something to clear, so it stops
+ * a walk in progress as well; `BuildAttackCommand(0)` stops only the combat.
+ * Both end in `StopAttack(0)` and therefore in SV_CMD_CLEAR_TARGET.
+ */
+std::vector<std::uint8_t> BuildCancelCommand();
+
+/**
+ * Sets the three tactics. CL_CMD_SET_TACTICS, opcode 160.
+ *
+ * Three bytes, in this order: attack mode, chase mode, secure mode. Source:
+ * receiving.cc::CSetTactics.
+ *
+ * Fusion32 never reports these back. There is no server command carrying them
+ * and none of them appears in SV_CMD_PLAYER_DATA or SV_CMD_PLAYER_STATE, so a
+ * client knows only what it last sent. WorldState records them as exactly
+ * that and says so.
+ */
+std::vector<std::uint8_t> BuildSetTacticsCommand(AttackMode attack,
+                                                 ChaseMode chase,
+                                                 SecureMode secure);
+
+const char* AttackModeName(AttackMode mode) noexcept;
+const char* ChaseModeName(ChaseMode mode) noexcept;
+
+/**
+ * Records in WorldState the target this client has just asked Fusion32 for.
+ *
+ * Call it when the command reaches the wire, not before. The server
+ * acknowledges an accepted target with nothing at all, so this is the only
+ * moment the id is knowable; SV_CMD_CLEAR_TARGET is what takes it away again.
+ *
+ * The two cancel spellings are mirrored from `TCombat::SetAttackDest`, which
+ * treats a target id of zero and the player's own id alike: both stop the
+ * attack rather than start one. Passing either clears the stored target, so a
+ * caller cannot end up believing it is attacking itself.
+ */
+void NoteCombatRequest(WorldState* state, std::uint32_t creature_id,
+                       bool following);
+
+/** Records the tactics this client has just put on the wire. */
+void NoteTacticsRequest(WorldState* state, AttackMode attack, ChaseMode chase,
+                        SecureMode secure);
+
 // ---------------------------------------------------------------- server side
 
 enum class ServerUpdateKind {

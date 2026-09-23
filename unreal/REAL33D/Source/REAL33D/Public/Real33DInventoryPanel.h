@@ -9,6 +9,9 @@
 class SBox;
 class STextBlock;
 
+DECLARE_DELEGATE_OneParam(FReal33DOnAttackModeChanged, EReal33DAttackMode);
+DECLARE_DELEGATE_OneParam(FReal33DOnChaseModeChanged, EReal33DChaseMode);
+
 /**
  * The inventory panel, transcribed from `game_inventory/inventory.otui`.
  *
@@ -40,6 +43,8 @@ public:
 		SLATE_EVENT(FReal33DOnSlotUsed, OnSlotUsed)
 		/** Offered a left-click so a pending use-with can take its target. */
 		SLATE_EVENT(FReal33DOnSlotPicked, OnSlotPicked)
+		SLATE_EVENT(FReal33DOnAttackModeChanged, OnAttackModeChanged)
+		SLATE_EVENT(FReal33DOnChaseModeChanged, OnChaseModeChanged)
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);
@@ -49,6 +54,7 @@ public:
 
 	/** Redraws the ten equipment squares. No-ops when nothing changed. */
 	void SetInventory(const FReal33DInventory& Inventory);
+	void SetCombat(const FReal33DCombat& Combat);
 
 	/** inventory.otui gives the panel a fixed 162px body. */
 	static constexpr float PanelHeight = 162.0f;
@@ -71,8 +77,10 @@ private:
 	/** A `containerslot` box with a caption over a value, as Soul and Cap are. */
 	TSharedRef<SWidget> MakeReadout(const FText& Caption, TSharedPtr<STextBlock>& OutValue);
 
-	/** One 20x20 combat or posture toggle, drawn idle and inert. */
-	TSharedRef<SWidget> MakeCombatButton(const FName& Brush, const FText& Tooltip);
+	/** One 20x20 source-backed combat or posture toggle. */
+	TSharedRef<SWidget> MakeCombatButton(int32 Index, const FName& IdleBrush,
+		const FName& ActiveBrush, const FText& Tooltip, const FOnClicked& OnClicked);
+	bool IsCombatButtonActive(int32 Index) const;
 
 	TSharedPtr<STextBlock> SoulValue;
 	TSharedPtr<STextBlock> CapacityValue;
@@ -88,9 +96,12 @@ private:
 	FReal33DOnItemDropped OnItemDropped;
 	FReal33DOnSlotUsed OnSlotUsed;
 	FReal33DOnSlotPicked OnSlotPicked;
+	FReal33DOnAttackModeChanged OnAttackModeChanged;
+	FReal33DOnChaseModeChanged OnChaseModeChanged;
 
 	FReal33DPlayerVitals Last;
 	FReal33DInventory LastInventory;
+	FReal33DCombat LastCombat;
 	bool bHasDrawnOnce = false;
 	bool bHasDrawnInventory = false;
 };

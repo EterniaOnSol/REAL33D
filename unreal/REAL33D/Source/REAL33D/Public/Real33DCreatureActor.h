@@ -68,6 +68,9 @@ public:
 	 */
 	void SetHealthPercent(uint8 Percent);
 
+	/** Draws the WorldState-owned attack/follow marker on this actor. */
+	void SetCombatFeedback(bool bAttacked, bool bFollowed);
+
 	uint32 GetCreatureId() const { return CreatureId; }
 	bool IsLocalPlayer() const { return bIsLocalPlayer; }
 	const Real33D::FMapPosition& GetLogicalPosition() const { return LogicalPosition; }
@@ -90,6 +93,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UTextRenderComponent> SpeechTag = nullptr;
+
+	UPROPERTY()
+	TObjectPtr<UTextRenderComponent> TargetTag = nullptr;
 
 	/** When the current speech stops being shown. Zero means nothing is shown. */
 	double SpeechExpiresAt = 0.0;

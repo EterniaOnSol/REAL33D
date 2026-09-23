@@ -8,6 +8,9 @@
 class SVerticalBox;
 class SScrollBox;
 
+/** A click names a creature and which of the two server actions was chosen. */
+DECLARE_DELEGATE_TwoParams(FReal33DOnCreatureTargeted, uint32, bool);
+
 /**
  * The battle list, transcribed from `game_battle/battle.otui`.
  *
@@ -29,6 +32,7 @@ class SReal33DBattlePanel : public SCompoundWidget
 {
 public:
 	SLATE_BEGIN_ARGS(SReal33DBattlePanel) {}
+		SLATE_EVENT(FReal33DOnCreatureTargeted, OnCreatureTargeted)
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);
@@ -51,4 +55,5 @@ private:
 
 	/** What is currently drawn, so an unchanged list is not rebuilt. */
 	TArray<FReal33DBattleEntry> Drawn;
+	FReal33DOnCreatureTargeted OnCreatureTargeted;
 };

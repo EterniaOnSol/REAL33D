@@ -855,11 +855,148 @@ void TestUseCommands() {
     }
 }
 
+// The four combat commands, byte for byte against receiving.cc.
+void TestCombatCommands() {
+    // CAttack reads one quad and hands it to SetAttackDest. Little endian,
+    // like every other quad on this wire.
+    {
+        const auto command = BuildAttackCommand(0x40000102u);
+        const std::vector<std::uint8_t> expected{
+            kClientCommandAttack, 0x02, 0x01, 0x00, 0x40,
+        };
+        CHECK(command == expected);
+        CHECK(command.size() == 5);
+    }
+
+    // CL_CMD_FOLLOW is the same body under a different opcode: one handler,
+    // told apart by the bool receiving.cc passes.
+    {
+        const auto command = BuildFollowCommand(0x40000102u);
+        CHECK(command.size() == 5);
+        CHECK(command[0] == kClientCommandFollow);
+        for (std::size_t i = 1; i < command.size(); ++i) {
+            CHECK(command[i] == BuildAttackCommand(0x40000102u)[i]);
+        }
+    }
+
+    // Target zero is the documented cancel, not a malformed command.
+    {
+        const auto command = BuildAttackCommand(0);
+        const std::vector<std::uint8_t> expected{
+            kClientCommandAttack, 0x00, 0x00, 0x00, 0x00,
+        };
+        CHECK(command == expected);
+    }
+
+    // CCancel reads nothing at all.
+    CHECK(BuildCancelCommand() == (std::vector<std::uint8_t>{190}));
+
+    // CSetTactics reads three bytes, in this order.
+    {
+        const auto command = BuildSetTacticsCommand(
+            AttackMode::Offensive, ChaseMode::Follow, SecureMode::Enabled);
+        const std::vector<std::uint8_t> expected{
+            kClientCommandSetTactics, 0x01, 0x01, 0x01,
+        };
+        CHECK(command == expected);
+    }
+    {
+        const auto command = BuildSetTacticsCommand(
+            AttackMode::Defensive, ChaseMode::Stand, SecureMode::Disabled);
+        const std::vector<std::uint8_t> expected{
+            kClientCommandSetTactics, 0x03, 0x00, 0x00,
+        };
+        CHECK(command == expected);
+    }
+
+    // The enum values are the server's own, and CSetTactics rejects anything
+    // else outright. Asserted at compile time: a runtime CHECK on a constant
+    // is a constant conditional, which MSVC refuses at /W4 /WX.
+    static_assert(static_cast<std::uint8_t>(AttackMode::Offensive) == 1, "");
+    static_assert(static_cast<std::uint8_t>(AttackMode::Balanced) == 2, "");
+    static_assert(static_cast<std::uint8_t>(AttackMode::Defensive) == 3, "");
+    static_assert(static_cast<std::uint8_t>(ChaseMode::Stand) == 0, "");
+    static_assert(static_cast<std::uint8_t>(ChaseMode::Follow) == 1, "");
+    static_assert(kClientCommandAttack == 161, "");
+    static_assert(kClientCommandFollow == 162, "");
+    static_assert(kClientCommandSetTactics == 160, "");
+    static_assert(kClientCommandCancel == 190, "");
+}
+
+// Who holds the target, and what takes it away.
+void TestCombatStateFollowsTheServer() {
+    WorldState state;
+    state.local_creature_id = 0x40000001u;
+
+    CHECK(state.combat.target_creature_id == 0);
+    CHECK(!state.combat.following);
+    CHECK(!state.combat.tactics_sent);
+
+    // A request records the target, because an accepted one is the single
+    // thing Fusion32 never says anything about.
+    NoteCombatRequest(&state, 0x40000102u, false);
+    CHECK(state.combat.target_creature_id == 0x40000102u);
+    CHECK(!state.combat.following);
+
+    // Switching target replaces it rather than adding to it: TCombat holds one
+    // AttackDest.
+    NoteCombatRequest(&state, 0x40000103u, false);
+    CHECK(state.combat.target_creature_id == 0x40000103u);
+
+    // Following the same creature is a different state, not the same one.
+    NoteCombatRequest(&state, 0x40000103u, true);
+    CHECK(state.combat.target_creature_id == 0x40000103u);
+    CHECK(state.combat.following);
+
+    // SV_CMD_CLEAR_TARGET is the only thing the server sends about a target,
+    // and it means every way one can end.
+    const TileMap empty;
+    vectors::ServerEmitter clear(Provider(empty));
+    clear.ClearTarget();
+    const auto decoded = Decode(clear.bytes());
+    CHECK(decoded.ok());
+    CHECK(decoded.update.kind == ServerUpdateKind::ClearTarget);
+    const auto applied = ApplyServerUpdate(&state, decoded.update, Types());
+    CHECK(applied.anomalies.empty());
+    CHECK(state.combat.target_creature_id == 0);
+    CHECK(!state.combat.following);
+
+    // Zero clears, and so does the player's own id: SetAttackDest reads both
+    // as "stop attacking".
+    NoteCombatRequest(&state, 0x40000102u, false);
+    NoteCombatRequest(&state, 0, false);
+    CHECK(state.combat.target_creature_id == 0);
+    NoteCombatRequest(&state, 0x40000102u, true);
+    NoteCombatRequest(&state, state.local_creature_id, true);
+    CHECK(state.combat.target_creature_id == 0);
+    CHECK(!state.combat.following);
+
+    // Tactics are a record of what was sent and are marked as such, because
+    // no server command carries them back.
+    NoteTacticsRequest(&state, AttackMode::Offensive, ChaseMode::Follow,
+                       SecureMode::Disabled);
+    CHECK(state.combat.tactics_sent);
+    CHECK(state.combat.attack_mode == 1);
+    CHECK(state.combat.chase_mode == 1);
+    CHECK(state.combat.secure_mode == 0);
+
+    // Clearing a target leaves the tactics alone: they are separate server
+    // state and SendClearTarget says nothing about them.
+    NoteCombatRequest(&state, 0x40000102u, false);
+    const auto applied_again = ApplyServerUpdate(&state, decoded.update, Types());
+    CHECK(applied_again.anomalies.empty());
+    CHECK(state.combat.target_creature_id == 0);
+    CHECK(state.combat.tactics_sent);
+    CHECK(state.combat.attack_mode == 1);
+}
+
 }  // namespace
 
 int main() {
     try {
         TestClientKeepaliveCommands();
+        TestCombatCommands();
+        TestCombatStateFollowsTheServer();
         TestContainerCommands();
         TestInventoryReachesWorldState();
         TestMoveObjectCommand();

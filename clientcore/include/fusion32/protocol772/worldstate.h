@@ -201,6 +201,46 @@ struct OpenContainer {
     std::vector<ItemThing> objects;
 };
 
+/**
+ * The combat half of the player's state: who is being attacked or followed.
+ *
+ * Fusion32 keeps this in `TCombat` as `AttackDest` plus a `Following` flag,
+ * and the wire carries it asymmetrically. The client names a target with
+ * CL_CMD_ATTACK or CL_CMD_FOLLOW; the server answers **only when it refuses or
+ * revokes**, with SV_CMD_CLEAR_TARGET and, where there is a reason to give, a
+ * failure message. There is no acknowledgement of a target it accepted.
+ *
+ * So `target_creature_id` is what this client asked for and the server has not
+ * since cleared. That is the whole of what the protocol supports knowing, and
+ * it is recorded here rather than in a widget so one place owns it. Everything
+ * that clears it server side -- the target dying, leaving the eight-field
+ * range, ceasing to exist, a protection zone, secure mode, logout -- routes
+ * through `TCombat::StopAttack(0)`, which is the one place SendClearTarget is
+ * called from. See reference/game/src/crcombat.cc.
+ */
+struct CombatState {
+    // Zero when nothing is targeted. Fusion32 uses zero the same way: an
+    // AttackDest of 0 is "no target", and a CL_CMD_ATTACK carrying 0 is how a
+    // client asks for that.
+    std::uint32_t target_creature_id = 0;
+
+    // Which of the two commands named it. `TCombat::Following` decides whether
+    // the server strikes the target or merely walks after it, and the two are
+    // mutually exclusive: naming a target with the other command replaces it.
+    bool following = false;
+
+    // The tactics this client last sent with CL_CMD_SET_TACTICS.
+    //
+    // NOT server state. Fusion32 has no command that reports tactics back, so
+    // nothing here was ever confirmed; `tactics_sent` is false until this
+    // client has put a CL_CMD_SET_TACTICS on the wire, and after that these
+    // are a record of the request and not of the server's opinion.
+    bool tactics_sent = false;
+    std::uint8_t attack_mode = 2;  // ATTACK_MODE_BALANCED
+    std::uint8_t chase_mode = 0;   // CHASE_MODE_NONE
+    std::uint8_t secure_mode = 1;  // SECURE_MODE_ENABLED
+};
+
 // What the decoded FULLSCREEN establishes about a creature, and nothing more.
 struct CreatureRecord {
     std::uint32_t creature_id = 0;
@@ -280,6 +320,10 @@ struct WorldState {
     // container number. A closed one is simply `open == false`; the entry is
     // kept so a number that comes back stays at the same index.
     std::array<OpenContainer, 16> containers{};
+
+    // Who the player is attacking or following, and the tactics last asked
+    // for. See CombatState: the server confirms nothing and revokes loudly.
+    CombatState combat;
 
     const MapTile* FindTile(const MapPosition& position) const noexcept;
     MapTile* FindTile(const MapPosition& position) noexcept;

@@ -205,6 +205,10 @@ void SReal33DHUD::Construct(const FArguments& InArgs)
 						this, &SReal33DHUD::HandleSlotUsed))
 					.OnSlotPicked(FReal33DOnSlotPicked::CreateSP(
 						this, &SReal33DHUD::HandleSlotPicked))
+					.OnAttackModeChanged(FReal33DOnAttackModeChanged::CreateSP(
+						this, &SReal33DHUD::HandleAttackModeChanged))
+					.OnChaseModeChanged(FReal33DOnChaseModeChanged::CreateSP(
+						this, &SReal33DHUD::HandleChaseModeChanged))
 				]
 				// The condition strip sits along the bottom of the inventory
 				// panel in inventory.otui, and does here too.
@@ -242,6 +246,8 @@ void SReal33DHUD::Construct(const FArguments& InArgs)
 			.ContentHeight(140.0f)
 			[
 				SAssignNew(Battle, SReal33DBattlePanel)
+				.OnCreatureTargeted(FReal33DOnCreatureTargeted::CreateSP(
+					this, &SReal33DHUD::HandleCreatureTargeted))
 			]
 		];
 
@@ -472,6 +478,43 @@ bool SReal33DHUD::HandleSlotPicked(FReal33DSlotRef Slot)
 	return true;
 }
 
+void SReal33DHUD::HandleCreatureTargeted(uint32 CreatureId, bool bFollow)
+{
+	if (CompleteUseOnCreature(CreatureId))
+	{
+		return;
+	}
+	UReal33DBridge* Live = Bridge.Get();
+	if (Live == nullptr || !Live->IsRunning())
+	{
+		return;
+	}
+	const uint32 ActionId = bFollow
+		? Live->RequestFollow(CreatureId) : Live->RequestAttack(CreatureId);
+	UE_LOG(LogReal33D, Log, TEXT("combat input %u from battle list: %s creature %u"),
+		ActionId, bFollow ? TEXT("follow") : TEXT("attack"), CreatureId);
+}
+
+void SReal33DHUD::HandleAttackModeChanged(EReal33DAttackMode Mode)
+{
+	if (UReal33DBridge* Live = Bridge.Get(); Live != nullptr && Live->IsRunning())
+	{
+		const uint32 ActionId = Live->RequestAttackMode(Mode);
+		UE_LOG(LogReal33D, Log, TEXT("combat input %u: attack mode %d"),
+			ActionId, static_cast<int32>(Mode));
+	}
+}
+
+void SReal33DHUD::HandleChaseModeChanged(EReal33DChaseMode Mode)
+{
+	if (UReal33DBridge* Live = Bridge.Get(); Live != nullptr && Live->IsRunning())
+	{
+		const uint32 ActionId = Live->RequestChaseMode(Mode);
+		UE_LOG(LogReal33D, Log, TEXT("combat input %u: chase mode %d"),
+			ActionId, static_cast<int32>(Mode));
+	}
+}
+
 bool SReal33DHUD::CompleteUseOnCreature(uint32 CreatureId)
 {
 	if (!Pending.bActive)
@@ -519,6 +562,27 @@ bool SReal33DHUD::CompleteUseOnField(const Real33D::FMapPosition& Position,
 			Position.X, Position.Y, Position.Z, StackIndex);
 	}
 	CancelTargeting();
+	return true;
+}
+
+bool SReal33DHUD::UseWorldObject(const Real33D::FMapPosition& Position,
+	uint16 TypeId, uint8 StackIndex)
+{
+	if (CompleteUseOnField(Position, TypeId, StackIndex))
+	{
+		return true;
+	}
+	UReal33DBridge* Live = Bridge.Get();
+	if (Live == nullptr || !Live->IsRunning())
+	{
+		return false;
+	}
+	const uint8 OpenAs = FirstFreeContainerNumber();
+	const uint32 UseId = Live->RequestUseObject(
+		UReal33DBridge::FMoveSlot::OnMap(Position), TypeId, StackIndex, OpenAs);
+	UE_LOG(LogReal33D, Log,
+		TEXT("use %u from world: object %u at %d,%d,%d stack %u, would open as container %u"),
+		UseId, TypeId, Position.X, Position.Y, Position.Z, StackIndex, OpenAs);
 	return true;
 }
 
@@ -579,6 +643,8 @@ void SReal33DHUD::Refresh(const AReal33DWorld* World)
 		Inventory->SetVitals(VitalsNow);
 		Inventory->SetInventory(World != nullptr
 			? World->GetInventory() : FReal33DInventory{});
+		Inventory->SetCombat(World != nullptr
+			? World->GetCombat() : FReal33DCombat{});
 	}
 	if (Containers.IsValid())
 	{

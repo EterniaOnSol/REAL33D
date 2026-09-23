@@ -74,6 +74,16 @@ public:
 	bool CompleteUseOnField(const Real33D::FMapPosition& Position, uint16 TypeId,
 		uint8 StackIndex);
 
+	/**
+	 * Right-clicks the top object on a map field.
+	 *
+	 * A pending use-with consumes the click as its target. Otherwise this sends
+	 * CL_CMD_USE_OBJECT and chooses a free container number exactly as an
+	 * inventory/container use does. Returns false only when no live bridge exists.
+	 */
+	bool UseWorldObject(const Real33D::FMapPosition& Position, uint16 TypeId,
+		uint8 StackIndex);
+
 private:
 	/** A 176px side column carrying a stack of mini windows. */
 	TSharedRef<SWidget> MakeSideColumn(TSharedRef<SWidget> Contents);
@@ -94,6 +104,11 @@ private:
 
 	/** Left-click on a slot, offered to a pending use-with. */
 	bool HandleSlotPicked(FReal33DSlotRef Slot);
+
+	/** Battle-list target action; the worker performs the WorldState toggle. */
+	void HandleCreatureTargeted(uint32 CreatureId, bool bFollow);
+	void HandleAttackModeChanged(EReal33DAttackMode Mode);
+	void HandleChaseModeChanged(EReal33DChaseMode Mode);
 
 	/** Shows or hides the "choose a target" banner. */
 	void UpdateTargetingBanner();

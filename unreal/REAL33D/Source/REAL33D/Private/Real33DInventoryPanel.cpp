@@ -7,6 +7,7 @@
 #include "Widgets/Images/SImage.h"
 #include "Widgets/Layout/SBox.h"
 #include "Widgets/Layout/SBorder.h"
+#include "Widgets/Input/SButton.h"
 #include "Widgets/SBoxPanel.h"
 #include "Widgets/SOverlay.h"
 #include "Widgets/Text/STextBlock.h"
@@ -141,31 +142,51 @@ TSharedRef<SWidget> SReal33DInventoryPanel::MakeReadout(
 }
 
 TSharedRef<SWidget> SReal33DInventoryPanel::MakeCombatButton(
-	const FName& Brush, const FText& Tooltip)
+	int32 Index, const FName& IdleBrush, const FName& ActiveBrush,
+	const FText& Tooltip, const FOnClicked& OnClicked)
 {
-	const ISlateStyle& Style = FReal33DUIStyle::Get();
-
 	return SNew(SBox)
 		.WidthOverride(ButtonSize)
 		.HeightOverride(ButtonSize)
 		.ToolTipText(Tooltip)
 		[
-			SNew(SOverlay)
-			+ SOverlay::Slot()
+			SNew(SButton)
+			.ButtonStyle(FCoreStyle::Get(), "NoBorder")
+			.ContentPadding(0.0f)
+			.OnClicked(OnClicked)
 			[
-				SNew(SImage).Image(Style.GetBrush(Brush))
-			]
-			+ SOverlay::Slot()
-			[
-				// The 2D's own way of saying a control is unavailable. This
-				// client sends no fight-mode command and the server reports
-				// none back, so there is no state these could truthfully show.
-				SNew(SImage)
-				.Image(Style.GetBrush("Real33D.Chrome.Dither"))
-				.ColorAndOpacity(FReal33DUIStyle::DitherTint())
-				.Visibility(EVisibility::HitTestInvisible)
+				SNew(SBox)
+				.WidthOverride(ButtonSize)
+				.HeightOverride(ButtonSize)
+				[
+					SNew(SImage)
+					.Image_Lambda([this, Index, IdleBrush, ActiveBrush]()
+					{
+						return FReal33DUIStyle::Get().GetBrush(
+							IsCombatButtonActive(Index) ? ActiveBrush : IdleBrush);
+					})
+				]
 			]
 		];
+}
+
+bool SReal33DInventoryPanel::IsCombatButtonActive(int32 Index) const
+{
+	// Fusion32 never echoes tactics. Until this client has sent them, drawing
+	// an engaged button would claim state the wire has not established.
+	if (!LastCombat.bTacticsSent)
+	{
+		return false;
+	}
+	switch (Index)
+	{
+	case 0: return LastCombat.AttackMode == EReal33DAttackMode::Offensive;
+	case 1: return LastCombat.AttackMode == EReal33DAttackMode::Balanced;
+	case 2: return LastCombat.AttackMode == EReal33DAttackMode::Defensive;
+	case 3: return LastCombat.ChaseMode == EReal33DChaseMode::Stand;
+	case 4: return LastCombat.ChaseMode == EReal33DChaseMode::Follow;
+	default: return false;
+	}
 }
 
 void SReal33DInventoryPanel::Construct(const FArguments& InArgs)
@@ -174,6 +195,8 @@ void SReal33DInventoryPanel::Construct(const FArguments& InArgs)
 	OnItemDropped = InArgs._OnItemDropped;
 	OnSlotUsed = InArgs._OnSlotUsed;
 	OnSlotPicked = InArgs._OnSlotPicked;
+	OnAttackModeChanged = InArgs._OnAttackModeChanged;
+	OnChaseModeChanged = InArgs._OnChaseModeChanged;
 
 	// The three slot columns of inventory.otui, in its own order. Column one is
 	// amulet, sword, ring and then Soul; column two helmet, armor, legs, boots;
@@ -223,20 +246,47 @@ void SReal33DInventoryPanel::Construct(const FArguments& InArgs)
 
 	// The combat column the 2D puts down the right-hand edge.
 	TSharedRef<SVerticalBox> Combat = SNew(SVerticalBox);
-	const auto Toggle = [&](const FName& Brush, const TCHAR* Label)
+	const auto Toggle = [&](int32 Index, const FName& Brush, const FName& ActiveBrush,
+		const TCHAR* Label, const FOnClicked& OnClicked)
 	{
 		Combat->AddSlot()
 			.AutoHeight()
 			.Padding(FMargin(0.0f, 0.0f, 0.0f, 4.0f))
 			[
-				MakeCombatButton(Brush, FText::FromString(Label))
+				MakeCombatButton(Index, Brush, ActiveBrush,
+					FText::FromString(Label), OnClicked)
 			];
 	};
-	Toggle("Real33D.Inventory.Attack", TEXT("Offensive (not available)"));
-	Toggle("Real33D.Inventory.Balanced", TEXT("Balanced (not available)"));
-	Toggle("Real33D.Inventory.Defend", TEXT("Defensive (not available)"));
-	Toggle("Real33D.Inventory.Stand", TEXT("Stand while fighting (not available)"));
-	Toggle("Real33D.Inventory.Follow", TEXT("Chase opponent (not available)"));
+	Toggle(0, "Real33D.Inventory.Attack", "Real33D.Inventory.AttackOn", TEXT("Offensive"),
+		FOnClicked::CreateLambda([this]()
+		{
+			OnAttackModeChanged.ExecuteIfBound(EReal33DAttackMode::Offensive);
+			return FReply::Handled();
+		}));
+	Toggle(1, "Real33D.Inventory.Balanced", "Real33D.Inventory.BalancedOn", TEXT("Balanced"),
+		FOnClicked::CreateLambda([this]()
+		{
+			OnAttackModeChanged.ExecuteIfBound(EReal33DAttackMode::Balanced);
+			return FReply::Handled();
+		}));
+	Toggle(2, "Real33D.Inventory.Defend", "Real33D.Inventory.DefendOn", TEXT("Defensive"),
+		FOnClicked::CreateLambda([this]()
+		{
+			OnAttackModeChanged.ExecuteIfBound(EReal33DAttackMode::Defensive);
+			return FReply::Handled();
+		}));
+	Toggle(3, "Real33D.Inventory.Stand", "Real33D.Inventory.StandOn", TEXT("Stand while fighting"),
+		FOnClicked::CreateLambda([this]()
+		{
+			OnChaseModeChanged.ExecuteIfBound(EReal33DChaseMode::Stand);
+			return FReply::Handled();
+		}));
+	Toggle(4, "Real33D.Inventory.Follow", "Real33D.Inventory.FollowOn", TEXT("Chase opponent"),
+		FOnClicked::CreateLambda([this]()
+		{
+			OnChaseModeChanged.ExecuteIfBound(EReal33DChaseMode::Follow);
+			return FReply::Handled();
+		}));
 
 	ChildSlot
 	.Padding(FMargin(PanelInset, TopInset, PanelInset, 0.0f))
@@ -274,6 +324,12 @@ void SReal33DInventoryPanel::Construct(const FArguments& InArgs)
 	];
 
 	(void)Style;
+}
+
+void SReal33DInventoryPanel::SetCombat(const FReal33DCombat& Combat)
+{
+	LastCombat = Combat;
+	Invalidate(EInvalidateWidgetReason::Paint);
 }
 
 void SReal33DInventoryPanel::SetVitals(const FReal33DPlayerVitals& Vitals)

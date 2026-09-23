@@ -88,17 +88,19 @@ void AReal33DTile::ApplyStack(const TArray<FReal33DThing>& InThings,
 		Component->SetupAttachment(Root);
 		Component->RegisterComponent();
 		Component->SetStaticMesh(Visual.Mesh);
+		// Query-only: a right click must be able to name the field's top object.
+		// This never participates in physics or blocks movement; Fusion32 alone
+		// decides whether the field can be entered and whether the object can be
+		// used. The hit names the tile, whose remembered WorldState stack supplies
+		// the real type id and stack index.
+		Component->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+		Component->SetCollisionResponseToAllChannels(ECR_Ignore);
+		Component->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 		if (Visual.bIsExperimental)
 		{
-			// QA picking only: the inspector traces imported mesh geometry.
-			Component->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-			Component->SetCollisionResponseToAllChannels(ECR_Ignore);
-			Component->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
+			// The tag is V08 inspector metadata only; ordinary object use does not
+			// read it and remains available without the experimental catalog.
 			Component->ComponentTags.Add(FName(*FString::Printf(TEXT("V08_%u"), Thing.TypeId)));
-		}
-		else
-		{
-			Component->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		}
 		Component->SetCastShadow(!bIsGround);
 		Component->SetRelativeScale3D(Visual.Scale);
@@ -130,7 +132,7 @@ void AReal33DTile::SetFloorVisible(bool bVisible)
 	{
 		if (!Component) continue;
 		Component->SetVisibility(bVisible);
-		Component->SetCollisionEnabled(bVisible && !Component->ComponentTags.IsEmpty()
+		Component->SetCollisionEnabled(bVisible
 			? ECollisionEnabled::QueryOnly : ECollisionEnabled::NoCollision);
 	}
 }

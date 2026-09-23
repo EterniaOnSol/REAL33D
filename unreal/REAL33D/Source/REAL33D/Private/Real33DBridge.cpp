@@ -69,6 +69,27 @@ static FReal33DItem ToUnrealItem(const p772::ItemThing& From)
 	return To;
 }
 
+/** Copies ClientCore's single combat record across the engine boundary. */
+static FReal33DCombat ToUnrealCombat(const p772::CombatState& From)
+{
+	FReal33DCombat To;
+	To.TargetCreatureId = From.target_creature_id;
+	To.bFollowing = From.following;
+	To.bTacticsSent = From.tactics_sent;
+	switch (From.attack_mode)
+	{
+	case static_cast<uint8>(p772::AttackMode::Offensive):
+		To.AttackMode = EReal33DAttackMode::Offensive; break;
+	case static_cast<uint8>(p772::AttackMode::Defensive):
+		To.AttackMode = EReal33DAttackMode::Defensive; break;
+	default:
+		To.AttackMode = EReal33DAttackMode::Balanced; break;
+	}
+	To.ChaseMode = From.chase_mode == static_cast<uint8>(p772::ChaseMode::Follow)
+		? EReal33DChaseMode::Follow : EReal33DChaseMode::Stand;
+	return To;
+}
+
 /**
  * The transcript, wrapped so Real33DBridge.h needs nothing from fusion32/.
  *
@@ -266,6 +287,21 @@ public:
 	void PostUse(const FUse& Use)
 	{
 		Uses.Enqueue(Use);
+	}
+
+	struct FCombatIntent
+	{
+		enum class EKind : uint8 { Attack, Follow, Cancel, AttackMode, ChaseMode };
+		uint32 ActionId = 0;
+		EKind Kind = EKind::Attack;
+		uint32 CreatureId = 0;
+		EReal33DAttackMode AttackMode = EReal33DAttackMode::Balanced;
+		EReal33DChaseMode ChaseMode = EReal33DChaseMode::Stand;
+	};
+
+	void PostCombat(const FCombatIntent& Intent)
+	{
+		CombatIntents.Enqueue(Intent);
 	}
 
 	bool Dequeue(FReal33DEvent& OutEvent) { return Events.Dequeue(OutEvent); }
@@ -568,6 +604,11 @@ private:
 				FScopeLock Lock(&StatsMutex);
 				Stats.RejectedSteps = static_cast<int32>(Ledger.counts().rejected);
 			}
+			if (Decoded.update.kind == p772::ServerUpdateKind::ClearTarget)
+			{
+				FScopeLock Lock(&StatsMutex);
+				++Stats.TargetClearsReceived;
+			}
 			const auto Applied = p772::ApplyServerUpdate(&State, Decoded.update, Types);
 			if (!Applied.anomalies.empty())
 			{
@@ -729,6 +770,10 @@ private:
 				break;
 			case p772::WorldEventKind::CreatureVanished:
 				Out.Kind = EReal33DEventKind::CreatureVanished; break;
+			case p772::WorldEventKind::CombatChanged:
+				Out.Kind = EReal33DEventKind::CombatChanged;
+				Out.Combat = ToUnrealCombat(Event.combat);
+				break;
 			}
 			if (Event.kind == p772::WorldEventKind::TileUpserted)
 			{
@@ -836,6 +881,7 @@ private:
 		DrainSays();
 		DrainMoves();
 		DrainUses();
+		DrainCombat();
 
 		// A reply that never comes must not be allowed to claim a later move.
 		// Three seconds is far longer than a local round trip; the server's own
@@ -913,6 +959,118 @@ private:
 			{
 				FScopeLock Lock(&StatsMutex);
 				Stats.UsesRequested += 1;
+			}
+		}
+	}
+
+	static p772::AttackMode ToCoreAttackMode(EReal33DAttackMode Mode)
+	{
+		switch (Mode)
+		{
+		case EReal33DAttackMode::Offensive: return p772::AttackMode::Offensive;
+		case EReal33DAttackMode::Defensive: return p772::AttackMode::Defensive;
+		default: return p772::AttackMode::Balanced;
+		}
+	}
+
+	static p772::ChaseMode ToCoreChaseMode(EReal33DChaseMode Mode)
+	{
+		return Mode == EReal33DChaseMode::Follow
+			? p772::ChaseMode::Follow : p772::ChaseMode::Stand;
+	}
+
+	static p772::AttackMode CurrentAttackMode(const p772::WorldState& State)
+	{
+		switch (State.combat.attack_mode)
+		{
+		case static_cast<uint8>(p772::AttackMode::Offensive):
+			return p772::AttackMode::Offensive;
+		case static_cast<uint8>(p772::AttackMode::Defensive):
+			return p772::AttackMode::Defensive;
+		default:
+			return p772::AttackMode::Balanced;
+		}
+	}
+
+	static p772::ChaseMode CurrentChaseMode(const p772::WorldState& State)
+	{
+		return State.combat.chase_mode == static_cast<uint8>(p772::ChaseMode::Follow)
+			? p772::ChaseMode::Follow : p772::ChaseMode::Stand;
+	}
+
+	static p772::SecureMode CurrentSecureMode(const p772::WorldState& State)
+	{
+		return State.combat.secure_mode == static_cast<uint8>(p772::SecureMode::Disabled)
+			? p772::SecureMode::Disabled : p772::SecureMode::Enabled;
+	}
+
+	void DrainCombat()
+	{
+		FCombatIntent Intent;
+		while (CombatIntents.Dequeue(Intent))
+		{
+			std::vector<std::uint8_t> Command;
+			switch (Intent.Kind)
+			{
+			case FCombatIntent::EKind::Attack:
+			{
+				// Repeating the active action is the target toggle. The decision
+				// reads WorldState here; no Slate row owns a selected id.
+				const bool bToggleOff = State.combat.target_creature_id == Intent.CreatureId
+					&& !State.combat.following;
+				const uint32 Target = bToggleOff ? 0 : Intent.CreatureId;
+				Command = p772::BuildAttackCommand(Target);
+				if (!Session.SendCommand(Command).ok()) break;
+				p772::NoteCombatRequest(&State, Target, false);
+				FScopeLock Lock(&StatsMutex);
+				++Stats.AttacksRequested;
+				break;
+			}
+			case FCombatIntent::EKind::Follow:
+			{
+				const bool bToggleOff = State.combat.target_creature_id == Intent.CreatureId
+					&& State.combat.following;
+				const uint32 Target = bToggleOff ? 0 : Intent.CreatureId;
+				Command = p772::BuildFollowCommand(Target);
+				if (!Session.SendCommand(Command).ok()) break;
+				p772::NoteCombatRequest(&State, Target, true);
+				FScopeLock Lock(&StatsMutex);
+				++Stats.FollowsRequested;
+				break;
+			}
+			case FCombatIntent::EKind::Cancel:
+				Command = p772::BuildCancelCommand();
+				if (!Session.SendCommand(Command).ok()) break;
+				p772::NoteCombatRequest(&State, 0, false);
+				{
+					FScopeLock Lock(&StatsMutex);
+					++Stats.CombatCancelsRequested;
+				}
+				break;
+			case FCombatIntent::EKind::AttackMode:
+			{
+				const p772::AttackMode Attack = ToCoreAttackMode(Intent.AttackMode);
+				const p772::ChaseMode Chase = CurrentChaseMode(State);
+				const p772::SecureMode Secure = CurrentSecureMode(State);
+				Command = p772::BuildSetTacticsCommand(Attack, Chase, Secure);
+				if (!Session.SendCommand(Command).ok()) break;
+				p772::NoteTacticsRequest(&State, Attack, Chase, Secure);
+				FScopeLock Lock(&StatsMutex);
+				++Stats.TacticsRequested;
+				break;
+			}
+			case FCombatIntent::EKind::ChaseMode:
+			{
+				const p772::AttackMode Attack = CurrentAttackMode(State);
+				const p772::ChaseMode Chase = ToCoreChaseMode(Intent.ChaseMode);
+				const p772::SecureMode Secure = CurrentSecureMode(State);
+				Command = p772::BuildSetTacticsCommand(Attack, Chase, Secure);
+				if (!Session.SendCommand(Command).ok()) break;
+				p772::NoteTacticsRequest(&State, Attack, Chase, Secure);
+				FScopeLock Lock(&StatsMutex);
+				++Stats.TacticsRequested;
+				break;
+			}
 			}
 		}
 	}
@@ -1038,6 +1196,7 @@ private:
 	TQueue<FSay, EQueueMode::Spsc> Says;
 	TQueue<FMove, EQueueMode::Spsc> Moves;
 	TQueue<FUse, EQueueMode::Spsc> Uses;
+	TQueue<FCombatIntent, EQueueMode::Spsc> CombatIntents;
 
 	TQueue<FReal33DEvent, EQueueMode::Spsc> Events;
 	TQueue<FIntent, EQueueMode::Spsc> Intents;
@@ -1326,6 +1485,75 @@ uint32 UReal33DBridge::RequestUseOnCreature(const FMoveSlot& Object, uint16 Type
 	Use.CreatureId = CreatureId;
 	Worker->PostUse(Use);
 	return Use.UseId;
+}
+
+uint32 UReal33DBridge::RequestAttack(uint32 CreatureId)
+{
+	if (Worker == nullptr || CreatureId == 0)
+	{
+		return 0;
+	}
+	FReal33DWorker::FCombatIntent Intent;
+	Intent.ActionId = ++NextInputId;
+	Intent.Kind = FReal33DWorker::FCombatIntent::EKind::Attack;
+	Intent.CreatureId = CreatureId;
+	Worker->PostCombat(Intent);
+	return Intent.ActionId;
+}
+
+uint32 UReal33DBridge::RequestFollow(uint32 CreatureId)
+{
+	if (Worker == nullptr || CreatureId == 0)
+	{
+		return 0;
+	}
+	FReal33DWorker::FCombatIntent Intent;
+	Intent.ActionId = ++NextInputId;
+	Intent.Kind = FReal33DWorker::FCombatIntent::EKind::Follow;
+	Intent.CreatureId = CreatureId;
+	Worker->PostCombat(Intent);
+	return Intent.ActionId;
+}
+
+uint32 UReal33DBridge::RequestCancelCombat()
+{
+	if (Worker == nullptr)
+	{
+		return 0;
+	}
+	FReal33DWorker::FCombatIntent Intent;
+	Intent.ActionId = ++NextInputId;
+	Intent.Kind = FReal33DWorker::FCombatIntent::EKind::Cancel;
+	Worker->PostCombat(Intent);
+	return Intent.ActionId;
+}
+
+uint32 UReal33DBridge::RequestAttackMode(EReal33DAttackMode Mode)
+{
+	if (Worker == nullptr)
+	{
+		return 0;
+	}
+	FReal33DWorker::FCombatIntent Intent;
+	Intent.ActionId = ++NextInputId;
+	Intent.Kind = FReal33DWorker::FCombatIntent::EKind::AttackMode;
+	Intent.AttackMode = Mode;
+	Worker->PostCombat(Intent);
+	return Intent.ActionId;
+}
+
+uint32 UReal33DBridge::RequestChaseMode(EReal33DChaseMode Mode)
+{
+	if (Worker == nullptr)
+	{
+		return 0;
+	}
+	FReal33DWorker::FCombatIntent Intent;
+	Intent.ActionId = ++NextInputId;
+	Intent.Kind = FReal33DWorker::FCombatIntent::EKind::ChaseMode;
+	Intent.ChaseMode = Mode;
+	Worker->PostCombat(Intent);
+	return Intent.ActionId;
 }
 
 uint32 UReal33DBridge::RequestTalk(EReal33DTalkMode Mode, const FString& Text)

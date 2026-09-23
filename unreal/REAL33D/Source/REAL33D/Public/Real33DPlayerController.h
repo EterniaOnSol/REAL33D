@@ -51,6 +51,7 @@ private:
 	void SetMovementHeld(uint8 RelativeDirection, bool bHeld);
 	void DumpEvidence();
 	void InspectUnderCursor();
+	void InteractUnderCursor();
 	void SaveInspectorNote(const FString& Verdict);
 
 	void Request(uint8 Direction);
@@ -88,6 +89,10 @@ private:
 
 	/** True between right button down and up. */
 	bool bOrbiting = false;
+	/** A click stays an interaction; only a real pointer drag becomes an orbit. */
+	bool bRightMouseDragged = false;
+	float PendingOrbitYaw = 0.0f;
+	float PendingOrbitPitch = 0.0f;
 	bool bHeldMovement[4] = { false, false, false, false };
 	uint8 ActiveHeldDirection = 0;
 	double LastWalkIntentTime = 0.0;

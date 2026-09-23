@@ -4,6 +4,7 @@
 #include "Styling/CoreStyle.h"
 #include "Styling/ISlateStyle.h"
 #include "Widgets/Images/SImage.h"
+#include "Widgets/Input/SButton.h"
 #include "Widgets/Layout/SBox.h"
 #include "Widgets/Layout/SBorder.h"
 #include "Styling/SlateTypes.h"
@@ -106,36 +107,80 @@ TSharedRef<SWidget> SReal33DBattlePanel::BuildFilters()
 TSharedRef<SWidget> SReal33DBattlePanel::MakeRow(const FReal33DBattleEntry& Entry)
 {
 	const ISlateStyle& Style = FReal33DUIStyle::Get();
+	const FLinearColor IdleColour(0.14f, 0.14f, 0.14f, 0.35f);
+	const FLinearColor AttackColour = Entry.bAttacked
+		? FLinearColor(0.75f, 0.08f, 0.08f, 0.75f) : IdleColour;
+	const FLinearColor FollowColour = Entry.bFollowed
+		? FLinearColor(0.05f, 0.42f, 0.72f, 0.75f) : IdleColour;
+	const FString Prefix = Entry.bAttacked ? TEXT("[A] ")
+		: (Entry.bFollowed ? TEXT("[F] ") : TEXT(""));
+	const uint32 CreatureId = Entry.CreatureId;
 
 	return SNew(SBox)
 		.HeightOverride(RowHeight)
-		.ToolTipText(FText::FromString(FString::Printf(
-			TEXT("%s  -  %d%%"), *Entry.Name, static_cast<int32>(Entry.HealthPercent))))
 		[
-			SNew(SVerticalBox)
-			+ SVerticalBox::Slot()
-			.AutoHeight()
+			SNew(SHorizontalBox)
+			+ SHorizontalBox::Slot()
+			.FillWidth(1.0f)
 			[
-				SNew(STextBlock)
-				.Text(FText::FromString(Entry.Name))
-				.ColorAndOpacity(Style.GetSlateColor("Real33D.Text.Readout"))
-				.Font(FCoreStyle::GetDefaultFontStyle("Regular", TextSize))
-				.Clipping(EWidgetClipping::ClipToBounds)
+				SNew(SButton)
+				.ButtonColorAndOpacity(AttackColour)
+				.ContentPadding(FMargin(1.0f, 0.0f))
+				.ToolTipText(FText::FromString(FString::Printf(
+					TEXT("Attack / cancel attack: %s  -  %d%%"),
+					*Entry.Name, static_cast<int32>(Entry.HealthPercent))))
+				.OnClicked_Lambda([this, CreatureId]()
+				{
+					OnCreatureTargeted.ExecuteIfBound(CreatureId, false);
+					return FReply::Handled();
+				})
+				[
+					SNew(SVerticalBox)
+					+ SVerticalBox::Slot()
+					.AutoHeight()
+					[
+						SNew(STextBlock)
+						.Text(FText::FromString(Prefix + Entry.Name))
+						.ColorAndOpacity(Style.GetSlateColor("Real33D.Text.Readout"))
+						.Font(FCoreStyle::GetDefaultFontStyle("Regular", TextSize))
+						.Clipping(EWidgetClipping::ClipToBounds)
+					]
+					+ SVerticalBox::Slot()
+					.AutoHeight()
+					.Padding(FMargin(0.0f, 1.0f, 0.0f, 0.0f))
+					[
+						SNew(SBox)
+						.HeightOverride(HealthBarHeight)
+						[
+							// Fills the row rather than a width worked out from the
+							// panel's, so the bar is correct at any column width.
+							SNew(SProgressBar)
+							.Style(&Style.GetWidgetStyle<FProgressBarStyle>("Real33D.Bar.Thin"))
+							.FillColorAndOpacity(HealthColour(Entry.HealthPercent))
+							.Percent(FMath::Clamp(Entry.HealthPercent / 100.0f, 0.0f, 1.0f))
+							.BorderPadding(FVector2D::ZeroVector)
+						]
+					]
+				]
 			]
-			+ SVerticalBox::Slot()
-			.AutoHeight()
-			.Padding(FMargin(0.0f, 1.0f, 0.0f, 0.0f))
+			+ SHorizontalBox::Slot()
+			.AutoWidth()
+			.Padding(FMargin(2.0f, 0.0f, 0.0f, 0.0f))
 			[
 				SNew(SBox)
-				.HeightOverride(HealthBarHeight)
+				.WidthOverride(44.0f)
 				[
-					// Fills the row rather than a width worked out from the
-					// panel's, so the bar is correct at any column width.
-					SNew(SProgressBar)
-					.Style(&Style.GetWidgetStyle<FProgressBarStyle>("Real33D.Bar.Thin"))
-					.FillColorAndOpacity(HealthColour(Entry.HealthPercent))
-					.Percent(FMath::Clamp(Entry.HealthPercent / 100.0f, 0.0f, 1.0f))
-					.BorderPadding(FVector2D::ZeroVector)
+					SNew(SButton)
+					.ButtonColorAndOpacity(FollowColour)
+					.ContentPadding(FMargin(2.0f, 0.0f))
+					.Text(FText::FromString(Entry.bFollowed ? TEXT("Stop") : TEXT("Follow")))
+					.ToolTipText(FText::FromString(Entry.bFollowed
+						? TEXT("Cancel follow") : TEXT("Follow this creature")))
+					.OnClicked_Lambda([this, CreatureId]()
+					{
+						OnCreatureTargeted.ExecuteIfBound(CreatureId, true);
+						return FReply::Handled();
+					})
 				]
 			]
 		];
@@ -143,6 +188,7 @@ TSharedRef<SWidget> SReal33DBattlePanel::MakeRow(const FReal33DBattleEntry& Entr
 
 void SReal33DBattlePanel::Construct(const FArguments& InArgs)
 {
+	OnCreatureTargeted = InArgs._OnCreatureTargeted;
 	ChildSlot
 	[
 		SNew(SVerticalBox)
@@ -177,7 +223,9 @@ void SReal33DBattlePanel::SetEntries(const TArray<FReal33DBattleEntry>& Entries)
 	{
 		bSame = Entries[Index].CreatureId == Drawn[Index].CreatureId
 			&& Entries[Index].HealthPercent == Drawn[Index].HealthPercent
-			&& Entries[Index].Name == Drawn[Index].Name;
+			&& Entries[Index].Name == Drawn[Index].Name
+			&& Entries[Index].bAttacked == Drawn[Index].bAttacked
+			&& Entries[Index].bFollowed == Drawn[Index].bFollowed;
 	}
 	if (bSame)
 	{

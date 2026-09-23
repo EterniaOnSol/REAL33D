@@ -32,7 +32,11 @@ AReal33DCreature::AReal33DCreature()
 
 	Body = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Body"));
 	Body->SetupAttachment(Root);
-	Body->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	// Query-only: clicking a creature must be able to name the same id the
+	// battle list names, but presentation collision must never move or block it.
+	Body->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	Body->SetCollisionResponseToAllChannels(ECR_Ignore);
+	Body->SetCollisionResponseToChannel(ECC_Visibility, ECR_Block);
 
 	NameTag = CreateDefaultSubobject<UTextRenderComponent>(TEXT("NameTag"));
 	NameTag->SetupAttachment(Root);
@@ -48,6 +52,13 @@ AReal33DCreature::AReal33DCreature()
 	SpeechTag->SetWorldSize(kSpeechBaseWorldSize);
 	SpeechTag->SetTextRenderColor(FColor(255, 255, 0));
 	SpeechTag->SetVisibility(false);
+
+	TargetTag = CreateDefaultSubobject<UTextRenderComponent>(TEXT("TargetTag"));
+	TargetTag->SetupAttachment(Root);
+	TargetTag->SetRelativeLocation(FVector(0.0, 0.0, 86.0));
+	TargetTag->SetHorizontalAlignment(EHTA_Center);
+	TargetTag->SetWorldSize(14.0f);
+	TargetTag->SetVisibility(false);
 
 	// Text is drawn with the component's default material on purpose, and the
 	// lighting is what was changed instead.
@@ -117,6 +128,21 @@ void AReal33DCreature::SetHealthPercent(uint8 Percent)
 		Colour = FColor(10, 10, 10);       // dead, or health never reported
 	}
 	NameTag->SetTextRenderColor(Colour);
+}
+
+void AReal33DCreature::SetCombatFeedback(bool bAttacked, bool bFollowed)
+{
+	check(IsInGameThread());
+	if (!bAttacked && !bFollowed)
+	{
+		TargetTag->SetText(FText::GetEmpty());
+		TargetTag->SetVisibility(false);
+		return;
+	}
+	TargetTag->SetText(FText::FromString(bFollowed ? TEXT("FOLLOW") : TEXT("ATTACK")));
+	TargetTag->SetTextRenderColor(bFollowed
+		? FColor(40, 190, 255) : FColor(255, 45, 45));
+	TargetTag->SetVisibility(true);
 }
 
 void AReal33DCreature::Configure(uint32 InCreatureId, bool bInIsLocalPlayer,
@@ -192,6 +218,7 @@ void AReal33DCreature::Tick(float DeltaSeconds)
 		const FRotator Facing(0.0, ViewRotation.Yaw + 180.0, 0.0);
 		NameTag->SetWorldRotation(Facing);
 		SpeechTag->SetWorldRotation(Facing);
+		TargetTag->SetWorldRotation(Facing);
 
 		// Keep the apparent size constant, so speech reads the same however far
 		// the camera happens to be.

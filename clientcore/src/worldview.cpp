@@ -17,6 +17,15 @@ bool SameThing(const MapThing& left, const MapThing& right) noexcept {
     return left.creature.creature_id == right.creature.creature_id;
 }
 
+bool SameCombat(const CombatState& left, const CombatState& right) noexcept {
+    return left.target_creature_id == right.target_creature_id
+        && left.following == right.following
+        && left.tactics_sent == right.tactics_sent
+        && left.attack_mode == right.attack_mode
+        && left.chase_mode == right.chase_mode
+        && left.secure_mode == right.secure_mode;
+}
+
 }  // namespace
 
 bool SameStack(const std::vector<MapThing>& left,
@@ -34,6 +43,7 @@ void WorldView::Reset() noexcept {
     anchor_ = MapPosition{};
     tiles_.clear();
     creatures_.clear();
+    combat_ = CombatState{};
 }
 
 std::vector<WorldEvent> WorldView::Diff(const WorldState& next) {
@@ -61,6 +71,19 @@ std::vector<WorldEvent> WorldView::Diff(const WorldState& next) {
         event.previous_position = anchor_;
         event.position = next.viewport_anchor;
         anchor_ = next.viewport_anchor;
+        events.push_back(std::move(event));
+    }
+
+    // Accepted targets have no server acknowledgement. The command sender
+    // records them in WorldState once their bytes reach the wire; every server
+    // refusal or later revocation applies CLEAR_TARGET to that same record.
+    // Diffing it here gives every presentation one source of truth.
+    if (!SameCombat(combat_, next.combat)) {
+        WorldEvent event;
+        event.kind = WorldEventKind::CombatChanged;
+        event.creature_id = next.combat.target_creature_id;
+        event.combat = next.combat;
+        combat_ = next.combat;
         events.push_back(std::move(event));
     }
 
@@ -171,6 +194,7 @@ const char* WorldEventKindName(WorldEventKind kind) noexcept {
         case WorldEventKind::CreatureAppeared: return "CreatureAppeared";
         case WorldEventKind::CreatureMoved: return "CreatureMoved";
         case WorldEventKind::CreatureVanished: return "CreatureVanished";
+        case WorldEventKind::CombatChanged: return "CombatChanged";
     }
     return "Unknown";
 }

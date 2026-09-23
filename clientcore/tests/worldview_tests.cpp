@@ -276,6 +276,61 @@ void TestResetForgetsEverything() {
     CHECK(view.Diff(state).size() == first);
 }
 
+void TestCombatIsOneWorldStateDiff() {
+    const std::uint32_t player_id = 1002;
+    const std::uint32_t first_target = 1001;
+    const std::uint32_t second_target = 1003;
+    const MapPosition player{1000, 1000, 7};
+    const TileMap tiles = BuildWorld(player, player_id);
+    WorldState state = Apply(tiles, player, player_id);
+
+    WorldView view;
+    view.Diff(state);
+
+    NoteCombatRequest(&state, first_target, false);
+    auto events = view.Diff(state);
+    CHECK(CountOf(events, WorldEventKind::CombatChanged) == 1);
+    const WorldEvent* changed =
+        Find(events, WorldEventKind::CombatChanged, first_target);
+    CHECK(changed != nullptr);
+    CHECK(changed->combat.target_creature_id == first_target);
+    CHECK(!changed->combat.following);
+
+    // Showing the same WorldState twice is not a second UI selection.
+    CHECK(view.Diff(state).empty());
+
+    NoteCombatRequest(&state, second_target, true);
+    events = view.Diff(state);
+    changed = Find(events, WorldEventKind::CombatChanged, second_target);
+    CHECK(changed != nullptr);
+    CHECK(changed->combat.following);
+
+    NoteTacticsRequest(&state, AttackMode::Defensive, ChaseMode::Follow,
+                       SecureMode::Enabled);
+    events = view.Diff(state);
+    CHECK(CountOf(events, WorldEventKind::CombatChanged) == 1);
+    changed = Find(events, WorldEventKind::CombatChanged, second_target);
+    CHECK(changed != nullptr);
+    CHECK(changed->combat.tactics_sent);
+    CHECK(changed->combat.attack_mode == 3);
+    CHECK(changed->combat.chase_mode == 1);
+
+    NoteCombatRequest(&state, 0, false);
+    events = view.Diff(state);
+    changed = Find(events, WorldEventKind::CombatChanged, 0);
+    CHECK(changed != nullptr);
+    CHECK(changed->combat.target_creature_id == 0);
+    CHECK(!changed->combat.following);
+
+    // A reconnect resets the adapter's combat mirror along with its actors.
+    NoteCombatRequest(&state, first_target, false);
+    view.Diff(state);
+    view.Reset();
+    WorldState fresh = Apply(tiles, player, player_id);
+    events = view.Diff(fresh);
+    CHECK(CountOf(events, WorldEventKind::CombatChanged) == 0);
+}
+
 void TestUninitialisedStateProducesNothing() {
     WorldState empty;
     WorldView view;
@@ -304,6 +359,7 @@ int main() {
         TestAnotherCreatureAppearsMovesAndVanishes();
         TestScrolledOutCreatureVanishesForPresentation();
         TestResetForgetsEverything();
+        TestCombatIsOneWorldStateDiff();
         TestUninitialisedStateProducesNothing();
         TestSameStackHelper();
         std::cout << "protocol772_worldview_tests: PASS\n";

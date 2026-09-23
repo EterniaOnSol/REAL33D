@@ -39,6 +39,7 @@ public:
 	const FReal33DPlayerSkills& GetPlayerSkills() const { return PlayerSkills; }
 	const FReal33DConditions& GetConditions() const { return PlayerConditions; }
 	const FReal33DInventory& GetInventory() const { return PlayerInventory; }
+	const FReal33DCombat& GetCombat() const { return Combat; }
 
 	/** The open containers, in the server's own container-number order. */
 	const TArray<FReal33DContainer>& GetContainers() const { return OpenContainers; }
@@ -111,6 +112,7 @@ private:
 	 * to no request are written too, and marked as such.
 	 */
 	void JournalMovement(const FReal33DEvent& Event);
+	void RefreshCombatFeedback();
 	void ClearWorld();
 	void UpdateCamera(float DeltaSeconds);
 	void UpdateFloorVisibility();
@@ -162,6 +164,9 @@ private:
 
 	/** What the player is wearing, as the server last described it. */
 	FReal33DInventory PlayerInventory;
+
+	/** Presentation copy of ClientCore/WorldState's one combat record. */
+	FReal33DCombat Combat;
 
 	/**
 	 * The containers the player has open, kept sorted by container number.

@@ -1,9 +1,9 @@
 # Project Status
 
 Current phase: `PHASE 2 - GAMEPLAY CLIENT PROGRAMMING` (`IN_PROGRESS`; the first 3D representation is live, a stock 2D client now completes the ordinary 7.72 flow, and V08 visual review is on operator-directed standby)
-Current milestone: UNREAL-INVENTORY-CONTAINERS-001 (live inventory, equipment, containers and the three 7.72 use commands) — `CERTIFIED_PASS`.
+Current milestone: UNREAL-COMBAT-FOLLOW-001 (authoritative 7.72 attack, follow, cancel and tactics in REAL33D) — `CERTIFIED_PASS`.
 Next milestone: REAL33D-2D-BOOTSTRAP-001 (NOT_STARTED), or container mini-window behaviour (see the operator request below).
-Last certified: UNREAL-INVENTORY-CONTAINERS-001 CERTIFIED_PASS; UNREAL-WIDE-WORLD-001 CERTIFIED_PASS at `3fd5d1d`; DUAL_CLIENT_LIVE_CAPTURE PASS at `0f9bd505`.
+Last certified: UNREAL-COMBAT-FOLLOW-001 CERTIFIED_PASS; UNREAL-INVENTORY-CONTAINERS-001 CERTIFIED_PASS; UNREAL-WIDE-WORLD-001 CERTIFIED_PASS at `3fd5d1d`; DUAL_CLIENT_LIVE_CAPTURE PASS at `0f9bd505`.
 Branch: `main`
 Classic baseline review commit: `f65f3a7645ff40b39b7cc8399760fd4f0b69ecee`
 Transport implementation commit: `abd2d0a25bd9632f5aa3955e822876268c7ca96c`
@@ -40,7 +40,7 @@ Chat result: a live session using chat reached zero unsupported opcodes, zero pr
 Unreal slice correction: the first report credited criteria 6 and 7 to a session in which the operator never controlled B from Unreal. B moved there because A pushed him, which Fusion32 resolved authoritatively; that is incoming-path evidence only. Every retained snapshot from that session shows `steps_requested: 0`, so the numbers the report quoted had no preserved artifact behind them. Both criteria were withdrawn and re-established by a corrective run in which the operator drove B from the Unreal window: 19 requests, 18 accepted, 1 refused, 0 unanswered, each joined from key press to authoritative position by an `input_id`, plus 6 external relocations counted apart, two of them diagonal and therefore impossible to have been requested. A `MovementLedger` in ClientCore now makes the distinction structurally, with six deterministic tests including a replay of the original eight-field push. Details in `evidence/clientcore/UNREAL-SLICE-001-CORRECTION.md`
 Current certification blockers: no verifiable original source/chain of custody for the operator-supplied local client copy; no independent repetition of the live client procedure; the Unreal slice is one run by one operator, with no floor transition exercised in 3D and criterion 7 resting on human observation alone
 Closing ritual from `PLAYERSTATE-772-001` onwards: tests + sanitizers + evidence + docs + commit + handoff + push, with `tests/secret_check.sh` run before every push
-Next gameplay candidate: inventory/containers, combat/follow, trade, or a live floor transition. Select one bounded scope from authoritative Fusion32 source before implementation. V08 certification remains on STANDBY.
+Next gameplay candidate: trade or a live floor transition. Select one bounded scope from authoritative Fusion32 source before implementation. V08 certification remains on STANDBY.
 
 Updated: 2026-09-17
 
@@ -191,3 +191,29 @@ than their contents plus one empty square, and the containers panel grew from
 200 to 420 so a backpack and a bag opened inside it both fit. Still open, and
 the natural next milestone: the 2D client opens container windows minimised,
 resizable, and movable between columns. None of that exists here.
+
+## Combat and follow - 2026-09-23
+
+`UNREAL-COMBAT-FOLLOW-001 = CERTIFIED_PASS`. ClientCore emits Fusion32's exact
+7.72 `CL_CMD_ATTACK`, `CL_CMD_FOLLOW`, `CL_CMD_CANCEL` and
+`CL_CMD_SET_TACTICS` bodies and owns the logical combat state in `WorldState`.
+The server remains authoritative: accepted targets are silent on this protocol,
+while rejection, cancellation, death, disappearance and range loss converge on
+`SV_CMD_CLEAR_TARGET`. Slate and creature actors only present that shared state.
+
+Live REAL33D acceptance covered attack and follow, target replacement, both
+cancel paths, a real `Target lost` rejection, target removal, Battle List/world
+agreement, world right-click attack, and right-click use/open on a real dead
+rabbit container. The operator confirmed the Battle List follow flow and the
+fight-stance controls. The final evidence snapshot retained correct inventory
+and an open `dead rabbit` container, with 0 residual bytes, 0 unsupported
+opcodes and 0 protocol anomalies over 496 decoded commands. Native ClientCore
+tests and the final `REAL33DEditor Win64 Development` build pass. Evidence:
+`evidence/clientcore/UNREAL-COMBAT-FOLLOW-001.md`.
+
+All three attack stances and stand/follow are supported because
+`receiving.cc::CSetTactics` implements them. Range chase remains absent because
+the same handler rejects it. No damage, cooldown, HP, client-side follow
+movement, protocol extension or fake Slate target state was added. V08,
+WideWorld, REAL33D2D, shops, action bars, automap, reconnect handling and opcode
+50 were not changed.

@@ -127,7 +127,17 @@ enum class EReal33DEventKind : uint8
 	 * A container was opened, closed, or had an object added, changed or
 	 * removed. Carries the full contents of that container for the same reason.
 	 */
-	ContainerChanged
+	ContainerChanged,
+
+	/**
+	 * The attack or follow target changed. Carries the whole combat state.
+	 *
+	 * Published when this client names a target and when Fusion32 takes one
+	 * away with SV_CMD_CLEAR_TARGET, which are the only two moments the target
+	 * can change. There is no third: the server acknowledges an accepted
+	 * target with silence.
+	 */
+	CombatChanged
 };
 
 /** Which shape of talk this was, mirroring the three forms Fusion32 emits. */
@@ -318,6 +328,46 @@ struct FReal33DContainer
 	TArray<FReal33DItem> Objects;
 };
 
+/**
+ * Which of the three 7.72 fight stances, and whether to chase.
+ *
+ * Semantic here; the byte each becomes is ClientCore's business. The values
+ * exist on the wire -- CL_CMD_SET_TACTICS carries all three fields -- which is
+ * why these controls are live rather than dithered.
+ */
+UENUM()
+enum class EReal33DAttackMode : uint8
+{
+	Offensive,
+	Balanced,
+	Defensive
+};
+
+UENUM()
+enum class EReal33DChaseMode : uint8
+{
+	Stand,
+	Follow
+};
+
+/**
+ * Who the player is attacking or following, and the tactics last requested.
+ *
+ * A copy of ClientCore's `CombatState`. The target is what this client asked
+ * for and Fusion32 has not revoked: the protocol has no "attack accepted"
+ * command, so that is the whole of what can be known. Nothing here is decided
+ * in Unreal.
+ */
+struct FReal33DCombat
+{
+	uint32 TargetCreatureId = 0;
+	bool bFollowing = false;
+	/** False until this client has actually sent a CL_CMD_SET_TACTICS. */
+	bool bTacticsSent = false;
+	EReal33DAttackMode AttackMode = EReal33DAttackMode::Balanced;
+	EReal33DChaseMode ChaseMode = EReal33DChaseMode::Stand;
+};
+
 /** One row of the battle list: a creature the client can currently see. */
 struct FReal33DBattleEntry
 {
@@ -327,6 +377,9 @@ struct FReal33DBattleEntry
 	bool bIsLocalPlayer = false;
 	/** Chebyshev distance from the local player, for the classic nearest-first order. */
 	int32 Distance = 0;
+	/** Derived from WorldState's one combat record; never owned by the row. */
+	bool bAttacked = false;
+	bool bFollowed = false;
 };
 
 /** An event crossing the thread boundary. Copied, never shared. */
@@ -371,6 +424,7 @@ struct FReal33DEvent
 	FReal33DConditions Conditions;
 	FReal33DInventory Inventory;
 	FReal33DContainer Container;
+	FReal33DCombat Combat;
 };
 
 /** One line of the player-facing transcript, already formatted by ClientCore. */
@@ -421,6 +475,16 @@ struct FReal33DStats
 	int32 MovesRequested = 0;
 	/** Use requests this client put on the wire, in all three shapes. */
 	int32 UsesRequested = 0;
+	/** CL_CMD_ATTACK commands put on the wire, including attack-target toggles. */
+	int32 AttacksRequested = 0;
+	/** CL_CMD_FOLLOW commands put on the wire. */
+	int32 FollowsRequested = 0;
+	/** General CL_CMD_CANCEL commands put on the wire. */
+	int32 CombatCancelsRequested = 0;
+	/** CL_CMD_SET_TACTICS commands put on the wire. */
+	int32 TacticsRequested = 0;
+	/** Target revocations received from Fusion32 as SV_CMD_CLEAR_TARGET. */
+	int32 TargetClearsReceived = 0;
 	/** Say commands ClientCore refused before sending, with the reason logged. */
 	int32 SaysRefusedLocally = 0;
 	/** Talk shown above the creature that said it. */
@@ -559,6 +623,28 @@ public:
 	/** Uses an object on a creature, named by id. CL_CMD_USE_ON_CREATURE. */
 	uint32 RequestUseOnCreature(const FMoveSlot& Object, uint16 TypeId, uint8 StackIndex,
 		uint32 CreatureId);
+
+	/**
+	 * Attacks a creature, or cancels when that exact attack is already active.
+	 *
+	 * The toggle decision is made on the worker from WorldState, not in Slate.
+	 * An accepted target is silent on 7.72, so the worker records it only after
+	 * the command reaches the wire. Fusion32 can then revoke it with
+	 * SV_CMD_CLEAR_TARGET.
+	 */
+	uint32 RequestAttack(uint32 CreatureId);
+
+	/** Follows a creature, or cancels when that exact follow is already active. */
+	uint32 RequestFollow(uint32 CreatureId);
+
+	/** Sends Fusion32's general cancel command (CL_CMD_CANCEL). */
+	uint32 RequestCancelCombat();
+
+	/** Changes only the attack stance; ClientCore preserves the other tactics. */
+	uint32 RequestAttackMode(EReal33DAttackMode Mode);
+
+	/** Changes only stand/chase; ClientCore preserves the other tactics. */
+	uint32 RequestChaseMode(EReal33DChaseMode Mode);
 
 	/**
 	 * The transcript of what the player should be able to read, oldest first.
