@@ -1,10 +1,58 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Input/DragAndDrop.h"
 #include "Widgets/DeclarativeSyntaxSupport.h"
 #include "Widgets/SCompoundWidget.h"
 
 class SVerticalBox;
+
+/**
+ * Where a slot is, in the terms Fusion32 uses to address one.
+ *
+ * A body slot or a slot inside an open container. Not a map field: dropping an
+ * object onto the ground means naming the field under the cursor, which is the
+ * 3D scene's business and not this panel's.
+ */
+struct FReal33DSlotRef
+{
+	enum class EKind : uint8 { None, Inventory, Container };
+	EKind Kind = EKind::None;
+	/** Which open container, 0-based. Meaningless unless Kind is Container. */
+	uint8 Container = 0;
+	/** The body slot number, or the index within the container. */
+	uint8 Slot = 0;
+	/** What is being carried, so the request can name the object. */
+	uint16 TypeId = 0;
+	/** Stack size for a cumulative object; 1 for anything else. */
+	uint8 Count = 1;
+
+	bool IsValid() const { return Kind != EKind::None; }
+};
+
+/** Fired when an object is dropped on a slot. Both ends are server addresses. */
+DECLARE_DELEGATE_TwoParams(FReal33DOnItemDropped, FReal33DSlotRef, FReal33DSlotRef);
+
+/**
+ * The object being dragged between slots.
+ *
+ * Carries only what CL_CMD_MOVE_OBJECT needs to name it: where it is, what it
+ * is, and how many. Nothing is moved while the drag is in flight -- the panel
+ * still shows the object where the server last said it was, because that is
+ * still where it is.
+ */
+class FReal33DItemDrag : public FDragDropOperation
+{
+public:
+	DRAG_DROP_OPERATOR_TYPE(FReal33DItemDrag, FDragDropOperation)
+
+	explicit FReal33DItemDrag(const FReal33DSlotRef& InFrom) : From(InFrom) {}
+
+	const FReal33DSlotRef& Origin() const { return From; }
+
+private:
+	FReal33DSlotRef From;
+};
 
 /**
  * The classic REAL33D2D window frame, transcribed from `30-miniwindow.otui`.
@@ -64,11 +112,16 @@ private:
  * One 34x34 slot, as `10-items.otui` draws an item and `inventory.otui` an
  * equipment square.
  *
- * Always empty. Fusion32 sends SV_CMD_SET_INVENTORY and this client's
- * ClientCore decodes it only far enough to walk past it -- `player_state.h`
- * says so in as many words -- so there is no item to draw. The slot shows its
- * own background and, for equipment, the 32x32 placeholder the 2D shows for an
- * empty slot. Nothing here invents contents.
+ * When the slot holds something, that something is whatever Fusion32 last said
+ * is there: a type id, and a stack count when the object's type is cumulative.
+ * When it holds nothing the slot shows the 32x32 body-part placeholder the 2D
+ * shows for an empty equipment square, or bare art for a container cell.
+ *
+ * The item is drawn as its type id rather than its sprite. This client has no
+ * 7.72 sprite sheet -- the 3D presentation resolves meshes by type id through
+ * the asset registry, which covers the objects that have been modelled and not
+ * the rest -- so an id is what can be shown truthfully. It is the real id off
+ * the wire, not a placeholder, and the tooltip carries the count.
  */
 class SReal33DSlot : public SCompoundWidget
 {
@@ -77,12 +130,43 @@ public:
 		: _SlotBrush("Real33D.Chrome.ItemSlot")
 		, _PlaceholderBrush(NAME_None)
 		, _Tooltip()
+		, _TypeId(0)
+		, _Count(0)
 	{}
 		SLATE_ARGUMENT(FName, SlotBrush)
 		/** The 32x32 art naming which body part this slot is, if it is one. */
 		SLATE_ARGUMENT(FName, PlaceholderBrush)
 		SLATE_ARGUMENT(FText, Tooltip)
+		/** Non-zero when the server says an object is here. */
+		SLATE_ARGUMENT(uint16, TypeId)
+		/** Stack size, drawn only when the object's type is cumulative. */
+		SLATE_ARGUMENT(uint8, Count)
+		/** Where this slot is, in the terms a move request needs. */
+		SLATE_ARGUMENT(FReal33DSlotRef, Location)
+		/** Fired when something is dropped here. */
+		SLATE_EVENT(FReal33DOnItemDropped, OnItemDropped)
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);
+
+	// ------------------------------------------------------ drag and drop
+	//
+	// Dragging an object from one slot to another is a move, and a move is a
+	// request: the object stays drawn where it is until Fusion32 says
+	// otherwise. Nothing here touches the panel's contents. This is not item
+	// *use* -- that is mouse-driven with a crosshair and belongs to a later
+	// milestone; this only asks the server to relocate an object it owns.
+
+	virtual FReply OnMouseButtonDown(const FGeometry& Geometry,
+		const FPointerEvent& Event) override;
+	virtual FReply OnDragDetected(const FGeometry& Geometry,
+		const FPointerEvent& Event) override;
+	virtual FReply OnDragOver(const FGeometry& Geometry,
+		const FDragDropEvent& Event) override;
+	virtual FReply OnDrop(const FGeometry& Geometry,
+		const FDragDropEvent& Event) override;
+
+private:
+	FReal33DSlotRef Location;
+	FReal33DOnItemDropped OnItemDropped;
 };

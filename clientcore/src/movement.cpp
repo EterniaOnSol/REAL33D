@@ -245,6 +245,58 @@ std::vector<std::uint8_t> BuildLogoutCommand() {
     return {kClientCommandLogout};
 }
 
+MoveEndpoint MoveEndpoint::OnMap(const MapPosition& position) {
+    MoveEndpoint endpoint;
+    endpoint.x = static_cast<std::uint16_t>(position.x);
+    endpoint.y = static_cast<std::uint16_t>(position.y);
+    endpoint.z = static_cast<std::uint8_t>(position.z);
+    return endpoint;
+}
+
+MoveEndpoint MoveEndpoint::InInventory(std::uint8_t slot) {
+    MoveEndpoint endpoint;
+    endpoint.x = kSpecialCoordinateX;
+    endpoint.y = slot;
+    endpoint.z = 0;
+    return endpoint;
+}
+
+MoveEndpoint MoveEndpoint::InContainer(std::uint8_t container, std::uint8_t slot) {
+    MoveEndpoint endpoint;
+    endpoint.x = kSpecialCoordinateX;
+    // The container number becomes a coordinate only here, on the wire. Every
+    // other place in this client indexes containers from zero.
+    endpoint.y = static_cast<std::uint16_t>(kContainerCoordinateFirst + container);
+    endpoint.z = slot;
+    return endpoint;
+}
+
+std::vector<std::uint8_t> BuildMoveObjectCommand(const MoveEndpoint& from,
+                                                 std::uint16_t type_id,
+                                                 std::uint8_t stack_index,
+                                                 const MoveEndpoint& to,
+                                                 std::uint8_t count) {
+    // CMoveObject's own read order: origin word/word/byte, type word, stack
+    // byte, destination word/word/byte, count byte.
+    std::vector<std::uint8_t> command;
+    command.reserve(14);
+    const auto word = [&command](std::uint16_t value) {
+        command.push_back(static_cast<std::uint8_t>(value & 0xFF));
+        command.push_back(static_cast<std::uint8_t>((value >> 8) & 0xFF));
+    };
+    command.push_back(kClientCommandMoveObject);
+    word(from.x);
+    word(from.y);
+    command.push_back(from.z);
+    word(type_id);
+    command.push_back(stack_index);
+    word(to.x);
+    word(to.y);
+    command.push_back(to.z);
+    command.push_back(count);
+    return command;
+}
+
 ObjectPriority ThingPriority(const MapThing& thing, const ObjectTypeTable& types) noexcept {
     if (thing.kind == MapThingKind::Creature) return ObjectPriority::Creature;
     return types.Lookup(thing.item.type_id).priority;
@@ -675,6 +727,18 @@ ServerUpdateDecodeResult DecodeServerUpdate(const std::vector<std::uint8_t>& byt
         return result;
     }
 
+    if (opcode == kServerCommandContainer || opcode == kServerCommandCloseContainer
+        || opcode == kServerCommandCreateInContainer
+        || opcode == kServerCommandChangeInContainer
+        || opcode == kServerCommandDeleteInContainer) {
+        result.update.kind = ServerUpdateKind::Container;
+        if (!DecodeContainer(&scanner, opcode, &result.update.container)) {
+            return fail(scanner);
+        }
+        result.update.bytes_consumed = scanner.at() - offset;
+        return result;
+    }
+
     if (opcode == kServerCommandBuddyData || opcode == kServerCommandBuddyOnline
         || opcode == kServerCommandBuddyOffline) {
         result.update.kind = ServerUpdateKind::Buddy;
@@ -936,8 +1000,79 @@ WorldStateApplyResult ApplyServerUpdate(WorldState* state, const ServerUpdate& u
         case ServerUpdateKind::GraphicalEffect:
         case ServerUpdateKind::TextualEffect:
         case ServerUpdateKind::MissileEffect:
+        case ServerUpdateKind::Inventory: {
+            // SV_CMD_SET_INVENTORY and SV_CMD_DELETE_INVENTORY are the whole
+            // of what the server says about what the player is wearing: there
+            // is no bulk equipment command, so login arrives as one of these
+            // per occupied slot from SendBodyInventory.
+            const std::uint8_t slot = update.inventory.slot;
+            if (slot < state->inventory.size()) {
+                if (update.inventory.cleared) {
+                    state->inventory[slot] = InventorySlot{};
+                } else {
+                    state->inventory[slot].occupied = true;
+                    state->inventory[slot].item = update.inventory.item;
+                }
+            }
+            return result;
+        }
+
+        case ServerUpdateKind::Container: {
+            const std::uint8_t number = update.container.container;
+            if (number >= state->containers.size()) {
+                return result;
+            }
+            OpenContainer& container = state->containers[number];
+            switch (update.container.kind) {
+                case ContainerUpdateKind::Opened:
+                    // Replaced wholesale rather than merged. SendContainer is
+                    // the server restating the container from scratch, and it
+                    // is sent on refresh as well as on open, so keeping any of
+                    // the previous contents would be keeping something the
+                    // server has just declined to mention.
+                    container.open = true;
+                    container.type_id = update.container.type_id;
+                    container.name = update.container.name;
+                    container.capacity = update.container.capacity;
+                    container.has_parent = update.container.has_parent;
+                    container.objects = update.container.items;
+                    break;
+
+                case ContainerUpdateKind::Closed:
+                    container = OpenContainer{};
+                    break;
+
+                case ContainerUpdateKind::Created:
+                    // At the front: SendCreateInContainer sends no index, and
+                    // the server's own list is walked from its first object.
+                    if (container.open) {
+                        container.objects.insert(container.objects.begin(),
+                                                 update.container.item);
+                        if (container.objects.size() > kMaxObjectsPerContainer) {
+                            container.objects.resize(kMaxObjectsPerContainer);
+                        }
+                    }
+                    break;
+
+                case ContainerUpdateKind::Changed:
+                    if (container.open
+                        && update.container.slot < container.objects.size()) {
+                        container.objects[update.container.slot] = update.container.item;
+                    }
+                    break;
+
+                case ContainerUpdateKind::Deleted:
+                    if (container.open
+                        && update.container.slot < container.objects.size()) {
+                        container.objects.erase(
+                            container.objects.begin() + update.container.slot);
+                    }
+                    break;
+            }
+            return result;
+        }
+
         case ServerUpdateKind::MarkCreature:
-        case ServerUpdateKind::Inventory:
         case ServerUpdateKind::Buddy:
         case ServerUpdateKind::OutfitDialog:
         case ServerUpdateKind::ClearTarget:
@@ -1046,6 +1181,7 @@ const char* ServerUpdateKindName(ServerUpdateKind kind) noexcept {
         case ServerUpdateKind::PlayerState: return "PlayerState";
         case ServerUpdateKind::ClearTarget: return "ClearTarget";
         case ServerUpdateKind::Inventory: return "Inventory";
+        case ServerUpdateKind::Container: return "Container";
         case ServerUpdateKind::Buddy: return "Buddy";
         case ServerUpdateKind::OutfitDialog: return "OutfitDialog";
         case ServerUpdateKind::Unsupported: return "Unsupported";

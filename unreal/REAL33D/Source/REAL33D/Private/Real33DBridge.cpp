@@ -50,6 +50,25 @@ static_assert(static_cast<uint8>(FReal33DConditions::Hasted)
 static_assert(static_cast<uint8>(FReal33DConditions::LogoutBlocked)
 	== static_cast<uint8>(p772::PlayerStateFlag::LogoutBlocked), "condition bit drift");
 
+// The inventory array is indexed by the server's own slot numbers, so it has
+// to be wide enough for the last one. Pinned here rather than assumed.
+static_assert(FReal33DInventory::LastSlot == p772::kInventoryLastSlot,
+	"inventory slot range drift");
+static_assert(FReal33DInventory::SlotCount > p772::kInventoryLastSlot,
+	"inventory array too small for INVENTORY_LAST");
+
+/** One object, copied field by field across the boundary rather than memcpy'd. */
+static FReal33DItem ToUnrealItem(const p772::ItemThing& From)
+{
+	FReal33DItem To;
+	To.TypeId = From.type_id;
+	To.bHasAmount = From.has_amount;
+	To.Amount = From.amount;
+	To.bHasLiquidColour = From.has_liquid_color;
+	To.LiquidColour = From.liquid_color;
+	return To;
+}
+
 /**
  * The transcript, wrapped so Real33DBridge.h needs nothing from fusion32/.
  *
@@ -213,6 +232,12 @@ public:
 	void PostSay(uint32 SayId, EReal33DTalkMode Mode, const FString& Text)
 	{
 		Says.Enqueue(FSay{ SayId, Mode, Text });
+	}
+
+	void PostMove(uint32 MoveId, const UReal33DBridge::FMoveSlot& From, uint16 TypeId,
+		uint8 StackIndex, const UReal33DBridge::FMoveSlot& To, uint8 Count)
+	{
+		Moves.Enqueue(FMove{ MoveId, From, To, TypeId, StackIndex, Count });
 	}
 
 	bool Dequeue(FReal33DEvent& OutEvent) { return Events.Dequeue(OutEvent); }
@@ -578,6 +603,46 @@ private:
 				Conditions.Conditions.Flags = State.state.flags;
 				Publish(MoveTemp(Conditions));
 			}
+			if (Decoded.update.kind == p772::ServerUpdateKind::Inventory)
+			{
+				// The whole set, not the one slot that changed. WorldState has
+				// already applied it, and publishing the set means the HUD can
+				// never show two slots from two different moments.
+				FReal33DEvent Worn;
+				Worn.Kind = EReal33DEventKind::InventoryChanged;
+				Worn.Inventory.bKnown = true;
+				for (int32 Slot = FReal33DInventory::FirstSlot;
+					Slot <= FReal33DInventory::LastSlot; ++Slot)
+				{
+					const auto& Source = State.inventory[Slot];
+					Worn.Inventory.bOccupied[Slot] = Source.occupied;
+					Worn.Inventory.Items[Slot] = ToUnrealItem(Source.item);
+				}
+				Publish(MoveTemp(Worn));
+			}
+			if (Decoded.update.kind == p772::ServerUpdateKind::Container)
+			{
+				const std::uint8_t Number = Decoded.update.container.container;
+				FReal33DEvent Changed;
+				Changed.Kind = EReal33DEventKind::ContainerChanged;
+				Changed.Container.Number = Number;
+				if (Number < State.containers.size())
+				{
+					const auto& Source = State.containers[Number];
+					Changed.Container.bOpen = Source.open;
+					Changed.Container.TypeId = Source.type_id;
+					Changed.Container.Name = UTF8_TO_TCHAR(Source.name.c_str());
+					Changed.Container.Capacity = Source.capacity;
+					Changed.Container.bHasParent = Source.has_parent;
+					Changed.Container.Objects.Reserve(
+						static_cast<int32>(Source.objects.size()));
+					for (const auto& Object : Source.objects)
+					{
+						Changed.Container.Objects.Add(ToUnrealItem(Object));
+					}
+				}
+				Publish(MoveTemp(Changed));
+			}
 			At += Decoded.update.bytes_consumed;
 			++LocalCommands;
 		}
@@ -741,6 +806,7 @@ private:
 		}
 
 		DrainSays();
+		DrainMoves();
 
 		// A reply that never comes must not be allowed to claim a later move.
 		// Three seconds is far longer than a local round trip; the server's own
@@ -754,6 +820,41 @@ private:
 			Publish(MoveTemp(Expired));
 			FScopeLock Lock(&StatsMutex);
 			Stats.UnansweredSteps = static_cast<int32>(Ledger.counts().unanswered);
+		}
+	}
+
+	/** Turns a semantic slot into the wire's special-coordinate encoding. */
+	static p772::MoveEndpoint ToEndpoint(const UReal33DBridge::FMoveSlot& Slot)
+	{
+		switch (Slot.Kind)
+		{
+		case UReal33DBridge::FMoveSlot::EKind::Container:
+			return p772::MoveEndpoint::InContainer(Slot.Container, Slot.Slot);
+		case UReal33DBridge::FMoveSlot::EKind::Map:
+			return p772::MoveEndpoint::OnMap(p772::MapPosition{
+				Slot.Position.X, Slot.Position.Y, Slot.Position.Z });
+		case UReal33DBridge::FMoveSlot::EKind::Inventory:
+		default:
+			return p772::MoveEndpoint::InInventory(Slot.Slot);
+		}
+	}
+
+	void DrainMoves()
+	{
+		FMove Move;
+		while (Moves.Dequeue(Move))
+		{
+			// Sent and then forgotten. This client draws nothing: what the
+			// object did is whatever SV_CMD_*_IN_CONTAINER and
+			// SV_CMD_SET_INVENTORY say next, and a move Fusion32 refuses
+			// produces neither, which is correct because nothing moved.
+			Session.SendCommand(p772::BuildMoveObjectCommand(
+				ToEndpoint(Move.From), Move.TypeId, Move.StackIndex,
+				ToEndpoint(Move.To), Move.Count));
+			{
+				FScopeLock Lock(&StatsMutex);
+				Stats.MovesRequested += 1;
+			}
 		}
 	}
 
@@ -864,7 +965,19 @@ private:
 		FString Text;
 	};
 
+	/** A move the player asked for. Semantic until DrainMoves encodes it. */
+	struct FMove
+	{
+		uint32 MoveId = 0;
+		UReal33DBridge::FMoveSlot From;
+		UReal33DBridge::FMoveSlot To;
+		uint16 TypeId = 0;
+		uint8 StackIndex = 0;
+		uint8 Count = 1;
+	};
+
 	TQueue<FSay, EQueueMode::Spsc> Says;
+	TQueue<FMove, EQueueMode::Spsc> Moves;
 
 	TQueue<FReal33DEvent, EQueueMode::Spsc> Events;
 	TQueue<FIntent, EQueueMode::Spsc> Intents;
@@ -1055,6 +1168,47 @@ uint32 UReal33DBridge::RequestWalk(uint8 Direction)
 	const uint32 InputId = ++NextInputId;
 	Worker->PostIntent(InputId, Direction);
 	return InputId;
+}
+
+UReal33DBridge::FMoveSlot UReal33DBridge::FMoveSlot::InInventory(uint8 InSlot)
+{
+	FMoveSlot Slot;
+	Slot.Kind = EKind::Inventory;
+	Slot.Slot = InSlot;
+	return Slot;
+}
+
+UReal33DBridge::FMoveSlot UReal33DBridge::FMoveSlot::InContainer(
+	uint8 InContainer, uint8 InSlot)
+{
+	FMoveSlot Slot;
+	Slot.Kind = EKind::Container;
+	Slot.Container = InContainer;
+	Slot.Slot = InSlot;
+	return Slot;
+}
+
+UReal33DBridge::FMoveSlot UReal33DBridge::FMoveSlot::OnMap(
+	const Real33D::FMapPosition& InPosition)
+{
+	FMoveSlot Slot;
+	Slot.Kind = EKind::Map;
+	Slot.Position = InPosition;
+	return Slot;
+}
+
+uint32 UReal33DBridge::RequestMoveObject(const FMoveSlot& From, uint16 TypeId,
+	uint8 StackIndex, const FMoveSlot& To, uint8 Count)
+{
+	if (Worker == nullptr)
+	{
+		return 0;
+	}
+	// Numbered on the game thread at the moment the player asked, like a walk
+	// or a say, so the request has an identity before anything else happens.
+	const uint32 MoveId = ++NextInputId;
+	Worker->PostMove(MoveId, From, TypeId, StackIndex, To, Count);
+	return MoveId;
 }
 
 uint32 UReal33DBridge::RequestTalk(EReal33DTalkMode Mode, const FString& Text)

@@ -80,6 +80,50 @@ std::vector<std::uint8_t> BuildStopCommand();
 std::vector<std::uint8_t> BuildPingCommand();
 std::vector<std::uint8_t> BuildLogoutCommand();
 
+/**
+ * Where a move takes an object from, or puts one.
+ *
+ * Three shapes, and the wire says which by the coordinate itself rather than
+ * by a tag: an x of 0xFFFF is not a map field, and the y then names either a
+ * body slot or, in the CONTAINER_FIRST..CONTAINER_LAST range, an open
+ * container whose z is the slot inside it. Source:
+ * reference/game/src/receiving.cc::CheckSpecialCoordinates.
+ *
+ * The three named constructors exist so a caller states which of the three it
+ * means and cannot assemble a coordinate that satisfies none of them.
+ */
+struct MoveEndpoint {
+    std::uint16_t x = 0;
+    std::uint16_t y = 0;
+    std::uint8_t z = 0;
+
+    static MoveEndpoint OnMap(const MapPosition& position);
+    static MoveEndpoint InInventory(std::uint8_t slot);
+    static MoveEndpoint InContainer(std::uint8_t container, std::uint8_t slot);
+};
+
+/**
+ * Asks Fusion32 to move an object. CL_CMD_MOVE_OBJECT, opcode 120.
+ *
+ * `stack_index` is the object's position where it currently is: the stack
+ * position on a map field, or the slot within a container. CMoveObject passes
+ * it to `GetObject`, so it has to be the index the server would use, not a
+ * guess.
+ *
+ * `count` is how many of a cumulative stack to move. CMoveObject rejects a
+ * cumulative object with a count of zero outright, so a caller moving a whole
+ * non-stackable object passes one.
+ *
+ * This only asks. The server decides, and the authoritative answer arrives as
+ * the container and inventory commands that follow -- nothing here changes
+ * WorldState, exactly as a walk request changes no position.
+ */
+std::vector<std::uint8_t> BuildMoveObjectCommand(const MoveEndpoint& from,
+                                                 std::uint16_t type_id,
+                                                 std::uint8_t stack_index,
+                                                 const MoveEndpoint& to,
+                                                 std::uint8_t count);
+
 // ---------------------------------------------------------------- server side
 
 enum class ServerUpdateKind {
@@ -106,6 +150,7 @@ enum class ServerUpdateKind {
     PlayerState,
     ClearTarget,
     Inventory,
+    Container,
     Buddy,
     OutfitDialog,
     Unsupported,
@@ -282,6 +327,7 @@ struct ServerUpdate {
     PlayerSkillsUpdate player_skills;
     PlayerStateUpdate player_state;
     InventoryUpdate inventory;
+    ContainerUpdate container;
     BuddyUpdate buddy;
     OutfitDialogUpdate outfit_dialog;
 };

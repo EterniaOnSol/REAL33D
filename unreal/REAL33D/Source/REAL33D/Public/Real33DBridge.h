@@ -112,7 +112,22 @@ enum class EReal33DEventKind : uint8
 	 * Eight bits, each a status icon. Carried verbatim; which icon a bit draws
 	 * is presentation and is decided above this layer.
 	 */
-	PlayerConditions
+	PlayerConditions,
+
+	/**
+	 * A body slot changed, from SV_CMD_SET_INVENTORY or its delete.
+	 *
+	 * Carries the whole of what the player is wearing rather than the one slot
+	 * that moved. WorldState already holds all ten, and sending the set means
+	 * the HUD can never draw a mixture of two different moments.
+	 */
+	InventoryChanged,
+
+	/**
+	 * A container was opened, closed, or had an object added, changed or
+	 * removed. Carries the full contents of that container for the same reason.
+	 */
+	ContainerChanged
 };
 
 /** Which shape of talk this was, mirroring the three forms Fusion32 emits. */
@@ -253,6 +268,56 @@ struct FReal33DConditions
 	bool Has(EFlag Flag) const { return (Flags & static_cast<uint8>(Flag)) != 0; }
 };
 
+/**
+ * One object, as Fusion32 describes one: a type id and, when the type says so,
+ * a liquid colour or a stack amount. Nothing else is on the wire.
+ */
+struct FReal33DItem
+{
+	uint16 TypeId = 0;
+	bool bHasAmount = false;
+	uint8 Amount = 0;
+	bool bHasLiquidColour = false;
+	uint8 LiquidColour = 0;
+};
+
+/**
+ * What the player is wearing, indexed by the server's own slot numbers.
+ *
+ * Index 0 is unused so a slot number off the wire indexes this directly, which
+ * is the same choice WorldState makes. `bOccupied` is false for a slot the
+ * server has emptied, which is a different thing from an item of type zero.
+ */
+struct FReal33DInventory
+{
+	bool bKnown = false;
+	static constexpr int32 SlotCount = 11;
+	static constexpr int32 FirstSlot = 1;
+	static constexpr int32 LastSlot = 10;
+
+	bool bOccupied[SlotCount] = {};
+	FReal33DItem Items[SlotCount];
+};
+
+/**
+ * One container the player has open, mirroring SV_CMD_CONTAINER.
+ *
+ * `Objects` is in the server's own order: index 0 is the front of its object
+ * list, which is where SV_CMD_CREATE_IN_CONTAINER prepends and what the slot
+ * index of a change or a delete addresses.
+ */
+struct FReal33DContainer
+{
+	bool bOpen = false;
+	uint8 Number = 0;
+	uint16 TypeId = 0;
+	FString Name;
+	uint8 Capacity = 0;
+	/** True when it sits inside another container. The server says no more. */
+	bool bHasParent = false;
+	TArray<FReal33DItem> Objects;
+};
+
 /** One row of the battle list: a creature the client can currently see. */
 struct FReal33DBattleEntry
 {
@@ -304,6 +369,8 @@ struct FReal33DEvent
 	FReal33DPlayerVitals Vitals;
 	FReal33DPlayerSkills Skills;
 	FReal33DConditions Conditions;
+	FReal33DInventory Inventory;
+	FReal33DContainer Container;
 };
 
 /** One line of the player-facing transcript, already formatted by ClientCore. */
@@ -350,6 +417,8 @@ struct FReal33DStats
 	int32 HealthUpdates = 0;
 	/** Say commands this client put on the wire. */
 	int32 SaysRequested = 0;
+	/** Move requests this client put on the wire. */
+	int32 MovesRequested = 0;
 	/** Say commands ClientCore refused before sending, with the reason logged. */
 	int32 SaysRefusedLocally = 0;
 	/** Talk shown above the creature that said it. */
@@ -427,6 +496,43 @@ public:
 	 * request can be correlated with what comes back.
 	 */
 	uint32 RequestTalk(EReal33DTalkMode Mode, const FString& Text);
+
+	/**
+	 * Where a move starts or ends. Semantic: the wire's special-coordinate
+	 * encoding is built inside ClientCore, which is the only layer allowed to
+	 * know that a container is y = 64 + its number.
+	 */
+	struct FMoveSlot
+	{
+		enum class EKind : uint8 { Map, Inventory, Container };
+		EKind Kind = EKind::Inventory;
+		/** Inventory slot, or the slot within the container. */
+		uint8 Slot = 0;
+		/** Which open container, 0-based. Ignored unless Kind is Container. */
+		uint8 Container = 0;
+		/** The field, when Kind is Map. */
+		Real33D::FMapPosition Position;
+
+		static FMoveSlot InInventory(uint8 InSlot);
+		static FMoveSlot InContainer(uint8 InContainer, uint8 InSlot);
+		static FMoveSlot OnMap(const Real33D::FMapPosition& InPosition);
+	};
+
+	/**
+	 * Asks Fusion32 to move an object. An intent, exactly like a walk.
+	 *
+	 * Nothing moves on screen here. The server decides, and what comes back is
+	 * the container and inventory commands that say what actually happened; a
+	 * refused move simply produces none, which is the correct outcome because
+	 * the object did not move.
+	 *
+	 * `Count` is how many of a stack. CMoveObject refuses a cumulative object
+	 * with a count of zero, so a whole non-stackable object passes one.
+	 *
+	 * Returns the id identifying this request for the rest of its life.
+	 */
+	uint32 RequestMoveObject(const FMoveSlot& From, uint16 TypeId, uint8 StackIndex,
+		const FMoveSlot& To, uint8 Count);
 
 	/**
 	 * The transcript of what the player should be able to read, oldest first.

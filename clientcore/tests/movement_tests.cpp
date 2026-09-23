@@ -710,12 +710,14 @@ void TestNegativeCases() {
                              ObjectTypeTable{}).error == MapDecodeError::EmptyObjectTypeTable);
 
     // An opcode this layer does not decode consumes nothing and is named.
-    // Containers are out of scope for both this task and PLAYERSTATE-772-001.
-    const auto unsupported = DecodeServerUpdate({110, 1, 2, 3, 4, 5, 6}, 0, anchor, Types());
+    // This was SV_CMD_CONTAINER until UNREAL-INVENTORY-CONTAINERS-001 decoded
+    // it; trade is the remaining example, and is out of scope for the same
+    // reason containers used to be -- nothing has demonstrated it.
+    const auto unsupported = DecodeServerUpdate({125, 1, 2, 3, 4, 5, 6}, 0, anchor, Types());
     CHECK(unsupported.ok());
     CHECK(unsupported.update.kind == ServerUpdateKind::Unsupported);
     CHECK(unsupported.update.bytes_consumed == 0);
-    CHECK(std::string(unsupported.update.name) == "SV_CMD_CONTAINER");
+    CHECK(std::string(unsupported.update.name) == "SV_CMD_TRADE_OFFER_OWN");
     CHECK(std::string(ServerUpdateKindName(ServerUpdateKind::Row)) == "Row");
 
     // Stack indexes at or beyond MAX_OBJECTS_PER_POINT cannot be produced by

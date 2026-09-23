@@ -3,12 +3,14 @@
 #include "CoreMinimal.h"
 #include "Real33DBridge.h"
 #include "Real33DChatPanel.h"
+#include "Real33DPanelChrome.h"
 #include "Widgets/DeclarativeSyntaxSupport.h"
 #include "Widgets/SCompoundWidget.h"
 
 class AReal33DWorld;
 class SReal33DBattlePanel;
 class SReal33DConditionStrip;
+class SReal33DContainersPanel;
 class SReal33DControlPanel;
 class SReal33DInventoryPanel;
 class SReal33DMinimapPanel;
@@ -63,11 +65,15 @@ private:
 
 	void HandlePanelToggled(FName Panel);
 
+	/** Turns a drop between two slots into a move request on the bridge. */
+	void HandleItemDropped(FReal33DSlotRef From, FReal33DSlotRef To);
+
 	TSharedPtr<SReal33DChatPanel> ChatPanel;
 	TSharedPtr<SReal33DVitalsPanel> Vitals;
 	TSharedPtr<SReal33DSkillsPanel> Skills;
 	TSharedPtr<SReal33DBattlePanel> Battle;
 	TSharedPtr<SReal33DInventoryPanel> Inventory;
+	TSharedPtr<SReal33DContainersPanel> Containers;
 	TSharedPtr<SReal33DConditionStrip> Conditions;
 	TSharedPtr<SReal33DMinimapPanel> Minimap;
 	TSharedPtr<SReal33DControlPanel> Controls;

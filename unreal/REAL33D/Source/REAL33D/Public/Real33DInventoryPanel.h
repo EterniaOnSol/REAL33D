@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Real33DBridge.h"
+#include "Real33DPanelChrome.h"
 #include "Widgets/DeclarativeSyntaxSupport.h"
 #include "Widgets/SCompoundWidget.h"
 
@@ -33,6 +34,8 @@ class SReal33DInventoryPanel : public SCompoundWidget
 {
 public:
 	SLATE_BEGIN_ARGS(SReal33DInventoryPanel) {}
+		/** Fired when an object is dropped on one of the ten squares. */
+		SLATE_EVENT(FReal33DOnItemDropped, OnItemDropped)
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);
@@ -40,12 +43,26 @@ public:
 	/** Updates the two live readouts. Cheap to call every frame. */
 	void SetVitals(const FReal33DPlayerVitals& Vitals);
 
+	/** Redraws the ten equipment squares. No-ops when nothing changed. */
+	void SetInventory(const FReal33DInventory& Inventory);
+
 	/** inventory.otui gives the panel a fixed 162px body. */
 	static constexpr float PanelHeight = 162.0f;
 
 private:
-	/** One 34x34 equipment square with its body-part placeholder. */
-	TSharedRef<SWidget> MakeSlot(const FName& Placeholder, const FText& Tooltip);
+	/**
+	 * One 34x34 equipment square, hosted in a box so its contents can be
+	 * swapped when the server says the slot changed.
+	 *
+	 * `Slot` is the server's own InventorySlot number, which is what
+	 * SV_CMD_SET_INVENTORY carries and therefore what the redraw is keyed on.
+	 */
+	TSharedRef<SWidget> MakeSlot(int32 Slot, const FName& Placeholder,
+		const FText& Tooltip);
+
+	/** Rebuilds one square for what the server says is in it. */
+	void FillSlot(int32 Slot, const FName& Placeholder, const FText& Tooltip,
+		const FReal33DInventory& Inventory);
 
 	/** A `containerslot` box with a caption over a value, as Soul and Cap are. */
 	TSharedRef<SWidget> MakeReadout(const FText& Caption, TSharedPtr<STextBlock>& OutValue);
@@ -56,8 +73,20 @@ private:
 	TSharedPtr<STextBlock> SoulValue;
 	TSharedPtr<STextBlock> CapacityValue;
 
+	/**
+	 * The ten squares, kept so a slot can be rebuilt in place.
+	 *
+	 * Indexed by the server's own slot number, like everything else that
+	 * carries one, so index 0 is unused.
+	 */
+	TSharedPtr<SBox> SlotHosts[FReal33DInventory::SlotCount];
+
+	FReal33DOnItemDropped OnItemDropped;
+
 	FReal33DPlayerVitals Last;
+	FReal33DInventory LastInventory;
 	bool bHasDrawnOnce = false;
+	bool bHasDrawnInventory = false;
 };
 
 /**

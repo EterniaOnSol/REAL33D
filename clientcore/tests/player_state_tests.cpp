@@ -587,7 +587,10 @@ void TestNegativeCases() {
     //
     // Explicitly typed: a bare braced list deduces initializer_list<int>, and
     // MSVC at /W4 rejects the narrowing that GCC accepts silently.
-    const std::vector<std::uint8_t> still_unsupported{110, 112, 125, 150, 171, 174};
+    // 110 and 112 were here until UNREAL-INVENTORY-CONTAINERS-001 decoded the
+    // container family; what is left is trade, the text editors and the
+    // quest/channel commands nothing has demonstrated.
+    const std::vector<std::uint8_t> still_unsupported{125, 126, 150, 171, 174};
     for (const std::uint8_t opcode : still_unsupported) {
         const auto decoded = Decode({opcode, 1, 2, 3, 4, 5, 6, 7});
         CHECK(decoded.ok());
@@ -620,11 +623,187 @@ void TestNegativeCases() {
     CHECK(std::string(ServerUpdateKindName(ServerUpdateKind::PlayerData)) == "PlayerData");
 }
 
+// ------------------------------------------------------- containers (110-114)
+//
+// Byte layouts are transcribed from reference/game/src/sending.cc, so a test
+// failing here means either the decoder or that transcription is wrong -- not
+// that the server changed, which it cannot.
+
+void PushWord(std::vector<std::uint8_t>& bytes, std::uint16_t value) {
+    bytes.push_back(static_cast<std::uint8_t>(value & 0xFF));
+    bytes.push_back(static_cast<std::uint8_t>((value >> 8) & 0xFF));
+}
+
+void PushString(std::vector<std::uint8_t>& bytes, const std::string& text) {
+    PushWord(bytes, static_cast<std::uint16_t>(text.size()));
+    bytes.insert(bytes.end(), text.begin(), text.end());
+}
+
+void TestContainerCommands() {
+    // SV_CMD_CONTAINER: number, type, name, capacity, parent flag, count, items.
+    {
+        std::vector<std::uint8_t> bytes{kServerCommandContainer, 0};
+        PushWord(bytes, 1987);
+        PushString(bytes, "bag");
+        bytes.push_back(8);   // capacity
+        bytes.push_back(0);   // no parent
+        bytes.push_back(2);   // two objects
+        PushWord(bytes, 101);  // plain
+        PushWord(bytes, 200);  // cumulative in the golden table
+        bytes.push_back(17);   // so an amount byte follows
+
+        const auto decoded = Decode(bytes);
+        CHECK(decoded.error == MapDecodeError::None);
+        CHECK(decoded.update.kind == ServerUpdateKind::Container);
+        CHECK(decoded.update.bytes_consumed == bytes.size());
+        const ContainerUpdate& update = decoded.update.container;
+        CHECK(update.kind == ContainerUpdateKind::Opened);
+        CHECK(update.container == 0);
+        CHECK(update.type_id == 1987);
+        CHECK(update.name == "bag");
+        CHECK(update.capacity == 8);
+        CHECK(!update.has_parent);
+        CHECK(update.items.size() == 2);
+        CHECK(update.items[0].type_id == 101);
+        CHECK(update.items[1].type_id == 200);
+        CHECK(update.items[1].has_amount);
+        CHECK(update.items[1].amount == 17);
+
+        // And it reaches WorldState in that order.
+        WorldState state;
+        ApplyServerUpdate(&state, decoded.update, Types());
+        CHECK(state.containers[0].open);
+        CHECK(state.containers[0].name == "bag");
+        CHECK(state.containers[0].objects.size() == 2);
+        CHECK(state.containers[0].objects[0].type_id == 101);
+
+        // A create prepends, a change replaces in place, a delete removes.
+        const auto created = Decode({kServerCommandCreateInContainer, 0, 0x66, 0x00});
+        CHECK(created.error == MapDecodeError::None);
+        CHECK(created.update.container.kind == ContainerUpdateKind::Created);
+        ApplyServerUpdate(&state, created.update, Types());
+        CHECK(state.containers[0].objects.size() == 3);
+        CHECK(state.containers[0].objects[0].type_id == 102);
+        CHECK(state.containers[0].objects[1].type_id == 101);
+
+        const auto changed = Decode({kServerCommandChangeInContainer, 0, 1, 0x65, 0x00});
+        CHECK(changed.error == MapDecodeError::None);
+        CHECK(changed.update.container.slot == 1);
+        ApplyServerUpdate(&state, changed.update, Types());
+        CHECK(state.containers[0].objects.size() == 3);
+        CHECK(state.containers[0].objects[1].type_id == 101);
+
+        const auto deleted = Decode({kServerCommandDeleteInContainer, 0, 0});
+        CHECK(deleted.error == MapDecodeError::None);
+        CHECK(deleted.update.container.kind == ContainerUpdateKind::Deleted);
+        ApplyServerUpdate(&state, deleted.update, Types());
+        CHECK(state.containers[0].objects.size() == 2);
+        CHECK(state.containers[0].objects[0].type_id == 101);
+
+        // Closing clears the entry rather than leaving stale contents behind.
+        const auto closed = Decode({kServerCommandCloseContainer, 0});
+        CHECK(closed.error == MapDecodeError::None);
+        CHECK(closed.update.container.kind == ContainerUpdateKind::Closed);
+        ApplyServerUpdate(&state, closed.update, Types());
+        CHECK(!state.containers[0].open);
+        CHECK(state.containers[0].objects.empty());
+    }
+
+    // A container number past the end of CONTAINER_FIRST..CONTAINER_LAST.
+    {
+        const auto decoded = Decode({kServerCommandCloseContainer, 16});
+        CHECK(decoded.error == MapDecodeError::InvalidContainerNumber);
+    }
+    // A count larger than the server would ever clamp to.
+    {
+        std::vector<std::uint8_t> bytes{kServerCommandContainer, 0};
+        PushWord(bytes, 1987);
+        PushString(bytes, "bag");
+        bytes.push_back(8);
+        bytes.push_back(0);
+        bytes.push_back(37);  // MAX_OBJECTS_PER_CONTAINER is 36
+        const auto decoded = Decode(bytes);
+        CHECK(decoded.error == MapDecodeError::InvalidContainerSlot);
+    }
+    // Truncated mid-item: reported, not partially applied.
+    {
+        std::vector<std::uint8_t> bytes{kServerCommandContainer, 0};
+        PushWord(bytes, 1987);
+        PushString(bytes, "bag");
+        bytes.push_back(8);
+        bytes.push_back(0);
+        bytes.push_back(1);
+        bytes.push_back(0x65);  // half a type id
+        const auto decoded = Decode(bytes);
+        CHECK(decoded.error != MapDecodeError::None);
+    }
+
+    CHECK(IsPlayerStateCommand(kServerCommandContainer));
+    CHECK(IsPlayerStateCommand(kServerCommandDeleteInContainer));
+    CHECK(std::string(ServerUpdateKindName(ServerUpdateKind::Container)) == "Container");
+    CHECK(std::string(MapDecodeErrorName(MapDecodeError::InvalidContainerNumber))
+          == "InvalidContainerNumber");
+}
+
+void TestInventoryReachesWorldState() {
+    WorldState state;
+
+    // SendBodyInventory is one SV_CMD_SET_INVENTORY per occupied slot, which
+    // is how equipment arrives at login. Slot 1 is the head.
+    const auto worn = Decode({kServerCommandSetInventory, 1, 0x65, 0x00});
+    CHECK(worn.error == MapDecodeError::None);
+    ApplyServerUpdate(&state, worn.update, Types());
+    CHECK(state.inventory[1].occupied);
+    CHECK(state.inventory[1].item.type_id == 101);
+
+    // Slots are addressed by their own number, so nothing else moved.
+    CHECK(!state.inventory[2].occupied);
+
+    const auto removed = Decode({kServerCommandDeleteInventory, 1});
+    CHECK(removed.error == MapDecodeError::None);
+    ApplyServerUpdate(&state, removed.update, Types());
+    CHECK(!state.inventory[1].occupied);
+    CHECK(state.inventory[1].item.type_id == 0);
+}
+
+void TestMoveObjectCommand() {
+    // CMoveObject reads origin word/word/byte, type word, stack byte,
+    // destination word/word/byte, count byte.
+    const auto onMap = MoveEndpoint::OnMap(MapPosition{32097, 32219, 7});
+    const auto inBag = MoveEndpoint::InContainer(0, 3);
+    const auto worn = MoveEndpoint::InInventory(1);
+
+    CHECK(onMap.x == 32097 && onMap.y == 32219 && onMap.z == 7);
+    CHECK(inBag.x == kSpecialCoordinateX);
+    CHECK(inBag.y == 64);  // CONTAINER_FIRST + 0
+    CHECK(inBag.z == 3);
+    CHECK(worn.x == kSpecialCoordinateX);
+    CHECK(worn.y == 1 && worn.z == 0);
+
+    const auto command = BuildMoveObjectCommand(inBag, 101, 3, worn, 1);
+    const std::vector<std::uint8_t> expected{
+        kClientCommandMoveObject,
+        0xFF, 0xFF,  // origin x, special
+        0x40, 0x00,  // origin y, container 0
+        0x03,        // origin z, slot 3
+        0x65, 0x00,  // type id 101
+        0x03,        // stack index
+        0xFF, 0xFF,  // destination x, special
+        0x01, 0x00,  // destination y, inventory slot 1
+        0x00,        // destination z
+        0x01,        // count
+    };
+    CHECK(command == expected);
+}
+
 }  // namespace
 
 int main() {
     try {
         TestClientKeepaliveCommands();
+        TestContainerCommands();
+        TestInventoryReachesWorldState();
+        TestMoveObjectCommand();
         TestGoldenPlayerData();
         TestGoldenPlayerSkills();
         TestGoldenPlayerState();

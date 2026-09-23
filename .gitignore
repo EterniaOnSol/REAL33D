@@ -67,3 +67,12 @@ CMakeFiles/
 # scripts and reports remain reviewable; thousands of experimental .uasset
 # files stay outside Git until their LFS cost receives separate approval.
 /unreal/REAL33D/Content/Experimental/V08/
+
+# Item pictures cut out of Tibia.dat/Tibia.spr by
+# scripts/client/extract_item_sprites.py. That pair is CipSoft's client data,
+# so the sprites derived from it are theirs too and do not belong in this
+# repository whoever can read it. The extractor is committed and the runtime
+# looks these up by type id, so a clone regenerates them in one command from
+# its own local copy of the data; without them the panels fall back to showing
+# the object's numeric type id, which is still exactly what the server sent.
+/unreal/REAL33D/Resources/UI/Items/

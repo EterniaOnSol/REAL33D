@@ -1,5 +1,6 @@
 ﻿#include "Real33DPanelChrome.h"
 
+#include "REAL33D.h"
 #include "Real33DUIStyle.h"
 #include "Styling/CoreStyle.h"
 #include "Styling/ISlateStyle.h"
@@ -227,7 +228,19 @@ void SReal33DSlot::Construct(const FArguments& InArgs)
 			SNew(SImage).Image(Style.GetBrush(InArgs._SlotBrush))
 		];
 
-	if (!InArgs._PlaceholderBrush.IsNone())
+	const bool bOccupied = InArgs._TypeId != 0;
+
+	Location = InArgs._Location;
+	Location.TypeId = InArgs._TypeId;
+	// A non-cumulative object has no amount byte on the wire, and CMoveObject
+	// refuses a cumulative one with a count of zero, so one is the floor.
+	Location.Count = InArgs._Count > 0 ? InArgs._Count : 1;
+	OnItemDropped = InArgs._OnItemDropped;
+
+	// The placeholder is what an EMPTY equipment square shows. An occupied one
+	// must not show it as well, or a worn helmet would be drawn on top of the
+	// picture of a helmet-shaped hole.
+	if (!bOccupied && !InArgs._PlaceholderBrush.IsNone())
 	{
 		Stack->AddSlot()
 		.HAlign(HAlign_Center)
@@ -242,6 +255,58 @@ void SReal33DSlot::Construct(const FArguments& InArgs)
 		];
 	}
 
+	if (bOccupied)
+	{
+		// The object's own 7.72 picture, cut from the client data the 2D client
+		// loads. When an id has no picture -- a few dozen do not -- the number
+		// is shown instead, because the number is still the truth about what
+		// is in the slot and an empty square would not be.
+		const FSlateBrush* Picture = FReal33DUIStyle::ItemBrush(InArgs._TypeId);
+		if (Picture != nullptr)
+		{
+			Stack->AddSlot()
+			.HAlign(HAlign_Center)
+			.VAlign(VAlign_Center)
+			[
+				SNew(SBox)
+				.WidthOverride(FReal33DUIStyle::SlotIconSize)
+				.HeightOverride(FReal33DUIStyle::SlotIconSize)
+				[
+					SNew(SImage).Image(Picture)
+				]
+			];
+		}
+		else
+		{
+			Stack->AddSlot()
+			.HAlign(HAlign_Center)
+			.VAlign(VAlign_Center)
+			[
+				SNew(STextBlock)
+				.Text(FText::FromString(FString::Printf(TEXT("%u"), InArgs._TypeId)))
+				.ColorAndOpacity(Style.GetSlateColor("Real33D.Text.Readout"))
+				.Font(FCoreStyle::GetDefaultFontStyle("Regular", 9))
+			];
+		}
+
+		// The count, bottom right, as the 2D draws a stack size. Only for a
+		// cumulative object: the server sends an amount byte for those and for
+		// nothing else, so a "1" on a sword would be this client's invention.
+		if (InArgs._Count > 0)
+		{
+			Stack->AddSlot()
+			.HAlign(HAlign_Right)
+			.VAlign(VAlign_Bottom)
+			.Padding(FMargin(0.0f, 0.0f, 2.0f, 1.0f))
+			[
+				SNew(STextBlock)
+				.Text(FText::FromString(FString::Printf(TEXT("%u"), InArgs._Count)))
+				.ColorAndOpacity(FSlateColor(FLinearColor::White))
+				.Font(FCoreStyle::GetDefaultFontStyle("Bold", 8))
+			];
+		}
+	}
+
 	ChildSlot
 	[
 		SNew(SBox)
@@ -252,4 +317,61 @@ void SReal33DSlot::Construct(const FArguments& InArgs)
 			Stack
 		]
 	];
+}
+
+FReply SReal33DSlot::OnMouseButtonDown(const FGeometry& Geometry,
+	const FPointerEvent& Event)
+{
+	// Only an occupied slot in a place the server can address starts a drag.
+	// An empty square has nothing to pick up, and a slot with no location is
+	// decoration -- the hotkey preview, for one.
+	UE_LOG(LogReal33D, Verbose,
+		TEXT("slot mouse down: button=%s kind=%d type=%u"),
+		*Event.GetEffectingButton().ToString(),
+		static_cast<int32>(Location.Kind), Location.TypeId);
+	if (Event.GetEffectingButton() != EKeys::LeftMouseButton
+		|| Location.TypeId == 0 || !Location.IsValid())
+	{
+		return FReply::Unhandled();
+	}
+	return FReply::Handled().DetectDrag(SharedThis(this), EKeys::LeftMouseButton);
+}
+
+FReply SReal33DSlot::OnDragDetected(const FGeometry& Geometry, const FPointerEvent& Event)
+{
+	UE_LOG(LogReal33D, Log, TEXT("slot drag detected: object %u"), Location.TypeId);
+	if (Location.TypeId == 0 || !Location.IsValid())
+	{
+		return FReply::Unhandled();
+	}
+	return FReply::Handled().BeginDragDrop(MakeShared<FReal33DItemDrag>(Location));
+}
+
+FReply SReal33DSlot::OnDragOver(const FGeometry& Geometry, const FDragDropEvent& Event)
+{
+	// Any slot the server can address is a legal target to *ask* about. Whether
+	// the move is allowed is Fusion32's ruling, not this panel's guess.
+	return Location.IsValid() && Event.GetOperationAs<FReal33DItemDrag>().IsValid()
+		? FReply::Handled() : FReply::Unhandled();
+}
+
+FReply SReal33DSlot::OnDrop(const FGeometry& Geometry, const FDragDropEvent& Event)
+{
+	const TSharedPtr<FReal33DItemDrag> Drag = Event.GetOperationAs<FReal33DItemDrag>();
+	UE_LOG(LogReal33D, Log, TEXT("slot drop: valid=%d onto kind=%d slot=%u"),
+		Drag.IsValid() ? 1 : 0, static_cast<int32>(Location.Kind), Location.Slot);
+	if (!Drag.IsValid() || !Location.IsValid())
+	{
+		return FReply::Unhandled();
+	}
+	const FReal33DSlotRef& From = Drag->Origin();
+	// Dropping an object back where it came from is not a move, and sending it
+	// would ask the server to relocate something to where it already is.
+	if (From.Kind == Location.Kind && From.Container == Location.Container
+		&& From.Slot == Location.Slot)
+	{
+		return FReply::Handled();
+	}
+	OnItemDropped.ExecuteIfBound(From, Location);
+	return FReply::Handled();
 }

@@ -24,15 +24,81 @@ namespace
 	constexpr float ReadoutWidth = FReal33DUIStyle::SlotSize;
 	constexpr int32 TextSize = 8;
 	constexpr int32 ValueSize = 9;
+
+	// reference/game/src/enums.hh, enum InventorySlot.
+	constexpr int32 kSlotHead = 1;
+	constexpr int32 kSlotNeck = 2;
+	constexpr int32 kSlotBack = 3;
+	constexpr int32 kSlotTorso = 4;
+	constexpr int32 kSlotShield = 5;
+	constexpr int32 kSlotWeapon = 6;
+	constexpr int32 kSlotLegs = 7;
+	constexpr int32 kSlotFeet = 8;
+	constexpr int32 kSlotFinger = 9;
+	constexpr int32 kSlotHip = 10;
+
+	/** Each square's placeholder art and label, by slot number. */
+	struct FSlotFace { const TCHAR* Brush; const TCHAR* Label; };
+	const FSlotFace kSlotFaces[FReal33DInventory::SlotCount] = {
+		{ TEXT(""), TEXT("") },  // 0 is not a slot
+		{ TEXT("Real33D.Inventory.Slot.head"), TEXT("Helmet") },
+		{ TEXT("Real33D.Inventory.Slot.neck"), TEXT("Amulet") },
+		{ TEXT("Real33D.Inventory.Slot.back"), TEXT("Backpack") },
+		{ TEXT("Real33D.Inventory.Slot.torso"), TEXT("Armor") },
+		{ TEXT("Real33D.Inventory.Slot.left_hand"), TEXT("Shield") },
+		{ TEXT("Real33D.Inventory.Slot.right_hand"), TEXT("Weapon") },
+		{ TEXT("Real33D.Inventory.Slot.legs"), TEXT("Legs") },
+		{ TEXT("Real33D.Inventory.Slot.feet"), TEXT("Boots") },
+		{ TEXT("Real33D.Inventory.Slot.finger"), TEXT("Ring") },
+		{ TEXT("Real33D.Inventory.Slot.hip"), TEXT("Tools") },
+	};
 }
 
 TSharedRef<SWidget> SReal33DInventoryPanel::MakeSlot(
-	const FName& Placeholder, const FText& Tooltip)
+	int32 Slot, const FName& Placeholder, const FText& Tooltip)
 {
-	return SNew(SReal33DSlot)
+	// Hosted in a box rather than placed directly, so SetInventory can replace
+	// the square's contents without rebuilding the whole panel around it.
+	TSharedRef<SBox> Host = SNew(SBox)
+		[
+			SNew(SReal33DSlot)
+			.SlotBrush("Real33D.Inventory.Slot")
+			.PlaceholderBrush(Placeholder)
+			.Tooltip(Tooltip)
+		];
+	SlotHosts[Slot] = Host;
+	return Host;
+}
+
+void SReal33DInventoryPanel::FillSlot(int32 Slot, const FName& Placeholder,
+	const FText& Tooltip, const FReal33DInventory& Inventory)
+{
+	if (!SlotHosts[Slot].IsValid())
+	{
+		return;
+	}
+	const bool bOccupied = Inventory.bKnown && Inventory.bOccupied[Slot];
+	const FReal33DItem& Item = Inventory.Items[Slot];
+
+	FReal33DSlotRef Where;
+	Where.Kind = FReal33DSlotRef::EKind::Inventory;
+	Where.Slot = static_cast<uint8>(Slot);
+
+	SlotHosts[Slot]->SetContent(
+		SNew(SReal33DSlot)
 		.SlotBrush("Real33D.Inventory.Slot")
 		.PlaceholderBrush(Placeholder)
-		.Tooltip(Tooltip);
+		.TypeId(bOccupied ? Item.TypeId : 0)
+		.Count(bOccupied && Item.bHasAmount ? Item.Amount : 0)
+		.Location(Where)
+		.OnItemDropped(OnItemDropped)
+		.Tooltip(bOccupied
+			? FText::FromString(Item.bHasAmount
+				? FString::Printf(TEXT("%s: object %u x%u"),
+					*Tooltip.ToString(), Item.TypeId, Item.Amount)
+				: FString::Printf(TEXT("%s: object %u"),
+					*Tooltip.ToString(), Item.TypeId))
+			: Tooltip));
 }
 
 TSharedRef<SWidget> SReal33DInventoryPanel::MakeReadout(
@@ -103,6 +169,7 @@ TSharedRef<SWidget> SReal33DInventoryPanel::MakeCombatButton(
 void SReal33DInventoryPanel::Construct(const FArguments& InArgs)
 {
 	const ISlateStyle& Style = FReal33DUIStyle::Get();
+	OnItemDropped = InArgs._OnItemDropped;
 
 	// The three slot columns of inventory.otui, in its own order. Column one is
 	// amulet, sword, ring and then Soul; column two helmet, armor, legs, boots;
@@ -121,28 +188,32 @@ void SReal33DInventoryPanel::Construct(const FArguments& InArgs)
 			];
 	};
 
-	Stack(Left, MakeSlot("Real33D.Inventory.Slot.neck",
+	// The slot numbers are Fusion32's own InventorySlot values, which is what
+	// inventory.otui also carries in each square's `slotPosition.y` and what
+	// SV_CMD_SET_INVENTORY addresses: head 1, neck 2, back 3, torso 4,
+	// shield 5, weapon 6, legs 7, feet 8, finger 9, hip 10.
+	Stack(Left, MakeSlot(kSlotNeck, "Real33D.Inventory.Slot.neck",
 		FText::FromString(TEXT("Amulet"))));
-	Stack(Left, MakeSlot("Real33D.Inventory.Slot.right_hand",
+	Stack(Left, MakeSlot(kSlotWeapon, "Real33D.Inventory.Slot.right_hand",
 		FText::FromString(TEXT("Weapon"))));
-	Stack(Left, MakeSlot("Real33D.Inventory.Slot.finger",
+	Stack(Left, MakeSlot(kSlotFinger, "Real33D.Inventory.Slot.finger",
 		FText::FromString(TEXT("Ring"))));
 	Stack(Left, MakeReadout(FText::FromString(TEXT("Soul")), SoulValue));
 
-	Stack(Middle, MakeSlot("Real33D.Inventory.Slot.head",
+	Stack(Middle, MakeSlot(kSlotHead, "Real33D.Inventory.Slot.head",
 		FText::FromString(TEXT("Helmet"))));
-	Stack(Middle, MakeSlot("Real33D.Inventory.Slot.torso",
+	Stack(Middle, MakeSlot(kSlotTorso, "Real33D.Inventory.Slot.torso",
 		FText::FromString(TEXT("Armor"))));
-	Stack(Middle, MakeSlot("Real33D.Inventory.Slot.legs",
+	Stack(Middle, MakeSlot(kSlotLegs, "Real33D.Inventory.Slot.legs",
 		FText::FromString(TEXT("Legs"))));
-	Stack(Middle, MakeSlot("Real33D.Inventory.Slot.feet",
+	Stack(Middle, MakeSlot(kSlotFeet, "Real33D.Inventory.Slot.feet",
 		FText::FromString(TEXT("Boots"))));
 
-	Stack(Right, MakeSlot("Real33D.Inventory.Slot.back",
+	Stack(Right, MakeSlot(kSlotBack, "Real33D.Inventory.Slot.back",
 		FText::FromString(TEXT("Backpack"))));
-	Stack(Right, MakeSlot("Real33D.Inventory.Slot.left_hand",
+	Stack(Right, MakeSlot(kSlotShield, "Real33D.Inventory.Slot.left_hand",
 		FText::FromString(TEXT("Shield"))));
-	Stack(Right, MakeSlot("Real33D.Inventory.Slot.hip",
+	Stack(Right, MakeSlot(kSlotHip, "Real33D.Inventory.Slot.hip",
 		FText::FromString(TEXT("Tools"))));
 	Stack(Right, MakeReadout(FText::FromString(TEXT("Cap")), CapacityValue));
 
@@ -227,6 +298,34 @@ void SReal33DInventoryPanel::SetVitals(const FReal33DPlayerVitals& Vitals)
 			? FText::FromString(FString::Printf(TEXT("%d"),
 				static_cast<int32>(Vitals.Capacity)))
 			: Unknown);
+	}
+}
+
+void SReal33DInventoryPanel::SetInventory(const FReal33DInventory& Inventory)
+{
+	if (bHasDrawnInventory && LastInventory.bKnown == Inventory.bKnown)
+	{
+		bool bSame = true;
+		for (int32 Slot = FReal33DInventory::FirstSlot;
+			bSame && Slot <= FReal33DInventory::LastSlot; ++Slot)
+		{
+			bSame = LastInventory.bOccupied[Slot] == Inventory.bOccupied[Slot]
+				&& LastInventory.Items[Slot].TypeId == Inventory.Items[Slot].TypeId
+				&& LastInventory.Items[Slot].Amount == Inventory.Items[Slot].Amount;
+		}
+		if (bSame)
+		{
+			return;
+		}
+	}
+	LastInventory = Inventory;
+	bHasDrawnInventory = true;
+
+	for (int32 Slot = FReal33DInventory::FirstSlot;
+		Slot <= FReal33DInventory::LastSlot; ++Slot)
+	{
+		FillSlot(Slot, FName(kSlotFaces[Slot].Brush),
+			FText::FromString(kSlotFaces[Slot].Label), Inventory);
 	}
 }
 

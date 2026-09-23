@@ -1,5 +1,6 @@
 #include "Real33DHUD.h"
 
+#include "REAL33D.h"
 #include "Real33DActionBarPanel.h"
 #include "Real33DBattlePanel.h"
 #include "Real33DContainersPanel.h"
@@ -37,6 +38,9 @@ namespace
 	// healthinfo.otui gives its panel a 32px body; the vitals widget draws the
 	// two bars plus the level line, so it needs a little more than that here.
 	constexpr float VitalsHeight = 52.0f;
+	// Room for a couple of containers; the panel scrolls with its column when
+	// the player opens more than fits.
+	constexpr float ContainersHeight = 200.0f;
 	constexpr int32 TextSize = 8;
 }
 
@@ -193,6 +197,8 @@ void SReal33DHUD::Construct(const FArguments& InArgs)
 				.FillHeight(1.0f)
 				[
 					SAssignNew(Inventory, SReal33DInventoryPanel)
+					.OnItemDropped(FReal33DOnItemDropped::CreateSP(
+						this, &SReal33DHUD::HandleItemDropped))
 				]
 				// The condition strip sits along the bottom of the inventory
 				// panel in inventory.otui, and does here too.
@@ -237,11 +243,13 @@ void SReal33DHUD::Construct(const FArguments& InArgs)
 		.AutoHeight()
 		[
 			SNew(SReal33DMiniWindow)
-			.Title(FText::FromString(TEXT("Container")))
-			.ContentHeight(SReal33DContainersPanel::ContentHeightFor(2))
-			.Inert(true)
+			.Title(FText::FromString(TEXT("Containers")))
+			.ContentHeight(ContainersHeight)
 			[
-				SNew(SReal33DContainersPanel).Columns(4).Rows(2)
+				SAssignNew(Containers, SReal33DContainersPanel)
+					.Columns(4)
+					.OnItemDropped(FReal33DOnItemDropped::CreateSP(
+						this, &SReal33DHUD::HandleItemDropped))
 			]
 		];
 
@@ -312,6 +320,39 @@ void SReal33DHUD::Construct(const FArguments& InArgs)
 	(void)Style;
 }
 
+void SReal33DHUD::HandleItemDropped(FReal33DSlotRef From, FReal33DSlotRef To)
+{
+	UReal33DBridge* Live = Bridge.Get();
+	if (Live == nullptr || !Live->IsRunning())
+	{
+		UE_LOG(LogReal33D, Warning,
+			TEXT("not connected; move of object %u not sent"), From.TypeId);
+		return;
+	}
+
+	const auto ToSlot = [](const FReal33DSlotRef& Ref)
+	{
+		return Ref.Kind == FReal33DSlotRef::EKind::Container
+			? UReal33DBridge::FMoveSlot::InContainer(Ref.Container, Ref.Slot)
+			: UReal33DBridge::FMoveSlot::InInventory(Ref.Slot);
+	};
+
+	// An intent, exactly like a walk or a say. Nothing on screen changes here:
+	// the object stays drawn where the server last said it was, and moves only
+	// when the container or inventory commands that follow say it did. A move
+	// Fusion32 refuses produces none of those, which is correct.
+	const uint32 MoveId = Live->RequestMoveObject(
+		ToSlot(From), From.TypeId, From.Slot, ToSlot(To), From.Count);
+
+	UE_LOG(LogReal33D, Log,
+		TEXT("move %u: object %u from %s%u slot %u to %s%u slot %u, count %u"),
+		MoveId, From.TypeId,
+		From.Kind == FReal33DSlotRef::EKind::Container ? TEXT("container ") : TEXT("body "),
+		From.Container, From.Slot,
+		To.Kind == FReal33DSlotRef::EKind::Container ? TEXT("container ") : TEXT("body "),
+		To.Container, To.Slot, From.Count);
+}
+
 void SReal33DHUD::HandlePanelToggled(FName Panel)
 {
 	// Purely local: showing and hiding a panel asks Fusion32 for nothing.
@@ -348,6 +389,13 @@ void SReal33DHUD::Refresh(const AReal33DWorld* World)
 	if (Inventory.IsValid())
 	{
 		Inventory->SetVitals(VitalsNow);
+		Inventory->SetInventory(World != nullptr
+			? World->GetInventory() : FReal33DInventory{});
+	}
+	if (Containers.IsValid())
+	{
+		static const TArray<FReal33DContainer> None;
+		Containers->SetContainers(World != nullptr ? World->GetContainers() : None);
 	}
 	if (Conditions.IsValid())
 	{

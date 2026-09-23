@@ -39,6 +39,23 @@ public:
 	static const ISlateStyle& Get();
 	static FName GetStyleSetName();
 
+	/**
+	 * The 7.72 picture of an object, or null when there is none.
+	 *
+	 * Cut from the client data pair the REAL33D 2D client loads, by
+	 * `scripts/client/extract_item_sprites.py`, into one 32x32 PNG per type id
+	 * under `Resources/UI/Items/`. Fusion32 puts a type id on the wire and this
+	 * turns it into the object the player would recognise.
+	 *
+	 * Built on first use and kept, rather than registering five thousand
+	 * brushes at startup for the handful a session ever draws. Returns null for
+	 * an id with no picture -- 78 of them have none -- and the caller falls
+	 * back to showing the number, which is still the truth about what is there.
+	 *
+	 * Game thread only: the cache is not guarded, and Slate is single-threaded.
+	 */
+	static const FSlateBrush* ItemBrush(uint16 TypeId);
+
 	// Native pixel geometry of the health/mana art, shared with the widgets so
 	// a layout cannot drift from the images it is laying out.
 	static constexpr float SymbolWidth = 12.0f;
@@ -111,4 +128,16 @@ public:
 private:
 	static TSharedRef<FSlateStyleSet> Create();
 	static TSharedPtr<FSlateStyleSet> Instance;
+
+	/**
+	 * Item pictures built so far. A null entry means "looked, found none".
+	 *
+	 * Dynamic brushes, not the plain image brushes the rest of this style uses.
+	 * A plain file-backed brush is only resolvable if it was registered on a
+	 * style set, because that is what puts its path into the renderer's
+	 * resource map; one created on the fly draws as a white square instead.
+	 * FSlateDynamicImageBrush is the kind meant to be loaded from disk at
+	 * runtime, which is exactly what an item picture is.
+	 */
+	static TMap<uint16, TSharedPtr<struct FSlateDynamicImageBrush>> ItemBrushes;
 };

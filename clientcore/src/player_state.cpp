@@ -126,6 +126,86 @@ bool DecodeInventory(MapScanner* scanner, std::uint8_t opcode,
     return ReadScannerItem(scanner, &output->item);
 }
 
+bool DecodeContainer(MapScanner* scanner, std::uint8_t opcode,
+                     ContainerUpdate* output) {
+    // Every one of the five begins with the container number, which is why
+    // they are decoded together.
+    if (!ReadScannerByte(scanner, &output->container, "container number")) return false;
+    if (output->container >= kMaxOpenContainers) {
+        return FailScanner(scanner, MapDecodeError::InvalidContainerNumber,
+                           "container number outside CONTAINER_FIRST..CONTAINER_LAST");
+    }
+
+    switch (opcode) {
+        case kServerCommandCloseContainer:
+            output->kind = ContainerUpdateKind::Closed;
+            return true;
+
+        case kServerCommandCreateInContainer:
+            // No index: SendCreateInContainer puts the object at the head of
+            // the container's list, so the slot is implicitly zero.
+            output->kind = ContainerUpdateKind::Created;
+            output->slot = 0;
+            return ReadScannerItem(scanner, &output->item);
+
+        case kServerCommandChangeInContainer:
+            output->kind = ContainerUpdateKind::Changed;
+            if (!ReadScannerByte(scanner, &output->slot, "container slot")) return false;
+            if (output->slot >= kMaxObjectsPerContainer) {
+                return FailScanner(scanner, MapDecodeError::InvalidContainerSlot,
+                                   "container slot beyond MAX_OBJECTS_PER_CONTAINER");
+            }
+            return ReadScannerItem(scanner, &output->item);
+
+        case kServerCommandDeleteInContainer:
+            output->kind = ContainerUpdateKind::Deleted;
+            if (!ReadScannerByte(scanner, &output->slot, "container slot")) return false;
+            if (output->slot >= kMaxObjectsPerContainer) {
+                return FailScanner(scanner, MapDecodeError::InvalidContainerSlot,
+                                   "container slot beyond MAX_OBJECTS_PER_CONTAINER");
+            }
+            return true;
+
+        case kServerCommandContainer:
+            break;
+
+        default:
+            return FailScanner(scanner, MapDecodeError::UnexpectedCommand,
+                               "not a container command");
+    }
+
+    // SV_CMD_CONTAINER, in SendContainer's own order: the disguised type, the
+    // name, the capacity attribute, whether it has a parent container, and
+    // then the count followed by that many items.
+    output->kind = ContainerUpdateKind::Opened;
+    if (!ReadScannerWord(scanner, &output->type_id, "container type")) return false;
+    if (!ReadScannerString(scanner, &output->name, "container name")) return false;
+    if (!ReadScannerByte(scanner, &output->capacity, "container capacity")) return false;
+
+    std::uint8_t has_parent = 0;
+    if (!ReadScannerByte(scanner, &has_parent, "container parent flag")) return false;
+    output->has_parent = has_parent != 0;
+
+    std::uint8_t count = 0;
+    if (!ReadScannerByte(scanner, &count, "container object count")) return false;
+    if (count > kMaxObjectsPerContainer) {
+        // The server clamps to MAX_OBJECTS_PER_CONTAINER before it sends, so a
+        // larger count is not a big container: it is a desynchronised stream,
+        // and reading that many items would walk off the end of the command.
+        return FailScanner(scanner, MapDecodeError::InvalidContainerSlot,
+                           "container object count beyond MAX_OBJECTS_PER_CONTAINER");
+    }
+
+    output->items.clear();
+    output->items.reserve(count);
+    for (std::uint8_t index = 0; index < count; index += 1) {
+        ItemThing item;
+        if (!ReadScannerItem(scanner, &item)) return false;
+        output->items.push_back(item);
+    }
+    return true;
+}
+
 bool DecodeBuddy(MapScanner* scanner, std::uint8_t opcode, BuddyUpdate* output) {
     if (!ReadScannerQuad(scanner, &output->character_id, "buddy character id")) return false;
     if (opcode == kServerCommandBuddyData) {
@@ -151,6 +231,11 @@ bool IsPlayerStateCommand(std::uint8_t opcode) noexcept {
         case kServerCommandPing:
         case kServerCommandSetInventory:
         case kServerCommandDeleteInventory:
+        case kServerCommandContainer:
+        case kServerCommandCloseContainer:
+        case kServerCommandCreateInContainer:
+        case kServerCommandChangeInContainer:
+        case kServerCommandDeleteInContainer:
         case kServerCommandAmbient:
         case kServerCommandGraphicalEffect:
         case kServerCommandTextualEffect:

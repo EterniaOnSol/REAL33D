@@ -265,6 +265,12 @@ void AReal33DWorld::ClearWorld()
 	// SV_CMD_PLAYER_STATE arrive, not the previous character's numbers.
 	PlayerSkills = FReal33DPlayerSkills{};
 	PlayerConditions = FReal33DConditions{};
+	// Equipment and containers go too. A reconnect re-receives all of it from
+	// SendBodyInventory and whatever containers the character has open, so
+	// keeping the old character's belongings would be showing items this
+	// session was never told about.
+	PlayerInventory = FReal33DInventory{};
+	OpenContainers.Reset();
 	bFloorVisibilityDirty = true;
 	// Speech attached to a creature died with its actor above. The transcript
 	// is the other half and the bridge clears it on the same disconnect, so a
@@ -350,6 +356,37 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 	case EReal33DEventKind::PlayerConditions:
 		PlayerConditions = Event.Conditions;
 		break;
+
+	case EReal33DEventKind::InventoryChanged:
+		PlayerInventory = Event.Inventory;
+		break;
+
+	case EReal33DEventKind::ContainerChanged:
+	{
+		// The list holds only what is open, so a close removes the entry and
+		// the panel for it goes with it. Kept in container-number order so the
+		// windows do not reshuffle when an unrelated container changes.
+		const int32 Existing = OpenContainers.IndexOfByPredicate(
+			[&Event](const FReal33DContainer& Each)
+			{ return Each.Number == Event.Container.Number; });
+		if (!Event.Container.bOpen)
+		{
+			if (Existing != INDEX_NONE)
+			{
+				OpenContainers.RemoveAt(Existing);
+			}
+			break;
+		}
+		if (Existing != INDEX_NONE)
+		{
+			OpenContainers[Existing] = Event.Container;
+			break;
+		}
+		OpenContainers.Add(Event.Container);
+		OpenContainers.Sort([](const FReal33DContainer& A, const FReal33DContainer& B)
+			{ return A.Number < B.Number; });
+		break;
+	}
 
 	case EReal33DEventKind::CreatureHealth:
 		if (TObjectPtr<AReal33DCreature>* Hurt = Creatures.Find(Event.CreatureId))

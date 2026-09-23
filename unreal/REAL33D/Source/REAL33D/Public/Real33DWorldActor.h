@@ -38,6 +38,10 @@ public:
 	const FReal33DPlayerVitals& GetPlayerVitals() const { return PlayerVitals; }
 	const FReal33DPlayerSkills& GetPlayerSkills() const { return PlayerSkills; }
 	const FReal33DConditions& GetConditions() const { return PlayerConditions; }
+	const FReal33DInventory& GetInventory() const { return PlayerInventory; }
+
+	/** The open containers, in the server's own container-number order. */
+	const TArray<FReal33DContainer>& GetContainers() const { return OpenContainers; }
 
 	/**
 	 * The creatures currently on screen, nearest first.
@@ -155,6 +159,18 @@ private:
 	FReal33DPlayerVitals PlayerVitals;
 	FReal33DPlayerSkills PlayerSkills;
 	FReal33DConditions PlayerConditions;
+
+	/** What the player is wearing, as the server last described it. */
+	FReal33DInventory PlayerInventory;
+
+	/**
+	 * The containers the player has open, kept sorted by container number.
+	 *
+	 * A closed one is removed rather than left with `bOpen` false: the panel
+	 * list is built from this, and a closed container has no panel.
+	 */
+	TArray<FReal33DContainer> OpenContainers;
+
 	uint32 LocalCreatureId = 0;
 	bool bFloorVisibilityDirty = true;
 	bool bConnected = false;

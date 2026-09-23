@@ -36,6 +36,14 @@ enum class MapDecodeError {
     InvalidDirection,
     TrailingBytes,
     InvalidInventorySlot,
+    // A container number outside CONTAINER_FIRST..CONTAINER_LAST. The server
+    // can only ever index its own open-container table, so a number beyond it
+    // means the stream is not where the reader thinks it is.
+    InvalidContainerNumber,
+    // A slot index at or beyond MAX_OBJECTS_PER_CONTAINER, or an object count
+    // larger than the server clamps its own SV_CMD_CONTAINER to. Reading on
+    // would walk past the end of the command.
+    InvalidContainerSlot,
     // A talk command whose mode none of Fusion32's three SendTalk overloads
     // accepts. The mode decides the tail layout, so an unrecognised one leaves
     // the rest of the command unlocatable; guessing would invent semantics.

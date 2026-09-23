@@ -1,11 +1,13 @@
 #include "Real33DUIStyle.h"
 
+#include "Brushes/SlateDynamicImageBrush.h"
 #include "Misc/Paths.h"
 #include "Styling/SlateStyle.h"
 #include "Styling/SlateStyleRegistry.h"
 #include "Styling/SlateTypes.h"
 
 TSharedPtr<FSlateStyleSet> FReal33DUIStyle::Instance = nullptr;
+TMap<uint16, TSharedPtr<FSlateDynamicImageBrush>> FReal33DUIStyle::ItemBrushes;
 
 namespace
 {
@@ -79,6 +81,37 @@ void FReal33DUIStyle::Shutdown()
 	}
 	FSlateStyleRegistry::UnRegisterSlateStyle(*Instance);
 	Instance.Reset();
+	// The item pictures point into the style's content root, so they go with it.
+	ItemBrushes.Reset();
+}
+
+const FSlateBrush* FReal33DUIStyle::ItemBrush(uint16 TypeId)
+{
+	if (TypeId == 0 || !Instance.IsValid())
+	{
+		return nullptr;
+	}
+	if (const TSharedPtr<FSlateDynamicImageBrush>* Found = ItemBrushes.Find(TypeId))
+	{
+		return Found->Get();
+	}
+
+	const FString Path = Instance->RootToContentDir(
+		*FString::Printf(TEXT("Items/%u"), TypeId), TEXT(".png"));
+	if (!FPaths::FileExists(Path))
+	{
+		// Remembered as absent so a missing picture is one file check per id
+		// per session rather than one per frame.
+		ItemBrushes.Add(TypeId, nullptr);
+		return nullptr;
+	}
+
+	// Every extracted picture is 32x32, which is why this size is a constant
+	// and not read from the file: see extract_item_sprites.py.
+	TSharedPtr<FSlateDynamicImageBrush> Brush = MakeShareable(
+		new FSlateDynamicImageBrush(FName(*Path), FVector2D(SlotIconSize, SlotIconSize)));
+	ItemBrushes.Add(TypeId, Brush);
+	return Brush.Get();
 }
 
 const ISlateStyle& FReal33DUIStyle::Get()

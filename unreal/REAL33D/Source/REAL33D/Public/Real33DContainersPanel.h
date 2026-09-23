@@ -1,38 +1,54 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Real33DBridge.h"
+#include "Real33DPanelChrome.h"
 #include "Widgets/DeclarativeSyntaxSupport.h"
 #include "Widgets/SCompoundWidget.h"
 
+class SVerticalBox;
+
 /**
- * A container window, transcribed from `game_containers/container.otui`.
+ * The open containers, transcribed from `game_containers/container.otui`.
  *
- * Inert, and there is no half-measure available. Fusion32 opens a container
- * with SV_CMD_CONTAINER_OPEN and this client's ClientCore does not decode that
- * command at all -- the bridge files it as a Diagnostic and moves on. So there
- * is no container, no name, no capacity and no contents: not "empty", but
- * unknown.
+ * Live. Fusion32 describes a container with SV_CMD_CONTAINER and keeps it
+ * current with SV_CMD_CREATE_IN_CONTAINER, SV_CMD_CHANGE_IN_CONTAINER and
+ * SV_CMD_DELETE_IN_CONTAINER; all five are decoded and stored in WorldState,
+ * so what is drawn here is the server's own contents in the server's own
+ * order. Nothing is invented and nothing is cached: a container the server has
+ * not described has no panel.
  *
- * The window is still drawn, at the 34px grid with 3px gutters and the 6px
- * padding that file specifies, because the side column has to reserve the space
- * a container will take and because the player should be able to see that this
- * client has a place for one. The paging controls come from the same file and
- * are disabled for the same reason.
+ * One window per open container, in container-number order, each with its own
+ * name and its own 34px grid at the 3px gutters and 6px padding that file
+ * specifies. Nesting needs nothing extra -- the server opens a nested
+ * container as another numbered one and says it has a parent -- so the "go up"
+ * arrow is shown for those, disabled until CL_CMD_UP_CONTAINER is wired.
  */
 class SReal33DContainersPanel : public SCompoundWidget
 {
 public:
 	SLATE_BEGIN_ARGS(SReal33DContainersPanel)
 		: _Columns(4)
-		, _Rows(2)
 	{}
-		/** container.otui flows 34px cells; four across is the classic backpack. */
+		/** container.otui flows 34px cells; four across is the classic bag. */
 		SLATE_ARGUMENT(int32, Columns)
-		SLATE_ARGUMENT(int32, Rows)
+		/** Fired when an object is dropped on one of the cells. */
+		SLATE_EVENT(FReal33DOnItemDropped, OnItemDropped)
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);
 
-	/** The height a grid of this many rows needs, including the paging strip. */
-	static float ContentHeightFor(int32 Rows);
+	/** Rebuilds the windows if, and only if, the containers actually changed. */
+	void SetContainers(const TArray<FReal33DContainer>& Containers);
+
+private:
+	/** One container window: its header, its grid, and its footer. */
+	TSharedRef<SWidget> MakeContainer(const FReal33DContainer& Container);
+
+	int32 Columns = 4;
+	TSharedPtr<SVerticalBox> Windows;
+	FReal33DOnItemDropped OnItemDropped;
+
+	/** What is currently drawn, so an unchanged set is not rebuilt. */
+	TArray<FReal33DContainer> Drawn;
 };

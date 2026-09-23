@@ -175,6 +175,32 @@ struct AmbientLight {
     std::uint8_t color = 0;
 };
 
+// One body slot. `occupied` is false for a slot the server has never filled or
+// has emptied with SV_CMD_DELETE_INVENTORY, which is a different thing from an
+// item whose type id happens to be zero.
+struct InventorySlot {
+    bool occupied = false;
+    ItemThing item;
+};
+
+// One container the player has open, mirroring what SendContainer described.
+//
+// The order of `objects` is the server's own: SendContainer walks the
+// container's object list from `GetFirstContainerObject` forward, and
+// SendCreateInContainer prepends. So index 0 is the front of that list and the
+// slot indices carried by SV_CMD_CHANGE_IN_CONTAINER and
+// SV_CMD_DELETE_IN_CONTAINER address this vector directly.
+struct OpenContainer {
+    bool open = false;
+    std::uint16_t type_id = 0;
+    std::string name;
+    std::uint8_t capacity = 0;
+    // True when the container sits inside another, which is what the classic
+    // client's "go up" arrow needs. The server does not say which one.
+    bool has_parent = false;
+    std::vector<ItemThing> objects;
+};
+
 // What the decoded FULLSCREEN establishes about a creature, and nothing more.
 struct CreatureRecord {
     std::uint32_t creature_id = 0;
@@ -243,6 +269,17 @@ struct WorldState {
     PlayerSkills skills;
     PlayerState state;
     AmbientLight ambient_light;
+
+    // What the player is wearing, indexed by InventorySlot value, so index 0
+    // is unused and INVENTORY_FIRST..INVENTORY_LAST address it directly. Doing
+    // it this way rather than packing from zero means a slot number off the
+    // wire needs no arithmetic before it is trusted.
+    std::array<InventorySlot, 11> inventory{};
+
+    // The containers the player has open, indexed by the server's own
+    // container number. A closed one is simply `open == false`; the entry is
+    // kept so a number that comes back stays at the same index.
+    std::array<OpenContainer, 16> containers{};
 
     const MapTile* FindTile(const MapPosition& position) const noexcept;
     MapTile* FindTile(const MapPosition& position) noexcept;
