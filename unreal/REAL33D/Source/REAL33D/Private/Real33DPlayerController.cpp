@@ -14,8 +14,8 @@
 #include "Real33DBridge.h"
 #include "Real33DChatPanel.h"
 #include "Real33DAssetRegistry.h"
+#include "Real33DHUD.h"
 #include "Real33DTileActor.h"
-#include "Real33DVitalsPanel.h"
 #include "Real33DWorldActor.h"
 #include "Widgets/Layout/SBox.h"
 #include "Widgets/Layout/SBorder.h"
@@ -53,35 +53,18 @@ void AReal33DPlayerController::BeginPlay()
 	UReal33DBridge* Bridge = GameInstance != nullptr
 		? GameInstance->GetSubsystem<UReal33DBridge>() : nullptr;
 
-	ChatPanel = SNew(SReal33DChatPanel)
+	// The whole in-game UI, as one widget filling the viewport. Before
+	// UNREAL-UI-FULL-PORT-001 the chat area and the vitals were two loose boxes
+	// pinned to opposite corners; they are now panels inside the frame
+	// gameinterface.otui describes, and the HUD owns both.
+	HudRoot = SNew(SReal33DHUD)
 		.Bridge(Bridge)
 		.OnTypingChanged(FReal33DOnTypingChanged::CreateUObject(
 			this, &AReal33DPlayerController::HandleTypingChanged));
+	ChatPanel = HudRoot->GetChatPanel();
 
-	// Bottom left, where a chat console belongs and where it cannot be confused
-	// with the counters overlay in the top left. Above the scene, below nothing.
-	ChatRoot = SNew(SBox)
-		.HAlign(HAlign_Left)
-		.VAlign(VAlign_Bottom)
-		.Padding(FMargin(12.0f, 0.0f, 0.0f, 12.0f))
-		[
-			ChatPanel.ToSharedRef()
-		];
 	GetWorld()->GetGameViewport()->AddViewportWidgetContent(
-		ChatRoot.ToSharedRef(), /*ZOrder=*/10);
-
-	VitalsRoot = SNew(SBox)
-		.HAlign(HAlign_Right)
-		.VAlign(VAlign_Bottom)
-		.Padding(FMargin(0.0f, 0.0f, 12.0f, 12.0f))
-		[
-			SNew(SBorder).Padding(8.0f)
-			[
-				SAssignNew(VitalsPanel, SReal33DVitalsPanel)
-			]
-		];
-	GetWorld()->GetGameViewport()->AddViewportWidgetContent(
-		VitalsRoot.ToSharedRef(), /*ZOrder=*/10);
+		HudRoot.ToSharedRef(), /*ZOrder=*/10);
 	FString CatalogPath;
 	bInspectorEnabled = FParse::Value(FCommandLine::Get(),
 		TEXT("-real33d-experimental-catalog="), CatalogPath);
@@ -145,17 +128,11 @@ void AReal33DPlayerController::EndPlay(const EEndPlayReason::Type Reason)
 	// Removed explicitly. A viewport widget outlives the actor that made it,
 	// so a second session would otherwise open on top of the first one's panel
 	// and the operator would be typing into a box wired to a dead bridge.
-	if (ChatRoot.IsValid() && GetWorld() != nullptr
+	if (HudRoot.IsValid() && GetWorld() != nullptr
 		&& GetWorld()->GetGameViewport() != nullptr)
 	{
 		GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(
-			ChatRoot.ToSharedRef());
-	}
-	if (VitalsRoot.IsValid() && GetWorld() != nullptr
-		&& GetWorld()->GetGameViewport() != nullptr)
-	{
-		GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(
-			VitalsRoot.ToSharedRef());
+			HudRoot.ToSharedRef());
 	}
 	if (InspectorRoot.IsValid() && GetWorld() != nullptr
 		&& GetWorld()->GetGameViewport() != nullptr)
@@ -165,9 +142,7 @@ void AReal33DPlayerController::EndPlay(const EEndPlayReason::Type Reason)
 	InspectorRoot.Reset();
 	InspectorLabel.Reset();
 	InspectorNote.Reset();
-	ChatRoot.Reset();
-	VitalsRoot.Reset();
-	VitalsPanel.Reset();
+	HudRoot.Reset();
 	LastVitalsText.Empty();
 	ChatPanel.Reset();
 	bTypingActive = false;
@@ -342,12 +317,13 @@ void AReal33DPlayerController::SetMovementHeld(uint8 RelativeDirection, bool bHe
 void AReal33DPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	if (VitalsPanel.IsValid())
+	if (HudRoot.IsValid())
 	{
 		const AReal33DWorld* World = GetWorldActor();
 		const FReal33DPlayerVitals Vitals = World != nullptr
 			? World->GetPlayerVitals() : FReal33DPlayerVitals{};
-		VitalsPanel->SetVitals(Vitals);
+		// One call, one owner: the HUD hands each panel the values it draws.
+		HudRoot->Refresh(World);
 
 		// The log records transitions, not frames. The values are printed
 		// exactly as the server sent them, unclamped, so the evidence file

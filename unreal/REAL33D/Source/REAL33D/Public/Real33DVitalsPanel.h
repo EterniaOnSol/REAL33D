@@ -5,7 +5,7 @@
 #include "Widgets/DeclarativeSyntaxSupport.h"
 #include "Widgets/SCompoundWidget.h"
 
-class SBox;
+class SProgressBar;
 class STextBlock;
 
 /**
@@ -40,14 +40,14 @@ private:
 	/** One icon/bar/number row. Hands back the two widgets that change. */
 	TSharedRef<SWidget> MakeRow(
 		const FName& SymbolBrush,
-		const FName& FillBrush,
-		TSharedPtr<SBox>& OutFill,
+		const FName& BarStyle,
+		TSharedPtr<SProgressBar>& OutFill,
 		TSharedPtr<STextBlock>& OutLabel);
 
 	static float Fraction(uint16 Current, uint16 Maximum);
 
-	TSharedPtr<SBox> HitpointsFill;
-	TSharedPtr<SBox> ManaFill;
+	TSharedPtr<SProgressBar> HitpointsFill;
+	TSharedPtr<SProgressBar> ManaFill;
 	TSharedPtr<STextBlock> HitpointsLabel;
 	TSharedPtr<STextBlock> ManaLabel;
 	TSharedPtr<STextBlock> LevelLabel;

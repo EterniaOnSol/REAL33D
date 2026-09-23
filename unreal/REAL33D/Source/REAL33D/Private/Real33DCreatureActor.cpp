@@ -128,8 +128,9 @@ void AReal33DCreature::Configure(uint32 InCreatureId, bool bInIsLocalPlayer,
 	// A creature the viewport revealed mid-move can arrive without a name. Show
 	// the id rather than an empty tag, so the evidence run can still tell two
 	// bodies apart.
-	NameTag->SetText(FText::FromString(
-		InName.IsEmpty() ? FString::Printf(TEXT("#%u"), InCreatureId) : InName));
+	CreatureName = InName.IsEmpty()
+		? FString::Printf(TEXT("#%u"), InCreatureId) : InName;
+	NameTag->SetText(FText::FromString(CreatureName));
 	SetHealthPercent(HealthPercent);
 
 	if (Registry != nullptr && Registry->IsReady())

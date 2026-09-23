@@ -1,13 +1,17 @@
 #include "Real33DChatPanel.h"
 
 #include "REAL33D.h"
+#include "Real33DUIStyle.h"
 #include "Styling/CoreStyle.h"
+#include "Styling/ISlateStyle.h"
+#include "Widgets/Images/SImage.h"
 #include "Widgets/Input/SButton.h"
 #include "Widgets/Input/SCheckBox.h"
 #include "Widgets/Layout/SBorder.h"
 #include "Widgets/Layout/SBox.h"
 #include "Widgets/Layout/SScrollBox.h"
 #include "Widgets/SBoxPanel.h"
+#include "Widgets/SOverlay.h"
 #include "Widgets/Text/STextBlock.h"
 
 namespace
@@ -58,10 +62,150 @@ FReply SReal33DChatInput::OnFocusReceived(const FGeometry& MyGeometry,
 
 // ----------------------------------------------------------------- the panel
 
+TSharedRef<SWidget> SReal33DChatPanel::BuildChannelTabs()
+{
+	const ISlateStyle& Style = FReal33DUIStyle::Get();
+
+	// console.otui: a 96x18 tab, the selected cell on top of the sheet.
+	return SNew(SHorizontalBox)
+		+ SHorizontalBox::Slot()
+		.AutoWidth()
+		[
+			SNew(SBox)
+			.WidthOverride(96.0f)
+			.HeightOverride(18.0f)
+			.ToolTipText(FText::FromString(
+				TEXT("Everything Fusion32 says to this client arrives here")))
+			[
+				SNew(SOverlay)
+				+ SOverlay::Slot()
+				[
+					SNew(SImage).Image(Style.GetBrush("Real33D.Chrome.TabSelected"))
+				]
+				+ SOverlay::Slot()
+				.HAlign(HAlign_Center)
+				.VAlign(VAlign_Center)
+				[
+					SNew(STextBlock)
+					.Text(NSLOCTEXT("Real33D", "ChatLocal", "Local Chat"))
+					.ColorAndOpacity(FSlateColor(FLinearColor(FColor(0xDF, 0xDF, 0xDF, 0xFF))))
+					.Font(FCoreStyle::GetDefaultFontStyle("Regular", 8))
+				]
+			]
+		];
+}
+
 void SReal33DChatPanel::Construct(const FArguments& InArgs)
 {
 	Bridge = InArgs._Bridge;
 	OnTypingChanged = InArgs._OnTypingChanged;
+	const bool bEmbedded = InArgs._Embedded;
+
+	const ISlateStyle& Style = FReal33DUIStyle::Get();
+
+	TSharedRef<SVerticalBox> Column = SNew(SVerticalBox);
+
+	if (bEmbedded)
+	{
+		Column->AddSlot()
+			.AutoHeight()
+			.Padding(FMargin(3.0f, 0.0f, 0.0f, 0.0f))
+			[
+				BuildChannelTabs()
+			];
+	}
+
+	// The transcript. Embedded it fills the bottom panel and wears the 2D's own
+	// console frame; standalone it keeps its fixed height.
+	{
+		TSharedRef<SWidget> Transcript =
+			SNew(SBorder)
+			.BorderImage(Style.GetBrush(bEmbedded
+				? "Real33D.Chrome.ConsoleFrame" : "Real33D.Chrome.WindowBody"))
+			// Darker and more solid than the rest of the chrome. Everywhere
+			// else a faded panel just shows scenery through it; here it shows
+			// scenery through the text, and speech has to stay readable over
+			// whatever the camera happens to be pointing at.
+			.BorderBackgroundColor(FLinearColor(1.0f, 1.0f, 1.0f, 0.92f))
+			.Padding(FMargin(4.0f))
+			[
+				SNew(SOverlay)
+				+ SOverlay::Slot()
+				[
+					SNew(SImage)
+					.Image(FCoreStyle::Get().GetBrush("WhiteBrush"))
+					.ColorAndOpacity(FLinearColor(0.02f, 0.02f, 0.03f, 0.82f))
+				]
+				+ SOverlay::Slot()
+				[
+					SNew(SBox)
+					.HeightOverride(bEmbedded ? FOptionalSize() : FOptionalSize(kHistoryHeight))
+					[
+						SAssignNew(History, SScrollBox)
+						+ SScrollBox::Slot()
+						[
+							SAssignNew(Lines, SVerticalBox)
+						]
+					]
+				]
+			];
+
+		// Fill and auto are different slot kinds, not one slot with a flag, so
+		// the branch is here rather than inside the slot.
+		if (bEmbedded)
+		{
+			Column->AddSlot().FillHeight(1.0f)[ Transcript ];
+		}
+		else
+		{
+			Column->AddSlot().AutoHeight()[ Transcript ];
+		}
+	}
+
+	Column->AddSlot()
+		.AutoHeight()
+		.Padding(FMargin(0.0f, 4.0f, 0.0f, 0.0f))
+		[
+			SNew(SHorizontalBox)
+
+			+ SHorizontalBox::Slot()
+			.AutoWidth()
+			.VAlign(VAlign_Center)
+			[
+				BuildModeSelector()
+			]
+
+			+ SHorizontalBox::Slot()
+			.FillWidth(1.0f)
+			.Padding(FMargin(6.0f, 0.0f))
+			[
+				SAssignNew(Input, SReal33DChatInput)
+				.OwningPanel(this)
+				.OnTextCommitted(FOnTextCommitted::CreateSP(
+					this, &SReal33DChatPanel::HandleTextCommitted))
+			]
+
+			+ SHorizontalBox::Slot()
+			.AutoWidth()
+			[
+				SNew(SButton)
+				.Text(NSLOCTEXT("Real33D", "ChatSend", "Send"))
+				.OnClicked(FOnClicked::CreateSP(
+					this, &SReal33DChatPanel::HandleSendClicked))
+			]
+		];
+
+	if (bEmbedded)
+	{
+		// No dark box of its own: the HUD's bottom panel already draws the
+		// repeating background console.otui puts behind this.
+		ChildSlot
+		.Padding(FMargin(4.0f, 2.0f, 4.0f, 4.0f))
+		[
+			Column
+		];
+		return;
+	}
 
 	ChildSlot
 	[
@@ -73,54 +217,7 @@ void SReal33DChatPanel::Construct(const FArguments& InArgs)
 			.BorderBackgroundColor(PanelColour)
 			.Padding(FMargin(8.0f))
 			[
-				SNew(SVerticalBox)
-
-				+ SVerticalBox::Slot()
-				.AutoHeight()
-				[
-					SNew(SBox)
-					.HeightOverride(kHistoryHeight)
-					[
-						SAssignNew(History, SScrollBox)
-						+ SScrollBox::Slot()
-						[
-							SAssignNew(Lines, SVerticalBox)
-						]
-					]
-				]
-
-				+ SVerticalBox::Slot()
-				.AutoHeight()
-				.Padding(FMargin(0.0f, 6.0f, 0.0f, 0.0f))
-				[
-					SNew(SHorizontalBox)
-
-					+ SHorizontalBox::Slot()
-					.AutoWidth()
-					.VAlign(VAlign_Center)
-					[
-						BuildModeSelector()
-					]
-
-					+ SHorizontalBox::Slot()
-					.FillWidth(1.0f)
-					.Padding(FMargin(6.0f, 0.0f))
-					[
-						SAssignNew(Input, SReal33DChatInput)
-						.OwningPanel(this)
-						.OnTextCommitted(FOnTextCommitted::CreateSP(
-							this, &SReal33DChatPanel::HandleTextCommitted))
-					]
-
-					+ SHorizontalBox::Slot()
-					.AutoWidth()
-					[
-						SNew(SButton)
-						.Text(NSLOCTEXT("Real33D", "ChatSend", "Send"))
-						.OnClicked(FOnClicked::CreateSP(
-							this, &SReal33DChatPanel::HandleSendClicked))
-					]
-				]
+				Column
 			]
 		]
 	];

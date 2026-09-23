@@ -29,6 +29,27 @@ THIRD_PARTY_INCLUDES_END
 
 namespace p772 = fusion32::protocol772;
 
+// FReal33DConditions mirrors Fusion32's condition bits so that Real33DBridge.h
+// stays free of anything under fusion32/. A mirror that drifts would draw the
+// wrong status icon and look like a server fault, so the two are pinned here --
+// the one file that can see both definitions at once.
+static_assert(static_cast<uint8>(FReal33DConditions::Poisoned)
+	== static_cast<uint8>(p772::PlayerStateFlag::Poisoned), "condition bit drift");
+static_assert(static_cast<uint8>(FReal33DConditions::Burning)
+	== static_cast<uint8>(p772::PlayerStateFlag::Burning), "condition bit drift");
+static_assert(static_cast<uint8>(FReal33DConditions::Electrified)
+	== static_cast<uint8>(p772::PlayerStateFlag::Electrified), "condition bit drift");
+static_assert(static_cast<uint8>(FReal33DConditions::Drunk)
+	== static_cast<uint8>(p772::PlayerStateFlag::Drunk), "condition bit drift");
+static_assert(static_cast<uint8>(FReal33DConditions::ManaShield)
+	== static_cast<uint8>(p772::PlayerStateFlag::ManaShield), "condition bit drift");
+static_assert(static_cast<uint8>(FReal33DConditions::Slowed)
+	== static_cast<uint8>(p772::PlayerStateFlag::Slowed), "condition bit drift");
+static_assert(static_cast<uint8>(FReal33DConditions::Hasted)
+	== static_cast<uint8>(p772::PlayerStateFlag::Hasted), "condition bit drift");
+static_assert(static_cast<uint8>(FReal33DConditions::LogoutBlocked)
+	== static_cast<uint8>(p772::PlayerStateFlag::LogoutBlocked), "condition bit drift");
+
 /**
  * The transcript, wrapped so Real33DBridge.h needs nothing from fusion32/.
  *
@@ -511,7 +532,51 @@ private:
 				Vitals.Vitals.Mana = State.stats.mana;
 				Vitals.Vitals.MaxMana = State.stats.max_mana;
 				Vitals.Vitals.Level = State.stats.level;
+				// The rest of the same command. The character sheet reads these
+				// and nothing else: a value it cannot show here is a value the
+				// server did not send, which is what an empty row must mean.
+				Vitals.Vitals.LevelPercent = State.stats.level_percent;
+				Vitals.Vitals.Experience = State.stats.experience;
+				Vitals.Vitals.Capacity = State.stats.capacity;
+				Vitals.Vitals.MagicLevel = State.stats.magic_level;
+				Vitals.Vitals.MagicLevelPercent = State.stats.magic_level_percent;
+				Vitals.Vitals.SoulPoints = State.stats.soul_points;
 				Publish(MoveTemp(Vitals));
+			}
+			if (Decoded.update.kind == p772::ServerUpdateKind::PlayerSkills
+				&& State.skills.known)
+			{
+				// Copied out one field at a time rather than memcpy'd: the two
+				// structs are deliberately unrelated types, so that ClientCore's
+				// layout is free to change without silently reinterpreting
+				// itself on this side of the boundary.
+				const auto Copy = [](const p772::PlayerSkill& From)
+				{
+					FReal33DSkill To;
+					To.Level = From.level;
+					To.Percent = From.percent;
+					return To;
+				};
+				FReal33DEvent Skills;
+				Skills.Kind = EReal33DEventKind::PlayerSkills;
+				Skills.Skills.bKnown = true;
+				Skills.Skills.Fist = Copy(State.skills.fist);
+				Skills.Skills.Club = Copy(State.skills.club);
+				Skills.Skills.Sword = Copy(State.skills.sword);
+				Skills.Skills.Axe = Copy(State.skills.axe);
+				Skills.Skills.Distance = Copy(State.skills.distance);
+				Skills.Skills.Shielding = Copy(State.skills.shielding);
+				Skills.Skills.Fishing = Copy(State.skills.fishing);
+				Publish(MoveTemp(Skills));
+			}
+			if (Decoded.update.kind == p772::ServerUpdateKind::PlayerState
+				&& State.state.known)
+			{
+				FReal33DEvent Conditions;
+				Conditions.Kind = EReal33DEventKind::PlayerConditions;
+				Conditions.Conditions.bKnown = true;
+				Conditions.Conditions.Flags = State.state.flags;
+				Publish(MoveTemp(Conditions));
 			}
 			At += Decoded.update.bytes_consumed;
 			++LocalCommands;

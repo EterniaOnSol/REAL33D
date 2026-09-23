@@ -188,6 +188,50 @@ AReal33DCreature* AReal33DWorld::GetLocalPlayer() const
 	return Found != nullptr ? Found->Get() : nullptr;
 }
 
+void AReal33DWorld::GetBattleList(TArray<FReal33DBattleEntry>& OutEntries) const
+{
+	OutEntries.Reset();
+
+	const AReal33DCreature* Self = GetLocalPlayer();
+	const Real33D::FMapPosition Here = Self != nullptr
+		? Self->GetLogicalPosition() : Real33D::FMapPosition{};
+
+	for (const TPair<uint32, TObjectPtr<AReal33DCreature>>& Pair : Creatures)
+	{
+		const AReal33DCreature* Creature = Pair.Value.Get();
+		if (Creature == nullptr)
+		{
+			continue;
+		}
+		FReal33DBattleEntry Entry;
+		Entry.CreatureId = Creature->GetCreatureId();
+		Entry.Name = Creature->GetCreatureName();
+		Entry.HealthPercent = Creature->GetHealthPercent();
+		Entry.bIsLocalPlayer = Creature->IsLocalPlayer();
+
+		// Chebyshev, because a Tibia field is reached diagonally in one step:
+		// the number of steps away is what "nearest" has always meant here, not
+		// the straight-line distance. Only meaningful on our own floor, so a
+		// creature on another one is pushed to the end rather than compared.
+		const Real33D::FMapPosition& There = Creature->GetLogicalPosition();
+		Entry.Distance = Self == nullptr || There.Z != Here.Z
+			? MAX_int32
+			: FMath::Max(FMath::Abs(There.X - Here.X), FMath::Abs(There.Y - Here.Y));
+		OutEntries.Add(MoveTemp(Entry));
+	}
+
+	// Nearest first, and the local player never listed among their own targets.
+	OutEntries.RemoveAll([](const FReal33DBattleEntry& Entry)
+		{ return Entry.bIsLocalPlayer; });
+	OutEntries.Sort([](const FReal33DBattleEntry& A, const FReal33DBattleEntry& B)
+	{
+		// Ties broken by id, not left to the map's iteration order: two
+		// creatures the same distance away must not swap places every frame.
+		return A.Distance != B.Distance
+			? A.Distance < B.Distance : A.CreatureId < B.CreatureId;
+	});
+}
+
 void AReal33DWorld::ClearWorld()
 {
 	for (TPair<FIntVector, TObjectPtr<AReal33DTile>>& Pair : Tiles)
@@ -216,6 +260,11 @@ void AReal33DWorld::ClearWorld()
 	Creatures.Reset();
 	LocalCreatureId = 0;
 	PlayerVitals = FReal33DPlayerVitals{};
+	// Cleared with the vitals and for the same reason: a reconnect must show
+	// "--" until the new session's own SV_CMD_PLAYER_SKILLS and
+	// SV_CMD_PLAYER_STATE arrive, not the previous character's numbers.
+	PlayerSkills = FReal33DPlayerSkills{};
+	PlayerConditions = FReal33DConditions{};
 	bFloorVisibilityDirty = true;
 	// Speech attached to a creature died with its actor above. The transcript
 	// is the other half and the bridge clears it on the same disconnect, so a
@@ -292,6 +341,14 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 
 	case EReal33DEventKind::PlayerVitals:
 		PlayerVitals = Event.Vitals;
+		break;
+
+	case EReal33DEventKind::PlayerSkills:
+		PlayerSkills = Event.Skills;
+		break;
+
+	case EReal33DEventKind::PlayerConditions:
+		PlayerConditions = Event.Conditions;
 		break;
 
 	case EReal33DEventKind::CreatureHealth:

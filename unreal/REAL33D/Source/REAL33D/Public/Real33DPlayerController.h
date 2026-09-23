@@ -6,7 +6,7 @@
 
 class AReal33DWorld;
 class SReal33DChatPanel;
-class SReal33DVitalsPanel;
+class SReal33DHUD;
 class STextBlock;
 class SEditableTextBox;
 
@@ -119,20 +119,19 @@ private:
 	/** The panel's explicit signal. True means the player is typing. */
 	void HandleTypingChanged(bool bTyping);
 
+	/** The HUD's chat panel, borrowed so this class can focus and gate it. */
 	TSharedPtr<SReal33DChatPanel> ChatPanel;
 
 	/**
-	 * Exactly the widget handed to AddViewportWidgetContent.
+	 * The whole in-game UI, and exactly the widget handed to
+	 * AddViewportWidgetContent.
 	 *
-	 * Kept because removal matches on identity: passing the panel instead of
-	 * the box it was wrapped in would silently remove nothing and leave the
-	 * previous session's chat area on screen.
+	 * Kept because removal matches on identity: a viewport widget outlives the
+	 * actor that made it, so a second session would otherwise open on top of
+	 * the first one's HUD and the operator would be typing into a box wired to
+	 * a dead bridge.
 	 */
-	TSharedPtr<SWidget> ChatRoot;
-
-	/** Player-facing values received from Fusion32, distinct from diagnostics. */
-	TSharedPtr<SWidget> VitalsRoot;
-	TSharedPtr<SReal33DVitalsPanel> VitalsPanel;
+	TSharedPtr<SReal33DHUD> HudRoot;
 
 	/**
 	 * The last vitals line written to the log, kept only so the log records a

@@ -36,6 +36,21 @@ public:
 	AReal33DCreature* GetLocalPlayer() const;
 	const UReal33DAssetRegistry* GetAssetRegistry() const { return Registry; }
 	const FReal33DPlayerVitals& GetPlayerVitals() const { return PlayerVitals; }
+	const FReal33DPlayerSkills& GetPlayerSkills() const { return PlayerSkills; }
+	const FReal33DConditions& GetConditions() const { return PlayerConditions; }
+
+	/**
+	 * The creatures currently on screen, nearest first.
+	 *
+	 * Read straight off the actors this class already owns, which are the game
+	 * thread's only mirror of what WorldState said exists. The battle list is a
+	 * view of that mirror and keeps no creature record of its own: a second
+	 * list would be a second answer to "who is here", and the two would
+	 * disagree the first time a creature left the viewport.
+	 *
+	 * Game thread only.
+	 */
+	void GetBattleList(TArray<FReal33DBattleEntry>& OutEntries) const;
 
 	/** Writes the machine-readable evidence file for the acceptance run. */
 	void WriteEvidence(const FString& Reason);
@@ -138,6 +153,8 @@ private:
 	Real33D::FWorldOrigin Origin;
 
 	FReal33DPlayerVitals PlayerVitals;
+	FReal33DPlayerSkills PlayerSkills;
+	FReal33DConditions PlayerConditions;
 	uint32 LocalCreatureId = 0;
 	bool bFloorVisibilityDirty = true;
 	bool bConnected = false;

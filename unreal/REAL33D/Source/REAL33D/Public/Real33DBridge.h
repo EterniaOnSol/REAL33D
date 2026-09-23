@@ -95,7 +95,24 @@ enum class EReal33DEventKind : uint8
 	 */
 	CreatureHealth,
 	/** Server-owned health, mana and level for the local player's HUD. */
-	PlayerVitals
+	PlayerVitals,
+
+	/**
+	 * The seven fighting skills, from SV_CMD_PLAYER_SKILLS.
+	 *
+	 * A separate command from SV_CMD_PLAYER_DATA and separately timed, so it
+	 * gets its own event rather than being folded into the vitals: a client
+	 * that had skills but no stats, or the reverse, must be able to say so.
+	 */
+	PlayerSkills,
+
+	/**
+	 * The condition flags, from SV_CMD_PLAYER_STATE.
+	 *
+	 * Eight bits, each a status icon. Carried verbatim; which icon a bit draws
+	 * is presentation and is decided above this layer.
+	 */
+	PlayerConditions
 };
 
 /** Which shape of talk this was, mirroring the three forms Fusion32 emits. */
@@ -158,7 +175,13 @@ struct FReal33DThing
 	bool bBlocking = false;
 };
 
-/** Server-owned values for the local player's HUD, with an explicit unknown state. */
+/**
+ * Everything SV_CMD_PLAYER_DATA carries, with an explicit unknown state.
+ *
+ * One command, one struct. Splitting the bar values away from the sheet values
+ * would put the same server message in two places and let them disagree about
+ * whether it had ever arrived; `bKnown` answers that once for all of them.
+ */
 struct FReal33DPlayerVitals
 {
 	bool bKnown = false;
@@ -167,6 +190,78 @@ struct FReal33DPlayerVitals
 	uint16 Mana = 0;
 	uint16 MaxMana = 0;
 	uint16 Level = 0;
+	/** Percent of the way to the next level, as the server reports it. */
+	uint8 LevelPercent = 0;
+	uint32 Experience = 0;
+	/** Free capacity in whole ounces, which is the unit 7.72 sends. */
+	uint16 Capacity = 0;
+	uint8 MagicLevel = 0;
+	uint8 MagicLevelPercent = 0;
+	uint8 SoulPoints = 0;
+};
+
+/** One fighting skill: its level and how far into the next one the player is. */
+struct FReal33DSkill
+{
+	uint8 Level = 0;
+	uint8 Percent = 0;
+};
+
+/**
+ * The seven skills SV_CMD_PLAYER_SKILLS carries, in the order it sends them.
+ *
+ * Exactly seven because 7.72 has exactly seven. The later skills the 2D client
+ * can draw -- criticals, leech, momentum -- do not exist on Fusion32, and a row
+ * for one would be a number this client invented.
+ */
+struct FReal33DPlayerSkills
+{
+	bool bKnown = false;
+	FReal33DSkill Fist;
+	FReal33DSkill Club;
+	FReal33DSkill Sword;
+	FReal33DSkill Axe;
+	FReal33DSkill Distance;
+	FReal33DSkill Shielding;
+	FReal33DSkill Fishing;
+};
+
+/**
+ * The condition bitfield from SV_CMD_PLAYER_STATE.
+ *
+ * The bit values are Fusion32's own, from crplayer.cc::TPlayer::CheckState.
+ * They are mirrored here rather than included so this header stays free of
+ * anything under fusion32/, and the worker asserts the two agree.
+ */
+struct FReal33DConditions
+{
+	bool bKnown = false;
+	uint8 Flags = 0;
+
+	enum EFlag : uint8
+	{
+		Poisoned = 0x01,
+		Burning = 0x02,
+		Electrified = 0x04,
+		Drunk = 0x08,
+		ManaShield = 0x10,
+		Slowed = 0x20,
+		Hasted = 0x40,
+		LogoutBlocked = 0x80,
+	};
+
+	bool Has(EFlag Flag) const { return (Flags & static_cast<uint8>(Flag)) != 0; }
+};
+
+/** One row of the battle list: a creature the client can currently see. */
+struct FReal33DBattleEntry
+{
+	uint32 CreatureId = 0;
+	FString Name;
+	uint8 HealthPercent = 100;
+	bool bIsLocalPlayer = false;
+	/** Chebyshev distance from the local player, for the classic nearest-first order. */
+	int32 Distance = 0;
 };
 
 /** An event crossing the thread boundary. Copied, never shared. */
@@ -207,6 +302,8 @@ struct FReal33DEvent
 	/** 0..100 as the server reports it. Meaningful for creature events. */
 	uint8 HealthPercent = 100;
 	FReal33DPlayerVitals Vitals;
+	FReal33DPlayerSkills Skills;
+	FReal33DConditions Conditions;
 };
 
 /** One line of the player-facing transcript, already formatted by ClientCore. */

@@ -60,9 +60,21 @@ private:
 class SReal33DChatPanel : public SCompoundWidget
 {
 public:
-	SLATE_BEGIN_ARGS(SReal33DChatPanel) {}
+	SLATE_BEGIN_ARGS(SReal33DChatPanel)
+		: _Embedded(false)
+	{}
 		SLATE_ARGUMENT(TWeakObjectPtr<UReal33DBridge>, Bridge)
 		SLATE_EVENT(FReal33DOnTypingChanged, OnTypingChanged)
+		/**
+		 * True when the panel sits inside the HUD's own bottom panel.
+		 *
+		 * Embedded it fills the width it is given and draws the classic channel
+		 * tab strip above the transcript, because the bottom panel already
+		 * supplies the background the 2D draws there. Standalone it keeps the
+		 * fixed-width dark box it had before this milestone, which is what the
+		 * gallery and headless modes still put on screen.
+		 */
+		SLATE_ARGUMENT(bool, Embedded)
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);
@@ -95,6 +107,18 @@ private:
 	ECheckBoxState IsModeChosen(EReal33DTalkMode Mode) const;
 	void ChooseMode(ECheckBoxState State, EReal33DTalkMode Mode);
 	TSharedRef<SWidget> BuildModeSelector();
+
+	/**
+	 * The channel tab strip of `console.otui`, with the one tab this client has.
+	 *
+	 * Fusion32 carries channels -- a talk can arrive with a channel number --
+	 * but ClientCore keeps a single transcript and there is no command decoded
+	 * that would tell this client which channels it is even in. So there is one
+	 * tab, holding everything, drawn with the 2D's own tab art. Naming a
+	 * "Trade" or "Help" tab that this client could neither fill nor join would
+	 * be an invention, so none is drawn.
+	 */
+	TSharedRef<SWidget> BuildChannelTabs();
 
 	TWeakObjectPtr<UReal33DBridge> Bridge;
 	FReal33DOnTypingChanged OnTypingChanged;

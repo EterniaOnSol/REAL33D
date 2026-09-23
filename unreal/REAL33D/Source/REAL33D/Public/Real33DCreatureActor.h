@@ -72,6 +72,12 @@ public:
 	bool IsLocalPlayer() const { return bIsLocalPlayer; }
 	const Real33D::FMapPosition& GetLogicalPosition() const { return LogicalPosition; }
 
+	/** The name Fusion32 introduced this creature with; empty if it sent none. */
+	const FString& GetCreatureName() const { return CreatureName; }
+
+	/** 0..100 as the server last reported it. The battle list draws this. */
+	uint8 GetHealthPercent() const { return HealthPercent; }
+
 private:
 	UPROPERTY()
 	TObjectPtr<USceneComponent> Root = nullptr;
@@ -89,6 +95,9 @@ private:
 	double SpeechExpiresAt = 0.0;
 
 	Real33D::FMapPosition LogicalPosition;
+
+	/** Kept so the battle list can name a row without re-reading the name tag. */
+	FString CreatureName;
 
 	/** Where the body is drawn while it catches up with the logical position. */
 	FVector DrawnLocation = FVector::ZeroVector;
