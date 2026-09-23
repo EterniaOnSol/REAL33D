@@ -30,6 +30,25 @@ public:
 	void SetMapPosition(const Real33D::FMapPosition& Position) { MapPosition = Position; }
 	bool HasCoveringContent() const { return bHasCoveringContent; }
 
+	/**
+	 * The stack as WorldState last described it, in the server's own order.
+	 *
+	 * Kept so a click on this field can name what is on it. CL_CMD_USE_OBJECT
+	 * and CL_CMD_USE_TWO_OBJECTS identify an object by its type and its index
+	 * in the stack, and the server resolves that index against its own list --
+	 * so it has to be the index the server would use, which is this one.
+	 */
+	const TArray<FReal33DThing>& GetThings() const { return Things; }
+
+	/**
+	 * The topmost object a use would act on, or false when there is none.
+	 *
+	 * Creatures are skipped: a creature is not an object and is named by id in
+	 * CL_CMD_USE_ON_CREATURE instead. The stack index returned counts every
+	 * entry, creatures included, because that is how the server indexes it.
+	 */
+	bool GetTopObject(uint16& OutTypeId, uint8& OutStackIndex) const;
+
 private:
 	void ClearComponents();
 
@@ -38,6 +57,9 @@ private:
 
 	UPROPERTY()
 	TArray<TObjectPtr<UStaticMeshComponent>> StackComponents;
+
+	/** What WorldState says is on this field. Presentation reads it; it owns nothing. */
+	TArray<FReal33DThing> Things;
 
 	Real33D::FMapPosition MapPosition;
 	bool bHasCoveringContent = false;

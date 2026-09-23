@@ -199,6 +199,10 @@ void SReal33DHUD::Construct(const FArguments& InArgs)
 					SAssignNew(Inventory, SReal33DInventoryPanel)
 					.OnItemDropped(FReal33DOnItemDropped::CreateSP(
 						this, &SReal33DHUD::HandleItemDropped))
+					.OnSlotUsed(FReal33DOnSlotUsed::CreateSP(
+						this, &SReal33DHUD::HandleSlotUsed))
+					.OnSlotPicked(FReal33DOnSlotPicked::CreateSP(
+						this, &SReal33DHUD::HandleSlotPicked))
 				]
 				// The condition strip sits along the bottom of the inventory
 				// panel in inventory.otui, and does here too.
@@ -250,6 +254,10 @@ void SReal33DHUD::Construct(const FArguments& InArgs)
 					.Columns(4)
 					.OnItemDropped(FReal33DOnItemDropped::CreateSP(
 						this, &SReal33DHUD::HandleItemDropped))
+					.OnSlotUsed(FReal33DOnSlotUsed::CreateSP(
+						this, &SReal33DHUD::HandleSlotUsed))
+					.OnSlotPicked(FReal33DOnSlotPicked::CreateSP(
+						this, &SReal33DHUD::HandleSlotPicked))
 			]
 		];
 
@@ -263,8 +271,32 @@ void SReal33DHUD::Construct(const FArguments& InArgs)
 	// empty 176px strip would cost the player that much of the view for
 	// nothing, so the column is not built at all. The left action bar stays.
 
+	// The crosshair banner. Collapsed until a use-with is waiting for a target,
+	// and hit-test invisible so it never eats the click that would aim it.
+	TSharedRef<SWidget> Banner = SNew(SBox)
+		.HAlign(HAlign_Center)
+		.VAlign(VAlign_Top)
+		.Padding(FMargin(0.0f, 8.0f, 0.0f, 0.0f))
+		[
+			SNew(SBorder)
+			.BorderImage(Style.GetBrush("Real33D.Chrome.ContainerSlot"))
+			.Padding(FMargin(10.0f, 4.0f))
+			[
+				SNew(STextBlock)
+				.Text(FText::FromString(
+					TEXT("Choose a target  -  Escape to cancel")))
+				.ColorAndOpacity(Style.GetSlateColor("Real33D.Text.Readout"))
+				.Font(FCoreStyle::GetDefaultFontStyle("Regular", 10))
+			]
+		];
+	TargetingBanner = Banner;
+	Banner->SetVisibility(EVisibility::Collapsed);
+
 	ChildSlot
 	[
+		SNew(SOverlay)
+		+ SOverlay::Slot()
+		[
 		SNew(SHorizontalBox)
 
 		// The left action column, gameinterface.otui's gameLeftActionPanel.
@@ -315,9 +347,12 @@ void SReal33DHUD::Construct(const FArguments& InArgs)
 		[
 			MakeSideColumn(Outer)
 		]
+		]
+		+ SOverlay::Slot()
+		[
+			Banner
+		]
 	];
-
-	(void)Style;
 }
 
 void SReal33DHUD::HandleItemDropped(FReal33DSlotRef From, FReal33DSlotRef To)
@@ -351,6 +386,157 @@ void SReal33DHUD::HandleItemDropped(FReal33DSlotRef From, FReal33DSlotRef To)
 		From.Container, From.Slot,
 		To.Kind == FReal33DSlotRef::EKind::Container ? TEXT("container ") : TEXT("body "),
 		To.Container, To.Slot, From.Count);
+}
+
+uint8 SReal33DHUD::FirstFreeContainerNumber() const
+{
+	// CONTAINER_FIRST..CONTAINER_LAST is sixteen slots wide.
+	for (uint8 Number = 0; Number < 16; ++Number)
+	{
+		if (!OpenContainerNumbers.Contains(Number))
+		{
+			return Number;
+		}
+	}
+	// All sixteen taken. Fusion32 would refuse a number past its table, so the
+	// last legal one is sent and the server decides what to do about it.
+	return 15;
+}
+
+void SReal33DHUD::HandleSlotUsed(FReal33DSlotRef Slot, bool bWithTarget)
+{
+	UReal33DBridge* Live = Bridge.Get();
+	if (Live == nullptr || !Live->IsRunning())
+	{
+		return;
+	}
+
+	if (bWithTarget)
+	{
+		// Nothing goes out yet. The command needs two ends and only one is
+		// known, so the client waits for the click that names the other.
+		Pending.bActive = true;
+		Pending.Object = Slot;
+		UpdateTargetingBanner();
+		UE_LOG(LogReal33D, Log,
+			TEXT("use-with begun with object %u; waiting for a target"), Slot.TypeId);
+		return;
+	}
+
+	const auto ToSlot = [](const FReal33DSlotRef& Ref)
+	{
+		return Ref.Kind == FReal33DSlotRef::EKind::Container
+			? UReal33DBridge::FMoveSlot::InContainer(Ref.Container, Ref.Slot)
+			: UReal33DBridge::FMoveSlot::InInventory(Ref.Slot);
+	};
+
+	const uint8 OpenAs = FirstFreeContainerNumber();
+	const uint32 UseId = Live->RequestUseObject(
+		ToSlot(Slot), Slot.TypeId, Slot.Slot, OpenAs);
+	UE_LOG(LogReal33D, Log,
+		TEXT("use %u: object %u at %s%u slot %u, would open as container %u"),
+		UseId, Slot.TypeId,
+		Slot.Kind == FReal33DSlotRef::EKind::Container ? TEXT("container ") : TEXT("body "),
+		Slot.Container, Slot.Slot, OpenAs);
+}
+
+bool SReal33DHUD::HandleSlotPicked(FReal33DSlotRef Slot)
+{
+	if (!Pending.bActive)
+	{
+		return false;
+	}
+	UReal33DBridge* Live = Bridge.Get();
+	if (Live == nullptr || !Live->IsRunning())
+	{
+		CancelTargeting();
+		return true;
+	}
+
+	const auto ToSlot = [](const FReal33DSlotRef& Ref)
+	{
+		return Ref.Kind == FReal33DSlotRef::EKind::Container
+			? UReal33DBridge::FMoveSlot::InContainer(Ref.Container, Ref.Slot)
+			: UReal33DBridge::FMoveSlot::InInventory(Ref.Slot);
+	};
+
+	const uint32 UseId = Live->RequestUseWithObject(
+		ToSlot(Pending.Object), Pending.Object.TypeId, Pending.Object.Slot,
+		ToSlot(Slot), Slot.TypeId, Slot.Slot);
+	UE_LOG(LogReal33D, Log, TEXT("use-with %u: object %u on object %u in a slot"),
+		UseId, Pending.Object.TypeId, Slot.TypeId);
+
+	CancelTargeting();
+	return true;
+}
+
+bool SReal33DHUD::CompleteUseOnCreature(uint32 CreatureId)
+{
+	if (!Pending.bActive)
+	{
+		return false;
+	}
+	UReal33DBridge* Live = Bridge.Get();
+	if (Live != nullptr && Live->IsRunning())
+	{
+		const UReal33DBridge::FMoveSlot Object =
+			Pending.Object.Kind == FReal33DSlotRef::EKind::Container
+				? UReal33DBridge::FMoveSlot::InContainer(
+					Pending.Object.Container, Pending.Object.Slot)
+				: UReal33DBridge::FMoveSlot::InInventory(Pending.Object.Slot);
+		const uint32 UseId = Live->RequestUseOnCreature(
+			Object, Pending.Object.TypeId, Pending.Object.Slot, CreatureId);
+		UE_LOG(LogReal33D, Log, TEXT("use-with %u: object %u on creature %u"),
+			UseId, Pending.Object.TypeId, CreatureId);
+	}
+	CancelTargeting();
+	return true;
+}
+
+bool SReal33DHUD::CompleteUseOnField(const Real33D::FMapPosition& Position,
+	uint16 TypeId, uint8 StackIndex)
+{
+	if (!Pending.bActive)
+	{
+		return false;
+	}
+	UReal33DBridge* Live = Bridge.Get();
+	if (Live != nullptr && Live->IsRunning())
+	{
+		const UReal33DBridge::FMoveSlot Object =
+			Pending.Object.Kind == FReal33DSlotRef::EKind::Container
+				? UReal33DBridge::FMoveSlot::InContainer(
+					Pending.Object.Container, Pending.Object.Slot)
+				: UReal33DBridge::FMoveSlot::InInventory(Pending.Object.Slot);
+		const uint32 UseId = Live->RequestUseWithObject(
+			Object, Pending.Object.TypeId, Pending.Object.Slot,
+			UReal33DBridge::FMoveSlot::OnMap(Position), TypeId, StackIndex);
+		UE_LOG(LogReal33D, Log,
+			TEXT("use-with %u: object %u on object %u at %d,%d,%d stack %u"),
+			UseId, Pending.Object.TypeId, TypeId,
+			Position.X, Position.Y, Position.Z, StackIndex);
+	}
+	CancelTargeting();
+	return true;
+}
+
+void SReal33DHUD::CancelTargeting()
+{
+	if (!Pending.bActive)
+	{
+		return;
+	}
+	Pending = FPendingUse{};
+	UpdateTargetingBanner();
+}
+
+void SReal33DHUD::UpdateTargetingBanner()
+{
+	if (TargetingBanner.IsValid())
+	{
+		TargetingBanner->SetVisibility(Pending.bActive
+			? EVisibility::HitTestInvisible : EVisibility::Collapsed);
+	}
 }
 
 void SReal33DHUD::HandlePanelToggled(FName Panel)
@@ -395,7 +581,23 @@ void SReal33DHUD::Refresh(const AReal33DWorld* World)
 	if (Containers.IsValid())
 	{
 		static const TArray<FReal33DContainer> None;
-		Containers->SetContainers(World != nullptr ? World->GetContainers() : None);
+		const TArray<FReal33DContainer>& Open =
+			World != nullptr ? World->GetContainers() : None;
+		Containers->SetContainers(Open);
+
+		// Which numbers the server has in use, so the next container the player
+		// opens gets a free one rather than replacing an open window.
+		OpenContainerNumbers.Reset(Open.Num());
+		for (const FReal33DContainer& Each : Open)
+		{
+			OpenContainerNumbers.Add(Each.Number);
+		}
+	}
+
+	// A pending use-with cannot outlive the session that began it.
+	if (Pending.bActive && World == nullptr)
+	{
+		CancelTargeting();
 	}
 	if (Conditions.IsValid())
 	{

@@ -271,6 +271,67 @@ MoveEndpoint MoveEndpoint::InContainer(std::uint8_t container, std::uint8_t slot
     return endpoint;
 }
 
+namespace {
+
+// Origin, type and stack index: the five fields every use command starts with,
+// laid out the same way in all three of CUseObject, CUseTwoObjects and
+// CUseOnCreature.
+void AppendObjectRef(std::vector<std::uint8_t>* command, const MoveEndpoint& where,
+                     std::uint16_t type_id, std::uint8_t stack_index) {
+    const auto word = [command](std::uint16_t value) {
+        command->push_back(static_cast<std::uint8_t>(value & 0xFF));
+        command->push_back(static_cast<std::uint8_t>((value >> 8) & 0xFF));
+    };
+    word(where.x);
+    word(where.y);
+    command->push_back(where.z);
+    word(type_id);
+    command->push_back(stack_index);
+}
+
+}  // namespace
+
+std::vector<std::uint8_t> BuildUseObjectCommand(const MoveEndpoint& object,
+                                                std::uint16_t type_id,
+                                                std::uint8_t stack_index,
+                                                std::uint8_t container) {
+    std::vector<std::uint8_t> command;
+    command.reserve(10);
+    command.push_back(kClientCommandUseObject);
+    AppendObjectRef(&command, object, type_id, stack_index);
+    command.push_back(container);
+    return command;
+}
+
+std::vector<std::uint8_t> BuildUseTwoObjectsCommand(const MoveEndpoint& object,
+                                                    std::uint16_t type_id,
+                                                    std::uint8_t stack_index,
+                                                    const MoveEndpoint& target,
+                                                    std::uint16_t target_type_id,
+                                                    std::uint8_t target_stack_index) {
+    std::vector<std::uint8_t> command;
+    command.reserve(17);
+    command.push_back(kClientCommandUseTwoObjects);
+    AppendObjectRef(&command, object, type_id, stack_index);
+    AppendObjectRef(&command, target, target_type_id, target_stack_index);
+    return command;
+}
+
+std::vector<std::uint8_t> BuildUseOnCreatureCommand(const MoveEndpoint& object,
+                                                    std::uint16_t type_id,
+                                                    std::uint8_t stack_index,
+                                                    std::uint32_t creature_id) {
+    std::vector<std::uint8_t> command;
+    command.reserve(13);
+    command.push_back(kClientCommandUseOnCreature);
+    AppendObjectRef(&command, object, type_id, stack_index);
+    command.push_back(static_cast<std::uint8_t>(creature_id & 0xFF));
+    command.push_back(static_cast<std::uint8_t>((creature_id >> 8) & 0xFF));
+    command.push_back(static_cast<std::uint8_t>((creature_id >> 16) & 0xFF));
+    command.push_back(static_cast<std::uint8_t>((creature_id >> 24) & 0xFF));
+    return command;
+}
+
 std::vector<std::uint8_t> BuildMoveObjectCommand(const MoveEndpoint& from,
                                                  std::uint16_t type_id,
                                                  std::uint8_t stack_index,

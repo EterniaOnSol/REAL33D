@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "Real33DBridge.h"
@@ -36,6 +36,10 @@ public:
 	SLATE_BEGIN_ARGS(SReal33DInventoryPanel) {}
 		/** Fired when an object is dropped on one of the ten squares. */
 		SLATE_EVENT(FReal33DOnItemDropped, OnItemDropped)
+		/** Right-click use, and shift-right-click use-with. */
+		SLATE_EVENT(FReal33DOnSlotUsed, OnSlotUsed)
+		/** Offered a left-click so a pending use-with can take its target. */
+		SLATE_EVENT(FReal33DOnSlotPicked, OnSlotPicked)
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);
@@ -82,6 +86,8 @@ private:
 	TSharedPtr<SBox> SlotHosts[FReal33DInventory::SlotCount];
 
 	FReal33DOnItemDropped OnItemDropped;
+	FReal33DOnSlotUsed OnSlotUsed;
+	FReal33DOnSlotPicked OnSlotPicked;
 
 	FReal33DPlayerVitals Last;
 	FReal33DInventory LastInventory;

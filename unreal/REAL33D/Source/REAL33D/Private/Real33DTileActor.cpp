@@ -1,4 +1,4 @@
-#include "Real33DTileActor.h"
+﻿#include "Real33DTileActor.h"
 
 #include "Components/StaticMeshComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
@@ -23,13 +23,33 @@ void AReal33DTile::ClearComponents()
 	StackComponents.Reset();
 }
 
-void AReal33DTile::ApplyStack(const TArray<FReal33DThing>& Things,
+bool AReal33DTile::GetTopObject(uint16& OutTypeId, uint8& OutStackIndex) const
+{
+	// Backwards: the server's list runs bottom to top, so the last entry that
+	// is not a creature is the object a click lands on.
+	for (int32 Index = Things.Num() - 1; Index >= 0; --Index)
+	{
+		const FReal33DThing& Thing = Things[Index];
+		if (Thing.bIsCreature || Thing.TypeId == 0)
+		{
+			continue;
+		}
+		OutTypeId = Thing.TypeId;
+		OutStackIndex = static_cast<uint8>(FMath::Min(Index, 255));
+		return true;
+	}
+	return false;
+}
+
+void AReal33DTile::ApplyStack(const TArray<FReal33DThing>& InThings,
 	const UReal33DAssetRegistry* Registry)
 {
 	check(IsInGameThread());
+	// Remembered so a click on this field can name what is on it.
+	Things = InThings;
 	ClearComponents();
 	// An empty/void tile above the player is not a roof.
-	bHasCoveringContent = Things.ContainsByPredicate([](const FReal33DThing& Thing)
+	bHasCoveringContent = InThings.ContainsByPredicate([](const FReal33DThing& Thing)
 	{
 		return !Thing.bIsCreature && Thing.TypeId != 0 && Thing.TypeId != 100;
 	});
@@ -46,7 +66,7 @@ void AReal33DTile::ApplyStack(const TArray<FReal33DThing>& Things,
 	// The first item of a field is its ground: GetObjectPriority gives BANK the
 	// lowest priority value, so a ground always sorts to index zero.
 	int32 Index = 0;
-	for (const FReal33DThing& Thing : Things)
+	for (const FReal33DThing& Thing : InThings)
 	{
 		if (Thing.bIsCreature)
 		{

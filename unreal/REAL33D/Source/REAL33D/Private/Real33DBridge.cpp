@@ -240,6 +240,34 @@ public:
 		Moves.Enqueue(FMove{ MoveId, From, To, TypeId, StackIndex, Count });
 	}
 
+	/**
+	 * A use the player asked for, in one of its three shapes.
+	 *
+	 * Declared here rather than beside the other intent structs because a
+	 * parameter type has to be complete where the function is declared, not
+	 * merely where its body is compiled.
+	 */
+	struct FUse
+	{
+		enum class EKind : uint8 { Object, WithObject, OnCreature };
+		uint32 UseId = 0;
+		EKind Kind = EKind::Object;
+		UReal33DBridge::FMoveSlot Object;
+		uint16 TypeId = 0;
+		uint8 StackIndex = 0;
+		/** Which open-container slot to show it in, when it is a container. */
+		uint8 OpenAsContainer = 0;
+		UReal33DBridge::FMoveSlot Target;
+		uint16 TargetTypeId = 0;
+		uint8 TargetStackIndex = 0;
+		uint32 CreatureId = 0;
+	};
+
+	void PostUse(const FUse& Use)
+	{
+		Uses.Enqueue(Use);
+	}
+
 	bool Dequeue(FReal33DEvent& OutEvent) { return Events.Dequeue(OutEvent); }
 
 	FReal33DStats Snapshot() const
@@ -807,6 +835,7 @@ private:
 
 		DrainSays();
 		DrainMoves();
+		DrainUses();
 
 		// A reply that never comes must not be allowed to claim a later move.
 		// Three seconds is far longer than a local round trip; the server's own
@@ -854,6 +883,36 @@ private:
 			{
 				FScopeLock Lock(&StatsMutex);
 				Stats.MovesRequested += 1;
+			}
+		}
+	}
+
+	void DrainUses()
+	{
+		FUse Use;
+		while (Uses.Dequeue(Use))
+		{
+			switch (Use.Kind)
+			{
+			case FUse::EKind::WithObject:
+				Session.SendCommand(p772::BuildUseTwoObjectsCommand(
+					ToEndpoint(Use.Object), Use.TypeId, Use.StackIndex,
+					ToEndpoint(Use.Target), Use.TargetTypeId, Use.TargetStackIndex));
+				break;
+			case FUse::EKind::OnCreature:
+				Session.SendCommand(p772::BuildUseOnCreatureCommand(
+					ToEndpoint(Use.Object), Use.TypeId, Use.StackIndex, Use.CreatureId));
+				break;
+			case FUse::EKind::Object:
+			default:
+				Session.SendCommand(p772::BuildUseObjectCommand(
+					ToEndpoint(Use.Object), Use.TypeId, Use.StackIndex,
+					Use.OpenAsContainer));
+				break;
+			}
+			{
+				FScopeLock Lock(&StatsMutex);
+				Stats.UsesRequested += 1;
 			}
 		}
 	}
@@ -978,6 +1037,7 @@ private:
 
 	TQueue<FSay, EQueueMode::Spsc> Says;
 	TQueue<FMove, EQueueMode::Spsc> Moves;
+	TQueue<FUse, EQueueMode::Spsc> Uses;
 
 	TQueue<FReal33DEvent, EQueueMode::Spsc> Events;
 	TQueue<FIntent, EQueueMode::Spsc> Intents;
@@ -1209,6 +1269,63 @@ uint32 UReal33DBridge::RequestMoveObject(const FMoveSlot& From, uint16 TypeId,
 	const uint32 MoveId = ++NextInputId;
 	Worker->PostMove(MoveId, From, TypeId, StackIndex, To, Count);
 	return MoveId;
+}
+
+uint32 UReal33DBridge::RequestUseObject(const FMoveSlot& Object, uint16 TypeId,
+	uint8 StackIndex, uint8 OpenAsContainer)
+{
+	if (Worker == nullptr)
+	{
+		return 0;
+	}
+	FReal33DWorker::FUse Use;
+	Use.UseId = ++NextInputId;
+	Use.Kind = FReal33DWorker::FUse::EKind::Object;
+	Use.Object = Object;
+	Use.TypeId = TypeId;
+	Use.StackIndex = StackIndex;
+	Use.OpenAsContainer = OpenAsContainer;
+	Worker->PostUse(Use);
+	return Use.UseId;
+}
+
+uint32 UReal33DBridge::RequestUseWithObject(const FMoveSlot& Object, uint16 TypeId,
+	uint8 StackIndex, const FMoveSlot& Target, uint16 TargetTypeId,
+	uint8 TargetStackIndex)
+{
+	if (Worker == nullptr)
+	{
+		return 0;
+	}
+	FReal33DWorker::FUse Use;
+	Use.UseId = ++NextInputId;
+	Use.Kind = FReal33DWorker::FUse::EKind::WithObject;
+	Use.Object = Object;
+	Use.TypeId = TypeId;
+	Use.StackIndex = StackIndex;
+	Use.Target = Target;
+	Use.TargetTypeId = TargetTypeId;
+	Use.TargetStackIndex = TargetStackIndex;
+	Worker->PostUse(Use);
+	return Use.UseId;
+}
+
+uint32 UReal33DBridge::RequestUseOnCreature(const FMoveSlot& Object, uint16 TypeId,
+	uint8 StackIndex, uint32 CreatureId)
+{
+	if (Worker == nullptr)
+	{
+		return 0;
+	}
+	FReal33DWorker::FUse Use;
+	Use.UseId = ++NextInputId;
+	Use.Kind = FReal33DWorker::FUse::EKind::OnCreature;
+	Use.Object = Object;
+	Use.TypeId = TypeId;
+	Use.StackIndex = StackIndex;
+	Use.CreatureId = CreatureId;
+	Worker->PostUse(Use);
+	return Use.UseId;
 }
 
 uint32 UReal33DBridge::RequestTalk(EReal33DTalkMode Mode, const FString& Text)

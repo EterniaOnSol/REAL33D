@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "CoreMinimal.h"
 #include "Real33DBridge.h"
@@ -34,6 +34,10 @@ public:
 		SLATE_ARGUMENT(int32, Columns)
 		/** Fired when an object is dropped on one of the cells. */
 		SLATE_EVENT(FReal33DOnItemDropped, OnItemDropped)
+		/** Right-click use, and shift-right-click use-with. */
+		SLATE_EVENT(FReal33DOnSlotUsed, OnSlotUsed)
+		/** Offered a left-click so a pending use-with can take its target. */
+		SLATE_EVENT(FReal33DOnSlotPicked, OnSlotPicked)
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);
@@ -48,6 +52,8 @@ private:
 	int32 Columns = 4;
 	TSharedPtr<SVerticalBox> Windows;
 	FReal33DOnItemDropped OnItemDropped;
+	FReal33DOnSlotUsed OnSlotUsed;
+	FReal33DOnSlotPicked OnSlotPicked;
 
 	/** What is currently drawn, so an unchanged set is not rebuilt. */
 	TArray<FReal33DContainer> Drawn;

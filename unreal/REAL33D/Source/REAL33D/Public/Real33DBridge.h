@@ -419,6 +419,8 @@ struct FReal33DStats
 	int32 SaysRequested = 0;
 	/** Move requests this client put on the wire. */
 	int32 MovesRequested = 0;
+	/** Use requests this client put on the wire, in all three shapes. */
+	int32 UsesRequested = 0;
 	/** Say commands ClientCore refused before sending, with the reason logged. */
 	int32 SaysRefusedLocally = 0;
 	/** Talk shown above the creature that said it. */
@@ -533,6 +535,30 @@ public:
 	 */
 	uint32 RequestMoveObject(const FMoveSlot& From, uint16 TypeId, uint8 StackIndex,
 		const FMoveSlot& To, uint8 Count);
+
+	/**
+	 * Uses an object. CL_CMD_USE_OBJECT.
+	 *
+	 * `OpenAsContainer` is the open-container slot the server should show the
+	 * object in when it turns out to be a container. It is part of the command
+	 * and Fusion32 refuses one whose value is out of range, so the caller picks
+	 * a free slot rather than leaving it zero and having a second bag replace
+	 * the first.
+	 *
+	 * An intent, like everything else here. Whether the object does anything is
+	 * Fusion32's ruling; what comes back -- a container window, a message, a
+	 * changed tile -- is what this client then draws.
+	 */
+	uint32 RequestUseObject(const FMoveSlot& Object, uint16 TypeId, uint8 StackIndex,
+		uint8 OpenAsContainer);
+
+	/** Uses an object on another object. CL_CMD_USE_TWO_OBJECTS. */
+	uint32 RequestUseWithObject(const FMoveSlot& Object, uint16 TypeId, uint8 StackIndex,
+		const FMoveSlot& Target, uint16 TargetTypeId, uint8 TargetStackIndex);
+
+	/** Uses an object on a creature, named by id. CL_CMD_USE_ON_CREATURE. */
+	uint32 RequestUseOnCreature(const FMoveSlot& Object, uint16 TypeId, uint8 StackIndex,
+		uint32 CreatureId);
 
 	/**
 	 * The transcript of what the player should be able to read, oldest first.

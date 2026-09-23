@@ -1,4 +1,4 @@
-#include "Real33DContainersPanel.h"
+﻿#include "Real33DContainersPanel.h"
 
 #include "Real33DPanelChrome.h"
 #include "Real33DUIStyle.h"
@@ -65,6 +65,8 @@ TSharedRef<SWidget> SReal33DContainersPanel::MakeContainer(
 						.SlotBrush("Real33D.Chrome.ItemSlot")
 						.Location(Target)
 						.OnItemDropped(OnItemDropped)
+		.OnSlotUsed(OnSlotUsed)
+		.OnSlotPicked(OnSlotPicked)
 						.Tooltip(FText::FromString(TEXT("Empty. Drop an object here.")))
 					];
 				continue;
@@ -85,6 +87,8 @@ TSharedRef<SWidget> SReal33DContainersPanel::MakeContainer(
 					.Count(Item.bHasAmount ? Item.Amount : 0)
 					.Location(Where)
 					.OnItemDropped(OnItemDropped)
+		.OnSlotUsed(OnSlotUsed)
+		.OnSlotPicked(OnSlotPicked)
 					.Tooltip(FText::FromString(Item.bHasAmount
 						? FString::Printf(TEXT("Slot %d: object %u x%u"),
 							Index, Item.TypeId, Item.Amount)
@@ -183,6 +187,8 @@ void SReal33DContainersPanel::Construct(const FArguments& InArgs)
 {
 	Columns = FMath::Max(1, InArgs._Columns);
 	OnItemDropped = InArgs._OnItemDropped;
+	OnSlotUsed = InArgs._OnSlotUsed;
+	OnSlotPicked = InArgs._OnSlotPicked;
 
 	ChildSlot
 	[

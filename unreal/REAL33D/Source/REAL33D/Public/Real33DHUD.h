@@ -53,6 +53,27 @@ public:
 	/** The chat panel, so the controller can focus it and gate movement. */
 	TSharedPtr<SReal33DChatPanel> GetChatPanel() const { return ChatPanel; }
 
+	// --------------------------------------------------------- object use
+	//
+	// Two shapes, as 7.72 has two. A plain use acts where the object stands
+	// and is what opens a container. A use-with needs a second thing, so the
+	// client waits: the next click names a creature, an object or a field, and
+	// only then does a command go out. Nothing is held on the server in
+	// between -- the pending use is entirely local, and Escape discards it.
+
+	/** True while a use-with is waiting for its target. */
+	bool IsTargeting() const { return Pending.bActive; }
+
+	/** Drops a pending use-with. Safe to call when there is none. */
+	void CancelTargeting();
+
+	/** Completes a pending use-with on a creature. Returns false if none was pending. */
+	bool CompleteUseOnCreature(uint32 CreatureId);
+
+	/** Completes a pending use-with on an object lying on a field. */
+	bool CompleteUseOnField(const Real33D::FMapPosition& Position, uint16 TypeId,
+		uint8 StackIndex);
+
 private:
 	/** A 176px side column carrying a stack of mini windows. */
 	TSharedRef<SWidget> MakeSideColumn(TSharedRef<SWidget> Contents);
@@ -67,6 +88,39 @@ private:
 
 	/** Turns a drop between two slots into a move request on the bridge. */
 	void HandleItemDropped(FReal33DSlotRef From, FReal33DSlotRef To);
+
+	/** Right-click on a slot: use it, or begin a use-with. */
+	void HandleSlotUsed(FReal33DSlotRef Slot, bool bWithTarget);
+
+	/** Left-click on a slot, offered to a pending use-with. */
+	bool HandleSlotPicked(FReal33DSlotRef Slot);
+
+	/** Shows or hides the "choose a target" banner. */
+	void UpdateTargetingBanner();
+
+	/**
+	 * The lowest open-container number the server is not already using.
+	 *
+	 * CL_CMD_USE_OBJECT carries the slot a container should be shown in, and
+	 * Fusion32 refuses a number outside its table. Reusing a number that is
+	 * already open would replace that container rather than open a second one,
+	 * which is what makes a bag inside a bag its own window.
+	 */
+	uint8 FirstFreeContainerNumber() const;
+
+	/** A use-with the player has begun but not yet aimed. */
+	struct FPendingUse
+	{
+		bool bActive = false;
+		FReal33DSlotRef Object;
+	};
+	FPendingUse Pending;
+
+	/** The container numbers currently open, refreshed each frame. */
+	TArray<uint8> OpenContainerNumbers;
+
+	/** The "choose a target" strip, shown only while a use-with is pending. */
+	TSharedPtr<SWidget> TargetingBanner;
 
 	TSharedPtr<SReal33DChatPanel> ChatPanel;
 	TSharedPtr<SReal33DVitalsPanel> Vitals;

@@ -47,6 +47,9 @@ constexpr std::uint8_t kClientCommandLogout = 20;
 // Source: reference/game/src/connections.hh, enum ClientCommand, and
 // receiving.cc::CMoveObject for the body.
 constexpr std::uint8_t kClientCommandMoveObject = 120;
+constexpr std::uint8_t kClientCommandUseObject = 130;
+constexpr std::uint8_t kClientCommandUseTwoObjects = 131;
+constexpr std::uint8_t kClientCommandUseOnCreature = 132;
 
 // Source: reference/game/src/enums.hh, enum InventorySlot. INVENTORY_FIRST is
 // the head slot and INVENTORY_LAST the ammo slot.

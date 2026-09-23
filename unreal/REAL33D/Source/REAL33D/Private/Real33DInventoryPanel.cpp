@@ -92,6 +92,8 @@ void SReal33DInventoryPanel::FillSlot(int32 Slot, const FName& Placeholder,
 		.Count(bOccupied && Item.bHasAmount ? Item.Amount : 0)
 		.Location(Where)
 		.OnItemDropped(OnItemDropped)
+		.OnSlotUsed(OnSlotUsed)
+		.OnSlotPicked(OnSlotPicked)
 		.Tooltip(bOccupied
 			? FText::FromString(Item.bHasAmount
 				? FString::Printf(TEXT("%s: object %u x%u"),
@@ -170,6 +172,8 @@ void SReal33DInventoryPanel::Construct(const FArguments& InArgs)
 {
 	const ISlateStyle& Style = FReal33DUIStyle::Get();
 	OnItemDropped = InArgs._OnItemDropped;
+	OnSlotUsed = InArgs._OnSlotUsed;
+	OnSlotPicked = InArgs._OnSlotPicked;
 
 	// The three slot columns of inventory.otui, in its own order. Column one is
 	// amulet, sword, ring and then Soul; column two helmet, armor, legs, boots;

@@ -124,6 +124,50 @@ std::vector<std::uint8_t> BuildMoveObjectCommand(const MoveEndpoint& from,
                                                  const MoveEndpoint& to,
                                                  std::uint8_t count);
 
+/**
+ * Uses an object. CL_CMD_USE_OBJECT, opcode 130.
+ *
+ * `container` is not padding. reference/game/src/receiving.cc::CUseObject
+ * reads it as the index of the open-container slot the object should be
+ * shown in when the object is a container, and refuses the command outright
+ * if it is not below the player's open-container table size. For anything
+ * that is not a container the server ignores it.
+ *
+ * CUseObject also refuses an object whose type carries MULTIUSE: those are
+ * the ones that need a second target, and the server expects
+ * CL_CMD_USE_TWO_OBJECTS or CL_CMD_USE_ON_CREATURE for them instead. This
+ * function does not know the object's flags and does not guess -- the caller
+ * asks for the shape of use it means, and Fusion32 rules on it.
+ */
+std::vector<std::uint8_t> BuildUseObjectCommand(const MoveEndpoint& object,
+                                                std::uint16_t type_id,
+                                                std::uint8_t stack_index,
+                                                std::uint8_t container);
+
+/**
+ * Uses one object on another. CL_CMD_USE_TWO_OBJECTS, opcode 131.
+ *
+ * Both ends are full positions, so the target may be an object on a map
+ * field, in a container or in a body slot. Source: CUseTwoObjects.
+ */
+std::vector<std::uint8_t> BuildUseTwoObjectsCommand(const MoveEndpoint& object,
+                                                    std::uint16_t type_id,
+                                                    std::uint8_t stack_index,
+                                                    const MoveEndpoint& target,
+                                                    std::uint16_t target_type_id,
+                                                    std::uint8_t target_stack_index);
+
+/**
+ * Uses an object on a creature. CL_CMD_USE_ON_CREATURE, opcode 132.
+ *
+ * The target is named by creature id rather than by position, which is what
+ * lets it keep working while the creature is moving. Source: CUseOnCreature.
+ */
+std::vector<std::uint8_t> BuildUseOnCreatureCommand(const MoveEndpoint& object,
+                                                    std::uint16_t type_id,
+                                                    std::uint8_t stack_index,
+                                                    std::uint32_t creature_id);
+
 // ---------------------------------------------------------------- server side
 
 enum class ServerUpdateKind {

@@ -796,6 +796,65 @@ void TestMoveObjectCommand() {
     CHECK(command == expected);
 }
 
+void TestUseCommands() {
+    const auto inBag = MoveEndpoint::InContainer(0, 2);
+    const auto worn = MoveEndpoint::InInventory(3);
+    const auto onMap = MoveEndpoint::OnMap(MapPosition{32097, 32219, 7});
+
+    // CUseObject: origin word/word/byte, type word, stack byte, container byte.
+    // The last byte is the open-container slot to show a container in, not
+    // padding: CUseObject refuses the command when it is out of range.
+    {
+        const auto command = BuildUseObjectCommand(worn, 2853, 0, 0);
+        const std::vector<std::uint8_t> expected{
+            kClientCommandUseObject,
+            0xFF, 0xFF,  // special coordinate
+            0x03, 0x00,  // inventory slot 3
+            0x00,        // z
+            0x25, 0x0B,  // type id 2853
+            0x00,        // stack index
+            0x00,        // open as container 0
+        };
+        CHECK(command == expected);
+    }
+    // A second container opens into the next free slot, which is how a bag
+    // inside a bag ends up as its own window rather than replacing the first.
+    {
+        const auto command = BuildUseObjectCommand(inBag, 2854, 2, 1);
+        CHECK(command.size() == 10);
+        CHECK(command[0] == kClientCommandUseObject);
+        CHECK(command[3] == 64);   // CONTAINER_FIRST + 0
+        CHECK(command[5] == 2);    // slot 2 inside it
+        CHECK(command[8] == 2);    // stack index
+        CHECK(command[9] == 1);    // opened as container 1
+    }
+
+    // CUseTwoObjects: both ends carry a full object reference.
+    {
+        const auto command = BuildUseTwoObjectsCommand(worn, 101, 0, onMap, 102, 1);
+        const std::vector<std::uint8_t> expected{
+            kClientCommandUseTwoObjects,
+            0xFF, 0xFF, 0x03, 0x00, 0x00,  // the object: inventory slot 3
+            0x65, 0x00, 0x00,              // type 101, stack 0
+            0x61, 0x7D, 0xDB, 0x7D, 0x07,  // the target: 32097, 32219, 7
+            0x66, 0x00, 0x01,              // type 102, stack 1
+        };
+        CHECK(command == expected);
+    }
+
+    // CUseOnCreature: the target is a creature id, so it survives the creature
+    // moving between the click and the command arriving.
+    {
+        const auto command = BuildUseOnCreatureCommand(worn, 101, 0, 0x40000102u);
+        CHECK(command.size() == 13);
+        CHECK(command[0] == kClientCommandUseOnCreature);
+        CHECK(command[9] == 0x02);
+        CHECK(command[10] == 0x01);
+        CHECK(command[11] == 0x00);
+        CHECK(command[12] == 0x40);
+    }
+}
+
 }  // namespace
 
 int main() {
@@ -804,6 +863,7 @@ int main() {
         TestContainerCommands();
         TestInventoryReachesWorldState();
         TestMoveObjectCommand();
+        TestUseCommands();
         TestGoldenPlayerData();
         TestGoldenPlayerSkills();
         TestGoldenPlayerState();

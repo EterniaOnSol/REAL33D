@@ -34,6 +34,25 @@ struct FReal33DSlotRef
 DECLARE_DELEGATE_TwoParams(FReal33DOnItemDropped, FReal33DSlotRef, FReal33DSlotRef);
 
 /**
+ * Fired when a slot is used.
+ *
+ * `bWithTarget` is the difference between the two 7.72 shapes of use: false
+ * means CL_CMD_USE_OBJECT, which acts on the object where it stands and is
+ * what opens a container; true means the player wants to use it on something
+ * else, which puts the client into targeting until the next click names a
+ * creature, an object or a field.
+ */
+DECLARE_DELEGATE_TwoParams(FReal33DOnSlotUsed, FReal33DSlotRef, bool);
+
+/**
+ * Offers a left-click on a slot to whoever is waiting for a target.
+ *
+ * Returns true when it was taken, which is how a click that completes a
+ * use-with is stopped from also starting a drag of the object it landed on.
+ */
+DECLARE_DELEGATE_RetVal_OneParam(bool, FReal33DOnSlotPicked, FReal33DSlotRef);
+
+/**
  * The object being dragged between slots.
  *
  * Carries only what CL_CMD_MOVE_OBJECT needs to name it: where it is, what it
@@ -145,6 +164,10 @@ public:
 		SLATE_ARGUMENT(FReal33DSlotRef, Location)
 		/** Fired when something is dropped here. */
 		SLATE_EVENT(FReal33DOnItemDropped, OnItemDropped)
+		/** Fired on a right-click: use, or shift-right-click: use with. */
+		SLATE_EVENT(FReal33DOnSlotUsed, OnSlotUsed)
+		/** Offered a left-click, so a pending use-with can take it as its target. */
+		SLATE_EVENT(FReal33DOnSlotPicked, OnSlotPicked)
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);
@@ -169,4 +192,6 @@ public:
 private:
 	FReal33DSlotRef Location;
 	FReal33DOnItemDropped OnItemDropped;
+	FReal33DOnSlotUsed OnSlotUsed;
+	FReal33DOnSlotPicked OnSlotPicked;
 };

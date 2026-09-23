@@ -236,6 +236,8 @@ void SReal33DSlot::Construct(const FArguments& InArgs)
 	// refuses a cumulative one with a count of zero, so one is the floor.
 	Location.Count = InArgs._Count > 0 ? InArgs._Count : 1;
 	OnItemDropped = InArgs._OnItemDropped;
+	OnSlotUsed = InArgs._OnSlotUsed;
+	OnSlotPicked = InArgs._OnSlotPicked;
 
 	// The placeholder is what an EMPTY equipment square shows. An occupied one
 	// must not show it as well, or a worn helmet would be drawn on top of the
@@ -325,12 +327,32 @@ FReply SReal33DSlot::OnMouseButtonDown(const FGeometry& Geometry,
 	// Only an occupied slot in a place the server can address starts a drag.
 	// An empty square has nothing to pick up, and a slot with no location is
 	// decoration -- the hotkey preview, for one.
-	UE_LOG(LogReal33D, Verbose,
-		TEXT("slot mouse down: button=%s kind=%d type=%u"),
-		*Event.GetEffectingButton().ToString(),
-		static_cast<int32>(Location.Kind), Location.TypeId);
-	if (Event.GetEffectingButton() != EKeys::LeftMouseButton
-		|| Location.TypeId == 0 || !Location.IsValid())
+	// Right button is use, as it is in Tibia; with shift held it is use-with,
+	// which puts the client into targeting instead of acting immediately.
+	// Handled here so it never reaches the controller's camera orbit: Slate
+	// gets first refusal, and a right-click on a bag must open the bag rather
+	// than swing the camera.
+	if (Event.GetEffectingButton() == EKeys::RightMouseButton
+		&& Location.TypeId != 0 && Location.IsValid())
+	{
+		OnSlotUsed.ExecuteIfBound(Location, Event.IsShiftDown());
+		return FReply::Handled();
+	}
+
+	if (Event.GetEffectingButton() != EKeys::LeftMouseButton || !Location.IsValid())
+	{
+		return FReply::Unhandled();
+	}
+
+	// A use-with waiting for a target takes the click first, even on an empty
+	// square: "use the key on that slot" is a thing to ask, and starting a drag
+	// instead would silently drop the pending use.
+	if (OnSlotPicked.IsBound() && OnSlotPicked.Execute(Location))
+	{
+		return FReply::Handled();
+	}
+
+	if (Location.TypeId == 0)
 	{
 		return FReply::Unhandled();
 	}
