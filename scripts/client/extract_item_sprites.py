@@ -221,9 +221,17 @@ def compose(width, height, sprite_ids, data, offsets):
                 break
             sprite_id = sprite_ids[index]
             index += 1
-            if sprite_id == 0 or sprite_id >= len(offsets):
+            # Sprite ids are one-based and zero means "no picture", so the
+            # offset table is indexed one lower. Indexing it directly draws
+            # every object with the next sprite in the file, which is only
+            # visibly wrong when that sprite belongs to a different object:
+            # a bag came out as a barrel while a torch still looked like a
+            # torch, because its neighbour was another frame of itself.
+            # visual/tools/tibia772.py::SpriteFile.decode has it right and is
+            # the reader four independent checks were run against.
+            if sprite_id < 1 or sprite_id > len(offsets):
                 continue
-            tile = decode_sprite(data, offsets[sprite_id])
+            tile = decode_sprite(data, offsets[sprite_id - 1])
             ox = (width - column - 1) * SPRITE_PIXELS
             oy = (height - row - 1) * SPRITE_PIXELS
             for y in range(SPRITE_PIXELS):

@@ -26,18 +26,18 @@ TSharedRef<SWidget> SReal33DContainersPanel::MakeContainer(
 {
 	const ISlateStyle& Style = FReal33DUIStyle::Get();
 
-	// The grid is exactly as many cells as the server said the container
-	// holds, rounded up to whole rows. Not the capacity attribute: an eight
-	// slot bag holding two objects shows two, because two is what is in it and
-	// six empty squares would be six claims about nothing.
+	// The grid is the container's whole capacity, which is what a 7.72 client
+	// draws: a bag is eight squares whether or not anything is in them. The
+	// empty ones are places to drop something into and claim nothing about the
+	// contents, because they draw no object. An earlier version sized the grid
+	// to the contents instead, and an operator reading a backpack of four as
+	// "5 slots" had no way to see how much room was left except the footer.
 	const int32 Count = Container.Objects.Num();
 
-	// One empty square past the contents when the container still has room.
-	// It is a place to drop something into, not a claim that anything is
-	// there: it draws no object, because there is none. Without it an empty
-	// container would have no target at all and nothing could be put in it.
-	const bool bHasRoom = Count < static_cast<int32>(Container.Capacity);
-	const int32 Cells = Count + (bHasRoom ? 1 : 0);
+	// Never fewer squares than there are objects: Fusion32 is authoritative
+	// about what is inside, and a container holding more than its type's
+	// capacity must still show all of it rather than hide the overflow.
+	const int32 Cells = FMath::Max(Count, static_cast<int32>(Container.Capacity));
 	const int32 Rows = FMath::Max(1, FMath::DivideAndRoundUp(Cells, Columns));
 
 	TSharedRef<SVerticalBox> Grid = SNew(SVerticalBox);

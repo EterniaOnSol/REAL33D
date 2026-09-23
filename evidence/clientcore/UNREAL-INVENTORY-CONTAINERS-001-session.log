@@ -1,0 +1,35 @@
+[2026.09.23-20.22.02:974][  0]LogReal33D: scene built from code
+[2026.09.23-20.22.03:061][  0]LogReal33D: loaded approved visual for obj:3501
+[2026.09.23-20.22.03:147][  0]LogReal33D: connecting to 127.0.0.1:7171 as account B
+[2026.09.23-20.22.03:149][  0]LogReal33D: speech display lifetime 6.0s (NOT a proven 7.72 value)
+[2026.09.23-20.22.04:888][  1]LogReal33D: HUD vitals: HP --/--   Mana --/--   Level --
+[2026.09.23-20.22.04:888][  1]LogReal33D: connected: Test Player B
+[2026.09.23-20.22.04:888][  1]LogReal33D: server message [LoginMessage]: Your last visit in Tibia: 23. Sep 2026 14:18:31 CST.
+[2026.09.23-20.22.04:888][  1]LogReal33D: local player is creature 1002
+[2026.09.23-20.22.05:297][  1]LogReal33D: creature 1002 "Test Player B" appeared at 32097,32207,7 health 100%
+[2026.09.23-20.22.05:298][  1]LogReal33D: creature 1073742106 "Dixi" appeared at 32105,32208,6 health 100%
+[2026.09.23-20.22.07:582][  2]LogReal33D: HUD vitals: HP 155/155   Mana 5/5   Level 2
+[2026.09.23-20.22.17:505][481]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\evidence\clientcore\unreal-inventory-containers/unreal_slice_evidence_Manual.json
+[2026.09.23-20.22.17:506][481]LogReal33D: manual evidence snapshot requested
+[2026.09.23-20.22.19:176][521]LogReal33D: use 1: object 2854 at body 0 slot 3, would open as container 0
+[2026.09.23-20.22.20:881][606]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\evidence\clientcore\unreal-inventory-containers/unreal_slice_evidence_Manual.json
+[2026.09.23-20.22.20:881][606]LogReal33D: manual evidence snapshot requested
+[2026.09.23-20.22.43:925][734]LogReal33D: use 2: object 2853 at container 0 slot 0, would open as container 1
+[2026.09.23-20.22.45:663][819]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\evidence\clientcore\unreal-inventory-containers/unreal_slice_evidence_Manual.json
+[2026.09.23-20.22.45:663][819]LogReal33D: manual evidence snapshot requested
+[2026.09.23-20.23.26:519][707]LogReal33D: slot drag detected: object 3585
+[2026.09.23-20.23.27:512][750]LogReal33D: slot drop: valid=1 onto kind=2 slot=3
+[2026.09.23-20.23.27:512][750]LogReal33D: move 3: object 3585 from container 1 slot 2 to container 0 slot 3, count 1
+[2026.09.23-20.23.29:384][831]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\evidence\clientcore\unreal-inventory-containers/unreal_slice_evidence_Manual.json
+[2026.09.23-20.23.29:384][831]LogReal33D: manual evidence snapshot requested
+[2026.09.23-20.23.31:157][899]LogReal33D: use-with begun with object 3603; waiting for a target
+[2026.09.23-20.23.32:545][959]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\evidence\clientcore\unreal-inventory-containers/unreal_slice_evidence_Manual.json
+[2026.09.23-20.23.32:545][959]LogReal33D: manual evidence snapshot requested
+[2026.09.23-20.23.34:092][ 18]LogReal33D: use-with 4: object 3603 on object 2873 in a slot
+[2026.09.23-20.23.35:867][ 95]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\evidence\clientcore\unreal-inventory-containers/unreal_slice_evidence_Manual.json
+[2026.09.23-20.23.35:867][ 95]LogReal33D: manual evidence snapshot requested
+[2026.09.23-20.24.04:701][336]LogReal33D: use 5: object 2853 at container 0 slot 2, would open as container 2
+[2026.09.23-20.24.06:756][425]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\evidence\clientcore\unreal-inventory-containers/unreal_slice_evidence_Manual.json
+[2026.09.23-20.24.06:756][425]LogReal33D: manual evidence snapshot requested
+[2026.09.23-20.24.08:839][505]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\evidence\clientcore\unreal-inventory-containers/unreal_slice_evidence_Manual.json
+[2026.09.23-20.24.08:839][505]LogReal33D: manual evidence snapshot requested

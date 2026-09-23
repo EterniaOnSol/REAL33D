@@ -1076,6 +1076,58 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 			? FString(TEXT("unreal_slice_evidence.json"))
 			: FString::Printf(TEXT("unreal_slice_evidence_%s.json"), *Reason));
 
+	// What the player is wearing and what they have open, exactly as WorldState
+	// holds it. The panels draw these and nothing else, so a reviewer can put a
+	// slot in this file beside the server's own save file and see whether the
+	// two agree. A screenshot cannot carry that: a type id drawn as a 32-pixel
+	// picture is not readable, and the claim is about the id, not the picture.
+	const FReal33DInventory& Worn = GetInventory();
+	TArray<FString> InventoryLines;
+	for (int32 Slot = FReal33DInventory::FirstSlot;
+		Slot <= FReal33DInventory::LastSlot; ++Slot)
+	{
+		if (!Worn.bOccupied[Slot])
+		{
+			continue;
+		}
+		const FReal33DItem& Item = Worn.Items[Slot];
+		InventoryLines.Add(FString::Printf(
+			TEXT("    { \"slot\": %d, \"type_id\": %u, \"amount\": %s, \"liquid\": %s }"),
+			Slot, Item.TypeId,
+			Item.bHasAmount ? *FString::FromInt(Item.Amount) : TEXT("null"),
+			Item.bHasLiquidColour ? *FString::FromInt(Item.LiquidColour) : TEXT("null")));
+	}
+
+	TArray<FString> ContainerLines;
+	for (const FReal33DContainer& Open : GetContainers())
+	{
+		TArray<FString> ObjectLines;
+		ObjectLines.Reserve(Open.Objects.Num());
+		for (int32 Index = 0; Index < Open.Objects.Num(); ++Index)
+		{
+			const FReal33DItem& Item = Open.Objects[Index];
+			ObjectLines.Add(FString::Printf(
+				TEXT("        { \"index\": %d, \"type_id\": %u, \"amount\": %s,")
+				TEXT(" \"liquid\": %s }"),
+				Index, Item.TypeId,
+				Item.bHasAmount ? *FString::FromInt(Item.Amount) : TEXT("null"),
+				Item.bHasLiquidColour ? *FString::FromInt(Item.LiquidColour) : TEXT("null")));
+		}
+		ContainerLines.Add(FString::Printf(
+			TEXT("    {\n")
+			TEXT("      \"number\": %u,\n")
+			TEXT("      \"type_id\": %u,\n")
+			TEXT("      \"name\": \"%s\",\n")
+			TEXT("      \"capacity\": %u,\n")
+			TEXT("      \"has_parent\": %s,\n")
+			TEXT("      \"object_count\": %d,\n")
+			TEXT("      \"objects\": [\n%s\n      ]\n")
+			TEXT("    }"),
+			Open.Number, Open.TypeId, *EscapeForJson(Open.Name), Open.Capacity,
+			Open.bHasParent ? TEXT("true") : TEXT("false"),
+			Open.Objects.Num(), *FString::Join(ObjectLines, TEXT(",\n"))));
+	}
+
 	TArray<FString> CreatureLines;
 	for (const TPair<uint32, TObjectPtr<AReal33DCreature>>& Pair : Creatures)
 	{
@@ -1113,6 +1165,9 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		TEXT("    \"walks_unanswered\": %d,\n")
 		TEXT("    \"external_relocations\": %d,\n")
 		TEXT("    \"local_player_moves_total\": %d,\n")
+		TEXT("    \"says_requested\": %d,\n")
+		TEXT("    \"moves_requested\": %d,\n")
+		TEXT("    \"uses_requested\": %d,\n")
 		TEXT("    \"worldstate_tiles\": %d,\n")
 		TEXT("    \"worldstate_visible_creatures\": %d,\n")
 		TEXT("    \"viewport_synchronised\": %s\n")
@@ -1136,6 +1191,10 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		TEXT("  },\n")
 		TEXT("  \"talk_messages_decoded\": %d,\n")
 		TEXT("  \"last_diagnostic\": \"%s\",\n")
+		TEXT("  \"inventory_known\": %s,\n")
+		TEXT("  \"inventory\": [\n%s\n  ],\n")
+		TEXT("  \"open_containers\": %d,\n")
+		TEXT("  \"containers\": [\n%s\n  ],\n")
 		TEXT("  \"chat_transcript\": [\n%s\n  ],\n")
 		TEXT("  \"creatures\": [\n%s\n  ]\n")
 		TEXT("}\n"),
@@ -1153,6 +1212,7 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		Stats.Anomalies, Stats.RequestedSteps, Stats.AcceptedSelfWalks,
 		Stats.RejectedSteps, Stats.UnansweredSteps, Stats.ExternalRelocations,
 		Stats.LocalPlayerMoves,
+		Stats.SaysRequested, Stats.MovesRequested, Stats.UsesRequested,
 		Stats.Tiles,
 		Stats.VisibleCreatures, Stats.bViewportSynchronised ? TEXT("true") : TEXT("false"),
 		Tiles.Num(), Creatures.Num(), TilesSpawned, TilesRemoved, CreaturesAppeared,
@@ -1161,6 +1221,10 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		ClientNoticesRaised, TranscriptLines, SpeechSeconds,
 		Stats.TalkMessages,
 		LastDiagnostic.IsEmpty() ? TEXT("none") : *EscapeForJson(LastDiagnostic),
+		Worn.bKnown ? TEXT("true") : TEXT("false"),
+		*FString::Join(InventoryLines, TEXT(",\n")),
+		GetContainers().Num(),
+		*FString::Join(ContainerLines, TEXT(",\n")),
 		*FString::Join(TranscriptJson, TEXT(",\n")),
 		*FString::Join(CreatureLines, TEXT(",\n")));
 

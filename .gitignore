@@ -76,3 +76,10 @@ CMakeFiles/
 # its own local copy of the data; without them the panels fall back to showing
 # the object's numeric type id, which is still exactly what the server sent.
 /unreal/REAL33D/Resources/UI/Items/
+
+# Acceptance-run screenshots of the Unreal client. They render item pictures
+# cut from CipSoft's client data, exactly like the pictures themselves, so they
+# stay local for the same reason /unreal/REAL33D/Resources/UI/Items/ does. The
+# JSON snapshots beside them carry the type ids, which is what the claims rest
+# on, and are committed.
+/evidence/clientcore/unreal-inventory-containers/shots/

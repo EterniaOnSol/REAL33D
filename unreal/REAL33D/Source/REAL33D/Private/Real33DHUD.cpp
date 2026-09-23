@@ -38,9 +38,11 @@ namespace
 	// healthinfo.otui gives its panel a 32px body; the vitals widget draws the
 	// two bars plus the level line, so it needs a little more than that here.
 	constexpr float VitalsHeight = 52.0f;
-	// Room for a couple of containers; the panel scrolls with its column when
-	// the player opens more than fits.
-	constexpr float ContainersHeight = 200.0f;
+	// Room for a backpack's twenty squares and a bag opened inside it, which is
+	// the ordinary case as soon as containers draw their whole capacity. At 200
+	// the backpack alone filled the panel and the nested window sat below the
+	// fold. The column still scrolls when more than that is open.
+	constexpr float ContainersHeight = 420.0f;
 	constexpr int32 TextSize = 8;
 }
 

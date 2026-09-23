@@ -1,9 +1,9 @@
 # Project Status
 
 Current phase: `PHASE 2 - GAMEPLAY CLIENT PROGRAMMING` (`IN_PROGRESS`; the first 3D representation is live, a stock 2D client now completes the ordinary 7.72 flow, and V08 visual review is on operator-directed standby)
-Current milestone: DUAL-CLIENT-ARCHITECTURE-CLOSEOUT-001 (documentation closeout; dual-client production architecture selected).
-Next milestone: REAL33D-2D-BOOTSTRAP-001 (NOT_STARTED).
-Last certified: UNREAL-WIDE-WORLD-001 CERTIFIED_PASS at `3fd5d1d`; DUAL_CLIENT_LIVE_CAPTURE PASS at `0f9bd505`.
+Current milestone: UNREAL-INVENTORY-CONTAINERS-001 (live inventory, equipment, containers and the three 7.72 use commands) — `CERTIFIED_PASS`.
+Next milestone: REAL33D-2D-BOOTSTRAP-001 (NOT_STARTED), or container mini-window behaviour (see the operator request below).
+Last certified: UNREAL-INVENTORY-CONTAINERS-001 CERTIFIED_PASS; UNREAL-WIDE-WORLD-001 CERTIFIED_PASS at `3fd5d1d`; DUAL_CLIENT_LIVE_CAPTURE PASS at `0f9bd505`.
 Branch: `main`
 Classic baseline review commit: `f65f3a7645ff40b39b7cc8399760fd4f0b69ecee`
 Transport implementation commit: `abd2d0a25bd9632f5aa3955e822876268c7ca96c`
@@ -143,3 +143,51 @@ server features, Unreal changes, V08 changes, visual/art work.
 
 The probe scratch tree `C:\r33dprobe` stays untouched until the bootstrap
 reproduces the live PASS. Nothing in this repository references it.
+
+## Inventory, containers and use - 2026-09-23
+
+`UNREAL-INVENTORY-CONTAINERS-001 = CERTIFIED_PASS`. The round trip `723b557`
+left explicitly uncertified was exercised against the running server on one
+uninterrupted session, and all eight acceptance criteria hold:
+
+```
+RIGHT_CLICK_OPENS_CONTAINER      PASS   DISPLAYED_CONTENTS_MATCH_SERVER  PASS
+MOVE_INSIDE_CONTAINER_LIVE       PASS   CLOSE_REMOVES_STATE_AND_PANEL    PASS
+NESTED_CONTAINER_OWN_WINDOW      PASS   USE_WITH_ONE_VALID_TARGET        PASS
+INVENTORY_EQUIPMENT_CORRECT      PASS   PROTOCOL_ERRORS                  0
+
+residual_bytes 0   unsupported_opcodes 0   protocol_anomalies 0   over 88 commands
+```
+
+The contents drawn were compared against the server's own `1002.usr` save file
+object for object, including the amount byte of a cumulative object and the
+colour byte of a liquid container - the two classes `DUAL_CLIENT_LIVE_CAPTURE`
+had to leave `NOT_LIVE_COVERED`. Use-with was exercised on a real
+`dat/moveuse.dat` rule: flour on a bucket of water produced a lump of dough and
+emptied the bucket, with one of the five flour units converted because flour is
+cumulative. Closing went through `UseContainer`'s 7.72 toggle;
+`CL_CMD_CLOSE_CONTAINER` and `CL_CMD_UP_CONTAINER` remain unbuilt.
+
+Evidence, with the eight `F9` snapshots and the command log:
+`evidence/clientcore/UNREAL-INVENTORY-CONTAINERS-001.md`.
+
+### One live failure, found and fixed
+
+The operator could not tell a bag from a barrel in the container window.
+`scripts/client/extract_item_sprites.py` indexed the sprite offset table with
+the sprite id, but sprite ids are one-based, so every object was drawn with the
+sprite after the one it meant. Invisible when that neighbour was another frame
+of the same object, glaring when it belonged to the next object. Fixed, and
+`tests/verify_item_sprite_extraction.py` now holds that extractor to
+`visual/tools/tibia772.py`, the reader `VISUAL-REFERENCE-PACK-001` validated:
+4990 items agree on geometry and first-frame sprite ids and 8163 decoded
+sprites agree byte for byte. The same test reports 8163 of 8163 mismatching
+against the pre-fix indexing.
+
+### Operator requests
+
+Container windows now draw their whole capacity, as a 7.72 client does, rather
+than their contents plus one empty square, and the containers panel grew from
+200 to 420 so a backpack and a bag opened inside it both fit. Still open, and
+the natural next milestone: the 2D client opens container windows minimised,
+resizable, and movable between columns. None of that exists here.
