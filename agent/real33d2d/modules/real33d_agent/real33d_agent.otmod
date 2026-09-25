@@ -6,6 +6,6 @@ Module
   autoload-priority: 1300
   reloadable: false
   sandboxed: false
-  scripts: [ agent_schema, agent_core, agent_bridge, agent_runtime ]
+  scripts: [ agent_schema, agent_memory, agent_core, agent_bridge, agent_runtime ]
   @onLoad: Real33DAgentRuntime.init()
   @onUnload: Real33DAgentRuntime.terminate()

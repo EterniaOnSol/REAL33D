@@ -307,3 +307,17 @@ path and never expired while no bag was open, which silently disabled target
 selection for a whole session. Loot is now ranked by value rather than slot
 order. `cancel_follow` live and sustained low-HP survival remain
 `IMPLEMENTED_UNVERIFIED`. See `evidence/agent/REAL33D-AGENT-BRIDGE-001.md`.
+
+## REAL33D 2D agent memory - 2026-09-24
+
+`REAL33D-AGENT-MEMORY-001 = IMPLEMENTED_UNVERIFIED` on branch
+`milestone/real33d-agent-memory-001`. An opt-in, per-character recollection
+store and memory-guided mock navigation are under test. Memory is derived from
+the client's accepted observations and cannot authorize an action; the existing
+current-state validator still decides every intent. LuaJIT MVP/BRIDGE/MEMORY
+tests pass. A local session logged `memory=loaded`, `memory_saved=true
+records=56`, and a subsequent `memory=loaded`, but the agent reached 2/160 HP
+and later cycled near the temple after respawning on another floor. Field-type,
+copy-on-write and floor-selection regressions were fixed after that run; they
+have deterministic tests but no follow-up live proof. See
+`evidence/agent/REAL33D-AGENT-MEMORY-001-progress.md`.

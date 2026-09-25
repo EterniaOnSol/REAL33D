@@ -138,7 +138,10 @@ function B:beginCycle(obs, projection)
   return cycle
 end
 
-function B:emitIntent(cycle, intent, source)
+-- `plan` is optional context about why the Brain chose this, notably the
+-- remembered place it is travelling towards. It is recorded so a reader can
+-- tell a memory-guided step from an ordinary one; it never affects validation.
+function B:emitIntent(cycle, intent, source, plan)
   self.actionSeq = self.actionSeq + 1
   cycle.actionId = string.format('a-%s-%06d', self.sessionId, self.actionSeq)
   self:emit('intent', {
@@ -147,6 +150,7 @@ function B:emitIntent(cycle, intent, source)
     action_id = cycle.actionId,
     source = source or 'mock',
     intent = intent,
+    plan = plan,
   })
   return cycle.actionId
 end

@@ -8,6 +8,7 @@ local R = Real33DAgentRuntime
 -- connected, no observation is built and no trace file is opened. An ordinary
 -- human session behaves exactly as it does without this module installed.
 local bridgeMode = os.getenv('R33D_AGENT_MODE') == '1'
+local memoryEnabled = os.getenv('R33D_AGENT_MEMORY') == '1'
 local legacyMode = os.getenv('R33D_AGENT') == '1'
 local enabled = bridgeMode or legacyMode
 local provider = os.getenv('R33D_AGENT_BRAIN') or 'mock'
@@ -15,6 +16,7 @@ local timer, pending, epoch, budget, brain, lastDecision, lastState
 local chat, sequence = {}, 0
 local previousOpcode, opcodeHook
 local bridge, traceFile
+local memory, memoryFile, memorySince
 
 local function log(event, detail)
   sequence = sequence + 1
@@ -41,6 +43,62 @@ local function traceSink(line)
   if not traceFile then return end
   traceFile:write(line, '\n')
   traceFile:flush()
+end
+
+-- Memory lives in one flat, human-readable JSON file per identity triple, so
+-- two characters never share a recollection and the file can be read, diffed or
+-- deleted by hand. The name is flattened rather than nested so no directory has
+-- to be created from Lua; R33D_AGENT_MEMORY_DIR points at an existing one.
+local function memoryPath(identity)
+  local root = os.getenv('R33D_AGENT_MEMORY_DIR')
+  -- Hex preserves every byte, including spaces and underscores. Replacing
+  -- punctuation with '_' let two distinct character names share one file.
+  local name = 'agent_memory__' ..
+    AgentMemory.identityKey(identity):gsub('/', '__') .. '.json'
+  if root and root ~= '' then return root .. '/' .. name end
+  return name
+end
+
+local function worldIdentity()
+  local ok, host, port = pcall(function()
+    return REAL33D.getHost(), REAL33D.getLoginPort()
+  end)
+  if ok and host then return tostring(host) .. '_' .. tostring(port or '') end
+  return 'local'
+end
+
+local function loadMemory(identity)
+  local path = memoryPath(identity)
+  local handle = io.open(path, 'r')
+  if not handle then
+    log('MEMORY_NEW', 'path=' .. path)
+    return AgentMemory.new(identity), path, 'new'
+  end
+  local text = handle:read('*a')
+  handle:close()
+  local store, reason = AgentMemory.load(text, identity)
+  if not store then
+    -- A memory that does not load is not silently half-imported. The session
+    -- starts with an empty recollection. Disable saving for this session so
+    -- the rejected file remains available for inspection instead of being
+    -- overwritten at the next periodic save.
+    log('MEMORY_REJECTED', tostring(reason) .. ' path=' .. path)
+    return AgentMemory.new(identity), nil, 'rejected:' .. tostring(reason)
+  end
+  return store, path, 'loaded'
+end
+
+local function saveMemory()
+  if not memory or not memoryFile then return false end
+  local handle = io.open(memoryFile, 'w')
+  if not handle then
+    log('MEMORY_UNWRITABLE', memoryFile)
+    return false
+  end
+  handle:write(memory:serialize(os.time()), '\n')
+  handle:close()
+  memory.dirty = false
+  return true
 end
 
 local function newBridge()
@@ -235,7 +293,16 @@ local function applyIntent(raw, cycle, decisionEpoch)
   if not enabled or epoch ~= decisionEpoch or not g_game.isOnline() or not raw then return end
   local obs, refs, destinations = R.observe() -- recheck after async brain response
 
-  if bridge then bridge:emitIntent(cycle, raw, provider) end
+  if bridge then
+    local plan = nil
+    if memory and brain then
+      plan = { memory_records = memory:total(),
+               navigating_to = brain.navigatingTo,
+               navigating_via = brain.navigatingVia,
+               memory_guided = brain.navigatingTo ~= nil }
+    end
+    bridge:emitIntent(cycle, raw, provider, plan)
+  end
 
   local checked, schemaReason = AgentSchema.checkObservation(obs)
   if not checked then
@@ -256,6 +323,13 @@ local function applyIntent(raw, cycle, decisionEpoch)
   intent, reason = AgentCore.validate(normalized, obs)
   if not intent then
     if bridge then bridge:emitValidation(cycle, 'state', false, reason) end
+    -- Worth remembering: this is how the agent learns that something it tried
+    -- was not legal, which is experience rather than imported knowledge.
+    if memory then
+      AgentMemory.recordOutcome(memory, normalized.action, false, reason,
+                                cycle and cycle.observationId or 'unknown',
+                                memory.wallClock or os.time())
+    end
     log('REJECT', reason)
     return
   end
@@ -278,6 +352,11 @@ local function applyIntent(raw, cycle, decisionEpoch)
     return
   end
   if bridge then bridge:emitDispatch(cycle, intent, true, nil, snapshot) end
+  if memory then
+    AgentMemory.recordOutcome(memory, intent.action, true, nil,
+                              cycle and cycle.observationId or 'unknown',
+                              memory.wallClock or os.time())
+  end
   log('INTENT', intent.action .. (intent.creatureId and (' creature=' .. intent.creatureId) or '') ..
       (intent.direction and (' direction=' .. intent.direction) or '') ..
       (intent.item and (' item=' .. intent.item) or '') ..
@@ -339,6 +418,21 @@ local function tick()
           local checked, schemaReason = AgentSchema.checkObservation(obs)
           if checked then
             cycle = bridge:beginCycle(obs, AgentSchema.projectObservation(obs))
+            -- Memory is written from the observation the agent just received,
+            -- after that observation passed its own schema check, and is keyed
+            -- to the observation_id that produced it. Nothing else feeds it.
+            if memory then
+              memory.wallClock = os.time()
+              AgentMemory.observe(memory, obs, cycle.observationId, memory.wallClock)
+              memorySince = memorySince + 1
+              if memorySince >= 20 and memory.dirty then
+                memorySince = 0
+                if saveMemory() then
+                  bridge:emitSession('memory_saved', {
+                    records = memory:total(), file = memoryFile, reason = 'interval' })
+                end
+              end
+            end
           else
             observationOk = false
             log('REJECT', schemaReason)
@@ -379,14 +473,34 @@ local function onStart()
   -- instantiated on this path, so certification cannot contact an LLM even if
   -- R33D_AGENT_BRAIN was exported; init() has already forced provider to mock.
   if bridgeMode then
+    -- Persistent memory is opt-in on top of bridge mode. Without it the
+    -- certified BRIDGE-001 behaviour is unchanged: no file is read or written.
+    local loadState = 'disabled'
+    memory, memoryFile, memorySince = nil, nil, 0
+    if memoryEnabled then
+      local player = g_game.getLocalPlayer()
+      local identity = { agent = 'mock', world = worldIdentity(),
+                         character = player and player:getName() or 'unknown' }
+      memory, memoryFile, loadState = loadMemory(identity)
+      memory.sessions = memory.sessions + 1
+      memory.wallClock = os.time()
+    end
+    -- crossSessionMemory stays false: that flag is the MVP's hardcoded item id,
+    -- which is not observation-derived. AgentMemory is the sanctioned route and
+    -- carries provenance for everything it holds.
     brain = AgentCore.mockBrain({ crossSessionMemory = false, followFirst = true,
-                                  proveCancel = true })
-    log('GAME_START', 'brain=mock mode=bridge')
+                                  proveCancel = true, memory = memory })
+    log('GAME_START', 'brain=mock mode=bridge memory=' .. loadState)
     bridge:emitSession('session_start', {
       mode = 'bridge', brain = 'mock', cross_session_memory = false,
       observation_schema = AgentSchema.OBSERVATION_SCHEMA,
       intent_schema = AgentSchema.INTENT_SCHEMA,
       actions = AgentSchema.array(AgentSchema.actions()),
+      memory = { state = loadState, schema = AgentMemory.SCHEMA,
+                 enabled = memoryEnabled and true or false,
+                 sessions = memory and memory.sessions or 0,
+                 records = memory and memory:total() or 0,
+                 file = memoryFile },
     })
     return
   end
@@ -403,8 +517,20 @@ end
 
 local function onEnd()
   epoch, pending = epoch + 1, false
-  if bridge then bridge:emitSession('session_end', {}) end
-  log('GAME_END')
+  local saved = false
+  if memory then
+    memory.wallClock = os.time()
+    saved = saveMemory()
+  end
+  if bridge then
+    bridge:emitSession('session_end', {
+      memory_saved = saved,
+      memory_records = memory and memory:total() or 0,
+      memory_file = memoryFile,
+    })
+  end
+  log('GAME_END', memory and ('memory_saved=' .. tostring(saved) ..
+      ' records=' .. memory:total()) or nil)
 end
 
 function R.init()
@@ -465,6 +591,8 @@ function R.terminate()
   end
   opcodeHook, previousOpcode = nil, nil
   epoch, pending = epoch + 1, false
+  if memory and memory.dirty then saveMemory() end
+  memory, memoryFile = nil, nil
   bridge = nil
   if traceFile then traceFile:close() traceFile = nil end
 end

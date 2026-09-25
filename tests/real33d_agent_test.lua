@@ -4,6 +4,7 @@
 --   1. REAL33D-AGENT-MVP-001 policy, budget, brain, loot/eat, viewport (preserved)
 --   2. REAL33D-AGENT-BRIDGE-001 schemas, correlation ids, JSONL, opt-in default
 dofile('agent/real33d2d/modules/real33d_agent/agent_schema.lua')
+dofile('agent/real33d2d/modules/real33d_agent/agent_memory.lua')
 dofile('agent/real33d2d/modules/real33d_agent/agent_core.lua')
 dofile('agent/real33d2d/modules/real33d_agent/agent_bridge.lua')
 local A = AgentCore
@@ -723,10 +724,26 @@ cancelBrain.lastSeenAt = 5000
 cancelBrain:decide(cancelObs, function(v) cancelStep = v end, 6000)
 assert(cancelStep == nil or cancelStep.action ~= 'cancel_attack',
        'scenario cancelled a second time')
--- Low HP still cancels regardless of the one-shot scenario step.
+-- Low HP cancels when there is distance to break...
 cancelObs.player.hp = 60
+cancelObs.creatures[2].position = { x = 104, y = 200, z = 7 }
+cancelObs.creatureList[1].position = { x = 104, y = 200, z = 7 }
 cancelBrain:decide(cancelObs, function(v) cancelStep = v end, 9000)
 eq(cancelStep.action, 'cancel_attack')
+-- ...but not toe to toe, where letting go only stops the agent hitting back.
+local pinnedCancel = A.mockBrain({ crossSessionMemory = false, proveCancel = true })
+pinnedCancel.greeted, pinnedCancel.inventoryTried = true, true
+pinnedCancel.inventoryUsed, pinnedCancel.bagReopened = true, true
+pinnedCancel.cancelledOnce = true          -- the one scenario cancel is spent
+pinnedCancel.selectedTarget, pinnedCancel.phase = 2, 'attack'
+pinnedCancel.lastSeenAt, pinnedCancel.targetAt = 9000, 9000
+local pinnedStep = 'unset'
+local toeToToe = validObservation()
+toeToToe.player.hp, toeToToe.player.maxHp = 60, 155
+toeToToe.attackId, toeToToe.combat.chase = 2, 1   -- creature 2 is at distance 1
+pinnedCancel:decide(toeToToe, function(v) pinnedStep = v end, 10000)
+assert(pinnedStep == nil or pinnedStep.action ~= 'cancel_attack',
+       'released an adjacent attacker while hurt')
 -- A brain without proveCancel keeps the MVP behaviour: no scenario cancel.
 local plainCancel = A.mockBrain()
 plainCancel.greeted, plainCancel.inventoryTried = true, true
@@ -764,3 +781,509 @@ Real33DAgentRuntime.terminate()
 eq(scheduled, 0)
 
 print('REAL33D_AGENT_BRIDGE schema, correlation, JSONL and opt-in tests PASS')
+
+-- ===========================================================================
+-- REAL33D-AGENT-MEMORY-001
+-- ===========================================================================
+
+local M = AgentMemory
+
+-- --- JSON round trip -------------------------------------------------------
+-- Memory is written with the same encoder the trace uses and read back by the
+-- decoder beside it, so the two have to agree exactly.
+local function roundTrip(value)
+  local decoded, reason = S.decode(S.encode(value))
+  assert(decoded ~= nil or reason == nil, 'decode failed: ' .. tostring(reason))
+  return decoded
+end
+eq(S.decode('7'), 7)
+eq(S.decode('-12'), -12)
+eq(S.decode('true'), true)
+eq(S.decode('"hi"'), 'hi')
+eq(S.decode('"a\\nb"'), 'a\nb')
+eq(S.decode('"\\u0001"'), '\1')
+eq(#S.decode('[]'), 0)
+eq(S.decode('{"a":1,"b":[1,2]}').b[2], 2)
+eq(S.decode('  {"a" : 1 }  ').a, 1)
+eq(select(2, S.decode('{"a":1')), 'expected_separator')
+eq(select(2, S.decode('{"a" 1}')), 'expected_colon')
+eq(select(2, S.decode('{a:1}')), 'expected_key')
+eq(select(2, S.decode('nope')), 'unexpected_token')
+eq(select(2, S.decode('{"a":1} trailing')), 'trailing_content')
+eq(select(2, S.decode(nil)), 'not_a_string')
+local deep = roundTrip({ n = 1, s = 'x', t = true, a = S.array({ 1, 2, 3 }),
+                         o = { nested = 'y' } })
+eq(deep.n, 1) eq(deep.s, 'x') eq(deep.t, true) eq(deep.a[3], 3)
+eq(deep.o.nested, 'y')
+
+-- --- recording from observations only --------------------------------------
+local function memoryObservation()
+  local o = validObservation()
+  o.player.name = 'Test Player B'
+  o.player.position = { x = 32137, y = 32245, z = 8 }
+  o.tiles = {
+    ['32138:32245:8'] = { position = { x = 32138, y = 32245, z = 8 },
+                          walkable = true, things = {} },
+    ['32137:32246:8'] = { position = { x = 32137, y = 32246, z = 8 },
+                          walkable = false, things = {} },
+  }
+  local rat = { id = 4242, name = 'Rat', monster = true, hpPercent = 100,
+                position = { x = 32138, y = 32245, z = 8 } }
+  o.creatures = { [4242] = rat }
+  o.creatureList = { rat }
+  o.chat = { { name = 'Cipfried', mode = 1, text = 'Hello there' } }
+  o.containers = { { id = 0, name = 'backpack', capacity = 8, itemCount = 1,
+                     sourcePlace = 'carried',
+                     items = { { key = 'c:0:0', id = 3031, count = 2,
+                                 container = false } } } }
+  return o
+end
+
+local identityB = { agent = 'mock', world = 'local', character = 'Test Player B' }
+local store = M.new(identityB)
+local obsA = memoryObservation()
+assert(M.observe(store, obsA, 'o-A-000001', 1000) > 0)
+
+-- --- provenance ------------------------------------------------------------
+local placeKey = M.bucketKey(32137, 32245, 8)
+local place = store:get('places', placeKey)
+assert(place, 'the place the agent stood in was not remembered')
+eq(place.source, 'direct_observation')
+eq(place.first_observed, 1000)
+eq(place.last_observed, 1000)
+eq(place.first_observation_id, 'o-A-000001')
+eq(place.last_observation_id, 'o-A-000001')
+eq(place.observations, 1)
+eq(place.category, 'places')
+-- Every record in every category carries the same provenance, and validates.
+for _, category in ipairs(M.categoryNames()) do
+  for _, record in ipairs(store:recall(category)) do
+    local checked, reason = M.checkRecord(record)
+    assert(checked, category .. '/' .. record.key .. ': ' .. tostring(reason))
+    eq(record.source, 'direct_observation')
+    assert(record.first_observation_id:sub(1, 2) == 'o-', 'provenance lost')
+  end
+end
+assert(#store:recall('creature_sightings') > 0, 'sighting not remembered')
+assert(#store:recall('conversations') > 0, 'conversation not remembered')
+assert(#store:recall('item_observations') > 0, 'item not remembered')
+assert(#store:recall('encounters') >= 0)
+
+-- --- duplicate observation merging -----------------------------------------
+M.observe(store, memoryObservation(), 'o-A-000002', 2000)
+local merged = store:get('places', placeKey)
+eq(merged.observations, 2)
+eq(merged.first_observed, 1000)          -- kept
+eq(merged.last_observed, 2000)           -- advanced
+eq(merged.first_observation_id, 'o-A-000001')
+eq(merged.last_observation_id, 'o-A-000002')
+eq(store:count('places'), 1)             -- merged, not duplicated
+local sightings = store:recall('creature_sightings')
+eq(#sightings, 1)
+eq(sightings[1].observations, 2)
+
+-- --- memory never records an unobserved tile -------------------------------
+-- Every position held in memory has to trace back to a position that appeared
+-- in an observation: the agent's own, or a creature it could see.
+local legitimate = {}
+for _, o in ipairs({ obsA }) do
+  legitimate[o.player.position.x .. ':' .. o.player.position.y] = true
+  for _, c in ipairs(o.creatureList) do
+    legitimate[c.position.x .. ':' .. c.position.y] = true
+  end
+  for _, row in pairs(o.tiles) do
+    legitimate[row.position.x .. ':' .. row.position.y] = true
+  end
+end
+for _, category in ipairs(M.categoryNames()) do
+  for _, record in ipairs(store:recall(category)) do
+    if record.x then
+      local found = false
+      for seen in pairs(legitimate) do
+        local sx, sy = seen:match('(%-?%d+):(%-?%d+)')
+        local bx, by = M.bucket(tonumber(sx), tonumber(sy), 0)
+        if bx == record.x and by == record.y then found = true break end
+      end
+      assert(found, 'memory holds a position never observed: ' .. record.key)
+    end
+  end
+end
+
+-- Memory holds no creature id at all, so a stale id cannot even be expressed.
+for _, record in ipairs(store:recall('creature_sightings')) do
+  eq(record.id, nil)
+  eq(record.creatureId, nil)
+end
+
+-- --- save / load and session restart ---------------------------------------
+store.sessions = 1
+local serialized = store:serialize(2000)
+eq(serialized:find('\n'), nil)                        -- one diffable document
+contains(serialized, '"schema":"real33d.agent.memory/1"')
+contains(serialized, '"source":"direct_observation"')
+local reloaded, loadReason = M.load(serialized, identityB)
+assert(reloaded, 'reload failed: ' .. tostring(loadReason))
+eq(reloaded:total(), store:total())
+eq(reloaded:get('places', placeKey).observations, 2)
+eq(reloaded:get('places', placeKey).first_observation_id, 'o-A-000001')
+eq(reloaded.sessions, 1)
+-- Session restart: the reloaded store keeps counting and keeps its history.
+reloaded.sessions = reloaded.sessions + 1
+M.observe(reloaded, memoryObservation(), 'o-B-000001', 5000)
+eq(reloaded.sessions, 2)
+eq(reloaded:get('places', placeKey).observations, 3)
+eq(reloaded:get('places', placeKey).first_observed, 1000)   -- survived the restart
+eq(reloaded:get('places', placeKey).first_observation_id, 'o-A-000001')
+-- and the round trip is stable: saving what was loaded reproduces the file.
+eq(M.load(reloaded:serialize(5000), identityB):total(), reloaded:total())
+
+-- --- memory isolation between characters -----------------------------------
+local identityA = { agent = 'mock', world = 'local', character = 'Test Player A' }
+assert(M.identityKey(identityA) ~= M.identityKey(identityB))
+local spaced = { agent = 'mock', world = 'local', character = 'Test Player B' }
+local underscored = { agent = 'mock', world = 'local', character = 'Test_Player_B' }
+assert(M.identityKey(spaced) ~= M.identityKey(underscored),
+       'distinct character names must never share a memory path')
+eq(select(2, M.load(serialized, underscored)), 'memory_identity_mismatch')
+eq(select(2, M.load(serialized, identityA)), 'memory_identity_mismatch')
+-- Same character name on another world is also a different recollection.
+eq(select(2, M.load(serialized, { agent = 'mock', world = 'other',
+                                  character = 'Test Player B' })),
+   'memory_identity_mismatch')
+eq(select(2, M.load(serialized, { agent = 'other', world = 'local',
+                                  character = 'Test Player B' })),
+   'memory_identity_mismatch')
+local storeA = M.new(identityA)
+eq(storeA:total(), 0)                     -- a second character starts blank
+M.observe(storeA, memoryObservation(), 'o-A2-000001', 1000)
+eq(store:get('places', placeKey).observations, 2)  -- untouched by the other store
+
+-- --- invalid memory injection ----------------------------------------------
+eq(select(2, M.load('not json', identityB)):sub(1, 17), 'memory_unreadable')
+eq(select(2, M.load('[]', identityB)), 'memory_bad_schema')
+eq(select(2, M.load(S.encode({ schema = 'other' }), identityB)), 'memory_bad_schema')
+eq(select(2, M.load(S.encode({ schema = M.SCHEMA, agent = 'mock', world = 'local',
+                               character = 'Test Player B' }), identityB)),
+   'memory_missing_entries')
+
+local function injected(record, category)
+  return S.encode({
+    schema = M.SCHEMA, agent = 'mock', world = 'local',
+    character = 'Test Player B', sessions = 1, updated = 0,
+    entries = { [category or 'places'] = S.array({ record }) },
+  })
+end
+local function goodRecord(overrides)
+  local record = { key = 'k', category = 'places', source = 'direct_observation',
+                   first_observed = 1, last_observed = 2,
+                   first_observation_id = 'o-1', last_observation_id = 'o-2',
+                   observations = 1, x = 0, y = 0, z = 7,
+                   walkable = 1, sightings = 0, visits = 1 }
+  for name, value in pairs(overrides or {}) do
+    if value == '__nil__' then record[name] = nil else record[name] = value end
+  end
+  return record
+end
+assert(M.load(injected(goodRecord()), identityB), 'a good record should load')
+-- A record claiming any origin other than the agent's own eyes is refused.
+for _, forged in ipairs({ 'server_database', 'spawn_file', 'wiki', 'minimap',
+                          'another_player', 'imported' }) do
+  eq(select(2, M.load(injected(goodRecord({ source = forged })), identityB)),
+     'record_bad_source')
+end
+eq(select(2, M.load(injected(goodRecord({ source = '__nil__' })), identityB)),
+   'record_bad_source')
+-- Unknown categories and unknown fields do not sneak in beside good ones.
+eq(select(2, M.load(injected(goodRecord({ category = 'spawns' }), 'spawns'),
+                    identityB)), 'memory_unknown_category:spawns')
+eq(select(2, M.load(injected(goodRecord({ full_map = true })), identityB)),
+   'record_unknown_field:full_map')
+eq(select(2, M.load(injected(goodRecord({ creatureId = 4242 })), identityB)),
+   'record_unknown_field:creatureId')
+-- Provenance is mandatory and internally consistent.
+eq(select(2, M.load(injected(goodRecord({ first_observation_id = '__nil__' })),
+                    identityB)), 'record_bad_provenance:first_observation_id')
+eq(select(2, M.load(injected(goodRecord({ last_observed = '__nil__' })), identityB)),
+   'record_bad_provenance:last_observed')
+eq(select(2, M.load(injected(goodRecord({ first_observed = 9, last_observed = 2 })),
+                    identityB)), 'record_provenance_order')
+eq(select(2, M.load(injected(goodRecord({ observations = 0 })), identityB)),
+   'record_provenance_count')
+eq(select(2, M.load(injected(goodRecord({ x = 1.5 })), identityB)),
+   'record_bad_position')
+eq(select(2, M.load(injected(goodRecord({ z = '__nil__' })), identityB)),
+   'record_missing_position:z')
+-- Known fields also need usable values; a malformed count previously loaded
+-- and crashed the next observation when the agent incremented it.
+eq(select(2, M.load(injected(goodRecord({ sightings = 'many' })), identityB)),
+   'record_bad_field:sightings')
+eq(select(2, M.load(injected(goodRecord({ walkable = -1 })), identityB)),
+   'record_bad_field:walkable')
+eq(select(2, M.load(injected(goodRecord({ visits = 1.5 })), identityB)),
+   'record_bad_field:visits')
+eq(select(2, M.load(injected(goodRecord({
+     category = 'routes', walkable = '__nil__', sightings = '__nil__',
+     visits = '__nil__', from = 'A', to = 'B', steps = 'many' }), 'routes'),
+   identityB)), 'record_bad_field:steps')
+local original = store:get('places', placeKey)
+local originalCount, originalTime = original.sightings, original.last_observed
+local failed, failedReason = store:remember('places', placeKey,
+  { sightings = 'many' }, 'o-bad', 9000)
+eq(failed, nil)
+eq(failedReason, 'record_bad_field:sightings')
+eq(store:get('places', placeKey), original)
+eq(original.sightings, originalCount)
+eq(original.last_observed, originalTime)
+-- Field names alone are not enough: a known field carrying the wrong kind of
+-- value is refused too, so a plausible-looking record cannot smuggle rubbish
+-- past the loader.
+eq(select(2, M.load(injected(goodRecord({ sightings = 'many' })), identityB)),
+   'record_bad_field:sightings')
+eq(select(2, M.load(injected(goodRecord({ visits = -1 })), identityB)),
+   'record_bad_field:visits')
+eq(select(2, M.load(injected(goodRecord({ walkable = 1.5 })), identityB)),
+   'record_bad_field:walkable')
+local sighting = { key = 'Rat@0:0:7', category = 'creature_sightings',
+                   source = 'direct_observation', first_observed = 1,
+                   last_observed = 2, first_observation_id = 'o-1',
+                   last_observation_id = 'o-2', observations = 1,
+                   name = 'Rat', kind = 'monster', hp_percent = 100 }
+assert(M.load(injected(sighting, 'creature_sightings'), identityB))
+sighting.hp_percent = 500
+eq(select(2, M.load(injected(sighting, 'creature_sightings'), identityB)),
+   'record_bad_field:hp_percent')
+sighting.hp_percent, sighting.name = 100, 42
+eq(select(2, M.load(injected(sighting, 'creature_sightings'), identityB)),
+   'record_bad_field:name')
+
+-- A record filed under the wrong category is rejected rather than re-filed.
+-- Which of its now-foreign fields is named depends on table order, so only the
+-- kind of rejection is asserted.
+eq(select(2, M.load(injected(goodRecord({ category = 'routes' })), identityB))
+     :sub(1, 21), 'record_unknown_field:')
+
+-- --- stale memory ----------------------------------------------------------
+local aged = M.new(identityB)
+aged:remember('places', 'old', { walkable = 1, sightings = 5, visits = 1,
+                                 x = 100, y = 100, z = 7 }, 'o-1', 1000)
+aged:remember('places', 'new', { walkable = 1, sightings = 5, visits = 1,
+                                 x = 120, y = 100, z = 7 }, 'o-2', 90000)
+eq(#aged:fresh('places', 100000, nil), 2)        -- no age limit: everything
+eq(#aged:fresh('places', 100000, 20000), 1)      -- limit: only the recent one
+eq(aged:fresh('places', 100000, 20000)[1].key, 'new')
+eq(#aged:fresh('places', 100000, 1), 0)
+-- Planning honours the age limit too, so the agent does not cross the map for
+-- something it saw once, long ago.
+eq(aged:huntingGround(200, 200, 7, 100000, nil).key, 'new')
+eq(aged:huntingGround(200, 200, 7, 100000, 20000).key, 'new')
+eq(aged:huntingGround(200, 200, 7, 100000, 1), nil)
+-- Danger weighs on the choice but does not veto it: a healthy agent still goes
+-- to the only hunting ground it knows, because every hunting ground is
+-- somewhere it has been hurt.
+aged:remember('dangers', 'new', { cause = 'low_health', hp = 5, max_hp = 160,
+                                  x = 120, y = 100, z = 7 }, 'o-3', 90000)
+eq(aged:huntingGround(200, 200, 7, 100000, 20000).key, 'new')
+-- A cautious agent -- one already hurt -- avoids it outright.
+eq(aged:huntingGround(200, 200, 7, 100000, 20000, true), nil)
+-- Given a safe alternative of similar value, the safe one wins.
+aged:remember('places', 'safe', { walkable = 1, sightings = 5, visits = 1,
+                                  x = 121, y = 100, z = 7 }, 'o-4', 90000)
+eq(aged:huntingGround(200, 200, 7, 100000, 20000).key, 'safe')
+
+-- A remembered cave cannot be reached by walking toward its x/y coordinates
+-- from the surface. A cross-floor goal needs an observed route from here.
+local floors = M.new(identityB)
+local surface = M.bucketKey(200, 200, 7)
+local cave = M.bucketKey(205, 200, 8)
+floors:remember('places', cave,
+  { walkable = 3, sightings = 10, visits = 1, x = 205, y = 200, z = 8 },
+  'o-cave', 100)
+eq(floors:huntingGround(200, 200, 7, 110, 1000), nil)
+floors:remember('routes', surface .. '>' .. cave,
+  { from = surface, to = cave, steps = 1 }, 'o-stairs', 105)
+eq(floors:huntingGround(200, 200, 7, 110, 1000).key, cave)
+
+-- --- cornered between two monsters -----------------------------------------
+-- Reproduces an observed live stall: two rats either side, the agent backing
+-- away from whichever was nearest and walking into the other, flipping between
+-- two tiles until it was at 6/160. Retreat must consider every threat.
+local function pinnedObs(hp)
+  local o = validObservation()
+  o.player.hp, o.player.maxHp = hp, 160
+  o.player.position = { x = 100, y = 200, z = 7 }
+  local west = { id = 11, name = 'Rat', monster = true, hpPercent = 100,
+                 position = { x = 99, y = 200, z = 7 } }
+  local east = { id = 12, name = 'Rat', monster = true, hpPercent = 100,
+                 position = { x = 101, y = 200, z = 7 } }
+  o.creatures = { [11] = west, [12] = east }
+  o.creatureList = { west, east }
+  o.tiles = {
+    ['99:200:7']  = { position = { x = 99,  y = 200, z = 7 }, walkable = true, things = {} },
+    ['101:200:7'] = { position = { x = 101, y = 200, z = 7 }, walkable = true, things = {} },
+  }
+  return o
+end
+local function pinnedBrain()
+  local b = A.mockBrain({ crossSessionMemory = false })
+  b.greeted, b.inventoryTried, b.inventoryUsed, b.bagReopened = true, true, true, true
+  return b
+end
+
+-- Nowhere improves: both neighbours are a rat. Fight rather than shuffle.
+local cornered, corneredStep = pinnedBrain(), nil
+cornered:decide(pinnedObs(40), function(v) corneredStep = v end, 0)
+eq(corneredStep.action, 'attack')
+assert(corneredStep.creatureId == 11 or corneredStep.creatureId == 12)
+eq(A.validate(corneredStep, pinnedObs(40)).action, 'attack')
+
+-- With a genuine way out, take it, and do not step back where it came from.
+local escaping = pinnedBrain()
+local openObs = pinnedObs(40)
+openObs.tiles['100:199:7'] = { position = { x = 100, y = 199, z = 7 },
+                               walkable = true, things = {} }
+local escapeStep
+escaping:decide(openObs, function(v) escapeStep = v end, 0)
+eq(escapeStep.action, 'move')
+eq(escapeStep.direction, 0)              -- north, away from both rats
+eq(escaping.retreatFrom, '100:200:7')
+
+-- The dead zone: hurt but above the retreat threshold, with a rat adjacent.
+-- It used to neither fight nor flee and simply absorbed the damage.
+local hurt, hurtStep = pinnedBrain(), nil
+hurt:decide(pinnedObs(100), function(v) hurtStep = v end, 0)  -- 62% of 160
+eq(hurtStep.action, 'attack')
+-- Healthy and unthreatened, nothing about the above changes ordinary play.
+local healthyPinned = pinnedBrain()
+local calm = pinnedObs(160)
+calm.creatures, calm.creatureList = {}, {}
+local calmStep
+healthyPinned:decide(calm, function(v) calmStep = v end, 0)
+eq(calmStep.action, 'move')
+
+-- --- routes are walked adjacencies, not a map ------------------------------
+local routed = M.new(identityB)
+eq(M.bucketCentre('100:200:7'), 102)
+eq(select(2, M.bucketCentre('100:200:7')), 202)
+eq(M.parseBucketKey('bad'), nil)
+eq(M.bucketCentre('bad'), nil)
+-- A > B > C, walked in that order. Asking to get from A to C names B.
+routed:remember('routes', 'A>B', { from = 'A', to = 'B', steps = 1 }, 'o-1', 10)
+routed:remember('routes', 'B>C', { from = 'B', to = 'C', steps = 1 }, 'o-2', 20)
+eq(routed:routeTo('A', 'C'), 'B')
+eq(routed:routeTo('A', 'B'), 'B')
+eq(routed:routeTo('A', 'A'), nil)
+-- Somewhere it never walked to is not reachable by recollection.
+eq(routed:routeTo('A', 'Z'), nil)
+eq(routed:routeTo('Q', 'C'), nil)
+-- The graph is directed: it only remembers the way it actually went.
+eq(routed:routeTo('C', 'A'), nil)
+routed:remember('routes', 'C>B', { from = 'C', to = 'B', steps = 1 }, 'o-3', 30)
+routed:remember('routes', 'B>A', { from = 'B', to = 'A', steps = 1 }, 'o-4', 40)
+eq(routed:routeTo('C', 'A'), 'B')
+
+-- --- remembered targets still require current visibility -------------------
+-- The whole point of the milestone. A creature the agent remembers seeing is
+-- not a creature it may attack.
+local rememberedObs = validObservation()
+rememberedObs.creatures, rememberedObs.creatureList = {}, {}   -- nothing visible now
+local recalled = store:recall('creature_sightings')[1]
+assert(recalled, 'expected a remembered sighting')
+eq(recalled.name, 'Rat')
+-- The id 4242 was visible in session A and is in no memory record; even handed
+-- to the validator directly it is refused against the current observation.
+eq(select(2, A.validate({ action = 'attack', creatureId = 4242 }, rememberedObs)),
+   'creature_not_visible')
+eq(select(2, A.validate({ action = 'follow', creatureId = 4242 }, rememberedObs)),
+   'creature_not_visible')
+-- Standing on the remembered tile changes nothing: visibility is the authority.
+rememberedObs.player.position = { x = recalled.x, y = recalled.y, z = recalled.z }
+eq(select(2, A.validate({ action = 'attack', creatureId = 4242 }, rememberedObs)),
+   'creature_not_visible')
+-- A remembered item is likewise not a usable item.
+eq(select(2, A.validate({ action = 'use', item = 'c:0:0' }, rememberedObs)),
+   'item_not_visible')
+-- And a remembered place is not a walkable tile.
+local blocked = validObservation()
+blocked.tiles = {}
+eq(select(2, A.validate({ action = 'move', direction = 1 }, blocked)),
+   'tile_not_visible_walkable')
+
+-- --- memory guides navigation, observation authorises each step ------------
+local navMemory = M.new(identityB)
+navMemory:remember('places', 'goal', { walkable = 9, sightings = 20, visits = 3,
+                                       x = 130, y = 200, z = 7 }, 'o-1', 500)
+navMemory.wallClock = 1000
+local navBrain = A.mockBrain({ crossSessionMemory = false, memory = navMemory })
+navBrain.greeted, navBrain.inventoryTried = true, true
+navBrain.inventoryUsed, navBrain.bagReopened = true, true
+local navObs = validObservation()
+navObs.creatures, navObs.creatureList = {}, {}
+navObs.player.position = { x = 100, y = 200, z = 7 }
+-- East moves toward the remembered place; west moves away. Both are visible.
+navObs.tiles = {
+  ['101:200:7'] = { position = { x = 101, y = 200, z = 7 }, walkable = true, things = {} },
+  ['99:200:7']  = { position = { x = 99,  y = 200, z = 7 }, walkable = true, things = {} },
+}
+local navStep
+navBrain:decide(navObs, function(v) navStep = v end, 0)
+eq(navStep.action, 'move')
+eq(navStep.direction, 1)                  -- east, toward the recollection
+eq(navBrain.navigatingTo, 'goal')
+eq(A.validate(navStep, navObs).action, 'move')
+-- Take away the tile that leads there and the agent does not walk through a
+-- wall on the strength of a memory: it falls back to ordinary exploration.
+navObs.tiles['101:200:7'] = nil
+navBrain:decide(navObs, function(v) navStep = v end, 3000)
+eq(navStep.direction, 3)                  -- the only legal step
+eq(navBrain.navigatingTo, nil)
+-- With no legal step at all it proposes nothing rather than inventing one.
+navObs.tiles = {}
+navStep = 'unset'
+navBrain:decide(navObs, function(v) navStep = v end, 6000)
+eq(navStep, nil)
+-- Once standing in the remembered place there is nothing left to navigate to.
+navObs.tiles = { ['131:200:7'] = { position = { x = 131, y = 200, z = 7 },
+                                   walkable = true, things = {} } }
+navObs.player.position = { x = 130, y = 200, z = 7 }
+navBrain:decide(navObs, function(v) navStep = v end, 9000)
+eq(navBrain.navigatingTo, nil)
+
+-- --- a brain with no memory behaves exactly as certified in BRIDGE-001 ------
+local blindBrain = A.mockBrain({ crossSessionMemory = false })
+eq(blindBrain.memory, nil)
+local blindObs = validObservation()
+blindObs.creatures, blindObs.creatureList = {}, {}
+blindBrain.greeted, blindBrain.inventoryTried = true, true
+blindBrain.inventoryUsed, blindBrain.bagReopened = true, true
+local blindStep
+blindBrain:decide(blindObs, function(v) blindStep = v end, 0)
+eq(blindStep.action, 'move')
+
+-- --- deleting memory does not touch authoritative state --------------------
+-- Forgetting is only forgetting: the observation and every validator verdict
+-- computed from it are identical before and after.
+local beforeObs = S.encode(S.projectObservation(navObs))
+local verdicts = {}
+local probes = {
+  { action = 'move', direction = 1 }, { action = 'move', direction = 3 },
+  { action = 'attack', creatureId = 4242 }, { action = 'use', item = 'c:0:0' },
+  { action = 'say', text = 'hello' },
+}
+for i, probe in ipairs(probes) do
+  local okIntent, why = A.validate(probe, navObs)
+  verdicts[i] = okIntent and 'ok' or why
+end
+navMemory.entries = {}
+for _, name in ipairs(M.categoryNames()) do navMemory.entries[name] = {} end
+eq(navMemory:total(), 0)
+eq(S.encode(S.projectObservation(navObs)), beforeObs)
+for i, probe in ipairs(probes) do
+  local okIntent, why = A.validate(probe, navObs)
+  eq(okIntent and 'ok' or why, verdicts[i])
+end
+-- And the observation schema still refuses to carry memory into the world view.
+local leaky = validObservation()
+leaky.memory = { places = {} }
+eq(select(2, S.checkObservation(leaky)), 'schema_forbidden_field:memory')
+
+print('REAL33D_AGENT_MEMORY persistence, provenance, isolation and fair-play tests PASS')

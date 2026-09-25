@@ -6,6 +6,9 @@ local function isInteger(n)
   return type(n) == 'number' and n == math.floor(n)
 end
 
+-- north, east, south, west: the four directions `move` accepts.
+local DIRECTION_DELTA = { [0] = { 0, -1 }, [1] = { 1, 0 }, [2] = { 0, 1 }, [3] = { -1, 0 } }
+
 function AgentCore.itemKey(place, a, b, c, d)
   if place == 'inventory' then return 'i:' .. tostring(a) end
   if place == 'container' then return 'c:' .. tostring(a) .. ':' .. tostring(b) end
@@ -24,8 +27,7 @@ function AgentCore.validate(intent, observation)
       return nil, 'direction'
     end
     local p = observation.player.position
-    local delta = { [0] = { 0, -1 }, [1] = { 1, 0 }, [2] = { 0, 1 }, [3] = { -1, 0 } }
-    local d = delta[intent.direction]
+    local d = DIRECTION_DELTA[intent.direction]
     local key = (p.x + d[1]) .. ':' .. (p.y + d[2]) .. ':' .. p.z
     local tile = observation.tiles[key]
     if not tile or not tile.walkable then return nil, 'tile_not_visible_walkable' end
@@ -186,6 +188,10 @@ function AgentCore.mockBrain(options)
                  followedOnce = false, triedPickups = {}, pickupStage = nil,
                  proveCancel = options and options.proveCancel == true or false,
                  cancelledOnce = false,
+                 -- AgentMemory store, or nil. Held apart from the observation on
+                 -- purpose: it informs planning and is never a source of truth.
+                 memory = options and options.memory or nil,
+                 memoryMaxAge = options and options.memoryMaxAge or 7 * 24 * 3600,
                  bagReopened = false, bagId = nil, steps = 0,
                  targetAt = nil, lastSeenAt = nil, selectedTarget = nil, phase = nil,
                  targetPosition = nil, pendingLoot = false, lootStage = nil,
@@ -201,6 +207,21 @@ function AgentCore.mockBrain(options)
       self.lastSeenAt = now
       self.targetPosition = obs.creatures[self.selectedTarget].position
     end
+
+    -- Threat picture, computed once and used by every decision below.
+    local delta = DIRECTION_DELTA
+    local function nearestThreat(x, y)
+      local closest, distance
+      for _, creature in ipairs(obs.creatureList) do
+        if creature.monster and creature.hpPercent and creature.hpPercent > 0 then
+          local d = math.abs(creature.position.x - x) + math.abs(creature.position.y - y)
+          if not distance or d < distance then closest, distance = creature, d end
+        end
+      end
+      return closest, distance
+    end
+    local closest, distance = nearestThreat(obs.player.position.x, obs.player.position.y)
+    local adjacentThreat = closest ~= nil and distance <= 1
     -- proveCancel makes the bounded scenario release a target once, on purpose,
     -- after chase is already on. Rats die faster than either organic cancel
     -- condition can trigger, so without it the run would never exercise the
@@ -208,7 +229,12 @@ function AgentCore.mockBrain(options)
     -- most once per session and the agent is free to re-engage afterwards.
     local scenarioCancel = self.proveCancel and not self.cancelledOnce
       and obs.attackId == self.selectedTarget and obs.combat.chase == 1
-    if obs.attackId and (hp <= maxHp * 0.65 or scenarioCancel
+    -- Disengaging from something standing next to you does not stop it hitting
+    -- you, it only stops you hitting back. So the low-health cancel applies
+    -- when there is distance to break; toe to toe, the agent fights. Without
+    -- this the cancel raced the cornered-fight-back rule below and produced a
+    -- live attack/cancel loop every three seconds.
+    if obs.attackId and ((hp <= maxHp * 0.65 and not adjacentThreat) or scenarioCancel
        or (self.lastSeenAt and now - self.lastSeenAt > 15000)) then
       if scenarioCancel then self.cancelledOnce = true end
       self.phase = 'done'
@@ -270,34 +296,57 @@ function AgentCore.mockBrain(options)
         end
       end
     end
+    -- Threat response. Retreat is scored against *every* visible monster, not
+    -- the nearest one: with two of them on opposite sides, backing away from
+    -- whichever happens to be closest walks straight into the other, and the
+    -- next decision reverses it. That oscillation was observed live, flipping
+    -- between two tiles while two rats chewed the character down to 6/160.
     if hp <= maxHp * 0.5 then
       local p = obs.player.position
-      local closest, distance
-      for _, creature in ipairs(obs.creatureList) do
-        if creature.monster and creature.hpPercent and creature.hpPercent > 0 then
-          local d = math.abs(creature.position.x - p.x) + math.abs(creature.position.y - p.y)
-          if not distance or d < distance then closest, distance = creature, d end
-        end
-      end
       if closest and distance <= 4 then
-        local delta = { [0] = { 0, -1 }, [1] = { 1, 0 },
-                        [2] = { 0, 1 }, [3] = { -1, 0 } }
-        local escape, escapeDistance
+        local escape, escapeScore
         for direction = 0, 3 do
           local valid = AgentCore.validate({ action = 'move', direction = direction }, obs)
           if valid then
             local d = delta[direction]
-            local candidate = math.abs(closest.position.x - p.x - d[1])
-                            + math.abs(closest.position.y - p.y - d[2])
-            if candidate > distance and (not escapeDistance or candidate > escapeDistance) then
-              escape, escapeDistance = valid, candidate
+            local nx, ny = p.x + d[1], p.y + d[2]
+            local _, candidate = nearestThreat(nx, ny)
+            -- Never step straight back onto the tile just left; that is the
+            -- other half of the oscillation.
+            local back = self.retreatFrom == (nx .. ':' .. ny .. ':' .. p.z)
+            local score = (candidate or 0) - (back and 1 or 0)
+            if not escapeScore or score > escapeScore then
+              escape, escapeScore = valid, score
             end
           end
         end
-        callback(escape)
-      else
-        callback(nil)
+        if escape and escapeScore > distance then
+          self.retreatFrom = p.x .. ':' .. p.y .. ':' .. p.z
+          callback(escape)
+          return
+        end
+        -- Cornered: no legal step gets further from everything. Standing still
+        -- is certain death, so fight the nearest one instead.
+        if obs.attackId ~= closest.id then
+          self.selectedTarget, self.targetAt, self.lastSeenAt = closest.id, now, now
+          self.targetPosition = closest.position
+          self.phase = 'attack'
+          callback({ action = 'attack', creatureId = closest.id })
+          return
+        end
       end
+      callback(nil)
+      return
+    end
+    -- Between the retreat threshold and the engage threshold the agent used to
+    -- neither fight nor flee: it wandered while being hit. If something is
+    -- already on top of it and nothing is targeted, hit back.
+    if hp <= maxHp * 0.65 and not obs.attackId and not self.selectedTarget
+       and closest and distance <= 1 then
+      self.selectedTarget, self.targetAt, self.lastSeenAt = closest.id, now, now
+      self.targetPosition = closest.position
+      self.phase = 'attack'
+      callback({ action = 'attack', creatureId = closest.id })
       return
     end
     if not self.greeted then
@@ -513,7 +562,52 @@ function AgentCore.mockBrain(options)
     local p = obs.player.position
     local here = p.x .. ':' .. p.y .. ':' .. p.z
     self.visits[here] = (self.visits[here] or 0) + 1
-    local delta = { [0] = { 0, -1 }, [1] = { 1, 0 }, [2] = { 0, 1 }, [3] = { -1, 0 } }
+
+    -- Memory-guided travel. The recollection supplies a direction to prefer and
+    -- nothing else: each candidate step is still put through the ordinary
+    -- validator against the current observation, so the agent can only walk
+    -- onto tiles it can see right now. A remembered place it can no longer
+    -- reach simply produces no legal improving move and it explores instead.
+    if self.memory then
+      local goal = self.memory:huntingGround(p.x, p.y, p.z,
+                                             self.memory.wallClock or 0, self.memoryMaxAge,
+                                             hp <= maxHp * 0.7)
+      if goal then
+        -- Head for the next place on a route this agent actually walked, and
+        -- only fall back to aiming straight at the goal when it remembers no
+        -- way through. A straight line walks into walls; a remembered route
+        -- does not, because the agent has been along it.
+        local hereKey = AgentMemory.bucketKey(p.x, p.y, p.z)
+        local hop = self.memory:routeTo(hereKey, goal.key)
+        local aimX, aimY = AgentMemory.bucketCentre(goal.key)
+        if hop then
+          local hx, hy = AgentMemory.bucketCentre(hop)
+          if hx then aimX, aimY = hx, hy end
+        end
+        aimX, aimY = aimX or goal.x, aimY or goal.y
+        local current = math.abs(aimX - p.x) + math.abs(aimY - p.y)
+        local step, stepDistance
+        for direction = 0, 3 do
+          local valid = AgentCore.validate({ action = 'move', direction = direction }, obs)
+          if valid then
+            local d = delta[direction]
+            local distance = math.abs(aimX - (p.x + d[1])) + math.abs(aimY - (p.y + d[2]))
+            if not stepDistance or distance < stepDistance then
+              step, stepDistance = valid, distance
+            end
+          end
+        end
+        if step and stepDistance < current then
+          self.heading, self.steps = step.direction, self.steps + 1
+          self.navigatingTo = goal.key
+          self.navigatingVia = hop
+          callback(step)
+          return
+        end
+      end
+    end
+    self.navigatingTo, self.navigatingVia = nil, nil
+
     local best, score
     for j = 0, 3 do
       local direction = (self.heading + j) % 4

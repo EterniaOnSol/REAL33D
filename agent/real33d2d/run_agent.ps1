@@ -9,7 +9,9 @@ param(
     [ValidateSet('bridge', 'legacy')][string]$Mode = 'bridge',
     [ValidateSet('mock', 'ollama')][string]$Brain = 'mock',
     [string]$Character,
-    [string]$Trace
+    [string]$Trace,
+    [switch]$Memory,
+    [string]$MemoryDir
 )
 
 $ErrorActionPreference = 'Stop'
@@ -71,6 +73,17 @@ try {
         if (-not $Trace) { $Trace = $env:R33D_AGENT_TRACE }
         if (-not $Trace) { $Trace = Join-Path $clientRoot 'real33d_agent_trace.jsonl' }
         $env:R33D_AGENT_TRACE = $Trace
+        if ($Memory) {
+            # Persistent memory is opt-in on top of bridge mode. Without the
+            # switch no memory file is read or written at all.
+            if (-not $MemoryDir) { $MemoryDir = $env:R33D_AGENT_MEMORY_DIR }
+            if (-not $MemoryDir) { $MemoryDir = Join-Path $clientRoot 'agent_memory' }
+            if (-not (Test-Path $MemoryDir)) {
+                New-Item -ItemType Directory -Path $MemoryDir -Force | Out-Null
+            }
+            $env:R33D_AGENT_MEMORY = '1'
+            $env:R33D_AGENT_MEMORY_DIR = $MemoryDir
+        }
     } else {
         $env:R33D_AGENT = '1'
         $env:R33D_AGENT_BRAIN = $Brain
@@ -78,11 +91,15 @@ try {
     Remove-Item Env:R33D_ACCEPTANCE,Env:R33D_MOVEONLY,Env:R33D_TAPTEST,Env:R33D_MANUALTAP -ErrorAction SilentlyContinue
     $process = Start-Process -FilePath $exe -WorkingDirectory $clientRoot -PassThru
     Write-Output "REAL33D2D agent started: mode=$Mode brain=$Brain pid=$($process.Id)"
-    if ($Mode -eq 'bridge') { Write-Output "trace=$Trace" }
+    if ($Mode -eq 'bridge') {
+        Write-Output "trace=$Trace"
+        if ($Memory) { Write-Output "memory=$MemoryDir" }
+    }
 }
 finally {
     $account = $null
     $password = $null
     Remove-Item Env:R33D_ACC,Env:R33D_PW,Env:R33D_AGENT,Env:R33D_AGENT_MODE,`
-        Env:R33D_AGENT_AUTOLOGIN,Env:R33D_AGENT_BRAIN -ErrorAction SilentlyContinue
+        Env:R33D_AGENT_AUTOLOGIN,Env:R33D_AGENT_BRAIN,Env:R33D_AGENT_MEMORY `
+        -ErrorAction SilentlyContinue
 }

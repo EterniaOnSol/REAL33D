@@ -83,6 +83,111 @@ function AgentSchema.encode(value, depth)
   return '{' .. table.concat(parts, ',') .. '}'
 end
 
+-- Minimal reader for what the encoder above writes. It exists so a memory file
+-- can be loaded back without pulling in a JSON library, and it is deliberately
+-- strict: anything it does not understand is an error rather than a guess,
+-- because the caller is reading a file that may have been edited by hand.
+-- Returns value, or nil plus a reason.
+local function skipSpace(text, index)
+  local _, stop = text:find('^[ \t\r\n]*', index)
+  return stop + 1
+end
+
+local DECODE_ESCAPES = { ['"'] = '"', ['\\'] = '\\', ['/'] = '/', b = '\b',
+                         f = '\f', n = '\n', r = '\r', t = '\t' }
+
+local decodeValue
+
+local function decodeString(text, index)
+  index = index + 1 -- opening quote
+  local parts = {}
+  while true do
+    local char = text:sub(index, index)
+    if char == '' then return nil, nil, 'unterminated_string' end
+    if char == '"' then return table.concat(parts), index + 1 end
+    if char == '\\' then
+      local code = text:sub(index + 1, index + 1)
+      if code == 'u' then
+        local hex = text:sub(index + 2, index + 5)
+        if not hex:match('^%x%x%x%x$') then return nil, nil, 'bad_unicode_escape' end
+        local point = tonumber(hex, 16)
+        -- The encoder only ever emits \u for control characters.
+        parts[#parts + 1] = point < 128 and string.char(point) or '?'
+        index = index + 6
+      else
+        local mapped = DECODE_ESCAPES[code]
+        if not mapped then return nil, nil, 'bad_escape' end
+        parts[#parts + 1] = mapped
+        index = index + 2
+      end
+    else
+      parts[#parts + 1] = char
+      index = index + 1
+    end
+  end
+end
+
+decodeValue = function(text, index, depth)
+  if depth > 32 then return nil, nil, 'depth_limit' end
+  index = skipSpace(text, index)
+  local char = text:sub(index, index)
+  if char == '' then return nil, nil, 'unexpected_end' end
+  if char == '"' then return decodeString(text, index) end
+  if char == '{' or char == '[' then
+    local isObject = char == '{'
+    local result = isObject and {} or AgentSchema.array({})
+    index = skipSpace(text, index + 1)
+    if text:sub(index, index) == (isObject and '}' or ']') then
+      return result, index + 1
+    end
+    while true do
+      local key
+      if isObject then
+        index = skipSpace(text, index)
+        if text:sub(index, index) ~= '"' then return nil, nil, 'expected_key' end
+        local reason
+        key, index, reason = decodeString(text, index)
+        if not key then return nil, nil, reason end
+        index = skipSpace(text, index)
+        if text:sub(index, index) ~= ':' then return nil, nil, 'expected_colon' end
+        index = index + 1
+      end
+      local value, reason
+      value, index, reason = decodeValue(text, index, depth + 1)
+      if index == nil then return nil, nil, reason end
+      if isObject then result[key] = value else result[#result + 1] = value end
+      index = skipSpace(text, index)
+      local next = text:sub(index, index)
+      if next == ',' then
+        index = index + 1
+      elseif next == (isObject and '}' or ']') then
+        return result, index + 1
+      else
+        return nil, nil, 'expected_separator'
+      end
+    end
+  end
+  local literal = text:sub(index, index + 4)
+  if literal:sub(1, 4) == 'true' then return true, index + 4 end
+  if literal:sub(1, 5) == 'false' then return false, index + 5 end
+  if literal:sub(1, 4) == 'null' then return nil, index + 4 end
+  local number = text:match('^%-?%d+%.?%d*[eE]?[-+]?%d*', index)
+  if number and #number > 0 then
+    local value = tonumber(number)
+    if value then return value, index + #number end
+  end
+  return nil, nil, 'unexpected_token'
+end
+
+function AgentSchema.decode(text)
+  if type(text) ~= 'string' then return nil, 'not_a_string' end
+  local value, index, reason = decodeValue(text, 1, 0)
+  if index == nil then return nil, reason or 'parse_error' end
+  index = skipSpace(text, index)
+  if index <= #text then return nil, 'trailing_content' end
+  return value, nil
+end
+
 -- ---------------------------------------------------------------------------
 -- Primitive checks
 -- ---------------------------------------------------------------------------
