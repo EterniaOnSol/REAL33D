@@ -1,7 +1,7 @@
 # Project Status
 
 Current phase: `PHASE 2 - GAMEPLAY CLIENT PROGRAMMING` (`IN_PROGRESS`; the first 3D representation is live, a stock 2D client now completes the ordinary 7.72 flow, and V08 visual review is on operator-directed standby)
-Current milestone: UNREAL-COMBAT-FOLLOW-001 (authoritative 7.72 attack, follow, cancel and tactics in REAL33D) — `CERTIFIED_PASS`.
+Current milestone: UNREAL-ACTION-BARS-001 (three live Unreal action bars backed by existing 7.72 commands) — `IN_PROGRESS`.
 Next milestone: REAL33D-2D-BOOTSTRAP-001 (NOT_STARTED), or container mini-window behaviour (see the operator request below).
 Last certified: UNREAL-COMBAT-FOLLOW-001 CERTIFIED_PASS; UNREAL-INVENTORY-CONTAINERS-001 CERTIFIED_PASS; UNREAL-WIDE-WORLD-001 CERTIFIED_PASS at `3fd5d1d`; DUAL_CLIENT_LIVE_CAPTURE PASS at `0f9bd505`.
 Branch: `main`
@@ -217,3 +217,93 @@ the same handler rejects it. No damage, cooldown, HP, client-side follow
 movement, protocol extension or fake Slate target state was added. V08,
 WideWorld, REAL33D2D, shops, action bars, automap, reconnect handling and opcode
 50 were not changed.
+
+## Action bars - 2026-09-23
+
+`UNREAL-ACTION-BARS-001 = IN_PROGRESS`. All three existing bars now accept
+inventory/container drag bindings, local text bindings, mode changes and
+clearing. Bindings persist in the local `Saved/ActionBars.json`; only TypeId and
+text are saved, never a stale position or fabricated item count. On activation,
+ClientCore resolves a current body/open-container instance from WorldState just
+before it builds the existing use command. The HUD shades missing items and
+sends nothing. Use-with enters the already implemented targeting mode; text
+uses the existing TALK Say path. There is no spell list, cooldown, mana gate or
+claim that the server accepted spell words.
+
+Native ClientCore tests, including carried-item resolution after movement and
+container close, pass in all eight suites. The Unreal editor build passes.
+Live work is ongoing: drag/bind, local persistence file, missing-item no-send,
+TALK request with server rejection, and movement have been observed; remaining
+acceptance is tracked in `evidence/clientcore/UNREAL-ACTION-BARS-001.md`.
+
+## Coin stack artwork - 2026-09-23
+
+`REAL33D-COIN-STACK-VISUAL = IMPLEMENTED_UNVERIFIED`. The operator reported
+that a 2- or 3-coin stack kept the one-coin picture despite its correct server
+count. `REAL33D2D/src/client/item.cpp::Item::updatePatterns` selects one of
+eight 4x2 stackable pictures at counts 1, 2, 3, 4, 5, 10, 25 and 50; the
+local 7.72 `Tibia.dat` entry 3031 has exactly those eight sprite IDs. The UI
+sprite extractor now writes all eight for stackable 4x2 types, and the
+inventory/container slot chooses by the server-supplied amount. No gameplay,
+wire format or reference source changed. Extractor comparison PASS (4,990
+items; 392 stack patterns), generated 343 additional local ignored PNGs, and
+`REAL33DEditor Win64 Development` build PASS. Live visual acceptance is still
+pending; see `evidence/clientcore/REAL33D-COIN-STACK-VISUAL.md`.
+
+## Chat input correction - 2026-09-23
+
+`REAL33D-CHAT-SEND-FIX = IMPLEMENTED_UNVERIFIED`. A live operator report
+found that the chat field accepted text but Enter/Send did not transmit it,
+while action-bar text TALK worked. The session log recorded `not connected`
+inside `SReal33DChatPanel::Send` even as movement and vitals continued to
+receive Fusion32 updates. `SReal33DHUD::MakeBottomPanel` had omitted the
+`Bridge` argument when constructing the embedded chat panel. That argument is
+now supplied. The TALK protocol and chat field behavior were not changed.
+The `REAL33DEditor Win64 Development` rebuild passed after the pre-fix game
+instance closed. Live chat retest remains pending.
+
+## REAL33D 2D autonomous agent - 2026-09-24
+
+`REAL33D-AGENT-MVP-001 = PASS` for one autonomous 2D mock player. A new opt-in Lua gateway lives over
+REAL33D2D's existing OTClient parser/game model and normal `g_game` actions.
+The mock brain, observation whitelist, action validator, rolling action budget,
+session logger and local Ollama Brain adapter are implemented. LuaJIT policy
+and viewport tests PASS. The local QA A character's GM rights were removed
+offline at the operator's request, then verified as `NONE`. Live Fusion32 runs
+proved autonomous login, chat echo, movement, normal Attack/chase with visible
+deer/rabbit HP loss, corpse opening, item transfer to A's bag, and subsequent
+consumption of that looted item through `g_game.use`. The monitored A run kept
+155/155 HP for multiple minutes. Actual Ollama inference, separate live Follow
+and sustained low-HP survival remain `IMPLEMENTED_UNVERIFIED`. See
+`evidence/agent/REAL33D-AGENT-MVP-001.md`.
+
+## REAL33D 2D agent bridge - 2026-09-25
+
+`REAL33D-AGENT-BRIDGE-001 = PASS` on branch `milestone/real33d-agent-bridge-001`,
+not merged to `main`. The MVP gateway was reused and formalised, not restarted.
+It now carries explicit `AgentObservation` and `AgentIntent` schemas, a closed
+14-field observation whitelist and closed 11-action intent set, three-stage
+validation (`schema`, `state` against freshly re-read client state, `budget`),
+`session_id`/`correlation_id`/`observation_id`/`action_id` on every cycle, and a
+JSONL observation/intent/validation/dispatch/result trace whose result events
+join back to the originating action and observation. The canonical opt-in is
+`R33D_AGENT_MODE=1`, with `R33D_AGENT=1` kept as a compatibility alias; with
+neither set the module does nothing at all, which the test suite asserts.
+
+Bridge certification is mock-only by construction: a requested LLM provider is
+refused and forced back to `mock`, and the Ollama adapter is never constructed
+on the bridge path. No cross-session memory participates in a bridge decision.
+
+The live run (session `20260925T013642Z`, ordinary-rights character) proved
+login, observation, movement, chat, follow, attack, cancel, inventory and
+container observation, and container open/use. All 17 dispatches produced a
+server-confirmed authoritative change; there were 0 incoming protocol errors and
+0 validation rejections out of 51.
+
+Auditing the inherited MVP found three real defects, each now covered by a
+regression test that fails against the old code: `isCovered(0)` left the agent
+blind indoors and underground, and `pendingLoot` both leaked on the loot success
+path and never expired while no bag was open, which silently disabled target
+selection for a whole session. Loot is now ranked by value rather than slot
+order. `cancel_follow` live and sustained low-HP survival remain
+`IMPLEMENTED_UNVERIFIED`. See `evidence/agent/REAL33D-AGENT-BRIDGE-001.md`.

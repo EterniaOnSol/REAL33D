@@ -1,87 +1,113 @@
 # HANDOFF
 
-Date/time: 2026-09-23, America/Guatemala
-Task: `UNREAL-COMBAT-FOLLOW-001`
-Agent: Codex
-Role: implementation completion and live certification
-Branch: `main`
-Starting commit: `0cbcaf771091b18cd5c92afbe07333dfda918473`
+Date/time: 2026-09-25 01:50 -06:00, America/Guatemala
+Task: `REAL33D-AGENT-BRIDGE-001`
+Agent / role: Claude, implementation and live QA
+Branch: `milestone/real33d-agent-bridge-001` (not merged to `main`)
+Starting commit: `bd15cc0a49d8182dc1cc3732b8487859f1662044`
 Ending commit: the commit containing this handoff
-Worktree: `C:\Users\dell\Desktop\fusion32`
+Worktrees: `C:\Users\dell\Desktop\fusion32` and separate
+`C:\Users\dell\Desktop\REAL33D2D` (at
+`aeef6aa939a764de3728c51a3022953dff97f375`)
 
 ## Objective and result
 
-Make REAL33D attack and follow live through Fusion32's existing 7.72 protocol,
-with ClientCore/WorldState as the single client-side state owner and Unreal as
-input/presentation only. Result: `CERTIFIED_PASS`.
+`REAL33D-AGENT-BRIDGE-001 = PASS`. The opt-in 2D agent gateway now has explicit
+`AgentObservation` and `AgentIntent` schemas, strict schema-driven validation
+before dispatch, correlation identifiers on every cycle and a JSONL
+observation/intent/validation/dispatch/result trace. A deterministic mock brain
+completed the bounded scenario live against authoritative Fusion32 under
+ordinary player rights. No ClientCore, WorldState, Fusion32 gameplay, protocol
+extension or Unreal work was involved.
 
-Attack, target replacement, cancel, follow, follow replacement/cancel, server
-rejection, target removal, session reset, shared Battle/world feedback and all
-supported tactics are wired and exercised. Final protocol counters are zero.
+## Startup and prior work
 
-## Authority inspected
+The predecessor `REAL33D-AGENT-MVP-001` existed only as uncommitted working-tree
+files. It was audited first and reused, not restarted: `agent/real33d2d/`,
+`tests/real33d_agent_test.lua` and `evidence/agent/` were treated as the
+baseline. The milestone branch was cut from `bd15cc0` carrying that dirty state,
+and the MVP handoff was archived as
+`handoffs/archive/2026-09-24_REAL33D-AGENT-MVP-001.md`.
 
-- `reference/game/src/connections.hh`: client 160/161/162/190, server 163.
-- `reference/game/src/receiving.cc`: `CSetTactics`, `CAttack`, `CCancel`.
-- `reference/game/src/crcombat.cc`: `TCombat::SetAttackDest`,
-  `CanToDoAttack`, `StopAttack`.
-- `reference/game/src/sending.cc`: `SendClearTarget`.
-- Existing ClientCore movement/update and WorldState/WorldView paths.
-- REAL33D bridge, Battle List, creature/tile actors, HUD, inventory stance
-  controls and player-controller input.
+## Changes and files
 
-## Changes
+- `agent/real33d2d/modules/real33d_agent/agent_schema.lua` (new): both contracts,
+  strict checks, deterministic sorted-key JSON, published projection grouped
+  into `self`/`visible`/`owned`/`social`.
+- `agent/real33d2d/modules/real33d_agent/agent_bridge.lua` (new): session,
+  correlation, observation and action ids; JSONL events; result correlation
+  against a pre-dispatch snapshot.
+- `agent_runtime.lua`: `R33D_AGENT_MODE=1` canonical opt-in with `R33D_AGENT=1`
+  as compatibility alias; three-stage gate; trace sink; bridge mode forces the
+  mock brain; the covered-tile fix.
+- `agent_core.lua`: `crossSessionMemory`, `followFirst`, `proveCancel` options;
+  two `pendingLoot` fixes; container acquisition when nothing carried holds
+  items; loot ranked by value; Ollama adapter preserved but unreachable in
+  bridge mode.
+- `agent.local.env.example` (new) plus rewritten `run_agent.ps1`/`run_agent.sh`:
+  no hardcoded deployment path, character or credential anywhere tracked.
+- `tests/real33d_agent_test.lua`: MVP section preserved; bridge section added for
+  schema acceptance, malformed observation/intent rejection, invisible and stale
+  target rejection, invalid item/container references, budget and per-action
+  cooldowns, ids/correlation, JSONL serialization, opt-in-off-by-default,
+  cross-session memory, and one regression test per defect below.
+- `evidence/agent/REAL33D-AGENT-BRIDGE-001.md` and
+  `evidence/agent/bridge/REAL33D-AGENT-BRIDGE-001-certification.jsonl`.
+- `.gitignore`, `PROJECT_STATUS.md`, `PARITY_MATRIX.md`, this handoff and its
+  archive. Unrelated pre-existing changes were left untouched.
 
-- Added byte-exact builders for attack, follow, cancel and set-tactics, plus
-  deterministic tests.
-- Added `CombatState` to WorldState, server-clear application, semantic
-  `CombatChanged` diff/reset, and bridge requests that record state only after
-  a successful send.
-- Battle List attack and explicit Follow/Stop use that shared state. Shift-click
-  was removed because no authoritative classic-client source established it.
-- World right-click attacks creatures and uses world objects/corpses; camera
-  orbit retains its drag threshold. Tile hit testing preserves the exact
-  WorldState type and stack position.
-- Creature actors and Battle rows present attack/follow feedback from the same
-  state. Fight stance and stand/follow buttons send real opcode 160 fields.
-- Evidence counters/snapshot cover requests and server clears. No damage, HP,
-  cooldown, fake follow movement, protocol extension or independent Slate
-  target was added.
+## Defects found in the inherited MVP
 
-Files are limited to ClientCore combat state/builders/tests, the relevant
-REAL33D bridge/input/UI/actors, evidence and required project documentation.
-Excluded systems were not touched.
+Each has a regression test that fails against the old code.
+
+1. `tile:isCovered(0)` asks whether anything at all sits above a tile, which is
+   true everywhere indoors and underground. The agent observed zero tiles and
+   froze under any roof. Fixed to the player's own floor, which is both the
+   faithful question and a no-op filter for a same-floor scan.
+2. `pendingLoot` was cleared on every loot failure path but not on the success
+   path, so after the first loot that worked, target selection was dead.
+3. `pendingLoot` never expired while no bag was open, because the loot machinery
+   is gated on a carried container. This was the live symptom the operator saw:
+   the character stopped attacking and wandered for the rest of the session.
+
+Smaller: the one container-open attempt was spent on an observation taken before
+the inventory populated; loot took the first non-container item, so a live
+`dead rat` yielded a worm instead of the gold coins beside it.
 
 ## Tests and evidence
 
-- Native Windows ClientCore: C++17 and C++20 builds PASS; all eight suites PASS.
-- `REAL33DEditor Win64 Development`: `Result: Succeeded`.
-- `git diff --check`: PASS.
-- `tests/secret_check.sh`: required immediately before push.
-- Live: attack/follow states, switching/cancellation, `Target lost`, target
-  removal, right-click creature attack, real corpse open, tactics and unaffected
-  movement/inventory observed. The operator explicitly accepted Battle/follow,
-  fight stances and final right-click interaction.
-- Final snapshot: 246 frames, 496 commands, residual 0, unsupported 0,
-  anomalies 0; inventory known; open `dead rabbit` container.
+- `luajit tests/real33d_agent_test.lua`: both sections PASS.
+- `tests/secret_check.sh`: PASS.
+- Live session `20260925T013642Z`, character `Test Player B`, rights verified
+  empty read-only beforehand: 136 JSONL lines, 32 observations, 17 intents, 51
+  validations with 0 rejections, 17 dispatches, 17 results, every one
+  `authoritative_change=true`. 0 incoming protocol errors.
+- `scripts/server/start_wsl.sh` and `stop_wsl.sh` bracketed the runs; services
+  were stopped cleanly afterwards.
 
-Full source trace, repeat evidence and exact log excerpts:
-`evidence/clientcore/UNREAL-COMBAT-FOLLOW-001.md`.
+## Local QA fixture operations
 
-## Remaining unverified / risks
+With the server stopped, at the operator's explicit request, each writing a
+timestamped backup: a backpack was restored to slot 3 of both characters after
+they dropped theirs on death; `Test Player B` was placed at a known hunting
+ground for the certified run and restored to full health and its start position
+afterwards. No Fusion32 source, rule or protocol was changed and none of this is
+readable by a Brain.
 
-- This is one operator on one machine; no independent live repetition.
-- Fusion32 intentionally sends no positive target acknowledgement. WorldState
-  therefore records the command after it reaches the wire and waits for server
-  clear/rejection, matching the authoritative implementation.
-- Corpse type/container behavior is correct, but the 3D body remains the
-  existing generic placeholder because no approved corpse asset exists. V08
-  was explicitly out of scope and untouched.
+## Limits and next work
 
-## Exact next step
+`cancel_follow` live and sustained low-HP survival remain
+`IMPLEMENTED_UNVERIFIED`. Ollama, any other LLM, persistent memory, multiple
+agents and autonomous levelling were explicitly out of scope.
 
-Select a new bounded milestone from authoritative Fusion32 source. The current
-candidate list is trade, a live floor transition, REAL33D-2D-BOOTSTRAP-001, or
-the already documented container mini-window presentation request. Do not infer
-authorization to change V08, WideWorld, REAL33D2D, shops, action bars, automap,
-reconnect handling, opcode 50 or protocol extensions.
+The mock brain is a deterministic finite-state policy, not a competent player.
+It has no map, no route memory and no supply management, so it explores by local
+random walk and loses to sustained damage. The operator asked about teaching an
+agent to actually play: the Brain contract is provider-independent, so a richer
+policy or an LLM substitutes without touching the observation boundary, the
+validator or the trace. The blocking decision for that work is whether an agent
+may keep memory of what it has itself observed — its own map, where it died,
+where it found monsters — which this milestone forbids and which is the
+difference between experience and the omniscience fair play rules out.
+
+Do not merge to `main` until the operator certifies.

@@ -88,3 +88,15 @@ CMakeFiles/
 # retained step snapshots and the certified session report. Keep local reruns
 # without making the worktree dirty.
 /evidence/clientcore/unreal-inventory-containers/unreal_slice_evidence*.json
+
+# Raw local autonomous-agent sessions may contain account identifiers or chat.
+/evidence/agent/live/
+
+# Local agent deployment settings: client path, WSL distribution, QA character.
+# The template beside it stays tracked and carries no values.
+/agent/real33d2d/agent.local.env
+
+# Raw JSONL traces land wherever R33D_AGENT_TRACE points. A sanitized excerpt
+# is what gets committed as certification evidence.
+*.jsonl
+!/evidence/agent/bridge/*.jsonl
