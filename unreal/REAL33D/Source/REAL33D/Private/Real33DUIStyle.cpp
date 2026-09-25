@@ -7,7 +7,7 @@
 #include "Styling/SlateTypes.h"
 
 TSharedPtr<FSlateStyleSet> FReal33DUIStyle::Instance = nullptr;
-TMap<uint16, TSharedPtr<FSlateDynamicImageBrush>> FReal33DUIStyle::ItemBrushes;
+TMap<uint32, TSharedPtr<FSlateDynamicImageBrush>> FReal33DUIStyle::ItemBrushes;
 
 namespace
 {
@@ -85,24 +85,35 @@ void FReal33DUIStyle::Shutdown()
 	ItemBrushes.Reset();
 }
 
-const FSlateBrush* FReal33DUIStyle::ItemBrush(uint16 TypeId)
+const FSlateBrush* FReal33DUIStyle::ItemBrush(uint16 TypeId, uint8 Count)
 {
 	if (TypeId == 0 || !Instance.IsValid())
 	{
 		return nullptr;
 	}
-	if (const TSharedPtr<FSlateDynamicImageBrush>* Found = ItemBrushes.Find(TypeId))
+	// REAL33D2D item.cpp::Item::updatePatterns: the 4x2 stackable artwork
+	// changes at 1, 2, 3, 4, 5, 10, 25 and 50. Non-stackables have no files
+	// for these patterns and fall back to their one normal picture.
+	const uint8 Pattern = Count >= 50 ? 7 : Count >= 25 ? 6
+		: Count >= 10 ? 5 : Count >= 5 ? 4 : Count >= 1 ? Count - 1 : 0;
+	const uint32 Key = (static_cast<uint32>(TypeId) << 3) | Pattern;
+	if (const TSharedPtr<FSlateDynamicImageBrush>* Found = ItemBrushes.Find(Key))
 	{
 		return Found->Get();
 	}
 
-	const FString Path = Instance->RootToContentDir(
-		*FString::Printf(TEXT("Items/%u"), TypeId), TEXT(".png"));
+	FString Path = Instance->RootToContentDir(
+		*FString::Printf(TEXT("Items/%u_p%u"), TypeId, Pattern), TEXT(".png"));
+	if (Pattern == 0 || !FPaths::FileExists(Path))
+	{
+		Path = Instance->RootToContentDir(
+			*FString::Printf(TEXT("Items/%u"), TypeId), TEXT(".png"));
+	}
 	if (!FPaths::FileExists(Path))
 	{
 		// Remembered as absent so a missing picture is one file check per id
 		// per session rather than one per frame.
-		ItemBrushes.Add(TypeId, nullptr);
+		ItemBrushes.Add(Key, nullptr);
 		return nullptr;
 	}
 
@@ -110,7 +121,7 @@ const FSlateBrush* FReal33DUIStyle::ItemBrush(uint16 TypeId)
 	// and not read from the file: see extract_item_sprites.py.
 	TSharedPtr<FSlateDynamicImageBrush> Brush = MakeShareable(
 		new FSlateDynamicImageBrush(FName(*Path), FVector2D(SlotIconSize, SlotIconSize)));
-	ItemBrushes.Add(TypeId, Brush);
+	ItemBrushes.Add(Key, Brush);
 	return Brush.Get();
 }
 

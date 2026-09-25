@@ -4,45 +4,83 @@
 #include "Widgets/DeclarativeSyntaxSupport.h"
 #include "Widgets/SCompoundWidget.h"
 
-/**
- * An action bar, transcribed from `game_actionbar/otui/actionbar.otui`.
- *
- * The shell is complete: the 1px-bordered background strip, the 34x34 slots,
- * the paging arrows at each end, and the 36px column width the game interface
- * reserves for the vertical bars. That is what an action bar is, and it is
- * drawn here at the 2D's geometry.
- *
- * The slots are empty and the arrows are dead. An action button binds either a
- * spell or an object, and this client has neither: Fusion32 sends no spell
- * list, and the inventory commands that would name an object are decoded only
- * far enough to skip. There is also no cooldown, because nothing on the wire
- * carries one. Drawing a filled slot, a greyed cooldown sweep or an active
- * spell border would each be this client inventing a state the server never
- * described, so none of them is drawn.
- *
- * There is deliberately no object-use panel beside this one. An earlier
- * revision docked the `hotkeys_manager.otui` controls -- Select object, Use on
- * yourself, With crosshair and the rest -- into a side column. Those belong to
- * the 2D client's hotkey *configuration* dialog, not to a permanent HUD, and
- * REAL33D 3D uses objects the way Tibia does: an ordinary use through the
- * mouse, and a use-with that enters a temporary crosshair mode until the next
- * click picks a target. A panel of latching mode boxes is the wrong shape for
- * that, so it is gone rather than left sitting there waiting to be wired.
- */
-class SReal33DActionBar : public SCompoundWidget
+class SEditableTextBox;
+class SImage;
+class STextBlock;
+
+/** Local preference only. Item coordinates are resolved from WorldState on use. */
+struct FReal33DActionBinding
+{
+	enum class EKind : uint8 { Empty, ItemUse, ItemUseWith, Text };
+	EKind Kind = EKind::Empty;
+	uint16 TypeId = 0;
+	FString Text;
+};
+
+DECLARE_DELEGATE_ThreeParams(FReal33DOnActionItemBound, int32, uint16, bool);
+DECLARE_DELEGATE_TwoParams(FReal33DOnActionTextBound, int32, const FString&);
+DECLARE_DELEGATE_OneParam(FReal33DOnActionIndex, int32);
+
+/** One of the 2D styled 34px buttons. Its callbacks go to the HUD owner. */
+class SReal33DActionSlot : public SCompoundWidget
 {
 public:
-	SLATE_BEGIN_ARGS(SReal33DActionBar)
-		: _SlotCount(10)
-		, _Vertical(false)
-	{}
-		SLATE_ARGUMENT(int32, SlotCount)
-		/** True for the left and right columns, false for the bottom bar. */
-		SLATE_ARGUMENT(bool, Vertical)
+	SLATE_BEGIN_ARGS(SReal33DActionSlot) {}
+		SLATE_ARGUMENT(int32, Index)
+		SLATE_EVENT(FReal33DOnActionItemBound, OnItemBound)
+		SLATE_EVENT(FReal33DOnActionTextBound, OnTextBound)
+		SLATE_EVENT(FReal33DOnActionIndex, OnCleared)
+		SLATE_EVENT(FReal33DOnActionIndex, OnActivated)
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);
+	void SetBinding(const FReal33DActionBinding& InBinding, bool bInAvailable);
+	virtual FReply OnMouseButtonDown(const FGeometry& Geometry,
+		const FPointerEvent& Event) override;
+	virtual FReply OnDragOver(const FGeometry& Geometry,
+		const FDragDropEvent& Event) override;
+	virtual FReply OnDrop(const FGeometry& Geometry,
+		const FDragDropEvent& Event) override;
 
-	/** actionbar.otui: the bar is 36 tall when shown, slots plus padding. */
+private:
+	void ShowMenu(const FGeometry& Geometry);
+	FReply SetItemMode(bool bWithTarget);
+	FReply BindText();
+	FReply Clear();
+	int32 Index = 0;
+	FReal33DActionBinding Binding;
+	bool bPresented = false;
+	bool bAvailable = false;
+	FReal33DOnActionItemBound OnItemBound;
+	FReal33DOnActionTextBound OnTextBound;
+	FReal33DOnActionIndex OnCleared;
+	FReal33DOnActionIndex OnActivated;
+	TSharedPtr<SImage> Icon;
+	TSharedPtr<STextBlock> Label;
+	TSharedPtr<STextBlock> ModeLabel;
+	TSharedPtr<SImage> UnavailableOverlay;
+	TSharedPtr<SEditableTextBox> TextInput;
+};
+
+/** The left, right and bottom bars share the same local configuration. */
+class SReal33DActionBar : public SCompoundWidget
+{
+public:
+	SLATE_BEGIN_ARGS(SReal33DActionBar) : _SlotCount(10), _StartIndex(0), _Vertical(false) {}
+		SLATE_ARGUMENT(int32, SlotCount)
+		SLATE_ARGUMENT(int32, StartIndex)
+		SLATE_ARGUMENT(bool, Vertical)
+		SLATE_EVENT(FReal33DOnActionItemBound, OnItemBound)
+		SLATE_EVENT(FReal33DOnActionTextBound, OnTextBound)
+		SLATE_EVENT(FReal33DOnActionIndex, OnCleared)
+		SLATE_EVENT(FReal33DOnActionIndex, OnActivated)
+	SLATE_END_ARGS()
+
+	void Construct(const FArguments& InArgs);
+	void SetSlot(int32 LocalIndex, const FReal33DActionBinding& Binding,
+		bool bAvailable);
 	static constexpr float BarThickness = 36.0f;
+
+private:
+	TArray<TSharedPtr<SReal33DActionSlot>> Slots;
 };

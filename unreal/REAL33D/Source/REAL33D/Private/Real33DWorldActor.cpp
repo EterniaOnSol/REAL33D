@@ -1206,6 +1206,7 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		TEXT("    \"says_requested\": %d,\n")
 		TEXT("    \"moves_requested\": %d,\n")
 		TEXT("    \"uses_requested\": %d,\n")
+		TEXT("    \"bound_items_missing_at_send\": %d,\n")
 		TEXT("    \"attacks_requested\": %d,\n")
 		TEXT("    \"follows_requested\": %d,\n")
 		TEXT("    \"combat_cancels_requested\": %d,\n")
@@ -1259,6 +1260,7 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		Stats.RejectedSteps, Stats.UnansweredSteps, Stats.ExternalRelocations,
 		Stats.LocalPlayerMoves,
 		Stats.SaysRequested, Stats.MovesRequested, Stats.UsesRequested,
+		Stats.BoundItemsMissing,
 		Stats.AttacksRequested, Stats.FollowsRequested,
 		Stats.CombatCancelsRequested, Stats.TacticsRequested,
 		Stats.TargetClearsReceived,

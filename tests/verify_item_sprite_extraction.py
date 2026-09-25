@@ -64,7 +64,8 @@ def main():
 
     geometry_checked = 0
     pixels_checked = 0
-    for type_id, (width, height, first) in sorted(mine.items()):
+    stack_patterns_checked = 0
+    for type_id, (width, height, first, stack_pictures) in sorted(mine.items()):
         reference = items.get(type_id)
         if reference is None:
             failures.append("%d: absent from the reference reader" % type_id)
@@ -78,6 +79,17 @@ def main():
             failures.append("%d: first frame %s vs %s" % (type_id, first, expected_first))
             continue
         geometry_checked += 1
+
+        if stack_pictures:
+            if len(stack_pictures) != 8 or reference.pattern_x != 4 or reference.pattern_y != 2:
+                failures.append("%d: invalid stack pattern geometry" % type_id)
+            for pattern, ids in enumerate(stack_pictures):
+                begin = pattern * reference.layers * width * height
+                expected = reference.sprite_ids[begin:begin + width * height]
+                if ids != expected:
+                    failures.append("%d: stack pattern %d %s vs %s"
+                                    % (type_id, pattern, ids, expected))
+                stack_patterns_checked += 1
 
         for sprite_id in first:
             if sprite_id == 0 or not sprites.has(sprite_id):
@@ -95,6 +107,7 @@ def main():
     print("items compared:            %d" % len(mine))
     print("geometry + ids agree:      %d" % geometry_checked)
     print("sprite pixels compared:    %d" % pixels_checked)
+    print("stack patterns compared:   %d" % stack_patterns_checked)
     print("failures:                  %d" % len(failures))
     for line in failures[:20]:
         print("  " + line)

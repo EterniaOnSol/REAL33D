@@ -271,6 +271,33 @@ MoveEndpoint MoveEndpoint::InContainer(std::uint8_t container, std::uint8_t slot
     return endpoint;
 }
 
+bool ResolveCarriedItem(const WorldState& state, std::uint16_t type_id,
+                        CarriedItemLocation* out) {
+    if (out == nullptr || type_id == 0) return false;
+    for (std::uint8_t slot = 1; slot < state.inventory.size(); ++slot) {
+        const auto& current = state.inventory[slot];
+        if (current.occupied && current.item.type_id == type_id) {
+            // info.cc::GetObject ignores RNum for body slots. Use the canonical
+            // zero from the client fixture, never a made-up map stack index.
+            *out = {MoveEndpoint::InInventory(slot), 0};
+            return true;
+        }
+    }
+    for (std::uint8_t number = 0; number < state.containers.size(); ++number) {
+        const auto& container = state.containers[number];
+        if (!container.open) continue;
+        for (std::size_t index = 0; index < container.objects.size()
+                && index <= 255; ++index) {
+            if (container.objects[index].type_id == type_id) {
+                const auto slot = static_cast<std::uint8_t>(index);
+                *out = {MoveEndpoint::InContainer(number, slot), slot};
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 namespace {
 
 // Origin, type and stack index: the five fields every use command starts with,

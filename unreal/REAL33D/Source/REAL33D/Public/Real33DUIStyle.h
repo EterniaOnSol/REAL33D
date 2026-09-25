@@ -43,9 +43,9 @@ public:
 	 * The 7.72 picture of an object, or null when there is none.
 	 *
 	 * Cut from the client data pair the REAL33D 2D client loads, by
-	 * `scripts/client/extract_item_sprites.py`, into one 32x32 PNG per type id
-	 * under `Resources/UI/Items/`. Fusion32 puts a type id on the wire and this
-	 * turns it into the object the player would recognise.
+	 * `scripts/client/extract_item_sprites.py`, into 32x32 PNGs under
+	 * `Resources/UI/Items/`. Stackable 4x2 objects have seven additional count
+	 * pictures. Fusion32 supplies the amount; it is never inferred here.
 	 *
 	 * Built on first use and kept, rather than registering five thousand
 	 * brushes at startup for the handful a session ever draws. Returns null for
@@ -54,7 +54,7 @@ public:
 	 *
 	 * Game thread only: the cache is not guarded, and Slate is single-threaded.
 	 */
-	static const FSlateBrush* ItemBrush(uint16 TypeId);
+	static const FSlateBrush* ItemBrush(uint16 TypeId, uint8 Count = 1);
 
 	// Native pixel geometry of the health/mana art, shared with the widgets so
 	// a layout cannot drift from the images it is laying out.
@@ -139,5 +139,5 @@ private:
 	 * FSlateDynamicImageBrush is the kind meant to be loaded from disk at
 	 * runtime, which is exactly what an item picture is.
 	 */
-	static TMap<uint16, TSharedPtr<struct FSlateDynamicImageBrush>> ItemBrushes;
+	static TMap<uint32, TSharedPtr<struct FSlateDynamicImageBrush>> ItemBrushes;
 };

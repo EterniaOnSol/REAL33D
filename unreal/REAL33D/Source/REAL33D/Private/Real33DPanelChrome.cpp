@@ -263,7 +263,8 @@ void SReal33DSlot::Construct(const FArguments& InArgs)
 		// loads. When an id has no picture -- a few dozen do not -- the number
 		// is shown instead, because the number is still the truth about what
 		// is in the slot and an empty square would not be.
-		const FSlateBrush* Picture = FReal33DUIStyle::ItemBrush(InArgs._TypeId);
+		const FSlateBrush* Picture = FReal33DUIStyle::ItemBrush(
+			InArgs._TypeId, InArgs._Count > 0 ? InArgs._Count : 1);
 		if (Picture != nullptr)
 		{
 			Stack->AddSlot()

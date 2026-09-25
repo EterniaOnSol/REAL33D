@@ -796,6 +796,29 @@ void TestMoveObjectCommand() {
     CHECK(command == expected);
 }
 
+void TestBoundItemResolution() {
+    WorldState state;
+    CarriedItemLocation found;
+    CHECK(!ResolveCarriedItem(state, 2854, &found));
+    CHECK(!ResolveCarriedItem(state, 0, &found));
+    state.containers[1].objects.push_back(ItemThing{2854});
+    CHECK(!ResolveCarriedItem(state, 2854, &found)); // closed is inaccessible
+    state.containers[1].open = true;
+    state.containers[1].objects.insert(state.containers[1].objects.begin(), ItemThing{100});
+    CHECK(ResolveCarriedItem(state, 2854, &found));
+    CHECK(found.endpoint.x == 0xFFFF && found.endpoint.y == 65);
+    CHECK(found.endpoint.z == 1 && found.stack_index == 1);
+    state.inventory[3].occupied = true;
+    state.inventory[3].item.type_id = 2854;
+    CHECK(ResolveCarriedItem(state, 2854, &found));
+    CHECK(found.endpoint.y == 3 && found.endpoint.z == 0 && found.stack_index == 0);
+    state.inventory[3] = InventorySlot{};
+    CHECK(ResolveCarriedItem(state, 2854, &found));
+    CHECK(found.endpoint.y == 65 && found.stack_index == 1);
+    state.containers[1].open = false;
+    CHECK(!ResolveCarriedItem(state, 2854, &found));
+}
+
 void TestUseCommands() {
     const auto inBag = MoveEndpoint::InContainer(0, 2);
     const auto worn = MoveEndpoint::InInventory(3);
@@ -1000,6 +1023,7 @@ int main() {
         TestContainerCommands();
         TestInventoryReachesWorldState();
         TestMoveObjectCommand();
+        TestBoundItemResolution();
         TestUseCommands();
         TestGoldenPlayerData();
         TestGoldenPlayerSkills();

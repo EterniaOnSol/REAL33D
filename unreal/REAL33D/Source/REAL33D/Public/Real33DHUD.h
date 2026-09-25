@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Real33DBridge.h"
+#include "Real33DActionBarPanel.h"
 #include "Real33DChatPanel.h"
 #include "Real33DPanelChrome.h"
 #include "Widgets/DeclarativeSyntaxSupport.h"
@@ -9,6 +10,7 @@
 
 class AReal33DWorld;
 class SReal33DBattlePanel;
+class SReal33DActionBar;
 class SReal33DConditionStrip;
 class SReal33DContainersPanel;
 class SReal33DControlPanel;
@@ -109,6 +111,13 @@ private:
 	void HandleCreatureTargeted(uint32 CreatureId, bool bFollow);
 	void HandleAttackModeChanged(EReal33DAttackMode Mode);
 	void HandleChaseModeChanged(EReal33DChaseMode Mode);
+	void HandleActionItemBound(int32 Index, uint16 TypeId, bool bWithTarget);
+	void HandleActionTextBound(int32 Index, const FString& Text);
+	void HandleActionCleared(int32 Index);
+	void HandleActionActivated(int32 Index);
+	bool HasCarriedItem(uint16 TypeId) const;
+	void LoadActionBindings();
+	void SaveActionBindings() const;
 
 	/** Shows or hides the "choose a target" banner. */
 	void UpdateTargetingBanner();
@@ -127,6 +136,8 @@ private:
 	struct FPendingUse
 	{
 		bool bActive = false;
+		bool bBoundType = false;
+		uint16 BoundTypeId = 0;
 		FReal33DSlotRef Object;
 	};
 	FPendingUse Pending;
@@ -138,6 +149,11 @@ private:
 	TSharedPtr<SWidget> TargetingBanner;
 
 	TSharedPtr<SReal33DChatPanel> ChatPanel;
+	TSharedPtr<SReal33DActionBar> BottomActions;
+	TSharedPtr<SReal33DActionBar> LeftActions;
+	TSharedPtr<SReal33DActionBar> RightActions;
+	TArray<FReal33DActionBinding> ActionBindings;
+	const AReal33DWorld* CurrentWorld = nullptr;
 	TSharedPtr<SReal33DVitalsPanel> Vitals;
 	TSharedPtr<SReal33DSkillsPanel> Skills;
 	TSharedPtr<SReal33DBattlePanel> Battle;

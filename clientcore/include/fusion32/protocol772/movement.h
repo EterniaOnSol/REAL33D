@@ -102,6 +102,20 @@ struct MoveEndpoint {
     static MoveEndpoint InContainer(std::uint8_t container, std::uint8_t slot);
 };
 
+/** A currently carried instance, resolved from server-owned state at send time. */
+struct CarriedItemLocation {
+    MoveEndpoint endpoint;
+    std::uint8_t stack_index = 0;
+};
+
+/**
+ * Finds the first actual instance of a bound type: body slots in server order,
+ * then open containers by number and object index. A binding stores a type,
+ * never a stale coordinate. Closed containers and absent items cannot resolve.
+ */
+bool ResolveCarriedItem(const WorldState& state, std::uint16_t type_id,
+                        CarriedItemLocation* out);
+
 /**
  * Asks Fusion32 to move an object. CL_CMD_MOVE_OBJECT, opcode 120.
  *

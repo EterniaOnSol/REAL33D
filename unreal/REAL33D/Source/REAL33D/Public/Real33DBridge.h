@@ -475,6 +475,8 @@ struct FReal33DStats
 	int32 MovesRequested = 0;
 	/** Use requests this client put on the wire, in all three shapes. */
 	int32 UsesRequested = 0;
+	/** Bound item activations refused because no current instance exists. */
+	int32 BoundItemsMissing = 0;
 	/** CL_CMD_ATTACK commands put on the wire, including attack-target toggles. */
 	int32 AttacksRequested = 0;
 	/** CL_CMD_FOLLOW commands put on the wire. */
@@ -623,6 +625,12 @@ public:
 	/** Uses an object on a creature, named by id. CL_CMD_USE_ON_CREATURE. */
 	uint32 RequestUseOnCreature(const FMoveSlot& Object, uint16 TypeId, uint8 StackIndex,
 		uint32 CreatureId);
+
+	/** Resolve the bound type against worker-owned WorldState immediately before send. */
+	uint32 RequestUseBoundItem(uint16 TypeId, uint8 OpenAsContainer);
+	uint32 RequestUseBoundWithObject(uint16 TypeId, const FMoveSlot& Target,
+		uint16 TargetTypeId, uint8 TargetStackIndex);
+	uint32 RequestUseBoundOnCreature(uint16 TypeId, uint32 CreatureId);
 
 	/**
 	 * Attacks a creature, or cancels when that exact attack is already active.

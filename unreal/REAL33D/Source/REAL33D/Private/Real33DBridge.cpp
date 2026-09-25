@@ -275,6 +275,7 @@ public:
 		EKind Kind = EKind::Object;
 		UReal33DBridge::FMoveSlot Object;
 		uint16 TypeId = 0;
+		bool bResolveBoundItem = false;
 		uint8 StackIndex = 0;
 		/** Which open-container slot to show it in, when it is a container. */
 		uint8 OpenAsContainer = 0;
@@ -938,21 +939,40 @@ private:
 		FUse Use;
 		while (Uses.Dequeue(Use))
 		{
+			p772::MoveEndpoint Object = ToEndpoint(Use.Object);
+			uint8 StackIndex = Use.StackIndex;
+			if (Use.bResolveBoundItem)
+			{
+				p772::CarriedItemLocation Current;
+				if (!p772::ResolveCarriedItem(State, Use.TypeId, &Current))
+				{
+					FReal33DEvent Notice;
+					Notice.Kind = EReal33DEventKind::ClientNotice;
+					Notice.Detail = FString::Printf(
+						TEXT("Action item %u is unavailable"), Use.TypeId);
+					Publish(MoveTemp(Notice));
+					FScopeLock Lock(&StatsMutex);
+					++Stats.BoundItemsMissing;
+					continue;
+				}
+				Object = Current.endpoint;
+				StackIndex = Current.stack_index;
+			}
 			switch (Use.Kind)
 			{
 			case FUse::EKind::WithObject:
 				Session.SendCommand(p772::BuildUseTwoObjectsCommand(
-					ToEndpoint(Use.Object), Use.TypeId, Use.StackIndex,
+					Object, Use.TypeId, StackIndex,
 					ToEndpoint(Use.Target), Use.TargetTypeId, Use.TargetStackIndex));
 				break;
 			case FUse::EKind::OnCreature:
 				Session.SendCommand(p772::BuildUseOnCreatureCommand(
-					ToEndpoint(Use.Object), Use.TypeId, Use.StackIndex, Use.CreatureId));
+					Object, Use.TypeId, StackIndex, Use.CreatureId));
 				break;
 			case FUse::EKind::Object:
 			default:
 				Session.SendCommand(p772::BuildUseObjectCommand(
-					ToEndpoint(Use.Object), Use.TypeId, Use.StackIndex,
+					Object, Use.TypeId, StackIndex,
 					Use.OpenAsContainer));
 				break;
 			}
@@ -1482,6 +1502,48 @@ uint32 UReal33DBridge::RequestUseOnCreature(const FMoveSlot& Object, uint16 Type
 	Use.Object = Object;
 	Use.TypeId = TypeId;
 	Use.StackIndex = StackIndex;
+	Use.CreatureId = CreatureId;
+	Worker->PostUse(Use);
+	return Use.UseId;
+}
+
+uint32 UReal33DBridge::RequestUseBoundItem(uint16 TypeId, uint8 OpenAsContainer)
+{
+	if (Worker == nullptr || TypeId == 0) return 0;
+	FReal33DWorker::FUse Use;
+	Use.UseId = ++NextInputId;
+	Use.Kind = FReal33DWorker::FUse::EKind::Object;
+	Use.TypeId = TypeId;
+	Use.bResolveBoundItem = true;
+	Use.OpenAsContainer = OpenAsContainer;
+	Worker->PostUse(Use);
+	return Use.UseId;
+}
+
+uint32 UReal33DBridge::RequestUseBoundWithObject(uint16 TypeId,
+	const FMoveSlot& Target, uint16 TargetTypeId, uint8 TargetStackIndex)
+{
+	if (Worker == nullptr || TypeId == 0) return 0;
+	FReal33DWorker::FUse Use;
+	Use.UseId = ++NextInputId;
+	Use.Kind = FReal33DWorker::FUse::EKind::WithObject;
+	Use.TypeId = TypeId;
+	Use.bResolveBoundItem = true;
+	Use.Target = Target;
+	Use.TargetTypeId = TargetTypeId;
+	Use.TargetStackIndex = TargetStackIndex;
+	Worker->PostUse(Use);
+	return Use.UseId;
+}
+
+uint32 UReal33DBridge::RequestUseBoundOnCreature(uint16 TypeId, uint32 CreatureId)
+{
+	if (Worker == nullptr || TypeId == 0 || CreatureId == 0) return 0;
+	FReal33DWorker::FUse Use;
+	Use.UseId = ++NextInputId;
+	Use.Kind = FReal33DWorker::FUse::EKind::OnCreature;
+	Use.TypeId = TypeId;
+	Use.bResolveBoundItem = true;
 	Use.CreatureId = CreatureId;
 	Worker->PostUse(Use);
 	return Use.UseId;

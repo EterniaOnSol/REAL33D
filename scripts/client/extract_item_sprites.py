@@ -20,8 +20,9 @@ this exact file:
     larger than one tile, layers, three pattern counts and a phase count,
     followed by that many u16 sprite ids.
 
-Only the first frame, first pattern and first layer is written: an inventory
-square shows an object at rest, not an animation.
+Only the first frame and first layer are written. Stackable objects with the
+classic 4x2 count patterns also get the other seven pictures: Item::updatePatterns
+in the REAL33D2D client selects one of those from the server's stack amount.
 
 Objects wider or taller than one tile are composed onto a single image at their
 full size and then fitted into the 32x32 square, because a two-tile object drawn
@@ -54,6 +55,7 @@ ATTR_U16 = {0, 8, 9, 25, 28, 29, 32}          # Ground, Writable, WritableOnce,
 ATTR_TWO_U16 = {21, 24}                       # Light, Displacement
 ATTR_MARKET = 33                              # not present in 7.72, handled anyway
 ATTR_LAST = 255
+ATTR_STACKABLE = 5                           # const.h::ThingAttrStackable
 
 
 class Reader:
@@ -84,11 +86,14 @@ class Reader:
 
 
 def read_attributes(reader):
-    """Walks the attribute stream. Returns nothing; it exists to advance past."""
+    """Walks the attribute stream and retains its stackable flag."""
+    stackable = False
     for _ in range(ATTR_LAST):
         attr = reader.u8()
         if attr == ATTR_LAST:
-            return True
+            return True, stackable
+        if attr == ATTR_STACKABLE:
+            stackable = True
         if attr in ATTR_TWO_U16:
             reader.u16()
             reader.u16()
@@ -101,11 +106,11 @@ def read_attributes(reader):
             reader.u16()
         elif attr in ATTR_U16:
             reader.u16()
-    return False
+    return False, stackable
 
 
 def parse_dat(path):
-    """type id -> (width, height, [sprite ids of the first frame])."""
+    """type id -> (width, height, first picture ids, stack picture id lists)."""
     with open(path, "rb") as handle:
         reader = Reader(handle.read())
 
@@ -118,7 +123,8 @@ def parse_dat(path):
     items = {}
     # Items are numbered from 100: everything below is reserved by the client.
     for type_id in range(100, item_count + 1):
-        if not read_attributes(reader):
+        terminated, stackable = read_attributes(reader)
+        if not terminated:
             raise ValueError(f"attribute stream never terminated at id {type_id}")
 
         width = reader.u8()
@@ -136,8 +142,14 @@ def parse_dat(path):
 
         # The first layer of the first pattern of the first phase: the object
         # standing still, which is what an inventory square shows.
-        first = sprites[:width * height] if sprites else []
-        items[type_id] = (width, height, first)
+        tile_count = width * height
+        first = sprites[:tile_count] if sprites else []
+        stack_pictures = []
+        if stackable and pattern_x == 4 and pattern_y == 2:
+            for pattern in range(8):
+                begin = pattern * layers * tile_count
+                stack_pictures.append(sprites[begin:begin + tile_count])
+        items[type_id] = (width, height, first, stack_pictures)
     return items
 
 
@@ -294,7 +306,8 @@ def main():
 
     written = 0
     blank = 0
-    for type_id, (width, height, sprite_ids) in items.items():
+    stack_written = 0
+    for type_id, (width, height, sprite_ids, stack_pictures) in items.items():
         if not sprite_ids or all(s == 0 for s in sprite_ids):
             blank += 1
             continue
@@ -307,7 +320,15 @@ def main():
                   SPRITE_PIXELS, SPRITE_PIXELS, square)
         written += 1
 
-    print(f"wrote {written} item sprites to {out} ({blank} had no picture)")
+        for pattern, variant_ids in enumerate(stack_pictures[1:], start=1):
+            full_w, full_h, canvas = compose(width, height, variant_ids, data, offsets)
+            square = fit_to_square(full_w, full_h, canvas)
+            write_png(os.path.join(out, f"{type_id}_p{pattern}.png"),
+                      SPRITE_PIXELS, SPRITE_PIXELS, square)
+            stack_written += 1
+
+    print(f"wrote {written} item sprites and {stack_written} stack variants to {out} "
+          f"({blank} had no picture)")
 
 
 if __name__ == "__main__":
