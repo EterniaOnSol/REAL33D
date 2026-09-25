@@ -23,14 +23,14 @@ if (Test-Path $localEnv) {
         $pair = $line -split '=', 2
         $name = $pair[0].Trim()
         $value = $pair[1].Trim()
-        if ($name -and $value -and -not (Get-Item "Env:$name" -ErrorAction SilentlyContinue)) {
-            Set-Item "Env:$name" $value
+        if ($name -and $value -and -not [Environment]::GetEnvironmentVariable($name, 'Process')) {
+            [Environment]::SetEnvironmentVariable($name, $value, 'Process')
         }
     }
 }
 
 function Require-Setting([string]$name) {
-    $value = (Get-Item "Env:$name" -ErrorAction SilentlyContinue).Value
+    $value = [Environment]::GetEnvironmentVariable($name, 'Process')
     if (-not $value) {
         throw "$name is not set. Copy agent.local.env.example to agent.local.env and fill it in."
     }

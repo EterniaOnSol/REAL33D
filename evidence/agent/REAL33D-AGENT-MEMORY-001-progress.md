@@ -1,8 +1,12 @@
 # REAL33D-AGENT-MEMORY-001 progress
 
-State: `IMPLEMENTED_UNVERIFIED` (2026-09-24 20:36 -06:00). Branch:
+Historical state: `IMPLEMENTED_UNVERIFIED` (2026-09-24 20:36 -06:00). Branch:
 `milestone/real33d-agent-memory-001`. The prior `REAL33D-AGENT-MVP-001` and
 `REAL33D-AGENT-BRIDGE-001` live PASS results are separate.
+
+The later two-session certification supersedes this progress snapshot. See
+`REAL33D-AGENT-MEMORY-001-certification.md` and the retained artifacts under
+`evidence/agent/memory/`.
 
 ## Scope and mechanism
 

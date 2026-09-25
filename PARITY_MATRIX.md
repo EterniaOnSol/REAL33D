@@ -127,8 +127,10 @@ whitelist is enforced by the schema rather than by convention.
 | --- | --- | --- |
 | Observation-derived, identity-isolated memory | LuaJIT round trip, provenance, isolation and malformed-record tests | PASS |
 | Memory choice through current-state action validator | LuaJIT navigation and invisible-target/item/tile refusal tests | PASS |
-| Two live sessions with persistence | Text log shows `memory=loaded`, first session `memory_saved=true records=56`, then `memory=loaded` again; no retained correlated memory trace | IMPLEMENTED_UNVERIFIED |
+| Two live sessions with persistence and guided navigation | Retained A/B JSONL, A memory JSON and live evidence test: A new/0 to saved/20; fresh B loaded/20, goal initially invisible, validated `g_game.move`, authoritative y change | CERTIFIED |
 | Survival and route recovery after death | First session reached 2/160 HP; second cycled on another floor. Floor-selection regression now has a deterministic test only | IMPLEMENTED_UNVERIFIED |
 
 Memory is an opt-in 2D Brain input, not an addition to AgentObservation or to
-the allowed actions. See `evidence/agent/REAL33D-AGENT-MEMORY-001-progress.md`.
+the allowed actions. Stale attack/follow and item intents were rejected against
+B's current observation, and another character's memory failed identity
+validation. See `evidence/agent/REAL33D-AGENT-MEMORY-001-certification.md`.

@@ -1,86 +1,96 @@
 # HANDOFF
 
-Date/time: 2026-09-24 20:36 -06:00, America/Guatemala
+Date/time: 2026-09-24 21:16 -06:00, America/Guatemala
 Task: `REAL33D-AGENT-MEMORY-001`
-Agent / role: Codex, review and regression fixes in shared worktree
+Agent / role: Codex, live certification
 Branch: `milestone/real33d-agent-memory-001` (not merged to `main`)
-Starting commit: `56f1815b207061e16d2351e4908a723dc1234b91`
-Ending commit: the commit containing this handoff
-Worktrees: `C:\Users\dell\Desktop\fusion32` (writable source); separate
-`C:\Users\dell\Desktop\REAL33D2D` checkout was read for live evidence but
-not modified during this continuation.
+Starting commit: `c321f6f29078e509f34986f2c4aca365d03c4640`
+Ending commit: certification commit on this branch (see `git rev-parse HEAD`)
+Worktree: `C:\Users\dell\Desktop\fusion32`; separate executable REAL33D2D
+checkout `C:\Users\dell\Desktop\REAL33D2D` was used for live QA. That
+checkout's existing unrelated dirty state was preserved.
 
 ## Objective and result
 
-The operator's `REAL33D-AGENT-MVP-001` remains `PASS` for one autonomous 2D
-mock player live against Fusion32; `REAL33D-AGENT-BRIDGE-001` remains `PASS`.
-Repeated `keep going` prompted the opt-in memory follow-on. Its current state
-is `IMPLEMENTED_UNVERIFIED`: pure Lua tests pass, a live session saved and a
-later session loaded memory, but prolonged survival and a correlated live
-memory-guided action are not proved. This work does not add ClientCore,
-WorldState, a protocol extension, Fusion32 gameplay logic or Unreal changes.
+`REAL33D-AGENT-MEMORY-001 = CERTIFIED` for the requested two independent 2D
+sessions. The MVP and BRIDGE live PASS results remain separate. Session A made
+new observation-derived memories, persisted them, and ended normally. A fresh
+Session B loaded them, began with the remembered place and creature invisible,
+walked toward the remembered place through a newly validated `g_game.move`,
+and observed Fusion32's position result. A stale creature ID was rejected
+until a fresh B observation showed it. No LLM, protocol extension, Fusion32
+gameplay modification, 3D/Unreal path, or hidden map source was used.
 
 ## Startup and inspection
 
-The required repository contract, status, architecture, roadmap, parity matrix
-and prior handoff were read earlier in the task. Current branch, HEAD, status
-and remotes were inspected. Exact functions reviewed here:
-`AgentMemory.checkRecord`, `Store:remember`, `AgentMemory.load`,
-`AgentMemory.observe`, `Store:routeTo`, `Store:huntingGround`,
-`AgentCore.mockBrain:decide`, `AgentCore.validate`, and runtime
-`loadMemory`/`saveMemory`/`applyIntent`/`tick`. The prior substantive handoff
-is archived as `handoffs/archive/2026-09-24_REAL33D-AGENT-BRIDGE-001.md`.
+Read `AGENTS.md`, `PROJECT_STATUS.md`, `ARCHITECTURE.md`, `ROADMAP.md`,
+`PARITY_MATRIX.md`, and prior `handoffs/CURRENT.md`. Inspected Git status,
+branch, HEAD and remotes, and the exact `AgentMemory.load`/`observe`/`remember`,
+`AgentCore.validate`/mock navigation, runtime load/save/observation/dispatch,
+launcher environment lookup, schema projection, and QA rights paths. The
+prior substantive handoff is archived as
+`handoffs/archive/2026-09-24_REAL33D-AGENT-MEMORY-001-implementation.md`.
 
 ## Changes and files
 
-The shared branch already contained uncommitted memory work in
-`agent/real33d2d/modules/real33d_agent/` (`agent_bridge.lua`,
-`agent_core.lua`, `agent_runtime.lua`, `agent_schema.lua`,
-`real33d_agent.otmod`, and `agent_memory.lua`),
-`agent/real33d2d/run_agent.ps1` and
-`tests/real33d_agent_test.lua`. Preserve that work. This review added:
+- `agent/real33d2d/run_agent.ps1`: fixed the one live defect, a duplicate-key
+  failure from dynamic `Get-Item Env:$name`, using the .NET Process environment
+  API. No Brain, memory, action, protocol, or gameplay feature changed.
+- `tests/real33d_agent_launcher_test.ps1`: regression for that launcher path.
+- `tests/real33d_agent_memory_live_test.lua`: reproducible two-session evidence
+  and stale-target validator checks against the retained live observations.
+- `evidence/agent/memory/`: A/B JSONL traces, exact memory after A, and B client
+  log. `evidence/agent/REAL33D-AGENT-MEMORY-001-certification.md` explains the
+  preconditions, fixture, correlation, checks and hashes.
+- `PROJECT_STATUS.md`, `PARITY_MATRIX.md`, memory progress snapshot, and this
+  handoff: current states and limits.
 
-- `agent_memory.lua`: category field types, required coordinates for places,
-  copy-on-write failed-update handling, and cross-floor hunting-ground guard
-  requiring an agent-observed route; identity key encoding now prevents space
-  versus underscore collisions between character names.
-- `agent_runtime.lua`: a rejected memory file is not overwritten on a later
-  periodic save; memory file names use the same collision-free identity.
-- `tests/real33d_agent_test.lua`: malformed fields, missing coordinates,
-  failed-update immutability, and cross-floor route regression cases.
-- `evidence/agent/REAL33D-AGENT-MEMORY-001-progress.md`,
-  `PROJECT_STATUS.md`, `PARITY_MATRIX.md`, and this handoff: precise state and
-  live limitations.
+## Live run and evidence
 
-## Tests and evidence
+QA rights query returned no `CharacterRights` rows for IDs 1001/1002. Fresh
+client PIDs 24468 (A) and 27420 (B) used `-Mode bridge -Brain mock -Memory`.
+A started `memory.state=new records=0`; it directly observed places/routes and
+Cipfried, then ended with `memory_saved=true records=20`. B started
+`memory.state=loaded records=20 sessions=2` at `(32097,32209,7)`. The remembered
+`32095:32215:7` place bucket and Cipfried were absent from B's first
+observation. The first memory-guided move passed schema/state/budget validation,
+used `g_game.move`, and the correlated result observed y `32209 -> 32210`.
+Further B observations freshly showed Cipfried at y=32212 and arrival in the
+remembered bucket at y=32215. B ended with `memory_saved=true records=26`.
 
-- LuaJIT `tests/real33d_agent_test.lua`: MVP, BRIDGE and MEMORY sections PASS.
-- `git diff --check`: exit 0, with CRLF conversion warnings only.
-- `bash tests/secret_check.sh`: PASS.
-- Read-only review of `C:\Users\dell\Desktop\REAL33D2D\real33d2d.log`:
-  first memory-enabled session `memory=loaded` at 20:26:28, observed combat,
-  inventory, movement, chat, HP declining to 2/160, then `GAME_END
-  memory_saved=true records=56` at 20:29:39; next session `memory=loaded` at
-  20:29:42 on floor 7, then repeated four nearby temple tiles. See progress
-  evidence for the exact scope. The floor and validation fixes were made after
-  this run; no new live result is claimed for them.
+The only server-side file edit was an operator QA fixture while services were
+stopped: the ordinary test character was placed at a tile directly observed
+in A. Its pre-certification file was restored after B; the SHA-256 equals the
+untouched backup. QA services were restarted and verified alive. This fixture
+was never exposed to or used by the Brain. Protocol error scan: zero matches
+in the retained B client log; no protocol-error JSONL event.
+
+## Tests and results
+
+- REAL33D2D bundled LuaJIT `tests/real33d_agent_test.lua`: MVP, BRIDGE and
+  MEMORY deterministic sections PASS.
+- LuaJIT `tests/real33d_agent_memory_live_test.lua` with the retained A/B
+  traces and A memory file: PASS for two sessions, provenance, memory-guided
+  navigation, stale attack/follow refusal, fresh visibility, unobserved-map
+  boundary, and character isolation.
+- PowerShell `tests/real33d_agent_launcher_test.ps1`: PASS. The same launcher
+  also started both fresh live clients successfully.
+- Normal-client opt-in-off startup: no agent events during the four-second
+  smoke interval; existing opt-in deterministic test PASS.
+- `tests/secret_check.sh`: see the certification commit's check before push.
 
 ## Remaining work and risks
 
-The separate REAL33D2D checkout has not been synced to these final fixes.
-Existing memory files created with the old underscore file-name scheme are not
-automatically migrated to the new hex identity path.
-Retain a JSONL trace and memory file across two sessions, confirm one action
-was guided by a remembered place and still passed fresh-state validation, and
-show the server result. Then test the cross-floor guard live. The mock policy
-still does not demonstrate sustained low-HP survival. `saveMemory` writes the
-valid memory file directly, so interruption during a write can truncate it;
-consider an atomic replacement strategy before relying on it for long runs.
-Do not mark MEMORY `PASS` from the text log alone. No merge to `main` or push
-has been performed.
+No work remains for this milestone's requested certification. The mock agent
+walked at roughly one step per three seconds in this run, so faster monsters
+can leave its reach; movement tuning and sustained survival require a separate
+task. Earlier low-HP survival and cross-floor death recovery remain
+`IMPLEMENTED_UNVERIFIED` and were not promoted by this run. Existing memory
+files using the old pre-`c321f6f` underscore naming are not migrated. No LLM
+provider was connected.
 
-Exact next files: `agent/real33d2d/modules/real33d_agent/agent_memory.lua`,
-`agent_runtime.lua`, `agent_core.lua`, `tests/real33d_agent_test.lua`, and
-`evidence/agent/REAL33D-AGENT-MEMORY-001-progress.md`. Run LuaJIT suite and
-`git diff --check` before any live retry. Keep the ordinary-rights QA client
-and server path; do not alter server gameplay or give the character GM rights.
+Exact next task: none within `REAL33D-AGENT-MEMORY-001`; stop after committing,
+pushing this milestone branch, verifying remote HEAD, and checking a clean
+worktree. For independent replay, run the commands in the certification
+evidence document with the retained artifacts. Do not infer any 3D or protocol
+parity from these 2D results.

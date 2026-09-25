@@ -1,0 +1,51 @@
+[2026-09-24 21:11:29.997] [info] Operating system: Windows
+[2026-09-24 21:11:29.997] [info] REAL33D 2D 4.x rev 0.000 (desenv) built on Sep 21 2026 for arch x64
+[2026-09-24 21:11:31.477] [info] [REAL33D] 2D client configured: protocol=772 terminalOs=2 host=127.0.0.1 loginPort=7171 classicServer=true
+[2026-09-24 21:11:31.482] [info] [R33D-AGENT] seq=1 event=READY opt_in=R33D_AGENT_MODE mode=bridge brain=mock
+[2026-09-24 21:11:32.559] [info] [R33D-AGENT] seq=2 event=LOGIN_REQUEST client_ui
+[2026-09-24 21:11:36.529] [info] [R33D-AGENT] seq=3 event=GAME_START brain=mock mode=bridge memory=loaded
+[2026-09-24 21:11:37.492] [info] [R33D-AGENT] seq=4 event=OBSERVED_RESULT pos=32097,32209,7 hp=150/150 attack=nil follow=nil containers=0 monsters= bags= ground=
+[2026-09-24 21:11:37.505] [info] [R33D-AGENT] seq=5 event=INTENT say
+[2026-09-24 21:11:37.553] [info] [R33D-AGENT] seq=6 event=CHAT_RECEIVED from=Test Player A mode=1
+[2026-09-24 21:11:40.515] [info] [R33D-AGENT] seq=7 event=INTENT open_container item=i:3
+[2026-09-24 21:11:43.509] [info] [R33D-AGENT] seq=8 event=OBSERVED_RESULT pos=32097,32209,7 hp=150/150 attack=nil follow=nil containers=1 monsters= bags=0:unknown:backpack[2853:x1] ground=
+[2026-09-24 21:11:43.513] [info] [R33D-AGENT] seq=9 event=INTENT use item=i:3
+[2026-09-24 21:11:46.509] [info] [R33D-AGENT] seq=10 event=OBSERVED_RESULT pos=32097,32209,7 hp=150/150 attack=nil follow=nil containers=0 monsters= bags= ground=
+[2026-09-24 21:11:46.513] [info] [R33D-AGENT] seq=11 event=INTENT open_container item=i:3
+[2026-09-24 21:11:49.517] [info] [R33D-AGENT] seq=12 event=OBSERVED_RESULT pos=32097,32209,7 hp=150/150 attack=nil follow=nil containers=1 monsters= bags=0:unknown:backpack[2853:x1] ground=
+[2026-09-24 21:11:49.521] [info] [R33D-AGENT] seq=13 event=INTENT move direction=2
+[2026-09-24 21:11:52.519] [info] [R33D-AGENT] seq=14 event=OBSERVED_RESULT pos=32097,32210,7 hp=150/150 attack=nil follow=nil containers=1 monsters= bags=0:unknown:backpack[2853:x1] ground=
+[2026-09-24 21:11:52.524] [info] [R33D-AGENT] seq=15 event=INTENT move direction=2
+[2026-09-24 21:11:55.520] [info] [R33D-AGENT] seq=16 event=OBSERVED_RESULT pos=32097,32211,7 hp=150/150 attack=nil follow=nil containers=1 monsters= bags=0:unknown:backpack[2853:x1] ground=
+[2026-09-24 21:11:55.526] [info] [R33D-AGENT] seq=17 event=INTENT move direction=2
+[2026-09-24 21:11:58.521] [info] [R33D-AGENT] seq=18 event=OBSERVED_RESULT pos=32097,32212,7 hp=150/150 attack=nil follow=nil containers=1 monsters=Cipfried:1073741889@100 bags=0:unknown:backpack[2853:x1] ground=
+[2026-09-24 21:11:58.533] [info] [R33D-AGENT] seq=19 event=INTENT move direction=2
+[2026-09-24 21:12:01.523] [info] [R33D-AGENT] seq=20 event=OBSERVED_RESULT pos=32097,32213,7 hp=150/150 attack=nil follow=nil containers=1 monsters=Cipfried:1073741889@100 bags=0:unknown:backpack[2853:x1] ground=
+[2026-09-24 21:12:01.527] [info] [R33D-AGENT] seq=21 event=INTENT move direction=2
+[2026-09-24 21:12:04.523] [info] [R33D-AGENT] seq=22 event=OBSERVED_RESULT pos=32097,32214,7 hp=150/150 attack=nil follow=nil containers=1 monsters=Cipfried:1073741889@100 bags=0:unknown:backpack[2853:x1] ground=
+[2026-09-24 21:12:04.528] [info] [R33D-AGENT] seq=23 event=INTENT move direction=2
+[2026-09-24 21:12:07.528] [info] [R33D-AGENT] seq=24 event=OBSERVED_RESULT pos=32097,32215,7 hp=150/150 attack=nil follow=nil containers=1 monsters=Cipfried:1073741889@100 bags=0:unknown:backpack[2853:x1] ground=
+[2026-09-24 21:12:07.536] [info] [R33D-AGENT] seq=25 event=INTENT move direction=2
+[2026-09-24 21:12:10.529] [info] [R33D-AGENT] seq=26 event=OBSERVED_RESULT pos=32097,32216,7 hp=150/150 attack=nil follow=nil containers=1 monsters=Cipfried:1073741889@100 bags=0:unknown:backpack[2853:x1] ground=
+[2026-09-24 21:12:10.539] [info] [R33D-AGENT] seq=27 event=INTENT move direction=2
+[2026-09-24 21:12:13.537] [info] [R33D-AGENT] seq=28 event=INTENT move direction=2
+[2026-09-24 21:12:16.534] [info] [R33D-AGENT] seq=29 event=OBSERVED_RESULT pos=32097,32217,7 hp=150/150 attack=nil follow=nil containers=1 monsters=Cipfried:1073741889@100 bags=0:unknown:backpack[2853:x1] ground=
+[2026-09-24 21:12:16.539] [info] [R33D-AGENT] seq=30 event=INTENT move direction=2
+[2026-09-24 21:12:19.537] [info] [R33D-AGENT] seq=31 event=OBSERVED_RESULT pos=32097,32218,7 hp=150/150 attack=nil follow=nil containers=1 monsters=Cipfried:1073741889@100 bags=0:unknown:backpack[2853:x1] ground=
+[2026-09-24 21:12:19.541] [info] [R33D-AGENT] seq=32 event=INTENT move direction=2
+[2026-09-24 21:12:22.543] [info] [R33D-AGENT] seq=33 event=OBSERVED_RESULT pos=32097,32219,7 hp=150/150 attack=nil follow=nil containers=1 monsters=Cipfried:1073741889@100 bags=0:unknown:backpack[2853:x1] ground=
+[2026-09-24 21:12:22.548] [info] [R33D-AGENT] seq=34 event=INTENT move direction=2
+[2026-09-24 21:12:25.545] [info] [R33D-AGENT] seq=35 event=OBSERVED_RESULT pos=32097,32220,7 hp=150/150 attack=nil follow=nil containers=1 monsters=Cipfried:1073741889@100 bags=0:unknown:backpack[2853:x1] ground=
+[2026-09-24 21:12:25.552] [info] [R33D-AGENT] seq=36 event=INTENT move direction=0
+[2026-09-24 21:12:28.548] [info] [R33D-AGENT] seq=37 event=OBSERVED_RESULT pos=32097,32219,7 hp=150/150 attack=nil follow=nil containers=1 monsters=Cipfried:1073741889@100 bags=0:unknown:backpack[2853:x1] ground=
+[2026-09-24 21:12:28.555] [info] [R33D-AGENT] seq=38 event=INTENT move direction=1
+[2026-09-24 21:12:31.553] [info] [R33D-AGENT] seq=39 event=OBSERVED_RESULT pos=32098,32219,7 hp=150/150 attack=nil follow=nil containers=1 monsters=Cipfried:1073741889@100 bags=0:unknown:backpack[2853:x1] ground=
+[2026-09-24 21:12:31.557] [info] [R33D-AGENT] seq=40 event=INTENT move direction=1
+[2026-09-24 21:12:34.555] [info] [R33D-AGENT] seq=41 event=OBSERVED_RESULT pos=32099,32219,7 hp=150/150 attack=nil follow=nil containers=1 monsters=Cipfried:1073741889@100 bags=0:unknown:backpack[2853:x1] ground=
+[2026-09-24 21:12:34.560] [info] [R33D-AGENT] seq=42 event=INTENT move direction=1
+[2026-09-24 21:12:37.557] [info] [R33D-AGENT] seq=43 event=OBSERVED_RESULT pos=32100,32219,7 hp=150/150 attack=nil follow=nil containers=1 monsters=Cipfried:1073741889@100 bags=0:unknown:backpack[2853:x1] ground=
+[2026-09-24 21:12:37.562] [info] [R33D-AGENT] seq=44 event=INTENT move direction=0
+[2026-09-24 21:12:40.558] [info] [R33D-AGENT] seq=45 event=OBSERVED_RESULT pos=32100,32218,7 hp=150/150 attack=nil follow=nil containers=1 monsters=Cipfried:1073741889@100 bags=0:unknown:backpack[2853:x1] ground=
+[2026-09-24 21:12:40.568] [info] [R33D-AGENT] seq=46 event=INTENT move direction=3
+[2026-09-24 21:12:40.767] [info] [R33D-AGENT] seq=47 event=GAME_END memory_saved=true records=26
+[2026-09-24 21:12:48.400] [info] Exiting application..

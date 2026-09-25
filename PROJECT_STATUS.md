@@ -310,14 +310,16 @@ order. `cancel_follow` live and sustained low-HP survival remain
 
 ## REAL33D 2D agent memory - 2026-09-24
 
-`REAL33D-AGENT-MEMORY-001 = IMPLEMENTED_UNVERIFIED` on branch
-`milestone/real33d-agent-memory-001`. An opt-in, per-character recollection
-store and memory-guided mock navigation are under test. Memory is derived from
-the client's accepted observations and cannot authorize an action; the existing
-current-state validator still decides every intent. LuaJIT MVP/BRIDGE/MEMORY
-tests pass. A local session logged `memory=loaded`, `memory_saved=true
-records=56`, and a subsequent `memory=loaded`, but the agent reached 2/160 HP
-and later cycled near the temple after respawning on another floor. Field-type,
-copy-on-write and floor-selection regressions were fixed after that run; they
-have deterministic tests but no follow-up live proof. See
-`evidence/agent/REAL33D-AGENT-MEMORY-001-progress.md`.
+`REAL33D-AGENT-MEMORY-001 = CERTIFIED` for two independent live REAL33D2D
+sessions on branch `milestone/real33d-agent-memory-001`. Session A started with
+zero memory records, directly observed a route and creature, and saved 20
+records. A fresh Session B loaded those 20 records while the remembered place
+and creature were outside the current observation, chose a memory-guided move,
+passed schema/state/budget validation, dispatched through `g_game.move`, and
+observed Fusion32's resulting position change. Stale creature attack/follow
+intents were rejected until a new B observation showed the creature. Identity
+isolation, observation provenance, opt-in normal-client behavior, and zero
+protocol errors were checked. See
+`evidence/agent/REAL33D-AGENT-MEMORY-001-certification.md` and its retained
+JSONL/memory/client-log artifacts. Sustained survival and movement-speed tuning
+remain outside this certification.
