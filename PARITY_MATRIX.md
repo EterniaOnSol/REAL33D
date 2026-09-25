@@ -127,10 +127,24 @@ whitelist is enforced by the schema rather than by convention.
 | --- | --- | --- |
 | Observation-derived, identity-isolated memory | LuaJIT round trip, provenance, isolation and malformed-record tests | PASS |
 | Memory choice through current-state action validator | LuaJIT navigation and invisible-target/item/tile refusal tests | PASS |
-| Two live sessions with persistence and guided navigation | Retained A/B JSONL, A memory JSON and live evidence test: A new/0 to saved/20; fresh B loaded/20, goal initially invisible, validated `g_game.move`, authoritative y change | CERTIFIED |
+| Two live sessions with persistence and guided navigation | Retained A/B JSONL, A memory JSON and live evidence test: A new/0 to saved/20; fresh B loaded/20, goal initially invisible, validated `g_game.walk`, authoritative y change; historical trace path label corrected in ALDRIC | CERTIFIED |
 | Survival and route recovery after death | First session reached 2/160 HP; second cycled on another floor. Floor-selection regression now has a deterministic test only | IMPLEMENTED_UNVERIFIED |
 
 Memory is an opt-in 2D Brain input, not an addition to AgentObservation or to
 the allowed actions. Stale attack/follow and item intents were rejected against
 B's current observation, and another character's memory failed identity
 validation. See `evidence/agent/REAL33D-AGENT-MEMORY-001-certification.md`.
+
+## REAL33D 2D Aldric - REAL33D-AGENT-ALDRIC-001
+
+| Agent path | Evidence | State |
+| --- | --- | --- |
+| Curated, versioned veteran knowledge with current observation precedence | Auditable `knowledge/v1.lua`, explicit Tibia 7.72 identity, bounded retrieval and deterministic tests | PASS |
+| Provider-independent strategic Brain and opt-in Ollama adapter | Deterministic malformed-output, timeout, provider-error and mock-exclusion tests | PASS |
+| Real model controlling ordinary-rights Aldric through the 2D client | Fresh post-reboot session `20260925T191803Z`: six model decisions, mock disabled, loaded/saved memory, five validated `g_game.walk` calls and four correlated server-observed position changes; sanitized trace replay PASS | CERTIFIED |
+| Autonomous combat, loot, supplies, trade and equipment improvement | Conceptual veteran knowledge and legal action bridge exist; not exercised in the certified Aldric session | IMPLEMENTED_UNVERIFIED |
+| NPC buy/sell execution | No safe buy/sell action exists in the current agent bridge | NOT_STARTED |
+
+This milestone does not change Fusion32 gameplay, protocol 7.72, the ordinary
+human client path, or any 3D/Unreal parity cell. The current observation and
+validator remain the final action gate for memory and static knowledge leads.

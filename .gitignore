@@ -100,3 +100,4 @@ CMakeFiles/
 # is what gets committed as certification evidence.
 *.jsonl
 !/evidence/agent/bridge/*.jsonl
+!/evidence/agent/aldric/certification_trace.jsonl

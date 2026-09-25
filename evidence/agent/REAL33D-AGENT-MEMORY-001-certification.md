@@ -44,7 +44,7 @@ the character at `(32097,32209,7)`. Neither a tile in the remembered
 `32095:32215:7` place bucket nor Cipfried appeared in that observation. The
 Brain's first memory-guided move used goal `32095:32215:7`, direction 2, from
 observation `o-20260925T031136Z-000005`. Schema, state, and budget validations
-all accepted it. Dispatch used `g_game.move`; the correlated result observed
+all accepted it. Dispatch used `g_game.walk`; the correlated result observed
 the Fusion32-authoritative y change `32209 -> 32210`. Subsequent observations
 showed the character at y=32211, then Cipfried freshly visible at y=32212,
 then arrival in the remembered y=32215 bucket. B ended normally with
@@ -101,3 +101,13 @@ One live defect was found before A: dynamic `Get-Item Env:$name` failed on this
 Windows process with a duplicate-key error. The launcher now reads and sets
 process environment variables through the .NET API. The dedicated launcher
 regression test and both successful fresh client launches cover that fix.
+
+## Dispatch-path attribution correction — 2026-09-25
+
+The retained MEMORY JSONL says `path=g_game.move` for a `move` intent because
+the bridge constructed that field from the action name. Read-only source
+inspection during ALDRIC recovery showed the actual dispatcher calls
+`g_game.walk(direction)` for `move`; `g_game.move` is used for `move_item`.
+The observed server position change and MEMORY certification stand. The
+historical trace is preserved byte-for-byte, and the ALDRIC bridge now records
+the actual API path returned by the dispatcher.

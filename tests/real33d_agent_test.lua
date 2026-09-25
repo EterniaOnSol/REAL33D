@@ -408,9 +408,9 @@ contains(lines[3], '"stage":"schema"')
 contains(lines[3], '"accepted":true')
 
 clock = 500
-bridge:emitDispatch(cycle, intent, true, nil, Real33DAgentBridge.snapshot(obs1))
+bridge:emitDispatch(cycle, intent, true, nil, Real33DAgentBridge.snapshot(obs1), 'g_game.walk')
 contains(lines[4], '"event":"dispatch"')
-contains(lines[4], '"path":"g_game.move"')
+contains(lines[4], '"path":"g_game.walk"')
 
 -- The server moved the player. The next cycle must close the loop back onto
 -- the originating action and observation.
@@ -444,7 +444,7 @@ local quiet = Real33DAgentBridge.new({ sessionId = 'Q',
   sink = function(line) lines[#lines + 1] = line end, clock = function() return 0 end })
 local q = quiet:beginCycle(obs1, S.projectObservation(obs1))
 quiet:emitIntent(q, intent, 'mock')
-quiet:emitDispatch(q, intent, true, nil, Real33DAgentBridge.snapshot(obs1))
+quiet:emitDispatch(q, intent, true, nil, Real33DAgentBridge.snapshot(obs1), 'g_game.walk')
 quiet:beginCycle(obs1, S.projectObservation(obs1))
 contains(lines[#lines - 1], '"authoritative_change":false')
 

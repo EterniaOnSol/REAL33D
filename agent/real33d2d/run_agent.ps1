@@ -6,8 +6,9 @@
 # own generated secrets file into this process only: they are never echoed,
 # never passed as command arguments, and never written to a file by this script.
 param(
-    [ValidateSet('bridge', 'legacy')][string]$Mode = 'bridge',
+    [ValidateSet('bridge', 'legacy', 'aldric')][string]$Mode = 'bridge',
     [ValidateSet('mock', 'ollama')][string]$Brain = 'mock',
+    [string]$Model = 'qwen3:4b',
     [string]$Character,
     [string]$Trace,
     [switch]$Memory,
@@ -49,6 +50,9 @@ if (-not (Test-Path $exe)) { throw "Client binary not found: $exe" }
 if ($Mode -eq 'bridge' -and $Brain -ne 'mock') {
     throw 'Bridge certification is mock-only. Use -Mode legacy to exercise another brain.'
 }
+if ($Mode -eq 'aldric' -and $Brain -ne 'ollama') {
+    throw 'Aldric mode requires -Brain ollama; mock fallback is forbidden.'
+}
 
 $lines = & wsl.exe -d $distro -- cat $credentialPath
 if ($LASTEXITCODE -ne 0) { throw 'Could not read local QA credentials' }
@@ -67,13 +71,14 @@ try {
     $env:R33D_ACC = $account
     $env:R33D_PW = $password
     $env:R33D_AGENT_AUTOLOGIN = '1'
-    if ($Mode -eq 'bridge') {
-        $env:R33D_AGENT_MODE = '1'
-        $env:R33D_AGENT_BRAIN = 'mock'
+    if ($Mode -eq 'bridge' -or $Mode -eq 'aldric') {
+        $env:R33D_AGENT_MODE = if ($Mode -eq 'aldric') { 'aldric' } else { '1' }
+        $env:R33D_AGENT_BRAIN = if ($Mode -eq 'aldric') { 'ollama' } else { 'mock' }
+        if ($Mode -eq 'aldric') { $env:R33D_AGENT_MODEL = $Model }
         if (-not $Trace) { $Trace = $env:R33D_AGENT_TRACE }
         if (-not $Trace) { $Trace = Join-Path $clientRoot 'real33d_agent_trace.jsonl' }
         $env:R33D_AGENT_TRACE = $Trace
-        if ($Memory) {
+        if ($Memory -or $Mode -eq 'aldric') {
             # Persistent memory is opt-in on top of bridge mode. Without the
             # switch no memory file is read or written at all.
             if (-not $MemoryDir) { $MemoryDir = $env:R33D_AGENT_MEMORY_DIR }
@@ -91,15 +96,16 @@ try {
     Remove-Item Env:R33D_ACCEPTANCE,Env:R33D_MOVEONLY,Env:R33D_TAPTEST,Env:R33D_MANUALTAP -ErrorAction SilentlyContinue
     $process = Start-Process -FilePath $exe -WorkingDirectory $clientRoot -PassThru
     Write-Output "REAL33D2D agent started: mode=$Mode brain=$Brain pid=$($process.Id)"
-    if ($Mode -eq 'bridge') {
+    if ($Mode -eq 'bridge' -or $Mode -eq 'aldric') {
         Write-Output "trace=$Trace"
-        if ($Memory) { Write-Output "memory=$MemoryDir" }
+        if ($Memory -or $Mode -eq 'aldric') { Write-Output "memory=$MemoryDir" }
     }
 }
 finally {
     $account = $null
     $password = $null
     Remove-Item Env:R33D_ACC,Env:R33D_PW,Env:R33D_AGENT,Env:R33D_AGENT_MODE,`
-        Env:R33D_AGENT_AUTOLOGIN,Env:R33D_AGENT_BRAIN,Env:R33D_AGENT_MEMORY `
+        Env:R33D_AGENT_AUTOLOGIN,Env:R33D_AGENT_BRAIN,Env:R33D_AGENT_MEMORY,`
+        Env:R33D_AGENT_MODEL `
         -ErrorAction SilentlyContinue
 }

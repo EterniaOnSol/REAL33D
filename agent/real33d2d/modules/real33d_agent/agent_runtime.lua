@@ -7,12 +7,16 @@ local R = Real33DAgentRuntime
 -- this file returns immediately: no timer is scheduled, no g_game event is
 -- connected, no observation is built and no trace file is opened. An ordinary
 -- human session behaves exactly as it does without this module installed.
-local bridgeMode = os.getenv('R33D_AGENT_MODE') == '1'
+local modeSetting = os.getenv('R33D_AGENT_MODE')
+local bridgeMode = modeSetting == '1'
+local aldricMode = modeSetting == 'aldric'
+local traceMode = bridgeMode or aldricMode
 local memoryEnabled = os.getenv('R33D_AGENT_MEMORY') == '1'
 local legacyMode = os.getenv('R33D_AGENT') == '1'
-local enabled = bridgeMode or legacyMode
+local enabled = traceMode or legacyMode
 local provider = os.getenv('R33D_AGENT_BRAIN') or 'mock'
 local timer, pending, epoch, budget, brain, lastDecision, lastState
+local pendingSince, decisionSerial = nil, 0
 local chat, sequence = {}, 0
 local previousOpcode, opcodeHook
 local bridge, traceFile
@@ -29,7 +33,7 @@ end
 -- R33D_PW only inside the login closure and never copies them into any
 -- observation, intent or event record.
 local function openTrace()
-  if traceFile or not bridgeMode then return end
+  if traceFile or not traceMode then return end
   local path = os.getenv('R33D_AGENT_TRACE') or 'real33d_agent_trace.jsonl'
   local handle, err = io.open(path, 'a')
   if not handle then
@@ -102,7 +106,7 @@ local function saveMemory()
 end
 
 local function newBridge()
-  if not bridgeMode then return nil end
+  if not traceMode then return nil end
   openTrace()
   return Real33DAgentBridge.new({
     sessionId = os.date('!%Y%m%dT%H%M%SZ'),
@@ -155,6 +159,7 @@ function R.observe()
     player = { id = player:getId(), name = player:getName(), position = copyPos(p),
                hp = player:getHealth(), maxHp = player:getMaxHealth(),
                mana = player:getMana(), maxMana = player:getMaxMana(),
+               freeCapacity = player.getFreeCapacity and player:getFreeCapacity() or nil,
                level = player:getLevel(), magicLevel = player:getMagicLevel(),
                skills = {} },
     tiles = {}, creatures = {}, creatureList = {}, items = {},
@@ -260,24 +265,28 @@ end
 
 local function dispatch(intent, refs, destinations)
   local action = intent.action
-  if action == 'move' then return g_game.walk(intent.direction)
-  elseif action == 'say' then g_game.talk(intent.text)
-  elseif action == 'attack' then g_game.attack(refs['creature:' .. intent.creatureId])
-  elseif action == 'follow' then g_game.follow(refs['creature:' .. intent.creatureId])
-  elseif action == 'cancel_attack' then g_game.cancelAttack()
-  elseif action == 'cancel_follow' then g_game.cancelFollow()
-  elseif action == 'use' then g_game.use(refs[intent.item])
-  elseif action == 'open_container' then g_game.open(refs[intent.item])
+  if action == 'move' then return g_game.walk(intent.direction), 'g_game.walk'
+  elseif action == 'say' then g_game.talk(intent.text); return true, 'g_game.talk'
+  elseif action == 'attack' then g_game.attack(refs['creature:' .. intent.creatureId]); return true, 'g_game.attack'
+  elseif action == 'follow' then g_game.follow(refs['creature:' .. intent.creatureId]); return true, 'g_game.follow'
+  elseif action == 'cancel_attack' then g_game.cancelAttack(); return true, 'g_game.cancelAttack'
+  elseif action == 'cancel_follow' then g_game.cancelFollow(); return true, 'g_game.cancelFollow'
+  elseif action == 'use' then g_game.use(refs[intent.item]); return true, 'g_game.use'
+  elseif action == 'open_container' then g_game.open(refs[intent.item]); return true, 'g_game.open'
   elseif action == 'use_with' then
     g_game.useWith(refs[intent.item], refs[intent.targetItem or ('creature:' .. intent.targetCreatureId)])
+    return true, 'g_game.useWith'
   elseif action == 'move_item' then
     g_game.move(refs[intent.item], destinations[intent.destination], intent.count)
+    return true, 'g_game.move'
   elseif action == 'combat_mode' then
-    if intent.fight ~= g_game.getFightMode() then g_game.setFightMode(intent.fight)
-    elseif intent.chase ~= g_game.getChaseMode() then g_game.setChaseMode(intent.chase)
-    else g_game.setSafeFight(intent.safe) end
+    if intent.fight ~= g_game.getFightMode() then
+      g_game.setFightMode(intent.fight); return true, 'g_game.setFightMode'
+    elseif intent.chase ~= g_game.getChaseMode() then
+      g_game.setChaseMode(intent.chase); return true, 'g_game.setChaseMode'
+    else g_game.setSafeFight(intent.safe); return true, 'g_game.setSafeFight' end
   end
-  return true
+  return false
 end
 
 -- Three gates, in this order, every time:
@@ -289,24 +298,50 @@ end
 -- The state gate re-reads the client after the Brain answered, so a target that
 -- walked out of view or an item that moved between decision and dispatch is
 -- rejected rather than acted on from a stale view.
-local function applyIntent(raw, cycle, decisionEpoch)
+local function applyIntent(raw, cycle, decisionEpoch, meta)
   if not enabled or epoch ~= decisionEpoch or not g_game.isOnline() or not raw then return end
   local obs, refs, destinations = R.observe() -- recheck after async brain response
 
   if bridge then
     local plan = nil
-    if memory and brain then
+    if aldricMode and meta then
+      plan = { origin = meta.origin, goal = meta.goal, summary = meta.summary,
+        provider = meta.provider, model = meta.model,
+        knowledge_ids = meta.knowledge_ids, memory_ids = meta.memory_ids,
+        latency_ms = meta.latency_ms, horizon = meta.horizon,
+        execution_horizon = meta.execution_horizon }
+    elseif memory and brain then
       plan = { memory_records = memory:total(),
                navigating_to = brain.navigatingTo,
                navigating_via = brain.navigatingVia,
                memory_guided = brain.navigatingTo ~= nil }
     end
-    bridge:emitIntent(cycle, raw, provider, plan)
+    bridge:emitIntent(cycle, raw, aldricMode and meta and meta.origin or provider, plan)
+    if aldricMode and meta and meta.origin == 'llm' then
+      bridge:emit('brain_decision', {
+        correlation_id = cycle.correlationId, observation_id = cycle.observationId,
+        action_id = cycle.actionId, provider = meta.provider, model = meta.model,
+        knowledge_ids = meta.knowledge_ids, memory_ids = meta.memory_ids,
+        goal = meta.goal, summary = meta.summary, proposed_intent = raw,
+        latency_ms = meta.latency_ms, horizon = meta.horizon,
+        execution_horizon = meta.execution_horizon,
+        decision_number = meta.decision_number,
+      })
+    end
+  end
+
+  if aldricMode and cycle and cycle.decisionSignature and
+     AgentAldric.materialChange(cycle.decisionSignature,AgentAldric.signature(obs)) then
+    if bridge then bridge:emitValidation(cycle,'freshness',false,'material_state_changed') end
+    if brain and brain.onRejected then brain:onRejected('material_state_changed') end
+    log('REJECT','material_state_changed')
+    return
   end
 
   local checked, schemaReason = AgentSchema.checkObservation(obs)
   if not checked then
     if bridge then bridge:emitValidation(cycle, 'observation', false, schemaReason) end
+    if aldricMode and brain and brain.onRejected then brain:onRejected(schemaReason) end
     log('REJECT', schemaReason)
     return
   end
@@ -314,6 +349,7 @@ local function applyIntent(raw, cycle, decisionEpoch)
   local normalized, reason = AgentSchema.checkIntent(raw)
   if not normalized then
     if bridge then bridge:emitValidation(cycle, 'schema', false, reason) end
+    if aldricMode and brain and brain.onRejected then brain:onRejected(reason) end
     log('REJECT', reason)
     return
   end
@@ -323,6 +359,7 @@ local function applyIntent(raw, cycle, decisionEpoch)
   intent, reason = AgentCore.validate(normalized, obs)
   if not intent then
     if bridge then bridge:emitValidation(cycle, 'state', false, reason) end
+    if aldricMode and brain and brain.onRejected then brain:onRejected(reason) end
     -- Worth remembering: this is how the agent learns that something it tried
     -- was not legal, which is experience rather than imported knowledge.
     if memory then
@@ -339,19 +376,21 @@ local function applyIntent(raw, cycle, decisionEpoch)
   local allowed, why = budget:allow(intent.action, now)
   if not allowed then
     if bridge then bridge:emitValidation(cycle, 'budget', false, why) end
+    if aldricMode and brain and brain.onRejected then brain:onRejected(why) end
     log('LIMIT', why)
     return
   end
   if bridge then bridge:emitValidation(cycle, 'budget', true) end
 
   local snapshot = bridge and Real33DAgentBridge.snapshot(obs) or nil
-  local ok, result = pcall(dispatch, intent, refs, destinations)
+  local ok, result, apiPath = pcall(dispatch, intent, refs, destinations)
   if not ok or result == false then
-    if bridge then bridge:emitDispatch(cycle, intent, false, 'dispatch_failed') end
+    if bridge then bridge:emitDispatch(cycle, intent, false, 'dispatch_failed', nil, apiPath) end
+    if aldricMode and brain and brain.onRejected then brain:onRejected('dispatch_failed') end
     log('DISPATCH_FAILED', intent.action)
     return
   end
-  if bridge then bridge:emitDispatch(cycle, intent, true, nil, snapshot) end
+  if bridge then bridge:emitDispatch(cycle, intent, true, nil, snapshot, apiPath) end
   if memory then
     AgentMemory.recordOutcome(memory, intent.action, true, nil,
                               cycle and cycle.observationId or 'unknown',
@@ -368,7 +407,17 @@ local function tick()
   if not enabled then return end
   if g_game.isOnline() then
     local now = g_clock.millis()
-    if not pending and now - lastDecision >= (provider == 'ollama' and 15000 or 2200) then
+    if aldricMode and pending and pendingSince and now-pendingSince > 90000 then
+      pending, pendingSince = false, nil
+      decisionSerial = decisionSerial + 1 -- discard any late provider callback
+      if brain and brain.timeout then brain:timeout(now) end
+      if bridge then bridge:emit('provider_failure', {
+        provider='ollama',model=brain and brain.model,
+        reason='provider_timeout',retry_after_ms=brain and (brain.nextCall-now) }) end
+      log('BRAIN_ERROR','provider_timeout')
+    end
+    if not pending and now - lastDecision >=
+       ((provider == 'ollama' and not aldricMode) and 15000 or 2200) then
       local obs = R.observe()
       if obs.online and obs.player.hp > 0 then
         local monsters = {}
@@ -418,6 +467,7 @@ local function tick()
           local checked, schemaReason = AgentSchema.checkObservation(obs)
           if checked then
             cycle = bridge:beginCycle(obs, AgentSchema.projectObservation(obs))
+            if aldricMode then cycle.decisionSignature=AgentAldric.signature(obs) end
             -- Memory is written from the observation the agent just received,
             -- after that observation passed its own schema check, and is keyed
             -- to the observation_id that produced it. Nothing else feeds it.
@@ -439,17 +489,45 @@ local function tick()
           end
         end
         if observationOk then
-          pending, lastDecision = true, now
+          pending, pendingSince, lastDecision = true, now, now
           local currentEpoch = epoch
+          decisionSerial = decisionSerial + 1
+          local currentSerial = decisionSerial
           local ok, err = pcall(function()
-            brain:decide(obs, function(intent, brainError)
-              if epoch ~= currentEpoch then return end
-              pending = false
-              if brainError then log('BRAIN_ERROR', brainError) end
-              applyIntent(intent, cycle, currentEpoch)
+            brain:decide(obs, function(intent, brainError, meta)
+              if epoch ~= currentEpoch or decisionSerial ~= currentSerial then return end
+              pending, pendingSince = false, nil
+              if brainError then
+                log('BRAIN_ERROR', brainError)
+                if bridge and aldricMode then bridge:emit('provider_failure', {
+                  correlation_id=cycle and cycle.correlationId,
+                  observation_id=cycle and cycle.observationId,
+                  provider='ollama',model=brain.model,reason=brainError,
+                  latency_ms=meta and meta.latency_ms,
+                  retry_after_ms=math.max(0,brain.nextCall-g_clock.millis()) }) end
+              elseif aldricMode and meta and meta.origin=='llm' and not intent then
+                if bridge then bridge:emit('brain_decision', {
+                  correlation_id=cycle.correlationId,observation_id=cycle.observationId,
+                  provider=meta.provider,model=meta.model,
+                  knowledge_ids=meta.knowledge_ids,memory_ids=meta.memory_ids,
+                  goal=meta.goal,summary=meta.summary,
+                  proposed_intent={action='wait'},latency_ms=meta.latency_ms,
+                  horizon=meta.horizon,
+                  decision_number=meta.decision_number }) end
+              end
+              applyIntent(intent, cycle, currentEpoch, meta)
             end, now)
           end)
-          if not ok then pending = false log('BRAIN_ERROR', tostring(err)) end
+          if not ok then
+            pending, pendingSince = false, nil
+            if aldricMode and brain and brain.timeout then brain:timeout(now) end
+            if bridge and aldricMode then bridge:emit('provider_failure', {
+              correlation_id=cycle and cycle.correlationId,
+              observation_id=cycle and cycle.observationId,
+              provider='ollama',model=brain and brain.model,
+              reason='brain_exception',retry_after_ms=brain and (brain.nextCall-now) }) end
+            log('BRAIN_ERROR', tostring(err))
+          end
         end
       end
     end
@@ -467,19 +545,20 @@ end
 
 local function onStart()
   epoch, budget, lastDecision, lastState = epoch + 1, AgentCore.newBudget(), -100000, nil
+  pending, pendingSince = false, nil
   chat = {}
   bridge = newBridge()
   -- Bridge mode is mock-only by construction. The Ollama adapter is never
   -- instantiated on this path, so certification cannot contact an LLM even if
   -- R33D_AGENT_BRAIN was exported; init() has already forced provider to mock.
-  if bridgeMode then
+  if traceMode then
     -- Persistent memory is opt-in on top of bridge mode. Without it the
     -- certified BRIDGE-001 behaviour is unchanged: no file is read or written.
     local loadState = 'disabled'
     memory, memoryFile, memorySince = nil, nil, 0
     if memoryEnabled then
       local player = g_game.getLocalPlayer()
-      local identity = { agent = 'mock', world = worldIdentity(),
+      local identity = { agent = aldricMode and 'aldric' or 'mock', world = worldIdentity(),
                          character = player and player:getName() or 'unknown' }
       memory, memoryFile, loadState = loadMemory(identity)
       memory.sessions = memory.sessions + 1
@@ -488,11 +567,32 @@ local function onStart()
     -- crossSessionMemory stays false: that flag is the MVP's hardcoded item id,
     -- which is not observation-derived. AgentMemory is the sanctioned route and
     -- carries provenance for everything it holds.
-    brain = AgentCore.mockBrain({ crossSessionMemory = false, followFirst = true,
-                                  proveCancel = true, memory = memory })
-    log('GAME_START', 'brain=mock mode=bridge memory=' .. loadState)
+    local model = os.getenv('R33D_AGENT_MODEL') or 'qwen3:4b'
+    if aldricMode then
+      local infer = AgentOllama.new(function(url,data,callback)
+        local previous = HTTP.timeout
+        HTTP.timeout = 75
+        local ok,result = pcall(HTTP.postJSON,url,data,callback)
+        HTTP.timeout = previous
+        if not ok then callback(nil,'http_unavailable') end
+        return result
+      end,function() return g_clock.millis() end)
+      brain = AgentAldric.new({infer=infer,model=model,memory=memory,
+        knowledge=AgentKnowledge,clock=function() return g_clock.millis() end})
+    else
+      brain = AgentCore.mockBrain({ crossSessionMemory = false, followFirst = true,
+                                    proveCancel = true, memory = memory })
+    end
+    log('GAME_START', 'brain=' .. provider .. ' mode=' ..
+      (aldricMode and 'aldric' or 'bridge') .. ' memory=' .. loadState)
     bridge:emitSession('session_start', {
-      mode = 'bridge', brain = 'mock', cross_session_memory = false,
+      mode = aldricMode and 'aldric' or 'bridge', brain = provider,
+      provider = aldricMode and 'ollama' or nil,
+      model = aldricMode and model or nil,
+      knowledge_schema = aldricMode and AgentKnowledge.SCHEMA or nil,
+      knowledge_version = aldricMode and AgentKnowledge.VERSION or nil,
+      mock_disabled = aldricMode and true or nil,
+      cross_session_memory = false,
       observation_schema = AgentSchema.OBSERVATION_SCHEMA,
       intent_schema = AgentSchema.INTENT_SCHEMA,
       actions = AgentSchema.array(AgentSchema.actions()),
@@ -547,6 +647,11 @@ function R.init()
     g_logger.error('[R33D-AGENT] bridge mode is mock-only; ignoring brain=' .. provider)
     provider = 'mock'
   end
+  if aldricMode and (provider ~= 'ollama' or not memoryEnabled) then
+    g_logger.error('[R33D-AGENT] aldric requires ollama and persistent memory; disabled')
+    enabled = false
+    return
+  end
   epoch, budget, lastDecision = 0, AgentCore.newBudget(), -100000
   -- Read-only hook, called before the ordinary C++ parser. Returning the
   -- original result leaves the parser and packet cursor untouched.
@@ -561,8 +666,9 @@ function R.init()
   connect(g_game, { onGameStart = onStart, onGameEnd = onEnd, onTalk = onTalk })
   if g_game.isOnline() then onStart() end
   timer = scheduleEvent(tick, 1000)
-  log('READY', 'opt_in=' .. (bridgeMode and 'R33D_AGENT_MODE' or 'R33D_AGENT') ..
-      ' mode=' .. (bridgeMode and 'bridge' or 'legacy') .. ' brain=' .. provider)
+  log('READY', 'opt_in=' .. (traceMode and 'R33D_AGENT_MODE' or 'R33D_AGENT') ..
+      ' mode=' .. (aldricMode and 'aldric' or bridgeMode and 'bridge' or 'legacy') ..
+      ' brain=' .. provider)
   if os.getenv('R33D_AGENT_AUTOLOGIN') == '1' then
     scheduleEvent(function()
       if g_game.isOnline() then return end

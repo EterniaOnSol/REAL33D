@@ -169,7 +169,7 @@ end
 
 -- Records the dispatch and arms result correlation. `snapshot` is the state as
 -- observed immediately before the action left the client.
-function B:emitDispatch(cycle, intent, accepted, reason, snapshot)
+function B:emitDispatch(cycle, intent, accepted, reason, snapshot, apiPath)
   self:emit('dispatch', {
     correlation_id = cycle.correlationId,
     observation_id = cycle.observationId,
@@ -177,7 +177,7 @@ function B:emitDispatch(cycle, intent, accepted, reason, snapshot)
     action = intent and intent.action,
     accepted = accepted,
     reason = reason,
-    path = 'g_game.' .. tostring(intent and intent.action),
+    path = apiPath,
   })
   if accepted then
     self.pending = {

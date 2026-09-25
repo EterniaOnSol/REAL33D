@@ -162,6 +162,8 @@ for _, event in ipairs(b) do
   end
 end
 assert(stages.schema and stages.state and stages.budget)
+-- The historical bridge mislabeled this walk as g_game.move. This assertion
+-- checks the retained trace; the actual runtime call was g_game.walk.
 assert(dispatch and dispatch.accepted and dispatch.path == 'g_game.move')
 assert(result and result.authoritative_change and result.observed_in)
 local after = assert(bObservations[result.observed_in])

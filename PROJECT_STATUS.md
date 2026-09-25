@@ -1,10 +1,10 @@
 # Project Status
 
 Current phase: `PHASE 2 - GAMEPLAY CLIENT PROGRAMMING` (`IN_PROGRESS`; the first 3D representation is live, a stock 2D client now completes the ordinary 7.72 flow, and V08 visual review is on operator-directed standby)
-Current milestone: UNREAL-ACTION-BARS-001 (three live Unreal action bars backed by existing 7.72 commands) — `IN_PROGRESS`.
-Next milestone: REAL33D-2D-BOOTSTRAP-001 (NOT_STARTED), or container mini-window behaviour (see the operator request below).
-Last certified: UNREAL-COMBAT-FOLLOW-001 CERTIFIED_PASS; UNREAL-INVENTORY-CONTAINERS-001 CERTIFIED_PASS; UNREAL-WIDE-WORLD-001 CERTIFIED_PASS at `3fd5d1d`; DUAL_CLIENT_LIVE_CAPTURE PASS at `0f9bd505`.
-Branch: `main`
+Current milestone: REAL33D-AGENT-ALDRIC-001 (opt-in autonomous 2D player with a real LLM) — `CERTIFIED` for bounded live control.
+Next milestone: `NOT_STARTED`; no follow-on work is authorized beyond Aldric certification.
+Last certified: REAL33D-AGENT-ALDRIC-001 `CERTIFIED` on its unmerged milestone branch; the previous MEMORY certification is `ef57363`.
+Branch: `milestone/real33d-agent-aldric-001` (not merged to `main`)
 Classic baseline review commit: `f65f3a7645ff40b39b7cc8399760fd4f0b69ecee`
 Transport implementation commit: `abd2d0a25bd9632f5aa3955e822876268c7ca96c`
 Crypto implementation commit: `64e9217ef64181d44cdce815a36b6bb1d2aa9038`
@@ -315,11 +315,31 @@ sessions on branch `milestone/real33d-agent-memory-001`. Session A started with
 zero memory records, directly observed a route and creature, and saved 20
 records. A fresh Session B loaded those 20 records while the remembered place
 and creature were outside the current observation, chose a memory-guided move,
-passed schema/state/budget validation, dispatched through `g_game.move`, and
+passed schema/state/budget validation, dispatched through `g_game.walk`, and
 observed Fusion32's resulting position change. Stale creature attack/follow
 intents were rejected until a new B observation showed the creature. Identity
 isolation, observation provenance, opt-in normal-client behavior, and zero
 protocol errors were checked. See
 `evidence/agent/REAL33D-AGENT-MEMORY-001-certification.md` and its retained
 JSONL/memory/client-log artifacts. Sustained survival and movement-speed tuning
-remain outside this certification.
+remain outside this certification. Its historical JSONL labels the call
+`g_game.move` because of a trace metadata defect corrected in ALDRIC; the
+runtime dispatcher source and the later ALDRIC trace establish `g_game.walk`.
+
+## REAL33D 2D Aldric - 2026-09-24
+
+`REAL33D-AGENT-ALDRIC-001 = CERTIFIED` for bounded real-LLM control on
+`milestone/real33d-agent-aldric-001`. The opt-in real-provider Brain, versioned
+veteran knowledge, bounded tactical movement, provider failure handling,
+current-state validation, and JSONL decision logging are implemented.
+Deterministic MVP/bridge/memory and Aldric tests, the MEMORY two-session replay,
+the provider-offline failure replay, launcher regression and `secret_check`
+pass. After the 2026-09-25 reboot, a fresh ordinary-rights Aldric session with
+`qwen3:4b` and mock disabled produced six model decisions, three bounded
+tactical continuations, five validated `g_game.walk` calls and four
+server-observed position changes. The bridge trace now names the actual client
+API call. Personal memory loaded and saved. A complete sanitized trace replays
+successfully; the final client log had zero error/protocol-pattern matches.
+Live combat, loot, supplies, trade and equipment upgrades
+remain `IMPLEMENTED_UNVERIFIED`; NPC buy/sell execution is `NOT_STARTED`.
+See `evidence/agent/REAL33D-AGENT-ALDRIC-001.md`.

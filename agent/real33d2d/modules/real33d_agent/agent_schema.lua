@@ -322,6 +322,10 @@ function AgentSchema.checkObservation(obs)
   if not isInteger(player.hp) or not isInteger(player.maxHp) or player.maxHp < 1 then
     return nil, 'schema_player_health'
   end
+  if player.freeCapacity ~= nil and
+     (not isInteger(player.freeCapacity) or player.freeCapacity < 0) then
+    return nil, 'schema_player_capacity'
+  end
   local combat = obs.combat
   if not isInteger(combat.fight) or not isInteger(combat.chase)
      or type(combat.safe) ~= 'boolean' then
@@ -417,6 +421,7 @@ function AgentSchema.projectObservation(obs)
       id = player.id, name = player.name,
       x = player.position.x, y = player.position.y, z = player.position.z,
       hp = player.hp, maxHp = player.maxHp, mana = player.mana, maxMana = player.maxMana,
+      freeCapacity = player.freeCapacity,
       level = player.level, magicLevel = player.magicLevel, skills = skills,
       combat = { fight = obs.combat.fight, chase = obs.combat.chase, safe = obs.combat.safe },
       attackId = obs.attackId, followId = obs.followId,
