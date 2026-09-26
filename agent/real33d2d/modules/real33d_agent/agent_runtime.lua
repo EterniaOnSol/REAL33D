@@ -21,6 +21,34 @@ local chat, sequence = {}, 0
 local previousOpcode, opcodeHook
 local bridge, traceFile
 local memory, memoryFile, memorySince
+local shop, shopRefs = {open=false,offers={},goods={}}, {}
+
+local function onOpenNpcTrade(items)
+  shop,shopRefs={open=true,offers={},goods={},money=nil},{}
+  for index,row in ipairs(items or {}) do
+    local item=row[1]
+    if item and index<=100 then
+      local key='s:'..index
+      shopRefs[key]=item
+      shop.offers[#shop.offers+1]={key=key,id=item:getId(),
+        name=tostring(row[2] or ''),weight=math.max(0,math.ceil((row[3] or 0)/100)),
+        buyPrice=row[4] or 0,sellPrice=row[5] or 0}
+    end
+  end
+end
+
+local function onPlayerGoods(money,goods)
+  if not shop.open then return end
+  shop.money=money
+  shop.goods={}
+  for _,row in ipairs(goods or {}) do
+    if row[1] then shop.goods[tostring(row[1]:getId())]=row[2] or 0 end
+  end
+end
+
+local function onCloseNpcTrade()
+  shop,shopRefs={open=false,offers={},goods={}},{}
+end
 
 local function log(event, detail)
   sequence = sequence + 1
@@ -167,8 +195,15 @@ function R.observe()
     chat = copyChat(), attackId = attack and attack:getId() or nil,
     followId = follow and follow:getId() or nil,
     combat = { fight = g_game.getFightMode(), chase = g_game.getChaseMode(),
-               safe = g_game.isSafeFight() }
+               safe = g_game.isSafeFight() },
+    shop = {open=shop.open,money=shop.money,offers={},goods={}}
   }
+  for _,offer in ipairs(shop.offers) do
+    obs.shop.offers[#obs.shop.offers+1]={key=offer.key,id=offer.id,
+      name=offer.name,weight=offer.weight,buyPrice=offer.buyPrice,
+      sellPrice=offer.sellPrice}
+  end
+  for id,count in pairs(shop.goods) do obs.shop.goods[id]=count end
   local refs, destinations = {}, {}
   for skill = 0, 6 do obs.player.skills[skill] = player:getSkillLevel(skill) end
   for slot = 1, 10 do
@@ -279,6 +314,14 @@ local function dispatch(intent, refs, destinations)
   elseif action == 'move_item' then
     g_game.move(refs[intent.item], destinations[intent.destination], intent.count)
     return true, 'g_game.move'
+  elseif action == 'buy' then
+    if not shopRefs[intent.offer] then return false,'g_game.buyItem' end
+    g_game.buyItem(shopRefs[intent.offer],intent.count,false,false)
+    return true,'g_game.buyItem'
+  elseif action == 'sell' then
+    if not shopRefs[intent.offer] then return false,'g_game.sellItem' end
+    g_game.sellItem(shopRefs[intent.offer],intent.count,false)
+    return true,'g_game.sellItem'
   elseif action == 'combat_mode' then
     if intent.fight ~= g_game.getFightMode() then
       g_game.setFightMode(intent.fight); return true, 'g_game.setFightMode'
@@ -307,7 +350,9 @@ local function applyIntent(raw, cycle, decisionEpoch, meta)
     if aldricMode and meta then
       plan = { origin = meta.origin, goal = meta.goal, summary = meta.summary,
         provider = meta.provider, model = meta.model,
-        knowledge_ids = meta.knowledge_ids, memory_ids = meta.memory_ids,
+        knowledge_ids = meta.knowledge_ids,
+        world_knowledge_ids = meta.world_knowledge_ids,
+        memory_ids = meta.memory_ids,
         latency_ms = meta.latency_ms, horizon = meta.horizon,
         execution_horizon = meta.execution_horizon }
     elseif memory and brain then
@@ -321,7 +366,9 @@ local function applyIntent(raw, cycle, decisionEpoch, meta)
       bridge:emit('brain_decision', {
         correlation_id = cycle.correlationId, observation_id = cycle.observationId,
         action_id = cycle.actionId, provider = meta.provider, model = meta.model,
-        knowledge_ids = meta.knowledge_ids, memory_ids = meta.memory_ids,
+        knowledge_ids = meta.knowledge_ids,
+        world_knowledge_ids = meta.world_knowledge_ids,
+        memory_ids = meta.memory_ids,
         goal = meta.goal, summary = meta.summary, proposed_intent = raw,
         latency_ms = meta.latency_ms, horizon = meta.horizon,
         execution_horizon = meta.execution_horizon,
@@ -330,11 +377,17 @@ local function applyIntent(raw, cycle, decisionEpoch, meta)
     end
   end
 
+  local freshSignature=aldricMode and AgentAldric.signature(obs) or nil
   if aldricMode and cycle and cycle.decisionSignature and
-     AgentAldric.materialChange(cycle.decisionSignature,AgentAldric.signature(obs)) then
+     AgentAldric.materialChange(cycle.decisionSignature,freshSignature) then
+    local changed={}
+    for key,value in pairs(cycle.decisionSignature) do
+      if freshSignature[key]~=value then changed[#changed+1]=key end
+    end
+    table.sort(changed)
     if bridge then bridge:emitValidation(cycle,'freshness',false,'material_state_changed') end
     if brain and brain.onRejected then brain:onRejected('material_state_changed') end
-    log('REJECT','material_state_changed')
+    log('REJECT','material_state_changed fields='..table.concat(changed,','))
     return
   end
 
@@ -509,7 +562,9 @@ local function tick()
                 if bridge then bridge:emit('brain_decision', {
                   correlation_id=cycle.correlationId,observation_id=cycle.observationId,
                   provider=meta.provider,model=meta.model,
-                  knowledge_ids=meta.knowledge_ids,memory_ids=meta.memory_ids,
+                  knowledge_ids=meta.knowledge_ids,
+                  world_knowledge_ids=meta.world_knowledge_ids,
+                  memory_ids=meta.memory_ids,
                   goal=meta.goal,summary=meta.summary,
                   proposed_intent={action='wait'},latency_ms=meta.latency_ms,
                   horizon=meta.horizon,
@@ -544,6 +599,7 @@ local function onTalk(name, level, mode, message, channel, position)
 end
 
 local function onStart()
+  onCloseNpcTrade()
   epoch, budget, lastDecision, lastState = epoch + 1, AgentCore.newBudget(), -100000, nil
   pending, pendingSince = false, nil
   chat = {}
@@ -578,7 +634,8 @@ local function onStart()
         return result
       end,function() return g_clock.millis() end)
       brain = AgentAldric.new({infer=infer,model=model,memory=memory,
-        knowledge=AgentKnowledge,clock=function() return g_clock.millis() end})
+        knowledge=AgentKnowledge,world=AgentWorldKnowledge,
+        clock=function() return g_clock.millis() end})
     else
       brain = AgentCore.mockBrain({ crossSessionMemory = false, followFirst = true,
                                     proveCancel = true, memory = memory })
@@ -591,6 +648,8 @@ local function onStart()
       model = aldricMode and model or nil,
       knowledge_schema = aldricMode and AgentKnowledge.SCHEMA or nil,
       knowledge_version = aldricMode and AgentKnowledge.VERSION or nil,
+      world_knowledge_schema = aldricMode and AgentWorldKnowledge.SCHEMA or nil,
+      world_knowledge_version = aldricMode and AgentWorldKnowledge.VERSION or nil,
       mock_disabled = aldricMode and true or nil,
       cross_session_memory = false,
       observation_schema = AgentSchema.OBSERVATION_SCHEMA,
@@ -616,6 +675,7 @@ local function onStart()
 end
 
 local function onEnd()
+  onCloseNpcTrade()
   epoch, pending = epoch + 1, false
   local saved = false
   if memory then
@@ -663,7 +723,9 @@ function R.init()
     end
     ProtocolGame.onOpcode = opcodeHook
   end
-  connect(g_game, { onGameStart = onStart, onGameEnd = onEnd, onTalk = onTalk })
+  connect(g_game, { onGameStart = onStart, onGameEnd = onEnd,
+    onTalk = onTalk,onOpenNpcTrade=onOpenNpcTrade,
+    onPlayerGoods=onPlayerGoods,onCloseNpcTrade=onCloseNpcTrade })
   if g_game.isOnline() then onStart() end
   timer = scheduleEvent(tick, 1000)
   log('READY', 'opt_in=' .. (traceMode and 'R33D_AGENT_MODE' or 'R33D_AGENT') ..
@@ -691,7 +753,9 @@ end
 function R.terminate()
   if not enabled then return end
   if timer then removeEvent(timer) timer = nil end
-  disconnect(g_game, { onGameStart = onStart, onGameEnd = onEnd, onTalk = onTalk })
+  disconnect(g_game, { onGameStart = onStart, onGameEnd = onEnd,
+    onTalk = onTalk,onOpenNpcTrade=onOpenNpcTrade,
+    onPlayerGoods=onPlayerGoods,onCloseNpcTrade=onCloseNpcTrade })
   if ProtocolGame and ProtocolGame.onOpcode == opcodeHook then
     ProtocolGame.onOpcode = previousOpcode
   end

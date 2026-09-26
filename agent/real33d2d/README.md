@@ -37,17 +37,17 @@ on the bridge path.
 
 ## Contracts
 
-`AgentIntent` is a closed set of 11 actions: `attack`, `cancel_attack`,
+`AgentIntent` is a closed set of 13 actions: `attack`, `buy`, `cancel_attack`,
 `cancel_follow`, `combat_mode`, `follow`, `move`, `move_item`, `open_container`,
-`say`, `use`, `use_with`. Unknown actions, unknown fields on a known action,
+`say`, `sell`, `use`, `use_with`. Unknown actions, unknown fields on a known action,
 wrong types, out-of-range values and control characters are rejected.
 
-`AgentObservation` is a closed whitelist of 14 fields; anything else is a
+`AgentObservation` is a closed whitelist of 15 fields; anything else is a
 `schema_forbidden_field` reject. That is the fair-play boundary as code: a later
 change that starts copying the full map, the minimap cache, spawn data or
 another player's state into the observation fails the schema instead of
 shipping. The published projection groups it into `self`, `visible`, `owned`
-and `social`.
+`social`, plus a current NPC `shop` view when the ordinary client receives one.
 
 Every dispatch passes `schema`, then `state` against freshly re-read client
 state, then `budget`. The state gate re-reads after the Brain answers, so a
@@ -135,25 +135,32 @@ The model must be available on the local Ollama API. `R33D_AGENT_TRACE` and
 the launcher's `-Trace` and `-MemoryDir` arguments. The versioned, read-only
 concept catalogue is in `modules/real33d_agent/knowledge/`. Personal memory
 remains a separate per-character file. The Brain receives a compact current
-observation and at most seven relevant knowledge records per model decision.
+observation, at most seven general veteran concepts, and up to eight sourced
+static world leads per model decision. Current-session positions and prior
+decisions are shown separately as the agent's own experience.
 
 The system identity explicitly says this is Tibia 7.72 on Fusion32 through
 REAL33D2D. The durable knowledge pack supplies player-level concepts; exact
-server prices, NPC offerings, spawns and geography are unknown until observed
-or separately verified for this version.
+server prices, NPC offerings and spawns are unknown until observed. Public
+geography is an approximate historical lead; current visible terrain wins.
 
 The model sets a goal and proposed intent. A short movement horizon can repeat
 only that selected direction on freshly visible walkable tiles, subject to the
 same gates and action budget. Material changes or blocked movement end the
-horizon. NPC purchase/sale is not exposed by the 11-action bridge; economic
-reasoning can occur, but executing a purchase is `NOT_IMPLEMENTED`.
+horizon. NPC buy/sell requires a current observed shop offer, price, money or
+goods, and the normal client method. A dispatch is not proof of a transaction;
+later server-observed inventory/money changes must confirm it. These trade
+actions have deterministic tests but remain unverified in live QA.
 
-Run `tests/real33d_aldric_test.lua` with the same LuaJIT before any live run.
+Run `tests/real33d_aldric_test.lua` and
+`tests/real33d_veteran_knowledge_test.lua` with the same LuaJIT before live QA.
 
-## Aldric milestone limits
+## Aldric and veteran milestone limits
 
 Only the Ollama provider is implemented for Aldric. There is no OpenAI,
 Claude, Gemini, Musebook, Web3, multi-agent, guild, or 3D path. The client
-bridge has no NPC buy/sell action and no protocol extension. Static veteran
+bridge uses normal client NPC buy/sell methods but has no raw protocol
+extension or player-to-player trade confirmation. Static veteran/world
 knowledge is read-only; personal experience is stored in the certified
-per-character memory. Human play remains opt-in-off by default.
+per-character memory. Full autonomous veteran progression was not observed
+in live QA. Human play remains opt-in-off by default.

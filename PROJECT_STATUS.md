@@ -1,10 +1,10 @@
 # Project Status
 
 Current phase: `PHASE 2 - GAMEPLAY CLIENT PROGRAMMING` (`IN_PROGRESS`; the first 3D representation is live, a stock 2D client now completes the ordinary 7.72 flow, and V08 visual review is on operator-directed standby)
-Current milestone: REAL33D-AGENT-ALDRIC-001 (opt-in autonomous 2D player with a real LLM) — `CERTIFIED` for bounded live control.
-Next milestone: `NOT_STARTED`; no follow-on work is authorized beyond Aldric certification.
-Last certified: REAL33D-AGENT-ALDRIC-001 `CERTIFIED` on its unmerged milestone branch; the previous MEMORY certification is `ef57363`.
-Branch: `milestone/real33d-agent-aldric-001` (not merged to `main`)
+Current milestone: REAL33D-AGENT-VETERAN-PLAY-001 — `IMPLEMENTED_UNVERIFIED`; live progression loop did not occur.
+Next milestone: `NOT_STARTED`; further live QA requires a new task.
+Last certified: REAL33D-AGENT-ALDRIC-001 `CERTIFIED` at `49bad6043de685e6b32753c5876ec1cddbe579d2`, pushed and remote-verified on its unmerged branch.
+Branch: `milestone/real33d-agent-veteran-play-001` (not merged to `main`)
 Classic baseline review commit: `f65f3a7645ff40b39b7cc8399760fd4f0b69ecee`
 Transport implementation commit: `abd2d0a25bd9632f5aa3955e822876268c7ca96c`
 Crypto implementation commit: `64e9217ef64181d44cdce815a36b6bb1d2aa9038`
@@ -343,3 +343,24 @@ successfully; the final client log had zero error/protocol-pattern matches.
 Live combat, loot, supplies, trade and equipment upgrades
 remain `IMPLEMENTED_UNVERIFIED`; NPC buy/sell execution is `NOT_STARTED`.
 See `evidence/agent/REAL33D-AGENT-ALDRIC-001.md`.
+
+## REAL33D 2D veteran play - 2026-09-25/26
+
+`REAL33D-AGENT-VETERAN-PLAY-001 = IMPLEMENTED_UNVERIFIED`. Public player-level
+Rookgaard/Thais landmark leads have source URLs and current observation
+precedence. REAL33D2D's ordinary NPC trade callbacks and `g_game.buyItem` /
+`g_game.sellItem` paths are behind schema, current-state and budget gates.
+Current shop prices and goods must come from the live client. Player trade
+confirmation and a distinct equip action are `NOT_STARTED`; existing validated
+`move_item` supports equipment-slot movement through normal `g_game.move`.
+
+Fresh ordinary-rights real-LLM sessions used `qwen3:4b`, mock disabled and
+observation-derived memory. The final long diagnostic session F had 346 model
+decisions, 287 accepted normal walk dispatches, 277 later authoritative
+position changes, and 38 distinct positions. Aldric remained level 1 with
+150 HP; every model action was movement. No hunt, loot, trade or upgrade
+occurred. The following short session G loaded F's 54-record memory but its
+two northward choices were refused against blocked visible tiles. Both
+sessions ended cleanly. Therefore landmark lookup and bounded navigation have
+live evidence; autonomous progression has not passed. See
+`evidence/agent/REAL33D-AGENT-VETERAN-PLAY-001.md`.

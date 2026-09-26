@@ -256,7 +256,7 @@ end
 -- --- schema acceptance -----------------------------------------------------
 eq(S.checkObservation(validObservation()) ~= nil, true)
 eq(S.checkObservation({ online = false }) ~= nil, true)
-eq(#S.actions(), 11)
+eq(#S.actions(), 13)
 local accepted = {
   { action = 'move', direction = 0 },
   { action = 'say', text = 'hello' },

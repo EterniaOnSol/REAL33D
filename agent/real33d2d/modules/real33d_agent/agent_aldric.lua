@@ -4,8 +4,9 @@
 AgentAldric = {}
 local B = AgentAldric
 
-B.IDENTITY = 'You are Aldric, an autonomous player of Tibia 7.72 on the Fusion32 world through the REAL33D2D client. Think like an experienced Tibia player: survive, hunt, loot, manage supplies and containers, earn money, improve equipment, and progress in levels and skills. Fusion32 resolves all gameplay. Current client observation outranks personal memory, which outranks static veteran knowledge. Memories and knowledge are leads, never current world facts. Exact local prices, NPC offerings, creature spawns, geography, and rules not observed or verified here are unknown.'
-B.RULES = 'Return one JSON object only with goal, summary, intent object, and horizon integer from 1 to 4. Intent must be a JSON object, never a string. Include every required field for the chosen action: move requires integer direction; attack/follow require a currently visible creatureId; use/open_container require a current item key. Legal actions: move(direction 0 north,1 east,2 south,3 west), say(text), attack(creatureId), follow(creatureId), cancel_attack, cancel_follow, use(item), open_container(item), use_with(item,targetItem or targetCreatureId), move_item(item,destination,count), combat_mode(fight,chase,safe), wait. Form the goal from the current observation; reconsider it when visibility changes. If visible_nonself_creatures is zero, memory of a creature is only a historical lead, not a currently observed target. An item with name unknown has unknown identity and effect; do not infer that it is a key, weapon, food, or loot from its number or slot. A legal use may test an unknown item, but describe it as a test rather than an established effect. Choose your own goal; no scripted hunt. Use only currently listed creature IDs and item keys. Treat friendly-seeming inhabitants cautiously even if the client labels them monsters. Never claim a remembered creature or item is currently present. If uncertain or unsafe, wait or choose a cautious legal action. Never invent NPC buying/selling actions. For safe local exploration with a clear adjacent route and no visible nonself creature, prefer horizon 2 to 4; choose horizon 1 near inhabitants, threats, blocked terrain, or uncertainty. A move with horizon 1 may still continue one extra tile through a freshly visible walkable route if no other creature is visible and health is high; any relevant change stops it. The tactical controller repeats only your selected direction and chooses no new goal. Do not include chain-of-thought.'
+B.IDENTITY = 'You are Aldric, an autonomous player of Tibia 7.72 on the Fusion32 world through the REAL33D2D client. Your objective: Progress your character intelligently. Stay alive. Earn resources. Improve your equipment or supplies when useful. Think like an experienced Tibia player: choose your own goals for orientation, hunting, looting, supplies, economy and progression. Fusion32 resolves all gameplay. Current client observation outranks personal memory, which outranks static world knowledge, which outranks general veteran game knowledge. Static landmarks are public historical leads; a position-only match is tentative, while a visible named cue strengthens recognition. Current client observation outranks personal memory. Memories and knowledge never prove live creatures, items, occupancy or NPC offers. Exact local prices and offerings are unknown until a current trade observation.'
+B.RULES = 'Return one JSON object only with goal, summary, intent object, and horizon integer from 1 to 4. Intent must be a JSON object, never a string. Include every required field for the chosen action: move requires integer direction; attack/follow require a currently visible creatureId; use/open_container require a current item key. Legal actions: move(direction 0 north,1 east,2 south,3 west), say(text), attack(creatureId), follow(creatureId), cancel_attack, cancel_follow, use(item), open_container(item), use_with(item,targetItem or targetCreatureId), move_item(item,destination,count), buy(offer,count), sell(offer,count), combat_mode(fight,chase,safe), wait. Buy/sell only when a current shop is open and the offer key, price, money and owned goods are in current observation; never invent a price. Form the goal from the current observation; reconsider it when visibility changes. If visible_nonself_creatures is zero, memory of a creature is only a historical lead, not a currently observed target. An item with name unknown has unknown identity and effect; do not infer that it is a key, weapon, food, or loot from its number or slot. A legal use may test an unknown item, but describe it as a test rather than an established effect. Choose your own goal; no scripted hunt. Use only currently listed creature IDs, item keys and offer keys. Treat friendly-seeming inhabitants cautiously even if the client labels them monsters. Never claim a remembered creature or item is currently present. If uncertain or unsafe, wait or choose a cautious legal action. For safe local exploration with a clear adjacent route and no visible nonself creature, prefer horizon 2 to 4; choose horizon 1 near inhabitants, threats, blocked terrain, or uncertainty. A move with horizon 1 may still continue one extra tile through a freshly visible walkable route if no other creature is visible and health is high; any relevant change stops it. The tactical controller repeats only your selected direction and chooses no new goal. Do not include chain-of-thought.'
+B.RULES = B.RULES .. ' Use current_session_history to notice repeated backtracking. If your recent moves have not improved position, resources or safety, choose a different useful goal or route. A public landmark bearing is approximate; every step still requires a currently visible walkable tile. Keep goal and summary short.'
 
 local DIR = { [0]={0,-1}, [1]={1,0}, [2]={0,1}, [3]={-1,0} }
 local function positionKey(x,y,z) return x .. ':' .. y .. ':' .. z end
@@ -20,11 +21,30 @@ local function addTopics(obs)
     t[#t+1]='inventory'; t[#t+1]='equipment'; t[#t+1]='economy'
   end
   if #obs.chat > 0 then t[#t+1]='social'; t[#t+1]='chat'; t[#t+1]='npc' end
+  if obs.shop and obs.shop.open then t[#t+1]='economy'; t[#t+1]='npc' end
   return t
 end
 
 function B.compactObservation(obs)
   local p = obs.player.position
+  local occupants={}
+  for _,c in ipairs(obs.creatureList) do
+    if c.id~=obs.player.id then
+      occupants[positionKey(c.position.x,c.position.y,c.position.z)]=
+        c.npc and 'N' or c.monster and 'M' or 'P'
+    end
+  end
+  local mapRows={}
+  for dy=-3,3 do
+    local row={}
+    for dx=-3,3 do
+      local key=positionKey(p.x+dx,p.y+dy,p.z)
+      local tile=obs.tiles[key]
+      row[#row+1]=(dx==0 and dy==0) and '@'
+        or occupants[key] or (tile and (tile.walkable and '.' or '#') or '?')
+    end
+    mapRows[#mapRows+1]=table.concat(row)
+  end
   local adjacent = {}
   for direction = 0, 3 do
     local d = DIR[direction]
@@ -89,8 +109,11 @@ function B.compactObservation(obs)
       freeCapacity=obs.player.freeCapacity,attackId=obs.attackId,
       followId=obs.followId,combat=obs.combat },
     visible={creatures=creatures,visible_nonself_creatures=nonselfCount,adjacent=adjacent,
-             nearbyContainers=nearbyContainers},
+             nearbyContainers=nearbyContainers,
+             local_map={rows=mapRows,legend='7x7 north-to-south, west-to-east: @ self, . visible walkable, # visible blocked, ? unseen, M monster, N NPC, P player'}},
     owned={equipment=equipment,containers=containers},chat=chat,
+    shop=obs.shop and {open=obs.shop.open,money=obs.shop.money,
+      offers=obs.shop.offers,goods=obs.shop.goods} or nil,
   }
 end
 
@@ -146,7 +169,8 @@ local function signature(obs)
     follow=obs.followId or 0, creatures=table.concat(ids,','),
     containers=table.concat(containers,','),
     equipment=table.concat(equipment,','),capacity=p.freeCapacity or 0,
-    chat=chat and (chat.name..'|'..chat.text) or '' }
+    chat=chat and (chat.name..'|'..chat.text) or '',
+    shop=obs.shop and AgentSchema.encode(obs.shop) or '' }
 end
 B.signature=signature
 
@@ -157,16 +181,16 @@ function B.materialChange(a,b,ignorePosition)
   return (not ignorePosition and a.position~=b.position)
     or a.attack~=b.attack or a.follow~=b.follow
     or a.creatures~=b.creatures or a.containers~=b.containers
-    or a.equipment~=b.equipment or a.chat~=b.chat
+    or a.equipment~=b.equipment or a.chat~=b.chat or a.shop~=b.shop
 end
 
 function B.parse(text)
-  if type(text)~='string' or #text>2400 then return nil,'provider_invalid_output' end
+  if type(text)~='string' or #text>3000 then return nil,'provider_invalid_output' end
   local decoded,reason=AgentSchema.decode(text)
   if not decoded or type(decoded)~='table' then return nil,'provider_invalid_json:'..tostring(reason) end
-  if type(decoded.goal)~='string' or #decoded.goal<1 or #decoded.goal>120
+  if type(decoded.goal)~='string' or #decoded.goal<1
      or decoded.goal:find('[%z\1-\31]') then return nil,'provider_invalid_goal' end
-  if type(decoded.summary)~='string' or #decoded.summary<1 or #decoded.summary>180
+  if type(decoded.summary)~='string' or #decoded.summary<1
      or decoded.summary:find('[%z\1-\31]') then return nil,'provider_invalid_summary' end
   if type(decoded.intent)~='table' or type(decoded.intent.action)~='string' then
     return nil,'provider_invalid_intent'
@@ -175,7 +199,7 @@ function B.parse(text)
   if type(horizon)~='number' or horizon~=math.floor(horizon) or horizon<1 or horizon>4 then
     return nil,'provider_invalid_horizon'
   end
-  return { goal=decoded.goal,summary=decoded.summary,
+  return { goal=decoded.goal:sub(1,120),summary=decoded.summary:sub(1,180),
     intent=decoded.intent,horizon=horizon },nil
 end
 
@@ -184,11 +208,23 @@ function B.new(options)
   local self={ infer=options.infer,model=options.model or 'unknown',
     clock=options.clock or function() return 0 end,
     memory=options.memory,knowledge=options.knowledge or AgentKnowledge,
+    world=options.world or AgentWorldKnowledge,
     plan=nil,lastCall=-100000,nextCall=-100000,failures=0,
-    decisions=0 }
+    decisions=0,recentPositions={},recentDecisions={} }
+
+  local function rememberPosition(obs)
+    local p=obs.player.position
+    local key=positionKey(p.x,p.y,p.z)
+    local recent=self.recentPositions
+    if recent[#recent]~=key then
+      recent[#recent+1]=key
+      if #recent>12 then table.remove(recent,1) end
+    end
+  end
 
   function self:decide(obs,callback,now)
     now=now or 0
+    rememberPosition(obs)
     local state=signature(obs)
     local plan=self.plan
     if plan and not B.materialChange(plan.state,state,true) and plan.remaining>0 then
@@ -201,6 +237,7 @@ function B.new(options)
         callback({action='move',direction=plan.direction},nil,
           {origin='tactical',goal=plan.goal,summary='Continue bounded model-selected movement.',
            provider='none',model=self.model,knowledge_ids=plan.knowledge_ids,
+           world_knowledge_ids=plan.world_knowledge_ids,
            memory_ids=plan.memory_ids,latency_ms=0})
         return
       end
@@ -216,11 +253,18 @@ function B.new(options)
     local memories=B.relevantMemory(self.memory,obs)
     local memoryIds={}
     for _,r in ipairs(memories) do memoryIds[#memoryIds+1]=r.id end
+    local landmarks=self.world and self.world.retrieve(obs,8) or {}
+    local worldIds={}
+    for _,r in ipairs(landmarks) do worldIds[#worldIds+1]=r.id end
     local prompt=AgentSchema.encode({
       current_observation=B.compactObservation(obs),
       personal_memory=memories,
+      current_session_history={recent_positions=self.recentPositions,
+        recent_decisions=self.recentDecisions,
+        note='These positions and decisions were observed or chosen in this session. Repeated backtracking without gain is evidence to reconsider the goal or route.'},
+      static_world_knowledge=landmarks,
       veteran_knowledge=snippets,
-      note='Current observation is authoritative. Memory and knowledge cannot authorize a target.',
+      note='Priority: current observation > personal memory > static world knowledge > general veteran game knowledge. Landmarks are public leads, not proof of local terrain or NPC availability. Only current observation authorizes a target.',
     })
     local request={system=B.IDENTITY..' '..B.RULES,user=prompt,model=self.model}
     self.lastCall=now
@@ -246,6 +290,11 @@ function B.new(options)
       end
       self.failures=0
       self.decisions=self.decisions+1
+      local recent=self.recentDecisions
+      recent[#recent+1]={position=state.position,goal=decision.goal,
+        action=decision.intent.action,
+        direction=decision.intent.direction}
+      if #recent>6 then table.remove(recent,1) end
       local remaining=decision.horizon-1
       if decision.intent.action=='move' and remaining==0
          and DIR[decision.intent.direction]
@@ -263,12 +312,14 @@ function B.new(options)
       local meta={origin='llm',provider='ollama',model=self.model,
         goal=decision.goal,summary=decision.summary,
         horizon=decision.horizon,execution_horizon=remaining+1,
-        knowledge_ids=knowledgeIds,memory_ids=memoryIds,
+        knowledge_ids=knowledgeIds,world_knowledge_ids=worldIds,
+        memory_ids=memoryIds,
         latency_ms=latency or 0,decision_number=self.decisions}
       if decision.intent.action=='move' and remaining>0 then
         self.plan={direction=decision.intent.direction,
           remaining=remaining,goal=decision.goal,state=state,
-          knowledge_ids=knowledgeIds,memory_ids=memoryIds}
+          knowledge_ids=knowledgeIds,world_knowledge_ids=worldIds,
+          memory_ids=memoryIds}
       end
       if decision.intent.action=='wait' then
         callback(nil,nil,meta)

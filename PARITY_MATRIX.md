@@ -148,3 +148,20 @@ validation. See `evidence/agent/REAL33D-AGENT-MEMORY-001-certification.md`.
 This milestone does not change Fusion32 gameplay, protocol 7.72, the ordinary
 human client path, or any 3D/Unreal parity cell. The current observation and
 validator remain the final action gate for memory and static knowledge leads.
+
+## REAL33D 2D veteran play - REAL33D-AGENT-VETERAN-PLAY-001
+
+| Agent path | Evidence | State |
+| --- | --- | --- |
+| Public static world knowledge and landmark recognition | Versioned sourced Rookgaard/Thais landmarks, tentative coordinate matches, visible named-cue match, regional leads; deterministic tests and live Oracle observation | PASS |
+| Information priority and fair-play boundary | Prompt ranks current observation, personal memory, static world, general veteran knowledge; validator uses only fresh observed state; no Fusion32 runtime/map/database feed | PASS |
+| NPC shop observation and buy/sell intents | Audited REAL33D2D callbacks and `g_game.buyItem`/`g_game.sellItem`; current offers, money, goods and capacity validated; deterministic tests; no live shop opened | IMPLEMENTED_UNVERIFIED |
+| Equipment movement | Existing `move_item` intent uses observed item/destination and normal `g_game.move`; no live equip/upgrade | IMPLEMENTED_UNVERIFIED |
+| Player trade confirmation and distinct equip action | Audit found normal client methods; not exposed without a complete safe state model | NOT_STARTED |
+| Autonomous orientation and navigation | Session F: 346 real-model decisions, 287 accepted walks, 277 authoritative changes, 38 positions and two floors; later session G loaded saved memory | PASS |
+| Autonomous hunt, combat, loot, resource gain, economy and upgrades | No such action in F or G; Aldric stayed level 1 and 150 HP, with no observed shop | IMPLEMENTED_UNVERIFIED |
+| Full veteran progression certification | Long session stalled in repetitive movement; short final session proposed two blocked north moves rejected by validator | FAILED |
+
+Full facts, limits and trace hashes are in
+`evidence/agent/REAL33D-AGENT-VETERAN-PLAY-001.md`. The ALDRIC certification
+remains intact on its pushed branch and `main` was not merged.

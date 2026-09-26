@@ -13,7 +13,7 @@ local DECISION_FORMAT = {
       action={type='string'},direction={type='integer',minimum=0,maximum=3},
       creatureId={type='integer'},text={type='string'},item={type='string'},
       targetItem={type='string'},targetCreatureId={type='integer'},
-      destination={type='string'},count={type='integer'},
+      destination={type='string'},offer={type='string'},count={type='integer'},
       fight={type='integer'},chase={type='integer'},safe={type='boolean'},
     }},
     horizon={type='integer',minimum=1,maximum=4},

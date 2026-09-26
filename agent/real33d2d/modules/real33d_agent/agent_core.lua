@@ -73,6 +73,35 @@ function AgentCore.validate(intent, observation)
     end
     return { action = action, item = intent.item, destination = intent.destination,
              count = intent.count }, nil
+  elseif action == 'buy' or action == 'sell' then
+    local shop=observation.shop
+    if not shop or not shop.open then return nil,'shop_not_open' end
+    if not isInteger(intent.count) or intent.count<1 or intent.count>100 then
+      return nil,'trade_count'
+    end
+    local offer
+    for _,row in ipairs(shop.offers) do
+      if row.key==intent.offer then offer=row; break end
+    end
+    if not offer then return nil,'offer_not_current' end
+    if action=='buy' then
+      if not isInteger(offer.buyPrice) or offer.buyPrice<=0 then return nil,'offer_not_for_sale' end
+      if not isInteger(shop.money) or offer.buyPrice*intent.count>shop.money then
+        return nil,'insufficient_observed_money'
+      end
+      if offer.weight and observation.player.freeCapacity and
+         offer.weight*intent.count>observation.player.freeCapacity then
+        return nil,'insufficient_capacity'
+      end
+    else
+      if not isInteger(offer.sellPrice) or offer.sellPrice<=0 then
+        return nil,'offer_not_buying'
+      end
+      if (shop.goods[tostring(offer.id)] or 0)<intent.count then
+        return nil,'insufficient_observed_goods'
+      end
+    end
+    return {action=action,offer=intent.offer,count=intent.count},nil
   elseif action == 'combat_mode' then
     if not isInteger(intent.fight) or intent.fight < 1 or intent.fight > 3
        or not isInteger(intent.chase) or intent.chase < 0 or intent.chase > 1
@@ -92,7 +121,8 @@ function AgentCore.newBudget()
     local kept = {}
     for _, t in ipairs(self.sent) do if now - t < 60000 then kept[#kept + 1] = t end end
     self.sent = kept
-    local gap = action == 'move' and 750 or action == 'say' and 15000 or 1000
+    local gap = action == 'move' and 750 or action == 'say' and 15000
+      or (action=='buy' or action=='sell') and 10000 or 1000
     if #self.sent >= self.maxPerMinute then return false, 'minute_budget' end
     if self.last[action] and now - self.last[action] < gap then return false, 'action_cooldown' end
     if self.last.any and now - self.last.any < 600 then return false, 'global_cooldown' end

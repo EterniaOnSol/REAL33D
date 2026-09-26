@@ -222,6 +222,10 @@ AgentSchema.INTENTS = {
   move_item      = { item = { type = 'string', required = true, minLength = 1, maxLength = 64 },
                      destination = { type = 'string', required = true, minLength = 1, maxLength = 64 },
                      count = { type = 'integer', required = true, min = 1, max = 100 } },
+  buy            = { offer = { type = 'string', required = true, minLength = 1, maxLength = 64 },
+                     count = { type = 'integer', required = true, min = 1, max = 100 } },
+  sell           = { offer = { type = 'string', required = true, minLength = 1, maxLength = 64 },
+                     count = { type = 'integer', required = true, min = 1, max = 100 } },
   combat_mode    = { fight = { type = 'integer', required = true, min = 1, max = 3 },
                      chase = { type = 'integer', required = true, min = 0, max = 1 },
                      safe  = { type = 'boolean', required = true } },
@@ -296,6 +300,7 @@ AgentSchema.OBSERVATION_FIELDS = {
   online = true, player = true, tiles = true, creatures = true, creatureList = true,
   items = true, destinations = true, inventory = true, inventoryKeys = true,
   containers = true, chat = true, combat = true, attackId = true, followId = true,
+  shop = true,
 }
 
 AgentSchema.OBSERVATION_REQUIRED = {
@@ -333,6 +338,23 @@ function AgentSchema.checkObservation(obs)
   end
   if obs.attackId ~= nil and not isInteger(obs.attackId) then return nil, 'schema_type:attackId' end
   if obs.followId ~= nil and not isInteger(obs.followId) then return nil, 'schema_type:followId' end
+  if obs.shop ~= nil then
+    local shop=obs.shop
+    if type(shop)~='table' or type(shop.open)~='boolean'
+       or type(shop.offers)~='table' or type(shop.goods)~='table' then
+      return nil,'schema_shop'
+    end
+    if shop.money ~= nil and (not isInteger(shop.money) or shop.money<0) then
+      return nil,'schema_shop_money'
+    end
+    for _,offer in ipairs(shop.offers) do
+      if type(offer.key)~='string' or not isInteger(offer.id)
+         or type(offer.name)~='string' or not isInteger(offer.buyPrice)
+         or not isInteger(offer.sellPrice) or offer.buyPrice<0 or offer.sellPrice<0 then
+        return nil,'schema_shop_offer'
+      end
+    end
+  end
   return obs, nil
 end
 
@@ -414,6 +436,10 @@ function AgentSchema.projectObservation(obs)
     chat[#chat + 1] = { from = line.name, mode = line.mode, text = line.text }
   end
 
+  local shopOffers=AgentSchema.array({})
+  if obs.shop then
+    for _,offer in ipairs(obs.shop.offers) do shopOffers[#shopOffers+1]=offer end
+  end
   return {
     schema = AgentSchema.OBSERVATION_SCHEMA,
     online = true,
@@ -429,6 +455,8 @@ function AgentSchema.projectObservation(obs)
     visible = { tiles = tiles, creatures = creatures },
     owned = { equipment = equipment, containers = containers },
     social = { chat = chat },
+    shop = obs.shop and { open=obs.shop.open,money=obs.shop.money,
+      offers=shopOffers,goods=obs.shop.goods } or nil,
   }
 end
 
