@@ -1,5 +1,24 @@
 # Parity Matrix
 
+2026-09-28: `UNREAL-MINIMAP-NAVIGATION-001 = PASS` local, independent
+certification NOT_STARTED. REAL33D now
+projects only authoritative current-floor observations into separate terrain
+history, renders actual coordinates/floor/player, and retains known terrain
+without entities or walkability. Local pan/zoom/recenter/floor browsing and
+map-click routing are implemented. Classic 7.72 appearance colors
+come from a bounded local palette, not static map/DB seeding. Following live
+review, known-terrain A* replaces the live-window routing limit. Unknown
+same-floor destinations retain their goal while observed exploration segments
+continue as normal terrain descriptions arrive; planning reveals no terrain.
+Each adjacent step still uses live validation and server acceptance. Uniform classic colors
+have no live-tile footprint or brightness split. Native/sanitizer
+tests and Unreal build pass. Live terrain expansion, all cardinal directions,
+unknown-goal continuation, real blocked-path stop, restored cache and floor
+7->6->7 are recorded; Follow/Stop request/state/cancel and operator confirmation
+are retained. Pan/zoom/recenter and remaining interactions are operator-observed
+with limited individual checkpoints. No full original-client appearance parity
+or independent certification claim. See the milestone report for exact limits.
+
 Latest independent check: three distinct world Looks, slot Looks, normal Say,
 world/inventory/container Use and valid Use With reproduced with authoritative
 results. Final automatic MultiUse entry from normal Use has tests/build PASS

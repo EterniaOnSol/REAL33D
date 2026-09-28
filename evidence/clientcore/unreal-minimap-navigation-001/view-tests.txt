@@ -1,0 +1,1 @@
+﻿real33d_minimap_view_tests: PASS (palette validation/isolation, north-up, inverse clicks, delta, pan, zoom bounds, floors/recenter/offline)

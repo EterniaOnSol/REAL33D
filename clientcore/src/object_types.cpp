@@ -83,6 +83,8 @@ bool ParseFlags(const std::string& value, ObjectTypeEncoding* encoding) {
                 top = true;
             } else if (flag == "Unpass") {
                 encoding->unpass = true;
+            } else if (flag == "Unmove") {
+                encoding->unmove = true;
             }
         }
         if (comma == std::string::npos) break;

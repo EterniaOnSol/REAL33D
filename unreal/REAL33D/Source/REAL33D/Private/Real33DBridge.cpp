@@ -1,6 +1,7 @@
 #include "Real33DBridge.h"
 #include "REAL33D.h"
 #include "Real33DItemUsePolicy.h"
+#include "Real33DMinimapPalette.h"
 
 #include "HAL/PlatformProcess.h"
 #include "HAL/RunnableThread.h"
@@ -9,6 +10,8 @@
 #include "Misc/Parse.h"
 #include "Misc/Paths.h"
 #include "Misc/ScopeLock.h"
+#include "Misc/SecureHash.h"
+#include "HAL/FileManager.h"
 
 // Protocol772Core. Included only here, in the worker. Nothing above this file
 // may include a protocol header: that is the boundary.
@@ -23,6 +26,7 @@ THIRD_PARTY_INCLUDES_START
 #include "fusion32/protocol772/talk_speaker.h"
 #include "fusion32/protocol772/player_state.h"
 #include "fusion32/protocol772/worldview.h"
+#include "fusion32/protocol772/minimap.h"
 THIRD_PARTY_INCLUDES_END
 
 #include <chrono>
@@ -30,6 +34,17 @@ THIRD_PARTY_INCLUDES_END
 #include <vector>
 
 namespace p772 = fusion32::protocol772;
+
+// Game-thread-only memory; no protocol/header leaks into Slate or Actors.
+struct FReal33DMinimapStore
+{
+	p772::KnownMinimap Memory;
+	FReal33DMinimapState State;
+	FString Scope;
+	FString Path;
+	bool bDirty = false;
+	double LastSave = 0.0;
+};
 
 // FReal33DConditions mirrors Fusion32's condition bits so that Real33DBridge.h
 // stays free of anything under fusion32/. A mirror that drifts would draw the
@@ -372,6 +387,11 @@ private:
 			return false;
 		}
 		Types = Loaded.table;
+		FString PaletteText;
+		const FString PalettePath = FPaths::Combine(FPaths::ProjectSavedDir(), TEXT("Minimap/appearance-palette.txt"));
+		if (IFileManager::Get().FileSize(*PalettePath) <= 128 * 1024
+			&& FFileHelper::LoadFileToString(PaletteText, *PalettePath))
+			MinimapPalette.Load(TCHAR_TO_UTF8(*PaletteText));
 		{
 			FScopeLock Lock(&StatsMutex);
 			MultiUseTypes = Real33D::ReadMultiUseTypeIds(TCHAR_TO_UTF8(*ObjectsText));
@@ -816,10 +836,29 @@ private:
 					// to draw a field.
 					Flat.bBlocking = !Flat.bIsCreature
 						&& Types.Lookup(Thing.item.type_id).unpass;
+					Flat.bGround = !Flat.bIsCreature
+						&& Types.Lookup(Thing.item.type_id).priority == p772::ObjectPriority::Bank;
 					Out.Things.Add(Flat);
 				}
 			}
 			Publish(MoveTemp(Out));
+		}
+		if (State.map_initialized && State.viewport_synchronized())
+		{
+			FReal33DEvent Observed;
+			Observed.Kind = EReal33DEventKind::MinimapObserved;
+			Observed.Position = ToBridge(State.viewport_anchor);
+			for (const auto& Cell : p772::ProjectMinimapFloor(State, Types, MinimapPalette.colors))
+			{
+				FReal33DMinimapCell Flat;
+				Flat.Position = ToBridge(Cell.position);
+				Flat.GroundType = Cell.terrain.ground_type;
+				Flat.ColorType = Cell.terrain.color_type;
+				Flat.bStaticObstacle = Cell.terrain.static_obstacle;
+				Flat.bLive = true;
+				Observed.MinimapCells.Add(Flat);
+			}
+			Publish(MoveTemp(Observed));
 		}
 	}
 
@@ -1197,6 +1236,7 @@ private:
 	FString CharacterName;
 	p772::Rsa1024PublicKey RsaKey;
 	p772::ObjectTypeTable Types;
+	Real33D::MinimapPalette MinimapPalette;
 	std::unordered_set<std::uint16_t> MultiUseTypes;
 	p772::GameLoginSession Session;
 	p772::WorldState State;
@@ -1260,12 +1300,15 @@ UReal33DBridge::~UReal33DBridge()
 {
 	delete Transcript;
 	Transcript = nullptr;
+	delete Minimap;
+	Minimap = nullptr;
 }
 
 void UReal33DBridge::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
 	Transcript = new FReal33DChatTranscript();
+	Minimap = new FReal33DMinimapStore();
 }
 
 void UReal33DBridge::Deinitialize()
@@ -1273,6 +1316,8 @@ void UReal33DBridge::Deinitialize()
 	Disconnect();
 	delete Transcript;
 	Transcript = nullptr;
+	delete Minimap;
+	Minimap = nullptr;
 	Super::Deinitialize();
 }
 
@@ -1287,6 +1332,36 @@ bool UReal33DBridge::Connect(const FReal33DConnectionConfig& Config)
 		UE_LOG(LogTemp, Error,
 			TEXT("REAL33D: no runtime directory configured. Pass -real33d-runtime=<path>."));
 		return false;
+	}
+	if (Minimap != nullptr)
+	{
+		SaveMinimap();
+		const FString Identity = Config.Host + TEXT(":") + FString::FromInt(Config.LoginPort)
+			+ TEXT(":772:") + Config.Account + TEXT(":") + Config.RuntimeDir;
+		FTCHARToUTF8 Encoded(*Identity);
+		uint8 Digest[FSHA1::DigestSize];
+		FSHA1::HashBuffer(Encoded.Get(), Encoded.Length(), Digest);
+		const FString Scope = BytesToHex(Digest, FSHA1::DigestSize);
+		if (Scope != Minimap->Scope)
+		{
+			Minimap->Memory = p772::KnownMinimap{};
+			Minimap->Scope = Scope;
+			Minimap->Path = FPaths::Combine(FPaths::ProjectSavedDir(), TEXT("Minimap"), Scope + TEXT(".r33map"));
+			FString Text;
+			if (IFileManager::Get().FileSize(*Minimap->Path) <= 32LL * 1024LL * 1024LL
+				&& FFileHelper::LoadFileToString(Text, *Minimap->Path))
+			{
+				const bool bLoaded = Minimap->Memory.Load(TCHAR_TO_UTF8(*Text), TCHAR_TO_UTF8(*Scope));
+				UE_LOG(LogReal33D, Log, TEXT("minimap cache load: %s cells=%llu"),
+					bLoaded ? TEXT("accepted") : TEXT("rejected"),
+					static_cast<unsigned long long>(Minimap->Memory.terrain().size()));
+			}
+		}
+		Minimap->Memory.EndObservation();
+		Minimap->State.bPlayerKnown = false;
+		Minimap->State.KnownCells = static_cast<int32>(Minimap->Memory.terrain().size());
+		Minimap->State.LiveCells = 0;
+		++Minimap->State.Revision;
 	}
 	Worker = new FReal33DWorker(Config);
 	Thread = FRunnableThread::Create(Worker, TEXT("REAL33D.Protocol772"), 0,
@@ -1310,8 +1385,18 @@ void UReal33DBridge::Disconnect()
 	}
 	if (Worker != nullptr)
 	{
+		TArray<FReal33DEvent> Remaining;
+		DrainEvents(Remaining);
 		delete Worker;
 		Worker = nullptr;
+	}
+	if (Minimap != nullptr)
+	{
+		Minimap->Memory.EndObservation();
+		Minimap->State.bPlayerKnown = false;
+		Minimap->State.LiveCells = 0;
+		++Minimap->State.Revision;
+		SaveMinimap();
 	}
 }
 
@@ -1334,8 +1419,103 @@ void UReal33DBridge::DrainEvents(TArray<FReal33DEvent>& OutEvents)
 		// presenter does with the event afterwards, and so there is exactly one
 		// place that decides what a player is allowed to read.
 		NoteChat(Event);
+		NoteMinimap(Event);
 		OutEvents.Add(MoveTemp(Event));
 	}
+	if (Minimap != nullptr && FPlatformTime::Seconds() - Minimap->LastSave >= 30.0) SaveMinimap();
+}
+
+void UReal33DBridge::NoteMinimap(const FReal33DEvent& Event)
+{
+	if (Minimap == nullptr) return;
+	if (Event.Kind == EReal33DEventKind::Disconnected || Event.Kind == EReal33DEventKind::Failed)
+	{
+		Minimap->Memory.EndObservation();
+		Minimap->State.bPlayerKnown = false;
+		Minimap->State.LiveCells = 0;
+		++Minimap->State.Revision;
+		SaveMinimap();
+		return;
+	}
+	if (Event.Kind != EReal33DEventKind::MinimapObserved) return;
+	std::vector<p772::MinimapCell> Cells;
+	const auto Previous = Minimap->State;
+	Cells.reserve(Event.MinimapCells.Num());
+	for (const auto& Cell : Event.MinimapCells)
+		Cells.push_back({{Cell.Position.X, Cell.Position.Y, Cell.Position.Z}, {Cell.GroundType, Cell.bStaticObstacle, Cell.ColorType}});
+	Minimap->Memory.Observe(Cells);
+	Minimap->State.Player = Event.Position;
+	Minimap->State.bPlayerKnown = true;
+	Minimap->State.KnownCells = static_cast<int32>(Minimap->Memory.terrain().size());
+	Minimap->State.LiveCells = static_cast<int32>(Minimap->Memory.live_count());
+	++Minimap->State.Revision;
+	Minimap->bDirty = true;
+	if (!Previous.bPlayerKnown || Previous.Player != Minimap->State.Player
+		|| Previous.KnownCells != Minimap->State.KnownCells || Previous.LiveCells != Minimap->State.LiveCells)
+	{
+		UE_LOG(LogReal33D, Log, TEXT("minimap observation: player=%d,%d,%d known=%d live=%d viewport=18x14"),
+			Event.Position.X, Event.Position.Y, Event.Position.Z,
+			Minimap->State.KnownCells, Minimap->State.LiveCells);
+	}
+}
+
+void UReal33DBridge::SaveMinimap()
+{
+	if (Minimap == nullptr || !Minimap->bDirty || Minimap->Path.IsEmpty()) return;
+	IFileManager::Get().MakeDirectory(*FPaths::GetPath(Minimap->Path), true);
+	const FString Temp = Minimap->Path + TEXT(".tmp");
+	const auto Text = Minimap->Memory.Save(TCHAR_TO_UTF8(*Minimap->Scope));
+	if (FFileHelper::SaveStringToFile(UTF8_TO_TCHAR(Text.c_str()), *Temp, FFileHelper::EEncodingOptions::ForceUTF8WithoutBOM)
+		&& IFileManager::Get().Move(*Minimap->Path, *Temp, true, true))
+	{
+		Minimap->bDirty = false;
+		Minimap->LastSave = FPlatformTime::Seconds();
+		UE_LOG(LogReal33D, Log, TEXT("minimap cache saved: cells=%d"), Minimap->State.KnownCells);
+	}
+	else UE_LOG(LogReal33D, Warning, TEXT("minimap cache save failed"));
+}
+
+FReal33DMinimapState UReal33DBridge::GetMinimapState() const
+{
+	check(IsInGameThread());
+	return Minimap != nullptr ? Minimap->State : FReal33DMinimapState{};
+}
+
+void UReal33DBridge::GetMinimapCells(int32 Floor, int32 MinX, int32 MinY, int32 MaxX, int32 MaxY,
+	TArray<FReal33DMinimapCell>& OutCells) const
+{
+	check(IsInGameThread());
+	OutCells.Reset();
+	if (!Minimap || Floor < 0 || Floor > 15) return;
+	const auto& Terrain = Minimap->Memory.terrain();
+	for (auto It = Terrain.lower_bound({MinX, 0, Floor}); It != Terrain.end(); ++It)
+	{
+		const auto& P = It->first;
+		if (P.z != Floor || P.x > MaxX) break;
+		if (P.y < MinY || P.y > MaxY) continue;
+		FReal33DMinimapCell Cell;
+		Cell.Position = {P.x, P.y, P.z};
+		Cell.GroundType = It->second.ground_type;
+		Cell.ColorType = It->second.color_type;
+		Cell.bStaticObstacle = It->second.static_obstacle;
+		Cell.bLive = Minimap->Memory.IsLive(P);
+		OutCells.Add(Cell);
+	}
+}
+
+bool UReal33DBridge::FindMinimapPath(Real33D::FMapPosition Start, Real33D::FMapPosition Goal,
+	const TArray<Real33D::FMapPosition>& ObservedBlockers,
+	TArray<Real33D::FMapPosition>& OutPath) const
+{
+	check(IsInGameThread());
+	OutPath.Reset();
+	if (!Minimap || !Minimap->State.bPlayerKnown || Start != Minimap->State.Player) return false;
+	std::set<p772::MapPosition> Blockers;
+	for (const auto& P : ObservedBlockers) Blockers.insert({P.X,P.Y,P.Z});
+	std::vector<p772::MapPosition> Path;
+	if (!Minimap->Memory.FindNavigationPath({Start.X,Start.Y,Start.Z},{Goal.X,Goal.Y,Goal.Z},Blockers,Path)) return false;
+	for (const auto& P : Path) OutPath.Add({P.x,P.y,P.z});
+	return true;
 }
 
 void UReal33DBridge::NoteChat(const FReal33DEvent& Event)

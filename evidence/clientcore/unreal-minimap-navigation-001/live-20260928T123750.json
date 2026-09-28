@@ -1,0 +1,1293 @@
+{
+  "schema": "real33d.minimap.qa.v1",
+  "session": "live-20260928T123750",
+  "observations": [
+    {
+      "time": "2026.09.28-18.39.43:504",
+      "position": [
+        32096,
+        32212,
+        7
+      ],
+      "known": 1198,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.02:272",
+      "position": [
+        32096,
+        32211,
+        7
+      ],
+      "known": 1198,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.02:783",
+      "position": [
+        32096,
+        32210,
+        7
+      ],
+      "known": 1198,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.06:528",
+      "position": [
+        32096,
+        32209,
+        7
+      ],
+      "known": 1198,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.06:989",
+      "position": [
+        32096,
+        32208,
+        7
+      ],
+      "known": 1198,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.07:427",
+      "position": [
+        32096,
+        32207,
+        7
+      ],
+      "known": 1198,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.07:868",
+      "position": [
+        32096,
+        32206,
+        7
+      ],
+      "known": 1198,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.08:317",
+      "position": [
+        32096,
+        32205,
+        7
+      ],
+      "known": 1198,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.08:814",
+      "position": [
+        32096,
+        32204,
+        7
+      ],
+      "known": 1202,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.09:381",
+      "position": [
+        32096,
+        32203,
+        7
+      ],
+      "known": 1206,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.09:818",
+      "position": [
+        32096,
+        32202,
+        7
+      ],
+      "known": 1210,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.10:284",
+      "position": [
+        32096,
+        32201,
+        7
+      ],
+      "known": 1214,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.11:018",
+      "position": [
+        32095,
+        32201,
+        7
+      ],
+      "known": 1214,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.11:885",
+      "position": [
+        32094,
+        32201,
+        7
+      ],
+      "known": 1214,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.12:568",
+      "position": [
+        32093,
+        32201,
+        7
+      ],
+      "known": 1214,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.30:885",
+      "position": [
+        32093,
+        32200,
+        7
+      ],
+      "known": 1215,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.31:337",
+      "position": [
+        32093,
+        32199,
+        7
+      ],
+      "known": 1216,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.32:131",
+      "position": [
+        32093,
+        32198,
+        7
+      ],
+      "known": 1217,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.32:586",
+      "position": [
+        32093,
+        32197,
+        7
+      ],
+      "known": 1218,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.33:035",
+      "position": [
+        32092,
+        32197,
+        7
+      ],
+      "known": 1218,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.33:480",
+      "position": [
+        32091,
+        32197,
+        7
+      ],
+      "known": 1218,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.34:288",
+      "position": [
+        32090,
+        32197,
+        7
+      ],
+      "known": 1218,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-18.44.34:680",
+      "position": [
+        32089,
+        32197,
+        7
+      ],
+      "known": 1232,
+      "live": 252
+    }
+  ],
+  "floor_transitions": [],
+  "accepted_by_direction": {
+    "north": 15,
+    "west": 7
+  },
+  "movement": [
+    {
+      "t": 355.241,
+      "phase": "sent",
+      "input_id": 1,
+      "request_id": 1,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32212,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32212,
+        "z": 7
+      }
+    },
+    {
+      "t": 355.422,
+      "phase": "accepted",
+      "input_id": 1,
+      "request_id": 1,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32212,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32211,
+        "z": 7
+      }
+    },
+    {
+      "t": 355.73,
+      "phase": "sent",
+      "input_id": 2,
+      "request_id": 2,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32211,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32211,
+        "z": 7
+      }
+    },
+    {
+      "t": 355.915,
+      "phase": "accepted",
+      "input_id": 2,
+      "request_id": 2,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32211,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32210,
+        "z": 7
+      }
+    },
+    {
+      "t": 359.472,
+      "phase": "sent",
+      "input_id": 3,
+      "request_id": 3,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32210,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32210,
+        "z": 7
+      }
+    },
+    {
+      "t": 359.631,
+      "phase": "accepted",
+      "input_id": 3,
+      "request_id": 3,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32210,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32209,
+        "z": 7
+      }
+    },
+    {
+      "t": 359.904,
+      "phase": "sent",
+      "input_id": 4,
+      "request_id": 4,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32209,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32209,
+        "z": 7
+      }
+    },
+    {
+      "t": 360.106,
+      "phase": "accepted",
+      "input_id": 4,
+      "request_id": 4,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32209,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32208,
+        "z": 7
+      }
+    },
+    {
+      "t": 360.392,
+      "phase": "sent",
+      "input_id": 5,
+      "request_id": 5,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32208,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32208,
+        "z": 7
+      }
+    },
+    {
+      "t": 360.542,
+      "phase": "accepted",
+      "input_id": 5,
+      "request_id": 5,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32208,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32207,
+        "z": 7
+      }
+    },
+    {
+      "t": 360.835,
+      "phase": "sent",
+      "input_id": 6,
+      "request_id": 6,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32207,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32207,
+        "z": 7
+      }
+    },
+    {
+      "t": 361.009,
+      "phase": "accepted",
+      "input_id": 6,
+      "request_id": 6,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32207,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32206,
+        "z": 7
+      }
+    },
+    {
+      "t": 361.262,
+      "phase": "sent",
+      "input_id": 7,
+      "request_id": 7,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32206,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32206,
+        "z": 7
+      }
+    },
+    {
+      "t": 361.437,
+      "phase": "accepted",
+      "input_id": 7,
+      "request_id": 7,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32206,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32205,
+        "z": 7
+      }
+    },
+    {
+      "t": 361.776,
+      "phase": "sent",
+      "input_id": 8,
+      "request_id": 8,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32205,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32205,
+        "z": 7
+      }
+    },
+    {
+      "t": 361.95,
+      "phase": "accepted",
+      "input_id": 8,
+      "request_id": 8,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32205,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32204,
+        "z": 7
+      }
+    },
+    {
+      "t": 362.321,
+      "phase": "sent",
+      "input_id": 9,
+      "request_id": 9,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32204,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32204,
+        "z": 7
+      }
+    },
+    {
+      "t": 362.485,
+      "phase": "accepted",
+      "input_id": 9,
+      "request_id": 9,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32204,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32203,
+        "z": 7
+      }
+    },
+    {
+      "t": 362.76,
+      "phase": "sent",
+      "input_id": 10,
+      "request_id": 10,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32203,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32203,
+        "z": 7
+      }
+    },
+    {
+      "t": 362.933,
+      "phase": "accepted",
+      "input_id": 10,
+      "request_id": 10,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32203,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32202,
+        "z": 7
+      }
+    },
+    {
+      "t": 363.22,
+      "phase": "sent",
+      "input_id": 11,
+      "request_id": 11,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32202,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32202,
+        "z": 7
+      }
+    },
+    {
+      "t": 363.426,
+      "phase": "accepted",
+      "input_id": 11,
+      "request_id": 11,
+      "direction": "north",
+      "from": {
+        "x": 32096,
+        "y": 32202,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32201,
+        "z": 7
+      }
+    },
+    {
+      "t": 363.967,
+      "phase": "sent",
+      "input_id": 12,
+      "request_id": 12,
+      "direction": "west",
+      "from": {
+        "x": 32096,
+        "y": 32201,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32201,
+        "z": 7
+      }
+    },
+    {
+      "t": 364.128,
+      "phase": "accepted",
+      "input_id": 12,
+      "request_id": 12,
+      "direction": "west",
+      "from": {
+        "x": 32096,
+        "y": 32201,
+        "z": 7
+      },
+      "to": {
+        "x": 32095,
+        "y": 32201,
+        "z": 7
+      }
+    },
+    {
+      "t": 364.818,
+      "phase": "sent",
+      "input_id": 13,
+      "request_id": 13,
+      "direction": "west",
+      "from": {
+        "x": 32095,
+        "y": 32201,
+        "z": 7
+      },
+      "to": {
+        "x": 32095,
+        "y": 32201,
+        "z": 7
+      }
+    },
+    {
+      "t": 365.01,
+      "phase": "accepted",
+      "input_id": 13,
+      "request_id": 13,
+      "direction": "west",
+      "from": {
+        "x": 32095,
+        "y": 32201,
+        "z": 7
+      },
+      "to": {
+        "x": 32094,
+        "y": 32201,
+        "z": 7
+      }
+    },
+    {
+      "t": 365.26,
+      "phase": "sent",
+      "input_id": 14,
+      "request_id": 14,
+      "direction": "west",
+      "from": {
+        "x": 32094,
+        "y": 32201,
+        "z": 7
+      },
+      "to": {
+        "x": 32094,
+        "y": 32201,
+        "z": 7
+      }
+    },
+    {
+      "t": 365.733,
+      "phase": "accepted",
+      "input_id": 14,
+      "request_id": 14,
+      "direction": "west",
+      "from": {
+        "x": 32094,
+        "y": 32201,
+        "z": 7
+      },
+      "to": {
+        "x": 32093,
+        "y": 32201,
+        "z": 7
+      }
+    },
+    {
+      "t": 383.819,
+      "phase": "sent",
+      "input_id": 15,
+      "request_id": 15,
+      "direction": "north",
+      "from": {
+        "x": 32093,
+        "y": 32201,
+        "z": 7
+      },
+      "to": {
+        "x": 32093,
+        "y": 32201,
+        "z": 7
+      }
+    },
+    {
+      "t": 384.036,
+      "phase": "accepted",
+      "input_id": 15,
+      "request_id": 15,
+      "direction": "north",
+      "from": {
+        "x": 32093,
+        "y": 32201,
+        "z": 7
+      },
+      "to": {
+        "x": 32093,
+        "y": 32200,
+        "z": 7
+      }
+    },
+    {
+      "t": 384.303,
+      "phase": "sent",
+      "input_id": 16,
+      "request_id": 16,
+      "direction": "north",
+      "from": {
+        "x": 32093,
+        "y": 32200,
+        "z": 7
+      },
+      "to": {
+        "x": 32093,
+        "y": 32200,
+        "z": 7
+      }
+    },
+    {
+      "t": 384.503,
+      "phase": "accepted",
+      "input_id": 16,
+      "request_id": 16,
+      "direction": "north",
+      "from": {
+        "x": 32093,
+        "y": 32200,
+        "z": 7
+      },
+      "to": {
+        "x": 32093,
+        "y": 32199,
+        "z": 7
+      }
+    },
+    {
+      "t": 385.073,
+      "phase": "sent",
+      "input_id": 17,
+      "request_id": 17,
+      "direction": "north",
+      "from": {
+        "x": 32093,
+        "y": 32199,
+        "z": 7
+      },
+      "to": {
+        "x": 32093,
+        "y": 32199,
+        "z": 7
+      }
+    },
+    {
+      "t": 385.292,
+      "phase": "accepted",
+      "input_id": 17,
+      "request_id": 17,
+      "direction": "north",
+      "from": {
+        "x": 32093,
+        "y": 32199,
+        "z": 7
+      },
+      "to": {
+        "x": 32093,
+        "y": 32198,
+        "z": 7
+      }
+    },
+    {
+      "t": 385.523,
+      "phase": "sent",
+      "input_id": 18,
+      "request_id": 18,
+      "direction": "north",
+      "from": {
+        "x": 32093,
+        "y": 32198,
+        "z": 7
+      },
+      "to": {
+        "x": 32093,
+        "y": 32198,
+        "z": 7
+      }
+    },
+    {
+      "t": 385.714,
+      "phase": "accepted",
+      "input_id": 18,
+      "request_id": 18,
+      "direction": "north",
+      "from": {
+        "x": 32093,
+        "y": 32198,
+        "z": 7
+      },
+      "to": {
+        "x": 32093,
+        "y": 32197,
+        "z": 7
+      }
+    },
+    {
+      "t": 385.975,
+      "phase": "sent",
+      "input_id": 19,
+      "request_id": 19,
+      "direction": "west",
+      "from": {
+        "x": 32093,
+        "y": 32197,
+        "z": 7
+      },
+      "to": {
+        "x": 32093,
+        "y": 32197,
+        "z": 7
+      }
+    },
+    {
+      "t": 386.163,
+      "phase": "accepted",
+      "input_id": 19,
+      "request_id": 19,
+      "direction": "west",
+      "from": {
+        "x": 32093,
+        "y": 32197,
+        "z": 7
+      },
+      "to": {
+        "x": 32092,
+        "y": 32197,
+        "z": 7
+      }
+    },
+    {
+      "t": 386.442,
+      "phase": "sent",
+      "input_id": 20,
+      "request_id": 20,
+      "direction": "west",
+      "from": {
+        "x": 32092,
+        "y": 32197,
+        "z": 7
+      },
+      "to": {
+        "x": 32092,
+        "y": 32197,
+        "z": 7
+      }
+    },
+    {
+      "t": 386.619,
+      "phase": "accepted",
+      "input_id": 20,
+      "request_id": 20,
+      "direction": "west",
+      "from": {
+        "x": 32092,
+        "y": 32197,
+        "z": 7
+      },
+      "to": {
+        "x": 32091,
+        "y": 32197,
+        "z": 7
+      }
+    },
+    {
+      "t": 386.948,
+      "phase": "sent",
+      "input_id": 21,
+      "request_id": 21,
+      "direction": "west",
+      "from": {
+        "x": 32091,
+        "y": 32197,
+        "z": 7
+      },
+      "to": {
+        "x": 32091,
+        "y": 32197,
+        "z": 7
+      }
+    },
+    {
+      "t": 387.427,
+      "phase": "accepted",
+      "input_id": 21,
+      "request_id": 21,
+      "direction": "west",
+      "from": {
+        "x": 32091,
+        "y": 32197,
+        "z": 7
+      },
+      "to": {
+        "x": 32090,
+        "y": 32197,
+        "z": 7
+      }
+    },
+    {
+      "t": 387.648,
+      "phase": "sent",
+      "input_id": 22,
+      "request_id": 22,
+      "direction": "west",
+      "from": {
+        "x": 32090,
+        "y": 32197,
+        "z": 7
+      },
+      "to": {
+        "x": 32090,
+        "y": 32197,
+        "z": 7
+      }
+    },
+    {
+      "t": 387.818,
+      "phase": "accepted",
+      "input_id": 22,
+      "request_id": 22,
+      "direction": "west",
+      "from": {
+        "x": 32090,
+        "y": 32197,
+        "z": 7
+      },
+      "to": {
+        "x": 32089,
+        "y": 32197,
+        "z": 7
+      }
+    }
+  ],
+  "snapshots": [
+    {
+      "written_at": "2026-09-28T18:44:35.549Z",
+      "reason": "EndPlay",
+      "seconds_in_session": 388.6,
+      "local_position": {
+        "x": 32089,
+        "y": 32197,
+        "z": 7
+      },
+      "anchor": {
+        "x": 32089,
+        "y": 32197,
+        "z": 7
+      },
+      "minimap": {
+        "player_known": true,
+        "x": 32089,
+        "y": 32197,
+        "z": 7,
+        "known_cells": 1232,
+        "live_cells": 252
+      },
+      "clientcore": {
+        "frames": 219,
+        "commands": 424,
+        "residual_bytes": 0,
+        "unsupported_opcodes": 0,
+        "protocol_anomalies": 0,
+        "walks_requested_from_unreal": 22,
+        "walks_accepted": 22,
+        "walks_rejected": 0,
+        "walks_unanswered": 0,
+        "external_relocations": 0,
+        "local_player_moves_total": 22,
+        "says_requested": 0,
+        "moves_requested": 0,
+        "uses_requested": 0,
+        "looks_requested": 0,
+        "attacks_requested": 0,
+        "follows_requested": 0,
+        "combat_cancels_requested": 0,
+        "tactics_requested": 0,
+        "target_clears_received": 0,
+        "worldstate_tiles": 429,
+        "worldstate_visible_creatures": 2,
+        "viewport_synchronised": true
+      },
+      "presentation": {
+        "tile_actors": 429,
+        "creature_actors": 2,
+        "tiles_spawned": 1110,
+        "tiles_removed": 681,
+        "creatures_appeared": 39,
+        "creatures_vanished": 37,
+        "creature_moves": 324,
+        "duplicate_spawn_attempts": 0,
+        "orphan_events": 0,
+        "speech_shown_on_creature": 0,
+        "speech_shown_in_chat_area_only": 0,
+        "server_messages_received": 1,
+        "client_notices_raised": 0,
+        "chat_transcript_lines": 1,
+        "speech_seconds_NOT_PROVEN": 6.0
+      },
+      "inventory_known": true,
+      "open_containers": 0
+    },
+    {
+      "written_at": "2026-09-28T18:44:33.904Z",
+      "reason": "Manual",
+      "seconds_in_session": 386.9,
+      "local_position": {
+        "x": 32091,
+        "y": 32197,
+        "z": 7
+      },
+      "anchor": {
+        "x": 32091,
+        "y": 32197,
+        "z": 7
+      },
+      "minimap": {
+        "player_known": true,
+        "x": 32091,
+        "y": 32197,
+        "z": 7,
+        "known_cells": 1218,
+        "live_cells": 252
+      },
+      "clientcore": {
+        "frames": 216,
+        "commands": 419,
+        "residual_bytes": 0,
+        "unsupported_opcodes": 0,
+        "protocol_anomalies": 0,
+        "walks_requested_from_unreal": 21,
+        "walks_accepted": 20,
+        "walks_rejected": 0,
+        "walks_unanswered": 0,
+        "external_relocations": 0,
+        "local_player_moves_total": 20,
+        "says_requested": 0,
+        "moves_requested": 0,
+        "uses_requested": 0,
+        "looks_requested": 0,
+        "attacks_requested": 0,
+        "follows_requested": 0,
+        "combat_cancels_requested": 0,
+        "tactics_requested": 0,
+        "target_clears_received": 0,
+        "worldstate_tiles": 425,
+        "worldstate_visible_creatures": 2,
+        "viewport_synchronised": true
+      },
+      "presentation": {
+        "tile_actors": 425,
+        "creature_actors": 2,
+        "tiles_spawned": 1046,
+        "tiles_removed": 621,
+        "creatures_appeared": 39,
+        "creatures_vanished": 37,
+        "creature_moves": 321,
+        "duplicate_spawn_attempts": 0,
+        "orphan_events": 0,
+        "speech_shown_on_creature": 0,
+        "speech_shown_in_chat_area_only": 0,
+        "server_messages_received": 1,
+        "client_notices_raised": 0,
+        "chat_transcript_lines": 1,
+        "speech_seconds_NOT_PROVEN": 6.0
+      },
+      "inventory_known": true,
+      "open_containers": 0
+    },
+    {
+      "written_at": "2026-09-28T18:39:47.474Z",
+      "reason": "MinimapInitial",
+      "seconds_in_session": 100.5,
+      "local_position": {
+        "x": 32096,
+        "y": 32212,
+        "z": 7
+      },
+      "anchor": {
+        "x": 32096,
+        "y": 32212,
+        "z": 7
+      },
+      "minimap": {
+        "player_known": true,
+        "x": 32096,
+        "y": 32212,
+        "z": 7,
+        "known_cells": 1198,
+        "live_cells": 252
+      },
+      "clientcore": {
+        "frames": 52,
+        "commands": 108,
+        "residual_bytes": 0,
+        "unsupported_opcodes": 0,
+        "protocol_anomalies": 0,
+        "walks_requested_from_unreal": 0,
+        "walks_accepted": 0,
+        "walks_rejected": 0,
+        "walks_unanswered": 0,
+        "external_relocations": 0,
+        "local_player_moves_total": 0,
+        "says_requested": 0,
+        "moves_requested": 0,
+        "uses_requested": 0,
+        "looks_requested": 0,
+        "attacks_requested": 0,
+        "follows_requested": 0,
+        "combat_cancels_requested": 0,
+        "tactics_requested": 0,
+        "target_clears_received": 0,
+        "worldstate_tiles": 398,
+        "worldstate_visible_creatures": 3,
+        "viewport_synchronised": true
+      },
+      "presentation": {
+        "tile_actors": 398,
+        "creature_actors": 3,
+        "tiles_spawned": 398,
+        "tiles_removed": 0,
+        "creatures_appeared": 15,
+        "creatures_vanished": 12,
+        "creature_moves": 73,
+        "duplicate_spawn_attempts": 0,
+        "orphan_events": 0,
+        "speech_shown_on_creature": 0,
+        "speech_shown_in_chat_area_only": 0,
+        "server_messages_received": 1,
+        "client_notices_raised": 0,
+        "chat_transcript_lines": 1,
+        "speech_seconds_NOT_PROVEN": 6.0
+      },
+      "inventory_known": true,
+      "open_containers": 0
+    },
+    {
+      "written_at": "2026-09-28T18:40:14.219Z",
+      "reason": "MinimapSettled",
+      "seconds_in_session": 127.3,
+      "local_position": {
+        "x": 32096,
+        "y": 32212,
+        "z": 7
+      },
+      "anchor": {
+        "x": 32096,
+        "y": 32212,
+        "z": 7
+      },
+      "minimap": {
+        "player_known": true,
+        "x": 32096,
+        "y": 32212,
+        "z": 7,
+        "known_cells": 1198,
+        "live_cells": 252
+      },
+      "clientcore": {
+        "frames": 65,
+        "commands": 134,
+        "residual_bytes": 0,
+        "unsupported_opcodes": 0,
+        "protocol_anomalies": 0,
+        "walks_requested_from_unreal": 0,
+        "walks_accepted": 0,
+        "walks_rejected": 0,
+        "walks_unanswered": 0,
+        "external_relocations": 0,
+        "local_player_moves_total": 0,
+        "says_requested": 0,
+        "moves_requested": 0,
+        "uses_requested": 0,
+        "looks_requested": 0,
+        "attacks_requested": 0,
+        "follows_requested": 0,
+        "combat_cancels_requested": 0,
+        "tactics_requested": 0,
+        "target_clears_received": 0,
+        "worldstate_tiles": 398,
+        "worldstate_visible_creatures": 3,
+        "viewport_synchronised": true
+      },
+      "presentation": {
+        "tile_actors": 398,
+        "creature_actors": 3,
+        "tiles_spawned": 398,
+        "tiles_removed": 0,
+        "creatures_appeared": 17,
+        "creatures_vanished": 14,
+        "creature_moves": 95,
+        "duplicate_spawn_attempts": 0,
+        "orphan_events": 0,
+        "speech_shown_on_creature": 0,
+        "speech_shown_in_chat_area_only": 0,
+        "server_messages_received": 1,
+        "client_notices_raised": 0,
+        "chat_transcript_lines": 1,
+        "speech_seconds_NOT_PROVEN": 6.0
+      },
+      "inventory_known": true,
+      "open_containers": 0
+    }
+  ],
+  "cache_events": [
+    "minimap cache load: accepted cells=1198",
+    "minimap cache saved: cells=1198",
+    "minimap cache saved: cells=1198",
+    "minimap cache saved: cells=1198",
+    "minimap cache saved: cells=1198",
+    "minimap cache saved: cells=1198",
+    "minimap cache saved: cells=1198",
+    "minimap cache saved: cells=1198",
+    "minimap cache saved: cells=1198",
+    "minimap cache saved: cells=1198",
+    "minimap cache saved: cells=1214",
+    "minimap cache saved: cells=1232"
+  ],
+  "ui_events": [
+    "minimap destination: 32085,32224,7",
+    "minimap destination: 32087,32203,7",
+    "minimap destination: 32094,32202,7",
+    "minimap destination: 32095,32209,7",
+    "minimap destination: 32097,32207,7",
+    "minimap destination: 32095,32206,7",
+    "minimap destination: 32096,32204,7",
+    "minimap destination: 32090,32199,7",
+    "minimap destination: 32089,32184,7",
+    "minimap destination: 32088,32184,7",
+    "minimap destination: 32088,32184,7",
+    "minimap destination: 32088,32184,7",
+    "minimap destination: 32088,32184,7",
+    "minimap destination: 32088,32184,7",
+    "minimap destination: 32088,32184,7"
+  ],
+  "limitations": "Counters and renderer traces do not substitute for visual/interaction verification."
+}

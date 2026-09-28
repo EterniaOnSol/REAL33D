@@ -6,6 +6,7 @@
 #include "Engine/Engine.h"
 #include "Engine/GameInstance.h"
 #include "Engine/World.h"
+#include "Engine/GameViewportClient.h"
 #include "GameFramework/PlayerController.h"
 #include "HAL/PlatformFileManager.h"
 #include "Kismet/GameplayStatics.h"
@@ -19,6 +20,9 @@
 #include "Real33DCreatureActor.h"
 #include "Real33DTileActor.h"
 #include "Real33DStaticSectorActor.h"
+#if WITH_EDITOR
+#include "AssetCompilingManager.h"
+#endif
 
 namespace
 {
@@ -194,11 +198,13 @@ bool AReal33DWorld::IsKnownWalkTile(const FIntVector& Key) const
 	const auto* Found = Tiles.Find(Key);
 	const AReal33DTile* Tile = Found ? Found->Get() : nullptr;
 	if (!Tile || Tile->GetThings().IsEmpty()) return false;
+	bool bHasGround = false;
 	for (const FReal33DThing& Thing : Tile->GetThings())
 	{
+		bHasGround |= Thing.bGround;
 		if (Thing.bBlocking || (Thing.bIsCreature && Thing.CreatureId != LocalCreatureId)) return false;
 	}
-	return true; // A planning hint; only Fusion32 can accept the actual step.
+	return bHasGround; // A planning hint; only Fusion32 can accept the actual step.
 }
 
 bool AReal33DWorld::FindKnownWalkPath(const Real33D::FMapPosition& Target,
@@ -211,29 +217,22 @@ bool AReal33DWorld::FindKnownWalkPath(const Real33D::FMapPosition& Target,
 	const FIntVector Start(Position.X, Position.Y, Position.Z);
 	const FIntVector Goal(Target.X, Target.Y, Target.Z);
 	if (Goal == Start) return true;
-	if (!IsKnownWalkTile(Goal)) return false;
-	TArray<FIntVector> Queue{Start};
-	TMap<FIntVector, FIntVector> Parents;
-	Parents.Add(Start, Start);
-	const FIntVector Offsets[] = {{0,-1,0}, {1,0,0}, {0,1,0}, {-1,0,0}};
-	for (int32 Index = 0; Index < Queue.Num(); ++Index)
-	{
-		for (const FIntVector& Offset : Offsets)
+	UGameInstance* Instance = GetGameInstance();
+	const auto* Bridge = Instance ? Instance->GetSubsystem<UReal33DBridge>() : nullptr;
+	if (!Bridge) return false;
+	// Only current observed things override stale terrain estimates. WideWorld
+	// Actors and minimap history never establish current mutable occupancy.
+	TArray<Real33D::FMapPosition> Blockers;
+	for (int32 X=Position.X-8; X<Position.X+10; ++X)
+		for (int32 Y=Position.Y-6; Y<Position.Y+8; ++Y)
 		{
-			const FIntVector Next = Queue[Index] + Offset;
-			if (Parents.Contains(Next) || !IsKnownWalkTile(Next)) continue;
-			Parents.Add(Next, Queue[Index]);
-			if (Next == Goal)
-			{
-				for (FIntVector At = Goal; At != Start; At = Parents.FindChecked(At))
-					OutPath.Add(At);
-				Algo::Reverse(OutPath);
-				return true;
-			}
-			Queue.Add(Next);
+			const FIntVector Key(X,Y,Position.Z);
+			if (Key != Start && !IsKnownWalkTile(Key)) Blockers.Add({X,Y,Position.Z});
 		}
-	}
-	return false;
+	TArray<Real33D::FMapPosition> Path;
+	if (!Bridge->FindMinimapPath(Position,Target,Blockers,Path)) return false;
+	for (const auto& P : Path) OutPath.Emplace(P.X,P.Y,P.Z);
+	return true;
 }
 
 void AReal33DWorld::GetBattleList(TArray<FReal33DBattleEntry>& OutEntries) const
@@ -1023,6 +1022,26 @@ void AReal33DWorld::Tick(float DeltaSeconds)
 		{
 			HandleEvent(Event);
 		}
+		// Opt-in observational QA capture. No commands, movement or local success.
+		if (MinimapQAObservedAt == 0.0 && Bridge->GetMinimapState().bPlayerKnown)
+			MinimapQAObservedAt = FPlatformTime::Seconds();
+		if (!bMinimapQACaptured && Bridge->GetMinimapState().bPlayerKnown
+			&& MinimapQAObservedAt > 0.0 && FPlatformTime::Seconds() - MinimapQAObservedAt > 1.0
+			&& FParse::Param(FCommandLine::Get(), TEXT("real33d-minimap-qa")))
+		{
+			bMinimapQACaptured = true;
+			WriteEvidence(TEXT("MinimapInitial"));
+		}
+		if (!bMinimapQASettledCaptured && Bridge->GetMinimapState().bPlayerKnown
+			&& MinimapQAObservedAt > 0.0 && FPlatformTime::Seconds() - MinimapQAObservedAt > 30.0
+#if WITH_EDITOR
+			&& FAssetCompilingManager::Get().GetNumRemainingAssets() == 0
+#endif
+			&& FParse::Param(FCommandLine::Get(), TEXT("real33d-minimap-qa")))
+		{
+			bMinimapQASettledCaptured = true;
+			WriteEvidence(TEXT("MinimapSettled"));
+		}
 	}
 
 	// A dropped session is retried rather than left dead. The scene was already
@@ -1128,6 +1147,7 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 	UReal33DBridge* Bridge = GameInstance != nullptr
 		? GameInstance->GetSubsystem<UReal33DBridge>() : nullptr;
 	const FReal33DStats Stats = Bridge != nullptr ? Bridge->GetStats() : FReal33DStats();
+	const FReal33DMinimapState Map = Bridge != nullptr ? Bridge->GetMinimapState() : FReal33DMinimapState{};
 	const AReal33DCreature* Local = GetLocalPlayer();
 	const bool bTargetActorVisible = Combat.TargetCreatureId != 0
 		&& Creatures.Contains(Combat.TargetCreatureId);
@@ -1165,10 +1185,17 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 	// The closing snapshot keeps the plain name; anything written mid-session
 	// keeps its own, so a disconnect in the middle of a run is not overwritten
 	// by the snapshot taken when the window closes.
+	FString SnapshotTag = Reason;
+	if (Reason == TEXT("Manual") && FParse::Param(FCommandLine::Get(), TEXT("real33d-minimap-qa")))
+	{
+		const FDateTime CapturedAt = FDateTime::UtcNow();
+		SnapshotTag = FString::Printf(TEXT("Manual_%s_%03d"),
+			*CapturedAt.ToString(TEXT("%Y%m%dT%H%M%S")), CapturedAt.GetMillisecond());
+	}
 	const FString Path = FPaths::Combine(Directory,
 		Reason == TEXT("EndPlay")
 			? FString(TEXT("unreal_slice_evidence.json"))
-			: FString::Printf(TEXT("unreal_slice_evidence_%s.json"), *Reason));
+			: FString::Printf(TEXT("unreal_slice_evidence_%s.json"), *SnapshotTag));
 
 	// What the player is wearing and what they have open, exactly as WorldState
 	// holds it. The panels draw these and nothing else, so a reviewer can put a
@@ -1247,6 +1274,7 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		TEXT("  \"local_position\": { \"x\": %d, \"y\": %d, \"z\": %d },\n")
 		TEXT("  \"origin\": { \"set\": %s, \"x\": %d, \"y\": %d, \"z\": %d },\n")
 		TEXT("  \"anchor\": { \"x\": %d, \"y\": %d, \"z\": %d },\n")
+		TEXT("  \"minimap\": { \"player_known\": %s, \"x\": %d, \"y\": %d, \"z\": %d, \"known_cells\": %d, \"live_cells\": %d },\n")
 		TEXT("  \"clientcore\": {\n")
 		TEXT("    \"frames\": %d,\n")
 		TEXT("    \"commands\": %d,\n")
@@ -1311,6 +1339,7 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		Origin.bSet ? TEXT("true") : TEXT("false"),
 		Origin.Position.X, Origin.Position.Y, Origin.Position.Z,
 		Stats.Anchor.X, Stats.Anchor.Y, Stats.Anchor.Z,
+		Map.bPlayerKnown ? TEXT("true") : TEXT("false"), Map.Player.X, Map.Player.Y, Map.Player.Z, Map.KnownCells, Map.LiveCells,
 		Stats.Frames, Stats.Commands, Stats.ResidualBytes, Stats.UnsupportedOpcodes,
 		Stats.Anomalies, Stats.RequestedSteps, Stats.AcceptedSelfWalks,
 		Stats.RejectedSteps, Stats.UnansweredSteps, Stats.ExternalRelocations,
@@ -1342,6 +1371,10 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 	if (FFileHelper::SaveStringToFile(Json, *Path))
 	{
 		UE_LOG(LogReal33D, Log, TEXT("evidence written to %s"), *Path);
+		if (Reason != TEXT("EndPlay") && FParse::Param(FCommandLine::Get(), TEXT("real33d-minimap-qa")))
+		{
+			FScreenshotRequest::RequestScreenshot(FPaths::ChangeExtension(Path, TEXT("png")), true, false);
+		}
 	}
 	else
 	{

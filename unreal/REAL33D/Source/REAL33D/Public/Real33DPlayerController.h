@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
 #include "Real33DMouseGesture.h"
+#include "Real33DCoords.h"
 #include "Real33DPlayerController.generated.h"
 
 class AReal33DWorld;
@@ -54,6 +55,7 @@ private:
 	void BeginLeftClick();
 	void EndLeftClick();
 	void WalkUnderCursor();
+	void RequestKnownWalk(Real33D::FMapPosition Target);
 	void TickClickWalk();
 	void InspectUnderCursor();
 	void InteractUnderCursor(bool bLook = false);
@@ -96,6 +98,7 @@ private:
 	bool bOrbiting = false;
 	Real33D::MouseGesture MouseGesture;
 	TArray<FIntVector> ClickWalkPath;
+	Real33D::FMapPosition ClickWalkGoal;
 	int32 ClickWalkIndex = 0;
 	bool bClickWalkWaiting = false;
 	FIntVector ClickWalkExpected;

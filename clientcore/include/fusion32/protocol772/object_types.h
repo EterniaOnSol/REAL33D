@@ -66,6 +66,8 @@ struct ObjectTypeEncoding {
     // passability from stack priority would be inventing a category the server
     // never stated. This is the server's own answer.
     bool unpass = false;
+    // Static terrain hint only, never proof of current walkability.
+    bool unmove = false;
 
     // Extra bytes that follow the type id word on the wire.
     std::size_t extra_bytes() const noexcept {

@@ -4,6 +4,7 @@
 #include "Real33DBridge.h"
 #include "Real33DChatPanel.h"
 #include "Real33DPanelChrome.h"
+#include "Real33DMinimapPanel.h"
 #include "Widgets/DeclarativeSyntaxSupport.h"
 #include "Widgets/SCompoundWidget.h"
 
@@ -43,6 +44,7 @@ public:
 	SLATE_BEGIN_ARGS(SReal33DHUD) {}
 		SLATE_ARGUMENT(TWeakObjectPtr<UReal33DBridge>, Bridge)
 		SLATE_EVENT(FReal33DOnTypingChanged, OnTypingChanged)
+		SLATE_EVENT(FReal33DOnMinimapDestination, OnMinimapDestination)
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);

@@ -1,0 +1,26 @@
+﻿{
+    "schema":  "real33d.minimap.operator-feedback.v1",
+    "session":  "live-20260928T131649",
+    "statements":  [
+                       {
+                           "test":  "unknown minimap click advances and discovers terrain",
+                           "answer":  "Sí, avanza y descubre terreno"
+                       },
+                       {
+                           "test":  "bundled controls, floor, inventory/container/use/combat/follow request",
+                           "answer":  "funciona todo",
+                           "limitation":  "Final session has no pan/recenter event, floor transition or Follow intent; exact coverage clarification pending."
+                       },
+                       {
+                           "test":  "clarification of missing controls/floor/follow traces",
+                           "answer":  "no hice peticion de follow.. el resto funciona",
+                           "limitation":  "Follow explicitly not exercised; other results operator-observed, per-action checkpoints limited."
+                       },
+                       {
+                           "test":  "normal Battle List Follow, then Stop; F9 checkpoint",
+                           "session":  "live-20260928T132553",
+                           "answer":  "Follow y Stop funcionaron",
+                           "limitation":  "No positive protocol acknowledgement exists for follow; normal request/state trace and authoritative relocation retained."
+                       }
+                   ]
+}

@@ -1,0 +1,48 @@
+﻿-- Configuring done (0.8s)
+-- Generating done (4.3s)
+-- Build files have been written to: /mnt/c/Users/dell/Desktop/fusion32/build/unreal-minimap-navigation-001/build/clientcore-asan
+[  4%] Built target protocol772_crypto
+[ 14%] Built target protocol772_transport
+[ 19%] Built target protocol772_login
+[ 24%] Built target protocol772_transport_tests
+[ 26%] Building CXX object CMakeFiles/protocol772_initial_world.dir/src/minimap.cpp.o
+[ 31%] Built target protocol772_crypto_tests
+[ 36%] Built target protocol772_login_tests
+[ 41%] Built target protocol772_gamelogin
+[ 46%] Built target protocol772_gamelogin_tests
+[ 48%] Linking CXX static library libprotocol772_initial_world.a
+[ 75%] Built target protocol772_initial_world
+[ 78%] Linking CXX executable protocol772_movement_tests
+[ 80%] Linking CXX executable protocol772_initial_world_tests
+[ 82%] Built target protocol772_initial_world_tests
+[ 85%] Linking CXX executable protocol772_player_state_tests
+[ 87%] Built target protocol772_movement_tests
+[ 90%] Linking CXX executable protocol772_worldview_tests
+[ 92%] Built target protocol772_player_state_tests
+[ 95%] Building CXX object CMakeFiles/protocol772_minimap_tests.dir/tests/minimap_tests.cpp.o
+[ 97%] Built target protocol772_worldview_tests
+[100%] Linking CXX executable protocol772_minimap_tests
+[100%] Built target protocol772_minimap_tests
+Test project /mnt/c/Users/dell/Desktop/fusion32/build/unreal-minimap-navigation-001/build/clientcore-asan
+    Start 1: protocol772_transport_tests
+1/9 Test #1: protocol772_transport_tests .......   Passed    1.59 sec
+    Start 2: protocol772_crypto_tests
+2/9 Test #2: protocol772_crypto_tests ..........   Passed    0.06 sec
+    Start 3: protocol772_login_tests
+3/9 Test #3: protocol772_login_tests ...........   Passed    0.06 sec
+    Start 4: protocol772_gamelogin_tests
+4/9 Test #4: protocol772_gamelogin_tests .......   Passed    0.08 sec
+    Start 5: protocol772_initial_world_tests
+5/9 Test #5: protocol772_initial_world_tests ...   Passed    0.15 sec
+    Start 6: protocol772_movement_tests
+6/9 Test #6: protocol772_movement_tests ........   Passed    0.86 sec
+    Start 7: protocol772_player_state_tests
+7/9 Test #7: protocol772_player_state_tests ....   Passed    0.16 sec
+    Start 8: protocol772_worldview_tests
+8/9 Test #8: protocol772_worldview_tests .......   Passed    0.26 sec
+    Start 9: protocol772_minimap_tests
+9/9 Test #9: protocol772_minimap_tests .........   Passed    0.26 sec
+
+100% tests passed, 0 tests failed out of 9
+
+Total Test time (real) =   3.60 sec

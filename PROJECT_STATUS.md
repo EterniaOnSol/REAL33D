@@ -1,5 +1,25 @@
 # Project Status
 
+2026-09-28 closeout: `UNREAL-MINIMAP-NAVIGATION-001 = PASS` local,
+isolated branch `milestone/unreal-minimap-navigation-001`, base
+`a97cf25e7449a8a3ef35ef2553181c5032c7a247`. The certified item-use milestone
+was integrated by fast-forward and pushed to main at that exact commit.
+The earlier visual-editor next-step recommendation below is superseded by the
+operator's explicit minimap scope; no visual editor or V08 art changes here.
+Observed terrain cache, north-up HUD map, player/floor synchronization and local
+controls are implemented. Live exploration and floor round-trip evidence is
+retained; operator accepted the original 7.72 colors. The final revision removes
+live-tile highlighting and accepts unknown same-floor destinations, advancing
+through observed segments as regular map descriptions arrive. Known routes
+have no viewport/distance cutoff. Current-step validation/server acceptance are
+unchanged. Final live unknown-goal continuation, real refusal stop, all cardinal
+directions, cache restoration, 7->6->7 floor round trip, Follow/Stop and zero
+protocol errors are retained. Operator confirms the remaining UI interactions;
+individual pan/zoom/recenter/container checkpoints are limited. Native nine
+suites, pure view/palette, sanitizers, Unreal build and secret check pass.
+Independent certification is NOT_STARTED; this milestone remains unmerged.
+See `docs/UNREAL_MINIMAP_NAVIGATION.md` and the current handoff.
+
 Latest independent run: world/slot Look and normal chat visibly confirmed after
 HUD repair; live world/inventory/container Use and valid Use With reproduced.
 Operator requested automatic target selection from normal Use for MultiUse
@@ -10,10 +30,10 @@ not 156 finished 3D models. Corrected interaction milestone is CERTIFIED;
 rune spell effects and complete art coverage remain unverified.
 
 Current phase: `PHASE 2 - GAMEPLAY CLIENT PROGRAMMING` (`IN_PROGRESS`; the first 3D representation is live, a stock 2D client now completes the ordinary 7.72 flow, and V08 visual review is on operator-directed standby)
-Current milestone: UNREAL-ITEM-USE-INTERACTION-001 — `CERTIFIED` for the corrected revision after independent live reproduction. Original candidate `3528459` is not retroactively certified. Rune spell effects and complete art coverage remain `IMPLEMENTED_UNVERIFIED`. See `evidence/clientcore/UNREAL-ITEM-USE-INTERACTION-001-INDEPENDENT-20260927.md`.
-Next milestone: UNREAL-LIVE-VISUAL-EDITOR-001 (`NOT_STARTED`): local 3D mesh, rotation and grass adjustments while navigating, saved as visual overrides; Fusion32 state remains authoritative.
-Last certified: UNREAL-COMBAT-FOLLOW-001 CERTIFIED_PASS; UNREAL-INVENTORY-CONTAINERS-001 CERTIFIED_PASS; UNREAL-WIDE-WORLD-001 CERTIFIED_PASS at `3fd5d1d`; DUAL_CLIENT_LIVE_CAPTURE PASS at `0f9bd505`.
-Branch: `milestone/unreal-item-use-interaction-001` (from `main`, not merged)
+Current milestone: UNREAL-MINIMAP-NAVIGATION-001 — `PASS` local; independent certification `NOT_STARTED`. See `evidence/clientcore/UNREAL-MINIMAP-NAVIGATION-001.md` for live results and evidence limits.
+Next task: independently certify UNREAL-MINIMAP-NAVIGATION-001 before merging. Recommended next implementation milestone: UNREAL-WORLD-PRESENTATION-POLISH-001; define scope separately, following the operator's world-presentation feedback.
+Last certified: UNREAL-ITEM-USE-INTERACTION-001 at `a97cf25e7449a8a3ef35ef2553181c5032c7a247`, now integrated main. Original candidate `3528459` is not retroactively certified. Rune spell effects and complete art coverage remain `IMPLEMENTED_UNVERIFIED`. Prior combat/follow, inventory/containers and WideWorld certifications remain preserved.
+Branch: `milestone/unreal-minimap-navigation-001` (from integrated `origin/main`, not merged)
 Classic baseline review commit: `f65f3a7645ff40b39b7cc8399760fd4f0b69ecee`
 Transport implementation commit: `abd2d0a25bd9632f5aa3955e822876268c7ca96c`
 Crypto implementation commit: `64e9217ef64181d44cdce815a36b6bb1d2aa9038`

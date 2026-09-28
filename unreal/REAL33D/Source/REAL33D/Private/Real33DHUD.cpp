@@ -171,6 +171,8 @@ void SReal33DHUD::Construct(const FArguments& InArgs)
 			.ContentHeight(SReal33DMinimapPanel::PanelHeight)
 			[
 				SAssignNew(Minimap, SReal33DMinimapPanel)
+				.Bridge(Bridge)
+				.OnDestination(InArgs._OnMinimapDestination)
 			]
 		];
 
@@ -704,10 +706,7 @@ void SReal33DHUD::Refresh(const AReal33DWorld* World)
 	}
 	if (Minimap.IsValid())
 	{
-		const AReal33DCreature* Self = World != nullptr ? World->GetLocalPlayer() : nullptr;
-		Minimap->SetPosition(
-			Self != nullptr ? Self->GetLogicalPosition() : Real33D::FMapPosition{},
-			Self != nullptr);
+		Minimap->Refresh();
 	}
 	if (Battle.IsValid())
 	{

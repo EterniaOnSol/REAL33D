@@ -28,6 +28,7 @@ enum class EReal33DEventKind : uint8
 	AnchorMoved,
 	TileUpserted,
 	TileRemoved,
+	MinimapObserved,
 	CreatureAppeared,
 	CreatureMoved,
 	CreatureVanished,
@@ -199,6 +200,7 @@ struct FReal33DThing
 	 * walking "through cubes" that were never walls.
 	 */
 	bool bBlocking = false;
+	bool bGround = false;
 };
 
 /**
@@ -383,6 +385,24 @@ struct FReal33DBattleEntry
 	bool bFollowed = false;
 };
 
+/** Terrain-only minimap hint, independent of live things and Actors. */
+struct FReal33DMinimapCell
+{
+	Real33D::FMapPosition Position;
+	uint16 GroundType = 0;
+	uint16 ColorType = 0;
+	bool bStaticObstacle = false;
+	bool bLive = false;
+};
+struct FReal33DMinimapState
+{
+	Real33D::FMapPosition Player;
+	bool bPlayerKnown = false;
+	int32 KnownCells = 0;
+	int32 LiveCells = 0;
+	uint64 Revision = 0;
+};
+
 /** An event crossing the thread boundary. Copied, never shared. */
 struct FReal33DEvent
 {
@@ -398,6 +418,7 @@ struct FReal33DEvent
 	uint8 Direction = 0;
 	bool bIsLocalPlayer = false;
 	TArray<FReal33DThing> Things;
+	TArray<FReal33DMinimapCell> MinimapCells;
 	FString Detail;
 	/** Identifies the key press this event belongs to, 0 when it belongs to none. */
 	uint32 InputId = 0;
@@ -673,6 +694,12 @@ public:
 	uint64 GetChatRevision() const;
 
 	FReal33DStats GetStats() const;
+	FReal33DMinimapState GetMinimapState() const;
+	void GetMinimapCells(int32 Floor, int32 MinX, int32 MinY, int32 MaxX, int32 MaxY,
+		TArray<FReal33DMinimapCell>& OutCells) const;
+	bool FindMinimapPath(Real33D::FMapPosition Start, Real33D::FMapPosition Goal,
+		const TArray<Real33D::FMapPosition>& ObservedBlockers,
+		TArray<Real33D::FMapPosition>& OutPath) const;
 
 	/** Existing runtime objects.srv flag, never guessed from an item's id/name. */
 	bool RequiresUseTarget(uint16 TypeId) const;
@@ -701,4 +728,7 @@ private:
 	 * what this is lives in the .cpp.
 	 */
 	struct FReal33DChatTranscript* Transcript = nullptr;
+	struct FReal33DMinimapStore* Minimap = nullptr;
+	void NoteMinimap(const FReal33DEvent& Event);
+	void SaveMinimap();
 };

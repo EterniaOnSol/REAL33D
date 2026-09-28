@@ -201,6 +201,9 @@ private:
 	int32 DuplicateSpawnAttempts = 0;
 	int32 OrphanEvents = 0;
 	double FirstFrameTime = 0.0;
+	bool bMinimapQACaptured = false;
+	bool bMinimapQASettledCaptured = false;
+	double MinimapQAObservedAt = 0.0;
 
 	/** Where the movement journal is appended, decided once at BeginPlay. */
 	FString JournalPath;

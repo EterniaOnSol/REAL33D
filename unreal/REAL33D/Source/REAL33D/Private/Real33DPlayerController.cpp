@@ -61,6 +61,8 @@ void AReal33DPlayerController::BeginPlay()
 	// gameinterface.otui describes, and the HUD owns both.
 	HudRoot = SNew(SReal33DHUD)
 		.Bridge(Bridge)
+		.OnMinimapDestination(FReal33DOnMinimapDestination::CreateUObject(
+			this, &AReal33DPlayerController::RequestKnownWalk))
 		.OnTypingChanged(FReal33DOnTypingChanged::CreateUObject(
 			this, &AReal33DPlayerController::HandleTypingChanged));
 	ChatPanel = HudRoot->GetChatPanel();
@@ -69,7 +71,8 @@ void AReal33DPlayerController::BeginPlay()
 		HudRoot.ToSharedRef(), /*ZOrder=*/10);
 	FString CatalogPath;
 	bInspectorEnabled = FParse::Value(FCommandLine::Get(),
-		TEXT("-real33d-experimental-catalog="), CatalogPath);
+		TEXT("-real33d-experimental-catalog="), CatalogPath)
+		&& !FParse::Param(FCommandLine::Get(), TEXT("real33d-disable-inspector"));
 	if (bInspectorEnabled)
 	{
 		FString EvidenceDirectory;
@@ -576,16 +579,29 @@ void AReal33DPlayerController::WalkUnderCursor()
 	const AReal33DTile* Tile = Cast<AReal33DTile>(Hit.GetActor());
 	AReal33DWorld* World = GetWorldActor();
 	if (Tile == nullptr || World == nullptr) return;
-	if (!World->FindKnownWalkPath(Tile->GetMapPosition(), ClickWalkPath))
+	RequestKnownWalk(Tile->GetMapPosition());
+}
+
+void AReal33DPlayerController::RequestKnownWalk(Real33D::FMapPosition Target)
+{
+	ClickWalkPath.Reset();
+	if (bTypingActive || (HudRoot.IsValid() && HudRoot->IsTargeting())) return;
+	for (const bool bHeld : bHeldMovement) if (bHeld) return;
+	AReal33DWorld* World = GetWorldActor();
+	if (World == nullptr || !World->FindKnownWalkPath(Target, ClickWalkPath))
 	{
-		UE_LOG(LogReal33D, Log, TEXT("left-click walk: no path in the current authoritative tiles"));
+		UE_LOG(LogReal33D, Log, TEXT("left-click walk: no reachable observed route/frontier"));
 		return;
 	}
 	ClickWalkIndex = 0;
+	ClickWalkGoal = Target;
 	// Do not issue a new step until an earlier click step has received its answer.
 	UE_LOG(LogReal33D, Log, TEXT("left-click walk: target %d,%d,%d, %d cardinal steps"),
-		Tile->GetMapPosition().X, Tile->GetMapPosition().Y, Tile->GetMapPosition().Z,
+		Target.X, Target.Y, Target.Z,
 		ClickWalkPath.Num());
+	if (!ClickWalkPath.IsEmpty() && ClickWalkPath.Last() != FIntVector(Target.X,Target.Y,Target.Z))
+		UE_LOG(LogReal33D,Log,TEXT("left-click walk exploration segment ends at %d,%d,%d; original goal retained"),
+			ClickWalkPath.Last().X,ClickWalkPath.Last().Y,ClickWalkPath.Last().Z);
 }
 
 void AReal33DPlayerController::TickClickWalk()
@@ -619,14 +635,49 @@ void AReal33DPlayerController::TickClickWalk()
 		if (Stats.AcceptedSelfWalks <= ClickWalkAcceptedBefore || Here != ClickWalkExpected) return;
 		bClickWalkWaiting = false;
 	}
-	if (!ClickWalkPath.IsValidIndex(ClickWalkIndex) || Now - ClickWalkSentAt < HeldWalkIntervalSeconds) return;
-	const FIntVector Next = ClickWalkPath[ClickWalkIndex];
-	const FIntVector Delta = Next - Here;
+	if (ClickWalkPath.IsEmpty() || Now - ClickWalkSentAt < HeldWalkIntervalSeconds) return;
+	const auto Map = Bridge->GetMinimapState();
+	if (!Map.bPlayerKnown || Map.Player != Position) return; // Await normal synchronized descriptions.
+	if (!ClickWalkPath.IsValidIndex(ClickWalkIndex))
+	{
+		if (Position == ClickWalkGoal)
+		{
+			ClickWalkPath.Reset();
+			UE_LOG(LogReal33D,Log,TEXT("left-click walk arrived: authoritative player=%d,%d,%d"),Position.X,Position.Y,Position.Z);
+			return;
+		}
+		if (!World->FindKnownWalkPath(ClickWalkGoal,ClickWalkPath) || ClickWalkPath.IsEmpty())
+		{
+			ClickWalkPath.Reset();
+			UE_LOG(LogReal33D,Log,TEXT("left-click walk stopped: newly observed terrain has no route/frontier"));
+			return;
+		}
+		ClickWalkIndex = 0;
+		UE_LOG(LogReal33D,Log,TEXT("left-click walk exploration segment: goal=%d,%d,%d steps=%d"),
+			ClickWalkGoal.X,ClickWalkGoal.Y,ClickWalkGoal.Z,ClickWalkPath.Num());
+	}
+	FIntVector Next = ClickWalkPath[ClickWalkIndex];
+	FIntVector Delta = Next - Here;
 	if (Delta.Z != 0 || FMath::Abs(Delta.X) + FMath::Abs(Delta.Y) != 1
 		|| !World->IsKnownWalkTile(Next))
 	{
-		ClickWalkPath.Reset();
-		return;
+		const auto Goal = ClickWalkGoal;
+		if (!World->FindKnownWalkPath(Goal,ClickWalkPath) || ClickWalkPath.IsEmpty())
+		{
+			ClickWalkPath.Reset();
+			UE_LOG(LogReal33D,Log,TEXT("left-click walk stopped: live next step differs; no known detour"));
+			return;
+		}
+		ClickWalkIndex = 0;
+		Next = ClickWalkPath[0];
+		Delta = Next - Here;
+		if (Delta.Z != 0 || FMath::Abs(Delta.X) + FMath::Abs(Delta.Y) != 1 || !World->IsKnownWalkTile(Next))
+		{
+			ClickWalkPath.Reset();
+			return;
+		}
+		UE_LOG(LogReal33D,Log,TEXT("left-click walk replanned from %d,%d,%d to %d,%d,%d"),
+			Here.X,Here.Y,Here.Z,Goal.X,Goal.Y,Goal.Z);
 	}
 	const uint8 Direction = Delta.Y < 0 ? 0 : Delta.X > 0 ? 1 : Delta.Y > 0 ? 2 : 3;
 	const uint32 InputId = Bridge->RequestWalk(Direction);
