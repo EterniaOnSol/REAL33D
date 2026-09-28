@@ -801,6 +801,15 @@ void TestUseCommands() {
     const auto worn = MoveEndpoint::InInventory(3);
     const auto onMap = MoveEndpoint::OnMap(MapPosition{32097, 32219, 7});
 
+    // CLookAtPoint reads coordinates only; map lookup chooses the top object,
+    // while special coordinates select a body slot or open-container index.
+    CHECK(BuildLookAtPointCommand(onMap) ==
+          (std::vector<std::uint8_t>{140, 0x61, 0x7D, 0xDB, 0x7D, 7}));
+    CHECK(BuildLookAtPointCommand(worn) ==
+          (std::vector<std::uint8_t>{140, 0xFF, 0xFF, 3, 0, 0}));
+    CHECK(BuildLookAtPointCommand(inBag) ==
+          (std::vector<std::uint8_t>{140, 0xFF, 0xFF, 64, 0, 2}));
+
     // CUseObject: origin word/word/byte, type word, stack byte, container byte.
     // The last byte is the open-container slot to show a container in, not
     // padding: CUseObject refuses the command when it is out of range.

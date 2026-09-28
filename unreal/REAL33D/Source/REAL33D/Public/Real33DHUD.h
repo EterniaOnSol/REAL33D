@@ -84,6 +84,9 @@ public:
 	bool UseWorldObject(const Real33D::FMapPosition& Position, uint16 TypeId,
 		uint8 StackIndex);
 
+	/** Sends the existing 7.72 look request for a visible map point. */
+	bool LookAtWorldPoint(const Real33D::FMapPosition& Position);
+
 private:
 	/** A 176px side column carrying a stack of mini windows. */
 	TSharedRef<SWidget> MakeSideColumn(TSharedRef<SWidget> Contents);
@@ -100,7 +103,7 @@ private:
 	void HandleItemDropped(FReal33DSlotRef From, FReal33DSlotRef To);
 
 	/** Right-click on a slot: use it, or begin a use-with. */
-	void HandleSlotUsed(FReal33DSlotRef Slot, bool bWithTarget);
+	void HandleSlotUsed(FReal33DSlotRef Slot, EReal33DSlotAction Action);
 
 	/** Left-click on a slot, offered to a pending use-with. */
 	bool HandleSlotPicked(FReal33DSlotRef Slot);

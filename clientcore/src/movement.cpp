@@ -332,6 +332,17 @@ std::vector<std::uint8_t> BuildUseOnCreatureCommand(const MoveEndpoint& object,
     return command;
 }
 
+std::vector<std::uint8_t> BuildLookAtPointCommand(const MoveEndpoint& point) {
+    return {
+        kClientCommandLookAtPoint,
+        static_cast<std::uint8_t>(point.x & 0xFF),
+        static_cast<std::uint8_t>((point.x >> 8) & 0xFF),
+        static_cast<std::uint8_t>(point.y & 0xFF),
+        static_cast<std::uint8_t>((point.y >> 8) & 0xFF),
+        point.z,
+    };
+}
+
 namespace {
 
 // CAttack reads one quad and nothing else, for both opcodes.

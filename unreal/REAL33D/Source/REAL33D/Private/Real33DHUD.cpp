@@ -411,7 +411,7 @@ uint8 SReal33DHUD::FirstFreeContainerNumber() const
 	return 15;
 }
 
-void SReal33DHUD::HandleSlotUsed(FReal33DSlotRef Slot, bool bWithTarget)
+void SReal33DHUD::HandleSlotUsed(FReal33DSlotRef Slot, EReal33DSlotAction Action)
 {
 	UReal33DBridge* Live = Bridge.Get();
 	if (Live == nullptr || !Live->IsRunning())
@@ -419,7 +419,19 @@ void SReal33DHUD::HandleSlotUsed(FReal33DSlotRef Slot, bool bWithTarget)
 		return;
 	}
 
-	if (bWithTarget)
+	if (Action == EReal33DSlotAction::Look)
+	{
+		const auto Point = Slot.Kind == FReal33DSlotRef::EKind::Container
+			? UReal33DBridge::FMoveSlot::InContainer(Slot.Container, Slot.Slot)
+			: UReal33DBridge::FMoveSlot::InInventory(Slot.Slot);
+		const uint32 LookId = Live->RequestLookAtPoint(Point);
+		UE_LOG(LogReal33D, Log, TEXT("look %u at %s%u slot %u"),
+			LookId, Slot.Kind == FReal33DSlotRef::EKind::Container
+				? TEXT("container ") : TEXT("body "), Slot.Container, Slot.Slot);
+		return;
+	}
+
+	if (Action == EReal33DSlotAction::UseWith)
 	{
 		// Nothing goes out yet. The command needs two ends and only one is
 		// known, so the client waits for the click that names the other.
@@ -584,6 +596,16 @@ bool SReal33DHUD::UseWorldObject(const Real33D::FMapPosition& Position,
 		TEXT("use %u from world: object %u at %d,%d,%d stack %u, would open as container %u"),
 		UseId, TypeId, Position.X, Position.Y, Position.Z, StackIndex, OpenAs);
 	return true;
+}
+
+bool SReal33DHUD::LookAtWorldPoint(const Real33D::FMapPosition& Position)
+{
+	UReal33DBridge* Live = Bridge.Get();
+	if (Live == nullptr || !Live->IsRunning()) return false;
+	const uint32 LookId = Live->RequestLookAtPoint(UReal33DBridge::FMoveSlot::OnMap(Position));
+	UE_LOG(LogReal33D, Log, TEXT("look %u at world point %d,%d,%d"),
+		LookId, Position.X, Position.Y, Position.Z);
+	return LookId != 0;
 }
 
 void SReal33DHUD::CancelTargeting()

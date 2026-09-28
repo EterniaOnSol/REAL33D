@@ -335,7 +335,10 @@ FReply SReal33DSlot::OnMouseButtonDown(const FGeometry& Geometry,
 	if (Event.GetEffectingButton() == EKeys::RightMouseButton
 		&& Location.TypeId != 0 && Location.IsValid())
 	{
-		OnSlotUsed.ExecuteIfBound(Location, Event.IsShiftDown());
+		const EReal33DSlotAction Action = Event.IsAltDown()
+			? EReal33DSlotAction::Look
+			: (Event.IsShiftDown() ? EReal33DSlotAction::UseWith : EReal33DSlotAction::Use);
+		OnSlotUsed.ExecuteIfBound(Location, Action);
 		return FReply::Handled();
 	}
 

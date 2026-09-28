@@ -88,3 +88,5 @@ CMakeFiles/
 # retained step snapshots and the certified session report. Keep local reruns
 # without making the worktree dirty.
 /evidence/clientcore/unreal-inventory-containers/unreal_slice_evidence*.json
+/evidence/clientcore/unreal-item-use-interaction/unreal_slice_evidence*.json
+/evidence/clientcore/unreal-item-use-interaction/movement_journal.jsonl

@@ -4,6 +4,7 @@
 #include "Engine/GameInstance.h"
 #include "Engine/GameViewportClient.h"
 #include "EngineUtils.h"
+#include "Framework/Application/SlateApplication.h"
 #include "HAL/FileManager.h"
 #include "Misc/DateTime.h"
 #include "Misc/FileHelper.h"
@@ -579,8 +580,18 @@ void AReal33DPlayerController::InteractUnderCursor()
 	if (!GetHitResultUnderCursorByChannel(
 		UEngineTypes::ConvertToTraceType(ECC_Visibility), true, Hit)) return;
 
+	// Alt+right-click asks the server to describe the point. A pending
+	// use-with still owns the next click, including clicks with modifiers.
+	const bool bLook = HudRoot.IsValid() && !HudRoot->IsTargeting()
+		&& FSlateApplication::Get().GetModifierKeys().IsAltDown();
+
 	if (const AReal33DCreature* Creature = Cast<AReal33DCreature>(Hit.GetActor()))
 	{
+		if (bLook)
+		{
+			HudRoot->LookAtWorldPoint(Creature->GetLogicalPosition());
+			return;
+		}
 		const uint32 CreatureId = Creature->GetCreatureId();
 		if (HudRoot.IsValid() && HudRoot->CompleteUseOnCreature(CreatureId))
 		{
@@ -602,6 +613,11 @@ void AReal33DPlayerController::InteractUnderCursor()
 
 	const AReal33DTile* Tile = Cast<AReal33DTile>(Hit.GetActor());
 	if (Tile == nullptr || !HudRoot.IsValid()) return;
+	if (bLook)
+	{
+		HudRoot->LookAtWorldPoint(Tile->GetMapPosition());
+		return;
+	}
 	uint16 TypeId = 0;
 	uint8 StackIndex = 0;
 	if (Tile->GetTopObject(TypeId, StackIndex))

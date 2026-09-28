@@ -168,6 +168,11 @@ std::vector<std::uint8_t> BuildUseOnCreatureCommand(const MoveEndpoint& object,
                                                     std::uint8_t stack_index,
                                                     std::uint32_t creature_id);
 
+/** CLookAtPoint reads only x/y/z. On the map Fusion32 chooses its top object;
+ * for a body slot it chooses that slot; in a container z selects the item.
+ * The description arrives through the ordinary SV_CMD_MESSAGE path. */
+std::vector<std::uint8_t> BuildLookAtPointCommand(const MoveEndpoint& point);
+
 // ------------------------------------------------------------ combat commands
 //
 // Fusion32 has exactly four. Source: reference/game/src/connections.hh for the

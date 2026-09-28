@@ -36,13 +36,11 @@ DECLARE_DELEGATE_TwoParams(FReal33DOnItemDropped, FReal33DSlotRef, FReal33DSlotR
 /**
  * Fired when a slot is used.
  *
- * `bWithTarget` is the difference between the two 7.72 shapes of use: false
- * means CL_CMD_USE_OBJECT, which acts on the object where it stands and is
- * what opens a container; true means the player wants to use it on something
- * else, which puts the client into targeting until the next click names a
- * creature, an object or a field.
+ * Plain right-click uses, Shift+right-click starts use-with, and
+ * Alt+right-click asks the server to look at that slot.
  */
-DECLARE_DELEGATE_TwoParams(FReal33DOnSlotUsed, FReal33DSlotRef, bool);
+enum class EReal33DSlotAction : uint8 { Use, UseWith, Look };
+DECLARE_DELEGATE_TwoParams(FReal33DOnSlotUsed, FReal33DSlotRef, EReal33DSlotAction);
 
 /**
  * Offers a left-click on a slot to whoever is waiting for a target.

@@ -1,87 +1,147 @@
 # HANDOFF
 
-Date/time: 2026-09-23, America/Guatemala
-Task: `UNREAL-COMBAT-FOLLOW-001`
-Agent: Codex
-Role: implementation completion and live certification
-Branch: `main`
-Starting commit: `0cbcaf771091b18cd5c92afbe07333dfda918473`
-Ending commit: the commit containing this handoff
-Worktree: `C:\Users\dell\Desktop\fusion32`
+Date/time: 2026-09-27 18:05, America/Guatemala
+Task: `UNREAL-ITEM-USE-INTERACTION-001`
+Agent / role: Codex, 3D client audit, implementation and local QA
+Branch: `milestone/unreal-item-use-interaction-001` (not merged to main)
+Starting commit: `bd15cc0a49d8182dc1cc3732b8487859f1662044`
+Ending commit: this handoff commit; resolve with `git rev-parse HEAD`
+Worktree: `C:\Users\dell\Desktop\fusion32\build\unreal-item-use-interaction-001`
+Principal checkout: `C:\Users\dell\Desktop\fusion32`
+Remote main: `bd15cc0a49d8182dc1cc3732b8487859f1662044`
 
-## Objective and result
+## Objective and state
 
-Make REAL33D attack and follow live through Fusion32's existing 7.72 protocol,
-with ClientCore/WorldState as the single client-side state owner and Unreal as
-input/presentation only. Result: `CERTIFIED_PASS`.
+Complete Tibia-style item Use interaction in REAL33D through the existing
+ClientCore/Fusion32 7.72 flow, and audit what had already been implemented.
+The new Look route is implemented and deterministic/native build checks pass.
+`UNREAL-ITEM-USE-INTERACTION-001 = PASS` for the named live Use and world Look
+paths. Three world Look requests and Fusion32 descriptions were retained
+together. Independent repetition and live slot Look validation remain open.
+Prior certified world/body/container Use and a valid Use With result remain
+certified by their separate milestone evidence.
 
-Attack, target replacement, cancel, follow, follow replacement/cancel, server
-rejection, target removal, session reset, shared Battle/world feedback and all
-supported tactics are wired and exercised. Final protocol counters are zero.
+The operator also requested seeing more map with a family member's V08 art.
+The corrected live run enabled the 4,913-entry local V08 catalog and
+WideWorld radius 64 with 69 sector-load records. The launch script now
+requires a sector cache and passes the paths/radius explicitly. The art and
+cache remain local, ignored QA material. A further operator request selected
+local presentation-only in-world editing as the next 3D milestone.
 
-## Authority inspected
+## Startup and isolation
 
-- `reference/game/src/connections.hh`: client 160/161/162/190, server 163.
-- `reference/game/src/receiving.cc`: `CSetTactics`, `CAttack`, `CCancel`.
-- `reference/game/src/crcombat.cc`: `TCombat::SetAttackDest`,
-  `CanToDoAttack`, `StopAttack`.
-- `reference/game/src/sending.cc`: `SendClearTarget`.
-- Existing ClientCore movement/update and WorldState/WorldView paths.
-- REAL33D bridge, Battle List, creature/tile actors, HUD, inventory stance
-  controls and player-controller input.
+Read AGENTS.md, PROJECT_STATUS.md, ARCHITECTURE.md, ROADMAP.md,
+PARITY_MATRIX.md, handoffs/CURRENT.md and SOURCE_TRUTH.md. Inspected
+`git status`, branch, HEAD, remotes and remote main. The principal checkout
+was on `milestone/real33d-agent-veteran-play-002` at `77e35b4` with
+pre-existing uncommitted agent/2D changes. Those files were never touched.
+Created this clean isolated worktree from main under the principal repo's
+ignored `build/` directory. No REAL33D2D, agent, server, runtime data or
+reference source was edited. No push or main merge.
 
-## Changes
+## Authority and discoveries
 
-- Added byte-exact builders for attack, follow, cancel and set-tactics, plus
-  deterministic tests.
-- Added `CombatState` to WorldState, server-clear application, semantic
-  `CombatChanged` diff/reset, and bridge requests that record state only after
-  a successful send.
-- Battle List attack and explicit Follow/Stop use that shared state. Shift-click
-  was removed because no authoritative classic-client source established it.
-- World right-click attacks creatures and uses world objects/corpses; camera
-  orbit retains its drag threshold. Tile hit testing preserves the exact
-  WorldState type and stack position.
-- Creature actors and Battle rows present attack/follow feedback from the same
-  state. Fight stance and stand/follow buttons send real opcode 160 fields.
-- Evidence counters/snapshot cover requests and server clears. No damage, HP,
-  cooldown, fake follow movement, protocol extension or independent Slate
-  target was added.
+- `reference/game/src/connections.hh::ClientCommand` defines Use 130/131/132
+  and Look 140.
+- `receiving.cc::CUseObject/CUseTwoObjects/CUseOnCreature` supplied all Use
+  shapes already present in ClientCore/Unreal. `UNREAL-INVENTORY-CONTAINERS-001`
+  and `UNREAL-COMBAT-FOLLOW-001` retain their live Use evidence.
+- `receiving.cc::CLookAtPoint` reads x/y/z only, checks allowed coordinates
+  and visibility, then calls `info.cc::GetObject`. `operate.cc::Look` sends
+  the description via `SV_CMD_MESSAGE`. No TypeId, stack or description
+  belongs in the Look request.
+- Existing REAL33D input/HUD/bridge already presents server container and
+  message outcomes. No new WorldState or Actor mutation was needed.
+- `Real33DWorldActor.cpp::InitialiseWideWorld` enables streaming only if a
+  cache directory exists. This isolated worktree initially lacked both local
+  V08 imports and that cache, so its first live launch showed placeholders.
 
-Files are limited to ClientCore combat state/builders/tests, the relevant
-REAL33D bridge/input/UI/actors, evidence and required project documentation.
-Excluded systems were not touched.
+## Changes and files
 
-## Tests and evidence
+- ClientCore `player_state.h`, `movement.h/.cpp` and
+  `player_state_tests.cpp`: six-byte Look builder and exact map/body/container
+  vectors.
+- REAL33D `Real33DBridge.h/.cpp`, `Real33DHUD.h/.cpp`,
+  `Real33DPanelChrome.h/.cpp` and `Real33DPlayerController.cpp`: semantic
+  Look intent, worker send, Alt+right-click on world/creature/occupied slot.
+  Existing server message presentation owns the response.
+- `scripts/client/run_unreal_v08_experimental.cmd`: explicit V08 catalog,
+  WideWorld cache/previews and radius arguments; refuses absent cache/import.
+- `.gitignore`, `PROJECT_STATUS.md`, `PARITY_MATRIX.md`,
+  `evidence/clientcore/UNREAL-ITEM-USE-INTERACTION-001.md` and this handoff.
+- Archived the preceding handoff at
+  `handoffs/archive/2026-09-23_UNREAL-COMBAT-FOLLOW-001.md`.
 
-- Native Windows ClientCore: C++17 and C++20 builds PASS; all eight suites PASS.
-- `REAL33DEditor Win64 Development`: `Result: Succeeded`.
-- `git diff --check`: PASS.
-- `tests/secret_check.sh`: required immediately before push.
-- Live: attack/follow states, switching/cancellation, `Target lost`, target
-  removal, right-click creature attack, real corpse open, tactics and unaffected
-  movement/inventory observed. The operator explicitly accepted Battle/follow,
-  fight stances and final right-click interaction.
-- Final snapshot: 246 frames, 496 commands, residual 0, unsupported 0,
-  anomalies 0; inventory known; open `dead rabbit` container.
+## Tests, live result and evidence
 
-Full source trace, repeat evidence and exact log excerpts:
-`evidence/clientcore/UNREAL-COMBAT-FOLLOW-001.md`.
+`tests/build_clientcore_windows.cmd` under VS 2022 BuildTools:
+C++17/C++20 libraries PASS; eight suites PASS. `REAL33DEditor Win64
+Development`: `Result: Succeeded`. Exact byte assertions cover Look's
+map/body/container addresses. See the evidence report for the commands and
+server source chain.
 
-## Remaining unverified / risks
+Local Fusion32 services started and identity/ports verified after removing
+one verified stale Game PID lock. Game recorded account B entering through
+ordinary Login/Game flow. Corrected REAL33D log: V08 catalog 4,913 entries,
+WideWorld radius 64, 69 sector-load lines. A local ignored crop at
+`build/v08-wideworld-3d.png` visibly shows the wider street/buildings with
+the V08 meshes. F9 at 23:37:59 UTC: 532 decoded commands, residual 0,
+unsupported 0, anomalies 0, tile/creature actor counts 410/3 equal
+WorldState, viewport synchronised. The local snapshot is ignored at
+`evidence/clientcore/unreal-item-use-interaction/unreal_slice_evidence_Manual.json`.
+That first F9 snapshot contains no Look request/reply and its protocol
+counters do not cover Look. A second live run retained three world Look pairs in
+`unreal/REAL33D/Saved/Logs/REAL33D.log`:
 
-- This is one operator on one machine; no independent live repetition.
-- Fusion32 intentionally sends no positive target acknowledgement. WorldState
-  therefore records the command after it reaches the wire and waits for server
-  clear/rejection, matching the authoritative implementation.
-- Corpse type/container behavior is correct, but the 3D body remains the
-  existing generic placeholder because no approved corpse asset exists. V08
-  was explicitly out of scope and untouched.
+- 23:59:47.177 `look 1` at (32093,32207,7); 23:59:47.308 server InfoMessage
+  `You see a mountain.`
+- 00:01:21.985 `look 42` at (32100,32199,7); 00:01:22.027 server InfoMessage
+  `You see a framework wall.`
+- 00:02:06.278 `look 55` at (32094,32203,7); 00:02:06.354 server InfoMessage
+  `You see grass.`
 
-## Exact next step
+The live HUD showed zero unsupported opcodes and anomalies after these Look
+requests; local ignored `build/look-qa3.png` shows the V08/WideWorld window
+and counters. No post-Look F9 export was retained. The Unreal process closed
+cleanly at 00:02:35 UTC.
 
-Select a new bounded milestone from authoritative Fusion32 source. The current
-candidate list is trade, a live floor transition, REAL33D-2D-BOOTSTRAP-001, or
-the already documented container mini-window presentation request. Do not infer
-authorization to change V08, WideWorld, REAL33D2D, shops, action bars, automap,
-reconnect handling, opcode 50 or protocol extensions.
+## PASS, remaining work and exact next task
+
+`PASS` from prior certified milestones: world Use/open corpse, body Use/open
+backpack, nested-container Use/open bag, valid flour-on-bucket Use With and
+server-authored inventory/container changes. This branch's new world Look:
+`PASS` with three server descriptions. Body/container Look:
+`IMPLEMENTED_UNVERIFIED` for live clicks despite exact-byte tests and built
+UI path. Use On Creature and Use With on a field have deterministic command
+coverage but no separately retained valid live result. Overall milestone is
+local `PASS`, not `CERTIFIED` by an independent reviewer.
+V08/WideWorld visual load in this branch: live observed, with generated
+art/cache local only. Artistic approval of V08 remains unverified.
+
+For stronger certification in this branch, repeat Alt+right-click from the
+REAL33D window on an occupied body and container slot; retain
+`LogReal33D: look <id>`, the matching server InfoMessage, and a post-Look F9
+snapshot with zero protocol counters. Exact functions:
+`SReal33DHUD::LookAtWorldPoint`,
+`SReal33DHUD::HandleSlotUsed`,
+`AReal33DPlayerController::InteractUnderCursor`,
+`FReal33DWorker::DrainUses`,
+`p772::BuildLookAtPointCommand`. Do not certify from compilation or from
+an input attempt with no observed request.
+
+Next separate 3D milestone, selected by the operator:
+`UNREAL-LIVE-VISUAL-EDITOR-001` (`NOT_STARTED`). Scope: select a visible
+world instance while navigating; preview and persist reversible local
+mesh replacement, orientation and grass presentation; keep tile identity,
+stack order, collision and all Fusion32 server state unchanged. Audit
+`Real33DWorldActor`, `Real33DStaticSectorActor`,
+`Real33DTileActor`, `Real33DAssetRegistry` and the current V08 inspector
+before designing overrides. No server/source/runtime or 2D/agent edits.
+The current V08 inspector's `Girar 90` button merely appends a `ROTATE_90`
+verdict to `wall_inspector_notes.tsv`; it does not change the visual. This is
+the natural entry point for an actual local visual editor.
+
+Principal checkout's agent/2D changes are pre-existing and remain uncommitted.
+No remote push is authorized by this task. Worktree changes should be
+committed only on this milestone branch; do not merge main without
+certification.

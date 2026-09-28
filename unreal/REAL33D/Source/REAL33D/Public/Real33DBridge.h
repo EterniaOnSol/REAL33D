@@ -475,6 +475,8 @@ struct FReal33DStats
 	int32 MovesRequested = 0;
 	/** Use requests this client put on the wire, in all three shapes. */
 	int32 UsesRequested = 0;
+	/** Look-at-point requests this client put on the wire. */
+	int32 LooksRequested = 0;
 	/** CL_CMD_ATTACK commands put on the wire, including attack-target toggles. */
 	int32 AttacksRequested = 0;
 	/** CL_CMD_FOLLOW commands put on the wire. */
@@ -623,6 +625,9 @@ public:
 	/** Uses an object on a creature, named by id. CL_CMD_USE_ON_CREATURE. */
 	uint32 RequestUseOnCreature(const FMoveSlot& Object, uint16 TypeId, uint8 StackIndex,
 		uint32 CreatureId);
+
+	/** Asks Fusion32 to describe the object at this point via SV_CMD_MESSAGE. */
+	uint32 RequestLookAtPoint(const FMoveSlot& Point);
 
 	/**
 	 * Attacks a creature, or cancels when that exact attack is already active.

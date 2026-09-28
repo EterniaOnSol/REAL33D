@@ -1,10 +1,10 @@
 # Project Status
 
 Current phase: `PHASE 2 - GAMEPLAY CLIENT PROGRAMMING` (`IN_PROGRESS`; the first 3D representation is live, a stock 2D client now completes the ordinary 7.72 flow, and V08 visual review is on operator-directed standby)
-Current milestone: UNREAL-COMBAT-FOLLOW-001 (authoritative 7.72 attack, follow, cancel and tactics in REAL33D) — `CERTIFIED_PASS`.
-Next milestone: REAL33D-2D-BOOTSTRAP-001 (NOT_STARTED), or container mini-window behaviour (see the operator request below).
+Current milestone: UNREAL-ITEM-USE-INTERACTION-001 — `PASS` for the named live Use and world Look paths; independent repetition and slot Look validation remain open.
+Next milestone: UNREAL-LIVE-VISUAL-EDITOR-001 (`NOT_STARTED`): local 3D mesh, rotation and grass adjustments while navigating, saved as visual overrides; Fusion32 state remains authoritative.
 Last certified: UNREAL-COMBAT-FOLLOW-001 CERTIFIED_PASS; UNREAL-INVENTORY-CONTAINERS-001 CERTIFIED_PASS; UNREAL-WIDE-WORLD-001 CERTIFIED_PASS at `3fd5d1d`; DUAL_CLIENT_LIVE_CAPTURE PASS at `0f9bd505`.
-Branch: `main`
+Branch: `milestone/unreal-item-use-interaction-001` (from `main`, not merged)
 Classic baseline review commit: `f65f3a7645ff40b39b7cc8399760fd4f0b69ecee`
 Transport implementation commit: `abd2d0a25bd9632f5aa3955e822876268c7ca96c`
 Crypto implementation commit: `64e9217ef64181d44cdce815a36b6bb1d2aa9038`
@@ -217,3 +217,38 @@ the same handler rejects it. No damage, cooldown, HP, client-side follow
 movement, protocol extension or fake Slate target state was added. V08,
 WideWorld, REAL33D2D, shops, action bars, automap, reconnect handling and opcode
 50 were not changed.
+
+## Item use and Look - 2026-09-27
+
+`UNREAL-ITEM-USE-INTERACTION-001 = PASS`. The audited 3D
+client already had ordinary Use from world, body and open containers, Use With
+object/creature/field targeting, and server-owned container/message results.
+`UNREAL-INVENTORY-CONTAINERS-001` certified body and nested-container opening
+and a real flour-on-bucket Use With result; `UNREAL-COMBAT-FOLLOW-001`
+recorded world right-click opening a corpse. This milestone adds the missing
+`CL_CMD_LOOK_AT_POINT` builder and Alt+right-click from a world point,
+creature position, body slot or open-container slot. Fusion32 selects the
+object and sends the description as its existing `SV_CMD_MESSAGE`; no local
+description is constructed.
+
+Native MSVC C++17/C++20 builds and all eight ClientCore suites passed, as did
+`REAL33DEditor Win64 Development`. A live REAL33D session connected account B
+and drew the operator's local V08 meshes with WideWorld radius 64 and 69
+sector-load records. A retained F9 sample at 23:37:59 UTC had 532 decoded
+commands, zero residual bytes, zero unsupported opcodes and zero protocol
+anomalies. A later live log retained three world Look request/reply pairs:
+mountain, framework wall and grass descriptions arrived as server
+`InfoMessage` within 76-131 ms of the respective requests. The live HUD
+showed zero unsupported opcodes and anomalies after Look. Body/container
+Look UI routes are compiled and byte-tested but do not yet have a retained
+live click. The milestone is local `PASS`, not independently `CERTIFIED`.
+See `evidence/clientcore/UNREAL-ITEM-USE-INTERACTION-001.md`.
+
+The V08/WideWorld launcher now checks for a sector cache and passes its path,
+preview path and radius explicitly. Its local QA meshes and cache remain ignored.
+The next 3D task is the operator-requested in-world visual editor. Its approved
+scope is local presentation overrides only: select a visible instance, change
+mesh, orientation or grass presentation while navigating, and persist the
+visual edits without altering Fusion32 world/gameplay state.
+The existing V08 inspector's `Girar 90` only stores a `ROTATE_90` note; it
+does not yet rotate a wall, so the editor is still `NOT_STARTED`.

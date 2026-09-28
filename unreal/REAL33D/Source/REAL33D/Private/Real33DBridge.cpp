@@ -270,7 +270,7 @@ public:
 	 */
 	struct FUse
 	{
-		enum class EKind : uint8 { Object, WithObject, OnCreature };
+		enum class EKind : uint8 { Object, WithObject, OnCreature, Look };
 		uint32 UseId = 0;
 		EKind Kind = EKind::Object;
 		UReal33DBridge::FMoveSlot Object;
@@ -940,6 +940,9 @@ private:
 		{
 			switch (Use.Kind)
 			{
+			case FUse::EKind::Look:
+				Session.SendCommand(p772::BuildLookAtPointCommand(ToEndpoint(Use.Object)));
+				break;
 			case FUse::EKind::WithObject:
 				Session.SendCommand(p772::BuildUseTwoObjectsCommand(
 					ToEndpoint(Use.Object), Use.TypeId, Use.StackIndex,
@@ -958,7 +961,14 @@ private:
 			}
 			{
 				FScopeLock Lock(&StatsMutex);
-				Stats.UsesRequested += 1;
+				if (Use.Kind == FUse::EKind::Look)
+				{
+					Stats.LooksRequested += 1;
+				}
+				else
+				{
+					Stats.UsesRequested += 1;
+				}
 			}
 		}
 	}
@@ -1485,6 +1495,17 @@ uint32 UReal33DBridge::RequestUseOnCreature(const FMoveSlot& Object, uint16 Type
 	Use.CreatureId = CreatureId;
 	Worker->PostUse(Use);
 	return Use.UseId;
+}
+
+uint32 UReal33DBridge::RequestLookAtPoint(const FMoveSlot& Point)
+{
+	if (Worker == nullptr) return 0;
+	FReal33DWorker::FUse Look;
+	Look.UseId = ++NextInputId;
+	Look.Kind = FReal33DWorker::FUse::EKind::Look;
+	Look.Object = Point;
+	Worker->PostUse(Look);
+	return Look.UseId;
 }
 
 uint32 UReal33DBridge::RequestAttack(uint32 CreatureId)
