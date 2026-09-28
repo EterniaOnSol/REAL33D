@@ -1,9 +1,10 @@
 # HANDOFF
 
-Date/time: 2026-09-27 18:05, America/Guatemala
+Date/time: 2026-09-27 18:14, America/Guatemala
 Task: `UNREAL-ITEM-USE-INTERACTION-001`
 Agent / role: Codex, 3D client audit, implementation and local QA
-Branch: `milestone/unreal-item-use-interaction-001` (not merged to main)
+Branch: `milestone/unreal-item-use-interaction-001` (published at closeout;
+not merged to main)
 Starting commit: `bd15cc0a49d8182dc1cc3732b8487859f1662044`
 Ending commit: this handoff commit; resolve with `git rev-parse HEAD`
 Worktree: `C:\Users\dell\Desktop\fusion32\build\unreal-item-use-interaction-001`
@@ -15,9 +16,10 @@ Remote main: `bd15cc0a49d8182dc1cc3732b8487859f1662044`
 Complete Tibia-style item Use interaction in REAL33D through the existing
 ClientCore/Fusion32 7.72 flow, and audit what had already been implemented.
 The new Look route is implemented and deterministic/native build checks pass.
-`UNREAL-ITEM-USE-INTERACTION-001 = PASS` for the named live Use and world Look
-paths. Three world Look requests and Fusion32 descriptions were retained
-together. Independent repetition and live slot Look validation remain open.
+`UNREAL-ITEM-USE-INTERACTION-001 = PASS`, not `CERTIFIED`, for the named live
+Use and world Look paths. Three world Look requests and Fusion32 descriptions
+were retained together. Independent repetition and live slot Look validation
+remain open.
 Prior certified world/body/container Use and a valid Use With result remain
 certified by their separate milestone evidence.
 
@@ -141,7 +143,34 @@ The current V08 inspector's `Girar 90` button merely appends a `ROTATE_90`
 verdict to `wall_inspector_notes.tsv`; it does not change the visual. This is
 the natural entry point for an actual local visual editor.
 
+## Closeout - 2026-09-27 18:14 America/Guatemala
+
+At start of closeout, branch and HEAD were
+`milestone/unreal-item-use-interaction-001` / `d351e9a9139fde0168d65f68d2731ceb4f05bfb1`,
+worktree clean. `origin/main` was still
+`bd15cc0a49d8182dc1cc3732b8487859f1662044`; the milestone branch was
+not yet on origin. The operator authorized publishing this milestone branch,
+and no main merge.
+
+Re-ran `tests/build_clientcore_windows.cmd` under VS 2022 BuildTools x64:
+C++17/C++20 archive builds and all eight suites `PASS`. Rebuilt
+`REAL33DEditor Win64 Development` after that archive: `Result: Succeeded`
+(two incremental actions). Rechecked the three world Look/server InfoMessage
+pairs in the ignored Unreal log and the earlier F9 JSON as separate sessions;
+the F9 zero protocol counters precede Look, while the live HUD image shows
+zero unsupported opcodes and anomalies after Look. Rechecked the previous
+certified world/body/container Use and flour-on-bucket Use With reports.
+`tests/secret_check.sh` passed all checks in WSL with this Windows worktree's
+`GIT_DIR` and `GIT_WORK_TREE` explicitly set. A bare WSL call gave a false
+PASS with Git errors and is not accepted as evidence.
+
+Certification remains exactly `PASS` for overall item-use interaction, world
+Use, inventory Use, container Use, one valid object-object Use With, and world
+Look. Inventory-slot Look and container-slot Look remain
+`IMPLEMENTED_UNVERIFIED` for live clicks. Creature/field Use With variants
+have no separately retained valid live result. No behavior was promoted by
+build success. The next 3D task remains the local visual editor described
+above, after this closeout.
+
 Principal checkout's agent/2D changes are pre-existing and remain uncommitted.
-No remote push is authorized by this task. Worktree changes should be
-committed only on this milestone branch; do not merge main without
-certification.
+Only this milestone branch is pushed. Do not merge main without certification.

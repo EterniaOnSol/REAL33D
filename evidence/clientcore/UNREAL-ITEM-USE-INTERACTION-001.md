@@ -4,7 +4,8 @@ Date: 2026-09-27, America/Guatemala. Branch:
 `milestone/unreal-item-use-interaction-001`, based on
 `bd15cc0a49d8182dc1cc3732b8487859f1662044` (`origin/main`).
 State: `PASS` for the named live paths below; independent repetition for
-`CERTIFIED` remains open. No main merge or remote push.
+`CERTIFIED` remains open. No main merge. The milestone branch is published
+as part of the 2026-09-27 closeout.
 
 ## Audit before editing
 
@@ -142,3 +143,27 @@ untouched. The operator explicitly chose local presentation-only edits.
 The current V08 inspector's `Girar 90` button only writes a `ROTATE_90`
 verdict to a TSV note; it does not rotate a mesh. The next milestone should
 reuse its selection data while adding an actual reversible visual override.
+
+## Closeout checks - 2026-09-27 18:14 America/Guatemala
+
+On the clean isolated worktree at `d351e9a9139fde0168d65f68d2731ceb4f05bfb1`,
+`tests/build_clientcore_windows.cmd` was rerun under VS 2022 BuildTools x64:
+C++17 and C++20 archives built, and all eight suites passed, including
+`protocol772_player_state_tests`. Rebuilding `REAL33DEditor Win64
+Development` after the refreshed ClientCore archive reported
+`Result: Succeeded` (two incremental actions).
+
+The local ignored Unreal log was checked against the three Look request and
+server `InfoMessage` pairs above. The retained earlier F9 JSON was checked
+separately and is still explicitly pre-Look; it records zero residual bytes,
+unsupported opcodes and anomalies, without proving post-Look counters.
+The live HUD screenshot after Look shows unsupported 0 and anomalies 0.
+Prior certified evidence was rechecked for world corpse Use, body backpack
+Use, nested-bag Use and flour-on-bucket Use With. There is still no retained
+live slot Look, Use On Creature or Use With field result, so none is promoted.
+
+`tests/secret_check.sh` passed all checks when invoked from WSL with explicit
+`GIT_DIR` and `GIT_WORK_TREE` for this Windows-created worktree. Invoking it
+without those variables printed a misleading PASS after Git repository
+errors and was discarded. This closeout adds no gameplay code and makes no
+new live gameplay certification claim.
