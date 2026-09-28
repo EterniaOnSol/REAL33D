@@ -1,0 +1,4 @@
+﻿[2026.09.28-00.33.17:962][  0]LogReal33D: connecting to 127.0.0.1:7171 as account A
+[2026.09.28-00.35.07:726][  1]LogReal33D: server message [LoginMessage]: Your last visit in Tibia: 26. Sep 2026 17:09:42 CST.
+[2026.09.28-00.38.38:957][837]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\unreal-item-use-interaction-001\build\cert-item-use-20260927/unreal_slice_evidence.json
+[2026.09.28-00.38.41:513][837]LogExit: Exiting.

@@ -12,6 +12,8 @@
 #include "Serialization/JsonSerializer.h"
 #include "UnrealClient.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Engine/SkeletalMesh.h"
+#include "Animation/AnimSequence.h"
 
 #if WITH_DEV_AUTOMATION_TESTS
 #include "Misc/AutomationTest.h"
@@ -38,6 +40,7 @@ void UReal33DAssetRegistry::Initialise()
 		UE_LOG(LogReal33D, Log, TEXT("loaded approved visual for obj:3501"));
 	}
 	LoadExperimentalCatalog(false);
+	LoadBrotherCreatureCatalog();
 
 	bReady = PlaneMesh != nullptr && CubeMesh != nullptr && CylinderMesh != nullptr;
 	if (!bReady)
@@ -331,6 +334,61 @@ FReal33DVisual UReal33DAssetRegistry::ResolveGround(uint16 TypeId) const
 		return Experimental;
 	}
 	return MakePlaceholder(EReal33DVisualKind::Ground);
+}
+
+void UReal33DAssetRegistry::LoadBrotherCreatureCatalog()
+{
+	FString Path, Json;
+	if (!FParse::Value(FCommandLine::Get(), TEXT("-real33d-creature-catalog="), Path)) return;
+	TSharedPtr<FJsonObject> Root;
+	if (!FFileHelper::LoadFileToString(Json, *Path)
+		|| !FJsonSerializer::Deserialize(TJsonReaderFactory<>::Create(Json), Root) || !Root.IsValid())
+	{
+		UE_LOG(LogReal33D, Error, TEXT("brother creature catalog could not be read"));
+		return;
+	}
+	FString Schema;
+	const TArray<TSharedPtr<FJsonValue>>* Entries = nullptr;
+	if (!Root->TryGetStringField(TEXT("schema"), Schema)
+		|| Schema != TEXT("real33d.brother-creatures.runtime.v1")
+		|| !Root->TryGetArrayField(TEXT("entries"), Entries)) return;
+	for (const auto& Value : *Entries)
+	{
+		const auto Row = Value->AsObject();
+		if (!Row.IsValid()) continue;
+		FString Status;
+		double Id = 0;
+		FCreaturePaths Paths;
+		const TSharedPtr<FJsonObject>* Clips = nullptr;
+		const TArray<TSharedPtr<FJsonValue>>* Meshes = nullptr;
+		if (!Row->TryGetStringField(TEXT("status"), Status) || Status != TEXT("PASS")
+			|| !Row->TryGetNumberField(TEXT("outfit_id"), Id) || Id < 1 || Id > 65535
+			|| !Row->TryGetArrayField(TEXT("mesh_paths"), Meshes) || Meshes->IsEmpty()
+			|| !Row->TryGetObjectField(TEXT("clips"), Clips)
+			|| !(*Clips)->TryGetStringField(TEXT("idle"), Paths.Idle)
+			|| !(*Clips)->TryGetStringField(TEXT("caminar"), Paths.Walk)) continue;
+		for (const auto& Mesh : *Meshes) Paths.Meshes.Add(Mesh->AsString());
+		BrotherCreatures.Add(static_cast<uint16>(Id), MoveTemp(Paths));
+	}
+	UE_LOG(LogReal33D, Log, TEXT("brother creature catalog enabled: %d exact outfit mappings"), BrotherCreatures.Num());
+}
+
+FReal33DCreatureVisual UReal33DAssetRegistry::ResolveOutfit(uint16 OutfitId) const
+{
+	check(IsInGameThread());
+	FReal33DCreatureVisual Visual;
+	if (const FCreaturePaths* Paths = BrotherCreatures.Find(OutfitId))
+	{
+		for (const FString& Path : Paths->Meshes)
+		{
+			USkeletalMesh* Mesh = LoadObject<USkeletalMesh>(nullptr, *Path);
+			if (!Mesh) return FReal33DCreatureVisual{};
+			Visual.Meshes.Add(Mesh);
+		}
+		Visual.Idle = LoadObject<UAnimSequence>(nullptr, *Paths->Idle);
+		Visual.Walk = LoadObject<UAnimSequence>(nullptr, *Paths->Walk);
+	}
+	return Visual;
 }
 
 FReal33DVisual UReal33DAssetRegistry::ResolveCreature(uint32 CreatureId,

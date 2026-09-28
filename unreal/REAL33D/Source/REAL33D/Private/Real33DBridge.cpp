@@ -1,4 +1,6 @@
 #include "Real33DBridge.h"
+#include "REAL33D.h"
+#include "Real33DItemUsePolicy.h"
 
 #include "HAL/PlatformProcess.h"
 #include "HAL/RunnableThread.h"
@@ -289,6 +291,12 @@ public:
 		Uses.Enqueue(Use);
 	}
 
+	bool RequiresUseTarget(uint16 TypeId) const
+	{
+		FScopeLock Lock(&StatsMutex);
+		return MultiUseTypes.count(TypeId) != 0;
+	}
+
 	struct FCombatIntent
 	{
 		enum class EKind : uint8 { Attack, Follow, Cancel, AttackMode, ChaseMode };
@@ -364,6 +372,11 @@ private:
 			return false;
 		}
 		Types = Loaded.table;
+		{
+			FScopeLock Lock(&StatsMutex);
+			MultiUseTypes = Real33D::ReadMultiUseTypeIds(TCHAR_TO_UTF8(*ObjectsText));
+			UE_LOG(LogReal33D, Log, TEXT("Use target metadata: %u runtime MultiUse types"), static_cast<uint32>(MultiUseTypes.size()));
+		}
 		return true;
 	}
 
@@ -538,6 +551,18 @@ private:
 
 				FScopeLock Lock(&StatsMutex);
 				++Stats.HealthUpdates;
+			}
+
+			if (Decoded.update.kind == p772::ServerUpdateKind::CreatureAttribute
+				&& Decoded.update.creature_attribute.attribute == p772::CreatureAttribute::Outfit)
+			{
+				const auto& Source = Decoded.update.creature_attribute;
+				FReal33DEvent Appearance;
+				Appearance.Kind = EReal33DEventKind::CreatureAppearance;
+				Appearance.CreatureId = Source.creature_id;
+				Appearance.OutfitId = Source.outfit.outfit_id;
+				Appearance.bDisguisedAsObject = Source.outfit.disguised_as_object;
+				Publish(MoveTemp(Appearance));
 			}
 
 			if (Decoded.update.kind == p772::ServerUpdateKind::Talk)
@@ -747,6 +772,8 @@ private:
 				if (Known != State.known_creatures.end())
 				{
 					Out.HealthPercent = Known->second.health_percent;
+					Out.OutfitId = Known->second.outfit.outfit_id;
+					Out.bDisguisedAsObject = Known->second.outfit.disguised_as_object;
 				}
 			}
 			switch (Event.kind)
@@ -1170,6 +1197,7 @@ private:
 	FString CharacterName;
 	p772::Rsa1024PublicKey RsaKey;
 	p772::ObjectTypeTable Types;
+	std::unordered_set<std::uint16_t> MultiUseTypes;
 	p772::GameLoginSession Session;
 	p772::WorldState State;
 	p772::WorldView View;
@@ -1593,6 +1621,11 @@ uint32 UReal33DBridge::RequestTalk(EReal33DTalkMode Mode, const FString& Text)
 FReal33DStats UReal33DBridge::GetStats() const
 {
 	return Worker != nullptr ? Worker->Snapshot() : FReal33DStats{};
+}
+
+bool UReal33DBridge::RequiresUseTarget(uint16 TypeId) const
+{
+	return Worker != nullptr && Worker->RequiresUseTarget(TypeId);
 }
 
 FReal33DConnectionConfig UReal33DBridge::ConfigFromCommandLine()

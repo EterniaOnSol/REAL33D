@@ -1,0 +1,64 @@
+﻿[2026.09.28-04.44.29:142][  1]LogReal33D: server message [LoginMessage]: Your last visit in Tibia: 27. Sep 2026 22:22:59 CST.
+[2026.09.28-04.44.50:863][172]LogReal33D: left-click walk: target 32098,32208,7, 6 cardinal steps
+[2026.09.28-04.44.50:863][172]LogReal33D: input 3: left-click walk direction 2 to 32099,32204,7
+[2026.09.28-04.44.51:319][184]LogReal33D: input 4: left-click walk direction 2 to 32099,32205,7
+[2026.09.28-04.44.51:777][197]LogReal33D: input 5: left-click walk direction 2 to 32099,32206,7
+[2026.09.28-04.44.52:231][209]LogReal33D: input 6: left-click walk direction 2 to 32099,32207,7
+[2026.09.28-04.44.52:729][221]LogReal33D: input 7: left-click walk direction 2 to 32099,32208,7
+[2026.09.28-04.44.53:119][232]LogReal33D: look 8 at world point 32100,32210,7
+[2026.09.28-04.44.53:232][236]LogReal33D: server message [InfoMessage]: You see a blueberry bush.
+[2026.09.28-04.44.53:649][254]LogReal33D: look 9 at world point 32100,32210,7
+[2026.09.28-04.44.53:716][257]LogReal33D: server message [InfoMessage]: You see a blueberry bush.
+[2026.09.28-04.44.54:770][302]LogReal33D: look 10 at world point 32100,32208,7
+[2026.09.28-04.44.54:863][306]LogReal33D: server message [InfoMessage]: You see a fir tree.
+[2026.09.28-04.44.55:545][334]LogReal33D: look 11 at world point 32100,32208,7
+[2026.09.28-04.44.55:567][335]LogReal33D: server message [InfoMessage]: You see a fir tree.
+[2026.09.28-04.45.00:901][512]LogReal33D: look 17 at world point 32101,32209,7
+[2026.09.28-04.45.00:975][515]LogReal33D: server message [InfoMessage]: You see a small fir tree.
+[2026.09.28-04.45.01:778][548]LogReal33D: look 18 at world point 32101,32209,7
+[2026.09.28-04.45.01:875][552]LogReal33D: server message [InfoMessage]: You see a small fir tree.
+[2026.09.28-04.45.02:948][596]LogReal33D: look 19 at world point 32101,32209,7
+[2026.09.28-04.45.03:021][599]LogReal33D: server message [InfoMessage]: You see a small fir tree.
+[2026.09.28-04.45.04:043][641]LogReal33D: look 20 at world point 32100,32210,7
+[2026.09.28-04.45.04:070][642]LogReal33D: server message [InfoMessage]: You see a blueberry bush.
+[2026.09.28-04.45.04:753][670]LogReal33D: look 21 at world point 32098,32212,7
+[2026.09.28-04.45.04:875][675]LogReal33D: server message [InfoMessage]: You see yourself. You have no vocation.
+[2026.09.28-04.45.05:145][686]LogReal33D: look 22 at world point 32097,32211,7
+[2026.09.28-04.45.05:213][689]LogReal33D: server message [InfoMessage]: You see cobbled pavement.
+[2026.09.28-04.45.05:437][698]LogReal33D: look 23 at world point 32097,32209,7
+[2026.09.28-04.45.05:508][701]LogReal33D: server message [InfoMessage]: You see cobbled pavement.
+[2026.09.28-04.45.05:820][714]LogReal33D: look 24 at world point 32098,32209,7
+[2026.09.28-04.45.05:870][716]LogReal33D: server message [InfoMessage]: You see cobbled pavement.
+[2026.09.28-04.45.06:212][730]LogReal33D: look 25 at world point 32096,32212,7
+[2026.09.28-04.45.06:309][734]LogReal33D: server message [InfoMessage]: You see cobbled pavement.
+[2026.09.28-04.45.06:501][742]LogReal33D: look 26 at world point 32096,32208,7
+[2026.09.28-04.45.06:576][745]LogReal33D: server message [InfoMessage]: You see cobbled pavement.
+[2026.09.28-04.45.19:803][274]LogReal33D: left-click walk: target 32101,32212,7, 3 cardinal steps
+[2026.09.28-04.45.19:803][274]LogReal33D: input 27: left-click walk direction 1 to 32099,32212,7
+[2026.09.28-04.45.20:271][288]LogReal33D: input 28: left-click walk direction 1 to 32100,32212,7
+[2026.09.28-04.45.20:736][302]LogReal33D: input 29: left-click walk direction 1 to 32101,32212,7
+[2026.09.28-04.45.21:123][312]LogReal33D: use 30: object 2854 at body 0 slot 3, would open as container 0
+[2026.09.28-04.45.22:605][369]LogReal33D: use 31: object 2853 at container 0 slot 0, would open as container 1
+[2026.09.28-04.45.27:888][569]LogReal33D: look 32 at body 0 slot 3
+[2026.09.28-04.45.27:915][570]LogReal33D: server message [InfoMessage]: You see a backpack (Vol:20).
+[2026.09.28-04.46.39:768][143]LogReal33D: left-click walk: target 32100,32212,7, 1 cardinal steps
+[2026.09.28-04.46.39:768][143]LogReal33D: input 33: left-click walk direction 3 to 32100,32212,7
+[2026.09.28-04.46.40:407][158]LogReal33D: left-click walk: target 32099,32211,7, 2 cardinal steps
+[2026.09.28-04.46.40:407][158]LogReal33D: input 34: left-click walk direction 0 to 32100,32211,7
+[2026.09.28-04.46.40:888][169]LogReal33D: input 35: left-click walk direction 3 to 32099,32211,7
+[2026.09.28-04.47.20:185][222]LogReal33D: left-click walk: target 32091,32199,7, 12 cardinal steps
+[2026.09.28-04.47.20:185][222]LogReal33D: input 47: left-click walk direction 0 to 32097,32204,7
+[2026.09.28-04.47.20:657][228]LogReal33D: input 48: left-click walk direction 0 to 32097,32203,7
+[2026.09.28-04.47.21:077][237]LogReal33D: use 49: object 3272 at body 0 slot 6, would open as container 2
+[2026.09.28-04.47.21:119][238]LogReal33D: input 50: left-click walk direction 0 to 32097,32202,7
+[2026.09.28-04.47.23:416][295]LogReal33D: left-click walk: target 32097,32205,7, 2 cardinal steps
+[2026.09.28-04.47.23:416][295]LogReal33D: input 52: left-click walk direction 2 to 32097,32204,7
+[2026.09.28-04.47.23:897][305]LogReal33D: input 53: left-click walk direction 2 to 32097,32205,7
+[2026.09.28-04.47.25:074][334]LogReal33D: use 54: object 3272 at body 0 slot 6, would open as container 2
+[2026.09.28-04.47.26:327][369]LogReal33D: left-click walk: no path in the current authoritative tiles
+[2026.09.28-04.47.27:262][395]LogReal33D: use 55 from world: object 435 at 32097,32205,7 stack 2, would open as container 2
+[2026.09.28-04.47.35:650][597]LogReal33D: use 56 from world: object 1948 at 32097,32205,8 stack 1, would open as container 2
+[2026.09.28-04.47.43:429][792]LogReal33D: left-click walk: target 32089,32206,7, 9 cardinal steps
+[2026.09.28-04.47.43:430][792]LogReal33D: input 58: left-click walk direction 3 to 32096,32205,7
+[2026.09.28-04.47.43:899][801]LogReal33D: input 59: left-click walk direction 3 to 32095,32205,7
+[2026.09.28-04.47.44:942][807]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\unreal-item-use-interaction-001\build\cert-item-use-20260927\corrected-mouse/unreal_slice_evidence.json

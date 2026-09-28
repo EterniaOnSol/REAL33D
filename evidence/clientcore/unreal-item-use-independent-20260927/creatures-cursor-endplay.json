@@ -1,0 +1,99 @@
+{
+  "milestone": "UNREAL-SLICE-001",
+  "written_at": "2026-09-28T05:31:39.970Z",
+  "reason": "EndPlay",
+  "seconds_in_session": 429.8,
+  "connected_at_close": true,
+  "local_creature_id": 1001,
+  "local_position": { "x": 32104, "y": 32201, "z": 6 },
+  "origin": { "set": true, "x": 32095, "y": 32205, "z": 7 },
+  "anchor": { "x": 32104, "y": 32201, "z": 6 },
+  "clientcore": {
+    "frames": 614,
+    "commands": 798,
+    "residual_bytes": 0,
+    "unsupported_opcodes": 0,
+    "protocol_anomalies": 0,
+    "walks_requested_from_unreal": 80,
+    "walks_accepted": 67,
+    "walks_rejected": 6,
+    "walks_unanswered": 7,
+    "external_relocations": 9,
+    "local_player_moves_total": 76,
+    "says_requested": 0,
+    "moves_requested": 0,
+    "uses_requested": 24,
+    "looks_requested": 6,
+    "attacks_requested": 0,
+    "follows_requested": 0,
+    "combat_cancels_requested": 0,
+    "tactics_requested": 0,
+    "target_clears_received": 0,
+    "worldstate_tiles": 562,
+    "worldstate_visible_creatures": 4,
+    "viewport_synchronised": true
+  },
+  "presentation": {
+    "tile_actors": 562,
+    "creature_actors": 4,
+    "tiles_spawned": 3289,
+    "tiles_removed": 2727,
+    "creatures_appeared": 22,
+    "creatures_vanished": 18,
+    "creature_moves": 604,
+    "duplicate_spawn_attempts": 0,
+    "orphan_events": 0,
+    "speech_shown_on_creature": 0,
+    "speech_shown_in_chat_area_only": 0,
+    "server_messages_received": 15,
+    "client_notices_raised": 0,
+    "chat_transcript_lines": 15,
+    "speech_seconds_NOT_PROVEN": 6.0
+  },
+  "talk_messages_decoded": 0,
+  "last_diagnostic": "none",
+  "inventory_known": true,
+  "inventory": [
+    { "slot": 3, "type_id": 2854, "amount": null, "liquid": null },
+    { "slot": 4, "type_id": 3561, "amount": null, "liquid": null },
+    { "slot": 6, "type_id": 3272, "amount": null, "liquid": null }
+  ],
+  "open_containers": 1,
+  "containers": [
+    {
+      "number": 0,
+      "type_id": 2854,
+      "name": "backpack",
+      "capacity": 20,
+      "has_parent": false,
+      "object_count": 1,
+      "objects": [
+        { "index": 0, "type_id": 2853, "amount": null, "liquid": null }
+      ]
+    }
+  ],
+  "combat": { "target_creature_id": 0, "following": false, "tactics_sent": false, "attack_mode": 1, "chase_mode": 0, "target_actor_visible": false },
+  "chat_transcript": [
+    { "system_line": true, "line": "Server: Your last visit in Tibia: 27. Sep 2026 23:22:28 CST." },
+    { "system_line": true, "line": "Server: Sorry, not possible." },
+    { "system_line": true, "line": "Server: You see a backpack (Vol:20).\nIt weighs 26.00 oz." },
+    { "system_line": true, "line": "Server: You cannot use this object." },
+    { "system_line": true, "line": "Server: You cannot use this object." },
+    { "system_line": true, "line": "Server: You cannot use this object." },
+    { "system_line": true, "line": "Server: You see a bag (Vol:8).\nIt weighs 8.00 oz." },
+    { "system_line": true, "line": "Server: You see a bag (Vol:8).\nIt weighs 8.00 oz." },
+    { "system_line": true, "line": "Server: You see a bag (Vol:8).\nIt weighs 8.00 oz." },
+    { "system_line": true, "line": "Server: You see an oven." },
+    { "system_line": true, "line": "Server: Sorry, not possible." },
+    { "system_line": true, "line": "Server: Sorry, not possible." },
+    { "system_line": true, "line": "Server: Sorry, not possible." },
+    { "system_line": true, "line": "Server: Sorry, not possible." },
+    { "system_line": true, "line": "Server: You see a small table." }
+  ],
+  "creatures": [
+    { "id": 1001, "local": true, "x": 32104, "y": 32201, "z": 6 },
+    { "id": 1073742106, "local": false, "x": 32105, "y": 32207, "z": 6 },
+    { "id": 1073742035, "local": false, "x": 32104, "y": 32196, "z": 7 },
+    { "id": 1073741976, "local": false, "x": 32110, "y": 32204, "z": 7 }
+  ]
+}

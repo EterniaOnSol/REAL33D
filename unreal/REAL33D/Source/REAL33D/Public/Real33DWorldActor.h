@@ -44,6 +44,10 @@ public:
 	/** The open containers, in the server's own container-number order. */
 	const TArray<FReal33DContainer>& GetContainers() const { return OpenContainers; }
 
+	/** Local input planning using only current server-described tiles, never static art/cache. */
+	bool IsKnownWalkTile(const FIntVector& Key) const;
+	bool FindKnownWalkPath(const Real33D::FMapPosition& Target, TArray<FIntVector>& OutPath) const;
+
 	/**
 	 * The creatures currently on screen, nearest first.
 	 *

@@ -95,7 +95,7 @@ private:
 	TSharedRef<SWidget> MakeViewportFrame();
 
 	/** The bottom panel: the splitter, the bottom action bar and the console. */
-	TSharedRef<SWidget> MakeBottomPanel();
+	TSharedRef<SWidget> MakeBottomPanel(const FReal33DOnTypingChanged& OnTypingChanged);
 
 	void HandlePanelToggled(FName Panel);
 
@@ -115,6 +115,7 @@ private:
 
 	/** Shows or hides the "choose a target" banner. */
 	void UpdateTargetingBanner();
+	void BeginUseTarget(const UReal33DBridge::FMoveSlot& Source, uint16 TypeId, uint8 StackIndex);
 
 	/**
 	 * The lowest open-container number the server is not already using.
@@ -130,7 +131,9 @@ private:
 	struct FPendingUse
 	{
 		bool bActive = false;
-		FReal33DSlotRef Object;
+		UReal33DBridge::FMoveSlot Source;
+		uint16 TypeId = 0;
+		uint8 StackIndex = 0;
 	};
 	FPendingUse Pending;
 

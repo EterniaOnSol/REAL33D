@@ -1,0 +1,3 @@
+﻿protocol772_movement_tests: PASS
+protocol772_player_state_tests: PASS
+protocol772_worldview_tests: PASS

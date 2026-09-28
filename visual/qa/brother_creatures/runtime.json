@@ -1,0 +1,461 @@
+{
+  "schema": "real33d.brother-creatures.runtime.v1",
+  "source": {
+    "repository": "https://github.com/leodavidsoto/3DTIBIA",
+    "branch": "carril/ARTE-CRIATURAS",
+    "commit": "37a758df0fab94080ea7b8128db5321f5225618c"
+  },
+  "entries": [
+    {
+      "outfit_id": 128,
+      "name": "128_rookie",
+      "delivery_file": "128_rookie.glb",
+      "source_path": "arte/criaturas/128_rookie/modelo.glb",
+      "git_blob": "b228c589a9dda9d18fc1db17f8363e8e0c861139",
+      "sha256": "9438637f12580dd626f9f75b6d5ddd834b2ad012d8377b8ad642a107e49f1aa1",
+      "status": "PASS",
+      "mesh_paths": [
+        "/Game/Experimental/BrotherCreatures/Outfit_128/128_rookie/SkeletalMeshes/arm_L_0d1f1faedd89d891da0de8a29af49927.arm_L_0d1f1faedd89d891da0de8a29af49927",
+        "/Game/Experimental/BrotherCreatures/Outfit_128/128_rookie/SkeletalMeshes/arm_R_fac69597defc7624755c4f0150f1e292.arm_R_fac69597defc7624755c4f0150f1e292",
+        "/Game/Experimental/BrotherCreatures/Outfit_128/128_rookie/SkeletalMeshes/head_682ab1db46d012b65759258b51376201.head_682ab1db46d012b65759258b51376201",
+        "/Game/Experimental/BrotherCreatures/Outfit_128/128_rookie/SkeletalMeshes/leg_L_88bd39667e355e1cd31be351c5d9785c.leg_L_88bd39667e355e1cd31be351c5d9785c",
+        "/Game/Experimental/BrotherCreatures/Outfit_128/128_rookie/SkeletalMeshes/leg_R_029160455e7a3bf573b3927c3ca5329f.leg_R_029160455e7a3bf573b3927c3ca5329f",
+        "/Game/Experimental/BrotherCreatures/Outfit_128/128_rookie/SkeletalMeshes/pelvis_4784581941eda50f78e7e142481cd31b.pelvis_4784581941eda50f78e7e142481cd31b",
+        "/Game/Experimental/BrotherCreatures/Outfit_128/128_rookie/SkeletalMeshes/torso_7f1859961731e14828349a1c9841d53a.torso_7f1859961731e14828349a1c9841d53a",
+        "/Game/Experimental/BrotherCreatures/Outfit_128/128_rookie/SkeletalMeshes/tunic.tunic"
+      ],
+      "clips": {
+        "idle": "/Game/Experimental/BrotherCreatures/Outfit_128/128_rookie/SkeletalMeshes/128_rookieidle.128_rookieidle",
+        "caminar": "/Game/Experimental/BrotherCreatures/Outfit_128/128_rookie/SkeletalMeshes/128_rookiecaminar.128_rookiecaminar",
+        "atacar": "/Game/Experimental/BrotherCreatures/Outfit_128/128_rookie/SkeletalMeshes/128_rookieatacar.128_rookieatacar",
+        "morir": "/Game/Experimental/BrotherCreatures/Outfit_128/128_rookie/SkeletalMeshes/128_rookiemorir.128_rookiemorir"
+      },
+      "skeleton_path": "/Game/Experimental/BrotherCreatures/Outfit_128/128_rookie/SkeletalMeshes/arm_L_0d1f1faedd89d891da0de8a29af49927_Skeleton.arm_L_0d1f1faedd89d891da0de8a29af49927_Skeleton",
+      "imported_asset_count": 26
+    },
+    {
+      "outfit_id": 15,
+      "name": "15_troll",
+      "delivery_file": "15_troll.glb",
+      "source_path": "arte/criaturas/15_troll/modelo.glb",
+      "git_blob": "87a5f21dc0d17760ad260dff6c0a1243e32fd760",
+      "sha256": "da8a08a0221d1c7e5a04d2438c4f05ae7a78aa69c1a0fc1513e0f19f2c7c5622",
+      "status": "PASS",
+      "mesh_paths": [
+        "/Game/Experimental/BrotherCreatures/Outfit_015/15_troll/SkeletalMeshes/arm_L_3543413955ba343512e0b56483d29d7e.arm_L_3543413955ba343512e0b56483d29d7e",
+        "/Game/Experimental/BrotherCreatures/Outfit_015/15_troll/SkeletalMeshes/arm_R_10d8b7b0b97e13cbfd76b75b6c25b96f.arm_R_10d8b7b0b97e13cbfd76b75b6c25b96f",
+        "/Game/Experimental/BrotherCreatures/Outfit_015/15_troll/SkeletalMeshes/head_0ec699e7e868633b99e9615eb3925124.head_0ec699e7e868633b99e9615eb3925124",
+        "/Game/Experimental/BrotherCreatures/Outfit_015/15_troll/SkeletalMeshes/leg_L_763ca8e8bf03d59c1f9595edc68e8bfd.leg_L_763ca8e8bf03d59c1f9595edc68e8bfd",
+        "/Game/Experimental/BrotherCreatures/Outfit_015/15_troll/SkeletalMeshes/leg_R_90c1132c427d06840b6028e3298c4299.leg_R_90c1132c427d06840b6028e3298c4299",
+        "/Game/Experimental/BrotherCreatures/Outfit_015/15_troll/SkeletalMeshes/pelvis_9a7503c6f8f27e121076278591af46f7.pelvis_9a7503c6f8f27e121076278591af46f7",
+        "/Game/Experimental/BrotherCreatures/Outfit_015/15_troll/SkeletalMeshes/torso_2ac2fe8c84de2bdad4fb530f993ffe28.torso_2ac2fe8c84de2bdad4fb530f993ffe28",
+        "/Game/Experimental/BrotherCreatures/Outfit_015/15_troll/SkeletalMeshes/tunic.tunic"
+      ],
+      "clips": {
+        "idle": "/Game/Experimental/BrotherCreatures/Outfit_015/15_troll/SkeletalMeshes/15_trollidle.15_trollidle",
+        "caminar": "/Game/Experimental/BrotherCreatures/Outfit_015/15_troll/SkeletalMeshes/15_trollcaminar.15_trollcaminar",
+        "atacar": "/Game/Experimental/BrotherCreatures/Outfit_015/15_troll/SkeletalMeshes/15_trollatacar.15_trollatacar",
+        "morir": "/Game/Experimental/BrotherCreatures/Outfit_015/15_troll/SkeletalMeshes/15_trollmorir.15_trollmorir"
+      },
+      "skeleton_path": "/Game/Experimental/BrotherCreatures/Outfit_015/15_troll/SkeletalMeshes/arm_L_3543413955ba343512e0b56483d29d7e_Skeleton.arm_L_3543413955ba343512e0b56483d29d7e_Skeleton",
+      "imported_asset_count": 26
+    },
+    {
+      "outfit_id": 16,
+      "name": "16_bear",
+      "delivery_file": "16_bear.glb",
+      "source_path": "arte/criaturas/16_bear/modelo.glb",
+      "git_blob": "28a0dc5fad148b997c129050f4cd807761023014",
+      "sha256": "f7bec5d75a31455ec65b9b8767fe4795db7d3c62070f59ed777331317b10adb0",
+      "status": "PASS",
+      "mesh_paths": [
+        "/Game/Experimental/BrotherCreatures/Outfit_016/16_bear/SkeletalMeshes/body.body",
+        "/Game/Experimental/BrotherCreatures/Outfit_016/16_bear/SkeletalMeshes/ear.ear",
+        "/Game/Experimental/BrotherCreatures/Outfit_016/16_bear/SkeletalMeshes/ear_001.ear_001",
+        "/Game/Experimental/BrotherCreatures/Outfit_016/16_bear/SkeletalMeshes/head_c616cf4aa22bf334fba7690a43af6e9b.head_c616cf4aa22bf334fba7690a43af6e9b",
+        "/Game/Experimental/BrotherCreatures/Outfit_016/16_bear/SkeletalMeshes/leg_back_L_53c937a8094d79167429093f9958c9c1.leg_back_L_53c937a8094d79167429093f9958c9c1",
+        "/Game/Experimental/BrotherCreatures/Outfit_016/16_bear/SkeletalMeshes/leg_back_R_141c955da45451734bc75a9d6632ef6e.leg_back_R_141c955da45451734bc75a9d6632ef6e",
+        "/Game/Experimental/BrotherCreatures/Outfit_016/16_bear/SkeletalMeshes/leg_front_L_b9221e8a5dadaaff61ca2bec63243ce1.leg_front_L_b9221e8a5dadaaff61ca2bec63243ce1",
+        "/Game/Experimental/BrotherCreatures/Outfit_016/16_bear/SkeletalMeshes/leg_front_R_9e7954895c98c3c4a569fe5fb6d32810.leg_front_R_9e7954895c98c3c4a569fe5fb6d32810",
+        "/Game/Experimental/BrotherCreatures/Outfit_016/16_bear/SkeletalMeshes/muzzle.muzzle",
+        "/Game/Experimental/BrotherCreatures/Outfit_016/16_bear/SkeletalMeshes/tail_f995ec7bbe7cc79588b69f177f4043df.tail_f995ec7bbe7cc79588b69f177f4043df"
+      ],
+      "clips": {
+        "idle": "/Game/Experimental/BrotherCreatures/Outfit_016/16_bear/SkeletalMeshes/16_bearidle.16_bearidle",
+        "caminar": "/Game/Experimental/BrotherCreatures/Outfit_016/16_bear/SkeletalMeshes/16_bearcaminar.16_bearcaminar",
+        "atacar": "/Game/Experimental/BrotherCreatures/Outfit_016/16_bear/SkeletalMeshes/16_bearatacar.16_bearatacar",
+        "morir": "/Game/Experimental/BrotherCreatures/Outfit_016/16_bear/SkeletalMeshes/16_bearmorir.16_bearmorir"
+      },
+      "skeleton_path": "/Game/Experimental/BrotherCreatures/Outfit_016/16_bear/SkeletalMeshes/body_Skeleton.body_Skeleton",
+      "imported_asset_count": 30
+    },
+    {
+      "outfit_id": 21,
+      "name": "21_rat",
+      "delivery_file": "21_rat.glb",
+      "source_path": "arte/criaturas/21_rat/modelo.glb",
+      "git_blob": "ec3f597046c157625c193d419a5b772ba06fb8d4",
+      "sha256": "68311b84d05d0d503ea5938a1784e7fa5a112bd8c6785292f43c1206c7b25f24",
+      "status": "PASS",
+      "mesh_paths": [
+        "/Game/Experimental/BrotherCreatures/Outfit_021/21_rat/SkeletalMeshes/body.body",
+        "/Game/Experimental/BrotherCreatures/Outfit_021/21_rat/SkeletalMeshes/ear.ear",
+        "/Game/Experimental/BrotherCreatures/Outfit_021/21_rat/SkeletalMeshes/ear_001.ear_001",
+        "/Game/Experimental/BrotherCreatures/Outfit_021/21_rat/SkeletalMeshes/head_e5bcbdf395b3e8772bdc9bea0c2c6dcd.head_e5bcbdf395b3e8772bdc9bea0c2c6dcd",
+        "/Game/Experimental/BrotherCreatures/Outfit_021/21_rat/SkeletalMeshes/leg_back_L_693c330653d631544a82dc1436acd8dd.leg_back_L_693c330653d631544a82dc1436acd8dd",
+        "/Game/Experimental/BrotherCreatures/Outfit_021/21_rat/SkeletalMeshes/leg_back_R_a3b817b0461f8370df7b1a7f96890919.leg_back_R_a3b817b0461f8370df7b1a7f96890919",
+        "/Game/Experimental/BrotherCreatures/Outfit_021/21_rat/SkeletalMeshes/leg_front_L_6c8e93b8a9086326b4ccfb9b5d7ad4cc.leg_front_L_6c8e93b8a9086326b4ccfb9b5d7ad4cc",
+        "/Game/Experimental/BrotherCreatures/Outfit_021/21_rat/SkeletalMeshes/leg_front_R_269cb6c1480c6ce3337f84de74ba3ed7.leg_front_R_269cb6c1480c6ce3337f84de74ba3ed7",
+        "/Game/Experimental/BrotherCreatures/Outfit_021/21_rat/SkeletalMeshes/muzzle.muzzle",
+        "/Game/Experimental/BrotherCreatures/Outfit_021/21_rat/SkeletalMeshes/tail_de058e8b8bda57899a1c4e743af7dca0.tail_de058e8b8bda57899a1c4e743af7dca0"
+      ],
+      "clips": {
+        "idle": "/Game/Experimental/BrotherCreatures/Outfit_021/21_rat/SkeletalMeshes/21_ratidle.21_ratidle",
+        "caminar": "/Game/Experimental/BrotherCreatures/Outfit_021/21_rat/SkeletalMeshes/21_ratcaminar.21_ratcaminar",
+        "atacar": "/Game/Experimental/BrotherCreatures/Outfit_021/21_rat/SkeletalMeshes/21_ratatacar.21_ratatacar",
+        "morir": "/Game/Experimental/BrotherCreatures/Outfit_021/21_rat/SkeletalMeshes/21_ratmorir.21_ratmorir"
+      },
+      "skeleton_path": "/Game/Experimental/BrotherCreatures/Outfit_021/21_rat/SkeletalMeshes/body_Skeleton.body_Skeleton",
+      "imported_asset_count": 30
+    },
+    {
+      "outfit_id": 25,
+      "name": "25_minotaur",
+      "delivery_file": "25_minotaur.glb",
+      "source_path": "arte/criaturas/25_minotaur/modelo.glb",
+      "git_blob": "7c8d1b31307c0f2ad2cbc887a0e986af6282c0af",
+      "sha256": "0760214fea8062efe864d2082575cf3151e4a55017fa473c0631b794cbe7be86",
+      "status": "PASS",
+      "mesh_paths": [
+        "/Game/Experimental/BrotherCreatures/Outfit_025/25_minotaur/SkeletalMeshes/arm_L_b1c9892ce0230aa4764c4dd467c63d72.arm_L_b1c9892ce0230aa4764c4dd467c63d72",
+        "/Game/Experimental/BrotherCreatures/Outfit_025/25_minotaur/SkeletalMeshes/arm_R_c8041ee9018152edc12738ce3027a906.arm_R_c8041ee9018152edc12738ce3027a906",
+        "/Game/Experimental/BrotherCreatures/Outfit_025/25_minotaur/SkeletalMeshes/head_0cbb4e447bf5c1aa2eca44db1d9541eb.head_0cbb4e447bf5c1aa2eca44db1d9541eb",
+        "/Game/Experimental/BrotherCreatures/Outfit_025/25_minotaur/SkeletalMeshes/horn.horn",
+        "/Game/Experimental/BrotherCreatures/Outfit_025/25_minotaur/SkeletalMeshes/horn_001.horn_001",
+        "/Game/Experimental/BrotherCreatures/Outfit_025/25_minotaur/SkeletalMeshes/leg_L_6adc06e504e1d16403fbf6ab9fd5b102.leg_L_6adc06e504e1d16403fbf6ab9fd5b102",
+        "/Game/Experimental/BrotherCreatures/Outfit_025/25_minotaur/SkeletalMeshes/leg_R_8406d9a077927d1fba6b81f7f3332b7d.leg_R_8406d9a077927d1fba6b81f7f3332b7d",
+        "/Game/Experimental/BrotherCreatures/Outfit_025/25_minotaur/SkeletalMeshes/pelvis_47361db20df58bbfbc7733b4cdce2d23.pelvis_47361db20df58bbfbc7733b4cdce2d23",
+        "/Game/Experimental/BrotherCreatures/Outfit_025/25_minotaur/SkeletalMeshes/torso_7e92437634d746b88ba56c16e319ba59.torso_7e92437634d746b88ba56c16e319ba59"
+      ],
+      "clips": {
+        "idle": "/Game/Experimental/BrotherCreatures/Outfit_025/25_minotaur/SkeletalMeshes/25_minotauridle.25_minotauridle",
+        "caminar": "/Game/Experimental/BrotherCreatures/Outfit_025/25_minotaur/SkeletalMeshes/25_minotaurcaminar.25_minotaurcaminar",
+        "atacar": "/Game/Experimental/BrotherCreatures/Outfit_025/25_minotaur/SkeletalMeshes/25_minotauratacar.25_minotauratacar",
+        "morir": "/Game/Experimental/BrotherCreatures/Outfit_025/25_minotaur/SkeletalMeshes/25_minotaurmorir.25_minotaurmorir"
+      },
+      "skeleton_path": "/Game/Experimental/BrotherCreatures/Outfit_025/25_minotaur/SkeletalMeshes/arm_L_b1c9892ce0230aa4764c4dd467c63d72_Skeleton.arm_L_b1c9892ce0230aa4764c4dd467c63d72_Skeleton",
+      "imported_asset_count": 28
+    },
+    {
+      "outfit_id": 26,
+      "name": "26_rotworm",
+      "delivery_file": "26_rotworm.glb",
+      "source_path": "arte/criaturas/26_rotworm/modelo.glb",
+      "git_blob": "1bea32f6a2ccb8b2389b90458f255d27e2dc620a",
+      "sha256": "6f3c90238bca4d6b3bfc9a7f374731f693f00019e065b034ff9d7e522b9e1764",
+      "status": "PASS",
+      "mesh_paths": [
+        "/Game/Experimental/BrotherCreatures/Outfit_026/26_rotworm/SkeletalMeshes/head_5365219071e32953a0cd1ee7fe1a4190.head_5365219071e32953a0cd1ee7fe1a4190",
+        "/Game/Experimental/BrotherCreatures/Outfit_026/26_rotworm/SkeletalMeshes/mandible_L.mandible_L",
+        "/Game/Experimental/BrotherCreatures/Outfit_026/26_rotworm/SkeletalMeshes/mandible_R.mandible_R",
+        "/Game/Experimental/BrotherCreatures/Outfit_026/26_rotworm/SkeletalMeshes/neck_81522d7d8929c4a3235d8f8e57fe32eb.neck_81522d7d8929c4a3235d8f8e57fe32eb",
+        "/Game/Experimental/BrotherCreatures/Outfit_026/26_rotworm/SkeletalMeshes/segment_1.segment_1",
+        "/Game/Experimental/BrotherCreatures/Outfit_026/26_rotworm/SkeletalMeshes/segment_2.segment_2",
+        "/Game/Experimental/BrotherCreatures/Outfit_026/26_rotworm/SkeletalMeshes/segment_3.segment_3",
+        "/Game/Experimental/BrotherCreatures/Outfit_026/26_rotworm/SkeletalMeshes/segment_4.segment_4"
+      ],
+      "clips": {
+        "idle": "/Game/Experimental/BrotherCreatures/Outfit_026/26_rotworm/SkeletalMeshes/26_rotwormidle.26_rotwormidle",
+        "caminar": "/Game/Experimental/BrotherCreatures/Outfit_026/26_rotworm/SkeletalMeshes/26_rotwormcaminar.26_rotwormcaminar",
+        "atacar": "/Game/Experimental/BrotherCreatures/Outfit_026/26_rotworm/SkeletalMeshes/26_rotwormatacar.26_rotwormatacar",
+        "morir": "/Game/Experimental/BrotherCreatures/Outfit_026/26_rotworm/SkeletalMeshes/26_rotwormmorir.26_rotwormmorir"
+      },
+      "skeleton_path": "/Game/Experimental/BrotherCreatures/Outfit_026/26_rotworm/SkeletalMeshes/head_5365219071e32953a0cd1ee7fe1a4190_Skeleton.head_5365219071e32953a0cd1ee7fe1a4190_Skeleton",
+      "imported_asset_count": 25
+    },
+    {
+      "outfit_id": 27,
+      "name": "27_wolf",
+      "delivery_file": "27_wolf.glb",
+      "source_path": "arte/criaturas/27_wolf/modelo.glb",
+      "git_blob": "b48c184ee65b0d676a8e8180e340dd973bf3403a",
+      "sha256": "a7cb5c814f288db2fa9472f532f1c1e085069d646ce0b827513bb0f266ede6b1",
+      "status": "PASS",
+      "mesh_paths": [
+        "/Game/Experimental/BrotherCreatures/Outfit_027/27_wolf/SkeletalMeshes/body.body",
+        "/Game/Experimental/BrotherCreatures/Outfit_027/27_wolf/SkeletalMeshes/ear.ear",
+        "/Game/Experimental/BrotherCreatures/Outfit_027/27_wolf/SkeletalMeshes/ear_001.ear_001",
+        "/Game/Experimental/BrotherCreatures/Outfit_027/27_wolf/SkeletalMeshes/head_7f05b494fbb955efc9397c48aa164f1c.head_7f05b494fbb955efc9397c48aa164f1c",
+        "/Game/Experimental/BrotherCreatures/Outfit_027/27_wolf/SkeletalMeshes/leg_back_L_ff9e14564509312fbf3a37da0e38a519.leg_back_L_ff9e14564509312fbf3a37da0e38a519",
+        "/Game/Experimental/BrotherCreatures/Outfit_027/27_wolf/SkeletalMeshes/leg_back_R_63b9d2061562711b539cc5ab519008b7.leg_back_R_63b9d2061562711b539cc5ab519008b7",
+        "/Game/Experimental/BrotherCreatures/Outfit_027/27_wolf/SkeletalMeshes/leg_front_L_bfc384e562ae29bf46406c79ff8234f2.leg_front_L_bfc384e562ae29bf46406c79ff8234f2",
+        "/Game/Experimental/BrotherCreatures/Outfit_027/27_wolf/SkeletalMeshes/leg_front_R_be61646efd75a91fb143bf14316a0936.leg_front_R_be61646efd75a91fb143bf14316a0936",
+        "/Game/Experimental/BrotherCreatures/Outfit_027/27_wolf/SkeletalMeshes/muzzle.muzzle",
+        "/Game/Experimental/BrotherCreatures/Outfit_027/27_wolf/SkeletalMeshes/tail_40ad95e8002ad5d5c417e12165f3692d.tail_40ad95e8002ad5d5c417e12165f3692d"
+      ],
+      "clips": {
+        "idle": "/Game/Experimental/BrotherCreatures/Outfit_027/27_wolf/SkeletalMeshes/27_wolfidle.27_wolfidle",
+        "caminar": "/Game/Experimental/BrotherCreatures/Outfit_027/27_wolf/SkeletalMeshes/27_wolfcaminar.27_wolfcaminar",
+        "atacar": "/Game/Experimental/BrotherCreatures/Outfit_027/27_wolf/SkeletalMeshes/27_wolfatacar.27_wolfatacar",
+        "morir": "/Game/Experimental/BrotherCreatures/Outfit_027/27_wolf/SkeletalMeshes/27_wolfmorir.27_wolfmorir"
+      },
+      "skeleton_path": "/Game/Experimental/BrotherCreatures/Outfit_027/27_wolf/SkeletalMeshes/body_Skeleton.body_Skeleton",
+      "imported_asset_count": 30
+    },
+    {
+      "outfit_id": 28,
+      "name": "28_snake",
+      "delivery_file": "28_snake.glb",
+      "source_path": "arte/criaturas/28_snake/modelo.glb",
+      "git_blob": "b567b9add65d354632e8e1039aba2ca73fa7117e",
+      "sha256": "2ff5c87a42f7bee954ec2fa06f37c1a4bb195f0746f436563c8a4d36524236be",
+      "status": "PASS",
+      "mesh_paths": [
+        "/Game/Experimental/BrotherCreatures/Outfit_028/28_snake/SkeletalMeshes/head_c6be88ad758f0db1d855e9c9b02b8646.head_c6be88ad758f0db1d855e9c9b02b8646",
+        "/Game/Experimental/BrotherCreatures/Outfit_028/28_snake/SkeletalMeshes/neck_bb480cbb5903f1eeeb201ff69e4b2e89.neck_bb480cbb5903f1eeeb201ff69e4b2e89",
+        "/Game/Experimental/BrotherCreatures/Outfit_028/28_snake/SkeletalMeshes/segment_1.segment_1",
+        "/Game/Experimental/BrotherCreatures/Outfit_028/28_snake/SkeletalMeshes/segment_2.segment_2",
+        "/Game/Experimental/BrotherCreatures/Outfit_028/28_snake/SkeletalMeshes/segment_3.segment_3",
+        "/Game/Experimental/BrotherCreatures/Outfit_028/28_snake/SkeletalMeshes/segment_4.segment_4"
+      ],
+      "clips": {
+        "idle": "/Game/Experimental/BrotherCreatures/Outfit_028/28_snake/SkeletalMeshes/28_snakeidle.28_snakeidle",
+        "caminar": "/Game/Experimental/BrotherCreatures/Outfit_028/28_snake/SkeletalMeshes/28_snakecaminar.28_snakecaminar",
+        "atacar": "/Game/Experimental/BrotherCreatures/Outfit_028/28_snake/SkeletalMeshes/28_snakeatacar.28_snakeatacar",
+        "morir": "/Game/Experimental/BrotherCreatures/Outfit_028/28_snake/SkeletalMeshes/28_snakemorir.28_snakemorir"
+      },
+      "skeleton_path": "/Game/Experimental/BrotherCreatures/Outfit_028/28_snake/SkeletalMeshes/head_c6be88ad758f0db1d855e9c9b02b8646_Skeleton.head_c6be88ad758f0db1d855e9c9b02b8646_Skeleton",
+      "imported_asset_count": 21
+    },
+    {
+      "outfit_id": 30,
+      "name": "30_spider",
+      "delivery_file": "30_spider.glb",
+      "source_path": "arte/criaturas/30_spider/modelo.glb",
+      "git_blob": "4e09c9387744e0705d2fb95cadb408d44d89644f",
+      "sha256": "a78f5919ccf99b402cb7a90bb77ae2c0f7b604dc43ba11b56b7707881595b5b2",
+      "status": "PASS",
+      "mesh_paths": [
+        "/Game/Experimental/BrotherCreatures/Outfit_030/30_spider/SkeletalMeshes/abdomen.abdomen",
+        "/Game/Experimental/BrotherCreatures/Outfit_030/30_spider/SkeletalMeshes/head_bb7ef171ac7a4656f6afb0c68ce75d11.head_bb7ef171ac7a4656f6afb0c68ce75d11",
+        "/Game/Experimental/BrotherCreatures/Outfit_030/30_spider/SkeletalMeshes/leg_L1_c79a2e699806a1a56a93eb967bdc0791.leg_L1_c79a2e699806a1a56a93eb967bdc0791",
+        "/Game/Experimental/BrotherCreatures/Outfit_030/30_spider/SkeletalMeshes/leg_L2_ae9b1892bb838bbf51cd43f25447ba8b.leg_L2_ae9b1892bb838bbf51cd43f25447ba8b",
+        "/Game/Experimental/BrotherCreatures/Outfit_030/30_spider/SkeletalMeshes/leg_L3_ffffb48951db1f02eb4087806cb3a5cf.leg_L3_ffffb48951db1f02eb4087806cb3a5cf",
+        "/Game/Experimental/BrotherCreatures/Outfit_030/30_spider/SkeletalMeshes/leg_L4_dddd3cb9378b8c2e2d3e4543df83d823.leg_L4_dddd3cb9378b8c2e2d3e4543df83d823",
+        "/Game/Experimental/BrotherCreatures/Outfit_030/30_spider/SkeletalMeshes/leg_R1_5cf48c06673082e8c7c520d1a7f0a944.leg_R1_5cf48c06673082e8c7c520d1a7f0a944",
+        "/Game/Experimental/BrotherCreatures/Outfit_030/30_spider/SkeletalMeshes/leg_R2_254d6267ca3339098c4147e2b3a6fd5f.leg_R2_254d6267ca3339098c4147e2b3a6fd5f",
+        "/Game/Experimental/BrotherCreatures/Outfit_030/30_spider/SkeletalMeshes/leg_R3_00563ee74a5e88e1341bcfac54caf773.leg_R3_00563ee74a5e88e1341bcfac54caf773",
+        "/Game/Experimental/BrotherCreatures/Outfit_030/30_spider/SkeletalMeshes/leg_R4_072105ba73e179fbdc5f9a16abd45059.leg_R4_072105ba73e179fbdc5f9a16abd45059"
+      ],
+      "clips": {
+        "idle": "/Game/Experimental/BrotherCreatures/Outfit_030/30_spider/SkeletalMeshes/30_spideridle.30_spideridle",
+        "caminar": "/Game/Experimental/BrotherCreatures/Outfit_030/30_spider/SkeletalMeshes/30_spidercaminar.30_spidercaminar",
+        "atacar": "/Game/Experimental/BrotherCreatures/Outfit_030/30_spider/SkeletalMeshes/30_spideratacar.30_spideratacar",
+        "morir": "/Game/Experimental/BrotherCreatures/Outfit_030/30_spider/SkeletalMeshes/30_spidermorir.30_spidermorir"
+      },
+      "skeleton_path": "/Game/Experimental/BrotherCreatures/Outfit_030/30_spider/SkeletalMeshes/abdomen_Skeleton.abdomen_Skeleton",
+      "imported_asset_count": 28
+    },
+    {
+      "outfit_id": 31,
+      "name": "31_deer",
+      "delivery_file": "31_deer.glb",
+      "source_path": "arte/criaturas/31_deer/modelo.glb",
+      "git_blob": "bfdae16ddabd22173178d770aa90d95b5eb72b31",
+      "sha256": "f7d4196a69be45110871936a83136c6a782bf618eac9550ae588eaf290014383",
+      "status": "PASS",
+      "mesh_paths": [
+        "/Game/Experimental/BrotherCreatures/Outfit_031/31_deer/SkeletalMeshes/antler.antler",
+        "/Game/Experimental/BrotherCreatures/Outfit_031/31_deer/SkeletalMeshes/antler_001.antler_001",
+        "/Game/Experimental/BrotherCreatures/Outfit_031/31_deer/SkeletalMeshes/antler_tine.antler_tine",
+        "/Game/Experimental/BrotherCreatures/Outfit_031/31_deer/SkeletalMeshes/antler_tine_001.antler_tine_001",
+        "/Game/Experimental/BrotherCreatures/Outfit_031/31_deer/SkeletalMeshes/body.body",
+        "/Game/Experimental/BrotherCreatures/Outfit_031/31_deer/SkeletalMeshes/ear.ear",
+        "/Game/Experimental/BrotherCreatures/Outfit_031/31_deer/SkeletalMeshes/ear_001.ear_001",
+        "/Game/Experimental/BrotherCreatures/Outfit_031/31_deer/SkeletalMeshes/head_08345e39377a38d98ae4ccf6e8b214ff.head_08345e39377a38d98ae4ccf6e8b214ff",
+        "/Game/Experimental/BrotherCreatures/Outfit_031/31_deer/SkeletalMeshes/leg_back_L_925806f77f236f2cf99660ac4c032b98.leg_back_L_925806f77f236f2cf99660ac4c032b98",
+        "/Game/Experimental/BrotherCreatures/Outfit_031/31_deer/SkeletalMeshes/leg_back_R_d934c015500389e8302c3ecd8f11dc4c.leg_back_R_d934c015500389e8302c3ecd8f11dc4c",
+        "/Game/Experimental/BrotherCreatures/Outfit_031/31_deer/SkeletalMeshes/leg_front_L_7f30696d36d491fda8a29b5bc38ba944.leg_front_L_7f30696d36d491fda8a29b5bc38ba944",
+        "/Game/Experimental/BrotherCreatures/Outfit_031/31_deer/SkeletalMeshes/leg_front_R_f685a906bcb347ec58b12f8cc472e008.leg_front_R_f685a906bcb347ec58b12f8cc472e008",
+        "/Game/Experimental/BrotherCreatures/Outfit_031/31_deer/SkeletalMeshes/muzzle.muzzle",
+        "/Game/Experimental/BrotherCreatures/Outfit_031/31_deer/SkeletalMeshes/tail_6f2576cf99f75facce5056a2a884f067.tail_6f2576cf99f75facce5056a2a884f067"
+      ],
+      "clips": {
+        "idle": "/Game/Experimental/BrotherCreatures/Outfit_031/31_deer/SkeletalMeshes/31_deeridle.31_deeridle",
+        "caminar": "/Game/Experimental/BrotherCreatures/Outfit_031/31_deer/SkeletalMeshes/31_deercaminar.31_deercaminar",
+        "atacar": "/Game/Experimental/BrotherCreatures/Outfit_031/31_deer/SkeletalMeshes/31_deeratacar.31_deeratacar",
+        "morir": "/Game/Experimental/BrotherCreatures/Outfit_031/31_deer/SkeletalMeshes/31_deermorir.31_deermorir"
+      },
+      "skeleton_path": "/Game/Experimental/BrotherCreatures/Outfit_031/31_deer/SkeletalMeshes/antler_Skeleton.antler_Skeleton",
+      "imported_asset_count": 38
+    },
+    {
+      "outfit_id": 33,
+      "name": "33_skeleton",
+      "delivery_file": "33_skeleton.glb",
+      "source_path": "arte/criaturas/33_skeleton/modelo.glb",
+      "git_blob": "38a78dbca82377d23098654c323a81ca4da92e4f",
+      "sha256": "ec39e7f5b0192b3e9b7470261fde5a499eb86c7446b08ffb45c6a7c79a2cde70",
+      "status": "PASS",
+      "mesh_paths": [
+        "/Game/Experimental/BrotherCreatures/Outfit_033/33_skeleton/SkeletalMeshes/arm_L_b1387ee75e10fc013a65aedbff7c5740.arm_L_b1387ee75e10fc013a65aedbff7c5740",
+        "/Game/Experimental/BrotherCreatures/Outfit_033/33_skeleton/SkeletalMeshes/arm_R_0d5cae5ce143fb9563548e3521dc4d09.arm_R_0d5cae5ce143fb9563548e3521dc4d09",
+        "/Game/Experimental/BrotherCreatures/Outfit_033/33_skeleton/SkeletalMeshes/head_0e5b04754202195d338ee0fb5ee6a92d.head_0e5b04754202195d338ee0fb5ee6a92d",
+        "/Game/Experimental/BrotherCreatures/Outfit_033/33_skeleton/SkeletalMeshes/leg_L_4554e1319a8ac2b7edf76c197f2867c4.leg_L_4554e1319a8ac2b7edf76c197f2867c4",
+        "/Game/Experimental/BrotherCreatures/Outfit_033/33_skeleton/SkeletalMeshes/leg_R_f7dd2a5c8b72e1d4df6c2b98a93d23b1.leg_R_f7dd2a5c8b72e1d4df6c2b98a93d23b1",
+        "/Game/Experimental/BrotherCreatures/Outfit_033/33_skeleton/SkeletalMeshes/pelvis_e20451e1c706543989b4488ebe93f85d.pelvis_e20451e1c706543989b4488ebe93f85d",
+        "/Game/Experimental/BrotherCreatures/Outfit_033/33_skeleton/SkeletalMeshes/torso_28308e690e8b100095edc2fe46e9660a.torso_28308e690e8b100095edc2fe46e9660a"
+      ],
+      "clips": {
+        "idle": "/Game/Experimental/BrotherCreatures/Outfit_033/33_skeleton/SkeletalMeshes/33_skeletonidle.33_skeletonidle",
+        "caminar": "/Game/Experimental/BrotherCreatures/Outfit_033/33_skeleton/SkeletalMeshes/33_skeletoncaminar.33_skeletoncaminar",
+        "atacar": "/Game/Experimental/BrotherCreatures/Outfit_033/33_skeleton/SkeletalMeshes/33_skeletonatacar.33_skeletonatacar",
+        "morir": "/Game/Experimental/BrotherCreatures/Outfit_033/33_skeleton/SkeletalMeshes/33_skeletonmorir.33_skeletonmorir"
+      },
+      "skeleton_path": "/Game/Experimental/BrotherCreatures/Outfit_033/33_skeleton/SkeletalMeshes/arm_L_b1387ee75e10fc013a65aedbff7c5740_Skeleton.arm_L_b1387ee75e10fc013a65aedbff7c5740_Skeleton",
+      "imported_asset_count": 22
+    },
+    {
+      "outfit_id": 36,
+      "name": "36_poison_spider",
+      "delivery_file": "36_poison_spider.glb",
+      "source_path": "arte/criaturas/36_poison_spider/modelo.glb",
+      "git_blob": "2a7148324556dca27ee0a67d97619b063bdfe2e9",
+      "sha256": "21657ba8c98a5c02bbf73572a16da7dbd85bd0ca33dd75dc1ec957eebc2b21e6",
+      "status": "PASS",
+      "mesh_paths": [
+        "/Game/Experimental/BrotherCreatures/Outfit_036/36_poison_spider/SkeletalMeshes/abdomen.abdomen",
+        "/Game/Experimental/BrotherCreatures/Outfit_036/36_poison_spider/SkeletalMeshes/head_ee97b3f5085c8362af20553779f3d09d.head_ee97b3f5085c8362af20553779f3d09d",
+        "/Game/Experimental/BrotherCreatures/Outfit_036/36_poison_spider/SkeletalMeshes/leg_L1_b54820d8f834ed390e0be54787f5f6ab.leg_L1_b54820d8f834ed390e0be54787f5f6ab",
+        "/Game/Experimental/BrotherCreatures/Outfit_036/36_poison_spider/SkeletalMeshes/leg_L2_080c4b6c525ded3b4a0ce38f0265af6d.leg_L2_080c4b6c525ded3b4a0ce38f0265af6d",
+        "/Game/Experimental/BrotherCreatures/Outfit_036/36_poison_spider/SkeletalMeshes/leg_L3_28524a0570b9f13ad46de52c5ec79f44.leg_L3_28524a0570b9f13ad46de52c5ec79f44",
+        "/Game/Experimental/BrotherCreatures/Outfit_036/36_poison_spider/SkeletalMeshes/leg_L4_721793f9e8447158cc52aabc039770a9.leg_L4_721793f9e8447158cc52aabc039770a9",
+        "/Game/Experimental/BrotherCreatures/Outfit_036/36_poison_spider/SkeletalMeshes/leg_R1_b429a28fe2f319b668d1525e33d78223.leg_R1_b429a28fe2f319b668d1525e33d78223",
+        "/Game/Experimental/BrotherCreatures/Outfit_036/36_poison_spider/SkeletalMeshes/leg_R2_9c18eed987498b79bcfc4fb9493bf23b.leg_R2_9c18eed987498b79bcfc4fb9493bf23b",
+        "/Game/Experimental/BrotherCreatures/Outfit_036/36_poison_spider/SkeletalMeshes/leg_R3_0efe7bae453381ec480d6f0608c3874e.leg_R3_0efe7bae453381ec480d6f0608c3874e",
+        "/Game/Experimental/BrotherCreatures/Outfit_036/36_poison_spider/SkeletalMeshes/leg_R4_5cad1ba8ebad9db85d3ae75fcb2e36c7.leg_R4_5cad1ba8ebad9db85d3ae75fcb2e36c7"
+      ],
+      "clips": {
+        "idle": "/Game/Experimental/BrotherCreatures/Outfit_036/36_poison_spider/SkeletalMeshes/36_poison_spideridle.36_poison_spideridle",
+        "caminar": "/Game/Experimental/BrotherCreatures/Outfit_036/36_poison_spider/SkeletalMeshes/36_poison_spidercaminar.36_poison_spidercaminar",
+        "atacar": "/Game/Experimental/BrotherCreatures/Outfit_036/36_poison_spider/SkeletalMeshes/36_poison_spideratacar.36_poison_spideratacar",
+        "morir": "/Game/Experimental/BrotherCreatures/Outfit_036/36_poison_spider/SkeletalMeshes/36_poison_spidermorir.36_poison_spidermorir"
+      },
+      "skeleton_path": "/Game/Experimental/BrotherCreatures/Outfit_036/36_poison_spider/SkeletalMeshes/abdomen_Skeleton.abdomen_Skeleton",
+      "imported_asset_count": 28
+    },
+    {
+      "outfit_id": 45,
+      "name": "45_bug",
+      "delivery_file": "45_bug.glb",
+      "source_path": "arte/criaturas/45_bug/modelo.glb",
+      "git_blob": "ac0348c70c533823e75fbba696d582d20dcecdb9",
+      "sha256": "d5da44312655f562cf9dc9562d0bf0737105ef680b4a0ce39bb805d79f8fd06e",
+      "status": "PASS",
+      "mesh_paths": [
+        "/Game/Experimental/BrotherCreatures/Outfit_045/45_bug/SkeletalMeshes/abdomen.abdomen",
+        "/Game/Experimental/BrotherCreatures/Outfit_045/45_bug/SkeletalMeshes/head_f3f7217963f67f2740b7d6af4bb3b268.head_f3f7217963f67f2740b7d6af4bb3b268",
+        "/Game/Experimental/BrotherCreatures/Outfit_045/45_bug/SkeletalMeshes/leg_L1_c9fbcaa7e13a721713b7a19ab176ff94.leg_L1_c9fbcaa7e13a721713b7a19ab176ff94",
+        "/Game/Experimental/BrotherCreatures/Outfit_045/45_bug/SkeletalMeshes/leg_L2_5c0084bbbff65fb5ce0244156836291d.leg_L2_5c0084bbbff65fb5ce0244156836291d",
+        "/Game/Experimental/BrotherCreatures/Outfit_045/45_bug/SkeletalMeshes/leg_L3_afa31e9b6ec716e44601089064b845b8.leg_L3_afa31e9b6ec716e44601089064b845b8",
+        "/Game/Experimental/BrotherCreatures/Outfit_045/45_bug/SkeletalMeshes/leg_R1_7e7eaef4fff9433b04f34077e9fa158e.leg_R1_7e7eaef4fff9433b04f34077e9fa158e",
+        "/Game/Experimental/BrotherCreatures/Outfit_045/45_bug/SkeletalMeshes/leg_R2_f8938c404a47a3393777e7e1fa761a5d.leg_R2_f8938c404a47a3393777e7e1fa761a5d",
+        "/Game/Experimental/BrotherCreatures/Outfit_045/45_bug/SkeletalMeshes/leg_R3_cd79a2a8e2c693cab4518e9042e5af00.leg_R3_cd79a2a8e2c693cab4518e9042e5af00"
+      ],
+      "clips": {
+        "idle": "/Game/Experimental/BrotherCreatures/Outfit_045/45_bug/SkeletalMeshes/45_bugidle.45_bugidle",
+        "caminar": "/Game/Experimental/BrotherCreatures/Outfit_045/45_bug/SkeletalMeshes/45_bugcaminar.45_bugcaminar",
+        "atacar": "/Game/Experimental/BrotherCreatures/Outfit_045/45_bug/SkeletalMeshes/45_bugatacar.45_bugatacar",
+        "morir": "/Game/Experimental/BrotherCreatures/Outfit_045/45_bug/SkeletalMeshes/45_bugmorir.45_bugmorir"
+      },
+      "skeleton_path": "/Game/Experimental/BrotherCreatures/Outfit_045/45_bug/SkeletalMeshes/abdomen_Skeleton.abdomen_Skeleton",
+      "imported_asset_count": 24
+    },
+    {
+      "outfit_id": 50,
+      "name": "50_orc_spearman",
+      "delivery_file": "50_orc_spearman.glb",
+      "source_path": "arte/criaturas/50_orc_spearman/modelo.glb",
+      "git_blob": "ce728f0d3b7d1b0e2cb4be4326da5b44128decc5",
+      "sha256": "13291efa9b7c56c7ef83a6989b23cae1dd850f56e668bb8ec3fb8b0710b2ebaf",
+      "status": "PASS",
+      "mesh_paths": [
+        "/Game/Experimental/BrotherCreatures/Outfit_050/50_orc_spearman/SkeletalMeshes/arm_L_175a8ff85f6ede27513f7d81f0f48645.arm_L_175a8ff85f6ede27513f7d81f0f48645",
+        "/Game/Experimental/BrotherCreatures/Outfit_050/50_orc_spearman/SkeletalMeshes/arm_R_70cfbe67581d5796fbd382bf57033fbf.arm_R_70cfbe67581d5796fbd382bf57033fbf",
+        "/Game/Experimental/BrotherCreatures/Outfit_050/50_orc_spearman/SkeletalMeshes/head_7cc12ed22efe3b50034ba2239e786605.head_7cc12ed22efe3b50034ba2239e786605",
+        "/Game/Experimental/BrotherCreatures/Outfit_050/50_orc_spearman/SkeletalMeshes/leg_L_e0c77ef1898230f6f7dfa087539b006c.leg_L_e0c77ef1898230f6f7dfa087539b006c",
+        "/Game/Experimental/BrotherCreatures/Outfit_050/50_orc_spearman/SkeletalMeshes/leg_R_ab38ffbcca102b1cd12fbd33d8618213.leg_R_ab38ffbcca102b1cd12fbd33d8618213",
+        "/Game/Experimental/BrotherCreatures/Outfit_050/50_orc_spearman/SkeletalMeshes/pelvis_8bc1721a5398a4bd8c7756e910e90bbf.pelvis_8bc1721a5398a4bd8c7756e910e90bbf",
+        "/Game/Experimental/BrotherCreatures/Outfit_050/50_orc_spearman/SkeletalMeshes/spear.spear",
+        "/Game/Experimental/BrotherCreatures/Outfit_050/50_orc_spearman/SkeletalMeshes/spear_tip.spear_tip",
+        "/Game/Experimental/BrotherCreatures/Outfit_050/50_orc_spearman/SkeletalMeshes/torso_9764c1bc3471a5105dd2e678623061e8.torso_9764c1bc3471a5105dd2e678623061e8",
+        "/Game/Experimental/BrotherCreatures/Outfit_050/50_orc_spearman/SkeletalMeshes/tunic.tunic"
+      ],
+      "clips": {
+        "idle": "/Game/Experimental/BrotherCreatures/Outfit_050/50_orc_spearman/SkeletalMeshes/50_orc_spearmanidle.50_orc_spearmanidle",
+        "caminar": "/Game/Experimental/BrotherCreatures/Outfit_050/50_orc_spearman/SkeletalMeshes/50_orc_spearmancaminar.50_orc_spearmancaminar",
+        "atacar": "/Game/Experimental/BrotherCreatures/Outfit_050/50_orc_spearman/SkeletalMeshes/50_orc_spearmanatacar.50_orc_spearmanatacar",
+        "morir": "/Game/Experimental/BrotherCreatures/Outfit_050/50_orc_spearman/SkeletalMeshes/50_orc_spearmanmorir.50_orc_spearmanmorir"
+      },
+      "skeleton_path": "/Game/Experimental/BrotherCreatures/Outfit_050/50_orc_spearman/SkeletalMeshes/arm_L_175a8ff85f6ede27513f7d81f0f48645_Skeleton.arm_L_175a8ff85f6ede27513f7d81f0f48645_Skeleton",
+      "imported_asset_count": 30
+    },
+    {
+      "outfit_id": 56,
+      "name": "56_cave_rat",
+      "delivery_file": "56_cave_rat.glb",
+      "source_path": "arte/criaturas/56_cave_rat/modelo.glb",
+      "git_blob": "35347fe1c24b261193f4595f4ebaae907f4a0f0d",
+      "sha256": "eed86f4bee54529bdf0f829e3400a1d761c5f94b555498bbb3d2e04dd3dc3248",
+      "status": "PASS",
+      "mesh_paths": [
+        "/Game/Experimental/BrotherCreatures/Outfit_056/56_cave_rat/SkeletalMeshes/body.body",
+        "/Game/Experimental/BrotherCreatures/Outfit_056/56_cave_rat/SkeletalMeshes/ear.ear",
+        "/Game/Experimental/BrotherCreatures/Outfit_056/56_cave_rat/SkeletalMeshes/ear_001.ear_001",
+        "/Game/Experimental/BrotherCreatures/Outfit_056/56_cave_rat/SkeletalMeshes/head_ebc3ac02ed1d1703000ce62fa8db32b2.head_ebc3ac02ed1d1703000ce62fa8db32b2",
+        "/Game/Experimental/BrotherCreatures/Outfit_056/56_cave_rat/SkeletalMeshes/leg_back_L_a1622f41686b5890f342fb7d83b9ca57.leg_back_L_a1622f41686b5890f342fb7d83b9ca57",
+        "/Game/Experimental/BrotherCreatures/Outfit_056/56_cave_rat/SkeletalMeshes/leg_back_R_47159b605c7d382a00ff6c2228116df3.leg_back_R_47159b605c7d382a00ff6c2228116df3",
+        "/Game/Experimental/BrotherCreatures/Outfit_056/56_cave_rat/SkeletalMeshes/leg_front_L_fa9ab55567132641ef5552a2ca562b47.leg_front_L_fa9ab55567132641ef5552a2ca562b47",
+        "/Game/Experimental/BrotherCreatures/Outfit_056/56_cave_rat/SkeletalMeshes/leg_front_R_03f5b30ba1f852cca934c014f3bde9b1.leg_front_R_03f5b30ba1f852cca934c014f3bde9b1",
+        "/Game/Experimental/BrotherCreatures/Outfit_056/56_cave_rat/SkeletalMeshes/muzzle.muzzle",
+        "/Game/Experimental/BrotherCreatures/Outfit_056/56_cave_rat/SkeletalMeshes/tail_bcc2d2e6b75e4667a9b84a59b0aa7791.tail_bcc2d2e6b75e4667a9b84a59b0aa7791"
+      ],
+      "clips": {
+        "idle": "/Game/Experimental/BrotherCreatures/Outfit_056/56_cave_rat/SkeletalMeshes/56_cave_ratidle.56_cave_ratidle",
+        "caminar": "/Game/Experimental/BrotherCreatures/Outfit_056/56_cave_rat/SkeletalMeshes/56_cave_ratcaminar.56_cave_ratcaminar",
+        "atacar": "/Game/Experimental/BrotherCreatures/Outfit_056/56_cave_rat/SkeletalMeshes/56_cave_ratatacar.56_cave_ratatacar",
+        "morir": "/Game/Experimental/BrotherCreatures/Outfit_056/56_cave_rat/SkeletalMeshes/56_cave_ratmorir.56_cave_ratmorir"
+      },
+      "skeleton_path": "/Game/Experimental/BrotherCreatures/Outfit_056/56_cave_rat/SkeletalMeshes/body_Skeleton.body_Skeleton",
+      "imported_asset_count": 30
+    },
+    {
+      "outfit_id": 5,
+      "name": "5_orc",
+      "delivery_file": "5_orc.glb",
+      "source_path": "arte/criaturas/5_orc/modelo.glb",
+      "git_blob": "465491666b8ff38e007427f1a5d404bdcc4b726e",
+      "sha256": "cf834d9c90d5dada0448c9a4d7a2a4031e0567e228033093d39babbfff7bccce",
+      "status": "PASS",
+      "mesh_paths": [
+        "/Game/Experimental/BrotherCreatures/Outfit_005/5_orc/SkeletalMeshes/arm_L_880cce27e8b20f12e7428c36719863f6.arm_L_880cce27e8b20f12e7428c36719863f6",
+        "/Game/Experimental/BrotherCreatures/Outfit_005/5_orc/SkeletalMeshes/arm_R_89e1fddae0321999d580118e8c0c8fb2.arm_R_89e1fddae0321999d580118e8c0c8fb2",
+        "/Game/Experimental/BrotherCreatures/Outfit_005/5_orc/SkeletalMeshes/head_9ab50edb3a18adfddcface3196be9f40.head_9ab50edb3a18adfddcface3196be9f40",
+        "/Game/Experimental/BrotherCreatures/Outfit_005/5_orc/SkeletalMeshes/leg_L_b209bc92a382d6aeabdeb4d1f791ca0d.leg_L_b209bc92a382d6aeabdeb4d1f791ca0d",
+        "/Game/Experimental/BrotherCreatures/Outfit_005/5_orc/SkeletalMeshes/leg_R_ba06b828898f5dd25cb8708b5231e35f.leg_R_ba06b828898f5dd25cb8708b5231e35f",
+        "/Game/Experimental/BrotherCreatures/Outfit_005/5_orc/SkeletalMeshes/pelvis_9501ab7afee3416423d428d2a78cd414.pelvis_9501ab7afee3416423d428d2a78cd414",
+        "/Game/Experimental/BrotherCreatures/Outfit_005/5_orc/SkeletalMeshes/torso_672a920a20b1cbe4053bf3fc9af08067.torso_672a920a20b1cbe4053bf3fc9af08067",
+        "/Game/Experimental/BrotherCreatures/Outfit_005/5_orc/SkeletalMeshes/tunic.tunic"
+      ],
+      "clips": {
+        "idle": "/Game/Experimental/BrotherCreatures/Outfit_005/5_orc/SkeletalMeshes/5_orcidle.5_orcidle",
+        "caminar": "/Game/Experimental/BrotherCreatures/Outfit_005/5_orc/SkeletalMeshes/5_orccaminar.5_orccaminar",
+        "atacar": "/Game/Experimental/BrotherCreatures/Outfit_005/5_orc/SkeletalMeshes/5_orcatacar.5_orcatacar",
+        "morir": "/Game/Experimental/BrotherCreatures/Outfit_005/5_orc/SkeletalMeshes/5_orcmorir.5_orcmorir"
+      },
+      "skeleton_path": "/Game/Experimental/BrotherCreatures/Outfit_005/5_orc/SkeletalMeshes/arm_L_880cce27e8b20f12e7428c36719863f6_Skeleton.arm_L_880cce27e8b20f12e7428c36719863f6_Skeleton",
+      "imported_asset_count": 26
+    }
+  ],
+  "import_pass": 16
+}

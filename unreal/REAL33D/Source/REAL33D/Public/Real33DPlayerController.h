@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "Real33DMouseGesture.h"
 #include "Real33DPlayerController.generated.h"
 
 class AReal33DWorld;
@@ -50,8 +51,12 @@ private:
 	void ReleaseLeft();
 	void SetMovementHeld(uint8 RelativeDirection, bool bHeld);
 	void DumpEvidence();
+	void BeginLeftClick();
+	void EndLeftClick();
+	void WalkUnderCursor();
+	void TickClickWalk();
 	void InspectUnderCursor();
-	void InteractUnderCursor();
+	void InteractUnderCursor(bool bLook = false);
 	void SaveInspectorNote(const FString& Verdict);
 
 	void Request(uint8 Direction);
@@ -89,6 +94,16 @@ private:
 
 	/** True between right button down and up. */
 	bool bOrbiting = false;
+	Real33D::MouseGesture MouseGesture;
+	TArray<FIntVector> ClickWalkPath;
+	int32 ClickWalkIndex = 0;
+	bool bClickWalkWaiting = false;
+	FIntVector ClickWalkExpected;
+	double ClickWalkSentAt = 0.0;
+	int32 ClickWalkAcceptedBefore = 0;
+	int32 ClickWalkRejectedBefore = 0;
+	int32 ClickWalkUnansweredBefore = 0;
+	int32 ClickWalkExternalBefore = 0;
 	/** A click stays an interaction; only a real pointer drag becomes an orbit. */
 	bool bRightMouseDragged = false;
 	float PendingOrbitYaw = 0.0f;

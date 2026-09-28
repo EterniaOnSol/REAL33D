@@ -1,0 +1,109 @@
+{
+  "milestone": "UNREAL-SLICE-001",
+  "written_at": "2026-09-28T04:47:44.933Z",
+  "reason": "EndPlay",
+  "seconds_in_session": 300.4,
+  "connected_at_close": true,
+  "local_creature_id": 1001,
+  "local_position": { "x": 32095, "y": 32205, "z": 7 },
+  "origin": { "set": true, "x": 32099, "y": 32201, "z": 7 },
+  "anchor": { "x": 32095, "y": 32205, "z": 7 },
+  "clientcore": {
+    "frames": 310,
+    "commands": 512,
+    "residual_bytes": 0,
+    "unsupported_opcodes": 0,
+    "protocol_anomalies": 0,
+    "walks_requested_from_unreal": 38,
+    "walks_accepted": 37,
+    "walks_rejected": 1,
+    "walks_unanswered": 0,
+    "external_relocations": 2,
+    "local_player_moves_total": 39,
+    "says_requested": 0,
+    "moves_requested": 0,
+    "uses_requested": 6,
+    "looks_requested": 15,
+    "attacks_requested": 0,
+    "follows_requested": 0,
+    "combat_cancels_requested": 0,
+    "tactics_requested": 0,
+    "target_clears_received": 0,
+    "worldstate_tiles": 361,
+    "worldstate_visible_creatures": 2,
+    "viewport_synchronised": true
+  },
+  "presentation": {
+    "tile_actors": 361,
+    "creature_actors": 2,
+    "tiles_spawned": 2391,
+    "tiles_removed": 2030,
+    "creatures_appeared": 34,
+    "creatures_vanished": 32,
+    "creature_moves": 352,
+    "duplicate_spawn_attempts": 0,
+    "orphan_events": 0,
+    "speech_shown_on_creature": 0,
+    "speech_shown_in_chat_area_only": 0,
+    "server_messages_received": 16,
+    "client_notices_raised": 0,
+    "chat_transcript_lines": 16,
+    "speech_seconds_NOT_PROVEN": 6.0
+  },
+  "talk_messages_decoded": 0,
+  "last_diagnostic": "none",
+  "inventory_known": true,
+  "inventory": [
+    { "slot": 3, "type_id": 2854, "amount": null, "liquid": null },
+    { "slot": 4, "type_id": 3561, "amount": null, "liquid": null },
+    { "slot": 6, "type_id": 3272, "amount": null, "liquid": null }
+  ],
+  "open_containers": 2,
+  "containers": [
+    {
+      "number": 0,
+      "type_id": 2854,
+      "name": "backpack",
+      "capacity": 20,
+      "has_parent": false,
+      "object_count": 1,
+      "objects": [
+        { "index": 0, "type_id": 2853, "amount": null, "liquid": null }
+      ]
+    },
+    {
+      "number": 1,
+      "type_id": 2853,
+      "name": "bag",
+      "capacity": 8,
+      "has_parent": true,
+      "object_count": 0,
+      "objects": [
+
+      ]
+    }
+  ],
+  "combat": { "target_creature_id": 0, "following": false, "tactics_sent": false, "attack_mode": 1, "chase_mode": 0, "target_actor_visible": false },
+  "chat_transcript": [
+    { "system_line": true, "line": "Server: Your last visit in Tibia: 27. Sep 2026 22:22:59 CST." },
+    { "system_line": true, "line": "Server: You see a blueberry bush." },
+    { "system_line": true, "line": "Server: You see a blueberry bush." },
+    { "system_line": true, "line": "Server: You see a fir tree." },
+    { "system_line": true, "line": "Server: You see a fir tree." },
+    { "system_line": true, "line": "Server: You see a small fir tree." },
+    { "system_line": true, "line": "Server: You see a small fir tree." },
+    { "system_line": true, "line": "Server: You see a small fir tree." },
+    { "system_line": true, "line": "Server: You see a blueberry bush." },
+    { "system_line": true, "line": "Server: You see yourself. You have no vocation." },
+    { "system_line": true, "line": "Server: You see cobbled pavement." },
+    { "system_line": true, "line": "Server: You see cobbled pavement." },
+    { "system_line": true, "line": "Server: You see cobbled pavement." },
+    { "system_line": true, "line": "Server: You see cobbled pavement." },
+    { "system_line": true, "line": "Server: You see cobbled pavement." },
+    { "system_line": true, "line": "Server: You see a backpack (Vol:20).\nIt weighs 26.00 oz." }
+  ],
+  "creatures": [
+    { "id": 1001, "local": true, "x": 32095, "y": 32205, "z": 7 },
+    { "id": 1073742106, "local": false, "x": 32105, "y": 32206, "z": 6 }
+  ]
+}

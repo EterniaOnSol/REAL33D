@@ -1,0 +1,83 @@
+﻿[2026.09.28-05.24.29:808][  0]LogReal33D: Use With target cursor: existing asset loaded
+[2026.09.28-05.25.43:857][  1]LogReal33D: server message [LoginMessage]: Your last visit in Tibia: 27. Sep 2026 23:22:28 CST.
+[2026.09.28-05.25.45:343][  1]LogReal33D: creature 1001 outfit 128: brother visual loaded parts=8 height=104.0
+[2026.09.28-05.25.45:354][  1]LogReal33D: creature 1073742106 outfit 136: delivered visual unavailable; placeholder
+[2026.09.28-05.25.56:282][ 43]LogReal33D: creature 1073742035 outfit 128: brother visual loaded parts=8 height=104.0
+[2026.09.28-05.26.02:017][253]LogReal33D: use 10 from world: object 435 at 32097,32205,7 stack 1, would open as container 0
+[2026.09.28-05.26.04:090][264]LogReal33D: creature 1073743165 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.09.28-05.26.04:094][264]LogReal33D: creature 1073743168 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.09.28-05.26.04:437][264]LogReal33D: creature 1073743180 outfit 15: brother visual loaded parts=8 height=100.2
+[2026.09.28-05.26.04:440][264]LogReal33D: creature 1073743308 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.09.28-05.26.04:445][264]LogReal33D: creature 1073743313 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.09.28-05.26.04:449][264]LogReal33D: creature 1073743314 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.09.28-05.26.04:453][264]LogReal33D: creature 1073743315 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.09.28-05.26.04:456][264]LogReal33D: creature 1073743316 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.09.28-05.26.04:459][264]LogReal33D: creature 1073743317 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.09.28-05.26.04:464][264]LogReal33D: creature 1073743318 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.09.28-05.26.12:732][657]LogReal33D: creature 1073743165 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.09.28-05.26.15:309][794]LogReal33D: use 11 from world: object 1948 at 32097,32205,8 stack 1, would open as container 0
+[2026.09.28-05.26.15:335][795]LogReal33D: creature 1073743316 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.09.28-05.26.21:779][ 24]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.09.28-05.26.22:421][ 45]LogReal33D: use 15 from world: object 2109 at 32100,32206,7 stack 2, would open as container 0
+[2026.09.28-05.26.28:218][268]LogReal33D: use 16 from world: object 2108 at 32100,32206,7 stack 2, would open as container 0
+[2026.09.28-05.26.31:698][357]LogReal33D: creature 1073742035 outfit 128: brother visual loaded parts=8 height=104.0
+[2026.09.28-05.26.50:259][934]LogReal33D: creature 1073741976 outfit 128: brother visual loaded parts=8 height=104.0
+[2026.09.28-05.27.24:338][909]LogReal33D: look 44 at body 0 slot 3
+[2026.09.28-05.27.24:437][912]LogReal33D: server message [InfoMessage]: You see a backpack (Vol:20).
+[2026.09.28-05.27.26:368][969]LogReal33D: use 45: object 2854 at body 0 slot 3, would open as container 0
+[2026.09.28-05.27.27:946][ 16]LogReal33D: use 46: object 3272 at body 0 slot 6, would open as container 1
+[2026.09.28-05.27.29:462][ 48]LogReal33D: creature 1073741976 outfit 128: brother visual loaded parts=8 height=104.0
+[2026.09.28-05.27.43:973][373]LogReal33D: use 65: object 3272 at body 0 slot 6, would open as container 1
+[2026.09.28-05.27.46:246][416]LogReal33D: use 66: object 3272 at body 0 slot 6, would open as container 1
+[2026.09.28-05.27.48:576][460]LogReal33D: use 67: object 3272 at body 0 slot 6, would open as container 1
+[2026.09.28-05.27.50:254][492]LogReal33D: use 68: object 3272 at body 0 slot 6, would open as container 1
+[2026.09.28-05.27.57:849][634]LogReal33D: use-with begun with object 3272; waiting for a target
+[2026.09.28-05.27.58:848][653]LogReal33D: use-with 69: object 3272 on creature 1001
+[2026.09.28-05.28.00:893][692]LogReal33D: use-with begun with object 3272; waiting for a target
+[2026.09.28-05.28.01:929][712]LogReal33D: use-with 70: object 3272 on object 2520 at 32109,32207,7 stack 1
+[2026.09.28-05.28.02:041][714]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.09.28-05.28.04:283][757]LogReal33D: use-with begun with object 3272; waiting for a target
+[2026.09.28-05.28.05:024][771]LogReal33D: use-with 71: object 3272 on object 2520 at 32109,32207,7 stack 1
+[2026.09.28-05.28.05:181][774]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.09.28-05.28.05:972][789]LogReal33D: use-with begun with object 3272; waiting for a target
+[2026.09.28-05.28.06:840][805]LogReal33D: use-with 72: object 3272 on object 2520 at 32109,32207,7 stack 1
+[2026.09.28-05.28.06:989][808]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.09.28-05.28.20:115][ 53]LogReal33D: look 73 at container 0 slot 0
+[2026.09.28-05.28.20:165][ 54]LogReal33D: server message [InfoMessage]: You see a bag (Vol:8).
+[2026.09.28-05.28.21:064][ 71]LogReal33D: look 74 at container 0 slot 0
+[2026.09.28-05.28.21:103][ 72]LogReal33D: server message [InfoMessage]: You see a bag (Vol:8).
+[2026.09.28-05.28.21:734][ 84]LogReal33D: look 75 at container 0 slot 0
+[2026.09.28-05.28.21:834][ 86]LogReal33D: server message [InfoMessage]: You see a bag (Vol:8).
+[2026.09.28-05.28.37:158][369]LogReal33D: look 77 at world point 32107,32207,7
+[2026.09.28-05.28.37:272][371]LogReal33D: server message [InfoMessage]: You see an oven.
+[2026.09.28-05.28.47:409][536]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.09.28-05.28.47:861][544]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.09.28-05.28.48:326][552]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.09.28-05.28.48:778][560]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.09.28-05.28.49:056][565]LogReal33D: use 88 from world: object 1632 at 32108,32204,6 stack 1, would open as container 1
+[2026.09.28-05.28.50:747][590]LogReal33D: creature 1073742035 outfit 128: brother visual loaded parts=8 height=104.0
+[2026.09.28-05.28.51:265][596]LogReal33D: creature 1073742035 outfit 128: brother visual loaded parts=8 height=104.0
+[2026.09.28-05.28.52:449][613]LogReal33D: use-with begun with object 3272; waiting for a target
+[2026.09.28-05.28.53:360][629]LogReal33D: use-with 95: object 3272 on object 2361 at 32107,32200,6 stack 1
+[2026.09.28-05.28.55:689][668]LogReal33D: look 97 at world point 32106,32200,6
+[2026.09.28-05.28.55:804][670]LogReal33D: server message [InfoMessage]: You see a small table.
+[2026.09.28-05.28.57:220][693]LogReal33D: use 99: object 3272 at body 0 slot 6, would open as container 1
+[2026.09.28-05.29.01:351][765]LogReal33D: use-with begun with object 3272; waiting for a target
+[2026.09.28-05.29.02:941][793]LogReal33D: use-with 100: object 3272 on object 2319 at 32106,32200,6 stack 1
+[2026.09.28-05.29.04:583][822]LogReal33D: use-with begun with object 3272; waiting for a target
+[2026.09.28-05.29.05:610][840]LogReal33D: use-with 101: object 3272 on object 2319 at 32106,32200,6 stack 1
+[2026.09.28-05.29.07:118][866]LogReal33D: use-with begun with object 3272; waiting for a target
+[2026.09.28-05.29.08:020][882]LogReal33D: use-with 102: object 3272 on object 2361 at 32107,32200,6 stack 1
+[2026.09.28-05.29.09:693][911]LogReal33D: use-with begun with object 3272; waiting for a target
+[2026.09.28-05.29.10:774][930]LogReal33D: use-with 103: object 3272 on object 2361 at 32107,32200,6 stack 1
+[2026.09.28-05.29.12:310][957]LogReal33D: use-with begun with object 3272; waiting for a target
+[2026.09.28-05.29.13:047][970]LogReal33D: use-with 104: object 3272 on object 2361 at 32107,32200,6 stack 1
+[2026.09.28-05.29.17:154][ 43]LogReal33D: use-with begun with object 3272; waiting for a target
+[2026.09.28-05.29.18:433][ 66]LogReal33D: use-with 105: object 3272 on object 2319 at 32106,32200,6 stack 1
+[2026.09.28-05.29.22:617][133]LogReal33D: use-with begun with object 3272; waiting for a target
+[2026.09.28-05.29.23:580][150]LogReal33D: use-with 110: object 3272 on object 2434 at 32103,32200,6 stack 1
+[2026.09.28-05.29.23:737][153]LogStreaming: Display: FlushAsyncLoading(774): 1 QueuedPackages, 0 AsyncPackages
+[2026.09.28-05.29.23:779][153]LogTexture: Display: Building texture TwoD: /Game/Experimental/V08/ID_03136/03136/Textures/3136.3136 (TFO_AutoDXT, 32x32 x1x1x1) (Required Memory Estimate: 1.16142 MB), EncodeSpeed: Final
+[2026.09.28-05.29.23:786][153]LogStaticMesh: Display: Waiting on static mesh StaticMesh /Game/Experimental/V08/ID_03136/SM_V08_03136.SM_V08_03136 being ready before playing
+[2026.09.28-05.30.42:287][494]LogReal33D: creature 1073765636 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.09.28-05.31.19:684][ 83]LogReal33D: creature 1073765629 outfit 21: brother visual loaded parts=10 height=80.3

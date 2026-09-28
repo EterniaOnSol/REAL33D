@@ -4,6 +4,7 @@
 #include "Input/DragAndDrop.h"
 #include "Widgets/DeclarativeSyntaxSupport.h"
 #include "Widgets/SCompoundWidget.h"
+#include "Real33DMouseGesture.h"
 
 class SVerticalBox;
 
@@ -180,6 +181,8 @@ public:
 
 	virtual FReply OnMouseButtonDown(const FGeometry& Geometry,
 		const FPointerEvent& Event) override;
+	virtual FReply OnMouseButtonUp(const FGeometry& Geometry,
+		const FPointerEvent& Event) override;
 	virtual FReply OnDragDetected(const FGeometry& Geometry,
 		const FPointerEvent& Event) override;
 	virtual FReply OnDragOver(const FGeometry& Geometry,
@@ -188,6 +191,7 @@ public:
 		const FDragDropEvent& Event) override;
 
 private:
+	Real33D::MouseGesture MouseGesture;
 	FReal33DSlotRef Location;
 	FReal33DOnItemDropped OnItemDropped;
 	FReal33DOnSlotUsed OnSlotUsed;

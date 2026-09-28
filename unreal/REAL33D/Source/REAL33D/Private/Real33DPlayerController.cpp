@@ -89,7 +89,7 @@ void AReal33DPlayerController::BeginPlay()
 					+ SVerticalBox::Slot().AutoHeight()
 					[
 						SAssignNew(InspectorLabel, STextBlock)
-						.Text(FText::FromString(TEXT("V08: clic izquierdo en un objeto para ver su ID")))
+						.Text(FText::FromString(TEXT("V08: Ctrl + clic izquierdo para ver el ID")))
 					]
 					+ SVerticalBox::Slot().AutoHeight().Padding(0.0f, 6.0f)
 					[
@@ -122,6 +122,12 @@ void AReal33DPlayerController::BeginPlay()
 			InspectorRoot.ToSharedRef(), /*ZOrder=*/11);
 	}
 
+	// Existing targetcursor.png, 23x23, original hotspot (9,9).
+	const bool bTargetCursorLoaded = GetWorld()->GetGameViewport()->SetHardwareCursor(
+		EMouseCursor::Crosshairs, FName(TEXT("../Resources/UI/Cursors/targetcursor")),
+		FVector2D(9.0 / 23.0, 9.0 / 23.0));
+	UE_LOG(LogReal33D, Log, TEXT("Use With target cursor: %s"),
+		bTargetCursorLoaded ? TEXT("existing asset loaded") : TEXT("asset unavailable"));
 	SetInputMode(FInputModeGameAndUI().SetHideCursorDuringCapture(false));
 }
 
@@ -175,7 +181,9 @@ void AReal33DPlayerController::SetupInputComponent()
 	InputComponent->BindKey(EKeys::Left, IE_Pressed, this, &AReal33DPlayerController::WalkWest);
 
 	InputComponent->BindKey(EKeys::LeftMouseButton, IE_Pressed, this,
-		&AReal33DPlayerController::InspectUnderCursor);
+		&AReal33DPlayerController::BeginLeftClick);
+	InputComponent->BindKey(EKeys::LeftMouseButton, IE_Released, this,
+		&AReal33DPlayerController::EndLeftClick);
 
 	// Lets the operator take a labelled snapshot at any point of the run.
 	InputComponent->BindKey(EKeys::F9, IE_Pressed, this,
@@ -228,6 +236,7 @@ void AReal33DPlayerController::FocusChatInput()
 
 void AReal33DPlayerController::CloseChatInput()
 {
+	ClickWalkPath.Reset();
 	if (HudRoot.IsValid() && HudRoot->IsTargeting())
 	{
 		HudRoot->CancelTargeting();
@@ -255,6 +264,9 @@ void AReal33DPlayerController::HandleTypingChanged(bool bTyping)
 	if (bTyping)
 	{
 		for (bool& bHeld : bHeldMovement) bHeld = false;
+		ClickWalkPath.Reset();
+		MouseGesture.Reset();
+		bOrbiting = false;
 	}
 	if (!bTyping)
 	{
@@ -266,6 +278,7 @@ void AReal33DPlayerController::HandleTypingChanged(bool bTyping)
 
 void AReal33DPlayerController::Request(uint8 Direction)
 {
+	ClickWalkPath.Reset(); // Manual movement replaces remaining click-walk intents.
 	// The one place the rule lives: while the player is typing, walk keys are
 	// letters. Typing "was" must not walk the player west, north and south.
 	if (bTypingActive || (InspectorNote.IsValid() && InspectorNote->HasKeyboardFocus()))
@@ -331,6 +344,8 @@ void AReal33DPlayerController::SetMovementHeld(uint8 RelativeDirection, bool bHe
 void AReal33DPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
+	CurrentMouseCursor = HudRoot.IsValid() && HudRoot->IsTargeting()
+		? EMouseCursor::Crosshairs : EMouseCursor::Default;
 	if (HudRoot.IsValid())
 	{
 		const AReal33DWorld* World = GetWorldActor();
@@ -359,8 +374,10 @@ void AReal33DPlayerController::Tick(float DeltaSeconds)
 	if (InspectorNote.IsValid() && InspectorNote->HasKeyboardFocus())
 	{
 		for (bool& bHeld : bHeldMovement) bHeld = false;
+		ClickWalkPath.Reset();
 		return;
 	}
+	TickClickWalk();
 	if (!bHeldMovement[ActiveHeldDirection] || bTypingActive) return;
 	const double Now = FPlatformTime::Seconds();
 	if (Now - LastWalkIntentTime >= HeldWalkIntervalSeconds)
@@ -412,6 +429,16 @@ AReal33DWorld* AReal33DPlayerController::GetWorldActor()
 
 void AReal33DPlayerController::BeginOrbit()
 {
+	const auto Modifiers = FSlateApplication::Get().GetModifierKeys();
+	const auto Action = MouseGesture.Press(Real33D::MouseButton::Right,
+		Modifiers.IsShiftDown(), Modifiers.IsAltDown());
+	if (Action == Real33D::MouseAction::Look)
+	{
+		bOrbiting = false;
+		ClickWalkPath.Reset();
+		InteractUnderCursor(true);
+		return;
+	}
 	bOrbiting = true;
 	bRightMouseDragged = false;
 	PendingOrbitYaw = 0.0f;
@@ -420,13 +447,15 @@ void AReal33DPlayerController::BeginOrbit()
 
 void AReal33DPlayerController::EndOrbit()
 {
-	const bool bWasDrag = bRightMouseDragged;
+	if (bRightMouseDragged) MouseGesture.RightDragged();
+	const auto Action = MouseGesture.Release(Real33D::MouseButton::Right);
 	bOrbiting = false;
 	bRightMouseDragged = false;
 	PendingOrbitYaw = 0.0f;
 	PendingOrbitPitch = 0.0f;
-	if (!bWasDrag)
+	if (Action == Real33D::MouseAction::Use || Action == Real33D::MouseAction::UseWith)
 	{
+		ClickWalkPath.Reset();
 		InteractUnderCursor();
 	}
 }
@@ -508,6 +537,112 @@ void AReal33DPlayerController::DumpEvidence()
 	}
 }
 
+void AReal33DPlayerController::BeginLeftClick()
+{
+	const auto Modifiers = FSlateApplication::Get().GetModifierKeys();
+	const auto Action = MouseGesture.Press(Real33D::MouseButton::Left,
+		Modifiers.IsShiftDown(), Modifiers.IsAltDown());
+	if (Action == Real33D::MouseAction::Look)
+	{
+		bOrbiting = false;
+		ClickWalkPath.Reset();
+		InteractUnderCursor(true);
+		return;
+	}
+	if (Modifiers.IsControlDown() || (HudRoot.IsValid() && HudRoot->IsTargeting()))
+	{
+		MouseGesture.LeftConsumed();
+		ClickWalkPath.Reset();
+		InspectUnderCursor();
+	}
+}
+
+void AReal33DPlayerController::EndLeftClick()
+{
+	if (MouseGesture.Release(Real33D::MouseButton::Left) == Real33D::MouseAction::Walk)
+	{
+		WalkUnderCursor();
+	}
+}
+
+void AReal33DPlayerController::WalkUnderCursor()
+{
+	ClickWalkPath.Reset();
+	if (bTypingActive || (InspectorNote.IsValid() && InspectorNote->HasKeyboardFocus())) return;
+	for (const bool bHeld : bHeldMovement) if (bHeld) return;
+	FHitResult Hit;
+	if (!GetHitResultUnderCursorByChannel(
+		UEngineTypes::ConvertToTraceType(ECC_Visibility), true, Hit)) return;
+	const AReal33DTile* Tile = Cast<AReal33DTile>(Hit.GetActor());
+	AReal33DWorld* World = GetWorldActor();
+	if (Tile == nullptr || World == nullptr) return;
+	if (!World->FindKnownWalkPath(Tile->GetMapPosition(), ClickWalkPath))
+	{
+		UE_LOG(LogReal33D, Log, TEXT("left-click walk: no path in the current authoritative tiles"));
+		return;
+	}
+	ClickWalkIndex = 0;
+	// Do not issue a new step until an earlier click step has received its answer.
+	UE_LOG(LogReal33D, Log, TEXT("left-click walk: target %d,%d,%d, %d cardinal steps"),
+		Tile->GetMapPosition().X, Tile->GetMapPosition().Y, Tile->GetMapPosition().Z,
+		ClickWalkPath.Num());
+}
+
+void AReal33DPlayerController::TickClickWalk()
+{
+	UGameInstance* GameInstance = GetGameInstance();
+	UReal33DBridge* Bridge = GameInstance ? GameInstance->GetSubsystem<UReal33DBridge>() : nullptr;
+	AReal33DWorld* World = GetWorldActor();
+	const AReal33DCreature* Self = World ? World->GetLocalPlayer() : nullptr;
+	if (!Bridge || !Bridge->IsRunning() || !Self || bTypingActive)
+	{
+		ClickWalkPath.Reset();
+		bClickWalkWaiting = false;
+		return;
+	}
+	const auto& Position = Self->GetLogicalPosition();
+	const FIntVector Here(Position.X, Position.Y, Position.Z);
+	const FReal33DStats Stats = Bridge->GetStats();
+	const double Now = FPlatformTime::Seconds();
+	if (bClickWalkWaiting)
+	{
+		if (Stats.RejectedSteps > ClickWalkRejectedBefore
+			|| Stats.UnansweredSteps > ClickWalkUnansweredBefore
+			|| Stats.ExternalRelocations > ClickWalkExternalBefore
+			|| Now - ClickWalkSentAt > 3.5)
+		{
+			ClickWalkPath.Reset();
+			bClickWalkWaiting = false;
+			UE_LOG(LogReal33D, Log, TEXT("left-click walk stopped: refusal, relocation or missing answer"));
+			return;
+		}
+		if (Stats.AcceptedSelfWalks <= ClickWalkAcceptedBefore || Here != ClickWalkExpected) return;
+		bClickWalkWaiting = false;
+	}
+	if (!ClickWalkPath.IsValidIndex(ClickWalkIndex) || Now - ClickWalkSentAt < HeldWalkIntervalSeconds) return;
+	const FIntVector Next = ClickWalkPath[ClickWalkIndex];
+	const FIntVector Delta = Next - Here;
+	if (Delta.Z != 0 || FMath::Abs(Delta.X) + FMath::Abs(Delta.Y) != 1
+		|| !World->IsKnownWalkTile(Next))
+	{
+		ClickWalkPath.Reset();
+		return;
+	}
+	const uint8 Direction = Delta.Y < 0 ? 0 : Delta.X > 0 ? 1 : Delta.Y > 0 ? 2 : 3;
+	const uint32 InputId = Bridge->RequestWalk(Direction);
+	if (!InputId) { ClickWalkPath.Reset(); return; }
+	UE_LOG(LogReal33D, Log, TEXT("input %u: left-click walk direction %u to %d,%d,%d"),
+		InputId, Direction, Next.X, Next.Y, Next.Z);
+	++ClickWalkIndex;
+	ClickWalkExpected = Next;
+	ClickWalkSentAt = Now;
+	ClickWalkAcceptedBefore = Stats.AcceptedSelfWalks;
+	ClickWalkRejectedBefore = Stats.RejectedSteps;
+	ClickWalkUnansweredBefore = Stats.UnansweredSteps;
+	ClickWalkExternalBefore = Stats.ExternalRelocations;
+	bClickWalkWaiting = true;
+}
+
 void AReal33DPlayerController::InspectUnderCursor()
 {
 	FHitResult Hit;
@@ -574,16 +709,13 @@ void AReal33DPlayerController::InspectUnderCursor()
 		TypeId, *InspectorName, *InspectorStatus, *InspectorPosition);
 }
 
-void AReal33DPlayerController::InteractUnderCursor()
+void AReal33DPlayerController::InteractUnderCursor(bool bLook)
 {
 	FHitResult Hit;
 	if (!GetHitResultUnderCursorByChannel(
 		UEngineTypes::ConvertToTraceType(ECC_Visibility), true, Hit)) return;
 
-	// Alt+right-click asks the server to describe the point. A pending
-	// use-with still owns the next click, including clicks with modifiers.
-	const bool bLook = HudRoot.IsValid() && !HudRoot->IsTargeting()
-		&& FSlateApplication::Get().GetModifierKeys().IsAltDown();
+	if (!HudRoot.IsValid()) return;
 
 	if (const AReal33DCreature* Creature = Cast<AReal33DCreature>(Hit.GetActor()))
 	{

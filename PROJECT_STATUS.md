@@ -1,7 +1,16 @@
 # Project Status
 
+Latest independent run: world/slot Look and normal chat visibly confirmed after
+HUD repair; live world/inventory/container Use and valid Use With reproduced.
+Operator requested automatic target selection from normal Use for MultiUse
+items, including runes. That correction has tests/build and live rapier Use With
+PASS. Original cursor works; 16-outfit creature art loaded
+and accepted with defects for now. The 156-outfit sprite reference catalog is
+not 156 finished 3D models. Corrected interaction milestone is CERTIFIED;
+rune spell effects and complete art coverage remain unverified.
+
 Current phase: `PHASE 2 - GAMEPLAY CLIENT PROGRAMMING` (`IN_PROGRESS`; the first 3D representation is live, a stock 2D client now completes the ordinary 7.72 flow, and V08 visual review is on operator-directed standby)
-Current milestone: UNREAL-ITEM-USE-INTERACTION-001 — `PASS` for the named live Use and world Look paths; independent repetition and slot Look validation remain open.
+Current milestone: UNREAL-ITEM-USE-INTERACTION-001 — `CERTIFIED` for the corrected revision after independent live reproduction. Original candidate `3528459` is not retroactively certified. Rune spell effects and complete art coverage remain `IMPLEMENTED_UNVERIFIED`. See `evidence/clientcore/UNREAL-ITEM-USE-INTERACTION-001-INDEPENDENT-20260927.md`.
 Next milestone: UNREAL-LIVE-VISUAL-EDITOR-001 (`NOT_STARTED`): local 3D mesh, rotation and grass adjustments while navigating, saved as visual overrides; Fusion32 state remains authoritative.
 Last certified: UNREAL-COMBAT-FOLLOW-001 CERTIFIED_PASS; UNREAL-INVENTORY-CONTAINERS-001 CERTIFIED_PASS; UNREAL-WIDE-WORLD-001 CERTIFIED_PASS at `3fd5d1d`; DUAL_CLIENT_LIVE_CAPTURE PASS at `0f9bd505`.
 Branch: `milestone/unreal-item-use-interaction-001` (from `main`, not merged)

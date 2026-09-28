@@ -1,6 +1,10 @@
 #include "Real33DCreatureActor.h"
 
 #include "Components/StaticMeshComponent.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Engine/SkeletalMesh.h"
+#include "Animation/AnimSequence.h"
+#include "REAL33D.h"
 #include "Components/TextRenderComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 
@@ -203,6 +207,53 @@ void AReal33DCreature::SetFacing(uint8 Direction)
 	SetActorRotation(Real33D::ToRotation(Direction));
 }
 
+void AReal33DCreature::ApplyOutfit(uint16 OutfitId, bool bDisguisedAsObject,
+	const UReal33DAssetRegistry* Registry)
+{
+	check(IsInGameThread());
+	for (auto& Part : OutfitParts) if (Part) Part->DestroyComponent();
+	OutfitParts.Reset();
+	IdleClip = WalkClip = CurrentClip = nullptr;
+	Body->SetVisibility(true);
+	NameTag->SetRelativeLocation(FVector(0, 0, 110));
+	SpeechTag->SetRelativeLocation(FVector(0, 0, 140));
+	if (!Registry || bDisguisedAsObject) return;
+	const FReal33DCreatureVisual Visual = Registry->ResolveOutfit(OutfitId);
+	if (Visual.Meshes.IsEmpty() || !Visual.Idle || !Visual.Walk)
+	{
+		UE_LOG(LogReal33D, Log, TEXT("creature %u outfit %u: delivered visual unavailable; placeholder"), CreatureId, OutfitId);
+		return;
+	}
+	FBox Bounds(ForceInit);
+	for (USkeletalMesh* Mesh : Visual.Meshes) Bounds += Mesh->GetBounds().GetBox();
+	for (USkeletalMesh* Mesh : Visual.Meshes)
+	{
+		USkeletalMeshComponent* Part = NewObject<USkeletalMeshComponent>(this);
+		Part->SetupAttachment(Root);
+		Part->SetSkeletalMesh(Mesh);
+		Part->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		Part->SetRelativeLocation(FVector(0, 0, -Bounds.Min.Z));
+		Part->RegisterComponent();
+		OutfitParts.Add(Part);
+	}
+	// The original query-only body keeps the existing mouse identity route.
+	Body->SetVisibility(false);
+	const double Height = Bounds.GetSize().Z;
+	NameTag->SetRelativeLocation(FVector(0, 0, Height + 15));
+	SpeechTag->SetRelativeLocation(FVector(0, 0, Height + 45));
+	IdleClip = Visual.Idle;
+	WalkClip = Visual.Walk;
+	PlayOutfitClip(IdleClip);
+	UE_LOG(LogReal33D, Log, TEXT("creature %u outfit %u: brother visual loaded parts=%d height=%.1f"), CreatureId, OutfitId, OutfitParts.Num(), Height);
+}
+
+void AReal33DCreature::PlayOutfitClip(UAnimSequence* Clip)
+{
+	if (!Clip || CurrentClip == Clip) return;
+	for (auto& Part : OutfitParts) Part->PlayAnimation(Clip, true);
+	CurrentClip = Clip;
+}
+
 void AReal33DCreature::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
@@ -241,10 +292,12 @@ void AReal33DCreature::Tick(float DeltaSeconds)
 
 	if (!bPlaced || DrawnLocation.Equals(TargetLocation, 0.05))
 	{
+		PlayOutfitClip(IdleClip);
 		Body->SetRelativeLocation(BodyBaseOffset);
 		return;
 	}
 	const FVector Previous = DrawnLocation;
+	PlayOutfitClip(WalkClip);
 	DrawnLocation = FMath::VInterpConstantTo(DrawnLocation, TargetLocation,
 		DeltaSeconds, WalkVisualSpeed);
 	SetActorLocation(DrawnLocation);

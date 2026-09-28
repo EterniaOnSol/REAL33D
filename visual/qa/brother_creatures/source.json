@@ -1,0 +1,138 @@
+﻿{
+    "schema":  "real33d.brother-creatures.source.v1",
+    "source":  {
+                   "repository":  "https://github.com/leodavidsoto/3DTIBIA",
+                   "branch":  "carril/ARTE-CRIATURAS",
+                   "commit":  "37a758df0fab94080ea7b8128db5321f5225618c"
+               },
+    "entries":  [
+                    {
+                        "outfit_id":  128,
+                        "name":  "128_rookie",
+                        "delivery_file":  "128_rookie.glb",
+                        "source_path":  "arte/criaturas/128_rookie/modelo.glb",
+                        "git_blob":  "b228c589a9dda9d18fc1db17f8363e8e0c861139",
+                        "sha256":  "9438637f12580dd626f9f75b6d5ddd834b2ad012d8377b8ad642a107e49f1aa1"
+                    },
+                    {
+                        "outfit_id":  15,
+                        "name":  "15_troll",
+                        "delivery_file":  "15_troll.glb",
+                        "source_path":  "arte/criaturas/15_troll/modelo.glb",
+                        "git_blob":  "87a5f21dc0d17760ad260dff6c0a1243e32fd760",
+                        "sha256":  "da8a08a0221d1c7e5a04d2438c4f05ae7a78aa69c1a0fc1513e0f19f2c7c5622"
+                    },
+                    {
+                        "outfit_id":  16,
+                        "name":  "16_bear",
+                        "delivery_file":  "16_bear.glb",
+                        "source_path":  "arte/criaturas/16_bear/modelo.glb",
+                        "git_blob":  "28a0dc5fad148b997c129050f4cd807761023014",
+                        "sha256":  "f7bec5d75a31455ec65b9b8767fe4795db7d3c62070f59ed777331317b10adb0"
+                    },
+                    {
+                        "outfit_id":  21,
+                        "name":  "21_rat",
+                        "delivery_file":  "21_rat.glb",
+                        "source_path":  "arte/criaturas/21_rat/modelo.glb",
+                        "git_blob":  "ec3f597046c157625c193d419a5b772ba06fb8d4",
+                        "sha256":  "68311b84d05d0d503ea5938a1784e7fa5a112bd8c6785292f43c1206c7b25f24"
+                    },
+                    {
+                        "outfit_id":  25,
+                        "name":  "25_minotaur",
+                        "delivery_file":  "25_minotaur.glb",
+                        "source_path":  "arte/criaturas/25_minotaur/modelo.glb",
+                        "git_blob":  "7c8d1b31307c0f2ad2cbc887a0e986af6282c0af",
+                        "sha256":  "0760214fea8062efe864d2082575cf3151e4a55017fa473c0631b794cbe7be86"
+                    },
+                    {
+                        "outfit_id":  26,
+                        "name":  "26_rotworm",
+                        "delivery_file":  "26_rotworm.glb",
+                        "source_path":  "arte/criaturas/26_rotworm/modelo.glb",
+                        "git_blob":  "1bea32f6a2ccb8b2389b90458f255d27e2dc620a",
+                        "sha256":  "6f3c90238bca4d6b3bfc9a7f374731f693f00019e065b034ff9d7e522b9e1764"
+                    },
+                    {
+                        "outfit_id":  27,
+                        "name":  "27_wolf",
+                        "delivery_file":  "27_wolf.glb",
+                        "source_path":  "arte/criaturas/27_wolf/modelo.glb",
+                        "git_blob":  "b48c184ee65b0d676a8e8180e340dd973bf3403a",
+                        "sha256":  "a7cb5c814f288db2fa9472f532f1c1e085069d646ce0b827513bb0f266ede6b1"
+                    },
+                    {
+                        "outfit_id":  28,
+                        "name":  "28_snake",
+                        "delivery_file":  "28_snake.glb",
+                        "source_path":  "arte/criaturas/28_snake/modelo.glb",
+                        "git_blob":  "b567b9add65d354632e8e1039aba2ca73fa7117e",
+                        "sha256":  "2ff5c87a42f7bee954ec2fa06f37c1a4bb195f0746f436563c8a4d36524236be"
+                    },
+                    {
+                        "outfit_id":  30,
+                        "name":  "30_spider",
+                        "delivery_file":  "30_spider.glb",
+                        "source_path":  "arte/criaturas/30_spider/modelo.glb",
+                        "git_blob":  "4e09c9387744e0705d2fb95cadb408d44d89644f",
+                        "sha256":  "a78f5919ccf99b402cb7a90bb77ae2c0f7b604dc43ba11b56b7707881595b5b2"
+                    },
+                    {
+                        "outfit_id":  31,
+                        "name":  "31_deer",
+                        "delivery_file":  "31_deer.glb",
+                        "source_path":  "arte/criaturas/31_deer/modelo.glb",
+                        "git_blob":  "bfdae16ddabd22173178d770aa90d95b5eb72b31",
+                        "sha256":  "f7d4196a69be45110871936a83136c6a782bf618eac9550ae588eaf290014383"
+                    },
+                    {
+                        "outfit_id":  33,
+                        "name":  "33_skeleton",
+                        "delivery_file":  "33_skeleton.glb",
+                        "source_path":  "arte/criaturas/33_skeleton/modelo.glb",
+                        "git_blob":  "38a78dbca82377d23098654c323a81ca4da92e4f",
+                        "sha256":  "ec39e7f5b0192b3e9b7470261fde5a499eb86c7446b08ffb45c6a7c79a2cde70"
+                    },
+                    {
+                        "outfit_id":  36,
+                        "name":  "36_poison_spider",
+                        "delivery_file":  "36_poison_spider.glb",
+                        "source_path":  "arte/criaturas/36_poison_spider/modelo.glb",
+                        "git_blob":  "2a7148324556dca27ee0a67d97619b063bdfe2e9",
+                        "sha256":  "21657ba8c98a5c02bbf73572a16da7dbd85bd0ca33dd75dc1ec957eebc2b21e6"
+                    },
+                    {
+                        "outfit_id":  45,
+                        "name":  "45_bug",
+                        "delivery_file":  "45_bug.glb",
+                        "source_path":  "arte/criaturas/45_bug/modelo.glb",
+                        "git_blob":  "ac0348c70c533823e75fbba696d582d20dcecdb9",
+                        "sha256":  "d5da44312655f562cf9dc9562d0bf0737105ef680b4a0ce39bb805d79f8fd06e"
+                    },
+                    {
+                        "outfit_id":  50,
+                        "name":  "50_orc_spearman",
+                        "delivery_file":  "50_orc_spearman.glb",
+                        "source_path":  "arte/criaturas/50_orc_spearman/modelo.glb",
+                        "git_blob":  "ce728f0d3b7d1b0e2cb4be4326da5b44128decc5",
+                        "sha256":  "13291efa9b7c56c7ef83a6989b23cae1dd850f56e668bb8ec3fb8b0710b2ebaf"
+                    },
+                    {
+                        "outfit_id":  56,
+                        "name":  "56_cave_rat",
+                        "delivery_file":  "56_cave_rat.glb",
+                        "source_path":  "arte/criaturas/56_cave_rat/modelo.glb",
+                        "git_blob":  "35347fe1c24b261193f4595f4ebaae907f4a0f0d",
+                        "sha256":  "eed86f4bee54529bdf0f829e3400a1d761c5f94b555498bbb3d2e04dd3dc3248"
+                    },
+                    {
+                        "outfit_id":  5,
+                        "name":  "5_orc",
+                        "delivery_file":  "5_orc.glb",
+                        "source_path":  "arte/criaturas/5_orc/modelo.glb",
+                        "git_blob":  "465491666b8ff38e007427f1a5d404bdcc4b726e",
+                        "sha256":  "cf834d9c90d5dada0448c9a4d7a2a4031e0567e228033093d39babbfff7bccce"
+                    }
+                ]
+}

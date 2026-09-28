@@ -324,28 +324,26 @@ void SReal33DSlot::Construct(const FArguments& InArgs)
 FReply SReal33DSlot::OnMouseButtonDown(const FGeometry& Geometry,
 	const FPointerEvent& Event)
 {
-	// Only an occupied slot in a place the server can address starts a drag.
-	// An empty square has nothing to pick up, and a slot with no location is
-	// decoration -- the hotkey preview, for one.
-	// Right button is use, as it is in Tibia; with shift held it is use-with,
-	// which puts the client into targeting instead of acting immediately.
-	// Handled here so it never reaches the controller's camera orbit: Slate
-	// gets first refusal, and a right-click on a bag must open the bag rather
-	// than swing the camera.
-	if (Event.GetEffectingButton() == EKeys::RightMouseButton
-		&& Location.TypeId != 0 && Location.IsValid())
+	const bool bRight = Event.GetEffectingButton() == EKeys::RightMouseButton;
+	const bool bLeft = Event.GetEffectingButton() == EKeys::LeftMouseButton;
+	if (!bRight && !bLeft) return FReply::Unhandled();
+	// UI owns even an empty slot: it must never click through to the map.
+	if (!Location.IsValid()) return FReply::Handled();
+	MouseGesture.DiscardReleasedButtons(Event.IsMouseButtonDown(EKeys::LeftMouseButton),
+		Event.IsMouseButtonDown(EKeys::RightMouseButton));
+	const auto Action = MouseGesture.Press(bRight ? Real33D::MouseButton::Right
+		: Real33D::MouseButton::Left, Event.IsShiftDown(), Event.IsAltDown(),
+		Event.IsMouseButtonDown(bRight ? EKeys::LeftMouseButton : EKeys::RightMouseButton));
+	if (Action == Real33D::MouseAction::Look)
 	{
-		const EReal33DSlotAction Action = Event.IsAltDown()
-			? EReal33DSlotAction::Look
-			: (Event.IsShiftDown() ? EReal33DSlotAction::UseWith : EReal33DSlotAction::Use);
-		OnSlotUsed.ExecuteIfBound(Location, Action);
-		return FReply::Handled();
+		if (Location.TypeId) OnSlotUsed.ExecuteIfBound(Location, EReal33DSlotAction::Look);
 	}
-
-	if (Event.GetEffectingButton() != EKeys::LeftMouseButton || !Location.IsValid())
+	if (bRight)
 	{
-		return FReply::Unhandled();
+		// Wait for release so pressing the other button can turn this into Look.
+		return FReply::Handled().CaptureMouse(SharedThis(this));
 	}
+	if (Action == Real33D::MouseAction::Look || MouseGesture.IsChord()) return FReply::Handled();
 
 	// A use-with waiting for a target takes the click first, even on an empty
 	// square: "use the key on that slot" is a thing to ask, and starting a drag
@@ -357,9 +355,24 @@ FReply SReal33DSlot::OnMouseButtonDown(const FGeometry& Geometry,
 
 	if (Location.TypeId == 0)
 	{
-		return FReply::Unhandled();
+		return FReply::Handled();
 	}
 	return FReply::Handled().DetectDrag(SharedThis(this), EKeys::LeftMouseButton);
+}
+
+FReply SReal33DSlot::OnMouseButtonUp(const FGeometry& Geometry,
+	const FPointerEvent& Event)
+{
+	const bool bRight = Event.GetEffectingButton() == EKeys::RightMouseButton;
+	if (!bRight && Event.GetEffectingButton() != EKeys::LeftMouseButton) return FReply::Unhandled();
+	const auto Action = MouseGesture.Release(bRight ? Real33D::MouseButton::Right : Real33D::MouseButton::Left);
+	if (Location.IsValid() && Location.TypeId
+		&& (Action == Real33D::MouseAction::Use || Action == Real33D::MouseAction::UseWith))
+	{
+		OnSlotUsed.ExecuteIfBound(Location, Action == Real33D::MouseAction::UseWith
+			? EReal33DSlotAction::UseWith : EReal33DSlotAction::Use);
+	}
+	return bRight ? FReply::Handled().ReleaseMouseCapture() : FReply::Handled();
 }
 
 FReply SReal33DSlot::OnDragDetected(const FGeometry& Geometry, const FPointerEvent& Event)

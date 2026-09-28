@@ -8,6 +8,7 @@
 
 class UStaticMeshComponent;
 class UTextRenderComponent;
+class USkeletalMeshComponent;
 
 /**
  * One creature, which may be this client's own player.
@@ -44,6 +45,10 @@ public:
 		const Real33D::FMapPosition& Position, bool bSnap);
 
 	void SetFacing(uint8 Direction);
+
+	/** Presentation selected only from the server's already decoded outfit. */
+	void ApplyOutfit(uint16 OutfitId, bool bDisguisedAsObject,
+		const UReal33DAssetRegistry* Registry);
 
 	/**
 	 * Shows a line of speech above this creature for a while.
@@ -87,6 +92,16 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UStaticMeshComponent> Body = nullptr;
+
+	UPROPERTY()
+	TArray<TObjectPtr<USkeletalMeshComponent>> OutfitParts;
+	UPROPERTY()
+	TObjectPtr<UAnimSequence> IdleClip = nullptr;
+	UPROPERTY()
+	TObjectPtr<UAnimSequence> WalkClip = nullptr;
+	UPROPERTY()
+	TObjectPtr<UAnimSequence> CurrentClip = nullptr;
+	void PlayOutfitClip(UAnimSequence* Clip);
 
 	UPROPERTY()
 	TObjectPtr<UTextRenderComponent> NameTag = nullptr;

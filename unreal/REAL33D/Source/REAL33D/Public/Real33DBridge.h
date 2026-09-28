@@ -31,6 +31,7 @@ enum class EReal33DEventKind : uint8
 	CreatureAppeared,
 	CreatureMoved,
 	CreatureVanished,
+	CreatureAppearance,
 	Connected,
 	Disconnected,
 	Failed,
@@ -390,6 +391,9 @@ struct FReal33DEvent
 	Real33D::FMapPosition PreviousPosition;
 	uint32 CreatureId = 0;
 	FString CreatureName;
+	/** Appearance already decoded into WorldState, never inferred from name/id. */
+	uint16 OutfitId = 0;
+	bool bDisguisedAsObject = false;
 	/** enums.hh direction, or kNoDirection when the event has none. */
 	uint8 Direction = 0;
 	bool bIsLocalPlayer = false;
@@ -669,6 +673,9 @@ public:
 	uint64 GetChatRevision() const;
 
 	FReal33DStats GetStats() const;
+
+	/** Existing runtime objects.srv flag, never guessed from an item's id/name. */
+	bool RequiresUseTarget(uint16 TypeId) const;
 
 	/** Reads the connection config from the command line, or a sensible default. */
 	static FReal33DConnectionConfig ConfigFromCommandLine();

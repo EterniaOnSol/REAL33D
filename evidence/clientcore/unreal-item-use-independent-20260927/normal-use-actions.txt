@@ -1,0 +1,22 @@
+﻿[2026.09.28-05.40.45:246][  0]LogReal33D: Use With target cursor: existing asset loaded
+[2026.09.28-05.40.45:791][  0]LogReal33D: Use target metadata: 204 runtime MultiUse types
+[2026.09.28-05.42.37:213][  1]LogReal33D: server message [LoginMessage]: Your last visit in Tibia: 27. Sep 2026 23:24:30 CST.
+[2026.09.28-05.42.39:954][  1]LogReal33D: creature 1001 outfit 128: brother visual loaded parts=8 height=104.0
+[2026.09.28-05.42.39:956][  1]LogReal33D: creature 1073741976 outfit 128: brother visual loaded parts=8 height=104.0
+[2026.09.28-05.42.39:958][  1]LogReal33D: creature 1073742035 outfit 128: brother visual loaded parts=8 height=104.0
+[2026.09.28-05.42.39:959][  1]LogReal33D: creature 1073742106 outfit 136: delivered visual unavailable; placeholder
+[2026.09.28-05.42.40:197][  1]LogReal33D: creature 1073765627 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.09.28-05.42.40:224][  1]LogReal33D: creature 1073765633 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.09.28-05.42.56:612][233]LogReal33D: use-with begun with object 3272; waiting for a target
+[2026.09.28-05.42.57:609][273]LogReal33D: use-with 7: object 3272 on object 2524 at 32103,32203,6 stack 1
+[2026.09.28-05.42.57:778][280]LogStreaming: Display: FlushAsyncLoading(708): 1 QueuedPackages, 0 AsyncPackages
+[2026.09.28-05.42.57:797][280]LogTexture: Display: Building texture TwoD: /Game/Experimental/V08/ID_03135/03135/Textures/3135.3135 (TFO_AutoDXT, 32x32 x1x1x1) (Required Memory Estimate: 1.16142 MB), EncodeSpeed: Final
+[2026.09.28-05.42.57:810][280]LogStaticMesh: Display: Waiting on static mesh StaticMesh /Game/Experimental/V08/ID_03135/SM_V08_03135.SM_V08_03135 being ready before playing
+[2026.09.28-05.43.00:050][370]LogReal33D: creature 1073742035 outfit 128: brother visual loaded parts=8 height=104.0
+[2026.09.28-05.43.07:062][613]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.09.28-05.43.10:366][692]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.09.28-05.43.16:000][884]LogReal33D: creature 1073742035 outfit 128: brother visual loaded parts=8 height=104.0
+[2026.09.28-05.43.19:326][  0]LogReal33D: look 22 at body 0 slot 4
+[2026.09.28-05.43.19:413][  3]LogReal33D: server message [InfoMessage]: You see a jacket (Arm:1).
+[2026.09.28-05.43.23:990][165]LogReal33D: creature 1073742035 outfit 128: brother visual loaded parts=8 height=104.0
+[2026.09.28-05.43.33:994][454]LogReal33D: creature 1073742035 outfit 128: brother visual loaded parts=8 height=104.0

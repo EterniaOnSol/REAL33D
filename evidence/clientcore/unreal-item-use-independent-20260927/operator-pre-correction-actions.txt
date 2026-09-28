@@ -1,0 +1,134 @@
+﻿[2026.09.28-04.24.17:202][  1]LogReal33D: HUD vitals: HP --/--   Mana --/--   Level --
+[2026.09.28-04.24.17:263][  1]LogReal33D: server message [LoginMessage]: Your last visit in Tibia: 27. Sep 2026 22:17:39 CST.
+[2026.09.28-04.24.29:024][104]LogReal33D: HUD vitals: HP 150/150   Mana 0/0   Level 1
+[2026.09.28-04.24.58:927][354]LogReal33D: use 1 from world: object 1295 at 32093,32215,6 stack 0, would open as container 0
+[2026.09.28-04.24.59:018][358]LogReal33D: server message [FailureMessage]: First go upstairs.
+[2026.09.28-04.24.59:442][376]LogReal33D: use 2: object 2854 at body 0 slot 3, would open as container 0
+[2026.09.28-04.25.00:852][425]LogReal33D: use 4: object 2853 at container 0 slot 0, would open as container 1
+[2026.09.28-04.25.00:968][430]LogReal33D: use 6 from world: object 4533 at 32093,32214,7 stack 1, would open as container 1
+[2026.09.28-04.25.02:960][483]LogReal33D: use 7: object 2853 at container 0 slot 0, would open as container 1
+[2026.09.28-04.25.03:058][487]LogReal33D: use 8 from world: object 409 at 32093,32217,7 stack 0, would open as container 1
+[2026.09.28-04.25.04:757][529]LogReal33D: use 9: object 2853 at container 0 slot 0, would open as container 2
+[2026.09.28-04.25.05:019][531]LogReal33D: use 10 from world: object 409 at 32093,32220,7 stack 0, would open as container 2
+[2026.09.28-04.25.09:290][625]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.09.28-04.25.22:349][136]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.09.28-04.25.22:782][155]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.09.28-04.25.23:710][179]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.09.28-04.25.24:138][199]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.09.28-04.25.28:977][393]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.09.28-04.25.29:434][410]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.09.28-04.25.29:930][428]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.09.28-04.25.30:362][445]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.09.28-04.25.34:506][559]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.09.28-04.25.38:169][647]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.09.28-04.25.38:483][657]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.09.28-04.25.38:975][673]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.09.28-04.26.34:366][669]LogReal33D: use 57: object 2854 at body 0 slot 3, would open as container 2
+[2026.09.28-04.26.35:484][692]LogReal33D: use 58: object 2854 at body 0 slot 3, would open as container 0
+[2026.09.28-04.26.37:059][724]LogReal33D: use 59: object 3585 at container 1 slot 0, would open as container 2
+[2026.09.28-04.26.37:154][726]LogReal33D: use 60 from world: object 1735 at 32102,32209,7 stack 1, would open as container 2
+[2026.09.28-04.26.43:198][802]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.09.28-04.26.47:460][889]LogReal33D: use 61 from world: object 435 at 32097,32205,7 stack 1, would open as container 2
+[2026.09.28-04.26.48:277][901]LogReal33D: use 62 from world: object 870 at 32097,32204,7 stack 0, would open as container 2
+[2026.09.28-04.26.49:700][919]LogReal33D: use 63 from world: object 870 at 32098,32203,7 stack 0, would open as container 2
+[2026.09.28-04.26.50:162][925]LogReal33D: use 64 from world: object 870 at 32098,32202,7 stack 0, would open as container 2
+[2026.09.28-04.26.50:349][929]LogReal33D: use 65 from world: object 870 at 32097,32203,7 stack 0, would open as container 2
+[2026.09.28-04.26.50:813][933]LogReal33D: use 66 from world: object 870 at 32097,32203,7 stack 0, would open as container 2
+[2026.09.28-04.26.51:142][936]LogReal33D: use 67 from world: object 870 at 32097,32203,7 stack 0, would open as container 2
+[2026.09.28-04.26.51:276][939]LogReal33D: use 68 from world: object 870 at 32097,32202,7 stack 0, would open as container 2
+[2026.09.28-04.26.51:573][942]LogReal33D: use 69 from world: object 870 at 32097,32202,7 stack 0, would open as container 2
+[2026.09.28-04.26.51:834][947]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.09.28-04.26.52:858][968]LogReal33D: use 70 from world: object 870 at 32098,32207,7 stack 0, would open as container 2
+[2026.09.28-04.26.54:520][990]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.09.28-04.27.04:891][195]LogReal33D: use 71 from world: object 3614 at 32094,32200,7 stack 1, would open as container 2
+[2026.09.28-04.27.05:910][206]LogReal33D: use 72 from world: object 4515 at 32100,32200,7 stack 0, would open as container 2
+[2026.09.28-04.27.06:347][211]LogReal33D: use 73 from world: object 2014 at 32100,32203,7 stack 2, would open as container 2
+[2026.09.28-04.27.06:524][215]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.09.28-04.27.09:967][285]LogReal33D: look 74 at world point 32100,32203,7
+[2026.09.28-04.27.10:063][287]LogReal33D: server message [InfoMessage]: You see a sign.
+[2026.09.28-04.27.10:561][297]LogReal33D: look 75 at world point 32101,32202,7
+[2026.09.28-04.27.10:615][298]LogReal33D: server message [InfoMessage]: You see a blueberry bush.
+[2026.09.28-04.27.14:072][368]LogReal33D: look 76 at world point 32101,32202,7
+[2026.09.28-04.27.14:126][369]LogReal33D: server message [InfoMessage]: You see a blueberry bush.
+[2026.09.28-04.27.14:915][385]LogReal33D: look 77 at world point 32101,32202,7
+[2026.09.28-04.27.14:963][386]LogReal33D: server message [InfoMessage]: You see a blueberry bush.
+[2026.09.28-04.27.15:306][393]LogReal33D: look 78 at world point 32099,32202,7
+[2026.09.28-04.27.15:403][395]LogReal33D: server message [InfoMessage]: You see grass.
+[2026.09.28-04.27.15:702][401]LogReal33D: look 79 at world point 32100,32202,7
+[2026.09.28-04.27.15:849][404]LogReal33D: server message [InfoMessage]: You see a small fir tree.
+[2026.09.28-04.27.16:102][409]LogReal33D: look 80 at world point 32100,32203,7
+[2026.09.28-04.27.16:194][411]LogReal33D: server message [InfoMessage]: You see a sign.
+[2026.09.28-04.27.16:542][418]LogReal33D: look 81 at world point 32097,32206,7
+[2026.09.28-04.27.16:643][420]LogReal33D: server message [InfoMessage]: You see cobbled pavement.
+[2026.09.28-04.27.36:643][821]LogReal33D: look 82 at body 0 slot 4
+[2026.09.28-04.27.36:745][823]LogReal33D: look 83 at world point 32110,32208,5
+[2026.09.28-04.27.36:746][823]LogReal33D: server message [InfoMessage]: You see a jacket (Arm:1).
+[2026.09.28-04.27.36:837][825]LogReal33D: server message [InfoMessage]: You see a flat roof.
+[2026.09.28-04.27.37:423][837]LogReal33D: look 84 at body 0 slot 4
+[2026.09.28-04.27.37:472][838]LogReal33D: server message [InfoMessage]: You see a jacket (Arm:1).
+[2026.09.28-04.27.37:516][839]LogReal33D: look 85 at world point 32109,32208,5
+[2026.09.28-04.27.37:562][840]LogReal33D: server message [InfoMessage]: You see a flat roof.
+[2026.09.28-04.27.38:434][858]LogReal33D: look 86 at body 0 slot 6
+[2026.09.28-04.27.38:521][860]LogReal33D: look 87 at world point 32109,32208,5
+[2026.09.28-04.27.38:521][860]LogReal33D: server message [InfoMessage]: You see a rapier (Atk:10 Def:8).
+[2026.09.28-04.27.38:614][862]LogReal33D: server message [InfoMessage]: You see a flat roof.
+[2026.09.28-04.27.39:003][870]LogReal33D: look 88 at body 0 slot 6
+[2026.09.28-04.27.39:103][872]LogReal33D: server message [InfoMessage]: You see a rapier (Atk:10 Def:8).
+[2026.09.28-04.27.39:150][873]LogReal33D: look 89 at world point 32108,32208,5
+[2026.09.28-04.27.39:244][875]LogReal33D: server message [InfoMessage]: You see a flat roof.
+[2026.09.28-04.27.39:816][887]LogReal33D: look 90 at body 0 slot 3
+[2026.09.28-04.27.39:908][889]LogReal33D: server message [InfoMessage]: You see a backpack (Vol:20).
+[2026.09.28-04.27.40:328][898]LogReal33D: look 91 at body 0 slot 3
+[2026.09.28-04.27.40:424][900]LogReal33D: server message [InfoMessage]: You see a backpack (Vol:20).
+[2026.09.28-04.27.41:333][919]LogReal33D: look 92 at container 0 slot 0
+[2026.09.28-04.27.41:425][921]LogReal33D: look 93 at world point 32105,32210,6
+[2026.09.28-04.27.41:425][921]LogReal33D: server message [InfoMessage]: You see a bag (Vol:8).
+[2026.09.28-04.27.41:523][923]LogReal33D: server message [InfoMessage]: You see a framework wall.
+[2026.09.28-04.27.41:861][930]LogReal33D: look 94 at container 0 slot 0
+[2026.09.28-04.27.41:957][932]LogReal33D: look 95 at world point 32105,32210,6
+[2026.09.28-04.27.41:964][932]LogReal33D: server message [InfoMessage]: You see a bag (Vol:8).
+[2026.09.28-04.27.42:099][935]LogReal33D: server message [InfoMessage]: You see a framework wall.
+[2026.09.28-04.27.42:810][950]LogReal33D: use 96: object 2853 at container 0 slot 0, would open as container 2
+[2026.09.28-04.27.42:910][952]LogReal33D: use 97 from world: object 1282 at 32105,32210,6 stack 1, would open as container 2
+[2026.09.28-04.27.42:958][953]LogReal33D: server message [FailureMessage]: First go upstairs.
+[2026.09.28-04.27.43:482][964]LogReal33D: use 98: object 2853 at container 0 slot 0, would open as container 2
+[2026.09.28-04.27.43:578][966]LogReal33D: use 99 from world: object 1282 at 32105,32210,6 stack 1, would open as container 2
+[2026.09.28-04.27.43:631][967]LogReal33D: server message [FailureMessage]: First go upstairs.
+[2026.09.28-04.27.44:140][978]LogReal33D: look 100 at container 0 slot 0
+[2026.09.28-04.27.44:190][979]LogReal33D: server message [InfoMessage]: You see a bag (Vol:8).
+[2026.09.28-04.27.44:282][981]LogReal33D: look 101 at world point 32105,32210,6
+[2026.09.28-04.27.44:344][982]LogReal33D: server message [InfoMessage]: You see a framework wall.
+[2026.09.28-04.28.23:251][770]LogReal33D: use 102 from world: object 870 at 32097,32203,7 stack 0, would open as container 2
+[2026.09.28-04.28.23:932][781]LogReal33D: use 103 from world: object 4535 at 32095,32203,7 stack 1, would open as container 2
+[2026.09.28-04.28.25:197][794]LogReal33D: use 104 from world: object 870 at 32091,32200,7 stack 0, would open as container 2
+[2026.09.28-04.28.28:363][823]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.09.28-04.29.18:068][835]LogReal33D: use 105 from world: object 435 at 32097,32205,7 stack 1, would open as container 2
+[2026.09.28-04.29.25:330][898]LogReal33D: use 106 from world: object 374 at 32101,32211,8 stack 0, would open as container 2
+[2026.09.28-04.29.25:681][907]LogReal33D: server message [FailureMessage]: There is no way.
+[2026.09.28-04.29.31:923][ 79]LogReal33D: use 107 from world: object 2772 at 32098,32204,8 stack 1, would open as container 2
+[2026.09.28-04.29.34:167][142]LogReal33D: use 108 from world: object 2773 at 32098,32204,8 stack 1, would open as container 2
+[2026.09.28-04.29.35:406][178]LogReal33D: use 109 from world: object 1948 at 32097,32205,8 stack 1, would open as container 2
+[2026.09.28-04.29.57:748][671]LogReal33D: use 110: object 2853 at container 0 slot 0, would open as container 2
+[2026.09.28-04.29.57:841][673]LogReal33D: use 111 from world: object 1286 at 32102,32210,6 stack 0, would open as container 2
+[2026.09.28-04.29.57:929][675]LogReal33D: server message [FailureMessage]: First go upstairs.
+[2026.09.28-04.29.58:660][693]LogReal33D: use 112: object 2853 at container 0 slot 0, would open as container 2
+[2026.09.28-04.29.58:743][695]LogReal33D: use 113 from world: object 1286 at 32102,32210,6 stack 0, would open as container 2
+[2026.09.28-04.29.58:861][698]LogReal33D: server message [FailureMessage]: First go upstairs.
+[2026.09.28-04.29.59:194][706]LogReal33D: use 114 from world: object 1286 at 32102,32210,6 stack 0, would open as container 1
+[2026.09.28-04.29.59:239][707]LogReal33D: server message [FailureMessage]: First go upstairs.
+[2026.09.28-04.30.07:135][857]LogReal33D: server message [FailureMessage]: You may not attack this person.
+[2026.09.28-04.31.35:773][696]LogReal33D: use 122 from world: object 870 at 32096,32203,7 stack 0, would open as container 1
+[2026.09.28-04.31.36:934][710]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.09.28-04.31.38:320][743]LogReal33D: use 123 from world: object 870 at 32097,32201,7 stack 0, would open as container 1
+[2026.09.28-04.31.40:461][768]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.09.28-04.31.41:245][787]LogReal33D: look 124 at world point 32099,32200,7
+[2026.09.28-04.31.41:329][789]LogReal33D: server message [InfoMessage]: You see a sign.
+[2026.09.28-04.31.42:763][823]LogReal33D: use 125 from world: object 2012 at 32099,32200,7 stack 2, would open as container 1
+[2026.09.28-04.31.43:197][828]LogReal33D: use 126 from world: object 2012 at 32099,32200,7 stack 2, would open as container 1
+[2026.09.28-04.31.43:655][834]LogReal33D: use 127 from world: object 4515 at 32100,32200,7 stack 0, would open as container 1
+[2026.09.28-04.31.44:383][846]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.09.28-04.31.44:618][852]LogReal33D: use 128 from world: object 4515 at 32100,32200,7 stack 0, would open as container 1
+[2026.09.28-04.31.44:739][855]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.09.28-04.31.45:532][874]LogReal33D: use 129 from world: object 2012 at 32099,32200,7 stack 2, would open as container 1
+[2026.09.28-04.31.45:611][876]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.09.28-04.32.54:560][421]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\unreal-item-use-interaction-001\build\cert-item-use-20260927\v08-icons/unreal_slice_evidence.json

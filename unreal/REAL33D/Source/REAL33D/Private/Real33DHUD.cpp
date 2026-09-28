@@ -91,7 +91,7 @@ TSharedRef<SWidget> SReal33DHUD::MakeViewportFrame()
 		];
 }
 
-TSharedRef<SWidget> SReal33DHUD::MakeBottomPanel()
+TSharedRef<SWidget> SReal33DHUD::MakeBottomPanel(const FReal33DOnTypingChanged& OnTypingChanged)
 {
 	const ISlateStyle& Style = FReal33DUIStyle::Get();
 
@@ -129,7 +129,9 @@ TSharedRef<SWidget> SReal33DHUD::MakeBottomPanel()
 				.Padding(FMargin(0.0f))
 				[
 					SAssignNew(ChatPanel, SReal33DChatPanel)
-					.Embedded(true)
+						.Bridge(Bridge)
+						.OnTypingChanged(OnTypingChanged)
+						.Embedded(true)
 				]
 			]
 		];
@@ -330,7 +332,7 @@ void SReal33DHUD::Construct(const FArguments& InArgs)
 			+ SVerticalBox::Slot()
 			.AutoHeight()
 			[
-				MakeBottomPanel()
+				MakeBottomPanel(InArgs._OnTypingChanged)
 			]
 		]
 
@@ -431,15 +433,13 @@ void SReal33DHUD::HandleSlotUsed(FReal33DSlotRef Slot, EReal33DSlotAction Action
 		return;
 	}
 
-	if (Action == EReal33DSlotAction::UseWith)
+	if (Action == EReal33DSlotAction::UseWith || Live->RequiresUseTarget(Slot.TypeId))
 	{
 		// Nothing goes out yet. The command needs two ends and only one is
 		// known, so the client waits for the click that names the other.
-		Pending.bActive = true;
-		Pending.Object = Slot;
-		UpdateTargetingBanner();
-		UE_LOG(LogReal33D, Log,
-			TEXT("use-with begun with object %u; waiting for a target"), Slot.TypeId);
+		BeginUseTarget(Slot.Kind == FReal33DSlotRef::EKind::Container
+			? UReal33DBridge::FMoveSlot::InContainer(Slot.Container, Slot.Slot)
+			: UReal33DBridge::FMoveSlot::InInventory(Slot.Slot), Slot.TypeId, Slot.Slot);
 		return;
 	}
 
@@ -481,10 +481,10 @@ bool SReal33DHUD::HandleSlotPicked(FReal33DSlotRef Slot)
 	};
 
 	const uint32 UseId = Live->RequestUseWithObject(
-		ToSlot(Pending.Object), Pending.Object.TypeId, Pending.Object.Slot,
+		Pending.Source, Pending.TypeId, Pending.StackIndex,
 		ToSlot(Slot), Slot.TypeId, Slot.Slot);
 	UE_LOG(LogReal33D, Log, TEXT("use-with %u: object %u on object %u in a slot"),
-		UseId, Pending.Object.TypeId, Slot.TypeId);
+		UseId, Pending.TypeId, Slot.TypeId);
 
 	CancelTargeting();
 	return true;
@@ -536,15 +536,10 @@ bool SReal33DHUD::CompleteUseOnCreature(uint32 CreatureId)
 	UReal33DBridge* Live = Bridge.Get();
 	if (Live != nullptr && Live->IsRunning())
 	{
-		const UReal33DBridge::FMoveSlot Object =
-			Pending.Object.Kind == FReal33DSlotRef::EKind::Container
-				? UReal33DBridge::FMoveSlot::InContainer(
-					Pending.Object.Container, Pending.Object.Slot)
-				: UReal33DBridge::FMoveSlot::InInventory(Pending.Object.Slot);
 		const uint32 UseId = Live->RequestUseOnCreature(
-			Object, Pending.Object.TypeId, Pending.Object.Slot, CreatureId);
+			Pending.Source, Pending.TypeId, Pending.StackIndex, CreatureId);
 		UE_LOG(LogReal33D, Log, TEXT("use-with %u: object %u on creature %u"),
-			UseId, Pending.Object.TypeId, CreatureId);
+			UseId, Pending.TypeId, CreatureId);
 	}
 	CancelTargeting();
 	return true;
@@ -560,17 +555,12 @@ bool SReal33DHUD::CompleteUseOnField(const Real33D::FMapPosition& Position,
 	UReal33DBridge* Live = Bridge.Get();
 	if (Live != nullptr && Live->IsRunning())
 	{
-		const UReal33DBridge::FMoveSlot Object =
-			Pending.Object.Kind == FReal33DSlotRef::EKind::Container
-				? UReal33DBridge::FMoveSlot::InContainer(
-					Pending.Object.Container, Pending.Object.Slot)
-				: UReal33DBridge::FMoveSlot::InInventory(Pending.Object.Slot);
 		const uint32 UseId = Live->RequestUseWithObject(
-			Object, Pending.Object.TypeId, Pending.Object.Slot,
+			Pending.Source, Pending.TypeId, Pending.StackIndex,
 			UReal33DBridge::FMoveSlot::OnMap(Position), TypeId, StackIndex);
 		UE_LOG(LogReal33D, Log,
 			TEXT("use-with %u: object %u on object %u at %d,%d,%d stack %u"),
-			UseId, Pending.Object.TypeId, TypeId,
+			UseId, Pending.TypeId, TypeId,
 			Position.X, Position.Y, Position.Z, StackIndex);
 	}
 	CancelTargeting();
@@ -588,6 +578,11 @@ bool SReal33DHUD::UseWorldObject(const Real33D::FMapPosition& Position,
 	if (Live == nullptr || !Live->IsRunning())
 	{
 		return false;
+	}
+	if (Live->RequiresUseTarget(TypeId))
+	{
+		BeginUseTarget(UReal33DBridge::FMoveSlot::OnMap(Position), TypeId, StackIndex);
+		return true;
 	}
 	const uint8 OpenAs = FirstFreeContainerNumber();
 	const uint32 UseId = Live->RequestUseObject(
@@ -608,6 +603,17 @@ bool SReal33DHUD::LookAtWorldPoint(const Real33D::FMapPosition& Position)
 	return LookId != 0;
 }
 
+void SReal33DHUD::BeginUseTarget(const UReal33DBridge::FMoveSlot& Source,
+	uint16 TypeId, uint8 StackIndex)
+{
+	Pending.bActive = true;
+	Pending.Source = Source;
+	Pending.TypeId = TypeId;
+	Pending.StackIndex = StackIndex;
+	UpdateTargetingBanner();
+	UE_LOG(LogReal33D, Log, TEXT("use-with begun with object %u; waiting for a target"), TypeId);
+}
+
 void SReal33DHUD::CancelTargeting()
 {
 	if (!Pending.bActive)
@@ -620,6 +626,9 @@ void SReal33DHUD::CancelTargeting()
 
 void SReal33DHUD::UpdateTargetingBanner()
 {
+	// Slots are Slate widgets; their inherited cursor must match the world view.
+	SetCursor(Pending.bActive ? TOptional<EMouseCursor::Type>(EMouseCursor::Crosshairs)
+		: TOptional<EMouseCursor::Type>());
 	if (TargetingBanner.IsValid())
 	{
 		TargetingBanner->SetVisibility(Pending.bActive

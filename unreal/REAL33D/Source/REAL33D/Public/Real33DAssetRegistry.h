@@ -6,6 +6,16 @@
 #include "UObject/Object.h"
 #include "Real33DAssetRegistry.generated.h"
 
+class USkeletalMesh;
+class UAnimSequence;
+
+struct FReal33DCreatureVisual
+{
+	TArray<USkeletalMesh*> Meshes;
+	UAnimSequence* Idle = nullptr;
+	UAnimSequence* Walk = nullptr;
+};
+
 /**
  * The indirection between a Fusion32 identity and the Unreal asset that draws
  * it.
@@ -127,6 +137,7 @@ public:
 
 	/** Resolves a creature, which may be this client's own player. */
 	FReal33DVisual ResolveCreature(uint32 CreatureId, bool bIsLocalPlayer) const;
+	FReal33DCreatureVisual ResolveOutfit(uint16 OutfitId) const;
 
 	bool IsReady() const { return bReady; }
 
@@ -139,6 +150,7 @@ public:
 private:
 	FReal33DVisual MakePlaceholder(EReal33DVisualKind Kind) const;
 	void LoadExperimentalCatalog(bool bWideWorldRequired = false);
+	void LoadBrotherCreatureCatalog();
 	bool TryResolveExperimental(uint16 TypeId, FReal33DVisual& OutVisual) const;
 
 	UPROPERTY()
@@ -164,6 +176,8 @@ private:
 	TArray<FReal33DExperimentalCatalogEntry> ExperimentalCatalog;
 
 	TMap<uint16, int32> ExperimentalCatalogById;
+	struct FCreaturePaths { TArray<FString> Meshes; FString Idle, Walk; };
+	TMap<uint16, FCreaturePaths> BrotherCreatures;
 	bool bExperimentalCatalogEnabled = false;
 
 	bool bReady = false;

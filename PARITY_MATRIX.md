@@ -1,5 +1,32 @@
 # Parity Matrix
 
+Latest independent check: three distinct world Looks, slot Looks, normal Say,
+world/inventory/container Use and valid Use With reproduced with authoritative
+results. Final automatic MultiUse entry from normal Use has tests/build PASS
+and live rapier-to-trough confirmation. Corrected interaction milestone CERTIFIED.
+Rune spell effects remain IMPLEMENTED_UNVERIFIED live. Original cursor confirmed;
+16 original creature outfits imported, matching outfit 128 shown and accepted
+with defects for now. Complete art coverage/certification is not claimed.
+
+## Item interaction correction during independent certification (2026-09-27)
+
+Operator requested left-click walking, Shift-left-click or left+right-click
+Look, and right-click Use. Mouse gesture tests, relevant native ClientCore
+tests, Unreal build and secret_check are `PASS`. Corrected live gestures and
+click walking are `IMPLEMENTED_UNVERIFIED` pending a new operator session.
+The previous fresh session returned authoritative world and slot descriptions,
+but slot releases also issued unwanted world actions; it does not certify
+input isolation. Independent world Use and a valid Use With effect still
+require retained successful results. No protocol, Fusion32 rule, 2D, agent or
+V08 art change. Overall milestone is not `CERTIFIED`.
+
+Follow-up live mouse run: operator confirmed walking and Use; EndPlay retained
+37 accepted steps and open backpack/bag. World Use caused authoritative floor
+changes. Look descriptions reached the transcript but were invisible, and
+Local Chat could not send: visible Look FAILED that run. The HUD had omitted
+ChatPanel's Bridge and OnTypingChanged arguments. Forwarding them built PASS;
+visual Look/chat and a valid fresh Use With still require live validation.
+
 > **2D client note (2026-09-21).** The `2D<->3D parity` column now refers to
 > **REAL33D 2D**, the mehah/OTClient-derived production client, not to the
 > official `Tibia.exe` 7.72, which is QA/parity/reference only.

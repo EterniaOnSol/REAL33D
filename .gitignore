@@ -76,6 +76,7 @@ CMakeFiles/
 # its own local copy of the data; without them the panels fall back to showing
 # the object's numeric type id, which is still exactly what the server sent.
 /unreal/REAL33D/Resources/UI/Items/
+/unreal/REAL33D/Content/Experimental/BrotherCreatures/
 
 # Acceptance-run screenshots of the Unreal client. They render item pictures
 # cut from CipSoft's client data, exactly like the pictures themselves, so they

@@ -1,4 +1,5 @@
 #include "Real33DWorldActor.h"
+#include "Algo/Reverse.h"
 
 #include "Camera/CameraComponent.h"
 #include "Async/Async.h"
@@ -186,6 +187,53 @@ AReal33DCreature* AReal33DWorld::GetLocalPlayer() const
 	}
 	const TObjectPtr<AReal33DCreature>* Found = Creatures.Find(LocalCreatureId);
 	return Found != nullptr ? Found->Get() : nullptr;
+}
+
+bool AReal33DWorld::IsKnownWalkTile(const FIntVector& Key) const
+{
+	const auto* Found = Tiles.Find(Key);
+	const AReal33DTile* Tile = Found ? Found->Get() : nullptr;
+	if (!Tile || Tile->GetThings().IsEmpty()) return false;
+	for (const FReal33DThing& Thing : Tile->GetThings())
+	{
+		if (Thing.bBlocking || (Thing.bIsCreature && Thing.CreatureId != LocalCreatureId)) return false;
+	}
+	return true; // A planning hint; only Fusion32 can accept the actual step.
+}
+
+bool AReal33DWorld::FindKnownWalkPath(const Real33D::FMapPosition& Target,
+	TArray<FIntVector>& OutPath) const
+{
+	OutPath.Reset();
+	const AReal33DCreature* Self = GetLocalPlayer();
+	if (!Self || Target.Z != Self->GetLogicalPosition().Z) return false;
+	const auto& Position = Self->GetLogicalPosition();
+	const FIntVector Start(Position.X, Position.Y, Position.Z);
+	const FIntVector Goal(Target.X, Target.Y, Target.Z);
+	if (Goal == Start) return true;
+	if (!IsKnownWalkTile(Goal)) return false;
+	TArray<FIntVector> Queue{Start};
+	TMap<FIntVector, FIntVector> Parents;
+	Parents.Add(Start, Start);
+	const FIntVector Offsets[] = {{0,-1,0}, {1,0,0}, {0,1,0}, {-1,0,0}};
+	for (int32 Index = 0; Index < Queue.Num(); ++Index)
+	{
+		for (const FIntVector& Offset : Offsets)
+		{
+			const FIntVector Next = Queue[Index] + Offset;
+			if (Parents.Contains(Next) || !IsKnownWalkTile(Next)) continue;
+			Parents.Add(Next, Queue[Index]);
+			if (Next == Goal)
+			{
+				for (FIntVector At = Goal; At != Start; At = Parents.FindChecked(At))
+					OutPath.Add(At);
+				Algo::Reverse(OutPath);
+				return true;
+			}
+			Queue.Add(Next);
+		}
+	}
+	return false;
 }
 
 void AReal33DWorld::GetBattleList(TArray<FReal33DBattleEntry>& OutEntries) const
@@ -552,6 +600,7 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 		Creature->SetHealthPercent(Event.HealthPercent);
 		Creature->Configure(Event.CreatureId, Event.bIsLocalPlayer, Event.CreatureName,
 			Registry);
+		Creature->ApplyOutfit(Event.OutfitId, Event.bDisguisedAsObject, Registry);
 		Creature->SetCombatFeedback(
 			Combat.TargetCreatureId == Event.CreatureId && !Combat.bFollowing,
 			Combat.TargetCreatureId == Event.CreatureId && Combat.bFollowing);
@@ -584,6 +633,13 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 		(*Found)->CommitPosition(Origin, Event.Position, /*bSnap=*/false);
 		++CreatureMoves;
 		bFloorVisibilityDirty = true;
+		break;
+	}
+
+	case EReal33DEventKind::CreatureAppearance:
+	{
+		if (auto* Found = Creatures.Find(Event.CreatureId); Found && Found->Get())
+			(*Found)->ApplyOutfit(Event.OutfitId, Event.bDisguisedAsObject, Registry);
 		break;
 	}
 

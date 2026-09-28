@@ -1,0 +1,20 @@
+﻿[2026.09.28-04.51.08:163][  1]LogReal33D: server message [LoginMessage]: Your last visit in Tibia: 27. Sep 2026 22:42:44 CST.
+[2026.09.28-04.51.21:803][276]LogReal33D: look 1 at world point 32097,32205,7
+[2026.09.28-04.51.21:880][279]LogReal33D: server message [InfoMessage]: You see a sewer grate.
+[2026.09.28-04.51.23:741][351]LogReal33D: look 2 at world point 32095,32205,7
+[2026.09.28-04.51.23:819][354]LogReal33D: server message [InfoMessage]: You see yourself. You have no vocation.
+[2026.09.28-04.51.27:405][493]LogReal33D: look 3 at world point 32095,32205,7
+[2026.09.28-04.51.27:479][496]LogReal33D: server message [InfoMessage]: You see yourself. You have no vocation.
+[2026.09.28-04.51.28:227][526]LogReal33D: look 4 at world point 32097,32204,7
+[2026.09.28-04.51.28:326][530]LogReal33D: server message [InfoMessage]: You see cobbled pavement.
+[2026.09.28-04.51.28:852][551]LogReal33D: look 5 at world point 32098,32203,7
+[2026.09.28-04.51.28:909][553]LogReal33D: server message [InfoMessage]: You see cobbled pavement.
+[2026.09.28-04.51.30:571][620]LogReal33D: look 6 at world point 32094,32206,7
+[2026.09.28-04.51.30:666][624]LogReal33D: server message [InfoMessage]: You see a street lamp.
+[2026.09.28-04.51.32:057][678]LogReal33D: use 7: object 2854 at body 0 slot 3, would open as container 0
+[2026.09.28-04.51.32:939][712]LogReal33D: use 8: object 2854 at body 0 slot 3, would open as container 1
+[2026.09.28-04.51.44:862][122]LogReal33D: Say 9: "testing" handed to Fusion32
+[2026.09.28-04.51.44:974][126]LogReal33D: talk [Say] at 32095,32205,7, Test Player A: "testing"  speaker Resolved creature 1001
+[2026.09.28-04.51.55:136][419]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\unreal-item-use-interaction-001\build\cert-item-use-20260927\corrected-chat/unreal_slice_evidence_Manual.json
+[2026.09.28-04.51.55:136][419]LogReal33D: manual evidence snapshot requested
+[2026.09.28-04.51.57:488][438]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\unreal-item-use-interaction-001\build\cert-item-use-20260927\corrected-chat/unreal_slice_evidence.json
