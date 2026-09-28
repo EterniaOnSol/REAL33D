@@ -1,0 +1,12 @@
+﻿{
+    "schema":  "real33d.minimap.independent.repository.v1",
+    "context":  "fresh remote clone",
+    "branch":  "milestone/unreal-minimap-navigation-001",
+    "candidate":  "ea53eccc58d29fd5fa358108a4278853aa21b130",
+    "remote_candidate":  "ea53eccc58d29fd5fa358108a4278853aa21b130",
+    "base_origin_main":  "a97cf25e7449a8a3ef35ef2553181c5032c7a247",
+    "initial_worktree_clean":  true,
+    "feature_source_unchanged":  true,
+    "previous_evidence_modified":  false,
+    "minimap_cache_copied":  false
+}

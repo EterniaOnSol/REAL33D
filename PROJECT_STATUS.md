@@ -1,5 +1,16 @@
 # Project Status
 
+2026-09-28 independent run IMPLEMENTED_UNVERIFIED for published candidate
+ea53eccc58d29fd5fa358108a4278853aa21b130, UNREAL-MINIMAP-NAVIGATION-001.
+Milestone remains PASS LOCAL / NOT CERTIFIED. Fresh clone tests/editor build,
+known-map/cache retention and real unknown-goal discovery/extension passed.
+Missing independent floor round-trip, manual south, known-minimap arrival,
+authoritative blocked-route and Follow/container checkpoints prevent certification.
+The operator requested immediate commit/push of evidence and status only.
+Original PASS-local evidence is preserved; no feature/protocol/rules/art edits,
+original checkout edits, polish or main merge. Resume certification next.
+See the new independent report and current handoff.
+
 2026-09-28 closeout: `UNREAL-MINIMAP-NAVIGATION-001 = PASS` local,
 isolated branch `milestone/unreal-minimap-navigation-001`, base
 `a97cf25e7449a8a3ef35ef2553181c5032c7a247`. The certified item-use milestone
@@ -17,7 +28,7 @@ directions, cache restoration, 7->6->7 floor round trip, Follow/Stop and zero
 protocol errors are retained. Operator confirms the remaining UI interactions;
 individual pan/zoom/recenter/container checkpoints are limited. Native nine
 suites, pure view/palette, sanitizers, Unreal build and secret check pass.
-Independent certification is NOT_STARTED; this milestone remains unmerged.
+Independent certification is IMPLEMENTED_UNVERIFIED; this milestone remains unmerged.
 See `docs/UNREAL_MINIMAP_NAVIGATION.md` and the current handoff.
 
 Latest independent run: world/slot Look and normal chat visibly confirmed after
@@ -30,8 +41,8 @@ not 156 finished 3D models. Corrected interaction milestone is CERTIFIED;
 rune spell effects and complete art coverage remain unverified.
 
 Current phase: `PHASE 2 - GAMEPLAY CLIENT PROGRAMMING` (`IN_PROGRESS`; the first 3D representation is live, a stock 2D client now completes the ordinary 7.72 flow, and V08 visual review is on operator-directed standby)
-Current milestone: UNREAL-MINIMAP-NAVIGATION-001 — `PASS` local; independent certification `NOT_STARTED`. See `evidence/clientcore/UNREAL-MINIMAP-NAVIGATION-001.md` for live results and evidence limits.
-Next task: independently certify UNREAL-MINIMAP-NAVIGATION-001 before merging. Recommended next implementation milestone: UNREAL-WORLD-PRESENTATION-POLISH-001; define scope separately, following the operator's world-presentation feedback.
+Current milestone: UNREAL-MINIMAP-NAVIGATION-001 — `PASS` local; independent run `IMPLEMENTED_UNVERIFIED`, NOT CERTIFIED. See `evidence/clientcore/UNREAL-MINIMAP-NAVIGATION-001-INDEPENDENT-20260928.md` for new evidence and missing required coverage; original local PASS evidence remains unchanged.
+Next task: complete the missing independent minimap certification checkpoints before merging. WORLD-PRESENTATION-POLISH has not started.
 Last certified: UNREAL-ITEM-USE-INTERACTION-001 at `a97cf25e7449a8a3ef35ef2553181c5032c7a247`, now integrated main. Original candidate `3528459` is not retroactively certified. Rune spell effects and complete art coverage remain `IMPLEMENTED_UNVERIFIED`. Prior combat/follow, inventory/containers and WideWorld certifications remain preserved.
 Branch: `milestone/unreal-minimap-navigation-001` (from integrated `origin/main`, not merged)
 Classic baseline review commit: `f65f3a7645ff40b39b7cc8399760fd4f0b69ecee`

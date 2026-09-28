@@ -1,0 +1,412 @@
+{
+  "schema": "real33d.minimap.independent.boundary.v1",
+  "source": "legitimate client-owned cache",
+  "cache_sha256": "bb9426e7d965206fda58d0c1868629487aa4aca70b642e3b2a98e934c70fe03f",
+  "count": 842,
+  "floors": {
+    "7": {
+      "count": 842,
+      "min_x": 32079,
+      "max_x": 32106,
+      "min_y": 32144,
+      "max_y": 32226
+    }
+  },
+  "queries": [
+    {
+      "position": [
+        32097,
+        32206,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        870,
+        0,
+        870
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32097,
+        32207,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        870,
+        0,
+        870
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32097,
+        32208,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        870,
+        0,
+        870
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32097,
+        32209,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        870,
+        0,
+        870
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32097,
+        32210,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        870,
+        0,
+        870
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32097,
+        32211,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        870,
+        0,
+        870
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32097,
+        32212,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        870,
+        0,
+        870
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32097,
+        32213,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        870,
+        0,
+        870
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32096,
+        32213,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        870,
+        0,
+        870
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32095,
+        32213,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        870,
+        0,
+        870
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32094,
+        32213,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        870,
+        0,
+        870
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32093,
+        32213,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32093,
+        32214,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32092,
+        32214,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32091,
+        32214,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32090,
+        32214,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32090,
+        32215,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32090,
+        32216,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32090,
+        32217,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32090,
+        32218,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32090,
+        32219,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32089,
+        32219,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32089,
+        32220,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32089,
+        32221,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32089,
+        32222,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32089,
+        32223,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32089,
+        32224,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32089,
+        32225,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    }
+  ],
+  "network_commands": 0,
+  "cache_modified": false,
+  "limitation": "Bounds summarize observed coordinates, not a filled/traversable rectangle. Cache may lag memory; compare the live known count before accepting the checkpoint."
+}

@@ -1,0 +1,96 @@
+{
+  "schema": "real33d.minimap.qa.v1",
+  "session": "live-20260928T140632",
+  "observations": [
+    {
+      "time": "2026.09.28-20.07.56:691",
+      "position": [
+        32069,
+        32232,
+        7
+      ],
+      "known": 1494,
+      "live": 252
+    }
+  ],
+  "floor_transitions": [],
+  "accepted_by_direction": {},
+  "movement": [],
+  "snapshots": [
+    {
+      "written_at": "2026-09-28T20:07:56.635Z",
+      "reason": "EndPlay",
+      "seconds_in_session": 66.1,
+      "local_position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "anchor": {
+        "x": 32069,
+        "y": 32232,
+        "z": 7
+      },
+      "minimap": {
+        "player_known": false,
+        "x": 0,
+        "y": 0,
+        "z": 0,
+        "known_cells": 1494,
+        "live_cells": 0
+      },
+      "clientcore": {
+        "frames": 2,
+        "commands": 10,
+        "residual_bytes": 0,
+        "unsupported_opcodes": 0,
+        "protocol_anomalies": 0,
+        "walks_requested_from_unreal": 0,
+        "walks_accepted": 0,
+        "walks_rejected": 0,
+        "walks_unanswered": 0,
+        "external_relocations": 0,
+        "local_player_moves_total": 0,
+        "says_requested": 0,
+        "moves_requested": 0,
+        "uses_requested": 0,
+        "looks_requested": 0,
+        "attacks_requested": 0,
+        "follows_requested": 0,
+        "combat_cancels_requested": 0,
+        "tactics_requested": 0,
+        "target_clears_received": 0,
+        "worldstate_tiles": 298,
+        "worldstate_visible_creatures": 1,
+        "viewport_synchronised": true
+      },
+      "presentation": {
+        "tile_actors": 0,
+        "creature_actors": 0,
+        "tiles_spawned": 0,
+        "tiles_removed": 0,
+        "creatures_appeared": 0,
+        "creatures_vanished": 0,
+        "creature_moves": 0,
+        "duplicate_spawn_attempts": 0,
+        "orphan_events": 0,
+        "speech_shown_on_creature": 0,
+        "speech_shown_in_chat_area_only": 0,
+        "server_messages_received": 0,
+        "client_notices_raised": 0,
+        "chat_transcript_lines": 0,
+        "speech_seconds_NOT_PROVEN": 6.0
+      },
+      "inventory_known": false,
+      "open_containers": 0
+    }
+  ],
+  "cache_events": [
+    "minimap cache load: accepted cells=1494",
+    "minimap cache saved: cells=1494"
+  ],
+  "ui_events": [],
+  "navigation_events": [],
+  "combat_events": [],
+  "limitations": "Counters and renderer traces do not substitute for visual/interaction verification."
+}

@@ -1,7 +1,16 @@
 # Parity Matrix
 
+Independent minimap run IMPLEMENTED_UNVERIFIED, candidate ea53eccc58d29fd5fa358108a4278853aa21b130,
+fresh remote clone; milestone remains PASS LOCAL / NOT CERTIFIED. New build/tests,
+terrain retention, unknown-goal known-only segments/progressive extension and
+WideWorld coexistence are evidenced. Manual south, floor round-trip, known
+minimap arrival, authoritative obstruction and Follow/container smoke lack
+required new checkpoints. Operator requested immediate evidence/status commit
+and push. Previous local PASS evidence is preserved, not credited to this run.
+See UNREAL-MINIMAP-NAVIGATION-001-INDEPENDENT-20260928.md.
+
 2026-09-28: `UNREAL-MINIMAP-NAVIGATION-001 = PASS` local, independent
-certification NOT_STARTED. REAL33D now
+certification IMPLEMENTED_UNVERIFIED. REAL33D now
 projects only authoritative current-floor observations into separate terrain
 history, renders actual coordinates/floor/player, and retains known terrain
 without entities or walkability. Local pan/zoom/recenter/floor browsing and

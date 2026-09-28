@@ -1,0 +1,405 @@
+﻿live-20260928T135328 [2026.09.28-19.56.00:435][  1]LogReal33D: minimap observation: player=32087,32150,7 known=252 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.56.00:515][  1]LogReal33D: minimap cache saved: cells=252
+live-20260928T135328 [2026.09.28-19.56.06:863][435]LogReal33D: minimap observation: player=32097,32219,7 known=504 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.56.30:544][164]LogReal33D: minimap cache saved: cells=504
+live-20260928T135328 [2026.09.28-19.56.30:940][178]LogReal33D: input 1: walk north requested from Unreal
+live-20260928T135328 [2026.09.28-19.56.31:000][180]LogReal33D: input 1: walk command 1 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.56.31:078][183]LogReal33D: minimap observation: player=32097,32218,7 known=522 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.56.31:127][183]LogReal33D: input 1: Fusion32 accepted request 1, 32097,32219,7 -> 32097,32218,7
+live-20260928T135328 [2026.09.28-19.56.33:014][240]LogReal33D: input 2: walk north requested from Unreal
+live-20260928T135328 [2026.09.28-19.56.33:071][242]LogReal33D: input 2: walk command 2 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.56.33:180][246]LogReal33D: minimap observation: player=32097,32217,7 known=540 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.56.33:266][246]LogReal33D: input 2: Fusion32 accepted request 2, 32097,32218,7 -> 32097,32217,7
+live-20260928T135328 [2026.09.28-19.56.34:578][280]LogReal33D: input 3: walk north requested from Unreal
+live-20260928T135328 [2026.09.28-19.56.34:655][283]LogReal33D: input 3: walk command 3 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.56.34:712][285]LogReal33D: minimap observation: player=32097,32216,7 known=558 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.56.34:777][285]LogReal33D: input 3: Fusion32 accepted request 3, 32097,32217,7 -> 32097,32216,7
+live-20260928T135328 [2026.09.28-19.56.36:129][321]LogReal33D: input 4: walk north requested from Unreal
+live-20260928T135328 [2026.09.28-19.56.36:191][323]LogReal33D: input 4: walk command 4 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.56.36:288][326]LogReal33D: minimap observation: player=32097,32215,7 known=576 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.56.36:370][326]LogReal33D: input 4: Fusion32 accepted request 4, 32097,32216,7 -> 32097,32215,7
+live-20260928T135328 [2026.09.28-19.56.47:100][675]LogReal33D: minimap pan: center=32102.00,32222.01 floor=7
+live-20260928T135328 [2026.09.28-19.56.59:306][ 90]LogReal33D: minimap pan: center=32102.00,32236.52 floor=7
+live-20260928T135328 [2026.09.28-19.57.00:580][125]LogReal33D: minimap cache saved: cells=576
+live-20260928T135328 [2026.09.28-19.57.07:515][353]LogReal33D: left-click walk: no reachable observed route/frontier
+live-20260928T135328 [2026.09.28-19.57.12:702][521]LogReal33D: minimap pan: center=32092.00,32212.50 floor=7
+live-20260928T135328 [2026.09.28-19.57.14:556][581]LogReal33D: minimap pan: center=32100.50,32219.50 floor=7
+live-20260928T135328 [2026.09.28-19.57.24:603][882]LogReal33D: minimap destination: 32095,32203,7
+live-20260928T135328 [2026.09.28-19.57.24:603][882]LogReal33D: left-click walk: target 32095,32203,7, 8 cardinal steps
+live-20260928T135328 [2026.09.28-19.57.24:604][882]LogReal33D: left-click walk exploration segment ends at 32095,32209,7; original goal retained
+live-20260928T135328 [2026.09.28-19.57.24:604][882]LogReal33D: input 5: left-click walk direction 0 to 32097,32214,7
+live-20260928T135328 [2026.09.28-19.57.24:633][883]LogReal33D: input 5: walk command 5 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.57.24:719][886]LogReal33D: minimap observation: player=32097,32214,7 known=594 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.57.24:800][886]LogReal33D: input 5: Fusion32 accepted request 5, 32097,32215,7 -> 32097,32214,7
+live-20260928T135328 [2026.09.28-19.57.25:064][892]LogReal33D: input 6: left-click walk direction 0 to 32097,32213,7
+live-20260928T135328 [2026.09.28-19.57.25:090][893]LogReal33D: input 6: walk command 6 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.57.25:178][896]LogReal33D: minimap observation: player=32097,32213,7 known=612 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.57.25:263][896]LogReal33D: input 6: Fusion32 accepted request 6, 32097,32214,7 -> 32097,32213,7
+live-20260928T135328 [2026.09.28-19.57.25:515][901]LogReal33D: input 7: left-click walk direction 0 to 32097,32212,7
+live-20260928T135328 [2026.09.28-19.57.25:573][903]LogReal33D: input 7: walk command 7 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.57.25:670][906]LogReal33D: minimap observation: player=32097,32212,7 known=630 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.57.25:753][906]LogReal33D: input 7: Fusion32 accepted request 7, 32097,32213,7 -> 32097,32212,7
+live-20260928T135328 [2026.09.28-19.57.25:999][910]LogReal33D: input 8: left-click walk direction 0 to 32097,32211,7
+live-20260928T135328 [2026.09.28-19.57.26:021][911]LogReal33D: input 8: walk command 8 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.57.26:137][915]LogReal33D: minimap observation: player=32097,32211,7 known=648 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.57.26:249][915]LogReal33D: input 8: Fusion32 accepted request 8, 32097,32212,7 -> 32097,32211,7
+live-20260928T135328 [2026.09.28-19.57.26:463][918]LogReal33D: input 9: left-click walk direction 0 to 32097,32210,7
+live-20260928T135328 [2026.09.28-19.57.26:527][920]LogReal33D: input 9: walk command 9 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.57.26:631][924]LogReal33D: minimap observation: player=32097,32210,7 known=666 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.57.26:696][924]LogReal33D: input 9: Fusion32 accepted request 9, 32097,32211,7 -> 32097,32210,7
+live-20260928T135328 [2026.09.28-19.57.26:916][929]LogReal33D: input 10: left-click walk direction 0 to 32097,32209,7
+live-20260928T135328 [2026.09.28-19.57.26:950][930]LogReal33D: input 10: walk command 10 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.57.27:082][934]LogReal33D: minimap observation: player=32097,32209,7 known=684 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.57.27:170][934]LogReal33D: input 10: Fusion32 accepted request 10, 32097,32210,7 -> 32097,32209,7
+live-20260928T135328 [2026.09.28-19.57.27:386][939]LogReal33D: input 11: left-click walk direction 3 to 32096,32209,7
+live-20260928T135328 [2026.09.28-19.57.27:422][940]LogReal33D: input 11: walk command 11 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.57.27:518][943]LogReal33D: minimap observation: player=32096,32209,7 known=698 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.57.27:582][943]LogReal33D: input 11: Fusion32 accepted request 11, 32097,32209,7 -> 32096,32209,7
+live-20260928T135328 [2026.09.28-19.57.27:847][950]LogReal33D: input 12: left-click walk direction 3 to 32095,32209,7
+live-20260928T135328 [2026.09.28-19.57.27:881][951]LogReal33D: input 12: walk command 12 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.57.27:967][954]LogReal33D: minimap observation: player=32095,32209,7 known=712 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.57.28:240][954]LogReal33D: input 12: Fusion32 accepted request 12, 32096,32209,7 -> 32095,32209,7
+live-20260928T135328 [2026.09.28-19.57.28:405][955]LogReal33D: left-click walk exploration segment: goal=32095,32203,7 steps=6
+live-20260928T135328 [2026.09.28-19.57.28:405][955]LogReal33D: input 13: left-click walk direction 0 to 32095,32208,7
+live-20260928T135328 [2026.09.28-19.57.28:476][957]LogReal33D: input 13: walk command 13 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.57.28:533][959]LogReal33D: minimap observation: player=32095,32208,7 known=730 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.57.28:631][959]LogReal33D: input 13: Fusion32 accepted request 13, 32095,32209,7 -> 32095,32208,7
+live-20260928T135328 [2026.09.28-19.57.28:872][964]LogReal33D: input 14: left-click walk direction 0 to 32095,32207,7
+live-20260928T135328 [2026.09.28-19.57.28:927][966]LogReal33D: input 14: walk command 14 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.57.29:014][969]LogReal33D: minimap observation: player=32095,32207,7 known=748 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.57.29:093][969]LogReal33D: input 14: Fusion32 accepted request 14, 32095,32208,7 -> 32095,32207,7
+live-20260928T135328 [2026.09.28-19.57.29:332][975]LogReal33D: input 15: left-click walk direction 0 to 32095,32206,7
+live-20260928T135328 [2026.09.28-19.57.29:393][977]LogReal33D: input 15: walk command 15 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.57.29:484][980]LogReal33D: minimap observation: player=32095,32206,7 known=766 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.57.29:560][980]LogReal33D: input 15: Fusion32 accepted request 15, 32095,32207,7 -> 32095,32206,7
+live-20260928T135328 [2026.09.28-19.57.29:787][985]LogReal33D: input 16: left-click walk direction 0 to 32095,32205,7
+live-20260928T135328 [2026.09.28-19.57.29:815][986]LogReal33D: input 16: walk command 16 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.57.29:914][989]LogReal33D: minimap observation: player=32095,32205,7 known=784 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.57.29:988][989]LogReal33D: input 16: Fusion32 accepted request 16, 32095,32206,7 -> 32095,32205,7
+live-20260928T135328 [2026.09.28-19.57.30:269][996]LogReal33D: input 17: left-click walk direction 0 to 32095,32204,7
+live-20260928T135328 [2026.09.28-19.57.30:331][998]LogReal33D: input 17: walk command 17 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.57.30:425][  1]LogReal33D: minimap observation: player=32095,32204,7 known=802 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.57.30:515][  1]LogReal33D: input 17: Fusion32 accepted request 17, 32095,32205,7 -> 32095,32204,7
+live-20260928T135328 [2026.09.28-19.57.30:632][  2]LogReal33D: minimap cache saved: cells=802
+live-20260928T135328 [2026.09.28-19.57.30:719][  5]LogReal33D: input 18: left-click walk direction 0 to 32095,32203,7
+live-20260928T135328 [2026.09.28-19.57.30:777][  7]LogReal33D: input 18: walk command 18 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.57.30:867][ 10]LogReal33D: minimap observation: player=32095,32203,7 known=820 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.57.30:960][ 10]LogReal33D: input 18: Fusion32 accepted request 18, 32095,32204,7 -> 32095,32203,7
+live-20260928T135328 [2026.09.28-19.57.31:171][ 14]LogReal33D: left-click walk arrived: authoritative player=32095,32203,7
+live-20260928T135328 [2026.09.28-19.57.56:022][824]LogReal33D: use 19 from world: object 2109 at 32094,32206,7 stack 2, would open as container 0
+live-20260928T135328 [2026.09.28-19.57.56:185][829]LogReal33D: minimap observation: player=32095,32204,7 known=820 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.57.56:252][829]LogReal33D: Fusion32 relocated us with no request outstanding, 32095,32203,7 -> 32095,32204,7
+live-20260928T135328 [2026.09.28-19.57.56:607][838]LogReal33D: minimap observation: player=32095,32205,7 known=820 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.57.56:707][838]LogReal33D: Fusion32 relocated us with no request outstanding, 32095,32204,7 -> 32095,32205,7
+live-20260928T135328 [2026.09.28-19.57.58:454][890]LogReal33D: use 20 from world: object 2108 at 32094,32206,7 stack 2, would open as container 0
+live-20260928T135328 [2026.09.28-19.57.59:668][928]LogReal33D: use 21 from world: object 2109 at 32094,32206,7 stack 2, would open as container 0
+live-20260928T135328 [2026.09.28-19.58.00:642][958]LogReal33D: minimap cache saved: cells=820
+live-20260928T135328 [2026.09.28-19.58.01:381][982]LogReal33D: input 22: walk west requested from Unreal
+live-20260928T135328 [2026.09.28-19.58.01:413][983]LogReal33D: input 22: walk command 19 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.58.01:468][985]LogReal33D: minimap observation: player=32094,32205,7 known=834 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.58.01:546][985]LogReal33D: input 22: Fusion32 accepted request 19, 32095,32205,7 -> 32094,32205,7
+live-20260928T135328 [2026.09.28-19.58.02:469][ 13]LogReal33D: use 23 from world: object 2108 at 32094,32206,7 stack 2, would open as container 0
+live-20260928T135328 [2026.09.28-19.58.03:244][ 39]LogReal33D: use 24 from world: object 2109 at 32094,32206,7 stack 2, would open as container 0
+live-20260928T135328 [2026.09.28-19.58.03:788][ 58]LogReal33D: input 25: walk east requested from Unreal
+live-20260928T135328 [2026.09.28-19.58.03:847][ 60]LogReal33D: input 25: walk command 20 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.58.03:928][ 63]LogReal33D: minimap observation: player=32095,32205,7 known=834 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.58.04:171][ 63]LogReal33D: input 25: Fusion32 accepted request 20, 32094,32205,7 -> 32095,32205,7
+live-20260928T135328 [2026.09.28-19.58.04:277][ 64]LogReal33D: input 26: walk east requested from Unreal
+live-20260928T135328 [2026.09.28-19.58.04:314][ 65]LogReal33D: input 26: walk command 21 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.58.04:363][ 67]LogReal33D: minimap observation: player=32096,32205,7 known=838 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.58.04:518][ 67]LogReal33D: input 26: Fusion32 accepted request 21, 32095,32205,7 -> 32096,32205,7
+live-20260928T135328 [2026.09.28-19.58.04:729][ 72]LogReal33D: input 27: walk east requested from Unreal
+live-20260928T135328 [2026.09.28-19.58.04:781][ 74]LogReal33D: input 27: walk command 22 sent to Fusion32
+live-20260928T135328 [2026.09.28-19.58.04:870][ 77]LogReal33D: minimap observation: player=32097,32205,7 known=842 live=252 viewport=18x14
+live-20260928T135328 [2026.09.28-19.58.04:935][ 77]LogReal33D: input 27: Fusion32 accepted request 22, 32096,32205,7 -> 32097,32205,7
+live-20260928T135328 [2026.09.28-19.58.11:023][260]LogReal33D: minimap cache saved: cells=842
+live-20260928T140031 [2026.09.28-20.00.49:432][  0]LogReal33D: minimap cache load: accepted cells=842
+live-20260928T140031 [2026.09.28-20.00.59:857][  1]LogReal33D: minimap observation: player=32097,32205,7 known=842 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.00.59:875][  1]LogReal33D: minimap cache saved: cells=842
+live-20260928T140031 [2026.09.28-20.01.29:887][ 77]LogReal33D: minimap cache saved: cells=842
+live-20260928T140031 [2026.09.28-20.01.48:670][892]LogReal33D: look 1 at world point 32100,32203,7
+live-20260928T140031 [2026.09.28-20.01.48:715][894]LogReal33D: server message [InfoMessage]: You see a sign.
+live-20260928T140031 [2026.09.28-20.01.59:913][363]LogReal33D: minimap cache saved: cells=842
+live-20260928T140031 [2026.09.28-20.02.18:324][ 88]LogReal33D: minimap recenter
+live-20260928T140031 [2026.09.28-20.02.19:947][152]LogReal33D: minimap pan: center=32098.00,32179.97 floor=7
+live-20260928T140031 [2026.09.28-20.02.20:733][183]LogReal33D: minimap recenter
+live-20260928T140031 [2026.09.28-20.02.29:932][540]LogReal33D: minimap cache saved: cells=842
+live-20260928T140031 [2026.09.28-20.02.52:465][413]LogReal33D: minimap destination: 32068,32238,7
+live-20260928T140031 [2026.09.28-20.02.52:465][413]LogReal33D: left-click walk: target 32068,32238,7, 28 cardinal steps
+live-20260928T140031 [2026.09.28-20.02.52:465][413]LogReal33D: left-click walk exploration segment ends at 32089,32225,7; original goal retained
+live-20260928T140031 [2026.09.28-20.02.52:466][413]LogReal33D: input 2: left-click walk direction 2 to 32097,32206,7
+live-20260928T140031 [2026.09.28-20.02.52:543][416]LogReal33D: input 2: walk command 1 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.02.52:616][419]LogReal33D: minimap observation: player=32097,32206,7 known=842 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.02.52:680][419]LogReal33D: input 2: Fusion32 accepted request 1, 32097,32205,7 -> 32097,32206,7
+live-20260928T140031 [2026.09.28-20.02.52:922][426]LogReal33D: input 3: left-click walk direction 2 to 32097,32207,7
+live-20260928T140031 [2026.09.28-20.02.52:977][428]LogReal33D: input 3: walk command 2 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.02.53:074][432]LogReal33D: minimap observation: player=32097,32207,7 known=842 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.02.53:130][432]LogReal33D: input 3: Fusion32 accepted request 2, 32097,32206,7 -> 32097,32207,7
+live-20260928T140031 [2026.09.28-20.02.53:382][438]LogReal33D: input 4: left-click walk direction 2 to 32097,32208,7
+live-20260928T140031 [2026.09.28-20.02.53:409][439]LogReal33D: input 4: walk command 3 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.02.53:508][443]LogReal33D: minimap observation: player=32097,32208,7 known=842 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.02.53:584][443]LogReal33D: input 4: Fusion32 accepted request 3, 32097,32207,7 -> 32097,32208,7
+live-20260928T140031 [2026.09.28-20.02.53:852][452]LogReal33D: input 5: left-click walk direction 2 to 32097,32209,7
+live-20260928T140031 [2026.09.28-20.02.53:903][454]LogReal33D: input 5: walk command 4 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.02.53:976][457]LogReal33D: minimap observation: player=32097,32209,7 known=842 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.02.54:034][457]LogReal33D: input 5: Fusion32 accepted request 4, 32097,32208,7 -> 32097,32209,7
+live-20260928T140031 [2026.09.28-20.02.54:316][466]LogReal33D: input 6: left-click walk direction 2 to 32097,32210,7
+live-20260928T140031 [2026.09.28-20.02.54:392][469]LogReal33D: input 6: walk command 5 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.02.54:471][472]LogReal33D: minimap observation: player=32097,32210,7 known=842 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.02.54:542][472]LogReal33D: input 6: Fusion32 accepted request 5, 32097,32209,7 -> 32097,32210,7
+live-20260928T140031 [2026.09.28-20.02.54:770][479]LogReal33D: input 7: left-click walk direction 2 to 32097,32211,7
+live-20260928T140031 [2026.09.28-20.02.54:795][480]LogReal33D: input 7: walk command 6 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.02.54:920][485]LogReal33D: minimap observation: player=32097,32211,7 known=842 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.02.54:984][485]LogReal33D: input 7: Fusion32 accepted request 6, 32097,32210,7 -> 32097,32211,7
+live-20260928T140031 [2026.09.28-20.02.55:231][493]LogReal33D: input 8: left-click walk direction 2 to 32097,32212,7
+live-20260928T140031 [2026.09.28-20.02.55:257][494]LogReal33D: input 8: walk command 7 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.02.55:357][498]LogReal33D: minimap observation: player=32097,32212,7 known=842 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.02.55:451][498]LogReal33D: input 8: Fusion32 accepted request 7, 32097,32211,7 -> 32097,32212,7
+live-20260928T140031 [2026.09.28-20.02.55:705][504]LogReal33D: input 9: left-click walk direction 2 to 32097,32213,7
+live-20260928T140031 [2026.09.28-20.02.55:776][507]LogReal33D: input 9: walk command 8 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.02.55:875][511]LogReal33D: minimap observation: player=32097,32213,7 known=842 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.02.55:939][511]LogReal33D: input 9: Fusion32 accepted request 8, 32097,32212,7 -> 32097,32213,7
+live-20260928T140031 [2026.09.28-20.02.56:160][518]LogReal33D: input 10: left-click walk direction 3 to 32096,32213,7
+live-20260928T140031 [2026.09.28-20.02.56:209][520]LogReal33D: input 10: walk command 9 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.02.56:329][525]LogReal33D: minimap observation: player=32096,32213,7 known=846 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.02.56:392][525]LogReal33D: input 10: Fusion32 accepted request 9, 32097,32213,7 -> 32096,32213,7
+live-20260928T140031 [2026.09.28-20.02.56:629][531]LogReal33D: input 11: left-click walk direction 3 to 32095,32213,7
+live-20260928T140031 [2026.09.28-20.02.56:722][535]LogReal33D: input 11: walk command 10 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.02.56:810][539]LogReal33D: minimap observation: player=32095,32213,7 known=850 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.02.56:879][539]LogReal33D: input 11: Fusion32 accepted request 10, 32096,32213,7 -> 32095,32213,7
+live-20260928T140031 [2026.09.28-20.02.57:365][540]LogReal33D: input 12: left-click walk direction 3 to 32094,32213,7
+live-20260928T140031 [2026.09.28-20.02.57:388][541]LogReal33D: input 12: walk command 11 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.02.57:465][544]LogReal33D: minimap observation: player=32094,32213,7 known=858 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.02.57:555][544]LogReal33D: input 12: Fusion32 accepted request 11, 32095,32213,7 -> 32094,32213,7
+live-20260928T140031 [2026.09.28-20.02.57:827][550]LogReal33D: input 13: left-click walk direction 3 to 32093,32213,7
+live-20260928T140031 [2026.09.28-20.02.57:874][552]LogReal33D: input 13: walk command 12 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.02.57:971][556]LogReal33D: minimap observation: player=32093,32213,7 known=872 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.02.58:034][556]LogReal33D: input 13: Fusion32 accepted request 12, 32094,32213,7 -> 32093,32213,7
+live-20260928T140031 [2026.09.28-20.02.58:293][562]LogReal33D: input 14: left-click walk direction 2 to 32093,32214,7
+live-20260928T140031 [2026.09.28-20.02.58:316][563]LogReal33D: input 14: walk command 13 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.02.58:476][570]LogReal33D: minimap observation: player=32093,32214,7 known=876 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.02.58:555][570]LogReal33D: input 14: Fusion32 accepted request 13, 32093,32213,7 -> 32093,32214,7
+live-20260928T140031 [2026.09.28-20.02.58:754][575]LogReal33D: input 15: left-click walk direction 3 to 32092,32214,7
+live-20260928T140031 [2026.09.28-20.02.58:776][576]LogReal33D: input 15: walk command 14 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.02.58:964][584]LogReal33D: minimap observation: player=32092,32214,7 known=890 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.02.59:024][584]LogReal33D: input 15: Fusion32 accepted request 14, 32093,32214,7 -> 32092,32214,7
+live-20260928T140031 [2026.09.28-20.02.59:219][588]LogReal33D: input 16: left-click walk direction 3 to 32091,32214,7
+live-20260928T140031 [2026.09.28-20.02.59:240][589]LogReal33D: input 16: walk command 15 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.02.59:478][599]LogReal33D: minimap observation: player=32091,32214,7 known=904 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.02.59:563][599]LogReal33D: input 16: Fusion32 accepted request 15, 32092,32214,7 -> 32091,32214,7
+live-20260928T140031 [2026.09.28-20.02.59:670][600]LogReal33D: input 17: left-click walk direction 3 to 32090,32214,7
+live-20260928T140031 [2026.09.28-20.02.59:745][602]LogReal33D: input 17: walk command 16 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.02.59:959][611]LogReal33D: minimap cache saved: cells=904
+live-20260928T140031 [2026.09.28-20.02.59:974][612]LogReal33D: minimap observation: player=32090,32214,7 known=918 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.00:076][612]LogReal33D: input 17: Fusion32 accepted request 16, 32091,32214,7 -> 32090,32214,7
+live-20260928T140031 [2026.09.28-20.03.00:223][613]LogReal33D: input 18: left-click walk direction 2 to 32090,32215,7
+live-20260928T140031 [2026.09.28-20.03.00:257][614]LogReal33D: input 18: walk command 17 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.00:467][624]LogReal33D: minimap observation: player=32090,32215,7 known=925 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.00:559][624]LogReal33D: input 18: Fusion32 accepted request 17, 32090,32214,7 -> 32090,32215,7
+live-20260928T140031 [2026.09.28-20.03.00:683][625]LogReal33D: input 19: left-click walk direction 2 to 32090,32216,7
+live-20260928T140031 [2026.09.28-20.03.00:718][626]LogReal33D: input 19: walk command 18 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.00:961][637]LogReal33D: minimap observation: player=32090,32216,7 known=932 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.01:036][637]LogReal33D: input 19: Fusion32 accepted request 18, 32090,32215,7 -> 32090,32216,7
+live-20260928T140031 [2026.09.28-20.03.01:180][638]LogReal33D: input 20: left-click walk direction 2 to 32090,32217,7
+live-20260928T140031 [2026.09.28-20.03.01:243][641]LogReal33D: input 20: walk command 19 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.01:460][650]LogReal33D: minimap observation: player=32090,32217,7 known=939 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.01:552][650]LogReal33D: input 20: Fusion32 accepted request 19, 32090,32216,7 -> 32090,32217,7
+live-20260928T140031 [2026.09.28-20.03.01:707][651]LogReal33D: input 21: left-click walk direction 2 to 32090,32218,7
+live-20260928T140031 [2026.09.28-20.03.01:739][652]LogReal33D: input 21: walk command 20 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.01:957][662]LogReal33D: minimap observation: player=32090,32218,7 known=946 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.02:030][662]LogReal33D: input 21: Fusion32 accepted request 20, 32090,32217,7 -> 32090,32218,7
+live-20260928T140031 [2026.09.28-20.03.02:164][663]LogReal33D: input 22: left-click walk direction 2 to 32090,32219,7
+live-20260928T140031 [2026.09.28-20.03.02:220][664]LogReal33D: input 22: walk command 21 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.02:467][676]LogReal33D: minimap observation: player=32090,32219,7 known=953 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.02:573][676]LogReal33D: input 22: Fusion32 accepted request 21, 32090,32218,7 -> 32090,32219,7
+live-20260928T140031 [2026.09.28-20.03.02:664][677]LogReal33D: input 23: left-click walk direction 3 to 32089,32219,7
+live-20260928T140031 [2026.09.28-20.03.02:717][678]LogReal33D: input 23: walk command 22 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.02:979][690]LogReal33D: minimap observation: player=32089,32219,7 known=967 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.03:044][690]LogReal33D: input 23: Fusion32 accepted request 22, 32090,32219,7 -> 32089,32219,7
+live-20260928T140031 [2026.09.28-20.03.03:132][691]LogReal33D: input 24: left-click walk direction 2 to 32089,32220,7
+live-20260928T140031 [2026.09.28-20.03.03:185][692]LogReal33D: input 24: walk command 23 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.03:464][705]LogReal33D: minimap observation: player=32089,32220,7 known=985 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.03:540][705]LogReal33D: input 24: Fusion32 accepted request 23, 32089,32219,7 -> 32089,32220,7
+live-20260928T140031 [2026.09.28-20.03.03:651][706]LogReal33D: input 25: left-click walk direction 2 to 32089,32221,7
+live-20260928T140031 [2026.09.28-20.03.03:697][708]LogReal33D: input 25: walk command 24 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.03:979][721]LogReal33D: minimap observation: player=32089,32221,7 known=1003 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.04:039][721]LogReal33D: input 25: Fusion32 accepted request 24, 32089,32220,7 -> 32089,32221,7
+live-20260928T140031 [2026.09.28-20.03.04:162][722]LogReal33D: input 26: left-click walk direction 2 to 32089,32222,7
+live-20260928T140031 [2026.09.28-20.03.04:193][723]LogReal33D: input 26: walk command 25 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.04:467][736]LogReal33D: minimap observation: player=32089,32222,7 known=1021 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.04:549][736]LogReal33D: input 26: Fusion32 accepted request 25, 32089,32221,7 -> 32089,32222,7
+live-20260928T140031 [2026.09.28-20.03.04:709][737]LogReal33D: input 27: left-click walk direction 2 to 32089,32223,7
+live-20260928T140031 [2026.09.28-20.03.04:781][740]LogReal33D: input 27: walk command 26 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.04:968][750]LogReal33D: minimap observation: player=32089,32223,7 known=1039 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.05:039][750]LogReal33D: input 27: Fusion32 accepted request 26, 32089,32222,7 -> 32089,32223,7
+live-20260928T140031 [2026.09.28-20.03.05:166][751]LogReal33D: input 28: left-click walk direction 2 to 32089,32224,7
+live-20260928T140031 [2026.09.28-20.03.05:203][752]LogReal33D: input 28: walk command 27 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.05:463][764]LogReal33D: minimap observation: player=32089,32224,7 known=1057 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.05:569][764]LogReal33D: input 28: Fusion32 accepted request 27, 32089,32223,7 -> 32089,32224,7
+live-20260928T140031 [2026.09.28-20.03.05:827][765]LogReal33D: input 29: left-click walk direction 2 to 32089,32225,7
+live-20260928T140031 [2026.09.28-20.03.05:849][766]LogReal33D: input 29: walk command 28 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.05:979][773]LogReal33D: minimap observation: player=32089,32225,7 known=1075 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.06:064][773]LogReal33D: input 29: Fusion32 accepted request 28, 32089,32224,7 -> 32089,32225,7
+live-20260928T140031 [2026.09.28-20.03.06:283][779]LogReal33D: left-click walk exploration segment: goal=32068,32238,7 steps=15
+live-20260928T140031 [2026.09.28-20.03.06:283][779]LogReal33D: input 30: left-click walk direction 3 to 32088,32225,7
+live-20260928T140031 [2026.09.28-20.03.06:304][780]LogReal33D: input 30: walk command 29 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.06:470][787]LogReal33D: minimap observation: player=32088,32225,7 known=1089 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.06:570][787]LogReal33D: input 30: Fusion32 accepted request 29, 32089,32225,7 -> 32088,32225,7
+live-20260928T140031 [2026.09.28-20.03.06:749][790]LogReal33D: input 31: left-click walk direction 2 to 32088,32226,7
+live-20260928T140031 [2026.09.28-20.03.06:766][791]LogReal33D: input 31: walk command 30 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.06:979][801]LogReal33D: minimap observation: player=32088,32226,7 known=1107 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.07:049][801]LogReal33D: input 31: Fusion32 accepted request 30, 32088,32225,7 -> 32088,32226,7
+live-20260928T140031 [2026.09.28-20.03.07:205][805]LogReal33D: input 32: left-click walk direction 2 to 32088,32227,7
+live-20260928T140031 [2026.09.28-20.03.07:237][806]LogReal33D: input 32: walk command 31 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.07:312][810]LogReal33D: left-click walk: no reachable observed route/frontier
+live-20260928T140031 [2026.09.28-20.03.07:461][817]LogReal33D: minimap observation: player=32088,32227,7 known=1125 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.07:557][817]LogReal33D: input 32: Fusion32 accepted request 31, 32088,32226,7 -> 32088,32227,7
+live-20260928T140031 [2026.09.28-20.03.11:201][978]LogReal33D: left-click walk: target 32086,32222,7, 7 cardinal steps
+live-20260928T140031 [2026.09.28-20.03.11:201][978]LogReal33D: input 33: left-click walk direction 3 to 32087,32227,7
+live-20260928T140031 [2026.09.28-20.03.11:264][981]LogReal33D: input 33: walk command 32 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.11:367][986]LogReal33D: minimap observation: player=32087,32227,7 known=1139 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.11:422][986]LogReal33D: input 33: Fusion32 accepted request 32, 32088,32227,7 -> 32087,32227,7
+live-20260928T140031 [2026.09.28-20.03.11:659][993]LogReal33D: input 34: left-click walk direction 3 to 32086,32227,7
+live-20260928T140031 [2026.09.28-20.03.11:701][995]LogReal33D: input 34: walk command 33 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.11:876][  4]LogReal33D: minimap observation: player=32086,32227,7 known=1153 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.11:940][  4]LogReal33D: input 34: Fusion32 accepted request 33, 32087,32227,7 -> 32086,32227,7
+live-20260928T140031 [2026.09.28-20.03.12:111][ 10]LogReal33D: input 35: left-click walk direction 0 to 32086,32226,7
+live-20260928T140031 [2026.09.28-20.03.12:135][ 11]LogReal33D: input 35: walk command 34 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.12:361][ 22]LogReal33D: minimap observation: player=32086,32226,7 known=1155 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.12:462][ 22]LogReal33D: input 35: Fusion32 accepted request 34, 32086,32227,7 -> 32086,32226,7
+live-20260928T140031 [2026.09.28-20.03.12:567][ 23]LogReal33D: input 36: left-click walk direction 0 to 32086,32225,7
+live-20260928T140031 [2026.09.28-20.03.12:620][ 26]LogReal33D: input 36: walk command 35 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.12:870][ 38]LogReal33D: minimap observation: player=32086,32225,7 known=1157 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.12:936][ 38]LogReal33D: input 36: Fusion32 accepted request 35, 32086,32226,7 -> 32086,32225,7
+live-20260928T140031 [2026.09.28-20.03.13:031][ 39]LogReal33D: input 37: left-click walk direction 0 to 32086,32224,7
+live-20260928T140031 [2026.09.28-20.03.13:059][ 40]LogReal33D: input 37: walk command 36 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.13:375][ 56]LogReal33D: minimap observation: player=32086,32224,7 known=1160 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.13:427][ 56]LogReal33D: input 37: Fusion32 accepted request 36, 32086,32225,7 -> 32086,32224,7
+live-20260928T140031 [2026.09.28-20.03.13:537][ 57]LogReal33D: input 38: left-click walk direction 0 to 32086,32223,7
+live-20260928T140031 [2026.09.28-20.03.13:569][ 58]LogReal33D: input 38: walk command 37 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.13:871][ 74]LogReal33D: minimap observation: player=32086,32223,7 known=1163 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.14:034][ 74]LogReal33D: input 38: Fusion32 accepted request 37, 32086,32224,7 -> 32086,32223,7
+live-20260928T140031 [2026.09.28-20.03.14:164][ 75]LogReal33D: input 39: left-click walk direction 0 to 32086,32222,7
+live-20260928T140031 [2026.09.28-20.03.14:199][ 76]LogReal33D: input 39: walk command 38 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.14:359][ 84]LogReal33D: minimap observation: player=32086,32222,7 known=1166 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.14:433][ 84]LogReal33D: input 39: Fusion32 accepted request 38, 32086,32223,7 -> 32086,32222,7
+live-20260928T140031 [2026.09.28-20.03.14:622][ 86]LogReal33D: left-click walk arrived: authoritative player=32086,32222,7
+live-20260928T140031 [2026.09.28-20.03.20:183][338]LogReal33D: minimap destination: 32069,32232,7
+live-20260928T140031 [2026.09.28-20.03.20:184][338]LogReal33D: left-click walk: target 32069,32232,7, 18 cardinal steps
+live-20260928T140031 [2026.09.28-20.03.20:184][338]LogReal33D: left-click walk exploration segment ends at 32078,32232,7; original goal retained
+live-20260928T140031 [2026.09.28-20.03.20:185][338]LogReal33D: input 40: left-click walk direction 2 to 32086,32223,7
+live-20260928T140031 [2026.09.28-20.03.20:205][339]LogReal33D: input 40: walk command 39 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.20:271][342]LogReal33D: minimap observation: player=32086,32223,7 known=1166 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.20:333][342]LogReal33D: input 40: Fusion32 accepted request 39, 32086,32222,7 -> 32086,32223,7
+live-20260928T140031 [2026.09.28-20.03.20:644][352]LogReal33D: input 41: left-click walk direction 2 to 32086,32224,7
+live-20260928T140031 [2026.09.28-20.03.20:693][354]LogReal33D: input 41: walk command 40 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.20:778][358]LogReal33D: minimap observation: player=32086,32224,7 known=1166 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.20:876][358]LogReal33D: input 41: Fusion32 accepted request 40, 32086,32223,7 -> 32086,32224,7
+live-20260928T140031 [2026.09.28-20.03.21:111][366]LogReal33D: input 42: left-click walk direction 2 to 32086,32225,7
+live-20260928T140031 [2026.09.28-20.03.21:181][369]LogReal33D: input 42: walk command 41 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.21:263][373]LogReal33D: minimap observation: player=32086,32225,7 known=1166 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.21:316][373]LogReal33D: input 42: Fusion32 accepted request 41, 32086,32224,7 -> 32086,32225,7
+live-20260928T140031 [2026.09.28-20.03.21:563][381]LogReal33D: input 43: left-click walk direction 2 to 32086,32226,7
+live-20260928T140031 [2026.09.28-20.03.21:627][384]LogReal33D: input 43: walk command 42 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.21:777][391]LogReal33D: minimap observation: player=32086,32226,7 known=1166 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.21:875][391]LogReal33D: input 43: Fusion32 accepted request 42, 32086,32225,7 -> 32086,32226,7
+live-20260928T140031 [2026.09.28-20.03.22:023][394]LogReal33D: input 44: left-click walk direction 2 to 32086,32227,7
+live-20260928T140031 [2026.09.28-20.03.22:043][395]LogReal33D: input 44: walk command 43 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.22:267][406]LogReal33D: minimap observation: player=32086,32227,7 known=1166 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.22:334][406]LogReal33D: input 44: Fusion32 accepted request 43, 32086,32226,7 -> 32086,32227,7
+live-20260928T140031 [2026.09.28-20.03.22:474][410]LogReal33D: input 45: left-click walk direction 2 to 32086,32228,7
+live-20260928T140031 [2026.09.28-20.03.22:576][415]LogReal33D: input 45: walk command 44 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.22:776][425]LogReal33D: minimap observation: player=32086,32228,7 known=1184 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.22:871][425]LogReal33D: input 45: Fusion32 accepted request 44, 32086,32227,7 -> 32086,32228,7
+live-20260928T140031 [2026.09.28-20.03.22:991][426]LogReal33D: input 46: left-click walk direction 2 to 32086,32229,7
+live-20260928T140031 [2026.09.28-20.03.23:042][427]LogReal33D: input 46: walk command 45 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.23:271][438]LogReal33D: minimap observation: player=32086,32229,7 known=1202 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.23:364][438]LogReal33D: input 46: Fusion32 accepted request 45, 32086,32228,7 -> 32086,32229,7
+live-20260928T140031 [2026.09.28-20.03.24:056][439]LogReal33D: input 47: left-click walk direction 2 to 32086,32230,7
+live-20260928T140031 [2026.09.28-20.03.24:131][441]LogReal33D: input 47: walk command 46 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.24:217][445]LogReal33D: minimap observation: player=32086,32230,7 known=1220 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.24:318][445]LogReal33D: input 47: Fusion32 accepted request 46, 32086,32229,7 -> 32086,32230,7
+live-20260928T140031 [2026.09.28-20.03.24:506][446]LogReal33D: input 48: left-click walk direction 2 to 32086,32231,7
+live-20260928T140031 [2026.09.28-20.03.24:577][448]LogReal33D: input 48: walk command 47 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.24:719][454]LogReal33D: minimap observation: player=32086,32231,7 known=1238 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.24:779][454]LogReal33D: input 48: Fusion32 accepted request 47, 32086,32230,7 -> 32086,32231,7
+live-20260928T140031 [2026.09.28-20.03.24:959][460]LogReal33D: input 49: left-click walk direction 2 to 32086,32232,7
+live-20260928T140031 [2026.09.28-20.03.24:997][462]LogReal33D: input 49: walk command 48 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.25:218][473]LogReal33D: minimap observation: player=32086,32232,7 known=1256 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.25:271][473]LogReal33D: input 49: Fusion32 accepted request 48, 32086,32231,7 -> 32086,32232,7
+live-20260928T140031 [2026.09.28-20.03.25:412][476]LogReal33D: input 50: left-click walk direction 3 to 32085,32232,7
+live-20260928T140031 [2026.09.28-20.03.25:485][480]LogReal33D: input 50: walk command 49 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.25:919][502]LogReal33D: minimap observation: player=32085,32232,7 known=1270 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.25:981][502]LogReal33D: input 50: Fusion32 accepted request 49, 32086,32232,7 -> 32085,32232,7
+live-20260928T140031 [2026.09.28-20.03.26:063][503]LogReal33D: input 51: left-click walk direction 3 to 32084,32232,7
+live-20260928T140031 [2026.09.28-20.03.26:122][505]LogReal33D: input 51: walk command 50 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.26:617][530]LogReal33D: minimap observation: player=32084,32232,7 known=1284 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.26:700][530]LogReal33D: input 51: Fusion32 accepted request 50, 32085,32232,7 -> 32084,32232,7
+live-20260928T140031 [2026.09.28-20.03.26:793][531]LogReal33D: input 52: left-click walk direction 3 to 32083,32232,7
+live-20260928T140031 [2026.09.28-20.03.26:845][532]LogReal33D: input 52: walk command 51 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.27:116][545]LogReal33D: minimap observation: player=32083,32232,7 known=1298 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.27:213][545]LogReal33D: input 52: Fusion32 accepted request 51, 32084,32232,7 -> 32083,32232,7
+live-20260928T140031 [2026.09.28-20.03.27:384][546]LogReal33D: input 53: left-click walk direction 3 to 32082,32232,7
+live-20260928T140031 [2026.09.28-20.03.27:417][547]LogReal33D: input 53: walk command 52 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.27:617][557]LogReal33D: minimap observation: player=32082,32232,7 known=1312 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.27:684][557]LogReal33D: input 53: Fusion32 accepted request 52, 32083,32232,7 -> 32082,32232,7
+live-20260928T140031 [2026.09.28-20.03.27:842][559]LogReal33D: input 54: left-click walk direction 3 to 32081,32232,7
+live-20260928T140031 [2026.09.28-20.03.27:864][560]LogReal33D: input 54: walk command 53 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.28:123][573]LogReal33D: minimap observation: player=32081,32232,7 known=1326 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.28:191][573]LogReal33D: input 54: Fusion32 accepted request 53, 32082,32232,7 -> 32081,32232,7
+live-20260928T140031 [2026.09.28-20.03.28:302][574]LogReal33D: input 55: left-click walk direction 3 to 32080,32232,7
+live-20260928T140031 [2026.09.28-20.03.28:335][575]LogReal33D: input 55: walk command 54 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.28:608][589]LogReal33D: minimap observation: player=32080,32232,7 known=1340 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.28:675][589]LogReal33D: input 55: Fusion32 accepted request 54, 32081,32232,7 -> 32080,32232,7
+live-20260928T140031 [2026.09.28-20.03.28:784][590]LogReal33D: input 56: left-click walk direction 3 to 32079,32232,7
+live-20260928T140031 [2026.09.28-20.03.28:852][593]LogReal33D: input 56: walk command 55 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.29:126][607]LogReal33D: minimap observation: player=32079,32232,7 known=1354 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.29:194][607]LogReal33D: input 56: Fusion32 accepted request 55, 32080,32232,7 -> 32079,32232,7
+live-20260928T140031 [2026.09.28-20.03.29:278][608]LogReal33D: input 57: left-click walk direction 3 to 32078,32232,7
+live-20260928T140031 [2026.09.28-20.03.29:334][609]LogReal33D: input 57: walk command 56 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.29:625][625]LogReal33D: minimap observation: player=32078,32232,7 known=1368 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.29:695][625]LogReal33D: input 57: Fusion32 accepted request 56, 32079,32232,7 -> 32078,32232,7
+live-20260928T140031 [2026.09.28-20.03.29:801][626]LogReal33D: left-click walk exploration segment: goal=32069,32232,7 steps=8
+live-20260928T140031 [2026.09.28-20.03.29:801][626]LogReal33D: input 58: left-click walk direction 3 to 32077,32232,7
+live-20260928T140031 [2026.09.28-20.03.29:830][627]LogReal33D: input 58: walk command 57 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.29:989][634]LogReal33D: minimap cache saved: cells=1368
+live-20260928T140031 [2026.09.28-20.03.30:106][640]LogReal33D: minimap observation: player=32077,32232,7 known=1382 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.30:201][640]LogReal33D: input 58: Fusion32 accepted request 57, 32078,32232,7 -> 32077,32232,7
+live-20260928T140031 [2026.09.28-20.03.30:320][641]LogReal33D: input 59: left-click walk direction 3 to 32076,32232,7
+live-20260928T140031 [2026.09.28-20.03.30:377][643]LogReal33D: input 59: walk command 58 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.30:618][656]LogReal33D: minimap observation: player=32076,32232,7 known=1396 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.30:676][656]LogReal33D: input 59: Fusion32 accepted request 58, 32077,32232,7 -> 32076,32232,7
+live-20260928T140031 [2026.09.28-20.03.30:809][658]LogReal33D: input 60: left-click walk direction 3 to 32075,32232,7
+live-20260928T140031 [2026.09.28-20.03.30:887][662]LogReal33D: input 60: walk command 59 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.31:124][673]LogReal33D: minimap observation: player=32075,32232,7 known=1410 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.31:195][673]LogReal33D: input 60: Fusion32 accepted request 59, 32076,32232,7 -> 32075,32232,7
+live-20260928T140031 [2026.09.28-20.03.31:300][674]LogReal33D: input 61: left-click walk direction 3 to 32074,32232,7
+live-20260928T140031 [2026.09.28-20.03.31:335][675]LogReal33D: input 61: walk command 60 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.31:657][691]LogReal33D: minimap observation: player=32074,32232,7 known=1424 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.31:726][691]LogReal33D: input 61: Fusion32 accepted request 60, 32075,32232,7 -> 32074,32232,7
+live-20260928T140031 [2026.09.28-20.03.31:810][692]LogReal33D: input 62: left-click walk direction 3 to 32073,32232,7
+live-20260928T140031 [2026.09.28-20.03.31:876][694]LogReal33D: input 62: walk command 61 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.32:255][712]LogReal33D: minimap observation: player=32073,32232,7 known=1438 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.32:320][712]LogReal33D: input 62: Fusion32 accepted request 61, 32074,32232,7 -> 32073,32232,7
+live-20260928T140031 [2026.09.28-20.03.32:406][713]LogReal33D: input 63: left-click walk direction 3 to 32072,32232,7
+live-20260928T140031 [2026.09.28-20.03.32:455][714]LogReal33D: input 63: walk command 62 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.32:771][729]LogReal33D: minimap observation: player=32072,32232,7 known=1452 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.32:861][729]LogReal33D: input 63: Fusion32 accepted request 62, 32073,32232,7 -> 32072,32232,7
+live-20260928T140031 [2026.09.28-20.03.32:989][730]LogReal33D: input 64: left-click walk direction 3 to 32071,32232,7
+live-20260928T140031 [2026.09.28-20.03.33:037][732]LogReal33D: input 64: walk command 63 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.33:239][742]LogReal33D: minimap observation: player=32071,32232,7 known=1466 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.33:309][742]LogReal33D: input 64: Fusion32 accepted request 63, 32072,32232,7 -> 32071,32232,7
+live-20260928T140031 [2026.09.28-20.03.33:449][744]LogReal33D: input 65: left-click walk direction 3 to 32070,32232,7
+live-20260928T140031 [2026.09.28-20.03.33:480][746]LogReal33D: input 65: walk command 64 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.33:720][758]LogReal33D: minimap observation: player=32070,32232,7 known=1480 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.33:787][758]LogReal33D: input 65: Fusion32 accepted request 64, 32071,32232,7 -> 32070,32232,7
+live-20260928T140031 [2026.09.28-20.03.33:906][760]LogReal33D: left-click walk exploration segment: goal=32069,32232,7 steps=1
+live-20260928T140031 [2026.09.28-20.03.33:906][760]LogReal33D: input 66: left-click walk direction 3 to 32069,32232,7
+live-20260928T140031 [2026.09.28-20.03.33:923][761]LogReal33D: input 66: walk command 65 sent to Fusion32
+live-20260928T140031 [2026.09.28-20.03.34:217][776]LogReal33D: minimap observation: player=32069,32232,7 known=1494 live=252 viewport=18x14
+live-20260928T140031 [2026.09.28-20.03.34:278][776]LogReal33D: input 66: Fusion32 accepted request 65, 32070,32232,7 -> 32069,32232,7
+live-20260928T140031 [2026.09.28-20.03.34:365][777]LogReal33D: left-click walk arrived: authoritative player=32069,32232,7
+live-20260928T140031 [2026.09.28-20.03.49:567][294]LogReal33D: minimap cache saved: cells=1494
+live-20260928T140632 [2026.09.28-20.06.50:568][  0]LogReal33D: minimap cache load: accepted cells=1494
+live-20260928T140632 [2026.09.28-20.07.56:691][  1]LogReal33D: minimap observation: player=32069,32232,7 known=1494 live=252 viewport=18x14
+live-20260928T140632 [2026.09.28-20.07.56:806][  1]LogReal33D: minimap cache saved: cells=1494

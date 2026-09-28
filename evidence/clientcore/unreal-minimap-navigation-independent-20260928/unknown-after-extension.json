@@ -1,0 +1,76 @@
+{
+  "schema": "real33d.minimap.independent.boundary.v1",
+  "source": "legitimate client-owned cache",
+  "cache_sha256": "22ec6a42fefffe2c552bb0a7ddfc2fe6d6f004d957efe8683d8211ccea288a39",
+  "count": 1494,
+  "floors": {
+    "7": {
+      "count": 1494,
+      "min_x": 32061,
+      "max_x": 32106,
+      "min_y": 32144,
+      "max_y": 32239
+    }
+  },
+  "queries": [
+    {
+      "position": [
+        32088,
+        32225,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32089,
+        32225,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32068,
+        32238,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        4515,
+        0,
+        4515
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32069,
+        32232,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    }
+  ],
+  "network_commands": 0,
+  "cache_modified": false,
+  "limitation": "Bounds summarize observed coordinates, not a filled/traversable rectangle. Cache may lag memory; compare the live known count before accepting the checkpoint."
+}

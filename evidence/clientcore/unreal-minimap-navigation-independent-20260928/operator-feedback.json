@@ -1,0 +1,13 @@
+﻿{
+  "schema": "real33d.minimap.independent.operator.v1",
+  "review_date": "2026-09-28",
+  "fresh_session_1_controls_and_marker": "Sí; checkpoints guardados",
+  "fresh_session_2_cache_visible": "Sí, sigue visible; F9 guardado",
+  "fresh_session_2_progressive_discovery": "Sí; descubrimiento progresivo y F9 guardado",
+  "later_controls_obstruction_report": "Sí; F9 guardados y obstáculo respetado",
+  "later_floor_and_regression_report": "todos los pasos funcionan",
+  "trace_discrepancy": "Later controls/obstruction/floor/regression confirmations arrived after session 2 had already closed; no floor transition, Follow/cancel or opened-container checkpoint exists in sessions 1-3. These confirmations do not establish those required criteria.",
+  "fresh_session_3": "Reopened for missing checks, then closed during initialization; no manual QA checkpoints.",
+  "closeout_instruction": "quiero que hagas comit y push ahora mismo",
+  "decision": "Publish evidence and NOT CERTIFIED status only; original PASS-local evidence preserved."
+}

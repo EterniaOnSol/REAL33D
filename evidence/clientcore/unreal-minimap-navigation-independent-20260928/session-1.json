@@ -1,0 +1,1957 @@
+{
+  "schema": "real33d.minimap.qa.v1",
+  "session": "live-20260928T135328",
+  "observations": [
+    {
+      "time": "2026.09.28-19.56.00:435",
+      "position": [
+        32087,
+        32150,
+        7
+      ],
+      "known": 252,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.56.06:863",
+      "position": [
+        32097,
+        32219,
+        7
+      ],
+      "known": 504,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.56.31:078",
+      "position": [
+        32097,
+        32218,
+        7
+      ],
+      "known": 522,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.56.33:180",
+      "position": [
+        32097,
+        32217,
+        7
+      ],
+      "known": 540,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.56.34:712",
+      "position": [
+        32097,
+        32216,
+        7
+      ],
+      "known": 558,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.56.36:288",
+      "position": [
+        32097,
+        32215,
+        7
+      ],
+      "known": 576,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.57.24:719",
+      "position": [
+        32097,
+        32214,
+        7
+      ],
+      "known": 594,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.57.25:178",
+      "position": [
+        32097,
+        32213,
+        7
+      ],
+      "known": 612,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.57.25:670",
+      "position": [
+        32097,
+        32212,
+        7
+      ],
+      "known": 630,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.57.26:137",
+      "position": [
+        32097,
+        32211,
+        7
+      ],
+      "known": 648,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.57.26:631",
+      "position": [
+        32097,
+        32210,
+        7
+      ],
+      "known": 666,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.57.27:082",
+      "position": [
+        32097,
+        32209,
+        7
+      ],
+      "known": 684,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.57.27:518",
+      "position": [
+        32096,
+        32209,
+        7
+      ],
+      "known": 698,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.57.27:967",
+      "position": [
+        32095,
+        32209,
+        7
+      ],
+      "known": 712,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.57.28:533",
+      "position": [
+        32095,
+        32208,
+        7
+      ],
+      "known": 730,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.57.29:014",
+      "position": [
+        32095,
+        32207,
+        7
+      ],
+      "known": 748,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.57.29:484",
+      "position": [
+        32095,
+        32206,
+        7
+      ],
+      "known": 766,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.57.29:914",
+      "position": [
+        32095,
+        32205,
+        7
+      ],
+      "known": 784,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.57.30:425",
+      "position": [
+        32095,
+        32204,
+        7
+      ],
+      "known": 802,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.57.30:867",
+      "position": [
+        32095,
+        32203,
+        7
+      ],
+      "known": 820,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.57.56:185",
+      "position": [
+        32095,
+        32204,
+        7
+      ],
+      "known": 820,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.57.56:607",
+      "position": [
+        32095,
+        32205,
+        7
+      ],
+      "known": 820,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.58.01:468",
+      "position": [
+        32094,
+        32205,
+        7
+      ],
+      "known": 834,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.58.03:928",
+      "position": [
+        32095,
+        32205,
+        7
+      ],
+      "known": 834,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.58.04:363",
+      "position": [
+        32096,
+        32205,
+        7
+      ],
+      "known": 838,
+      "live": 252
+    },
+    {
+      "time": "2026.09.28-19.58.04:870",
+      "position": [
+        32097,
+        32205,
+        7
+      ],
+      "known": 842,
+      "live": 252
+    }
+  ],
+  "floor_transitions": [],
+  "accepted_by_direction": {
+    "north": 16,
+    "west": 3,
+    "east": 3
+  },
+  "movement": [
+    {
+      "t": 133.909,
+      "phase": "sent",
+      "input_id": 1,
+      "request_id": 1,
+      "direction": "north",
+      "from": {
+        "x": 32097,
+        "y": 32219,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32219,
+        "z": 7
+      }
+    },
+    {
+      "t": 134.036,
+      "phase": "accepted",
+      "input_id": 1,
+      "request_id": 1,
+      "direction": "north",
+      "from": {
+        "x": 32097,
+        "y": 32219,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32218,
+        "z": 7
+      }
+    },
+    {
+      "t": 135.979,
+      "phase": "sent",
+      "input_id": 2,
+      "request_id": 2,
+      "direction": "north",
+      "from": {
+        "x": 32097,
+        "y": 32218,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32218,
+        "z": 7
+      }
+    },
+    {
+      "t": 136.176,
+      "phase": "accepted",
+      "input_id": 2,
+      "request_id": 2,
+      "direction": "north",
+      "from": {
+        "x": 32097,
+        "y": 32218,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32217,
+        "z": 7
+      }
+    },
+    {
+      "t": 137.564,
+      "phase": "sent",
+      "input_id": 3,
+      "request_id": 3,
+      "direction": "north",
+      "from": {
+        "x": 32097,
+        "y": 32217,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32217,
+        "z": 7
+      }
+    },
+    {
+      "t": 137.686,
+      "phase": "accepted",
+      "input_id": 3,
+      "request_id": 3,
+      "direction": "north",
+      "from": {
+        "x": 32097,
+        "y": 32217,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32216,
+        "z": 7
+      }
+    },
+    {
+      "t": 139.099,
+      "phase": "sent",
+      "input_id": 4,
+      "request_id": 4,
+      "direction": "north",
+      "from": {
+        "x": 32097,
+        "y": 32216,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32216,
+        "z": 7
+      }
+    },
+    {
+      "t": 139.279,
+      "phase": "accepted",
+      "input_id": 4,
+      "request_id": 4,
+      "direction": "north",
+      "from": {
+        "x": 32097,
+        "y": 32216,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32215,
+        "z": 7
+      }
+    },
+    {
+      "t": 187.541,
+      "phase": "sent",
+      "input_id": 5,
+      "request_id": 5,
+      "direction": "north",
+      "from": {
+        "x": 32097,
+        "y": 32215,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32215,
+        "z": 7
+      }
+    },
+    {
+      "t": 187.709,
+      "phase": "accepted",
+      "input_id": 5,
+      "request_id": 5,
+      "direction": "north",
+      "from": {
+        "x": 32097,
+        "y": 32215,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32214,
+        "z": 7
+      }
+    },
+    {
+      "t": 187.999,
+      "phase": "sent",
+      "input_id": 6,
+      "request_id": 6,
+      "direction": "north",
+      "from": {
+        "x": 32097,
+        "y": 32214,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32214,
+        "z": 7
+      }
+    },
+    {
+      "t": 188.172,
+      "phase": "accepted",
+      "input_id": 6,
+      "request_id": 6,
+      "direction": "north",
+      "from": {
+        "x": 32097,
+        "y": 32214,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32213,
+        "z": 7
+      }
+    },
+    {
+      "t": 188.481,
+      "phase": "sent",
+      "input_id": 7,
+      "request_id": 7,
+      "direction": "north",
+      "from": {
+        "x": 32097,
+        "y": 32213,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32213,
+        "z": 7
+      }
+    },
+    {
+      "t": 188.662,
+      "phase": "accepted",
+      "input_id": 7,
+      "request_id": 7,
+      "direction": "north",
+      "from": {
+        "x": 32097,
+        "y": 32213,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32212,
+        "z": 7
+      }
+    },
+    {
+      "t": 188.93,
+      "phase": "sent",
+      "input_id": 8,
+      "request_id": 8,
+      "direction": "north",
+      "from": {
+        "x": 32097,
+        "y": 32212,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32212,
+        "z": 7
+      }
+    },
+    {
+      "t": 189.159,
+      "phase": "accepted",
+      "input_id": 8,
+      "request_id": 8,
+      "direction": "north",
+      "from": {
+        "x": 32097,
+        "y": 32212,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32211,
+        "z": 7
+      }
+    },
+    {
+      "t": 189.434,
+      "phase": "sent",
+      "input_id": 9,
+      "request_id": 9,
+      "direction": "north",
+      "from": {
+        "x": 32097,
+        "y": 32211,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32211,
+        "z": 7
+      }
+    },
+    {
+      "t": 189.605,
+      "phase": "accepted",
+      "input_id": 9,
+      "request_id": 9,
+      "direction": "north",
+      "from": {
+        "x": 32097,
+        "y": 32211,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32210,
+        "z": 7
+      }
+    },
+    {
+      "t": 189.858,
+      "phase": "sent",
+      "input_id": 10,
+      "request_id": 10,
+      "direction": "north",
+      "from": {
+        "x": 32097,
+        "y": 32210,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32210,
+        "z": 7
+      }
+    },
+    {
+      "t": 190.08,
+      "phase": "accepted",
+      "input_id": 10,
+      "request_id": 10,
+      "direction": "north",
+      "from": {
+        "x": 32097,
+        "y": 32210,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32209,
+        "z": 7
+      }
+    },
+    {
+      "t": 190.331,
+      "phase": "sent",
+      "input_id": 11,
+      "request_id": 11,
+      "direction": "west",
+      "from": {
+        "x": 32097,
+        "y": 32209,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32209,
+        "z": 7
+      }
+    },
+    {
+      "t": 190.491,
+      "phase": "accepted",
+      "input_id": 11,
+      "request_id": 11,
+      "direction": "west",
+      "from": {
+        "x": 32097,
+        "y": 32209,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32209,
+        "z": 7
+      }
+    },
+    {
+      "t": 190.79,
+      "phase": "sent",
+      "input_id": 12,
+      "request_id": 12,
+      "direction": "west",
+      "from": {
+        "x": 32096,
+        "y": 32209,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32209,
+        "z": 7
+      }
+    },
+    {
+      "t": 191.149,
+      "phase": "accepted",
+      "input_id": 12,
+      "request_id": 12,
+      "direction": "west",
+      "from": {
+        "x": 32096,
+        "y": 32209,
+        "z": 7
+      },
+      "to": {
+        "x": 32095,
+        "y": 32209,
+        "z": 7
+      }
+    },
+    {
+      "t": 191.386,
+      "phase": "sent",
+      "input_id": 13,
+      "request_id": 13,
+      "direction": "north",
+      "from": {
+        "x": 32095,
+        "y": 32209,
+        "z": 7
+      },
+      "to": {
+        "x": 32095,
+        "y": 32209,
+        "z": 7
+      }
+    },
+    {
+      "t": 191.54,
+      "phase": "accepted",
+      "input_id": 13,
+      "request_id": 13,
+      "direction": "north",
+      "from": {
+        "x": 32095,
+        "y": 32209,
+        "z": 7
+      },
+      "to": {
+        "x": 32095,
+        "y": 32208,
+        "z": 7
+      }
+    },
+    {
+      "t": 191.835,
+      "phase": "sent",
+      "input_id": 14,
+      "request_id": 14,
+      "direction": "north",
+      "from": {
+        "x": 32095,
+        "y": 32208,
+        "z": 7
+      },
+      "to": {
+        "x": 32095,
+        "y": 32208,
+        "z": 7
+      }
+    },
+    {
+      "t": 192.002,
+      "phase": "accepted",
+      "input_id": 14,
+      "request_id": 14,
+      "direction": "north",
+      "from": {
+        "x": 32095,
+        "y": 32208,
+        "z": 7
+      },
+      "to": {
+        "x": 32095,
+        "y": 32207,
+        "z": 7
+      }
+    },
+    {
+      "t": 192.301,
+      "phase": "sent",
+      "input_id": 15,
+      "request_id": 15,
+      "direction": "north",
+      "from": {
+        "x": 32095,
+        "y": 32207,
+        "z": 7
+      },
+      "to": {
+        "x": 32095,
+        "y": 32207,
+        "z": 7
+      }
+    },
+    {
+      "t": 192.469,
+      "phase": "accepted",
+      "input_id": 15,
+      "request_id": 15,
+      "direction": "north",
+      "from": {
+        "x": 32095,
+        "y": 32207,
+        "z": 7
+      },
+      "to": {
+        "x": 32095,
+        "y": 32206,
+        "z": 7
+      }
+    },
+    {
+      "t": 192.724,
+      "phase": "sent",
+      "input_id": 16,
+      "request_id": 16,
+      "direction": "north",
+      "from": {
+        "x": 32095,
+        "y": 32206,
+        "z": 7
+      },
+      "to": {
+        "x": 32095,
+        "y": 32206,
+        "z": 7
+      }
+    },
+    {
+      "t": 192.898,
+      "phase": "accepted",
+      "input_id": 16,
+      "request_id": 16,
+      "direction": "north",
+      "from": {
+        "x": 32095,
+        "y": 32206,
+        "z": 7
+      },
+      "to": {
+        "x": 32095,
+        "y": 32205,
+        "z": 7
+      }
+    },
+    {
+      "t": 193.239,
+      "phase": "sent",
+      "input_id": 17,
+      "request_id": 17,
+      "direction": "north",
+      "from": {
+        "x": 32095,
+        "y": 32205,
+        "z": 7
+      },
+      "to": {
+        "x": 32095,
+        "y": 32205,
+        "z": 7
+      }
+    },
+    {
+      "t": 193.425,
+      "phase": "accepted",
+      "input_id": 17,
+      "request_id": 17,
+      "direction": "north",
+      "from": {
+        "x": 32095,
+        "y": 32205,
+        "z": 7
+      },
+      "to": {
+        "x": 32095,
+        "y": 32204,
+        "z": 7
+      }
+    },
+    {
+      "t": 193.686,
+      "phase": "sent",
+      "input_id": 18,
+      "request_id": 18,
+      "direction": "north",
+      "from": {
+        "x": 32095,
+        "y": 32204,
+        "z": 7
+      },
+      "to": {
+        "x": 32095,
+        "y": 32204,
+        "z": 7
+      }
+    },
+    {
+      "t": 193.869,
+      "phase": "accepted",
+      "input_id": 18,
+      "request_id": 18,
+      "direction": "north",
+      "from": {
+        "x": 32095,
+        "y": 32204,
+        "z": 7
+      },
+      "to": {
+        "x": 32095,
+        "y": 32203,
+        "z": 7
+      }
+    },
+    {
+      "t": 219.162,
+      "phase": "external_relocation",
+      "input_id": 0,
+      "request_id": 0,
+      "direction": "none",
+      "from": {
+        "x": 32095,
+        "y": 32203,
+        "z": 7
+      },
+      "to": {
+        "x": 32095,
+        "y": 32204,
+        "z": 7
+      }
+    },
+    {
+      "t": 219.616,
+      "phase": "external_relocation",
+      "input_id": 0,
+      "request_id": 0,
+      "direction": "none",
+      "from": {
+        "x": 32095,
+        "y": 32204,
+        "z": 7
+      },
+      "to": {
+        "x": 32095,
+        "y": 32205,
+        "z": 7
+      }
+    },
+    {
+      "t": 224.322,
+      "phase": "sent",
+      "input_id": 22,
+      "request_id": 19,
+      "direction": "west",
+      "from": {
+        "x": 32095,
+        "y": 32205,
+        "z": 7
+      },
+      "to": {
+        "x": 32095,
+        "y": 32205,
+        "z": 7
+      }
+    },
+    {
+      "t": 224.456,
+      "phase": "accepted",
+      "input_id": 22,
+      "request_id": 19,
+      "direction": "west",
+      "from": {
+        "x": 32095,
+        "y": 32205,
+        "z": 7
+      },
+      "to": {
+        "x": 32094,
+        "y": 32205,
+        "z": 7
+      }
+    },
+    {
+      "t": 226.754,
+      "phase": "sent",
+      "input_id": 25,
+      "request_id": 20,
+      "direction": "east",
+      "from": {
+        "x": 32094,
+        "y": 32205,
+        "z": 7
+      },
+      "to": {
+        "x": 32094,
+        "y": 32205,
+        "z": 7
+      }
+    },
+    {
+      "t": 226.907,
+      "phase": "accepted",
+      "input_id": 25,
+      "request_id": 20,
+      "direction": "east",
+      "from": {
+        "x": 32094,
+        "y": 32205,
+        "z": 7
+      },
+      "to": {
+        "x": 32095,
+        "y": 32205,
+        "z": 7
+      }
+    },
+    {
+      "t": 227.223,
+      "phase": "sent",
+      "input_id": 26,
+      "request_id": 21,
+      "direction": "east",
+      "from": {
+        "x": 32095,
+        "y": 32205,
+        "z": 7
+      },
+      "to": {
+        "x": 32095,
+        "y": 32205,
+        "z": 7
+      }
+    },
+    {
+      "t": 227.427,
+      "phase": "accepted",
+      "input_id": 26,
+      "request_id": 21,
+      "direction": "east",
+      "from": {
+        "x": 32095,
+        "y": 32205,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32205,
+        "z": 7
+      }
+    },
+    {
+      "t": 227.69,
+      "phase": "sent",
+      "input_id": 27,
+      "request_id": 22,
+      "direction": "east",
+      "from": {
+        "x": 32096,
+        "y": 32205,
+        "z": 7
+      },
+      "to": {
+        "x": 32096,
+        "y": 32205,
+        "z": 7
+      }
+    },
+    {
+      "t": 227.844,
+      "phase": "accepted",
+      "input_id": 27,
+      "request_id": 22,
+      "direction": "east",
+      "from": {
+        "x": 32096,
+        "y": 32205,
+        "z": 7
+      },
+      "to": {
+        "x": 32097,
+        "y": 32205,
+        "z": 7
+      }
+    }
+  ],
+  "snapshots": [
+    {
+      "written_at": "2026-09-28T19:58:10.964Z",
+      "reason": "EndPlay",
+      "seconds_in_session": 233.9,
+      "local_position": {
+        "x": 32097,
+        "y": 32205,
+        "z": 7
+      },
+      "anchor": {
+        "x": 32097,
+        "y": 32205,
+        "z": 7
+      },
+      "minimap": {
+        "player_known": true,
+        "x": 32097,
+        "y": 32205,
+        "z": 7,
+        "known_cells": 842,
+        "live_cells": 252
+      },
+      "clientcore": {
+        "frames": 106,
+        "commands": 158,
+        "residual_bytes": 0,
+        "unsupported_opcodes": 0,
+        "protocol_anomalies": 0,
+        "walks_requested_from_unreal": 22,
+        "walks_accepted": 22,
+        "walks_rejected": 0,
+        "walks_unanswered": 0,
+        "external_relocations": 2,
+        "local_player_moves_total": 24,
+        "says_requested": 0,
+        "moves_requested": 0,
+        "uses_requested": 5,
+        "looks_requested": 0,
+        "attacks_requested": 0,
+        "follows_requested": 0,
+        "combat_cancels_requested": 0,
+        "tactics_requested": 0,
+        "target_clears_received": 0,
+        "worldstate_tiles": 400,
+        "worldstate_visible_creatures": 2,
+        "viewport_synchronised": true
+      },
+      "presentation": {
+        "tile_actors": 400,
+        "creature_actors": 2,
+        "tiles_spawned": 1383,
+        "tiles_removed": 676,
+        "creatures_appeared": 17,
+        "creatures_vanished": 12,
+        "creature_moves": 182,
+        "duplicate_spawn_attempts": 0,
+        "orphan_events": 0,
+        "speech_shown_on_creature": 0,
+        "speech_shown_in_chat_area_only": 0,
+        "server_messages_received": 23,
+        "client_notices_raised": 0,
+        "chat_transcript_lines": 1,
+        "speech_seconds_NOT_PROVEN": 6.0
+      },
+      "inventory_known": true,
+      "open_containers": 0
+    },
+    {
+      "written_at": "2026-09-28T19:56:01.347Z",
+      "reason": "AfterCleanup",
+      "seconds_in_session": 104.3,
+      "local_position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "anchor": {
+        "x": 32087,
+        "y": 32150,
+        "z": 7
+      },
+      "minimap": {
+        "player_known": false,
+        "x": 32087,
+        "y": 32150,
+        "z": 7,
+        "known_cells": 252,
+        "live_cells": 0
+      },
+      "clientcore": {
+        "frames": 152,
+        "commands": 430,
+        "residual_bytes": 0,
+        "unsupported_opcodes": 0,
+        "protocol_anomalies": 0,
+        "walks_requested_from_unreal": 0,
+        "walks_accepted": 0,
+        "walks_rejected": 0,
+        "walks_unanswered": 0,
+        "external_relocations": 0,
+        "local_player_moves_total": 0,
+        "says_requested": 0,
+        "moves_requested": 0,
+        "uses_requested": 0,
+        "looks_requested": 0,
+        "attacks_requested": 0,
+        "follows_requested": 0,
+        "combat_cancels_requested": 0,
+        "tactics_requested": 0,
+        "target_clears_received": 0,
+        "worldstate_tiles": 307,
+        "worldstate_visible_creatures": 3,
+        "viewport_synchronised": true
+      },
+      "presentation": {
+        "tile_actors": 0,
+        "creature_actors": 0,
+        "tiles_spawned": 307,
+        "tiles_removed": 0,
+        "creatures_appeared": 7,
+        "creatures_vanished": 4,
+        "creature_moves": 76,
+        "duplicate_spawn_attempts": 0,
+        "orphan_events": 0,
+        "speech_shown_on_creature": 0,
+        "speech_shown_in_chat_area_only": 0,
+        "server_messages_received": 22,
+        "client_notices_raised": 0,
+        "chat_transcript_lines": 0,
+        "speech_seconds_NOT_PROVEN": 6.0
+      },
+      "inventory_known": false,
+      "open_containers": 0
+    },
+    {
+      "written_at": "2026-09-28T19:56:01.334Z",
+      "reason": "Disconnected",
+      "seconds_in_session": 104.2,
+      "local_position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "anchor": {
+        "x": 32087,
+        "y": 32150,
+        "z": 7
+      },
+      "minimap": {
+        "player_known": false,
+        "x": 32087,
+        "y": 32150,
+        "z": 7,
+        "known_cells": 252,
+        "live_cells": 0
+      },
+      "clientcore": {
+        "frames": 152,
+        "commands": 430,
+        "residual_bytes": 0,
+        "unsupported_opcodes": 0,
+        "protocol_anomalies": 0,
+        "walks_requested_from_unreal": 0,
+        "walks_accepted": 0,
+        "walks_rejected": 0,
+        "walks_unanswered": 0,
+        "external_relocations": 0,
+        "local_player_moves_total": 0,
+        "says_requested": 0,
+        "moves_requested": 0,
+        "uses_requested": 0,
+        "looks_requested": 0,
+        "attacks_requested": 0,
+        "follows_requested": 0,
+        "combat_cancels_requested": 0,
+        "tactics_requested": 0,
+        "target_clears_received": 0,
+        "worldstate_tiles": 307,
+        "worldstate_visible_creatures": 3,
+        "viewport_synchronised": true
+      },
+      "presentation": {
+        "tile_actors": 307,
+        "creature_actors": 3,
+        "tiles_spawned": 307,
+        "tiles_removed": 0,
+        "creatures_appeared": 7,
+        "creatures_vanished": 4,
+        "creature_moves": 76,
+        "duplicate_spawn_attempts": 0,
+        "orphan_events": 0,
+        "speech_shown_on_creature": 0,
+        "speech_shown_in_chat_area_only": 0,
+        "server_messages_received": 22,
+        "client_notices_raised": 0,
+        "chat_transcript_lines": 0,
+        "speech_seconds_NOT_PROVEN": 6.0
+      },
+      "inventory_known": true,
+      "open_containers": 0
+    },
+    {
+      "written_at": "2026-09-28T19:56:31.877Z",
+      "reason": "Manual",
+      "seconds_in_session": 134.8,
+      "local_position": {
+        "x": 32097,
+        "y": 32218,
+        "z": 7
+      },
+      "anchor": {
+        "x": 32097,
+        "y": 32218,
+        "z": 7
+      },
+      "minimap": {
+        "player_known": true,
+        "x": 32097,
+        "y": 32218,
+        "z": 7,
+        "known_cells": 522,
+        "live_cells": 252
+      },
+      "clientcore": {
+        "frames": 27,
+        "commands": 56,
+        "residual_bytes": 0,
+        "unsupported_opcodes": 0,
+        "protocol_anomalies": 0,
+        "walks_requested_from_unreal": 1,
+        "walks_accepted": 1,
+        "walks_rejected": 0,
+        "walks_unanswered": 0,
+        "external_relocations": 0,
+        "local_player_moves_total": 1,
+        "says_requested": 0,
+        "moves_requested": 0,
+        "uses_requested": 0,
+        "looks_requested": 0,
+        "attacks_requested": 0,
+        "follows_requested": 0,
+        "combat_cancels_requested": 0,
+        "tactics_requested": 0,
+        "target_clears_received": 0,
+        "worldstate_tiles": 395,
+        "worldstate_visible_creatures": 2,
+        "viewport_synchronised": true
+      },
+      "presentation": {
+        "tile_actors": 395,
+        "creature_actors": 2,
+        "tiles_spawned": 733,
+        "tiles_removed": 31,
+        "creatures_appeared": 15,
+        "creatures_vanished": 10,
+        "creature_moves": 109,
+        "duplicate_spawn_attempts": 0,
+        "orphan_events": 0,
+        "speech_shown_on_creature": 0,
+        "speech_shown_in_chat_area_only": 0,
+        "server_messages_received": 23,
+        "client_notices_raised": 0,
+        "chat_transcript_lines": 1,
+        "speech_seconds_NOT_PROVEN": 6.0
+      },
+      "inventory_known": true,
+      "open_containers": 0
+    },
+    {
+      "written_at": "2026-09-28T19:56:33.941Z",
+      "reason": "Manual",
+      "seconds_in_session": 136.9,
+      "local_position": {
+        "x": 32097,
+        "y": 32217,
+        "z": 7
+      },
+      "anchor": {
+        "x": 32097,
+        "y": 32217,
+        "z": 7
+      },
+      "minimap": {
+        "player_known": true,
+        "x": 32097,
+        "y": 32217,
+        "z": 7,
+        "known_cells": 540,
+        "live_cells": 252
+      },
+      "clientcore": {
+        "frames": 29,
+        "commands": 59,
+        "residual_bytes": 0,
+        "unsupported_opcodes": 0,
+        "protocol_anomalies": 0,
+        "walks_requested_from_unreal": 2,
+        "walks_accepted": 2,
+        "walks_rejected": 0,
+        "walks_unanswered": 0,
+        "external_relocations": 0,
+        "local_player_moves_total": 2,
+        "says_requested": 0,
+        "moves_requested": 0,
+        "uses_requested": 0,
+        "looks_requested": 0,
+        "attacks_requested": 0,
+        "follows_requested": 0,
+        "combat_cancels_requested": 0,
+        "tactics_requested": 0,
+        "target_clears_received": 0,
+        "worldstate_tiles": 384,
+        "worldstate_visible_creatures": 2,
+        "viewport_synchronised": true
+      },
+      "presentation": {
+        "tile_actors": 384,
+        "creature_actors": 2,
+        "tiles_spawned": 751,
+        "tiles_removed": 60,
+        "creatures_appeared": 15,
+        "creatures_vanished": 10,
+        "creature_moves": 111,
+        "duplicate_spawn_attempts": 0,
+        "orphan_events": 0,
+        "speech_shown_on_creature": 0,
+        "speech_shown_in_chat_area_only": 0,
+        "server_messages_received": 23,
+        "client_notices_raised": 0,
+        "chat_transcript_lines": 1,
+        "speech_seconds_NOT_PROVEN": 6.0
+      },
+      "inventory_known": true,
+      "open_containers": 0
+    },
+    {
+      "written_at": "2026-09-28T19:56:35.411Z",
+      "reason": "Manual",
+      "seconds_in_session": 138.3,
+      "local_position": {
+        "x": 32097,
+        "y": 32216,
+        "z": 7
+      },
+      "anchor": {
+        "x": 32097,
+        "y": 32216,
+        "z": 7
+      },
+      "minimap": {
+        "player_known": true,
+        "x": 32097,
+        "y": 32216,
+        "z": 7,
+        "known_cells": 558,
+        "live_cells": 252
+      },
+      "clientcore": {
+        "frames": 31,
+        "commands": 62,
+        "residual_bytes": 0,
+        "unsupported_opcodes": 0,
+        "protocol_anomalies": 0,
+        "walks_requested_from_unreal": 3,
+        "walks_accepted": 3,
+        "walks_rejected": 0,
+        "walks_unanswered": 0,
+        "external_relocations": 0,
+        "local_player_moves_total": 3,
+        "says_requested": 0,
+        "moves_requested": 0,
+        "uses_requested": 0,
+        "looks_requested": 0,
+        "attacks_requested": 0,
+        "follows_requested": 0,
+        "combat_cancels_requested": 0,
+        "tactics_requested": 0,
+        "target_clears_received": 0,
+        "worldstate_tiles": 382,
+        "worldstate_visible_creatures": 2,
+        "viewport_synchronised": true
+      },
+      "presentation": {
+        "tile_actors": 382,
+        "creature_actors": 2,
+        "tiles_spawned": 769,
+        "tiles_removed": 80,
+        "creatures_appeared": 15,
+        "creatures_vanished": 10,
+        "creature_moves": 113,
+        "duplicate_spawn_attempts": 0,
+        "orphan_events": 0,
+        "speech_shown_on_creature": 0,
+        "speech_shown_in_chat_area_only": 0,
+        "server_messages_received": 23,
+        "client_notices_raised": 0,
+        "chat_transcript_lines": 1,
+        "speech_seconds_NOT_PROVEN": 6.0
+      },
+      "inventory_known": true,
+      "open_containers": 0
+    },
+    {
+      "written_at": "2026-09-28T19:56:36.936Z",
+      "reason": "Manual",
+      "seconds_in_session": 139.8,
+      "local_position": {
+        "x": 32097,
+        "y": 32215,
+        "z": 7
+      },
+      "anchor": {
+        "x": 32097,
+        "y": 32215,
+        "z": 7
+      },
+      "minimap": {
+        "player_known": true,
+        "x": 32097,
+        "y": 32215,
+        "z": 7,
+        "known_cells": 576,
+        "live_cells": 252
+      },
+      "clientcore": {
+        "frames": 33,
+        "commands": 65,
+        "residual_bytes": 0,
+        "unsupported_opcodes": 0,
+        "protocol_anomalies": 0,
+        "walks_requested_from_unreal": 4,
+        "walks_accepted": 4,
+        "walks_rejected": 0,
+        "walks_unanswered": 0,
+        "external_relocations": 0,
+        "local_player_moves_total": 4,
+        "says_requested": 0,
+        "moves_requested": 0,
+        "uses_requested": 0,
+        "looks_requested": 0,
+        "attacks_requested": 0,
+        "follows_requested": 0,
+        "combat_cancels_requested": 0,
+        "tactics_requested": 0,
+        "target_clears_received": 0,
+        "worldstate_tiles": 395,
+        "worldstate_visible_creatures": 2,
+        "viewport_synchronised": true
+      },
+      "presentation": {
+        "tile_actors": 395,
+        "creature_actors": 2,
+        "tiles_spawned": 800,
+        "tiles_removed": 98,
+        "creatures_appeared": 15,
+        "creatures_vanished": 10,
+        "creature_moves": 115,
+        "duplicate_spawn_attempts": 0,
+        "orphan_events": 0,
+        "speech_shown_on_creature": 0,
+        "speech_shown_in_chat_area_only": 0,
+        "server_messages_received": 23,
+        "client_notices_raised": 0,
+        "chat_transcript_lines": 1,
+        "speech_seconds_NOT_PROVEN": 6.0
+      },
+      "inventory_known": true,
+      "open_containers": 0
+    },
+    {
+      "written_at": "2026-09-28T19:56:59.579Z",
+      "reason": "Manual",
+      "seconds_in_session": 162.5,
+      "local_position": {
+        "x": 32097,
+        "y": 32215,
+        "z": 7
+      },
+      "anchor": {
+        "x": 32097,
+        "y": 32215,
+        "z": 7
+      },
+      "minimap": {
+        "player_known": true,
+        "x": 32097,
+        "y": 32215,
+        "z": 7,
+        "known_cells": 576,
+        "live_cells": 252
+      },
+      "clientcore": {
+        "frames": 44,
+        "commands": 76,
+        "residual_bytes": 0,
+        "unsupported_opcodes": 0,
+        "protocol_anomalies": 0,
+        "walks_requested_from_unreal": 4,
+        "walks_accepted": 4,
+        "walks_rejected": 0,
+        "walks_unanswered": 0,
+        "external_relocations": 0,
+        "local_player_moves_total": 4,
+        "says_requested": 0,
+        "moves_requested": 0,
+        "uses_requested": 0,
+        "looks_requested": 0,
+        "attacks_requested": 0,
+        "follows_requested": 0,
+        "combat_cancels_requested": 0,
+        "tactics_requested": 0,
+        "target_clears_received": 0,
+        "worldstate_tiles": 395,
+        "worldstate_visible_creatures": 2,
+        "viewport_synchronised": true
+      },
+      "presentation": {
+        "tile_actors": 395,
+        "creature_actors": 2,
+        "tiles_spawned": 800,
+        "tiles_removed": 98,
+        "creatures_appeared": 15,
+        "creatures_vanished": 10,
+        "creature_moves": 126,
+        "duplicate_spawn_attempts": 0,
+        "orphan_events": 0,
+        "speech_shown_on_creature": 0,
+        "speech_shown_in_chat_area_only": 0,
+        "server_messages_received": 23,
+        "client_notices_raised": 0,
+        "chat_transcript_lines": 1,
+        "speech_seconds_NOT_PROVEN": 6.0
+      },
+      "inventory_known": true,
+      "open_containers": 0
+    },
+    {
+      "written_at": "2026-09-28T19:57:16.137Z",
+      "reason": "Manual",
+      "seconds_in_session": 179.0,
+      "local_position": {
+        "x": 32097,
+        "y": 32215,
+        "z": 7
+      },
+      "anchor": {
+        "x": 32097,
+        "y": 32215,
+        "z": 7
+      },
+      "minimap": {
+        "player_known": true,
+        "x": 32097,
+        "y": 32215,
+        "z": 7,
+        "known_cells": 576,
+        "live_cells": 252
+      },
+      "clientcore": {
+        "frames": 52,
+        "commands": 84,
+        "residual_bytes": 0,
+        "unsupported_opcodes": 0,
+        "protocol_anomalies": 0,
+        "walks_requested_from_unreal": 4,
+        "walks_accepted": 4,
+        "walks_rejected": 0,
+        "walks_unanswered": 0,
+        "external_relocations": 0,
+        "local_player_moves_total": 4,
+        "says_requested": 0,
+        "moves_requested": 0,
+        "uses_requested": 0,
+        "looks_requested": 0,
+        "attacks_requested": 0,
+        "follows_requested": 0,
+        "combat_cancels_requested": 0,
+        "tactics_requested": 0,
+        "target_clears_received": 0,
+        "worldstate_tiles": 395,
+        "worldstate_visible_creatures": 2,
+        "viewport_synchronised": true
+      },
+      "presentation": {
+        "tile_actors": 395,
+        "creature_actors": 2,
+        "tiles_spawned": 800,
+        "tiles_removed": 98,
+        "creatures_appeared": 15,
+        "creatures_vanished": 10,
+        "creature_moves": 134,
+        "duplicate_spawn_attempts": 0,
+        "orphan_events": 0,
+        "speech_shown_on_creature": 0,
+        "speech_shown_in_chat_area_only": 0,
+        "server_messages_received": 23,
+        "client_notices_raised": 0,
+        "chat_transcript_lines": 1,
+        "speech_seconds_NOT_PROVEN": 6.0
+      },
+      "inventory_known": true,
+      "open_containers": 0
+    },
+    {
+      "written_at": "2026-09-28T19:57:22.960Z",
+      "reason": "Manual",
+      "seconds_in_session": 185.9,
+      "local_position": {
+        "x": 32097,
+        "y": 32215,
+        "z": 7
+      },
+      "anchor": {
+        "x": 32097,
+        "y": 32215,
+        "z": 7
+      },
+      "minimap": {
+        "player_known": true,
+        "x": 32097,
+        "y": 32215,
+        "z": 7,
+        "known_cells": 576,
+        "live_cells": 252
+      },
+      "clientcore": {
+        "frames": 56,
+        "commands": 88,
+        "residual_bytes": 0,
+        "unsupported_opcodes": 0,
+        "protocol_anomalies": 0,
+        "walks_requested_from_unreal": 4,
+        "walks_accepted": 4,
+        "walks_rejected": 0,
+        "walks_unanswered": 0,
+        "external_relocations": 0,
+        "local_player_moves_total": 4,
+        "says_requested": 0,
+        "moves_requested": 0,
+        "uses_requested": 0,
+        "looks_requested": 0,
+        "attacks_requested": 0,
+        "follows_requested": 0,
+        "combat_cancels_requested": 0,
+        "tactics_requested": 0,
+        "target_clears_received": 0,
+        "worldstate_tiles": 395,
+        "worldstate_visible_creatures": 2,
+        "viewport_synchronised": true
+      },
+      "presentation": {
+        "tile_actors": 395,
+        "creature_actors": 2,
+        "tiles_spawned": 800,
+        "tiles_removed": 98,
+        "creatures_appeared": 15,
+        "creatures_vanished": 10,
+        "creature_moves": 138,
+        "duplicate_spawn_attempts": 0,
+        "orphan_events": 0,
+        "speech_shown_on_creature": 0,
+        "speech_shown_in_chat_area_only": 0,
+        "server_messages_received": 23,
+        "client_notices_raised": 0,
+        "chat_transcript_lines": 1,
+        "speech_seconds_NOT_PROVEN": 6.0
+      },
+      "inventory_known": true,
+      "open_containers": 0
+    },
+    {
+      "written_at": "2026-09-28T19:56:10.791Z",
+      "reason": "MinimapInitial",
+      "seconds_in_session": 113.7,
+      "local_position": {
+        "x": 32097,
+        "y": 32219,
+        "z": 7
+      },
+      "anchor": {
+        "x": 32097,
+        "y": 32219,
+        "z": 7
+      },
+      "minimap": {
+        "player_known": true,
+        "x": 32097,
+        "y": 32219,
+        "z": 7,
+        "known_cells": 504,
+        "live_cells": 252
+      },
+      "clientcore": {
+        "frames": 5,
+        "commands": 17,
+        "residual_bytes": 0,
+        "unsupported_opcodes": 0,
+        "protocol_anomalies": 0,
+        "walks_requested_from_unreal": 0,
+        "walks_accepted": 0,
+        "walks_rejected": 0,
+        "walks_unanswered": 0,
+        "external_relocations": 0,
+        "local_player_moves_total": 0,
+        "says_requested": 0,
+        "moves_requested": 0,
+        "uses_requested": 0,
+        "looks_requested": 0,
+        "attacks_requested": 0,
+        "follows_requested": 0,
+        "combat_cancels_requested": 0,
+        "tactics_requested": 0,
+        "target_clears_received": 0,
+        "worldstate_tiles": 408,
+        "worldstate_visible_creatures": 3,
+        "viewport_synchronised": true
+      },
+      "presentation": {
+        "tile_actors": 408,
+        "creature_actors": 3,
+        "tiles_spawned": 715,
+        "tiles_removed": 0,
+        "creatures_appeared": 11,
+        "creatures_vanished": 5,
+        "creature_moves": 80,
+        "duplicate_spawn_attempts": 0,
+        "orphan_events": 0,
+        "speech_shown_on_creature": 0,
+        "speech_shown_in_chat_area_only": 0,
+        "server_messages_received": 23,
+        "client_notices_raised": 0,
+        "chat_transcript_lines": 1,
+        "speech_seconds_NOT_PROVEN": 6.0
+      },
+      "inventory_known": true,
+      "open_containers": 0
+    },
+    {
+      "written_at": "2026-09-28T19:56:39.725Z",
+      "reason": "MinimapSettled",
+      "seconds_in_session": 142.6,
+      "local_position": {
+        "x": 32097,
+        "y": 32215,
+        "z": 7
+      },
+      "anchor": {
+        "x": 32097,
+        "y": 32215,
+        "z": 7
+      },
+      "minimap": {
+        "player_known": true,
+        "x": 32097,
+        "y": 32215,
+        "z": 7,
+        "known_cells": 576,
+        "live_cells": 252
+      },
+      "clientcore": {
+        "frames": 34,
+        "commands": 66,
+        "residual_bytes": 0,
+        "unsupported_opcodes": 0,
+        "protocol_anomalies": 0,
+        "walks_requested_from_unreal": 4,
+        "walks_accepted": 4,
+        "walks_rejected": 0,
+        "walks_unanswered": 0,
+        "external_relocations": 0,
+        "local_player_moves_total": 4,
+        "says_requested": 0,
+        "moves_requested": 0,
+        "uses_requested": 0,
+        "looks_requested": 0,
+        "attacks_requested": 0,
+        "follows_requested": 0,
+        "combat_cancels_requested": 0,
+        "tactics_requested": 0,
+        "target_clears_received": 0,
+        "worldstate_tiles": 395,
+        "worldstate_visible_creatures": 2,
+        "viewport_synchronised": true
+      },
+      "presentation": {
+        "tile_actors": 395,
+        "creature_actors": 2,
+        "tiles_spawned": 800,
+        "tiles_removed": 98,
+        "creatures_appeared": 15,
+        "creatures_vanished": 10,
+        "creature_moves": 116,
+        "duplicate_spawn_attempts": 0,
+        "orphan_events": 0,
+        "speech_shown_on_creature": 0,
+        "speech_shown_in_chat_area_only": 0,
+        "server_messages_received": 23,
+        "client_notices_raised": 0,
+        "chat_transcript_lines": 1,
+        "speech_seconds_NOT_PROVEN": 6.0
+      },
+      "inventory_known": true,
+      "open_containers": 0
+    }
+  ],
+  "cache_events": [
+    "minimap cache saved: cells=252",
+    "minimap cache saved: cells=504",
+    "minimap cache saved: cells=576",
+    "minimap cache saved: cells=802",
+    "minimap cache saved: cells=820",
+    "minimap cache saved: cells=842"
+  ],
+  "ui_events": [
+    "minimap pan: center=32102.00,32222.01 floor=7",
+    "minimap pan: center=32102.00,32236.52 floor=7",
+    "minimap pan: center=32092.00,32212.50 floor=7",
+    "minimap pan: center=32100.50,32219.50 floor=7",
+    "minimap destination: 32095,32203,7"
+  ],
+  "navigation_events": [
+    {
+      "time": "2026.09.28-19.57.07:515",
+      "event": "left-click walk: no reachable observed route/frontier"
+    },
+    {
+      "time": "2026.09.28-19.57.24:603",
+      "event": "left-click walk: target 32095,32203,7, 8 cardinal steps"
+    },
+    {
+      "time": "2026.09.28-19.57.24:604",
+      "event": "left-click walk exploration segment ends at 32095,32209,7; original goal retained"
+    },
+    {
+      "time": "2026.09.28-19.57.24:604",
+      "event": "input 5: left-click walk direction 0 to 32097,32214,7"
+    },
+    {
+      "time": "2026.09.28-19.57.25:064",
+      "event": "input 6: left-click walk direction 0 to 32097,32213,7"
+    },
+    {
+      "time": "2026.09.28-19.57.25:515",
+      "event": "input 7: left-click walk direction 0 to 32097,32212,7"
+    },
+    {
+      "time": "2026.09.28-19.57.25:999",
+      "event": "input 8: left-click walk direction 0 to 32097,32211,7"
+    },
+    {
+      "time": "2026.09.28-19.57.26:463",
+      "event": "input 9: left-click walk direction 0 to 32097,32210,7"
+    },
+    {
+      "time": "2026.09.28-19.57.26:916",
+      "event": "input 10: left-click walk direction 0 to 32097,32209,7"
+    },
+    {
+      "time": "2026.09.28-19.57.27:386",
+      "event": "input 11: left-click walk direction 3 to 32096,32209,7"
+    },
+    {
+      "time": "2026.09.28-19.57.27:847",
+      "event": "input 12: left-click walk direction 3 to 32095,32209,7"
+    },
+    {
+      "time": "2026.09.28-19.57.28:405",
+      "event": "left-click walk exploration segment: goal=32095,32203,7 steps=6"
+    },
+    {
+      "time": "2026.09.28-19.57.28:405",
+      "event": "input 13: left-click walk direction 0 to 32095,32208,7"
+    },
+    {
+      "time": "2026.09.28-19.57.28:872",
+      "event": "input 14: left-click walk direction 0 to 32095,32207,7"
+    },
+    {
+      "time": "2026.09.28-19.57.29:332",
+      "event": "input 15: left-click walk direction 0 to 32095,32206,7"
+    },
+    {
+      "time": "2026.09.28-19.57.29:787",
+      "event": "input 16: left-click walk direction 0 to 32095,32205,7"
+    },
+    {
+      "time": "2026.09.28-19.57.30:269",
+      "event": "input 17: left-click walk direction 0 to 32095,32204,7"
+    },
+    {
+      "time": "2026.09.28-19.57.30:719",
+      "event": "input 18: left-click walk direction 0 to 32095,32203,7"
+    },
+    {
+      "time": "2026.09.28-19.57.31:171",
+      "event": "left-click walk arrived: authoritative player=32095,32203,7"
+    }
+  ],
+  "combat_events": [],
+  "limitations": "Counters and renderer traces do not substitute for visual/interaction verification."
+}

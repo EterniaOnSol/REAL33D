@@ -1,0 +1,4 @@
+﻿All services stopped cleanly.
+querymanager ALIVE pid=2444 exe=VERIFIED cwd=VERIFIED start=VERIFIED port=7173
+game ALIVE pid=2457 exe=VERIFIED cwd=VERIFIED start=VERIFIED port=7172
+login ALIVE pid=2726 exe=VERIFIED cwd=VERIFIED start=VERIFIED port=7171
