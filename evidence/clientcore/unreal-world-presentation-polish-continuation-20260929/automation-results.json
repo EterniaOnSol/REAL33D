@@ -1,0 +1,59 @@
+﻿{
+	"devices": [
+		{
+			"deviceName": "DESKTOP-9SKKIUM",
+			"instance": "94B6DFA640478FC93112BA84E868AE5B",
+			"instanceName": "DESKTOP-9SKKIUM-16496",
+			"platform": "WindowsEditor",
+			"oSVersion": "Windows 11 (23H2) [10.0.22631.6199] ",
+			"model": "Default",
+			"gPU": "Intel(R) UHD Graphics 630",
+			"cPUModel": "Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz",
+			"rAMInGB": 12,
+			"renderMode": "SM6",
+			"rHI": "",
+			"appInstanceLog": ""
+		}
+	],
+	"reportCreatedOn": "2026.09.29-22.44.08",
+	"succeeded": 2,
+	"succeededWithWarnings": 0,
+	"failed": 0,
+	"notRun": 0,
+	"inProcess": 0,
+	"totalDuration": 0.034027095884084702,
+	"comparisonExported": false,
+	"comparisonExportDirectory": "",
+	"tests": [
+		{
+			"testDisplayName": "CameraAndFloors",
+			"fullTestPath": "REAL33D.Presentation.CameraAndFloors",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"94B6DFA640478FC93112BA84E868AE5B"
+			],
+			"duration": 0.017460796982049942,
+			"dateTime": "2026.09.29-22.44.08",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "AuthoritativeWindow",
+			"fullTestPath": "REAL33D.WideWorld.AuthoritativeWindow",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"94B6DFA640478FC93112BA84E868AE5B"
+			],
+			"duration": 0.01656629890203476,
+			"dateTime": "2026.09.29-22.44.08",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		}
+	]
+}

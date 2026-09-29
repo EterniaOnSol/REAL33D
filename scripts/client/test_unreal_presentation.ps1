@@ -1,7 +1,10 @@
-param()
+param([string]$EvidenceDirectory = '')
 $ErrorActionPreference = 'Stop'
 $polishRoot = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..\..'))
-$polishEvidence = Join-Path $polishRoot 'build\unreal-world-presentation-polish-001'
+$polishEvidence = if ($EvidenceDirectory) { [IO.Path]::GetFullPath($EvidenceDirectory) } else {
+ Join-Path $polishRoot ('build\unreal-world-presentation-polish-001\checks-' + (Get-Date -Format 'yyyyMMddTHHmmss'))
+}
+New-Item -ItemType Directory -Path $polishEvidence -Force | Out-Null
 $polishArgs = @(
  ('"' + (Join-Path $polishRoot 'unreal\REAL33D\REAL33D.uproject') + '"'),
  '-unattended', '-nop4', '-nullrhi', '-nosplash',

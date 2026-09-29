@@ -1,0 +1,77 @@
+{
+  "milestone": "UNREAL-SLICE-001",
+  "written_at": "2026-09-29T22:56:09.402Z",
+  "reason": "Manual",
+  "seconds_in_session": 99.3,
+  "connected_at_close": true,
+  "local_creature_id": 1002,
+  "local_position": { "x": 32083, "y": 32194, "z": 7 },
+  "origin": { "set": true, "x": 32086, "y": 32190, "z": 7 },
+  "anchor": { "x": 32083, "y": 32194, "z": 7 },
+  "minimap": { "player_known": true, "x": 32083, "y": 32194, "z": 7, "known_cells": 2522, "live_cells": 252 },
+  "clientcore": {
+    "frames": 69,
+    "commands": 108,
+    "residual_bytes": 0,
+    "unsupported_opcodes": 0,
+    "protocol_anomalies": 0,
+    "walks_requested_from_unreal": 30,
+    "walks_accepted": 29,
+    "walks_rejected": 1,
+    "walks_unanswered": 0,
+    "external_relocations": 0,
+    "local_player_moves_total": 29,
+    "says_requested": 1,
+    "moves_requested": 0,
+    "uses_requested": 0,
+    "looks_requested": 1,
+    "attacks_requested": 0,
+    "follows_requested": 0,
+    "combat_cancels_requested": 0,
+    "tactics_requested": 0,
+    "target_clears_received": 0,
+    "worldstate_tiles": 384,
+    "worldstate_visible_creatures": 2,
+    "viewport_synchronised": true
+  },
+  "camera": { "pitch": -50.88, "yaw": 83.81, "requested_distance": 1533.50, "actual_distance": 1533.50, "obstructed": false, "cutaway_meshes": 0, "hide_upper_floors": false },
+  "wideworld": { "loads": 75, "unloads": 13, "sectors": 62 },
+  "presentation": {
+    "tile_actors": 384,
+    "creature_actors": 2,
+    "tiles_spawned": 1137,
+    "tiles_removed": 753,
+    "creatures_appeared": 3,
+    "creatures_vanished": 1,
+    "creature_moves": 63,
+    "duplicate_spawn_attempts": 0,
+    "orphan_events": 0,
+    "speech_shown_on_creature": 1,
+    "speech_shown_in_chat_area_only": 0,
+    "server_messages_received": 3,
+    "client_notices_raised": 0,
+    "chat_transcript_lines": 4,
+    "speech_seconds_NOT_PROVEN": 6.0
+  },
+  "talk_messages_decoded": 1,
+  "last_diagnostic": "none",
+  "inventory_known": true,
+  "inventory": [
+    { "slot": 5, "type_id": 3270, "amount": null, "liquid": null }
+  ],
+  "open_containers": 0,
+  "containers": [
+
+  ],
+  "combat": { "target_creature_id": 0, "following": false, "tactics_sent": false, "attack_mode": 1, "chase_mode": 0, "target_actor_visible": false },
+  "chat_transcript": [
+    { "system_line": true, "line": "Server: Your last visit in Tibia: 29. Sep 2026 00:02:37 CST." },
+    { "system_line": false, "line": "Test Player B: hello" },
+    { "system_line": true, "line": "Server: You see a sign.\nYou read: Tom the Tanner" },
+    { "system_line": true, "line": "Server: Sorry, not possible." }
+  ],
+  "creatures": [
+    { "id": 1002, "local": true, "x": 32083, "y": 32194, "z": 7 },
+    { "id": 1073742021, "local": false, "x": 32085, "y": 32198, "z": 7 }
+  ]
+}

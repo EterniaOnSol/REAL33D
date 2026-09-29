@@ -1,0 +1,27 @@
+Using bundled DotNet SDK version: 10.0 win-x64
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" REAL33DEditor Win64 Development "-Project=C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\unreal\REAL33D\REAL33D.uproject" -WaitMutex -NoUBA
+Log file: C:\Users\dell\AppData\Local\UnrealBuildTool\Log.txt
+Determining max actions to execute in parallel (4 physical cores, 8 logical cores)
+  Executing up to 4 processes, one per physical core
+  Requested 1.5 GB memory per action, 3.55 GB available: limiting max parallel actions to 2
+UbaSessionServer - Disable remote execution (remote sessions will finish current processes)
+Building REAL33DEditor...
+===== Toolchain Information =====
+Using ISPC compiler (C:\Program Files\Epic Games\UE_5.8\Engine\Source\ThirdParty\Intel\ISPC\bin\Windows\ispc.exe)
+  Intel(r) Implicit SPMD Program Compiler (Intel(r) ISPC), 1.24.0 (build commit  @ 20250404, LLVM 18.1.2)
+Using Visual Studio 14.50.35738 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.50.35717) and Windows 10.0.26100.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[Adaptive Build] Excluded from REAL33D unity file: REAL33D.cpp, Real33DActionBarPanel.cpp, Real33DAssetRegistry.cpp, Real33DBattlePanel.cpp, Real33DBridge.cpp, Real33DChatPanel.cpp, Real33DContainersPanel.cpp, Real33DControlPanel.cpp, Real33DCreatureActor.cpp, Real33DGalleryActor.cpp, Real33DGalleryPanel.cpp, Real33DGameMode.cpp, Real33DHUD.cpp, Real33DInventoryPanel.cpp, Real33DMinimapPanel.cpp, Real33DPanelChrome.cpp, Real33DPlayerController.cpp, Real33DPresentationTests.cpp, Real33DSkillsPanel.cpp, Real33DStaticSectorActor.cpp, Real33DTileActor.cpp, Real33DUIStyle.cpp, Real33DVitalsPanel.cpp, Real33DWorldActor.cpp, Real33DWorldOverlay.cpp
+=================================
+Using Unreal Build Accelerator local executor to run 2 action(s)
+  CPU 4 physical cores, 8 logical cores
+  Memory 11.83 GB physical, 11.06 GB/19.31 GB committed
+  UBA Storage capacity 40 GB
+[1/2] Link [x64] UnrealEditor-REAL33D.dll [NoUba]
+[2/2] WriteMetadata REAL33DEditor.target [NoUba]
+
+Total time in Unreal Build Accelerator local executor: 2.35 seconds
+Output binary: C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\Win64\UnrealEditor.exe
+
+Result: Succeeded
+Total execution time: 4.27 seconds
+Trace written to file C:\Users\dell\AppData\Local\UnrealBuildTool\Trace.uba with size 3.3kb

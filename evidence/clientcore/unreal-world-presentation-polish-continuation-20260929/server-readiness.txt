@@ -1,0 +1,4 @@
+Preserved stale internal lock after verifying PID absence
+querymanager ALIVE pid=813 exe=VERIFIED cwd=VERIFIED start=VERIFIED port=7173
+game ALIVE pid=830 exe=VERIFIED cwd=VERIFIED start=VERIFIED port=7172
+login ALIVE pid=999 exe=VERIFIED cwd=VERIFIED start=VERIFIED port=7171

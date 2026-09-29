@@ -31,7 +31,7 @@ $arguments = @(
     ('-real33d-wide-world-cache="' + $cache + '"'),
     ('-real33d-wide-world-previews="' + $previews + '"'),
     ('-real33d-creature-catalog="' + $creatures + '"'), '-real33d-visual-radius=64',
-    ('-real33d-evidence="' + $evidence + '"'), '-real33d-minimap-qa', '-real33d-disable-inspector',
+    ('-real33d-evidence="' + $evidence + '"'), '-real33d-minimap-qa', '-real33d-presentation-qa', '-real33d-disable-inspector',
     ('-abslog="' + (Join-Path $evidence 'REAL33D.log') + '"')
 )
 $process = Start-Process -FilePath $editor -ArgumentList $arguments -WindowStyle Hidden -PassThru

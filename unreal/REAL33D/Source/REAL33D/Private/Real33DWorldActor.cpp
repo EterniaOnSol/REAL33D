@@ -3,6 +3,7 @@
 #include "Algo/Reverse.h"
 
 #include "Camera/CameraComponent.h"
+#include "Components/StaticMeshComponent.h"
 #include "Async/Async.h"
 #include "Engine/Engine.h"
 #include "Engine/GameInstance.h"
@@ -1389,6 +1390,39 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 	if (FFileHelper::SaveStringToFile(Json, *Path))
 	{
 		UE_LOG(LogReal33D, Log, TEXT("evidence written to %s"), *Path);
+		// QA-only geometry inventory from current live presentation. It reads no
+		// server database or unseen map; these are the same components being drawn.
+		if (Local && FParse::Param(FCommandLine::Get(), TEXT("real33d-presentation-qa")))
+		{
+			TArray<FString> GeometryLines;
+			APlayerController* PC = GetWorld()->GetFirstPlayerController();
+			for (const auto& Pair : Tiles)
+			{
+				if (!Pair.Value) continue;
+				TArray<UStaticMeshComponent*> Components;
+				Pair.Value->GetComponents(Components);
+				for (const UStaticMeshComponent* Component : Components)
+				{
+					if (!Component || !Component->GetStaticMesh()) continue;
+					FString Identity;
+					for (const FName& Tag : Component->ComponentTags)
+						if (Tag.ToString().StartsWith(TEXT("V08_"))) Identity = Tag.ToString().Mid(4);
+					if (Identity.IsEmpty()) continue;
+					const FVector Size = Component->Bounds.GetBox().GetSize();
+					const FRotator Rotation = Component->GetComponentRotation();
+					FVector2D Pixel = FVector2D::ZeroVector;
+					const bool bProjected = PC && PC->ProjectWorldLocationToScreen(Component->Bounds.Origin, Pixel);
+					GeometryLines.Add(FString::Printf(TEXT("{\"type_id\":%s,\"tile\":[%d,%d,%d],\"mesh\":\"%s\",\"visible\":%s,\"rotation\":[%.2f,%.2f,%.2f],\"world_bounds_size\":[%.2f,%.2f,%.2f],\"projected\":%s,\"screen_center\":[%.2f,%.2f]}"),
+						*Identity, Pair.Key.X, Pair.Key.Y, Pair.Key.Z,
+						*EscapeForJson(Component->GetStaticMesh()->GetPathName()),
+						Component->IsVisible() && !Pair.Value->IsHidden() ? TEXT("true") : TEXT("false"),
+						Rotation.Pitch, Rotation.Yaw, Rotation.Roll, Size.X, Size.Y, Size.Z,
+						bProjected ? TEXT("true") : TEXT("false"), Pixel.X, Pixel.Y));
+				}
+			}
+			FFileHelper::SaveStringToFile(FString::Printf(TEXT("{\"source\":\"current_live_render_components\",\"objects\":[\n%s\n]}"),
+				*FString::Join(GeometryLines, TEXT(",\n"))), *FPaths::ChangeExtension(Path, TEXT("geometry.json")));
+		}
 		if (Reason != TEXT("EndPlay") && FParse::Param(FCommandLine::Get(), TEXT("real33d-minimap-qa")))
 		{
 			FScreenshotRequest::RequestScreenshot(FPaths::ChangeExtension(Path, TEXT("png")), true, false);

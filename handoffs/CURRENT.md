@@ -1,54 +1,67 @@
-# CURRENT - 3D polish preserved, live defects pending
+# CURRENT - Presentation polish preservation checkpoint
 
-Date: 2026-09-28 America/Guatemala. Agent: Codex, implementation/QA.
-Task: UNREAL-WORLD-PRESENTATION-POLISH-001.
-State: IMPLEMENTED_UNVERIFIED. Operator requested immediate preservation commit.
+Date/time: 2026-09-29 16:58 America/Guatemala. Agent: Codex, recovery/QA.
+Task: UNREAL-WORLD-PRESENTATION-POLISH-001. State: IMPLEMENTED_UNVERIFIED.
 Branch: milestone/unreal-world-presentation-polish-001.
-Starting/base commit: fa3adcfd3fa85ec2bcf2514fc5df46c45e1de0cf.
-Ending commit: this preservation commit (git log -1).
+Starting HEAD: 393e7e8570319a35caef7072065d29cf67448475.
+Base/main: fa3adcfd3fa85ec2bcf2514fc5df46c45e1de0cf, remote and ancestry verified.
+Ending commit: this preservation commit; resolve with git rev-parse HEAD.
 Worktree: C:/Users/dell/Desktop/fusion32/build/unreal-world-presentation-polish-001.
+No reset/rebase/new branch/main merge. Frozen agent checkout untouched.
 
-Main integration completed by fast-forward from a97cf25 to fa3adcf, pushed and
-verified; main worktree build/integration-item-use clean. Prior certified minimap
-reports remain intact. Prior handoff archived byte-for-byte at
-archive/2026-09-28_UNREAL-MINIMAP-NAVIGATION-001-certified-before-main.md.
-Frozen primary checkout and agent branch b9ed335 remain untouched. Never switch
-that checkout or resume agent work. No polish merge to main.
+Operator requested immediate commit/push due to limited remaining tokens.
+Preserved all recovered source/config/evidence changes; no new runtime fix in
+this continuation. Trimmed one extra EOF blank line from pre-existing generated
+DefaultInput.ini settings after saving a raw byte-for-byte copy. Prior CURRENT
+is already archived identically in archive/2026-09-29_UNREAL-WORLD-PRESENTATION-POLISH-001-before-resume.md.
 
-Inspection: 15-category audit in docs/UNREAL_WORLD_PRESENTATION_POLISH.md.
-Changes limited to camera/render visibility and read-only world feedback in
-WorldActor, TileActor, StaticSectorActor, CreatureActor, HUD and new WorldOverlay,
-PresentationPolicy/Tests. Added QA/automation scripts. Protocol, WorldState,
-movement authority, map data and V08 source assets unchanged.
+Inspected startup contract/docs, Git/worktrees/remote/ancestry, existing milestone
+and resume evidence, overlay geometry, camera/floor/creature/speech/interaction
+code, AssetRegistry transforms and current-live-component diagnostics.
+Fresh native ClientCore nine suites PASS; Unreal build PASS; CameraAndFloors and
+AuthoritativeWindow automation Success. Wrapping automation shell exited with
+-1073741510 after completed reports; don't erase that caveat. Secret check PASS;
+rerun staged before publication. Compilation is not gameplay parity.
 
-Tests: nine ClientCore native suites PASS; Unreal build PASS after correcting
-TextRender getter compilation error; CameraAndFloors and AuthoritativeWindow
-Unreal automation Success. No live presentation PASS. Final secret check and
-publishing outcome are reported with the preservation commit.
+Fresh live normal Account B session live-20260929T165406 proved bounded camera
+readability/follow/zoom (operator confirmation), aligned player/NPC labels,
+rat attack/follow labels and outlines agreeing with combat state, hover, server
+Look/chat readability, roof entry/exit and floor7->8->7. Full gameplay regression,
+Use With, Stop Follow, world/NPC speech and map-click/sector coexistence remain
+IMPLEMENTED_UNVERIFIED. Underground floor readability FAILED: severe water-edge
+overlap. Perpendicular wall fins also remain unfixed. Not PASS LOCAL.
+Last captured position32097,32207,7 at22:57:30.473Z; commands888, protocol errors0,
+73 accepted walks,18 rejected,0 unanswered,17 external relocations. No EndPlay
+artifact; Unreal process absent when checked. Do not claim clean shutdown.
 
-Evidence: evidence/clientcore/UNREAL-WORLD-PRESENTATION-POLISH-001.md and its
-companion directory. Raw build/session artifacts under this worktree's
-build/unreal-world-presentation-polish-001/. Current-binary session closed normally;
-unsupported0/anomalies0/residual0, 22 accepted/3 refused steps. Actual last position
-32096,32202,7. Say reached client but readable speech screenshot is unverified.
+Evidence: evidence/clientcore/UNREAL-WORLD-PRESENTATION-POLISH-001-CONTINUATION-20260929.md
+and unreal-world-presentation-polish-continuation-20260929/. Earlier checkpoint
+and RESUME reports/artifacts preserved. Raw session/geometry and commands remain
+under build/unreal-world-presentation-polish-001/. No bulk map dumps published.
 
-Exact failure: player label drawn displaced down/right from body. Operator said
-NO SE VE BIEN, superseding earlier affirmative answer; also reports walls needing
-rotation. Keep verdict IMPLEMENTED_UNVERIFIED. No weakening acceptance.
-Likely overlay issue: mixing desktop cached viewport geometry with window paint
-geometry in SReal33DWorldOverlay::OnPaint Project and cursor hit test. Verify using
-matching GetTickSpaceGeometry conversions and screenshots/window movement/DPI.
-Identify misoriented walls by normal known objects/TypeId and existing registry
-rotation before deciding runtime correction versus V08 art defect. Do not rotate
-assets wholesale. Lamp2108/2109 catalog has unresolved assembly warnings;
-player/NPC outfit coverage remains partial.
+Runtime recovery: certified service executable hashes verified. Stale internal
+PID locks preserved under dated names only after verifying PID absence. Server
+source/config/gameplay/map unchanged. Persistent hidden WSL host Windows PID13112
+runs sleep3600; last verified services querymanager813/game830/login999. Recheck
+before reuse. Raw continuation-20260929T1645/ contains guarded recovery scripts,
+logs and input/binary hashes. Do not recreate/reset the server or accounts.
 
-Exact next task: fix/prove overlay projection first, identify the reported walls,
-then continue requested camera/indoor/roof/wall/floor/underground/entity/speech/
-interaction/Follow/Stop/minimap/WideWorld live matrix. Native computer-use runtime
-failed with kernel assets OS error3; operator normal inputs + F9/engine evidence
-are the available route. Latest session has only automatic initial/settled PNGs,
-not manual captures; do not claim otherwise. Build with UE5.8 Build.bat for this
-uproject; scripts/client/test_unreal_presentation.ps1 runs two automation tests;
-scripts/client/run_unreal_presentation_qa.ps1 -Account B opens normal gameplay.
-No other milestone or independent certification until live defects are resolved.
+Exact next steps/files:
+1. TileActor::ApplyStack and StaticSectorActor::Build: ground622 plus flat border
+4785/4789-4796 occupy same height; Index1 currently has zero layer lift. Fix runtime
+layer separation consistently, with targeted test and paired live before/after.
+2. AssetRegistry::TryResolveExperimental: aliases1295/1301/1303 reuse1294 at yaw90;
+known live X-row at y32200,z6 has boundsX29/Y100/Z220. Confirm classic orientation
+from local previews, then correct only proven runtime transforms; no V08 redesign.
+3. Continue outstanding live matrix, including speech during its visible lifetime,
+valid Use With, Stop Follow, map-click and sector transitions. Do not manufacture
+scenarios or claim PASS from counters alone. Missing outfit art and lamp warnings
+stay separate V08_ART_DEFECT findings.
+4. Rebuild using UE5.8 Build.bat REAL33DEditor Win64 Development -WaitMutex -NoUBA;
+run tests/build_clientcore_windows.cmd under VS2022 vcvars64 and
+powershell -ExecutionPolicy Bypass -File scripts/client/test_unreal_presentation.ps1.
+Launch normal gameplay via scripts/client/run_unreal_presentation_qa.ps1 -Account B.
+F9 records screenshot/state/current-live geometry. Preserve earlier artifacts.
+
+Publication: push only this existing milestone, verify local==remote and clean
+worktree. No main merge. Full local PASS must precede independent certification.

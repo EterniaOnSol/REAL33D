@@ -36,7 +36,9 @@ int32 SReal33DWorldOverlay::OnPaint(const FPaintArgs& Args, const FGeometry& Geo
 	APlayerController* Controller = Live->GetWorld()->GetFirstPlayerController();
 	UGameViewportClient* Viewport = Live->GetWorld()->GetGameViewport();
 	if (!Controller || !Viewport || !Viewport->GetGameViewportWidget().IsValid()) return Layer;
-	const FGeometry& Full = Viewport->GetGameViewportWidget()->GetCachedGeometry();
+	// Both geometries must be in window paint space. GetCachedGeometry is in
+	// desktop space and adds the OS window position a second time when painted.
+	const FGeometry& Full = Viewport->GetGameViewportWidget()->GetPaintSpaceGeometry();
 	int32 Width = 0, Height = 0;
 	Controller->GetViewportSize(Width, Height);
 	if (Width <= 0 || Height <= 0) return Layer;
@@ -125,7 +127,8 @@ int32 SReal33DWorldOverlay::OnPaint(const FPaintArgs& Args, const FGeometry& Geo
 		}
 	}
 	const FVector2D Cursor = FSlateApplication::Get().GetCursorPos();
-	if (Geometry.IsUnderLocation(Cursor))
+	// The OS cursor is in desktop space, unlike the geometry passed to OnPaint.
+	if (GetTickSpaceGeometry().IsUnderLocation(Cursor))
 	{
 		FHitResult Hit;
 		if (Controller->GetHitResultUnderCursorByChannel(UEngineTypes::ConvertToTraceType(ECC_Visibility), true, Hit))

@@ -1,5 +1,23 @@
 # Parity Matrix
 
+2026-09-29 16:58 operator preservation checkpoint: UNREAL-WORLD-PRESENTATION-POLISH-001
+remains IMPLEMENTED_UNVERIFIED, not PASS LOCAL. Fresh native nine-suite tests,
+Unreal build and two Unreal automation cases PASS. Fresh live camera/zoom/follow,
+aligned labels, rat attack/follow feedback, building roof switching and floor7->8->7
+were exercised. Underground ground/water overlap FAILED readability; wall aliases
+show perpendicular fins. Fixes and full live regression remain pending. Protocol
+errors0 in last retained snapshot. Operator requested commit/push now; no main
+merge. Details: evidence/clientcore/UNREAL-WORLD-PRESENTATION-POLISH-001-CONTINUATION-20260929.md.
+
+2026-09-29 presentation recovery: IMPLEMENTED_UNVERIFIED. Pending overlay-space
+fix preserved with recovered aligned-label screenshot, not full live acceptance.
+Fresh ClientCore nine-suite/build checks PASS; Unreal build PASS; secret check
+PASS. Fresh Unreal automation interrupted; no new live QA. Camera, floors,
+occlusion, entity/interaction feedback, speech and WideWorld/minimap/gameplay
+coexistence retain IMPLEMENTED_UNVERIFIED for this polish milestone. Earlier
+certifications unchanged. See UNREAL-WORLD-PRESENTATION-POLISH-001-RESUME-20260929
+in evidence/clientcore/. Frozen agent checkout and main remain unchanged.
+
 2026-09-28 main integration: certified UNREAL-MINIMAP-NAVIGATION-001 was
 fast-forwarded and pushed to main at fa3adcfd3fa85ec2bcf2514fc5df46c45e1de0cf.
 Main was clean and secret_check passed; prior certification evidence is retained.
