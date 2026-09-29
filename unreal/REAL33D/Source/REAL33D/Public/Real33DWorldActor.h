@@ -60,6 +60,7 @@ public:
 	 * Game thread only.
 	 */
 	void GetBattleList(TArray<FReal33DBattleEntry>& OutEntries) const;
+	void GetPresentationCreatures(TArray<AReal33DCreature*>& Out) const;
 
 	/** Writes the machine-readable evidence file for the acceptance run. */
 	void WriteEvidence(const FString& Reason);
@@ -87,14 +88,19 @@ private:
 	/** Rebuilds the camera's relative transform from yaw, pitch and distance. */
 	void ApplyCameraTransform();
 
-	static constexpr float kCameraPitchMin = -85.0f;
-	static constexpr float kCameraPitchMax = -5.0f;
+	static constexpr float kCameraPitchMin = -75.0f;
+	static constexpr float kCameraPitchMax = -25.0f;
 	static constexpr float kCameraDistanceMin = 400.0f;
 	static constexpr float kCameraDistanceMax = 3000.0f;
 
 	float CameraYaw = 45.0f;
-	float CameraPitch = -42.0f;
+	float CameraPitch = -50.0f;
 	float CameraDistance = 1173.5f;
+	float DrawnCameraDistance = 1173.5f;
+	int32 CameraFloor = -1;
+	int32 CameraCutaways = 0;
+	bool bCameraObstructed = false;
+	bool bHideUpperFloors = false;
 
 	void HandleEvent(const FReal33DEvent& Event);
 

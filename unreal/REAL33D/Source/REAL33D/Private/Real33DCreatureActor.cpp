@@ -64,7 +64,11 @@ AReal33DCreature::AReal33DCreature()
 	TargetTag->SetWorldSize(14.0f);
 	TargetTag->SetVisibility(false);
 
-	// Text is drawn with the component's default material on purpose, and the
+	NameTag->SetHiddenInGame(true);
+	SpeechTag->SetHiddenInGame(true);
+	TargetTag->SetHiddenInGame(true);
+
+	// Historical baseline: text was drawn with the default material, and the
 	// lighting is what was changed instead.
 	//
 	// Three engine text materials exist and none is both solid and colour-exact.
@@ -305,4 +309,10 @@ void AReal33DCreature::Tick(float DeltaSeconds)
 		/ Real33D::UnitsPerSqm * 2.0 * PI;
 	Body->SetRelativeLocation(BodyBaseOffset + FVector(0.0, 0.0,
 		WalkBobHeight * FMath::Sin(WalkPhase)));
+}
+
+FVector AReal33DCreature::GetNameAnchor() const { return NameTag->GetComponentLocation(); }
+FString AReal33DCreature::GetVisibleSpeech() const
+{
+ return SpeechExpiresAt > FPlatformTime::Seconds() ? SpeechTag->Text.ToString() : FString();
 }

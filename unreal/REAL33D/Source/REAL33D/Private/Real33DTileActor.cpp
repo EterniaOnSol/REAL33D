@@ -3,6 +3,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Real33DCoords.h"
+#include "Real33DPresentationPolicy.h"
 
 AReal33DTile::AReal33DTile()
 {
@@ -135,4 +136,21 @@ void AReal33DTile::SetFloorVisible(bool bVisible)
 		Component->SetCollisionEnabled(bVisible
 			? ECollisionEnabled::QueryOnly : ECollisionEnabled::NoCollision);
 	}
+}
+
+int32 AReal33DTile::ApplyCameraVisibility(const FVector& Focus, const FVector& Eye, double& SafeDistance)
+{
+ if (!bFloorVisible) return 0;
+ int32 CutCount = 0;
+ for (const auto& Component : StackComponents)
+ {
+  if (!Component) continue;
+  const FBox Bounds = Component->Bounds.GetBox();
+  const bool bCut = Real33D::Presentation::CutAway(Focus, Eye, Bounds);
+  Component->SetVisibility(!bCut);
+  Component->SetCollisionEnabled(bCut ? ECollisionEnabled::NoCollision : ECollisionEnabled::QueryOnly);
+  if (bCut) ++CutCount;
+  else Real33D::Presentation::LimitCamera(Focus, Eye, Bounds, SafeDistance);
+ }
+ return CutCount;
 }

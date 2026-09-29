@@ -13,6 +13,7 @@
 #include "Real33DUIStyle.h"
 #include "Real33DVitalsPanel.h"
 #include "Real33DWorldActor.h"
+#include "Real33DWorldOverlay.h"
 #include "Styling/CoreStyle.h"
 #include "Styling/ISlateStyle.h"
 #include "Widgets/Images/SImage.h"
@@ -79,15 +80,14 @@ TSharedRef<SWidget> SReal33DHUD::MakeViewportFrame()
 	const ISlateStyle& Style = FReal33DUIStyle::Get();
 
 	// GameMapPanel: a 4px 9-sliced border with the scene inside it. The middle
-	// must stay clear -- this is a frame around the 3D view, not a surface over
-	// it -- so nothing is placed in the border's slot and the whole widget is
-	// transparent to hit testing.
+	// remains transparent, with read-only projected labels and interaction cues.
+	// The overlay does not consume gameplay or panel input.
 	return SNew(SBorder)
 		.BorderImage(Style.GetBrush("Real33D.Chrome.MapPanel"))
 		.Padding(FMargin(4.0f))
 		.Visibility(EVisibility::HitTestInvisible)
 		[
-			SNullWidget::NullWidget
+			SAssignNew(WorldOverlay, SReal33DWorldOverlay)
 		];
 }
 
@@ -429,6 +429,7 @@ void SReal33DHUD::HandleSlotUsed(FReal33DSlotRef Slot, EReal33DSlotAction Action
 			? UReal33DBridge::FMoveSlot::InContainer(Slot.Container, Slot.Slot)
 			: UReal33DBridge::FMoveSlot::InInventory(Slot.Slot);
 		const uint32 LookId = Live->RequestLookAtPoint(Point);
+		if (LookId != 0 && WorldOverlay.IsValid()) WorldOverlay->ShowRequest(TEXT("Look requested"));
 		UE_LOG(LogReal33D, Log, TEXT("look %u at %s%u slot %u"),
 			LookId, Slot.Kind == FReal33DSlotRef::EKind::Container
 				? TEXT("container ") : TEXT("body "), Slot.Container, Slot.Slot);
@@ -455,6 +456,7 @@ void SReal33DHUD::HandleSlotUsed(FReal33DSlotRef Slot, EReal33DSlotAction Action
 	const uint8 OpenAs = FirstFreeContainerNumber();
 	const uint32 UseId = Live->RequestUseObject(
 		ToSlot(Slot), Slot.TypeId, Slot.Slot, OpenAs);
+	if (UseId != 0 && WorldOverlay.IsValid()) WorldOverlay->ShowRequest(TEXT("Use requested"));
 	UE_LOG(LogReal33D, Log,
 		TEXT("use %u: object %u at %s%u slot %u, would open as container %u"),
 		UseId, Slot.TypeId,
@@ -485,6 +487,7 @@ bool SReal33DHUD::HandleSlotPicked(FReal33DSlotRef Slot)
 	const uint32 UseId = Live->RequestUseWithObject(
 		Pending.Source, Pending.TypeId, Pending.StackIndex,
 		ToSlot(Slot), Slot.TypeId, Slot.Slot);
+	if (UseId != 0 && WorldOverlay.IsValid()) WorldOverlay->ShowRequest(TEXT("Use With requested"));
 	UE_LOG(LogReal33D, Log, TEXT("use-with %u: object %u on object %u in a slot"),
 		UseId, Pending.TypeId, Slot.TypeId);
 
@@ -540,6 +543,7 @@ bool SReal33DHUD::CompleteUseOnCreature(uint32 CreatureId)
 	{
 		const uint32 UseId = Live->RequestUseOnCreature(
 			Pending.Source, Pending.TypeId, Pending.StackIndex, CreatureId);
+		if (UseId != 0 && WorldOverlay.IsValid()) WorldOverlay->ShowRequest(TEXT("Use With requested"));
 		UE_LOG(LogReal33D, Log, TEXT("use-with %u: object %u on creature %u"),
 			UseId, Pending.TypeId, CreatureId);
 	}
@@ -560,6 +564,7 @@ bool SReal33DHUD::CompleteUseOnField(const Real33D::FMapPosition& Position,
 		const uint32 UseId = Live->RequestUseWithObject(
 			Pending.Source, Pending.TypeId, Pending.StackIndex,
 			UReal33DBridge::FMoveSlot::OnMap(Position), TypeId, StackIndex);
+		if (UseId != 0 && WorldOverlay.IsValid()) WorldOverlay->ShowRequest(TEXT("Use With requested"));
 		UE_LOG(LogReal33D, Log,
 			TEXT("use-with %u: object %u on object %u at %d,%d,%d stack %u"),
 			UseId, Pending.TypeId, TypeId,
@@ -589,6 +594,8 @@ bool SReal33DHUD::UseWorldObject(const Real33D::FMapPosition& Position,
 	const uint8 OpenAs = FirstFreeContainerNumber();
 	const uint32 UseId = Live->RequestUseObject(
 		UReal33DBridge::FMoveSlot::OnMap(Position), TypeId, StackIndex, OpenAs);
+	if (UseId != 0 && WorldOverlay.IsValid()) WorldOverlay->ShowRequest(TEXT("Use requested"));
+
 	UE_LOG(LogReal33D, Log,
 		TEXT("use %u from world: object %u at %d,%d,%d stack %u, would open as container %u"),
 		UseId, TypeId, Position.X, Position.Y, Position.Z, StackIndex, OpenAs);
@@ -600,6 +607,8 @@ bool SReal33DHUD::LookAtWorldPoint(const Real33D::FMapPosition& Position)
 	UReal33DBridge* Live = Bridge.Get();
 	if (Live == nullptr || !Live->IsRunning()) return false;
 	const uint32 LookId = Live->RequestLookAtPoint(UReal33DBridge::FMoveSlot::OnMap(Position));
+	if (LookId != 0 && WorldOverlay.IsValid()) WorldOverlay->ShowRequest(TEXT("Look requested"));
+
 	UE_LOG(LogReal33D, Log, TEXT("look %u at world point %d,%d,%d"),
 		LookId, Position.X, Position.Y, Position.Z);
 	return LookId != 0;
@@ -653,6 +662,7 @@ void SReal33DHUD::HandlePanelToggled(FName Panel)
 
 void SReal33DHUD::Refresh(const AReal33DWorld* World)
 {
+	if (WorldOverlay.IsValid()) WorldOverlay->Refresh(World, Pending.bActive);
 	// Everything below is a server-owned value or an explicit "not known yet".
 	// A null world is the second of those, not a reason to keep the last frame:
 	// the panels must empty out when the session ends.

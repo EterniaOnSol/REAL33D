@@ -85,6 +85,8 @@ public:
 
 	/** 0..100 as the server last reported it. The battle list draws this. */
 	uint8 GetHealthPercent() const { return HealthPercent; }
+	FVector GetNameAnchor() const;
+	FString GetVisibleSpeech() const;
 
 private:
 	UPROPERTY()

@@ -1,4 +1,5 @@
 #include "Real33DWorldActor.h"
+#include "Real33DPresentationPolicy.h"
 #include "Algo/Reverse.h"
 
 #include "Camera/CameraComponent.h"
@@ -684,12 +685,13 @@ void AReal33DWorld::UpdateFloorVisibility()
 		&& Tiles.Contains(FIntVector(Position.X, Position.Y, Position.Z - 1))
 		&& Tiles[FIntVector(Position.X, Position.Y, Position.Z - 1)]
 		&& Tiles[FIntVector(Position.X, Position.Y, Position.Z - 1)]->HasCoveringContent();
+	bHideUpperFloors = Real33D::Presentation::HideUpperFloors(Position.Z, bCovered);
 	int32 HiddenTiles = 0;
 	for (TPair<FIntVector, TObjectPtr<AReal33DTile>>& Pair : Tiles)
 	{
 		if (Pair.Value)
 		{
-			const bool bHide = bCovered && Pair.Key.Z < Position.Z;
+			const bool bHide = bHideUpperFloors && Pair.Key.Z < Position.Z;
 			Pair.Value->SetFloorVisible(!bHide);
 			HiddenTiles += bHide ? 1 : 0;
 		}
@@ -699,9 +701,11 @@ void AReal33DWorld::UpdateFloorVisibility()
 		if (Pair.Value)
 		{
 			Pair.Value->SetActorHiddenInGame(
-				bCovered && Pair.Value->GetLogicalPosition().Z < Position.Z);
+				bHideUpperFloors && Pair.Value->GetLogicalPosition().Z < Position.Z);
 		}
 	}
+	for (auto& Pair : StaticSectors)
+		if (Pair.Value) Pair.Value->ApplyView(WideWorldAnchor, WideWorldVisualRadius, bHideUpperFloors);
 	bFloorVisibilityDirty = false;
 	UE_LOG(LogReal33D, Log, TEXT("floor visibility: player floor %d covered=%s hidden upper tiles=%d"),
 		Position.Z, bCovered ? TEXT("true") : TEXT("false"), HiddenTiles);
@@ -725,8 +729,23 @@ void AReal33DWorld::UpdateCamera(float DeltaSeconds)
 	}
 	// The camera follows where the body is drawn, not where it logically is, so
 	// the view and the player move together instead of the map snapping ahead.
-	const FVector Desired = Local->GetActorLocation();
-	SetActorLocation(FMath::VInterpTo(GetActorLocation(), Desired, DeltaSeconds, 8.0));
+	const FVector Desired = Local->GetActorLocation() + FVector(0, 0, 55);
+ const bool bSnap = CameraFloor != Local->GetLogicalPosition().Z
+  || FVector::DistSquared(GetActorLocation(), Desired) > FMath::Square(500.0);
+ CameraFloor = Local->GetLogicalPosition().Z;
+ SetActorLocation(bSnap ? Desired : FMath::VInterpTo(GetActorLocation(), Desired, DeltaSeconds, 8.0));
+ const float Smoothed = FMath::FInterpTo(DrawnCameraDistance, CameraDistance, DeltaSeconds, 10.0f);
+ const FVector Eye = GetActorLocation() - FRotator(CameraPitch, CameraYaw, 0).Vector() * Smoothed;
+ double SafeDistance = Smoothed;
+ CameraCutaways = 0;
+ for (auto& Pair : Tiles)
+  if (Pair.Value) CameraCutaways += Pair.Value->ApplyCameraVisibility(GetActorLocation(), Eye, SafeDistance);
+ for (auto& Pair : StaticSectors)
+  if (Pair.Value) CameraCutaways += Pair.Value->ApplyCameraVisibility(GetActorLocation(), Eye, SafeDistance);
+ bCameraObstructed = SafeDistance < Smoothed - 1.0;
+ // Retract immediately for clearance; ease restoration and ordinary wheel zoom.
+ DrawnCameraDistance = FMath::Min(Smoothed, static_cast<float>(SafeDistance));
+ ApplyCameraTransform();
 }
 
 void AReal33DWorld::ApplyCameraTransform()
@@ -742,7 +761,7 @@ void AReal33DWorld::ApplyCameraTransform()
 	// origin by construction, which is what keeps the player centred no matter
 	// how far the view is swung around.
 	const FRotator Look(CameraPitch, CameraYaw, 0.0f);
-	Camera->SetRelativeLocation(-Look.Vector() * CameraDistance);
+	Camera->SetRelativeLocation(-Look.Vector() * DrawnCameraDistance);
 	Camera->SetRelativeRotation(Look);
 }
 
@@ -750,27 +769,22 @@ void AReal33DWorld::AddCameraOrbit(float DeltaYawDegrees, float DeltaPitchDegree
 {
 	CameraYaw = FRotator::ClampAxis(CameraYaw + DeltaYawDegrees);
 
-	// Clamped to stay above the ground looking down. The floor is drawn as a
-	// plane, so a camera level with it or below sees a horizon of nothing, and
-	// there is no recovery gesture that would be obvious to an operator who got
-	// there by accident. The shallow end is left at -5 rather than 0 because
-	// reading a name or a speech tag above a creature is exactly what the
-	// shallow angles are for.
+	// Keep a useful downward view; projected labels do not need a horizon angle.
 	CameraPitch = FMath::Clamp(CameraPitch + DeltaPitchDegrees,
 		kCameraPitchMin, kCameraPitchMax);
 
-	ApplyCameraTransform();
 }
 
 void AReal33DWorld::AddCameraDistance(float Delta)
 {
 	CameraDistance = FMath::Clamp(CameraDistance + Delta,
 		kCameraDistanceMin, kCameraDistanceMax);
-	ApplyCameraTransform();
 }
 
 void AReal33DWorld::DrawOverlay()
 {
+	// Diagnostic counters belong in F9 evidence; the normal view stays clear.
+	if (!FParse::Param(FCommandLine::Get(), TEXT("real33d-diagnostics"))) return;
 	if (GEngine == nullptr)
 	{
 		return;
@@ -943,7 +957,7 @@ void AReal33DWorld::InstallStaticSector(const FIntVector& SectorKey,
 		return;
 	}
 	Sector->Build(Items, Registry, WideWorldPreviewDirectory, Origin);
-	Sector->ApplyView(WideWorldAnchor, WideWorldVisualRadius);
+	Sector->ApplyView(WideWorldAnchor, WideWorldVisualRadius, bHideUpperFloors);
 	StaticSectors.Add(SectorKey, Sector);
 	++WideWorldLoads;
 	WideWorldV08Resolved += Sector->GetV08Resolved();
@@ -989,7 +1003,7 @@ void AReal33DWorld::UpdateWideWorld()
 		{
 			if (Existing->Get())
 			{
-				(*Existing)->ApplyView(WideWorldAnchor, WideWorldVisualRadius);
+				(*Existing)->ApplyView(WideWorldAnchor, WideWorldVisualRadius, bHideUpperFloors);
 			}
 			continue;
 		}
@@ -1300,6 +1314,8 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		TEXT("    \"worldstate_visible_creatures\": %d,\n")
 		TEXT("    \"viewport_synchronised\": %s\n")
 		TEXT("  },\n")
+		TEXT("  \"camera\": { \"pitch\": %.2f, \"yaw\": %.2f, \"requested_distance\": %.2f, \"actual_distance\": %.2f, \"obstructed\": %s, \"cutaway_meshes\": %d, \"hide_upper_floors\": %s },\n")
+		TEXT("  \"wideworld\": { \"loads\": %d, \"unloads\": %d, \"sectors\": %d },\n")
 		TEXT("  \"presentation\": {\n")
 		TEXT("    \"tile_actors\": %d,\n")
 		TEXT("    \"creature_actors\": %d,\n")
@@ -1351,6 +1367,8 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		Stats.TargetClearsReceived,
 		Stats.Tiles,
 		Stats.VisibleCreatures, Stats.bViewportSynchronised ? TEXT("true") : TEXT("false"),
+		CameraPitch, CameraYaw, CameraDistance, DrawnCameraDistance, bCameraObstructed ? TEXT("true") : TEXT("false"), CameraCutaways, bHideUpperFloors ? TEXT("true") : TEXT("false"),
+		WideWorldLoads, WideWorldUnloads, StaticSectors.Num(),
 		Tiles.Num(), Creatures.Num(), TilesSpawned, TilesRemoved, CreaturesAppeared,
 		CreaturesVanished, CreatureMoves, DuplicateSpawnAttempts, OrphanEvents,
 		SpeechOnCreature, SpeechInChatArea, ServerMessagesReceived,
@@ -1380,4 +1398,20 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 	{
 		UE_LOG(LogReal33D, Error, TEXT("could not write evidence to %s"), *Path);
 	}
+}
+
+void AReal33DWorld::GetPresentationCreatures(TArray<AReal33DCreature*>& Out) const
+{
+ Out.Reset();
+ const AReal33DCreature* Local = GetLocalPlayer();
+ if (!Local) return;
+ for (const auto& Pair : Creatures)
+  if (Pair.Value && !Pair.Value->IsHidden() && Pair.Value->GetLogicalPosition().Z == Local->GetLogicalPosition().Z)
+   Out.Add(Pair.Value);
+ Out.Sort([this](const AReal33DCreature& A, const AReal33DCreature& B)
+ {
+  const int32 APriority = A.IsLocalPlayer() ? 0 : A.GetCreatureId() == Combat.TargetCreatureId ? 1 : 2;
+  const int32 BPriority = B.IsLocalPlayer() ? 0 : B.GetCreatureId() == Combat.TargetCreatureId ? 1 : 2;
+  return APriority != BPriority ? APriority < BPriority : A.GetCreatureId() < B.GetCreatureId();
+ });
 }

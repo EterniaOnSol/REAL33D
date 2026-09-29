@@ -1,74 +1,54 @@
-# CURRENT - Minimap independently certified; awaiting integration instruction
+# CURRENT - 3D polish preserved, live defects pending
 
-Date/time: 2026-09-28 America/Guatemala (new live session closed 2026-09-29 01:13:03.801UTC).
-Agent: Codex, independent delta certification; operator supplied normal Unreal inputs.
-Task: UNREAL-MINIMAP-NAVIGATION-001-INDEPENDENT-DELTA-20260928.
-Verdict: CERTIFIED. DELTA_RUN=PASS. No required minimap certification gaps remain.
-Branch: milestone/unreal-minimap-navigation-001.
-Starting commit / remote candidate: 34e9bfd91f8863b642536221427ce297779d441a.
-Ending commit: this certification-only publishing commit (git log -1).
-Base/origin/main: a97cf25e7449a8a3ef35ef2553181c5032c7a247, unchanged, unmerged.
-Context: C:/Users/dell/Desktop/fusion32/build/unreal-minimap-certification-20260928,
-existing independent clone with own .git directory, initially clean at exact HEAD.
-Prior substantive handoff archived byte-for-byte at
-archive/2026-09-28_UNREAL-MINIMAP-NAVIGATION-001-independent-incomplete.md.
-Both prior local and independent evidence reports remain unchanged.
+Date: 2026-09-28 America/Guatemala. Agent: Codex, implementation/QA.
+Task: UNREAL-WORLD-PRESENTATION-POLISH-001.
+State: IMPLEMENTED_UNVERIFIED. Operator requested immediate preservation commit.
+Branch: milestone/unreal-world-presentation-polish-001.
+Starting/base commit: fa3adcfd3fa85ec2bcf2514fc5df46c45e1de0cf.
+Ending commit: this preservation commit (git log -1).
+Worktree: C:/Users/dell/Desktop/fusion32/build/unreal-world-presentation-polish-001.
 
-Objective/scope: close only missing live delta checkpoints. No milestone restart,
-features, protocol/rules/world/art edits, expensive repeated tests or polish.
-Frozen primary C:/Users/dell/Desktop/fusion32 remains untouched on agent branch
-milestone/real33d-agent-veteran-play-002 at b9ed335b02e1241555842ca954cf298cfbd93478.
-Do not switch/edit that checkout or restart autonomous-agent work. Existing ignored
-static art/cache inputs there were read only; all generated outputs stayed here.
+Main integration completed by fast-forward from a97cf25 to fa3adcf, pushed and
+verified; main worktree build/integration-item-use clean. Prior certified minimap
+reports remain intact. Prior handoff archived byte-for-byte at
+archive/2026-09-28_UNREAL-MINIMAP-NAVIGATION-001-certified-before-main.md.
+Frozen primary checkout and agent branch b9ed335 remain untouched. Never switch
+that checkout or resume agent work. No polish merge to main.
 
-Inspected: selected Fusion32 CGoDirection/NotifyGo/SendFloors; ClientCore current-floor
-projection and const terrain planner; bridge observed player/cache/movement ledger;
-World live blockers; controller Request/TickClickWalk/refusal/arrival; minimap view,
-per-floor painting/marker guard; normal Follow/cancel and container world-use routes.
-Discoveries: pan intentionally retains its center; Home restores follow. S is camera
-relative, keyboard Down is Tibia south. No genuine code regression discovered.
-Native computer-use could not initialize (kernel asset OS error3); operator inputs
-were independently corroborated with actual engine F9 PNG/JSON and movement traces.
+Inspection: 15-category audit in docs/UNREAL_WORLD_PRESENTATION_POLISH.md.
+Changes limited to camera/render visibility and read-only world feedback in
+WorldActor, TileActor, StaticSectorActor, CreatureActor, HUD and new WorldOverlay,
+PresentationPolicy/Tests. Added QA/automation scripts. Protocol, WorldState,
+movement authority, map data and V08 source assets unchanged.
 
-New live evidence: fresh ordinary Fusion32 baseline restart QM3830/Game3845/Login4049;
-three normal accountB Unreal sessions from unchanged run_unreal_minimap_qa.ps1.
-Valid south: 32090,32217,7 -> 32090,32218,7; visible marker down2px in fixed map.
-Known MINIMAP target32084,32230,7 existed before click; 18 normal accepted steps,
-authoritative arrival. Known route32092,32197,7 refused next north request35 from
-32087,32221,7; route stopped, position unchanged, no arrival claimed. Manual gameplay
-occurred concurrently; exact server refusal cause is not asserted as permanent wall.
-Separate active route interrupted by manual south request40; accepted actual position
-32087,32220,7 won and automatic route ceased. Normal staircase32098,32191,7 ->
-32098,32189,6 -> 32098,32191,7. Old-floor browse has no marker; Home restores pixel-
-identical floor7 map. All1606 earlier floor7 hints remain identical, floor6 separately162.
-Follow active/visible at01:08:17.509UTC; normal cancel cleared target at01:08:18.846UTC;
-subsequent manual west accepted, control restored. Normal bookcase2435 world Use at
-32101,32194,7 returned container0/capacity6/empty contents; UI opened and F9 captured.
-All sessions closed normally. Final position32101,32195,7, cache2130, Follow inactive.
+Tests: nine ClientCore native suites PASS; Unreal build PASS after correcting
+TextRender getter compilation error; CameraAndFloors and AuthoritativeWindow
+Unreal automation Success. No live presentation PASS. Final secret check and
+publishing outcome are reported with the preservation commit.
 
-Tests/results: retain prior independently executed CLIENTCORE_TESTS=PASS and
-UNREAL_BUILD=PASS. No source changes versus prior proven build. No repeat of prior
-unknown-arrival/discovery/extension or UI tests. Final secret_check=PASS after evidence
-staging/commit. All27 new snapshots and three EndPlay totals: unsupported0/anomalies0/
-residual0, no protocol failure. Four unanswered ledger entries around floor relocations
-are retained as such; authoritative floor state won, no false arrival credited.
+Evidence: evidence/clientcore/UNREAL-WORLD-PRESENTATION-POLISH-001.md and its
+companion directory. Raw build/session artifacts under this worktree's
+build/unreal-world-presentation-polish-001/. Current-binary session closed normally;
+unsupported0/anomalies0/residual0, 22 accepted/3 refused steps. Actual last position
+32096,32202,7. Say reached client but readable speech screenshot is unverified.
 
-PASS: all required delta checkpoints and Follow/Stop/container smoke. Retain every
-previous independent PASS including unknown arrival/progressive discovery/extension,
-live viewport and WideWorld. Remaining UNVERIFIED minimap certification items: none.
-No underground/general art/combat/inventory recertification claim; those are outside
-this delta. WORLD-PRESENTATION-POLISH not started. No merge to main.
+Exact failure: player label drawn displaced down/right from body. Operator said
+NO SE VE BIEN, superseding earlier affirmative answer; also reports walls needing
+rotation. Keep verdict IMPLEMENTED_UNVERIFIED. No weakening acceptance.
+Likely overlay issue: mixing desktop cached viewport geometry with window paint
+geometry in SReal33DWorldOverlay::OnPaint Project and cursor hit test. Verify using
+matching GetTickSpaceGeometry conversions and screenshots/window movement/DPI.
+Identify misoriented walls by normal known objects/TypeId and existing registry
+rotation before deciding runtime correction versus V08 art defect. Do not rotate
+assets wholesale. Lamp2108/2109 catalog has unresolved assembly warnings;
+player/NPC outfit coverage remains partial.
 
-Changed files: new delta report and sanitized supplemental evidence; PROJECT_STATUS.md,
-PARITY_MATRIX.md, this handoff and prior-handoff archive. No implementation edits.
-Evidence: evidence/clientcore/UNREAL-MINIMAP-NAVIGATION-001-INDEPENDENT-DELTA-20260928.md
-and evidence/clientcore/unreal-minimap-navigation-independent-delta-20260928/.
-Raw logs/client cache remain ignored under build/minimap-evidence and
-build/minimap-delta-20260928; no secrets or bulk proprietary data published.
-
-Closeout: ordinary certification-only commit/push authorized only for
-milestone/unreal-minimap-navigation-001. Verify local==remote and clean; main unchanged.
-Exact next task: await explicit integration instruction. Review the delta report and
-consolidated matrix, then git status / git log -1 / git ls-remote origin for milestone
-and main. Do not merge, start polish, restart architecture, or touch frozen agent work
-without separate user direction. No technical blocker remains for this certification.
+Exact next task: fix/prove overlay projection first, identify the reported walls,
+then continue requested camera/indoor/roof/wall/floor/underground/entity/speech/
+interaction/Follow/Stop/minimap/WideWorld live matrix. Native computer-use runtime
+failed with kernel assets OS error3; operator normal inputs + F9/engine evidence
+are the available route. Latest session has only automatic initial/settled PNGs,
+not manual captures; do not claim otherwise. Build with UE5.8 Build.bat for this
+uproject; scripts/client/test_unreal_presentation.ps1 runs two automation tests;
+scripts/client/run_unreal_presentation_qa.ps1 -Account B opens normal gameplay.
+No other milestone or independent certification until live defects are resolved.

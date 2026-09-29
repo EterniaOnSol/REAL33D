@@ -1,5 +1,17 @@
 # Parity Matrix
 
+2026-09-28 main integration: certified UNREAL-MINIMAP-NAVIGATION-001 was
+fast-forwarded and pushed to main at fa3adcfd3fa85ec2bcf2514fc5df46c45e1de0cf.
+Main was clean and secret_check passed; prior certification evidence is retained.
+UNREAL-WORLD-PRESENTATION-POLISH-001 = IMPLEMENTED_UNVERIFIED on its isolated milestone
+branch from that exact base. Audit is in docs/UNREAL_WORLD_PRESENTATION_POLISH.md.
+Camera/floor visibility and read-only world feedback changes are being validated.
+ClientCore nine-suite native regression, Unreal build and two Unreal geometry/
+WideWorld automation tests PASS. Live overlay alignment FAILED; operator reports
+misoriented walls. Remaining live acceptance is UNVERIFIED. Work preserved by
+explicit operator request; see the polish evidence report. Older statements below about unmerged minimap / polish not started
+are historical and superseded by this entry. Frozen agent work is untouched.
+
 Independent minimap delta certification = CERTIFIED, starting candidate
 `34e9bfd91f8863b642536221427ce297779d441a`, existing clean isolated clone.
 New live south, floor round-trip/per-floor restoration/no stale marker,

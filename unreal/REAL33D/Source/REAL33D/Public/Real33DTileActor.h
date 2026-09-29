@@ -25,6 +25,7 @@ public:
 	/** Rebuilds the stack. Game thread only. */
 	void ApplyStack(const TArray<FReal33DThing>& Things, const UReal33DAssetRegistry* Registry);
 	void SetFloorVisible(bool bVisible);
+	int32 ApplyCameraVisibility(const FVector& Focus, const FVector& Eye, double& SafeDistance);
 
 	const Real33D::FMapPosition& GetMapPosition() const { return MapPosition; }
 	void SetMapPosition(const Real33D::FMapPosition& Position) { MapPosition = Position; }

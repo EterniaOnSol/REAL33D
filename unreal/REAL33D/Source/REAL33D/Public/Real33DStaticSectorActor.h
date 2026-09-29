@@ -29,7 +29,8 @@ public:
 		const UReal33DAssetRegistry* Registry,
 		const FString& ReferencePreviewDirectory,
 		const Real33D::FWorldOrigin& Origin);
-	void ApplyView(const Real33D::FMapPosition& Anchor, int32 VisualRadius);
+	void ApplyView(const Real33D::FMapPosition& Anchor, int32 VisualRadius, bool bHideUpper = false);
+	int32 ApplyCameraVisibility(const FVector& Focus, const FVector& Eye, double& SafeDistance);
 	static bool ShouldSuppressTile(const FIntVector& Key,
 		const Real33D::FMapPosition& Anchor, int32 VisualRadius);
 	static TSet<FIntVector> DesiredSectors(
@@ -44,9 +45,12 @@ private:
 		TObjectPtr<UHierarchicalInstancedStaticMeshComponent> Component = nullptr;
 		int32 Index = INDEX_NONE;
 		FTransform VisibleTransform;
+		FBox WorldBounds;
+		bool bVisible = true;
 	};
 	struct FTileRefs
 	{
+		bool bSuppressed = false;
 		TArray<FInstanceRef> Meshes;
 		TArray<TObjectPtr<UBillboardComponent>> Sprites;
 	};

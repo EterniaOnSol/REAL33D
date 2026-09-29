@@ -93,7 +93,7 @@ private:
 	/** A 176px side column carrying a stack of mini windows. */
 	TSharedRef<SWidget> MakeSideColumn(TSharedRef<SWidget> Contents);
 
-	/** The centre: the 2D's map frame with nothing in it but the 3D scene. */
+	/** The map frame with read-only world labels and interaction feedback. */
 	TSharedRef<SWidget> MakeViewportFrame();
 
 	/** The bottom panel: the splitter, the bottom action bar and the console. */
@@ -145,6 +145,7 @@ private:
 	/** The "choose a target" strip, shown only while a use-with is pending. */
 	TSharedPtr<SWidget> TargetingBanner;
 
+	TSharedPtr<class SReal33DWorldOverlay> WorldOverlay;
 	TSharedPtr<SReal33DChatPanel> ChatPanel;
 	TSharedPtr<SReal33DVitalsPanel> Vitals;
 	TSharedPtr<SReal33DSkillsPanel> Skills;

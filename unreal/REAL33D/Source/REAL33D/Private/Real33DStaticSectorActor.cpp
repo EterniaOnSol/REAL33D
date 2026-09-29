@@ -7,6 +7,8 @@
 #include "Misc/Paths.h"
 #include "Real33DAssetRegistry.h"
 #include "REAL33D.h"
+#include "Engine/StaticMesh.h"
+#include "Real33DPresentationPolicy.h"
 
 #if WITH_DEV_AUTOMATION_TESTS
 #include "Misc/AutomationTest.h"
@@ -68,7 +70,7 @@ void AReal33DStaticSector::Build(const TArray<FReal33DStaticItem>& Items,
 			}
 			const FTransform Transform(Visual.Rotation, Location + Visual.Offset, Visual.Scale);
 			const int32 Index = Group->AddInstance(Transform, false);
-			Refs.Meshes.Add(FInstanceRef{Group, Index, Transform});
+			Refs.Meshes.Add(FInstanceRef{Group, Index, Transform, Visual.Mesh->GetBoundingBox().TransformBy(Transform), true});
 			++V08Resolved;
 			continue;
 		}
@@ -111,7 +113,7 @@ void AReal33DStaticSector::Build(const TArray<FReal33DStaticItem>& Items,
 			}
 			const FTransform Transform(Visual.Rotation, Location + Visual.Offset, Visual.Scale);
 			const int32 Index = Group->AddInstance(Transform, false);
-			Refs.Meshes.Add(FInstanceRef{Group, Index, Transform});
+			Refs.Meshes.Add(FInstanceRef{Group, Index, Transform, Visual.Mesh->GetBoundingBox().TransformBy(Transform), true});
 		}
 		++MissingPhysicalAsset;
 	}
@@ -128,18 +130,22 @@ bool AReal33DStaticSector::IsAuthoritative(
 }
 
 void AReal33DStaticSector::ApplyView(
-	const Real33D::FMapPosition& Anchor, int32 VisualRadius)
+	const Real33D::FMapPosition& Anchor, int32 VisualRadius, bool bHideUpper)
 {
 	check(IsInGameThread());
 	for (TPair<FIntVector, FTileRefs>& Pair : TileRefs)
 	{
-		const bool bSuppressed = ShouldSuppressTile(Pair.Key, Anchor, VisualRadius);
+		const bool bSuppressed = ShouldSuppressTile(Pair.Key, Anchor, VisualRadius)
+			|| (bHideUpper && Pair.Key.Z < Anchor.Z);
+		Pair.Value.bSuppressed = bSuppressed;
 		for (FInstanceRef& Ref : Pair.Value.Meshes)
 		{
 			if (!Ref.Component || Ref.Index == INDEX_NONE)
 			{
 				continue;
 			}
+			if (Ref.bVisible == !bSuppressed) continue;
+			Ref.bVisible = !bSuppressed;
 			FTransform Transform = Ref.VisibleTransform;
 			if (bSuppressed)
 			{
@@ -237,4 +243,26 @@ TSet<FIntVector> AReal33DStaticSector::DesiredSectors(
 		}
 	}
 	return Result;
+}
+
+int32 AReal33DStaticSector::ApplyCameraVisibility(const FVector& Focus, const FVector& Eye, double& SafeDistance)
+{
+ int32 CutCount = 0;
+ for (auto& Pair : TileRefs)
+ {
+  if (Pair.Value.bSuppressed) continue;
+  for (FInstanceRef& Ref : Pair.Value.Meshes)
+  {
+   if (!Ref.Component || Ref.Index == INDEX_NONE) continue;
+   const bool bCut = Real33D::Presentation::CutAway(Focus, Eye, Ref.WorldBounds);
+   if (bCut) ++CutCount;
+   else Real33D::Presentation::LimitCamera(Focus, Eye, Ref.WorldBounds, SafeDistance);
+   if (Ref.bVisible == !bCut) continue;
+   Ref.bVisible = !bCut;
+   FTransform Transform = Ref.VisibleTransform;
+   if (bCut) Transform.SetScale3D(FVector::ZeroVector);
+   Ref.Component->UpdateInstanceTransform(Ref.Index, Transform, false, true, true);
+  }
+ }
+ return CutCount;
 }
