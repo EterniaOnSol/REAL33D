@@ -1,10 +1,11 @@
 # Project Status
 
 Current phase: `PHASE 2 - GAMEPLAY CLIENT PROGRAMMING` (`IN_PROGRESS`; the first 3D representation is live, a stock 2D client now completes the ordinary 7.72 flow, and V08 visual review is on operator-directed standby)
-Current milestone: REAL33D-AGENT-VETERAN-PLAY-001 — `IMPLEMENTED_UNVERIFIED`; live progression loop did not occur.
-Next milestone: `NOT_STARTED`; further live QA requires a new task.
+Current agent project: `PAUSED` indefinitely by operator direction; focus returned to REAL33D 3D client.
+Current unfinished agent milestone: REAL33D-AGENT-VETERAN-PLAY-002 — `IMPLEMENTED_UNVERIFIED`; progression is not proven.
+Next agent milestone: `NOT_STARTED`; resume requires new operator authorization.
 Last certified: REAL33D-AGENT-ALDRIC-001 `CERTIFIED` at `49bad6043de685e6b32753c5876ec1cddbe579d2`, pushed and remote-verified on its unmerged branch.
-Branch: `milestone/real33d-agent-veteran-play-001` (not merged to `main`)
+Preserved agent branch: `milestone/real33d-agent-veteran-play-002` (not merged to `main`)
 Classic baseline review commit: `f65f3a7645ff40b39b7cc8399760fd4f0b69ecee`
 Transport implementation commit: `abd2d0a25bd9632f5aa3955e822876268c7ca96c`
 Crypto implementation commit: `64e9217ef64181d44cdce815a36b6bb1d2aa9038`
@@ -364,3 +365,31 @@ two northward choices were refused against blocked visible tiles. Both
 sessions ended cleanly. Therefore landmark lookup and bounded navigation have
 live evidence; autonomous progression has not passed. See
 `evidence/agent/REAL33D-AGENT-VETERAN-PLAY-001.md`.
+
+## REAL33D autonomous-agent project pause - 2026-09-28
+
+`AGENT_PROJECT_STATUS = PAUSED`; `REAL33D-AGENT-VETERAN-PLAY-002 = IMPLEMENTED_UNVERIFIED`.
+Project focus returned to REAL33D 3D client. This is an indefinite operator-directed
+pause, not a new technical failure. All existing agent implementation, tests,
+planner/knowledge/MCP adapter work, traces, memory and handoffs are preserved.
+Earlier bounded PASS/CERTIFIED results remain unchanged; VETERAN-001's full
+progression failure and VETERAN-002's missing progression proof remain explicit.
+
+Existing session N proves four real qwen3:4b decisions and four validated,
+authoritative south steps from (32096,32208,7) to (32096,32212,7), with mock
+disabled, 84 local historical knowledge records and memory loaded/saved.
+The retained progression replay FAILED solely for no observed level, economy,
+or combat-plus-loot gain. Regression suites and retained MEMORY/ALDRIC replay
+checks PASS; no new live scenario or feature development was performed.
+
+The closure report and durable resume context are
+`evidence/agent/REAL33D-AGENT-VETERAN-PLAY-002-PAUSE-20260928.md` and
+`handoffs/CURRENT.md`. Raw sessions, private personal memory, MCP clone/corpus,
+models and static index remain local and ignored, with a hash inventory in
+`evidence/agent/veteran002/preservation_inventory.json`. No autonomous agent
+runtime was found; shared server and unrelated applications were left alone.
+
+The primary checkout stays clean on the published agent branch because `main`
+is occupied by `build/integration-item-use`. Existing worktrees are preserved;
+3D work must use its appropriate audited 3D/main worktree. No agent merge to
+main occurred. Resume from the preserved branch only after new authorization.

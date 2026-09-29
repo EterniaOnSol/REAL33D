@@ -109,6 +109,12 @@ safe:decide(observation(),function(i,e,m)
   eq(m.execution_horizon,2)
 end,now)
 assert(safe.plan and safe.plan.remaining==1)
+safe:decide(observation(),function(i,e,m)
+  assert(not e);eq(m.origin,'tactical');eq(i.direction,1)
+end,now)
+eq(safe.plan.remaining,0)
+safe:onRejected('action_cooldown')
+eq(safe.plan.remaining,1) -- rejected by budget, so the step was not sent
 local nearby=observation()
 nearby.creatureList[#nearby.creatureList+1]={id=42,name='Rat',
   position={x=101,y=200,z=7},hpPercent=100,monster=true}

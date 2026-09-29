@@ -1,5 +1,16 @@
 # REAL33D 2D Agent Bridge
 
+The autonomous-agent project is **PAUSED** indefinitely as of 2026-09-28.
+Project focus returned to REAL33D 3D client. VETERAN-PLAY-002 remains
+`IMPLEMENTED_UNVERIFIED`; no new autonomous run or development is authorized
+by this closure. Earlier bounded certifications and all implementation,
+tests, traces, memory and knowledge/MCP adapter work are preserved.
+Resume from `milestone/real33d-agent-veteran-play-002` and
+`handoffs/CURRENT.md`, with
+`evidence/agent/REAL33D-AGENT-VETERAN-PLAY-002-PAUSE-20260928.md` as the
+closure record. Keep ignored private memory, models and local knowledge
+when relocating the project; their contents are not backed up by the push.
+
 An opt-in Lua module over REAL33D2D's own OTClient parser, map panel,
 `LocalPlayer`, containers and `g_game` functions. It introduces no ClientCore,
 no WorldState, no protocol extension and no hand-crafted packet. Fusion32 stays
@@ -164,3 +175,30 @@ extension or player-to-player trade confirmation. Static veteran/world
 knowledge is read-only; personal experience is stored in the certified
 per-character memory. Full autonomous veteran progression was not observed
 in live QA. Human play remains opt-in-off by default.
+
+## VETERAN-PLAY-002 local knowledge and QA setup
+
+The ignored `knowledge_local/canonical_772.json` is generated from the already
+selected local Fusion32 7.72 static archive with
+`scripts/agent/build_knowledge_772.py`. It contains NPC homes and historical
+monster home regions with per-source hashes. It is not a live spawn or map
+feed. The opt-in Aldric launcher requires this file. Current `AgentObservation`
+still decides every action; neither static knowledge nor memory can authorize
+attack or follow against an unseen creature. The cloned `tibia_mcp` project and
+current TibiaWiki data are secondary references only; the live Aldric runtime
+does not connect to an MCP service.
+
+The separate `-Mode prep -PrepTarget x,y,z` is an operator QA setup tool. It
+walks only through the current visible client viewport, with the same
+schema/state/budget checks and `g_game.walk`. It is never selected by Aldric's
+Brain and its trace is excluded from certification. For the fixed origin:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File agent/real33d2d/run_agent.ps1 -Mode prep -PrepTarget 32096,32208,7 -Trace '<local ignored prep trace>'
+```
+
+The 7.72 server source has no NPC shop-window protocol; buy/sell callbacks in
+the 2D client do not establish a usable Fusion32 7.72 shop. NPC dialogue may
+still be a legitimate route to an economic action, but a dispatch alone never
+certifies it. The VETERAN-PLAY-002 replay gate requires observed resource,
+economy, or level improvement beyond walking.

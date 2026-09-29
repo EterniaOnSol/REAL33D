@@ -6,13 +6,15 @@
 # own generated secrets file into this process only: they are never echoed,
 # never passed as command arguments, and never written to a file by this script.
 param(
-    [ValidateSet('bridge', 'legacy', 'aldric')][string]$Mode = 'bridge',
+    [ValidateSet('bridge', 'legacy', 'aldric', 'prep')][string]$Mode = 'bridge',
     [ValidateSet('mock', 'ollama')][string]$Brain = 'mock',
     [string]$Model = 'qwen3:4b',
     [string]$Character,
     [string]$Trace,
     [switch]$Memory,
-    [string]$MemoryDir
+    [string]$MemoryDir,
+    [string]$KnowledgeFile,
+    [string]$PrepTarget
 )
 
 $ErrorActionPreference = 'Stop'
@@ -53,6 +55,9 @@ if ($Mode -eq 'bridge' -and $Brain -ne 'mock') {
 if ($Mode -eq 'aldric' -and $Brain -ne 'ollama') {
     throw 'Aldric mode requires -Brain ollama; mock fallback is forbidden.'
 }
+if ($Mode -eq 'prep' -and $PrepTarget -notmatch '^\d+,\d+,\d+$') {
+    throw 'Prep mode requires -PrepTarget x,y,z from the operator.'
+}
 
 $lines = & wsl.exe -d $distro -- cat $credentialPath
 if ($LASTEXITCODE -ne 0) { throw 'Could not read local QA credentials' }
@@ -71,10 +76,21 @@ try {
     $env:R33D_ACC = $account
     $env:R33D_PW = $password
     $env:R33D_AGENT_AUTOLOGIN = '1'
-    if ($Mode -eq 'bridge' -or $Mode -eq 'aldric') {
-        $env:R33D_AGENT_MODE = if ($Mode -eq 'aldric') { 'aldric' } else { '1' }
+    if ($Mode -eq 'bridge' -or $Mode -eq 'aldric' -or $Mode -eq 'prep') {
+        $env:R33D_AGENT_MODE = if ($Mode -eq 'aldric') { 'aldric' } elseif ($Mode -eq 'prep') { 'qa_preposition' } else { '1' }
         $env:R33D_AGENT_BRAIN = if ($Mode -eq 'aldric') { 'ollama' } else { 'mock' }
-        if ($Mode -eq 'aldric') { $env:R33D_AGENT_MODEL = $Model }
+        if ($Mode -eq 'prep') { $env:R33D_AGENT_PREP_TARGET = $PrepTarget }
+        if ($Mode -eq 'aldric') {
+            $env:R33D_AGENT_MODEL = $Model
+            if (-not $KnowledgeFile) { $KnowledgeFile = $env:R33D_AGENT_KNOWLEDGE_FILE }
+            if (-not $KnowledgeFile) {
+                $KnowledgeFile = Join-Path $PSScriptRoot 'knowledge_local\canonical_772.json'
+            }
+            if (-not (Test-Path $KnowledgeFile)) {
+                throw "Local REAL33D 7.72 knowledge index missing: $KnowledgeFile"
+            }
+            $env:R33D_AGENT_KNOWLEDGE_FILE = (Resolve-Path $KnowledgeFile).Path
+        }
         if (-not $Trace) { $Trace = $env:R33D_AGENT_TRACE }
         if (-not $Trace) { $Trace = Join-Path $clientRoot 'real33d_agent_trace.jsonl' }
         $env:R33D_AGENT_TRACE = $Trace
@@ -96,7 +112,7 @@ try {
     Remove-Item Env:R33D_ACCEPTANCE,Env:R33D_MOVEONLY,Env:R33D_TAPTEST,Env:R33D_MANUALTAP -ErrorAction SilentlyContinue
     $process = Start-Process -FilePath $exe -WorkingDirectory $clientRoot -PassThru
     Write-Output "REAL33D2D agent started: mode=$Mode brain=$Brain pid=$($process.Id)"
-    if ($Mode -eq 'bridge' -or $Mode -eq 'aldric') {
+    if ($Mode -eq 'bridge' -or $Mode -eq 'aldric' -or $Mode -eq 'prep') {
         Write-Output "trace=$Trace"
         if ($Memory -or $Mode -eq 'aldric') { Write-Output "memory=$MemoryDir" }
     }
@@ -106,6 +122,6 @@ finally {
     $password = $null
     Remove-Item Env:R33D_ACC,Env:R33D_PW,Env:R33D_AGENT,Env:R33D_AGENT_MODE,`
         Env:R33D_AGENT_AUTOLOGIN,Env:R33D_AGENT_BRAIN,Env:R33D_AGENT_MEMORY,`
-        Env:R33D_AGENT_MODEL `
+        Env:R33D_AGENT_MODEL,Env:R33D_AGENT_KNOWLEDGE_FILE,Env:R33D_AGENT_PREP_TARGET `
         -ErrorAction SilentlyContinue
 }

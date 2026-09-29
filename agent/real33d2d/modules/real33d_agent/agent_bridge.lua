@@ -54,6 +54,7 @@ function Real33DAgentBridge.snapshot(obs)
     online = true,
     x = obs.player.position.x, y = obs.player.position.y, z = obs.player.position.z,
     hp = obs.player.hp, mana = obs.player.mana,
+    level = obs.player.level, freeCapacity = obs.player.freeCapacity,
     attackId = obs.attackId or 0, followId = obs.followId or 0,
     fight = obs.combat.fight, chase = obs.combat.chase, safe = obs.combat.safe,
     containers = fingerprintContainers(obs),
@@ -62,7 +63,8 @@ function Real33DAgentBridge.snapshot(obs)
   }
 end
 
-local TRACKED = { 'x', 'y', 'z', 'hp', 'mana', 'attackId', 'followId', 'fight',
+local TRACKED = { 'x', 'y', 'z', 'hp', 'mana', 'level', 'freeCapacity',
+                  'attackId', 'followId', 'fight',
                   'chase', 'safe', 'containers', 'equipment', 'chat' }
 
 function Real33DAgentBridge.diff(before, after)

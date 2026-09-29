@@ -1,128 +1,163 @@
-# HANDOFF
+﻿# HANDOFF - REAL33D autonomous-agent project paused
 
-Date/time: 2026-09-25/26, America/Guatemala
-Task: `REAL33D-AGENT-VETERAN-PLAY-001`
-Agent / role: Codex, implementation, client audit and live QA
-Branch: `milestone/real33d-agent-veteran-play-001` (not merged to main)
-Starting commit: `49bad6043de685e6b32753c5876ec1cddbe579d2` (ALDRIC certified)
-Ending commit: this handoff commit on the branch; resolve with `git rev-parse HEAD`
-Worktree: `C:\Users\dell\Desktop\fusion32`
-Executable mirror: `C:\Users\dell\Desktop\REAL33D2D`
+Date/time: 2026-09-28, America/Guatemala
+Task ID: REAL33D-AGENT-PROJECT-CLOSURE-001
+Agent / role: Codex; repository audit, preservation, offline tests and publication
+Starting commit: 77e35b40116e674880fe6bbf9186e15e3fa4f801
+Ending commit: closure commit containing this handoff; resolve branch tip below
+Worktree: C:/Users/dell/Desktop/fusion32
 
-## Objective and outcome
+AGENT_PROJECT_STATUS = PAUSED
+VETERAN_PLAY_002_STATUS = IMPLEMENTED_UNVERIFIED
+CURRENT_AGENT_BRANCH = milestone/real33d-agent-veteran-play-002
+CURRENT_AGENT_HEAD = closure commit containing this handoff; git rev-parse milestone/real33d-agent-veteran-play-002
+LAST_COMPLETED_AGENT_MILESTONE = REAL33D-AGENT-ALDRIC-001
+LAST_COMPLETED_AGENT_HEAD = 49bad6043de685e6b32753c5876ec1cddbe579d2
+CURRENT_UNFINISHED_MILESTONE = REAL33D-AGENT-VETERAN-PLAY-002
+PROVIDER = ollama
+MODEL = qwen3:4b
+MOCK_MODE = DISABLED in retained Aldric N session; bridge/QA setup modes remain separate
+MCP_STATUS = Adapter/audit preserved; live integration IMPLEMENTED_UNVERIFIED; no live MCP service queried
+STATIC_772_KNOWLEDGE_STATUS = Adapter regression PASS; 84 local historical records loaded in N; broader progression IMPLEMENTED_UNVERIFIED
+MEMORY_STATUS = Prior MEMORY-001 certification retained; N loaded 3 and saved 7 records; private memory retained locally
+PLANNER_STATUS = Regression PASS and goal persistence observed; full progression IMPLEMENTED_UNVERIFIED; no proven cross-process plan restoration
+LAST_KNOWN_START_POS = 32096,32208,7
+AGENT_RUNTIME_ACTIVE = NO
+PAUSE_REASON = Focus returned to REAL33D 3D development.
+Project focus returned to REAL33D 3D client.
 
-Add sourced static player-level world knowledge and enable LLM-selected
-Tibia 7.72 progression goals using only live client observation, certified
-personal memory, ordinary REAL33D2D actions and final validation. The
-implementation and deterministic tests pass. Full veteran-play certification
-`FAILED`: the long real-model session walked repeatedly around Rookgaard
-Academy without choosing combat, looting, conversation or economy. A short
-follow-up loaded its saved memory but proposed two blocked moves, correctly
-rejected. New knowledge/action support is `IMPLEMENTED_UNVERIFIED` in live QA.
-The base ALDRIC bounded-control certification remains `CERTIFIED`.
+## Scope and outcome
 
-## Startup, inspection and branch history
+Preserve all MVP/BRIDGE/MEMORY/ALDRIC/VETERAN-001/VETERAN-002 work, document
+an indefinite project pause, run offline regression/replay checks, commit and
+publish only the agent branch, leave main unchanged, and stop any identifiable
+autonomous player. No feature development or new live gameplay was performed.
+The pause is an operator decision, not a new technical failure.
 
-Read `AGENTS.md`, `PROJECT_STATUS.md`, `ARCHITECTURE.md`, `ROADMAP.md`,
-`PARITY_MATRIX.md` and the prior `handoffs/CURRENT.md`. Inspected status,
-branch, HEAD, remotes, recent commits, ALDRIC modules/tests/evidence and the
-separate REAL33D2D checkout. The base branch was clean at `49bad60`. Before
-new work it was pushed, and remote `milestone/real33d-agent-aldric-001` was
-verified at the exact full hash. Then this VETERAN branch was created from it.
-No main merge occurred. The prior handoff was archived at
-`handoffs/archive/2026-09-25_REAL33D-AGENT-ALDRIC-001-certification.md`.
+The initial checkout was on VETERAN-002 at the starting commit, with 10 modified
+files and 8 untracked entries. The remote branch did not exist. Remote main was
+a97cf25e7449a8a3ef35ef2553181c5032c7a247. The existing handoff described
+VETERAN-001 and is archived intact at
+handoffs/archive/2026-09-28_REAL33D-AGENT-VETERAN-PLAY-001-before-pause.md.
 
-Audited REAL33D2D's `src/client/game.cpp`, `game.h`,
-`luafunctions.cpp`, `protocolgameparse.cpp`, and `modules/game_npctrade` for
-NPC trade events, `g_game.buyItem`, `sellItem`, item movement, equip and player
-trade. The mirror's pre-existing ALDRIC files matched the base; only reviewed
-opt-in module files were copied from this worktree for live QA. No Fusion32
-reference/runtime data, protocol source, server gameplay, Unreal, Musebook,
-Web3 or multi-agent code was changed.
+Read AGENTS.md, PROJECT_STATUS.md, ARCHITECTURE.md, ROADMAP.md, PARITY_MATRIX.md,
+prior CURRENT.md and source authority inventory. Inspected Git state/remotes/
+worktrees, existing agent diffs/functions, tests, sanitized and local traces,
+local knowledge index, ignored MCP clone and Windows/WSL runtime inventories.
 
-## Discoveries and changes
+## What works and what was preserved
 
-- `knowledge/world_v1.lua` and `knowledge/README.md`: sourced public
-  Rookgaard/Thais landmarks, coordinate and visible-cue lookup, regional
-  leads, approximate bearing/distance and version caveats. Public pages are
-  the sole catalogue source. No Fusion32 map/database/spawn data was used.
-- `agent_aldric.lua`: high-level progression objective, explicit four-level
-  information priority, 7x7 current-viewport map, own recent position/decision
-  history to expose backtracking, world/general knowledge references in
-  decisions. No waypoint sequence or hunt script was added.
-- `agent_runtime.lua`, `agent_schema.lua`, `agent_core.lua`,
-  `agent_provider_ollama.lua`, `real33d_agent.otmod`: opt-in NPC trade callbacks,
-  current shop observation, schema/state/budget gated buy/sell through normal
-  client methods; ten-second per-action trade cooldown. A shop projection
-  initially mutated an empty observed table (`[]` versus `{}`), causing false
-  freshness rejections. It now copies the table. A non-secret changed-field
-  log remains for future diagnosis. No raw packet path.
-- `tests/real33d_veteran_knowledge_test.lua` and existing action count test:
-  landmark cue/region, fair-play priority, closed shop, current price/money/
-  goods checks, and the projection mutation regression.
-- `evidence/agent/veteran/session_f_trace.jsonl` and
-  `session_g_trace.jsonl`: complete, sanitized traces. Full raw traces and
-  personal memory remain ignored local evidence.
-- `evidence/agent/REAL33D-AGENT-VETERAN-PLAY-001.md`, project status and
-  parity matrix: exact results, source links, limits, hashes and replay steps.
+WHAT_WORKS = Opt-in validated g_game actions; correlation/JSONL tracing;
+identity-isolated observation-derived personal memory; previously certified
+bounded real-LLM control; static/version-aware adapters; planner regression
+fixtures; retained N real-model goal persistence and authoritative movement.
 
-## Tests and live results
+Preserved existing VETERAN-002 code without behavior changes: structured goals,
+plan/subgoal/replan state, observed action affordances, rejected-step budget
+refund, local knowledge/MCP adapters, provider format/settings, runtime tracing,
+launcher options and operator-only QA prepositioner. Earlier milestone code,
+tests, evidence, memory and handoffs remain intact. No history was rewritten.
 
-Bundled LuaJIT MVP/BRIDGE/MEMORY, ALDRIC and VETERAN deterministic suites:
-PASS. Two-session MEMORY replay: PASS. PowerShell launcher regression: PASS.
-`bash tests/secret_check.sh`: PASS. Provider `/api/tags` reported `qwen3:4b`;
-`/api/chat` returned a completed matching-model reply. Fusion32 services
-were restarted cleanly and identities/ports verified before live sessions.
+Allowed closure changes: README pause notice, current project status/parity,
+this handoff and prior handoff archive, closure evidence, local-file hash
+inventory, and a narrow allowlist for the already-sanitized public N trace.
 
-Early A-D local-only sessions diagnosed the projection mutation; E verified
-movement after the fix. Complete session F `20260925T201237Z`: mock off,
-`qwen3:4b`, personal memory loaded (32) and saved (54), 346 real-model
-decisions, 101 distinct goal strings, 41 bounded continuations, 287 accepted
-`g_game.walk` calls, 277 later authoritative changes, 38 distinct positions
-on floors 6 and 7. First `(32099,32192,6)`, last `(32101,32200,7)`. The
-client observed level 1 and 150/150 HP throughout. Every model intent was
-movement. The existing bounded ALDRIC live replay on F PASS; this is not a
-veteran progression PASS. There were 65 malformed provider decisions with
-no dispatch, 50 freshness, 21 blocked-tile and 29 cooldown refusals, and no
-`protocol_error` trace event. F ended with `session_end`.
+Evidence: evidence/agent/REAL33D-AGENT-VETERAN-PLAY-002-PAUSE-20260928.md.
+Public trace: evidence/agent/veteran002/session_n_trace.jsonl.
+Local preservation manifest: evidence/agent/veteran002/preservation_inventory.json.
+The report inventories the initial changed files and worktrees in full.
 
-Final short session G `20260926T001257Z`: loaded F's 54 records, two
-LLM-selected north moves, both state-gate rejected as
-`tile_not_visible_walkable`; zero dispatch. It ended with
-`session_end memory_saved=true`. The user requested ending the test. Fusion32
-stopped cleanly and the client closed offline. Ollama may remain running;
-check it before a future run.
+## Honest live results and remaining uncertainty
 
-## States, risks and exact next task
+N (20260926T225931Z): 55 events; ollama/qwen3:4b, mock disabled; 84 historical
+knowledge records loaded; memory loaded 3/saved 7; four model decisions and
+four accepted g_game.walk dispatches, with schema/state/budget gates and four
+later authoritative y changes. Start (32096,32208,7), finish (32096,32212,7).
+Model goal persisted; protocol_error events 0 in this retained trace.
 
-`PASS`: sourced static landmark lookup and observation priority in
-deterministic tests; real LLM bounded navigation; validator refusals;
-memory load/save. `IMPLEMENTED_UNVERIFIED`: actual NPC buy/sell, economic
-planning expressed as a legal action, equipment improvement and autonomous
-combat/loot. `NOT_STARTED`: player-to-player trade confirmation and a
-distinct equip action. `FAILED`: requested full autonomous veteran progression
-loop in live QA. Do not call a goal string evidence of hunting or a shop
-intent evidence of a completed transaction. Modern public geography is an
-uncertain historical lead, not certified 7.72 parity. No privileged or
-off-screen state was used.
+The existing progression replay returns FAILED (exit 1), solely because
+no observed level, economy, or combat-plus-loot progression occurred.
+Do not relabel this as PASS. VETERAN-002 remains IMPLEMENTED_UNVERIFIED within
+a PAUSED project. Earlier VETERAN-001 progression failure remains recorded;
+ALDRIC's bounded certification is retained.
 
-Next task, only if separately authorized: inspect the F/G traces and improve
-strategic loop avoidance and goal selection without hardcoded waypoints or
-changing the final validator. Exact files:
-`agent/real33d2d/modules/real33d_agent/agent_aldric.lua`,
-`knowledge/world_v1.lua`, and
-`evidence/agent/REAL33D-AGENT-VETERAN-PLAY-001.md`.
-Reproduce deterministic checks from this worktree with REAL33D2D's bundled
-LuaJIT:
+WHAT_REMAINS = Autonomous combat plus loot/resource gain; economy/NPC dialogue
+outcome; level/equipment/supply improvement; live strategy/replan recovery;
+full progression certification; live MCP integration and historical-source
+compatibility/fair-play review; cross-process strategic-plan restoration.
+Several local diagnostic traces lack session_end and are not complete proof.
+The test origin is not a verified current server position for a future session.
 
-```text
-luajit tests/real33d_agent_test.lua
-luajit tests/real33d_aldric_test.lua
-luajit tests/real33d_veteran_knowledge_test.lua
-luajit tests/real33d_aldric_live_test.lua evidence/agent/veteran/session_f_trace.jsonl
-bash tests/secret_check.sh
-```
+## Tests/results and compact reproduction
 
-The new VETERAN branch has no remote push authorization; only the base ALDRIC
-branch was explicitly authorized for push. Do not merge main. The complete
-evidence report gives trace hashes and the factual session chronology.
+Executed from repository root with existing REAL33D2D LuaJIT at:
+C:/Users/dell/Desktop/REAL33D2D/build/vcpkg_installed/x64-windows/tools/luajit/luajit.exe
+Python at C:/Users/dell/AppData/Local/Programs/Python/Python311/python.exe.
+
+PASS: real33d_agent_test.lua (MVP/bridge/memory); real33d_aldric_test.lua;
+real33d_veteran_knowledge_test.lua; real33d_veteran_planner_test.lua;
+real33d_agent_launcher_test.ps1.
+PASS: real33d_agent_memory_live_test.lua replay of retained session_A.jsonl,
+session_B.jsonl and memory_after_A.json in evidence/agent/memory/.
+PASS: real33d_aldric_live_test.lua replay of aldric/certification_trace.jsonl.
+FAILED: real33d_veteran_live_test.py replay of veteran002/session_n_trace.jsonl;
+exact missing-progression criterion above. This replay contacted no server/model.
+PASS: re-sanitized raw N into ignored build/agent/closure_n_sanitized.jsonl;
+SHA-256 exactly matched the existing public trace:
+3ac3176c7070d946fdc954d29b9d9406be27b6a20655e8392f3af3789a3d97fe.
+SECRET_CHECK = PASS; staged-tree/reachable-history checks executed before commit/push.
+
+## Private/local preservation and runtime
+
+No ignored raw trace, personal memory, model, cache, MCP corpus/database,
+credential or proprietary static index is published. They remain in place.
+The manifest hashes 76 local files including the local index, recording
+preservation without publishing contents; it is not a remote backup.
+Private VETERAN-002 memory and H-P/setup traces remain under:
+evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-002/.
+Local knowledge: agent/real33d2d/knowledge_local/canonical_772.json (84 records).
+MCP clone: tools/external/tibia_mcp, clean at
+08329b0a7b376b6cf41c298caa1715fb39e796ea. Modern TibiaWiki answers remain
+SECONDARY_REFERENCE/UNVERIFIED; runtime does not query this service.
+Existing Ollama/model directories under evidence/agent/live/ remain untouched.
+Private agent.local.env and account settings stay ignored and are not echoed.
+
+No autonomous REAL33D client/provider/MCP process was found in Windows or the
+two Ubuntu WSL inventories; no termination was necessary. The unrelated
+mythera_gl user application, Blender MCP/Codex processes, and shared Fusion32
+services in Ubuntu-26.04 were left running. Docker Linux engine was unavailable.
+No dependency, model, memory or tool was uninstalled/deleted.
+
+## Checkout safety and exact resume point
+
+main is already checked out at build/integration-item-use. Per the explicit
+operator fallback, leave the primary checkout clean on the published agent
+branch. Do not force another main checkout or remove a worktree. The existing
+main and Unreal worktrees are preserved. The report lists their initial HEADs.
+Do not start 3D changes in this agent branch. Use the existing clean main
+worktree for main-based 3D work, or the appropriate existing 3D milestone
+worktree after its own audit. No agent merge to main is authorized.
+
+EXACT_RESUME_POINT = Only after new authorization, check out the published
+milestone/real33d-agent-veteran-play-002 in an isolated worktree, read this
+handoff/report/N trace, retain private memory/static knowledge paths, and rerun
+the named offline tests. Inspect agent_veteran_planner.lua::observe/accept/rejected,
+agent_aldric.lua::affordances/decide/onRejected and the N progression replay.
+The next step would have been diagnosing movement-only strategy and proving
+actual combat-plus-loot, level or economy gain without a scripted progression
+loop or weakened action gates. Resume preserved architecture, not a redesign.
+
+Future launch (not performed/authorized during pause): existing run_agent.ps1
+-Mode aldric -Brain ollama -Model qwen3:4b, with preserved private deployment
+settings, KnowledgeFile/MemoryDir and a fresh ignored Trace. Observe actual
+position first; do not automatically preposition or restart old sessions.
+
+Publication verification commands:
+git rev-parse milestone/real33d-agent-veteran-play-002
+git ls-remote origin refs/heads/milestone/real33d-agent-veteran-play-002 refs/heads/main
+git status --short
+git worktree list
+
+Ending HEAD is the closure commit containing this handoff (self-reference
+resolved by branch ref). Final publication must match local/remote and leave
+this worktree clean. main remains a97cf25e7449a8a3ef35ef2553181c5032c7a247.

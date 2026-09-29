@@ -165,3 +165,21 @@ validator remain the final action gate for memory and static knowledge leads.
 Full facts, limits and trace hashes are in
 `evidence/agent/REAL33D-AGENT-VETERAN-PLAY-001.md`. The ALDRIC certification
 remains intact on its pushed branch and `main` was not merged.
+
+## REAL33D autonomous-agent project pause - VETERAN-PLAY-002
+
+Project status: `PAUSED` by operator direction on 2026-09-28. Focus returned
+to REAL33D 3D client. Functional milestone status stays `IMPLEMENTED_UNVERIFIED`.
+No earlier PASS/CERTIFIED result or 3D parity cell is changed by this closure.
+
+| Preserved scope | Evidence / limits | State |
+| --- | --- | --- |
+| Structured goals, plan/subgoal/replan diagnostics and current-action affordances | Existing offline planner/provider/safety regression suites executed at closure | PASS |
+| Local historical 7.72 adapter and secondary MCP normalization | Fixture tests PASS; N loaded 84 local records; modern MCP service not queried live | IMPLEMENTED_UNVERIFIED |
+| Real-model bounded movement and memory in N | Four decisions and four gated authoritative south steps; loaded 3/saved 7 memory records | PASS |
+| Full autonomous character progression | Existing N replay FAILED: no level, economy, or combat-plus-loot gain; no new live run | IMPLEMENTED_UNVERIFIED |
+| Live strategy/replan recovery, combat/loot/economy/equipment outcomes and MCP integration | Preserved for a future authorized resume | IMPLEMENTED_UNVERIFIED |
+
+See `evidence/agent/REAL33D-AGENT-VETERAN-PLAY-002-PAUSE-20260928.md` and
+`handoffs/CURRENT.md`. Preserve the architecture, private memory and all earlier
+evidence; do not restart the milestone or infer progression from walking.

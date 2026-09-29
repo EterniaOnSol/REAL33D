@@ -10,7 +10,8 @@ local R = Real33DAgentRuntime
 local modeSetting = os.getenv('R33D_AGENT_MODE')
 local bridgeMode = modeSetting == '1'
 local aldricMode = modeSetting == 'aldric'
-local traceMode = bridgeMode or aldricMode
+local prepMode = modeSetting == 'qa_preposition'
+local traceMode = bridgeMode or aldricMode or prepMode
 local memoryEnabled = os.getenv('R33D_AGENT_MEMORY') == '1'
 local legacyMode = os.getenv('R33D_AGENT') == '1'
 local enabled = traceMode or legacyMode
@@ -352,7 +353,9 @@ local function applyIntent(raw, cycle, decisionEpoch, meta)
         provider = meta.provider, model = meta.model,
         knowledge_ids = meta.knowledge_ids,
         world_knowledge_ids = meta.world_knowledge_ids,
+        local_knowledge_ids = meta.local_knowledge_ids,
         memory_ids = meta.memory_ids,
+        planner = meta.planner,
         latency_ms = meta.latency_ms, horizon = meta.horizon,
         execution_horizon = meta.execution_horizon }
     elseif memory and brain then
@@ -361,14 +364,17 @@ local function applyIntent(raw, cycle, decisionEpoch, meta)
                navigating_via = brain.navigatingVia,
                memory_guided = brain.navigatingTo ~= nil }
     end
-    bridge:emitIntent(cycle, raw, aldricMode and meta and meta.origin or provider, plan)
+    bridge:emitIntent(cycle, raw,
+      prepMode and 'qa_setup' or aldricMode and meta and meta.origin or provider, plan)
     if aldricMode and meta and meta.origin == 'llm' then
       bridge:emit('brain_decision', {
         correlation_id = cycle.correlationId, observation_id = cycle.observationId,
         action_id = cycle.actionId, provider = meta.provider, model = meta.model,
         knowledge_ids = meta.knowledge_ids,
         world_knowledge_ids = meta.world_knowledge_ids,
+        local_knowledge_ids = meta.local_knowledge_ids,
         memory_ids = meta.memory_ids,
+        planner = meta.planner,
         goal = meta.goal, summary = meta.summary, proposed_intent = raw,
         latency_ms = meta.latency_ms, horizon = meta.horizon,
         execution_horizon = meta.execution_horizon,
@@ -460,7 +466,7 @@ local function tick()
   if not enabled then return end
   if g_game.isOnline() then
     local now = g_clock.millis()
-    if aldricMode and pending and pendingSince and now-pendingSince > 90000 then
+    if aldricMode and pending and pendingSince and now-pendingSince > 270000 then
       pending, pendingSince = false, nil
       decisionSerial = decisionSerial + 1 -- discard any late provider callback
       if brain and brain.timeout then brain:timeout(now) end
@@ -564,7 +570,9 @@ local function tick()
                   provider=meta.provider,model=meta.model,
                   knowledge_ids=meta.knowledge_ids,
                   world_knowledge_ids=meta.world_knowledge_ids,
+                  local_knowledge_ids=meta.local_knowledge_ids,
                   memory_ids=meta.memory_ids,
+                  planner=meta.planner,
                   goal=meta.goal,summary=meta.summary,
                   proposed_intent={action='wait'},latency_ms=meta.latency_ms,
                   horizon=meta.horizon,
@@ -624,10 +632,12 @@ local function onStart()
     -- which is not observation-derived. AgentMemory is the sanctioned route and
     -- carries provenance for everything it holds.
     local model = os.getenv('R33D_AGENT_MODEL') or 'qwen3:4b'
+    local localKnowledge = aldricMode and Real33DKnowledge.new({
+      localFile=os.getenv('R33D_AGENT_KNOWLEDGE_FILE')}) or nil
     if aldricMode then
       local infer = AgentOllama.new(function(url,data,callback)
         local previous = HTTP.timeout
-        HTTP.timeout = 75
+        HTTP.timeout = 240
         local ok,result = pcall(HTTP.postJSON,url,data,callback)
         HTTP.timeout = previous
         if not ok then callback(nil,'http_unavailable') end
@@ -635,21 +645,32 @@ local function onStart()
       end,function() return g_clock.millis() end)
       brain = AgentAldric.new({infer=infer,model=model,memory=memory,
         knowledge=AgentKnowledge,world=AgentWorldKnowledge,
+        localKnowledge=localKnowledge,veteran002=true,
         clock=function() return g_clock.millis() end})
+    elseif prepMode then
+      local target=os.getenv('R33D_AGENT_PREP_TARGET') or ''
+      local x,y,z=target:match('^(%d+),(%d+),(%d+)$')
+      brain=AgentPreposition.new({x=tonumber(x),y=tonumber(y),z=tonumber(z)})
     else
       brain = AgentCore.mockBrain({ crossSessionMemory = false, followFirst = true,
                                     proveCancel = true, memory = memory })
     end
     log('GAME_START', 'brain=' .. provider .. ' mode=' ..
-      (aldricMode and 'aldric' or 'bridge') .. ' memory=' .. loadState)
+      (aldricMode and 'aldric' or prepMode and 'qa_preposition' or 'bridge') ..
+      ' memory=' .. loadState)
     bridge:emitSession('session_start', {
-      mode = aldricMode and 'aldric' or 'bridge', brain = provider,
+      mode = aldricMode and 'aldric' or prepMode and 'qa_preposition' or 'bridge',
+      brain = prepMode and 'qa_setup' or provider,
+      prep_target = prepMode and os.getenv('R33D_AGENT_PREP_TARGET') or nil,
       provider = aldricMode and 'ollama' or nil,
       model = aldricMode and model or nil,
       knowledge_schema = aldricMode and AgentKnowledge.SCHEMA or nil,
       knowledge_version = aldricMode and AgentKnowledge.VERSION or nil,
       world_knowledge_schema = aldricMode and AgentWorldKnowledge.SCHEMA or nil,
       world_knowledge_version = aldricMode and AgentWorldKnowledge.VERSION or nil,
+      local_knowledge_schema = localKnowledge and Real33DKnowledge.SCHEMA or nil,
+      local_knowledge_records = localKnowledge and #localKnowledge.records or nil,
+      local_knowledge_error = localKnowledge and localKnowledge.loadError or nil,
       mock_disabled = aldricMode and true or nil,
       cross_session_memory = false,
       observation_schema = AgentSchema.OBSERVATION_SCHEMA,
@@ -695,6 +716,11 @@ end
 
 function R.init()
   if not enabled then return end -- ordinary human play is untouched
+  if prepMode and not (os.getenv('R33D_AGENT_PREP_TARGET') or ''):match('^%d+,%d+,%d+$') then
+    g_logger.error('[R33D-AGENT] QA target requires x,y,z; disabled')
+    enabled=false
+    return
+  end
   if provider ~= 'mock' and provider ~= 'ollama' then
     g_logger.error('[R33D-AGENT] unsupported brain; disabled')
     enabled = false
@@ -729,7 +755,8 @@ function R.init()
   if g_game.isOnline() then onStart() end
   timer = scheduleEvent(tick, 1000)
   log('READY', 'opt_in=' .. (traceMode and 'R33D_AGENT_MODE' or 'R33D_AGENT') ..
-      ' mode=' .. (aldricMode and 'aldric' or bridgeMode and 'bridge' or 'legacy') ..
+      ' mode=' .. (aldricMode and 'aldric' or prepMode and 'qa_preposition' or
+        bridgeMode and 'bridge' or 'legacy') ..
       ' brain=' .. provider)
   if os.getenv('R33D_AGENT_AUTOLOGIN') == '1' then
     scheduleEvent(function()

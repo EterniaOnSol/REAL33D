@@ -1,0 +1,473 @@
+{
+  "date": "2026-09-28",
+  "local_directories_preserved": [
+    "tools/external/tibia_mcp",
+    "evidence/agent/live/hf_cache",
+    "evidence/agent/live/hf_tools",
+    "evidence/agent/live/ollama-models",
+    "evidence/agent/live/ollama_runtime",
+    "evidence/agent/live/qwen_model"
+  ],
+  "local_files": [
+    {
+      "bytes": 4096,
+      "path": "evidence/agent/live/A_ate_looted_food_2026-09-24.log",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "c6f363a07da6b38aa2cca435338eb2f81b940b1f6367263decd6253ed33e00f1"
+    },
+    {
+      "bytes": 4096,
+      "path": "evidence/agent/live/A_final_rabbit_inventory_2026-09-24.log",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "9ecda6e2b93c10357091b121531d6deae7c1ee0d8341771af71b3f3cb432f17f"
+    },
+    {
+      "bytes": 8192,
+      "path": "evidence/agent/live/A_loot_no_eat_2026-09-24.log",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "82cb65d1e1291d96625faf9987c2aa3dc108b95af72d43f09fef300fb11d2ac3"
+    },
+    {
+      "bytes": 16384,
+      "path": "evidence/agent/live/A_normal_attack_selected_2026-09-24.log",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "3874cf6cf9dedfb8f0361ff850322c3fbf372cd4c428549b3ebe87cf37351a39"
+    },
+    {
+      "bytes": 12288,
+      "path": "evidence/agent/live/A_normal_combat_3min_2026-09-24.log",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "5fc6b5d214a94b32e03928e8335233f9e45c4558494aaa86625b0bfeccb10d91"
+    },
+    {
+      "bytes": 16384,
+      "path": "evidence/agent/live/A_visible_corpse_2026-09-24.log",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "58c745143f35e676842a87e79a607fba743e9b07639df53b4c84067a97e61a36"
+    },
+    {
+      "bytes": 8192,
+      "path": "evidence/agent/live/B_lowhp_2026-09-24.log",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "e30e9a6a37473be8f4ae927dbb93957dbee9abf29b0d4fc5bd6e0ce36460d396"
+    },
+    {
+      "bytes": 1264,
+      "path": "evidence/agent/live/B_respawn_2026-09-24.log",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "ab1a277450b125c8e12ab7347f91afe29c8e63fa10f19fb8b9cedf9e8252e95a"
+    },
+    {
+      "bytes": 775296,
+      "path": "evidence/agent/live/ollama-serve.err.log",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "dfd2ce001173eb25164151a115dfb50cc94b04c70ba63d273290ac45782ca380"
+    },
+    {
+      "bytes": 9627,
+      "path": "evidence/agent/live/ollama-serve.out.log",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "51e3ceb3b4fef0efd1d3f17484da00672a009003a2e4ead4e8c65d86a9038e72"
+    },
+    {
+      "bytes": 87,
+      "path": "evidence/agent/live/Qwen3-4B.Modelfile",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "82c6b3967909a9add51b421f22ba067d62d54ae7e87a97b48317fa695d7c13d7"
+    },
+    {
+      "bytes": 2460,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/certification_corrected_20260925/client.log",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "64c5a2bbed4ddc8623934febf4bd2e3b4ede301b36f0f4eafd12234ad9e5f6b6"
+    },
+    {
+      "bytes": 10476,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/certification_corrected_20260925/memory_after.json",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "9d84946d9839d0396b9315c29a84d36a166a5a8dbd64ae6a584b629f1c2c86ee"
+    },
+    {
+      "bytes": 10476,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/certification_corrected_20260925/memory_before.json",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "ea7e5f777152e5d38723df9b9e77152caa8a2f18b32ffb54187706a9b998fc7d"
+    },
+    {
+      "bytes": 186393,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/certification_corrected_20260925/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "80d31be65c8214bc88cfd3c37427685910e99ab93ad478766fe38e04d266cc36"
+    },
+    {
+      "bytes": 10472,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/certification_session_20260925/memory_before.json",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "818c501fd3e4d4bae7e08b6138b0cab38acfff1ab1c2b676702867663bf79f08"
+    },
+    {
+      "bytes": 28346,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/certification_session_20260925/sanitized_trace_wrong_path.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "1a413cdf34de2c7c082b4717cef0b3261d754619e39d0bf4fa92026a2cbcd9ba"
+    },
+    {
+      "bytes": 163112,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/certification_session_20260925/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "eacb041697f44ca4b16bf5061724e392fa1e5ee238b33a9e0dd57e1e43911cb3"
+    },
+    {
+      "bytes": 561563,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/live_defect.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "d5b9d94dd9377270d53207be418d532cc7c170d2043ae4f3a988c898f5091ed9"
+    },
+    {
+      "bytes": 293076,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/live_horizon1.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "7b01c609c9280b39c20d39a9c4748eb5bd6e55e9891fddac4073a625c956872d"
+    },
+    {
+      "bytes": 571151,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/live_item_defect.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "701fdb05ee4c50181ae78d0db855eb577284ca6a7df610b455c1f86856588705"
+    },
+    {
+      "bytes": 690839,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/live_no_tactical.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "d48f96540a779c3651d689ba819c9dddc59fef7b8362ae22eefa7560012a9621"
+    },
+    {
+      "bytes": 10476,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/memory/agent_memory__616C64726963__3132372E302E302E315F37313731__416C64726963.json",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "9d84946d9839d0396b9315c29a84d36a166a5a8dbd64ae6a584b629f1c2c86ee"
+    },
+    {
+      "bytes": 9396,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/pre_shutdown_client.log",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "f98128eb9cb83207a734c9d1e2593350f22c241b8be89cc43fa31331863bf933"
+    },
+    {
+      "bytes": 9521,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/pre_shutdown_memory_after.json",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "c381c861293cd2937874a4c03cc322c99fbe4e80a7a275fac6de9e0f2165b29a"
+    },
+    {
+      "bytes": 2475,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/prepare_aldric_qa.py",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "61b0b0b40a9541789c01918edc0731796afe244c5201b309ecdc08655f99489b"
+    },
+    {
+      "bytes": 2598821,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/provider_failure.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "c998ae8d42c0e63143e526427bfafb565a60e483e62d06bce69a93082be8cc4f"
+    },
+    {
+      "bytes": 3023,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/recovery_session_20260925/client.log",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "c9a4de35d16e796ffcb4f098e6615f58992492a6df721761cae614f20d8ddff7"
+    },
+    {
+      "bytes": 10472,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/recovery_session_20260925/memory_after.json",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "818c501fd3e4d4bae7e08b6138b0cab38acfff1ab1c2b676702867663bf79f08"
+    },
+    {
+      "bytes": 4000,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/recovery_session_20260925/pre_reboot_client_log_preserved.log",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "08d701a141b6b2129bdb70aaf8f53b31853c68d8df83e9623afb4350bab4ad2a"
+    },
+    {
+      "bytes": 51143,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/recovery_session_20260925/sanitized_trace_pre_identity.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "b5bd9167b14b24df458df5ad5aae33a589de1bf3e7292b74edcb9bf11fb9418a"
+    },
+    {
+      "bytes": 495426,
+      "path": "evidence/agent/live/REAL33D-AGENT-ALDRIC-001/recovery_session_20260925/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "1e4ba032ea3156803f4410698e8b566dac3dddced1f0389fb1b7d7c070f3ce3f"
+    },
+    {
+      "bytes": 1267,
+      "path": "evidence/agent/live/REAL33D-AGENT-MEMORY-001-cert/find_candidate.py",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "045fb1335f87fbe1851caffab328948658e4f626af960a3ebfaf7f82baef3411"
+    },
+    {
+      "bytes": 7617,
+      "path": "evidence/agent/live/REAL33D-AGENT-MEMORY-001-cert/memory/agent_memory__6D6F636B__3132372E302E302E315F37313731__5465737420506C617965722041.json",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "a5037ca916a9568b12711c2f6eb826af5625ef38a3ff885c61db6b7a3829ee0f"
+    },
+    {
+      "bytes": 6646,
+      "path": "evidence/agent/live/REAL33D-AGENT-MEMORY-001-cert/memory_after_A.json",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "599bf252fb4a67b1b8b385c1d53f378cd61690169531f68b474dcfc8baaa1459"
+    },
+    {
+      "bytes": 8530,
+      "path": "evidence/agent/live/REAL33D-AGENT-MEMORY-001-cert/memory_clean/agent_memory__6D6F636B__3132372E302E302E315F37313731__5465737420506C617965722041.json",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "5fd640513badf30b901b308c4f0ab447a91e4d9df297d2eafa53627b19ddc91e"
+    },
+    {
+      "bytes": 1839,
+      "path": "evidence/agent/live/REAL33D-AGENT-MEMORY-001-cert/observed_route.py",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "75e90cb0d2fe16af74d4828fa36f7dd6cc18ae3d2d6cc7ca23ca454618acb566"
+    },
+    {
+      "bytes": 2303,
+      "path": "evidence/agent/live/REAL33D-AGENT-MEMORY-001-cert/place_qa_character.py",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "1f26091fe5f9cffeddfc54842bab5d51f3828bd2a3535e4c6c92fb66058f78ad"
+    },
+    {
+      "bytes": 467,
+      "path": "evidence/agent/live/REAL33D-AGENT-MEMORY-001-cert/probe_launcher.ps1",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "e76e1e24fabd9f309c89ba58815fe498473e36587c840ca6203901fc9e9fab33"
+    },
+    {
+      "bytes": 363,
+      "path": "evidence/agent/live/REAL33D-AGENT-MEMORY-001-cert/rights_readonly.py",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "c094c6cf8f5f7b23a5e90ef146148270f96522a7af1e9e792e19fc9beaf8e819"
+    },
+    {
+      "bytes": 3066751,
+      "path": "evidence/agent/live/REAL33D-AGENT-MEMORY-001-cert/session_A.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "a40462c263cc1d2eea095939af433ad050f906798eb86be9ee8e9e4e4940c36b"
+    },
+    {
+      "bytes": 687213,
+      "path": "evidence/agent/live/REAL33D-AGENT-MEMORY-001-cert/session_A_clean.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "be089c44eff66fc05bd7f20f3c3b258ac35f773dce157413403eb873b274885f"
+    },
+    {
+      "bytes": 480207,
+      "path": "evidence/agent/live/REAL33D-AGENT-MEMORY-001-cert/session_B_clean.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "087cef634ff825319e9bd5b29d29ccc5cbdd939440262ee0ce9aec208309a7b0"
+    },
+    {
+      "bytes": 6785,
+      "path": "evidence/agent/live/REAL33D-AGENT-MEMORY-001-cert/session_B_client.log",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "c8b98de0768f91ce3c92aeaeae67d057c440563aee932148fb238abacb9ed04c"
+    },
+    {
+      "bytes": 286962,
+      "path": "evidence/agent/live/REAL33D-AGENT-MEMORY-001-cert/session_B_diagnostic.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "c200749b7841f73de9de0884a0466808a44cd2944023f997be139e1a7ca58144"
+    },
+    {
+      "bytes": 10476,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-001/session_20260925_a/memory/agent_memory__616C64726963__3132372E302E302E315F37313731__416C64726963.json",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "e1f2427ca668b445ea20a86aa7024d3ee750a96240507b1c1bcda7ab9221d2c6"
+    },
+    {
+      "bytes": 131116,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-001/session_20260925_a/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "c3d9bd1c6cc432242fdaf238823fc053c66d67955a6a5e8f03598dbc4f20526e"
+    },
+    {
+      "bytes": 10476,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-001/session_20260925_b/memory/agent_memory__616C64726963__3132372E302E302E315F37313731__416C64726963.json",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "37a64ecc3b66f99dc5fe0e383e55af8d048d767a43f9258a544ff0e65a4dc7a8"
+    },
+    {
+      "bytes": 58782,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-001/session_20260925_b/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "a7a19614cf61f016d86580abcb0d26f180b4f330eef749edb7defa67d8f15d5d"
+    },
+    {
+      "bytes": 10476,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-001/session_20260925_c/memory/agent_memory__616C64726963__3132372E302E302E315F37313731__416C64726963.json",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "58ea03a512be188961356e04bdefb349c7afdbb753b06788fd544873be571b5a"
+    },
+    {
+      "bytes": 79350,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-001/session_20260925_c/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "1b6262eb23fac1f8ba25e9c8f6d6c6f07f4961340dde2735eeb97ec62a8c77fc"
+    },
+    {
+      "bytes": 10476,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-001/session_20260925_d/memory/agent_memory__616C64726963__3132372E302E302E315F37313731__416C64726963.json",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "b8e37d7afc9d448115ba3edb8bc9cf9dde4a876232859a6b36d183648af83ccf"
+    },
+    {
+      "bytes": 59219,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-001/session_20260925_d/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "8d5da69e66523337cb643f8a2f62eebb4d837fec7db8de7d24afc2bbcbf63080"
+    },
+    {
+      "bytes": 10476,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-001/session_20260925_e/memory/agent_memory__616C64726963__3132372E302E302E315F37313731__416C64726963.json",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "026c9ef508b7d38b21c530d0415a82d7bf3f9aecc978e6bb25fb886162e92042"
+    },
+    {
+      "bytes": 658210,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-001/session_20260925_e/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "e2fc91ffa5044164eae8ae11bfbb18931bd89c09558142e67d854d07bf73fa74"
+    },
+    {
+      "bytes": 17557,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-001/session_20260925_f/memory/agent_memory__616C64726963__3132372E302E302E315F37313731__416C64726963.json",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "55ba6874fc8c9a4bb0c96013553d9d1390afc948d1bf57b5cf2254f134f1c974"
+    },
+    {
+      "bytes": 17921943,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-001/session_20260925_f/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "5f366c4d05e1cf56b2598f498b264a494c5c4c244caf4088df673aff48ac26f2"
+    },
+    {
+      "bytes": 17558,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-001/session_20260926_g/memory/agent_memory__616C64726963__3132372E302E302E315F37313731__416C64726963.json",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "034c83f06de69a5010a9d37cbbb5e4e9935e50f62af864230f77fe556edff4a2"
+    },
+    {
+      "bytes": 63317,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-001/session_20260926_g/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "bab5b3be028f695f3fe718ebcb8326c121a2f457ad73150cb4c802b648e9f82d"
+    },
+    {
+      "bytes": 2541,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-002/memory/agent_memory__616C64726963__3132372E302E302E315F37313731__5465737420506C617965722041.json",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "69f5ca238f27c8dc9e15d5b1c7b39090bfa50384bd085d6ac5193a82115c2a94"
+    },
+    {
+      "bytes": 620707,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-002/origin_verify/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "ad2e987bcebe84297de137eb5ead319816050f4b87caab4a12af29ccfa3df066"
+    },
+    {
+      "bytes": 1343177,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-002/preflight/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "15081e1df7c211515b31b2a6c6046c870c35c06c5fcb0c1b674d1b42901371d6"
+    },
+    {
+      "bytes": 185903,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-002/prep_o/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "98c259bf24055275a853207cfe4c813b4c3a5fc903f5e680b06121ff85ff5280"
+    },
+    {
+      "bytes": 369703,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-002/preposition/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "7b418daac5af57115a5de06a3c6ddbc94958e958d08cadde7536e93b14292736"
+    },
+    {
+      "bytes": 218280,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-002/return_to_origin/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "3ae1637d3ef95c903a9708212481bacab0b8513a16a5902c37cb13371cf9253c"
+    },
+    {
+      "bytes": 257155,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-002/return_to_origin_2/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "9faa8f33e0d08551397c736bb96a1c1ce91f11f322b983cfefc6569824baa971"
+    },
+    {
+      "bytes": 286284,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-002/return_to_origin_3/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "32c1f2a69523c4c2266c12ffa077842f572c336dc03e00760e3fe8d3b8a73048"
+    },
+    {
+      "bytes": 136915,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-002/session_h/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "d256b8c7adc7ad15b5655000e97ef99547da1ba35906438fbc724bb91c9c3587"
+    },
+    {
+      "bytes": 40130,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-002/session_i/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "ac1b3bdfa704dcb9cd9697ef3635889245297dedd43f592915fd2e9d9453f904"
+    },
+    {
+      "bytes": 114021,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-002/session_j/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "08301be2646ba8f2735917bc4a30c0e2e1edcbc67c79ab4bf1e6f9508caf2f01"
+    },
+    {
+      "bytes": 113929,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-002/session_k/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "714509fdde3d0847d1abc51c8653d51b18b5a351214fb47254bccdb534b97033"
+    },
+    {
+      "bytes": 117672,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-002/session_l/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "d19ab145240ed8ff8a144462f1e5728d74981374b9c85b950c88f7fb52396e58"
+    },
+    {
+      "bytes": 213843,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-002/session_m/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "a63e5ad36e79f79b67e7cbe8eb09b5ee9ce4f45bfff775880f99969406e00d15"
+    },
+    {
+      "bytes": 212215,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-002/session_n/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "fe1fdefb4152294bd3f8e0ebbcfc9135b784b37e48fbefe0ae9f76e63b5c7fd7"
+    },
+    {
+      "bytes": 141791,
+      "path": "evidence/agent/live/REAL33D-AGENT-VETERAN-PLAY-002/session_p/session.jsonl",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "sha256": "2e10639fa3d0a0dec557e39471b7a0434df581d086d2006ea98daeeee896ca48"
+    },
+    {
+      "bytes": 47950,
+      "path": "agent/real33d2d/knowledge_local/canonical_772.json",
+      "publication": "LOCAL_ONLY_IGNORED",
+      "records": 84,
+      "sha256": "88cdbbbcdf5b038c7a8ca907d65a448415f7a6e3ef60110a4a50d8ab5a828d51"
+    }
+  ],
+  "mcp_clone_head": "08329b0a7b376b6cf41c298caa1715fb39e796ea",
+  "schema": "real33d.agent.pause_preservation/1",
+  "starting_head": "77e35b40116e674880fe6bbf9186e15e3fa4f801"
+}

@@ -49,3 +49,17 @@ money, capacity or goods to pass the validator. They dispatch through
 per-action rate limit. A successful dispatch is not proof of a completed
 transaction; the next authoritative client observation must show the result.
 Player-to-player trade confirmation remains `NOT_IMPLEMENTED`.
+
+## Local REAL33D 7.72 index for VETERAN-PLAY-002
+
+`real33d_772.lua` reads a small, ignored JSON index generated from the selected
+local static archive. Each returned row identifies its source file and hash,
+target version, compatibility, and `static_home_only` confidence. Monster home
+locations are historical regions with `live_occupancy=UNKNOWN`; they provide no
+current creature ID or permission to attack or follow. The current visible
+`AgentObservation` and final action validator always take precedence.
+
+`normalizeMcp` labels current TibiaWiki/MCP answers `SECONDARY_REFERENCE` and
+`UNVERIFIED`. No MCP service is queried by the live opt-in client. The cloned
+checkout is for read-only audit; its crawler would download a modern wiki
+corpus and is deliberately not started for this 7.72 milestone.

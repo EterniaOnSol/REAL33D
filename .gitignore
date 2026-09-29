@@ -92,6 +92,13 @@ CMakeFiles/
 # Raw local autonomous-agent sessions may contain account identifiers or chat.
 /evidence/agent/live/
 
+# Audited local-only Tibia MCP checkout, databases, corpus and indexes.
+/tools/external/tibia_mcp/
+/agent/real33d2d/knowledge_local/
+
+# Machine-local assistant permissions; preserve locally, never publish.
+/.claude/settings.local.json
+
 # Local agent deployment settings: client path, WSL distribution, QA character.
 # The template beside it stays tracked and carries no values.
 /agent/real33d2d/agent.local.env
@@ -101,3 +108,4 @@ CMakeFiles/
 *.jsonl
 !/evidence/agent/bridge/*.jsonl
 !/evidence/agent/aldric/certification_trace.jsonl
+!/evidence/agent/veteran002/session_n_trace.jsonl
