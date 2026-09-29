@@ -1,15 +1,16 @@
 # Project Status
 
-2026-09-28 independent run IMPLEMENTED_UNVERIFIED for published candidate
-ea53eccc58d29fd5fa358108a4278853aa21b130, UNREAL-MINIMAP-NAVIGATION-001.
-Milestone remains PASS LOCAL / NOT CERTIFIED. Fresh clone tests/editor build,
-known-map/cache retention and real unknown-goal discovery/extension passed.
-Missing independent floor round-trip, manual south, known-minimap arrival,
-authoritative blocked-route and Follow/container checkpoints prevent certification.
-The operator requested immediate commit/push of evidence and status only.
-Original PASS-local evidence is preserved; no feature/protocol/rules/art edits,
-original checkout edits, polish or main merge. Resume certification next.
-See the new independent report and current handoff.
+2026-09-28 delta certification: `UNREAL-MINIMAP-NAVIGATION-001 = CERTIFIED`.
+Unchanged starting/remote HEAD `34e9bfd91f8863b642536221427ce297779d441a`;
+base/main remains `a97cf25e7449a8a3ef35ef2553181c5032c7a247`.
+New independent live south marker checkpoint, real floor7->6->7/restoration,
+known minimap-click arrival, server-refused route step, manual route interruption,
+authoritative boundary and Follow/Stop/container smoke all PASS. Protocol errors0.
+Retained independent PASS tests/build/unknown-arrival evidence were not repeated.
+Both prior evidence reports and the prior handoff are preserved unchanged.
+Certification evidence/status/handoff changes only; frozen agent checkout untouched.
+Milestone remains unmerged. WORLD-PRESENTATION-POLISH has not started.
+See `evidence/clientcore/UNREAL-MINIMAP-NAVIGATION-001-INDEPENDENT-DELTA-20260928.md`.
 
 2026-09-28 closeout: `UNREAL-MINIMAP-NAVIGATION-001 = PASS` local,
 isolated branch `milestone/unreal-minimap-navigation-001`, base
@@ -28,7 +29,8 @@ directions, cache restoration, 7->6->7 floor round trip, Follow/Stop and zero
 protocol errors are retained. Operator confirms the remaining UI interactions;
 individual pan/zoom/recenter/container checkpoints are limited. Native nine
 suites, pure view/palette, sanitizers, Unreal build and secret check pass.
-Independent certification is IMPLEMENTED_UNVERIFIED; this milestone remains unmerged.
+The earlier independent attempt was IMPLEMENTED_UNVERIFIED; the delta above closes
+its gaps and certifies the milestone. The branch remains unmerged.
 See `docs/UNREAL_MINIMAP_NAVIGATION.md` and the current handoff.
 
 Latest independent run: world/slot Look and normal chat visibly confirmed after
@@ -41,9 +43,9 @@ not 156 finished 3D models. Corrected interaction milestone is CERTIFIED;
 rune spell effects and complete art coverage remain unverified.
 
 Current phase: `PHASE 2 - GAMEPLAY CLIENT PROGRAMMING` (`IN_PROGRESS`; the first 3D representation is live, a stock 2D client now completes the ordinary 7.72 flow, and V08 visual review is on operator-directed standby)
-Current milestone: UNREAL-MINIMAP-NAVIGATION-001 — `PASS` local; independent run `IMPLEMENTED_UNVERIFIED`, NOT CERTIFIED. See `evidence/clientcore/UNREAL-MINIMAP-NAVIGATION-001-INDEPENDENT-20260928.md` for new evidence and missing required coverage; original local PASS evidence remains unchanged.
-Next task: complete the missing independent minimap certification checkpoints before merging. WORLD-PRESENTATION-POLISH has not started.
-Last certified: UNREAL-ITEM-USE-INTERACTION-001 at `a97cf25e7449a8a3ef35ef2553181c5032c7a247`, now integrated main. Original candidate `3528459` is not retroactively certified. Rune spell effects and complete art coverage remain `IMPLEMENTED_UNVERIFIED`. Prior combat/follow, inventory/containers and WideWorld certifications remain preserved.
+Current milestone: UNREAL-MINIMAP-NAVIGATION-001 - `CERTIFIED` after independent delta certification. Both prior reports are preserved; see `evidence/clientcore/UNREAL-MINIMAP-NAVIGATION-001-INDEPENDENT-DELTA-20260928.md`.
+Next task: await explicit minimap integration instructions; no merge authorized. WORLD-PRESENTATION-POLISH has not started.
+Last certified: UNREAL-MINIMAP-NAVIGATION-001 on the unmerged milestone branch. Prior UNREAL-ITEM-USE-INTERACTION-001 remains certified and integrated at `a97cf25e7449a8a3ef35ef2553181c5032c7a247`; original candidate `3528459` is not retroactively certified. Rune spell effects and complete art coverage remain `IMPLEMENTED_UNVERIFIED`. Prior combat/follow, inventory/containers and WideWorld certifications remain preserved.
 Branch: `milestone/unreal-minimap-navigation-001` (from integrated `origin/main`, not merged)
 Classic baseline review commit: `f65f3a7645ff40b39b7cc8399760fd4f0b69ecee`
 Transport implementation commit: `abd2d0a25bd9632f5aa3955e822876268c7ca96c`

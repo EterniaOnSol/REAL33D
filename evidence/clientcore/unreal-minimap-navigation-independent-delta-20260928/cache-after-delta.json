@@ -1,0 +1,83 @@
+{
+  "schema": "real33d.minimap.independent.boundary.v1",
+  "source": "legitimate client-owned cache",
+  "cache_sha256": "dd31c5a98c36ed2723796264e406f3271d353036b77646f7812da75e0f0e0dd1",
+  "count": 2130,
+  "floors": {
+    "6": {
+      "count": 162,
+      "min_x": 32094,
+      "max_x": 32107,
+      "min_y": 32183,
+      "max_y": 32196
+    },
+    "7": {
+      "count": 1968,
+      "min_x": 32059,
+      "max_x": 32110,
+      "min_y": 32144,
+      "max_y": 32242
+    }
+  },
+  "queries": [
+    {
+      "position": [
+        32098,
+        32191,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        409,
+        0,
+        409
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32098,
+        32189,
+        6
+      ],
+      "known": true,
+      "terrain_hint": [
+        409,
+        0,
+        409
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32090,
+        32222,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        4515,
+        0,
+        4515
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    },
+    {
+      "position": [
+        32084,
+        32230,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    }
+  ],
+  "network_commands": 0,
+  "cache_modified": false,
+  "limitation": "Bounds summarize observed coordinates, not a filled/traversable rectangle. Cache may lag memory; compare the live known count before accepting the checkpoint."
+}

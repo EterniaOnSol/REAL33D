@@ -1,72 +1,74 @@
-﻿# CURRENT - Independent minimap certification incomplete
+# CURRENT - Minimap independently certified; awaiting integration instruction
 
-Date/time: 2026-09-28 14:12 America/Guatemala /20:12UTC.
-Agent: Codex certification review; operator manual app inputs.
-Task: UNREAL-MINIMAP-NAVIGATION-001-INDEPENDENT-20260928.
-Independent run: IMPLEMENTED_UNVERIFIED. Milestone remains PASS LOCAL,
-NOT CERTIFIED. Operator explicitly requested immediate commit/push before
-missing required live checkpoints could be reproduced.
+Date/time: 2026-09-28 America/Guatemala (new live session closed 2026-09-29 01:13:03.801UTC).
+Agent: Codex, independent delta certification; operator supplied normal Unreal inputs.
+Task: UNREAL-MINIMAP-NAVIGATION-001-INDEPENDENT-DELTA-20260928.
+Verdict: CERTIFIED. DELTA_RUN=PASS. No required minimap certification gaps remain.
 Branch: milestone/unreal-minimap-navigation-001.
-Starting/source candidate: ea53eccc58d29fd5fa358108a4278853aa21b130.
-Ending evidence commit: this publishing commit (git log -1).
-Base/origin/main: a97cf25e7449a8a3ef35ef2553181c5032c7a247.
+Starting commit / remote candidate: 34e9bfd91f8863b642536221427ce297779d441a.
+Ending commit: this certification-only publishing commit (git log -1).
+Base/origin/main: a97cf25e7449a8a3ef35ef2553181c5032c7a247, unchanged, unmerged.
 Context: C:/Users/dell/Desktop/fusion32/build/unreal-minimap-certification-20260928,
-fresh remote clone initially clean; evidence/status/handoff changes only.
-Prior handoff preserved unchanged in
-archive/2026-09-28_UNREAL-MINIMAP-NAVIGATION-001-local-PASS.md.
+existing independent clone with own .git directory, initially clean at exact HEAD.
+Prior substantive handoff archived byte-for-byte at
+archive/2026-09-28_UNREAL-MINIMAP-NAVIGATION-001-independent-incomplete.md.
+Both prior local and independent evidence reports remain unchanged.
 
-Objective: independently repeat A-L, especially unknown-goal knowledge boundary.
-Inspected ClientCore projection/const planners, bridge observation/cache/movement,
-World live blockers, controller intent/ledger/replan/arrival, Slate colors/UI,
-selected Fusion32 sending.cc/receiving.cc map/cardinal functions. No source,
-protocol, rules, art, REAL33D2D, agents or original checkout edits. No main merge.
-WORLD-PRESENTATION-POLISH not started. Previous PASS-local evidence untouched.
+Objective/scope: close only missing live delta checkpoints. No milestone restart,
+features, protocol/rules/world/art edits, expensive repeated tests or polish.
+Frozen primary C:/Users/dell/Desktop/fusion32 remains untouched on agent branch
+milestone/real33d-agent-veteran-play-002 at b9ed335b02e1241555842ca954cf298cfbd93478.
+Do not switch/edit that checkout or restart autonomous-agent work. Existing ignored
+static art/cache inputs there were read only; all generated outputs stayed here.
 
-Fresh Windows C++17 /W4 /WX nine suites and C++20 archive PASS; view/palette PASS;
-UE5.8 editor build PASS,29actions/341.26seconds. Candidate/final secret scans PASS.
-Normal Fusion32 restart with no clients: QM2444/Game2457/Login2726 verified.
-Normal accountB, no gameplay/DB/config edits. Existing ignored assets copied
-unchanged; WideWorld inputs read only. No .r33map copied before first launch.
-Computer-use native pipe unavailable after retry/reset; no automation bypass.
+Inspected: selected Fusion32 CGoDirection/NotifyGo/SendFloors; ClientCore current-floor
+projection and const terrain planner; bridge observed player/cache/movement ledger;
+World live blockers; controller Request/TickClickWalk/refusal/arrival; minimap view,
+per-floor painting/marker guard; normal Follow/cancel and container world-use routes.
+Discoveries: pan intentionally retains its center; Home restores follow. S is camera
+relative, keyboard Down is Tibia south. No genuine code regression discovered.
+Native computer-use could not initialize (kernel asset OS error3); operator inputs
+were independently corroborated with actual engine F9 PNG/JSON and movement traces.
 
-New live sessions:
-- live-20260928T135328: normal disconnect/reconnect; stable32097,32219,7,
-  known504. Manual N/E/W and accepted marker updates, stationary pan/zoom,
-  legitimate map growth to842; Uses and known inventory. Normal close.
-- live-20260928T140031: restored exact842/hash at32097,32205,7. Home/pan,
-  worldLook response. Unknown goal32068,32238,7: all28 first-segment steps
-  known before click, endpoint32089,32225. Newly observed32088,32225 then
-  15-step extension. Goal replaced before arrival: NOT_PROVEN for that goal.
-  Second unknown minimap32069,32232,7 actually arrived, known1494. Normal close.
-- live-20260928T140632: reopened for missing checks, closed during initialization;
-  cache1494loaded but no manual checkpoint. No current client process retained.
+New live evidence: fresh ordinary Fusion32 baseline restart QM3830/Game3845/Login4049;
+three normal accountB Unreal sessions from unchanged run_unreal_minimap_qa.ps1.
+Valid south: 32090,32217,7 -> 32090,32218,7; visible marker down2px in fixed map.
+Known MINIMAP target32084,32230,7 existed before click; 18 normal accepted steps,
+authoritative arrival. Known route32092,32197,7 refused next north request35 from
+32087,32221,7; route stopped, position unchanged, no arrival claimed. Manual gameplay
+occurred concurrently; exact server refusal cause is not asserted as permanent wall.
+Separate active route interrupted by manual south request40; accepted actual position
+32087,32220,7 won and automatic route ceased. Normal staircase32098,32191,7 ->
+32098,32189,6 -> 32098,32191,7. Old-floor browse has no marker; Home restores pixel-
+identical floor7 map. All1606 earlier floor7 hints remain identical, floor6 separately162.
+Follow active/visible at01:08:17.509UTC; normal cancel cleared target at01:08:18.846UTC;
+subsequent manual west accepted, control restored. Normal bookcase2435 world Use at
+32101,32194,7 returned container0/capacity6/empty contents; UI opened and F9 captured.
+All sessions closed normally. Final position32101,32195,7, cache2130, Follow inactive.
 
-Exact independent report:
-evidence/clientcore/UNREAL-MINIMAP-NAVIGATION-001-INDEPENDENT-20260928.md.
-New sanitized summaries, whitelisted trace, cache query/count/hash manifests,
-operator replies, build/test/scan logs and6screenshots in
- evidence/clientcore/unreal-minimap-navigation-independent-20260928/.
-Raw logs/cache copies remain ignored build/certification-evidence and
-build/minimap-evidence. No secrets/proprietary bulk map committed.
+Tests/results: retain prior independently executed CLIENTCORE_TESTS=PASS and
+UNREAL_BUILD=PASS. No source changes versus prior proven build. No repeat of prior
+unknown-arrival/discovery/extension or UI tests. Final secret_check=PASS after evidence
+staging/commit. All27 new snapshots and three EndPlay totals: unsupported0/anomalies0/
+residual0, no protocol failure. Four unanswered ledger entries around floor relocations
+are retained as such; authoritative floor state won, no false arrival credited.
 
-PASS: render/marker observedZ7, known update and same-session/restart retention,
-pan/zoom/Home UI smoke, live movement sync, map-click real steps, unknown-goal
-acceptance/known-only boundary/progressive discovery/extension, second unknown
-arrival, unchanged18x14 and separate WideWorld rendering, tests/build/scans.
-Missing: manual south/full cardinal capture, real floor7->6->7, known MINIMAP
-arrival (known world-click arrival exists), exact blocked destination and active
-route authoritative obstruction, Follow/Stop and opened-container smoke.
-Protocol errors/unsupported opcodes0 at retained snapshots. No underground test.
-Broad later operator confirmations conflict with closed logs and are not proof
-of these missing criteria. No feature failure is established; NOT CERTIFIED.
+PASS: all required delta checkpoints and Follow/Stop/container smoke. Retain every
+previous independent PASS including unknown arrival/progressive discovery/extension,
+live viewport and WideWorld. Remaining UNVERIFIED minimap certification items: none.
+No underground/general art/combat/inventory recertification claim; those are outside
+this delta. WORLD-PRESENTATION-POLISH not started. No merge to main.
 
-Exact next task: resume independent certification, unchanged candidate source.
-Use scripts/client/run_unreal_minimap_qa.ps1 from this isolated context; normal
-rights and correct active client. F9 after every required missing step, including
-container while open and authoritative rejection/route-state reset. Record exact
-known destination and server arrival, both floor data/markers and returning floor.
-Do not implement fixes/polish or expand viewport. If native pipe is restored,
-computer-use may perform actions; otherwise operator must produce checkpoints.
+Changed files: new delta report and sanitized supplemental evidence; PROJECT_STATUS.md,
+PARITY_MATRIX.md, this handoff and prior-handoff archive. No implementation edits.
+Evidence: evidence/clientcore/UNREAL-MINIMAP-NAVIGATION-001-INDEPENDENT-DELTA-20260928.md
+and evidence/clientcore/unreal-minimap-navigation-independent-delta-20260928/.
+Raw logs/client cache remain ignored under build/minimap-evidence and
+build/minimap-delta-20260928; no secrets or bulk proprietary data published.
 
-Publish evidence/status ONLY per explicit immediate commit/push request. Verify
-local==remote milestone and clean clone, main unchanged. Do not merge to main.
+Closeout: ordinary certification-only commit/push authorized only for
+milestone/unreal-minimap-navigation-001. Verify local==remote and clean; main unchanged.
+Exact next task: await explicit integration instruction. Review the delta report and
+consolidated matrix, then git status / git log -1 / git ls-remote origin for milestone
+and main. Do not merge, start polish, restart architecture, or touch frozen agent work
+without separate user direction. No technical blocker remains for this certification.

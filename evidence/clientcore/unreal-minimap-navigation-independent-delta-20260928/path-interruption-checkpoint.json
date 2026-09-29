@@ -1,0 +1,39 @@
+{
+  "session": "live-20260928T185943",
+  "target": [
+    32093,
+    32195,
+    7
+  ],
+  "start": [
+    32087,
+    32222,
+    7
+  ],
+  "minimap_click_at": "2026-09-29T01:05:22.146Z",
+  "planned_steps": 35,
+  "accepted_navigation_requests": [
+    37,
+    38,
+    39
+  ],
+  "manual_override": {
+    "request_id": 40,
+    "direction": "south",
+    "requested_at": "2026-09-29T01:05:23.245Z",
+    "from_position": [
+      32087,
+      32219,
+      7
+    ],
+    "to_position": [
+      32087,
+      32220,
+      7
+    ],
+    "accepted_at": "2026-09-29T01:05:23.888Z"
+  },
+  "result": "PASS",
+  "observation": "Manual south override accepted at 01:05:23.888Z. No next automatic step toward target before the next independently requested gameplay action; no arrival claimed. Full movement ledger and session trace preserve the hold.",
+  "operator_confirmed": "Operator confirmed route stopped after intervention. Corroborated by the actual command and authoritative observation sequence; later F9 states retained separately."
+}

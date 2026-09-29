@@ -1,0 +1,100 @@
+{
+  "session": "live-20260928T185943",
+  "transitions": [
+    {
+      "before": [
+        32098,
+        32191,
+        7
+      ],
+      "after": [
+        32098,
+        32189,
+        6
+      ],
+      "requested_direction": "north",
+      "input_id": 148,
+      "request_id": 136,
+      "observed_at": "2026-09-29T01:10:33.790Z"
+    },
+    {
+      "before": [
+        32098,
+        32189,
+        6
+      ],
+      "after": [
+        32098,
+        32191,
+        7
+      ],
+      "requested_direction": "south",
+      "input_id": 149,
+      "request_id": 137,
+      "observed_at": "2026-09-29T01:10:36.127Z"
+    }
+  ],
+  "snapshots": [
+    "floor7-before.json",
+    "floor6-current.json",
+    "floor7-restored.json",
+    "floor6-browse-no-marker.json",
+    "floor7-home.json"
+  ],
+  "image_measurements": [
+    {
+      "snapshot": "floor7-restored",
+      "displayed_floor": 7,
+      "authoritative_player": {
+        "x": 32101,
+        "y": 32195,
+        "z": 7
+      },
+      "marker_yellow_pixel_count": 14,
+      "map_rectangle": [
+        1171,
+        44,
+        1246,
+        115
+      ],
+      "map_rectangle_pixel_sha256": "de33a90e7ed327eb5b5c5bd109e95556bbce2fae5cc2766ba248d70def7ad78d"
+    },
+    {
+      "snapshot": "floor6-browse-no-marker",
+      "displayed_floor": 6,
+      "authoritative_player": {
+        "x": 32101,
+        "y": 32195,
+        "z": 7
+      },
+      "marker_yellow_pixel_count": 0,
+      "map_rectangle": [
+        1171,
+        44,
+        1246,
+        115
+      ],
+      "map_rectangle_pixel_sha256": "69c89818ea73dc4c9e1f1b91610d3cdea5b2b867e351acd66aa5f6af53370b91"
+    },
+    {
+      "snapshot": "floor7-home",
+      "displayed_floor": 7,
+      "authoritative_player": {
+        "x": 32101,
+        "y": 32195,
+        "z": 7
+      },
+      "marker_yellow_pixel_count": 14,
+      "map_rectangle": [
+        1171,
+        44,
+        1246,
+        115
+      ],
+      "map_rectangle_pixel_sha256": "de33a90e7ed327eb5b5c5bd109e95556bbce2fae5cc2766ba248d70def7ad78d"
+    }
+  ],
+  "operator_confirmed": "Physical round trip with F9, floor 6 browsing with no stale marker, Home restores floor 7.",
+  "result": "PASS",
+  "ledger_note": "Floor changes are authoritative relocations, not ordinary same-floor adjacent accepted ledger steps. Position/anchor/minimap all follow the received floor state."
+}

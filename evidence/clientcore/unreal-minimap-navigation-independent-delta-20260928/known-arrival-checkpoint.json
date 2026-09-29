@@ -1,0 +1,43 @@
+{
+  "session": "live-20260928T185943",
+  "start": [
+    32090,
+    32218,
+    7
+  ],
+  "target": [
+    32084,
+    32230,
+    7
+  ],
+  "known_before_click": true,
+  "knowledge_source": "known-actual-target-before.json: read-only cache captured before session 2; SHA256 881a4e83bd1a93cc198ade3364c3d3f30ab413dafdaf93391be74a18d10f1f9c",
+  "minimap_click_at": "2026-09-29T01:03:44.409Z",
+  "planned_steps": 18,
+  "request_ids": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21
+  ],
+  "accepted_steps": 18,
+  "arrival_at": "2026-09-29T01:03:54.079Z",
+  "arrival_source": "Authoritative local creature and anchor at goal after normal protocol movement",
+  "snapshot": "known-arrival.json",
+  "result": "PASS",
+  "operator_confirmed": "Walked and stopped automatically, F9 captured."
+}

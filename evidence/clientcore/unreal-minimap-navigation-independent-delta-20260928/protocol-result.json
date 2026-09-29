@@ -1,0 +1,56 @@
+{
+  "sessions": [
+    {
+      "session": "live-20260928T184735",
+      "endplay": "2026-09-29T00:52:07.180Z",
+      "unsupported_opcodes": 0,
+      "protocol_anomalies": 0,
+      "residual_bytes": 0,
+      "snapshots_checked": 5,
+      "all_snapshot_protocol_counts_zero": true,
+      "movement_counters": {
+        "walks_requested_from_unreal": 67,
+        "walks_accepted": 63,
+        "walks_rejected": 4,
+        "walks_unanswered": 0,
+        "external_relocations": 0
+      }
+    },
+    {
+      "session": "live-20260928T185306",
+      "endplay": "2026-09-29T00:57:28.562Z",
+      "unsupported_opcodes": 0,
+      "protocol_anomalies": 0,
+      "residual_bytes": 0,
+      "snapshots_checked": 5,
+      "all_snapshot_protocol_counts_zero": true,
+      "movement_counters": {
+        "walks_requested_from_unreal": 5,
+        "walks_accepted": 5,
+        "walks_rejected": 0,
+        "walks_unanswered": 0,
+        "external_relocations": 0
+      }
+    },
+    {
+      "session": "live-20260928T185943",
+      "endplay": "2026-09-29T01:13:03.801Z",
+      "unsupported_opcodes": 0,
+      "protocol_anomalies": 0,
+      "residual_bytes": 0,
+      "snapshots_checked": 17,
+      "all_snapshot_protocol_counts_zero": true,
+      "movement_counters": {
+        "walks_requested_from_unreal": 150,
+        "walks_accepted": 137,
+        "walks_rejected": 11,
+        "walks_unanswered": 4,
+        "external_relocations": 16
+      }
+    }
+  ],
+  "UNSUPPORTED_OPCODES": 0,
+  "PROTOCOL_ANOMALIES": 0,
+  "PROTOCOL_ERRORS": 0,
+  "note": "Gameplay refusals are separate from decoder errors. Four unanswered movement-ledger entries occur around the ordinary floor relocations; actual authoritative floor/player state wins and no false arrival is credited. No protocol anomaly, unsupported opcode, residual byte, duplication or orphan failure was observed."
+}

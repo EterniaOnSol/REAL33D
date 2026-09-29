@@ -1,0 +1,23 @@
+{
+  "task": "UNREAL-MINIMAP-NAVIGATION-001-INDEPENDENT-DELTA-20260928",
+  "cert_context": "C:\\Users\\dell\\Desktop\\fusion32\\build\\unreal-minimap-certification-20260928",
+  "context_kind": "Existing independent certification clone, own .git directory; not the frozen primary checkout.",
+  "branch": "milestone/unreal-minimap-navigation-001",
+  "starting_head": "34e9bfd91f8863b642536221427ce297779d441a",
+  "remote_milestone_head_at_start": "34e9bfd91f8863b642536221427ce297779d441a",
+  "remote_milestone_head_after_fetch": "34e9bfd91f8863b642536221427ce297779d441a",
+  "base": "a97cf25e7449a8a3ef35ef2553181c5032c7a247",
+  "origin_main": "a97cf25e7449a8a3ef35ef2553181c5032c7a247",
+  "start_worktree_clean": true,
+  "frozen_agent_checkout": "C:/Users/dell/Desktop/fusion32",
+  "frozen_agent_branch": "milestone/real33d-agent-veteran-play-002",
+  "frozen_agent_head": "b9ed335b02e1241555842ca954cf298cfbd93478",
+  "agent_checkout_untouched": "No switch, tracked edit, commit, runtime agent action, or Git operation executed from frozen checkout. Existing ignored static art inputs read only; all outputs in independent clone.",
+  "prior_evidence_sha256": {
+    "evidence\\clientcore\\UNREAL-MINIMAP-NAVIGATION-001.md": "a615f7429cfc9136b35fd730137d57502bc1af41021f933fd4b58077810b03b0",
+    "evidence\\clientcore\\UNREAL-MINIMAP-NAVIGATION-001-INDEPENDENT-20260928.md": "2dba4790f997a097c1983f6725be42a4af6681256f7110c7e5231a00b37cec3f"
+  },
+  "main_merge": false,
+  "source_changes": false,
+  "certification_commit": "This evidence-only publishing commit; identify with git log -1 after closeout."
+}

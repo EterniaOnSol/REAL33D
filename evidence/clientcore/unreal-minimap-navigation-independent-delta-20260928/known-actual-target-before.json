@@ -1,0 +1,34 @@
+{
+  "schema": "real33d.minimap.independent.boundary.v1",
+  "source": "legitimate client-owned cache",
+  "cache_sha256": "881a4e83bd1a93cc198ade3364c3d3f30ab413dafdaf93391be74a18d10f1f9c",
+  "count": 1606,
+  "floors": {
+    "7": {
+      "count": 1606,
+      "min_x": 32059,
+      "max_x": 32106,
+      "min_y": 32144,
+      "max_y": 32241
+    }
+  },
+  "queries": [
+    {
+      "position": [
+        32084,
+        32230,
+        7
+      ],
+      "known": true,
+      "terrain_hint": [
+        103,
+        0,
+        103
+      ],
+      "current_walkability": "NOT_ASSERTED"
+    }
+  ],
+  "network_commands": 0,
+  "cache_modified": false,
+  "limitation": "Bounds summarize observed coordinates, not a filled/traversable rectangle. Cache may lag memory; compare the live known count before accepting the checkpoint."
+}

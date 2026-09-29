@@ -1,0 +1,42 @@
+{
+  "session": "live-20260928T185943",
+  "requested_target": [
+    32092,
+    32197,
+    7
+  ],
+  "known_before_click": true,
+  "minimap_click_at": "2026-09-29T01:05:00.069Z",
+  "start": [
+    32087,
+    32227,
+    7
+  ],
+  "last_valid_position": [
+    32087,
+    32221,
+    7
+  ],
+  "rejected_step": {
+    "request_id": 35,
+    "direction": "north",
+    "expected": [
+      32087,
+      32220,
+      7
+    ],
+    "sent_at": "2026-09-29T01:05:03.134Z",
+    "refused_at": "2026-09-29T01:05:03.221Z",
+    "actual_unchanged": [
+      32087,
+      32221,
+      7
+    ]
+  },
+  "server_result": "Normal movement ledger marked request 35 rejected; authoritative position did not advance into expected tile.",
+  "navigation_result": "Stopped at 01:05:03.216Z: refusal, relocation or missing answer. No arrival message for target.",
+  "normal_gameplay_context": "Manual south request 36 occurred during the active route; it was accepted from 32087,32221,7 to 32087,32222,7. World rules and game state were not modified.",
+  "cause_limit": "The exact server refusal reason is not exposed. Do not attribute this refusal to a wall or permanent nonwalkable tile: a later route legitimately reached 32087,32220,7.",
+  "result": "PASS",
+  "scope": "Legitimate server-refused navigation step and safe client stop, as permitted by delta BLOCKED_ROUTE criterion."
+}

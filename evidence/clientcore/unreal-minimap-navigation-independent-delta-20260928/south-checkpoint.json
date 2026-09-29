@@ -1,0 +1,44 @@
+{
+  "session": "live-20260928T185943",
+  "before": [
+    32090,
+    32217,
+    7
+  ],
+  "after": [
+    32090,
+    32218,
+    7
+  ],
+  "request_id": 1,
+  "requested_at": "2026-09-29T01:02:00.165Z",
+  "sent_at": "2026-09-29T01:02:00.187Z",
+  "observation_at": "2026-09-29T01:02:00.281Z",
+  "accepted_at": "2026-09-29T01:02:00.357Z",
+  "view_center": [
+    32089.5,
+    32224.51
+  ],
+  "view_floor": 7,
+  "marker_before_png_yellow_bounds": [
+    1207,
+    63,
+    1211,
+    66
+  ],
+  "marker_after_png_yellow_bounds": [
+    1207,
+    65,
+    1211,
+    68
+  ],
+  "marker_displacement_pixels": [
+    0,
+    2
+  ],
+  "marker_measurement": "Unmodified 1280x720 F9 PNGs, yellow marker RGB (255,243,89); same x bounds and 2px south shift at rendered UI scale. No intervening pan/recenter/zoom before after capture.",
+  "south_checkpoint": "PASS",
+  "coordinate_mapping": "PASS",
+  "retained_axes_source": "../UNREAL-MINIMAP-NAVIGATION-001-INDEPENDENT-20260928.md",
+  "operator_confirmed": "User confirmed keyboard Down-arrow movement and leaving client open."
+}

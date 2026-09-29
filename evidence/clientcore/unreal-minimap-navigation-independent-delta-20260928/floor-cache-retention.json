@@ -1,0 +1,12 @@
+{
+  "before_cells": 1606,
+  "after_cells": 2130,
+  "previous_floor7_cells_retained": 1606,
+  "previous_floor7_hints_identical": 1606,
+  "previous_floor7_hints_updated": 0,
+  "after_per_floor_counts": {
+    "6": 162,
+    "7": 1968
+  },
+  "scope": "Client-owned observed cache only. No full terrain data is committed. UI restoration checked separately using unmodified F9 images."
+}
