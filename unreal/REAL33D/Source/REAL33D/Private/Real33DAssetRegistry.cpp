@@ -14,10 +14,54 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Engine/SkeletalMesh.h"
 #include "Animation/AnimSequence.h"
+#include "Materials/Material.h"
+#include "Materials/MaterialInstanceConstant.h"
 
 #if WITH_DEV_AUTOMATION_TESTS
 #include "Misc/AutomationTest.h"
 #endif
+
+UMaterialInterface* UReal33DAssetRegistry::ResolveInstancedMaterial(UMaterialInterface* Source)
+{
+	check(IsInGameThread());
+	if (!Source) return nullptr;
+	if (const auto* Cached = InstancedMaterials.Find(Source)) return Cached->Get();
+	UMaterial* Base = Source->GetMaterial();
+	if (!Base || Base->GetUsageByFlag(MATUSAGE_InstancedStaticMeshes)) return Source;
+#if WITH_EDITOR
+	// -game deliberately does not auto-enable material usage. Compile a transient
+	// copy of the same material graph/instance hierarchy for HISM, preserving all
+	// textures, parameters and source packages. No asset replacement or save.
+	if (UMaterialInstanceConstant* Instance = Cast<UMaterialInstanceConstant>(Source))
+	{
+		UMaterialInterface* Parent = ResolveInstancedMaterial(Instance->Parent);
+		if (Parent == Instance->Parent) return Source;
+		UMaterialInstanceConstant* Copy = DuplicateObject<UMaterialInstanceConstant>(Instance, GetTransientPackage());
+		Copy->SetFlags(RF_Transient);
+		Copy->ClearFlags(RF_Public | RF_Standalone);
+		// This new transient instance is being initialized, not editing a live parent.
+		Copy->Parent = nullptr;
+		Copy->SetParentEditorOnly(Parent);
+		Copy->PostEditChange();
+		InstancedMaterials.Add(Source, Copy);
+		return Copy;
+	}
+	if (UMaterial* Material = Cast<UMaterial>(Source))
+	{
+		UMaterial* Copy = DuplicateObject<UMaterial>(Material, GetTransientPackage());
+		Copy->SetFlags(RF_Transient);
+		Copy->ClearFlags(RF_Public | RF_Standalone);
+		Copy->SetUsageByFlag(MATUSAGE_InstancedStaticMeshes, true);
+		Copy->PostEditChange();
+		InstancedMaterials.Add(Source, Copy);
+		return Copy;
+	}
+#endif
+	// Cooked builds need these shader permutations prepared during cooking.
+	UE_LOG(LogReal33D, Warning, TEXT("WideWorld material lacks instancing support: %s"), *Source->GetPathName());
+	InstancedMaterials.Add(Source, Source);
+	return Source;
+}
 
 void UReal33DAssetRegistry::Initialise()
 {
@@ -186,7 +230,9 @@ bool UReal33DAssetRegistry::TryResolveExperimental(uint16 TypeId,
 		|| Entry.Name.EndsWith(TEXT(" wall window"), ESearchCase::IgnoreCase);
 	const bool bRotateYaw = TypeId == 429 || TypeId == 870 || TypeId == 1270
 		|| TypeId == 1271 || TypeId == 1281 || TypeId == 1282
-		|| TypeId == 1294 || TypeId == 1295 || TypeId == 1301 || TypeId == 1303
+		// Classic previews: 1294/1301 run north-south; 1295/1303 east-west.
+		// All borrow mesh 1294, whose unrotated long axis is X.
+		|| TypeId == 1294 || TypeId == 1301
 		|| TypeId == 1734 || TypeId == 1735
 		|| TypeId == 2154 || TypeId == 2156 || TypeId == 2162 || TypeId == 2164
 		|| TypeId == 2173 || TypeId == 2174
@@ -195,13 +241,32 @@ bool UReal33DAssetRegistry::TryResolveExperimental(uint16 TypeId,
 		|| Entry.Name.Equals(TEXT("table"), ESearchCase::IgnoreCase);
 	OutVisual.Rotation = bLayFlat ? FRotator(0.0, 0.0, 90.0)
 		: (bRotateYaw ? FRotator(0.0, 90.0, 0.0) : FRotator::ZeroRotator);
-	// Short wall meshes are scaled to fill the presentation floor height.
+	// Leave clearance below the next floor's surface. Filling the entire floor
+	// spacing makes lower-floor wall caps coplanar with upper water/ground and
+	// exposes flickering wall triangles through that floor (live floor8/9 QA).
 	const double Height = Mesh->GetBoundingBox().GetSize().Z;
 	if (bWall && Height > KINDA_SMALL_NUMBER && Height < Real33D::UnitsPerFloor)
 	{
-		OutVisual.Scale.Z = Real33D::UnitsPerFloor / Height;
+		OutVisual.Scale.Z = (Real33D::UnitsPerFloor - 2.0) / Height;
 	}
 	OutVisual.Offset = FVector::ZeroVector;
+	// V08 masked_ground preserves sprite contours, but collapse() recenters
+	// their occupied bounds. Restore the reviewed dirt borders to their tile
+	// edges/corners. Derived from 7.72 alpha bounds at 100/32 uu per pixel;
+	// see UNREAL-WORLD-PRESENTATION-POLISH-001-RECOVERY-20261007.md.
+	// Shared by live tiles and static sectors; no map/stack identity changes.
+	switch (TypeId)
+	{
+	case 4785: OutVisual.Offset = FVector(0.0, -32.8125, 0.0); break;
+	case 4786: OutVisual.Offset = FVector(31.25, 0.0, 0.0); break;
+	case 4787: OutVisual.Offset = FVector(0.0, 32.8125, 0.0); break;
+	case 4788: OutVisual.Offset = FVector(-32.8125, 0.0, 0.0); break;
+	case 4789: OutVisual.Offset = FVector(-32.8125, -32.8125, 0.0); break;
+	case 4790: OutVisual.Offset = FVector(32.8125, -34.375, 0.0); break;
+	case 4791: OutVisual.Offset = FVector(-31.25, 34.375, 0.0); break;
+	case 4792: OutVisual.Offset = FVector(28.125, 34.375, 0.0); break;
+	default: break;
+	}
 	if (bLayFlat)
 	{
 		// Lay counter and plain-table reliefs across the tile, centered at Z=0.
@@ -465,7 +530,69 @@ bool FReal33DExperimentalV08RegistryTest::RunTest(const FString& Parameters)
 	TestTrue(TEXT("imported obj:602 marked experimental"), Sample.bIsExperimental);
 	TestFalse(TEXT("imported obj:602 is not its placeholder"), Sample.bIsPlaceholder);
 	TestNotNull(TEXT("imported obj:602 mesh loaded"), Sample.Mesh.Get());
+	if (Sample.Mesh)
+	{
+		UMaterialInterface* Source = Sample.Mesh->GetMaterial(0);
+		if (TestNotNull(TEXT("sample source material"), Source))
+		{
+			UMaterial* SourceBase = Source->GetMaterial();
+			const bool bOriginalUsage = SourceBase->GetUsageByFlag(MATUSAGE_InstancedStaticMeshes);
+			UMaterialInterface* Adapted = Registry->ResolveInstancedMaterial(Source);
+			TestTrue(TEXT("instanced material has required shader usage"), Adapted->GetMaterial()->GetUsageByFlag(MATUSAGE_InstancedStaticMeshes));
+			TestEqual(TEXT("source material usage remains unchanged"), SourceBase->GetUsageByFlag(MATUSAGE_InstancedStaticMeshes), bOriginalUsage);
+			TestTrue(TEXT("adapter is cached across sectors"), Registry->ResolveInstancedMaterial(Source) == Adapted);
+			TestTrue(TEXT("mesh keeps its source material"), Sample.Mesh->GetMaterial(0) == Source);
+			if (!bOriginalUsage)
+			{
+				TestTrue(TEXT("adapter is transient"), Adapted->HasAnyFlags(RF_Transient));
+				TestTrue(TEXT("adapter keeps original material class"), Adapted->GetClass() == Source->GetClass());
+				TestTrue(TEXT("adapter belongs only to transient package"), Adapted->GetOutermost() == GetTransientPackage());
+			}
+		}
+	}
 	const FReal33DVisual Depot = Registry->ResolveThing(3502, false);
+	// Regression: the live lower-floor dirt wall caps met the water plane at
+	// exactly Z=0. Check real imported bounds after the shared render transform.
+	const FReal33DVisual Water = Registry->ResolveGround(622);
+	if (TestNotNull(TEXT("water ground mesh"), Water.Mesh.Get()))
+	{
+		const FBox WaterBounds = Water.Mesh->GetBoundingBox().TransformBy(
+			FTransform(Water.Rotation, Water.Offset, Water.Scale));
+		for (uint16 WallId : { uint16(357), uint16(358), uint16(363), uint16(367), uint16(379), uint16(1294) })
+		{
+			const FReal33DVisual LowerWall = Registry->ResolveThing(WallId, true);
+			if (TestNotNull(TEXT("lower-floor wall mesh"), LowerWall.Mesh.Get()))
+			{
+				const FBox LowerBounds = LowerWall.Mesh->GetBoundingBox().TransformBy(FTransform(
+					LowerWall.Rotation, LowerWall.Offset - FVector(0, 0, Real33D::UnitsPerFloor), LowerWall.Scale));
+				TestTrue(*FString::Printf(TEXT("wall %u below water cannot meet its top plane"), WallId),
+					LowerBounds.Max.Z < WaterBounds.Max.Z - 1.0);
+				TestTrue(TEXT("wall base remains on its own floor"),
+					FMath::IsNearlyEqual(LowerBounds.Min.Z, -Real33D::UnitsPerFloor, 0.1));
+			}
+		}
+	}
+	// Independent reference alpha bounds, in 32x32 sprite pixels. Assert the
+	// actual imported mesh's placed bounds, not merely the configured offset.
+	const FIntRect DirtBounds[] = {
+		{0,0,32,11}, {20,0,32,32}, {0,21,32,32}, {0,0,11,32},
+		{0,0,11,11}, {21,0,32,10}, {0,22,12,32}, {18,22,32,32},
+		{0,0,32,32}, {0,0,32,32}, {0,0,32,32}, {0,0,32,32}
+	};
+	for (int32 BorderIndex = 0; BorderIndex < UE_ARRAY_COUNT(DirtBounds); ++BorderIndex)
+	{
+		const uint16 BorderId = static_cast<uint16>(4785 + BorderIndex);
+		const FReal33DVisual Border = Registry->ResolveThing(BorderId, false);
+		if (TestNotNull(*FString::Printf(TEXT("dirt border %u mesh"), BorderId), Border.Mesh.Get()))
+		{
+			const FBox Placed = Border.Mesh->GetBoundingBox().TransformBy(FTransform(Border.Rotation, Border.Offset, Border.Scale));
+			const FIntRect& Pixels = DirtBounds[BorderIndex];
+			const FVector ExpectedMin(Pixels.Min.X * 3.125 - 50.0, Pixels.Min.Y * 3.125 - 50.0, -4.5);
+			const FVector ExpectedMax(Pixels.Max.X * 3.125 - 50.0, Pixels.Max.Y * 3.125 - 50.0, 0.0);
+			TestTrue(*FString::Printf(TEXT("dirt border %u restores reference footprint"), BorderId),
+				Placed.Min.Equals(ExpectedMin, 0.01) && Placed.Max.Equals(ExpectedMax, 0.01));
+		}
+	}
 	TestNotNull(TEXT("depot chest 3502 mesh loaded"), Depot.Mesh.Get());
 	for (uint16 LockerId : { uint16(3497), uint16(3498), uint16(3499), uint16(3500) })
 	{
@@ -475,8 +602,20 @@ bool FReal33DExperimentalV08RegistryTest::RunTest(const FString& Parameters)
 	}
 	TestEqual(TEXT("operator-confirmed wall 1294 yaw"),
 		Registry->ResolveThing(1294, true).Rotation.Yaw, 90.0);
-	TestEqual(TEXT("operator-marked wall 1295 yaw"),
-		Registry->ResolveThing(1295, true).Rotation.Yaw, 90.0);
+	for (uint16 EastWestId : { uint16(1295), uint16(1303) })
+	{
+		const FReal33DVisual Wall = Registry->ResolveThing(EastWestId, true);
+		TestEqual(TEXT("east-west wall keeps shared mesh X axis"), Wall.Rotation.Yaw, 0.0);
+		if (TestNotNull(TEXT("east-west wall mesh loaded"), Wall.Mesh.Get()))
+		{
+			const FBox Bounds = Wall.Mesh->GetBoundingBox().TransformBy(
+				FTransform(Wall.Rotation, Wall.Offset, Wall.Scale));
+			TestTrue(TEXT("east-west wall spans a tile along X"), FMath::IsNearlyEqual(Bounds.GetSize().X, 100.0, 1.0));
+			TestTrue(TEXT("east-west wall thin along Y"), Bounds.GetSize().Y < 40.0);
+		}
+	}
+	TestEqual(TEXT("north-south alias keeps reviewed rotation"),
+		Registry->ResolveThing(1301, true).Rotation.Yaw, 90.0);
 	const FReal33DVisual ReviewedWall = Registry->ResolveThing(1294, true);
 	for (uint16 AliasId : { uint16(1295), uint16(1301), uint16(1303) })
 	{

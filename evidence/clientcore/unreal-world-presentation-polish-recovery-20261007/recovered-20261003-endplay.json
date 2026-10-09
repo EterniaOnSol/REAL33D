@@ -1,0 +1,76 @@
+{
+  "milestone": "UNREAL-SLICE-001",
+  "written_at": "2026-10-03T21:56:12.491Z",
+  "reason": "EndPlay",
+  "seconds_in_session": 219.9,
+  "connected_at_close": true,
+  "local_creature_id": 1002,
+  "local_position": { "x": 32090, "y": 32195, "z": 7 },
+  "origin": { "set": true, "x": 32060, "y": 32190, "z": 7 },
+  "anchor": { "x": 32090, "y": 32195, "z": 7 },
+  "minimap": { "player_known": true, "x": 32090, "y": 32195, "z": 7, "known_cells": 3251, "live_cells": 252 },
+  "clientcore": {
+    "frames": 77,
+    "commands": 143,
+    "residual_bytes": 0,
+    "unsupported_opcodes": 0,
+    "protocol_anomalies": 0,
+    "walks_requested_from_unreal": 55,
+    "walks_accepted": 51,
+    "walks_rejected": 13,
+    "walks_unanswered": 0,
+    "external_relocations": 2,
+    "local_player_moves_total": 53,
+    "says_requested": 0,
+    "moves_requested": 0,
+    "uses_requested": 2,
+    "looks_requested": 0,
+    "attacks_requested": 0,
+    "follows_requested": 2,
+    "combat_cancels_requested": 0,
+    "tactics_requested": 0,
+    "target_clears_received": 1,
+    "worldstate_tiles": 429,
+    "worldstate_visible_creatures": 2,
+    "viewport_synchronised": true
+  },
+  "camera": { "pitch": -57.88, "yaw": 20.95, "requested_distance": 1893.50, "actual_distance": 1893.50, "obstructed": false, "cutaway_meshes": 0, "hide_upper_floors": false },
+  "wideworld": { "loads": 88, "unloads": 26, "sectors": 62 },
+  "presentation": {
+    "tile_actors": 429,
+    "creature_actors": 2,
+    "tiles_spawned": 1409,
+    "tiles_removed": 980,
+    "creatures_appeared": 3,
+    "creatures_vanished": 1,
+    "creature_moves": 66,
+    "duplicate_spawn_attempts": 0,
+    "orphan_events": 0,
+    "speech_shown_on_creature": 0,
+    "speech_shown_in_chat_area_only": 0,
+    "server_messages_received": 3,
+    "client_notices_raised": 0,
+    "chat_transcript_lines": 3,
+    "speech_seconds_NOT_PROVEN": 6.0
+  },
+  "talk_messages_decoded": 0,
+  "last_diagnostic": "none",
+  "inventory_known": true,
+  "inventory": [
+    { "slot": 5, "type_id": 3270, "amount": null, "liquid": null }
+  ],
+  "open_containers": 0,
+  "containers": [
+
+  ],
+  "combat": { "target_creature_id": 0, "following": false, "tactics_sent": false, "attack_mode": 1, "chase_mode": 0, "target_actor_visible": false },
+  "chat_transcript": [
+    { "system_line": true, "line": "Server: Your last visit in Tibia: 29. Sep 2026 20:40:10 CST." },
+    { "system_line": true, "line": "Server: There is no way." },
+    { "system_line": true, "line": "Server: There is no way." }
+  ],
+  "creatures": [
+    { "id": 1002, "local": true, "x": 32090, "y": 32195, "z": 7 },
+    { "id": 1073742021, "local": false, "x": 32085, "y": 32199, "z": 7 }
+  ]
+}

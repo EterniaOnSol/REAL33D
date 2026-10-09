@@ -1,0 +1,121 @@
+[
+  {
+    "item": 622,
+    "nanite_triangles": 12,
+    "nanite_settings": "<Struct 'MeshNaniteSettings' (0x0000012B91D03BA0) {enabled: True, explicit_tangents: False, lerp_u_vs: True, separable: False, voxel_ndf: True, voxel_opacity: False, shape_preservation: None, position_precision: -2147483648, normal_precision: -1, tangent_precision: -1, bone_weight_precision: -1, keep_percent_triangles: 1.000000, trim_relative_error: 0.000000, generate_fallback: PlatformDefault, fallback_target: Auto, fallback_percent_triangles: 1.000000, fallback_relative_error: 1.000000, max_edge_length_factor: 0.000000, num_rays: 64, voxel_level: 0, ray_back_up: 0.000000, displacement_uv_channel: 0}>",
+    "bounds_min": [
+      -50.0,
+      -50.0,
+      -4.5
+    ],
+    "bounds_max": [
+      50.0,
+      50.0,
+      0.0
+    ],
+    "lod_count": 1,
+    "material": "<Object '/Game/Experimental/V08/ID_00622/00622/Materials/M_622_organic.M_622_organic' (0x0000012B91D03000) Class 'MaterialInstanceConstant'>"
+  },
+  {
+    "item": 4785,
+    "nanite_triangles": 934,
+    "nanite_settings": "<Struct 'MeshNaniteSettings' (0x0000012B91D04BA0) {enabled: True, explicit_tangents: False, lerp_u_vs: True, separable: False, voxel_ndf: True, voxel_opacity: False, shape_preservation: None, position_precision: -2147483648, normal_precision: -1, tangent_precision: -1, bone_weight_precision: -1, keep_percent_triangles: 1.000000, trim_relative_error: 0.000000, generate_fallback: PlatformDefault, fallback_target: Auto, fallback_percent_triangles: 1.000000, fallback_relative_error: 1.000000, max_edge_length_factor: 0.000000, num_rays: 64, voxel_level: 0, ray_back_up: 0.000000, displacement_uv_channel: 0}>",
+    "bounds_min": [
+      -50.0,
+      -17.1875,
+      -4.5
+    ],
+    "bounds_max": [
+      50.0,
+      17.1875,
+      0.0
+    ],
+    "lod_count": 1,
+    "material": "<Object '/Game/Experimental/V08/ID_04785/04785/Materials/M_4785_organic.M_4785_organic' (0x0000012B91D04000) Class 'MaterialInstanceConstant'>"
+  },
+  {
+    "item": 4789,
+    "nanite_triangles": 312,
+    "nanite_settings": "<Struct 'MeshNaniteSettings' (0x0000012B91D05BA0) {enabled: True, explicit_tangents: False, lerp_u_vs: True, separable: False, voxel_ndf: True, voxel_opacity: False, shape_preservation: None, position_precision: -2147483648, normal_precision: -1, tangent_precision: -1, bone_weight_precision: -1, keep_percent_triangles: 1.000000, trim_relative_error: 0.000000, generate_fallback: PlatformDefault, fallback_target: Auto, fallback_percent_triangles: 1.000000, fallback_relative_error: 1.000000, max_edge_length_factor: 0.000000, num_rays: 64, voxel_level: 0, ray_back_up: 0.000000, displacement_uv_channel: 0}>",
+    "bounds_min": [
+      -17.1875,
+      -17.1875,
+      -4.5
+    ],
+    "bounds_max": [
+      17.1875,
+      17.1875,
+      0.0
+    ],
+    "lod_count": 1,
+    "material": "<Object '/Game/Experimental/V08/ID_04789/04789/Materials/M_4789_organic.M_4789_organic' (0x0000012B91D05000) Class 'MaterialInstanceConstant'>"
+  },
+  {
+    "item": 4793,
+    "nanite_triangles": 2000,
+    "nanite_settings": "<Struct 'MeshNaniteSettings' (0x0000012B91D06BA0) {enabled: True, explicit_tangents: False, lerp_u_vs: True, separable: False, voxel_ndf: True, voxel_opacity: False, shape_preservation: None, position_precision: -2147483648, normal_precision: -1, tangent_precision: -1, bone_weight_precision: -1, keep_percent_triangles: 1.000000, trim_relative_error: 0.000000, generate_fallback: PlatformDefault, fallback_target: Auto, fallback_percent_triangles: 1.000000, fallback_relative_error: 1.000000, max_edge_length_factor: 0.000000, num_rays: 64, voxel_level: 0, ray_back_up: 0.000000, displacement_uv_channel: 0}>",
+    "bounds_min": [
+      -50.0,
+      -50.0,
+      -4.5
+    ],
+    "bounds_max": [
+      50.0,
+      50.0,
+      0.0
+    ],
+    "lod_count": 1,
+    "material": "<Object '/Game/Experimental/V08/ID_04793/04793/Materials/M_4793_organic.M_4793_organic' (0x0000012B91D06000) Class 'MaterialInstanceConstant'>"
+  },
+  {
+    "item": 4794,
+    "nanite_triangles": 2054,
+    "nanite_settings": "<Struct 'MeshNaniteSettings' (0x0000012B91D083A0) {enabled: True, explicit_tangents: False, lerp_u_vs: True, separable: False, voxel_ndf: True, voxel_opacity: False, shape_preservation: None, position_precision: -2147483648, normal_precision: -1, tangent_precision: -1, bone_weight_precision: -1, keep_percent_triangles: 1.000000, trim_relative_error: 0.000000, generate_fallback: PlatformDefault, fallback_target: Auto, fallback_percent_triangles: 1.000000, fallback_relative_error: 1.000000, max_edge_length_factor: 0.000000, num_rays: 64, voxel_level: 0, ray_back_up: 0.000000, displacement_uv_channel: 0}>",
+    "bounds_min": [
+      -50.0,
+      -50.0,
+      -4.5
+    ],
+    "bounds_max": [
+      50.0,
+      50.0,
+      0.0
+    ],
+    "lod_count": 1,
+    "material": "<Object '/Game/Experimental/V08/ID_04794/04794/Materials/M_4794_organic.M_4794_organic' (0x0000012B91D07800) Class 'MaterialInstanceConstant'>"
+  },
+  {
+    "item": 4795,
+    "nanite_triangles": 2042,
+    "nanite_settings": "<Struct 'MeshNaniteSettings' (0x0000012B91D093A0) {enabled: True, explicit_tangents: False, lerp_u_vs: True, separable: False, voxel_ndf: True, voxel_opacity: False, shape_preservation: None, position_precision: -2147483648, normal_precision: -1, tangent_precision: -1, bone_weight_precision: -1, keep_percent_triangles: 1.000000, trim_relative_error: 0.000000, generate_fallback: PlatformDefault, fallback_target: Auto, fallback_percent_triangles: 1.000000, fallback_relative_error: 1.000000, max_edge_length_factor: 0.000000, num_rays: 64, voxel_level: 0, ray_back_up: 0.000000, displacement_uv_channel: 0}>",
+    "bounds_min": [
+      -50.0,
+      -50.0,
+      -4.5
+    ],
+    "bounds_max": [
+      50.0,
+      50.0,
+      0.0
+    ],
+    "lod_count": 1,
+    "material": "<Object '/Game/Experimental/V08/ID_04795/04795/Materials/M_4795_organic.M_4795_organic' (0x0000012B91D08800) Class 'MaterialInstanceConstant'>"
+  },
+  {
+    "item": 4796,
+    "nanite_triangles": 2110,
+    "nanite_settings": "<Struct 'MeshNaniteSettings' (0x0000012B91D0A3A0) {enabled: True, explicit_tangents: False, lerp_u_vs: True, separable: False, voxel_ndf: True, voxel_opacity: False, shape_preservation: None, position_precision: -2147483648, normal_precision: -1, tangent_precision: -1, bone_weight_precision: -1, keep_percent_triangles: 1.000000, trim_relative_error: 0.000000, generate_fallback: PlatformDefault, fallback_target: Auto, fallback_percent_triangles: 1.000000, fallback_relative_error: 1.000000, max_edge_length_factor: 0.000000, num_rays: 64, voxel_level: 0, ray_back_up: 0.000000, displacement_uv_channel: 0}>",
+    "bounds_min": [
+      -50.0,
+      -50.0,
+      -4.5
+    ],
+    "bounds_max": [
+      50.0,
+      50.0,
+      0.0
+    ],
+    "lod_count": 1,
+    "material": "<Object '/Game/Experimental/V08/ID_04796/04796/Materials/M_4796_organic.M_4796_organic' (0x0000012B91D09800) Class 'MaterialInstanceConstant'>"
+  }
+]

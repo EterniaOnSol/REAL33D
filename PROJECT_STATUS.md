@@ -1,5 +1,35 @@
 # Project Status
 
+2026-10-09 preservation: recovered all existing polish work at local/remote4305d23
+and certified mainfa3adcf. Fresh ClientCore, Unreal build and initial three-case
+automation PASS. Real operator gameplay has zero protocol errors and no unanswered
+walks in the new sessions, but underground wall/water flicker remains FAILED.
+A newly identified coplanar lower-floor wall cap now has2uu clearance; final build
+PASS, live comparison pending. Added opt-in received-speech capture. Operator
+requested immediate commit; milestone remains IMPLEMENTED_UNVERIFIED, no main
+merge. Full results: evidence/clientcore/UNREAL-WORLD-PRESENTATION-POLISH-001-RECOVERY-20261009.md.
+
+2026-10-07 live follow-up: operator rejected underground appearance and reported
+missing inventory pictures. Captures confirm centered dirt borders forming
+disconnected strips. Traced source masked_ground/collapse to lost XY offsets;
+runtime correction restores eight reviewed border offsets, with twelve actual
+mesh-footprint checks. Inventory sprites regenerated and independently compared
+(4990 layouts/8163 sprites, zero failures); launcher now generates them per
+worktree. Brother's existing16-entry creature catalog is enabled; live rat21 and
+snake28 loads verified. Build and three targeted automation tests PASS; post-fix
+live comparison still pending. Milestone remains IMPLEMENTED_UNVERIFIED.
+
+2026-10-07 recovery: UNREAL-WORLD-PRESENTATION-POLISH-001 remains
+IMPLEMENTED_UNVERIFIED. Remote/main fa3adcf and ancestry through 393e7e8 to
+local/remote polish HEAD 4305d23 verified; eight existing modified source/test
+files and render-fix evidence preserved. Recovered successful material-adapter
+automation and October 3 textured-WideWorld screenshot/EndPlay. Fresh nine-suite
+ClientCore, Unreal build, three targeted automation tests, stale-report refusal,
+diff check and tracked secret check PASS. Test runner now validates fresh named
+results. Live acceptance continues with normal operator input; no reset, branch
+creation, main merge, push or frozen-agent edit. See
+evidence/clientcore/UNREAL-WORLD-PRESENTATION-POLISH-001-RECOVERY-20261007.md.
+
 2026-09-29 16:58 operator preservation checkpoint: UNREAL-WORLD-PRESENTATION-POLISH-001
 remains IMPLEMENTED_UNVERIFIED, not PASS LOCAL. Fresh native nine-suite tests,
 Unreal build and two Unreal automation cases PASS. Fresh live camera/zoom/follow,
@@ -117,7 +147,7 @@ Next gameplay candidate: trade or a live floor transition. Select one bounded sc
 
 Updated: 2026-09-17
 
-## Visual ingest audit â€” 2026-09-20
+## Visual ingest audit Ã¢â‚¬â€ 2026-09-20
 
 `REAL33D-VISUAL-INGEST-AUDIT-001 = PASS` only for the internal `visual/` reference area; its former artist-source conclusion was corrected. `REAL33D-3DTIBIA-ART-AUDIT-001 = PASS` for a read-only inventory of the actual source clone `C:/Users/dell/3DTIBIA_leo/motor3d/assets` at `21fafb57dd86b594223bab7dbe9076d1fa380640`: 96,478 files, including four GLB and four BLEND. Four GLBs map `EXACT` to three 7.72 outfit visual identities by pixel-checked source evidence, but the source project documents all four as failed/rejected experiments. No primary-source 3D asset is ready for a P0 vertical import. `TECHNICAL_IMPORT`, `IN_ENGINE_RENDER` and `VISUAL_APPROVAL` remain `NOT_STARTED`; no Unreal, gameplay, protocol or ClientCore change was made. The chat milestone and prior functional claims above are unchanged. Corrected evidence and next step: `visual/docs/EXTERNAL_3DTIBIA_INGEST_AUDIT_2026-09-20.md`.
 
@@ -131,7 +161,7 @@ UNREAL-PLAYER-VITALS-001 is IMPLEMENTED_UNVERIFIED. The worker publishes semanti
 
 ## Wide-world streamer - 2026-09-21
 
-UNREAL-WIDE-WORLD-001 = CERTIFIED_PASS. Unreal loads strict, generated 32×32 .wws sector caches around the authoritative anchor, keeps the complete 18×14 live window owned by WorldState, suppresses static tiles as they enter live authority, retains parsed data for cache hits, and destroys distant sector actors on the game thread. Async work is restricted to file IO and row parsing. Static baseline sectors never invent dynamic state.
+UNREAL-WIDE-WORLD-001 = CERTIFIED_PASS. Unreal loads strict, generated 32Ã—32 .wws sector caches around the authoritative anchor, keeps the complete 18Ã—14 live window owned by WorldState, suppresses static tiles as they enter live authority, retains parsed data for cache hits, and destroys distant sector actors on the game thread. Async work is restricted to file IO and row parsing. Static baseline sectors never invent dynamic state.
 
 Frozen V08 meshes resolve first. Missing physical V08 meshes use local gitignored classic previews as CLASSIC_SPRITE_FALLBACK; MISSING_PHYSICAL_ASSET remains separate and non-blocking. Thais exact-radius V08/fallback/missing occurrence counts are 12,286/0/0 at 32, 38,826/3/0 at 64, 71,845/8/0 at 96, and 110,073/17/0 at 128. TypeId 469 is explicitly CLASSIC_SPRITE_FALLBACK. The catalogue hash is unchanged and no V08 asset, ClientCore, protocol, server, or reference source changed. See evidence/clientcore/UNREAL-WIDE-WORLD-001.md.
 

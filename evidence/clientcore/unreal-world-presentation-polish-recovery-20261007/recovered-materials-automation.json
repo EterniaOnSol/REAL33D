@@ -1,0 +1,87 @@
+﻿{
+	"devices": [
+		{
+			"deviceName": "DESKTOP-9SKKIUM",
+			"instance": "ACC63C61400A7E0FEBB4409832F8E590",
+			"instanceName": "DESKTOP-9SKKIUM-4572",
+			"platform": "WindowsEditor",
+			"oSVersion": "Windows 11 (23H2) [10.0.22631.6199] ",
+			"model": "Default",
+			"gPU": "Intel(R) UHD Graphics 630",
+			"cPUModel": "Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz",
+			"rAMInGB": 12,
+			"renderMode": "SM6",
+			"rHI": "",
+			"appInstanceLog": ""
+		}
+	],
+	"reportCreatedOn": "2026.09.30-02.52.26",
+	"succeeded": 2,
+	"succeededWithWarnings": 1,
+	"failed": 0,
+	"notRun": 0,
+	"inProcess": 0,
+	"totalDuration": 1.5064215660095215,
+	"comparisonExported": false,
+	"comparisonExportDirectory": "",
+	"tests": [
+		{
+			"testDisplayName": "ExperimentalV08",
+			"fullTestPath": "REAL33D.AssetRegistry.ExperimentalV08",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"ACC63C61400A7E0FEBB4409832F8E590"
+			],
+			"duration": 1.477721095085144,
+			"dateTime": "2026.09.30-02.52.25",
+			"entries": [
+				{
+					"event":
+					{
+						"type": "Warning",
+						"message": "LogReal33D: experimental V08 QA catalog ENABLED: 4913 entries; TEST_IMPORTED is not APPROVED/READY/INTEGRATED",
+						"context": "log",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.09.30-02.52.25"
+				}
+			],
+			"warnings": 1,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "CameraAndFloors",
+			"fullTestPath": "REAL33D.Presentation.CameraAndFloors",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"ACC63C61400A7E0FEBB4409832F8E590"
+			],
+			"duration": 0.013147801160812378,
+			"dateTime": "2026.09.30-02.52.26",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "AuthoritativeWindow",
+			"fullTestPath": "REAL33D.WideWorld.AuthoritativeWindow",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"ACC63C61400A7E0FEBB4409832F8E590"
+			],
+			"duration": 0.015552699565887451,
+			"dateTime": "2026.09.30-02.52.26",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		}
+	]
+}

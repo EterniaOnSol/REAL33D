@@ -1,6 +1,7 @@
 ﻿#include "Real33DTileActor.h"
 
 #include "Components/StaticMeshComponent.h"
+#include "Engine/StaticMesh.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Real33DCoords.h"
 #include "Real33DPresentationPolicy.h"
@@ -78,7 +79,13 @@ void AReal33DTile::ApplyStack(const TArray<FReal33DThing>& InThings,
 		FReal33DVisual Visual = bIsGround
 			? Registry->ResolveGround(Thing.TypeId)
 			: Registry->ResolveThing(Thing.TypeId, Thing.bBlocking);
-		if (!bIsGround && !Thing.bBlocking)
+		const bool bFlatSurface = Visual.Mesh && Real33D::Presentation::IsFlatSurface(
+			Visual.Mesh->GetBoundingBox().TransformBy(FTransform(Visual.Rotation, Visual.Offset, Visual.Scale)));
+		if (bFlatSurface)
+		{
+			Visual.Offset.Z += Real33D::Presentation::SurfaceLayerLift(Index);
+		}
+		else if (!bIsGround && !Thing.bBlocking)
 		{
 			// Stack walkable clutter so the layering reads. Blocking objects
 			// keep their own height: raising them would make a wall float.

@@ -139,6 +139,9 @@ public:
 	FReal33DVisual ResolveCreature(uint32 CreatureId, bool bIsLocalPlayer) const;
 	FReal33DCreatureVisual ResolveOutfit(uint16 OutfitId) const;
 
+	/** Transient shader-usage adapter for the desktop development client; never saves source assets. */
+	UMaterialInterface* ResolveInstancedMaterial(UMaterialInterface* Source);
+
 	bool IsReady() const { return bReady; }
 
 	bool IsExperimentalCatalogEnabled() const { return bExperimentalCatalogEnabled; }
@@ -164,6 +167,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UMaterialInterface> BaseMaterial = nullptr;
+
+	UPROPERTY(Transient)
+	TMap<TObjectPtr<UMaterialInterface>, TObjectPtr<UMaterialInterface>> InstancedMaterials;
 
 	/** Artist-approved mailbox for Fusion32 object TypeId 3501 only. */
 	UPROPERTY()

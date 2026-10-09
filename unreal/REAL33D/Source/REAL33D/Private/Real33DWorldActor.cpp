@@ -1103,6 +1103,10 @@ void AReal33DWorld::PresentSpeech(const FReal33DEvent& Event)
 			{
 				(*Found)->ShowSpeech(Event.Detail, SpeechSeconds);
 				++SpeechOnCreature;
+				// Opt-in QA captures real received speech during its brief lifetime.
+				// No synthetic talk, duration change, or gameplay input is involved.
+				if (FParse::Param(FCommandLine::Get(), TEXT("real33d-presentation-qa")))
+					WriteEvidence(TEXT("Speech"));
 				return;
 			}
 		}
@@ -1201,10 +1205,11 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 	// keeps its own, so a disconnect in the middle of a run is not overwritten
 	// by the snapshot taken when the window closes.
 	FString SnapshotTag = Reason;
-	if (Reason == TEXT("Manual") && FParse::Param(FCommandLine::Get(), TEXT("real33d-minimap-qa")))
+	if ((Reason == TEXT("Manual") || Reason == TEXT("Speech"))
+		&& FParse::Param(FCommandLine::Get(), TEXT("real33d-minimap-qa")))
 	{
 		const FDateTime CapturedAt = FDateTime::UtcNow();
-		SnapshotTag = FString::Printf(TEXT("Manual_%s_%03d"),
+		SnapshotTag = FString::Printf(TEXT("%s_%s_%03d"), *Reason,
 			*CapturedAt.ToString(TEXT("%Y%m%dT%H%M%S")), CapturedAt.GetMillisecond());
 	}
 	const FString Path = FPaths::Combine(Directory,

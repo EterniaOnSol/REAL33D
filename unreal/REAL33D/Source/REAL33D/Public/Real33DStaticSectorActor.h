@@ -26,7 +26,7 @@ public:
 	AReal33DStaticSector();
 
 	void Build(const TArray<FReal33DStaticItem>& Items,
-		const UReal33DAssetRegistry* Registry,
+		UReal33DAssetRegistry* Registry,
 		const FString& ReferencePreviewDirectory,
 		const Real33D::FWorldOrigin& Origin);
 	void ApplyView(const Real33D::FMapPosition& Anchor, int32 VisualRadius, bool bHideUpper = false);

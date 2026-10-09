@@ -1,5 +1,29 @@
 # Parity Matrix
 
+2026-10-09 preservation: recovered all existing polish work at local/remote4305d23
+and certified mainfa3adcf. Fresh ClientCore, Unreal build and initial three-case
+automation PASS. Real operator gameplay has zero protocol errors and no unanswered
+walks in the new sessions, but underground wall/water flicker remains FAILED.
+A newly identified coplanar lower-floor wall cap now has2uu clearance; final build
+PASS, live comparison pending. Added opt-in received-speech capture. Operator
+requested immediate commit; milestone remains IMPLEMENTED_UNVERIFIED, no main
+merge. Full results: evidence/clientcore/UNREAL-WORLD-PRESENTATION-POLISH-001-RECOVERY-20261009.md.
+
+2026-10-07 fresh operator review: underground readability FAILED; inventory
+sprites absent in the isolated worktree. Sprite generation/pixel regression,
+corrected Unreal build and three automation tests now PASS; terrain border XY
+correction implemented after source tracing. Post-fix live validation remains
+IMPLEMENTED_UNVERIFIED. Brother-creature catalog enabled with live rat21/snake28
+loads; no complete outfit/art parity claim.
+
+2026-10-07 polish recovery: IMPLEMENTED_UNVERIFIED. Existing terrain-layer,
+wall-orientation and transient instancing-material fixes preserved. Fresh
+ClientCore nine suites, Unreal build and CameraAndFloors/AuthoritativeWindow/
+ExperimentalV08 automation PASS. Recovered October 3 screenshot shows textured
+WideWorld terrain; it does not close underground, Use With, Stop Follow, speech
+or full minimap/gameplay coexistence acceptance. No prior certification changed.
+See evidence/clientcore/UNREAL-WORLD-PRESENTATION-POLISH-001-RECOVERY-20261007.md.
+
 2026-09-29 16:58 operator preservation checkpoint: UNREAL-WORLD-PRESENTATION-POLISH-001
 remains IMPLEMENTED_UNVERIFIED, not PASS LOCAL. Fresh native nine-suite tests,
 Unreal build and two Unreal automation cases PASS. Fresh live camera/zoom/follow,
@@ -144,7 +168,7 @@ visual Look/chat and a valid fresh Use With still require live validation.
 
 Operator direction (2026-09-21): V08 visual certification is STANDBY, with no new PASS claim. The inspector notes and latest live-session journal are retained for later review while gameplay client programming resumes.
 
-UNREAL-WIDE-WORLD-001 = CERTIFIED_PASS. Strict generated 32×32 sector caches stream outside the complete WorldState-owned 18×14 live rectangle; async work reads and parses rows, while the game thread owns actor/component creation and destruction. Static tiles entering live authority are suppressed, distant sectors unload, parsed data is cached, and missing V08 meshes resolve to identity-retaining local classic sprite proxies or a separately counted non-blocking placeholder. This adds static-map reach and makes no dynamic-world or final-art parity claim. See evidence/clientcore/UNREAL-WIDE-WORLD-001.md.
+UNREAL-WIDE-WORLD-001 = CERTIFIED_PASS. Strict generated 32Ã—32 sector caches stream outside the complete WorldState-owned 18Ã—14 live rectangle; async work reads and parses rows, while the game thread owns actor/component creation and destruction. Static tiles entering live authority are suppressed, distant sectors unload, parsed data is cached, and missing V08 meshes resolve to identity-retaining local classic sprite proxies or a separately counted non-blocking placeholder. This adds static-map reach and makes no dynamic-world or final-art parity claim. See evidence/clientcore/UNREAL-WIDE-WORLD-001.md.
 
 Live round-trip at x=32096: 9 sector loads and 9 unloads in each direction; all crossing/return audits had zero visibility mismatches and zero static/live overlaps. TypeId 469 uses the exact classic sprite fallback.
 

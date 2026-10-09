@@ -9,6 +9,14 @@ bool FReal33DPresentationTest::RunTest(const FString& Parameters)
 {
 	(void)Parameters;
 	using namespace Real33D::Presentation;
+	const FBox WaterBorder(FVector(-50,-50,0), FVector(50,50,4.5));
+	TestTrue(TEXT("observed water border is a flat surface"), IsFlatSurface(WaterBorder));
+	TestFalse(TEXT("wall must not receive terrain layer lift"), IsFlatSurface(FBox(FVector(-50,-15,0), FVector(50,15,220))));
+	TestFalse(TEXT("missing mesh bounds are not terrain"), IsFlatSurface(FBox(ForceInit)));
+	TestEqual(TEXT("ground retains its original height"), SurfaceLayerLift(0), 0.0);
+	TestTrue(TEXT("first border top separates from water top"),
+		WaterBorder.Max.Z + SurfaceLayerLift(1) > WaterBorder.Max.Z + SurfaceLayerLift(0));
+	TestTrue(TEXT("successive flat overlays preserve render order"), SurfaceLayerLift(2) > SurfaceLayerLift(1));
 	TestFalse(TEXT("outdoor roof remains"), HideUpperFloors(7, false));
 	TestTrue(TEXT("covered room cuts upper floors"), HideUpperFloors(7, true));
 	TestTrue(TEXT("underground cannot show surface through missing cover"), HideUpperFloors(8, false));

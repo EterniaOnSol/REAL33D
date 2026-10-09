@@ -35,7 +35,7 @@ UTexture2D* AReal33DStaticSector::LoadClassicPreview(uint16 TypeId, const FStrin
 }
 
 void AReal33DStaticSector::Build(const TArray<FReal33DStaticItem>& Items,
-	const UReal33DAssetRegistry* Registry,
+	UReal33DAssetRegistry* Registry,
 	const FString& ReferencePreviewDirectory,
 	const Real33D::FWorldOrigin& Origin)
 {
@@ -51,7 +51,13 @@ void AReal33DStaticSector::Build(const TArray<FReal33DStaticItem>& Items,
 		const FIntVector Key = Real33D::ToKey(Item.Position);
 		FTileRefs& Refs = TileRefs.FindOrAdd(Key);
 		FVector Location = Real33D::ToWorld(Origin, Item.Position);
-		if (!bGround)
+		const bool bFlatSurface = Visual.Mesh && Real33D::Presentation::IsFlatSurface(
+			Visual.Mesh->GetBoundingBox().TransformBy(FTransform(Visual.Rotation, Visual.Offset, Visual.Scale)));
+		if (bFlatSurface)
+		{
+			Location.Z += Real33D::Presentation::SurfaceLayerLift(Item.Stack);
+		}
+		else if (!bGround)
 		{
 			Location.Z += Real33D::UnitsPerSqm * 0.08 * FMath::Max(0, Item.Stack - 1);
 		}
@@ -64,6 +70,8 @@ void AReal33DStaticSector::Build(const TArray<FReal33DStaticItem>& Items,
 				Group = NewObject<UHierarchicalInstancedStaticMeshComponent>(this);
 				Group->SetupAttachment(Root);
 				Group->SetStaticMesh(Visual.Mesh);
+				for (int32 Slot = 0; Slot < Visual.Mesh->GetStaticMaterials().Num(); ++Slot)
+					Group->SetMaterial(Slot, Registry->ResolveInstancedMaterial(Visual.Mesh->GetMaterial(Slot)));
 				Group->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 				Group->RegisterComponent();
 				MeshComponents.Add(Group);

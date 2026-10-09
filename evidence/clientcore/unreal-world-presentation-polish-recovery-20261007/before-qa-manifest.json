@@ -1,0 +1,66 @@
+{
+    "captured_at":  "2026-10-07T17:48:06.5770998-06:00",
+    "head":  "4305d23738454c2530007b16e759cbcaeddbca55",
+    "tracked_changes":  [
+                            "scripts/client/test_unreal_presentation.ps1",
+                            "unreal/REAL33D/Source/REAL33D/Private/Real33DAssetRegistry.cpp",
+                            "unreal/REAL33D/Source/REAL33D/Private/Real33DPresentationTests.cpp",
+                            "unreal/REAL33D/Source/REAL33D/Private/Real33DStaticSectorActor.cpp",
+                            "unreal/REAL33D/Source/REAL33D/Private/Real33DTileActor.cpp",
+                            "unreal/REAL33D/Source/REAL33D/Public/Real33DAssetRegistry.h",
+                            "unreal/REAL33D/Source/REAL33D/Public/Real33DPresentationPolicy.h",
+                            "unreal/REAL33D/Source/REAL33D/Public/Real33DStaticSectorActor.h"
+                        ],
+    "frozen_evidence":  [
+                            {
+                                "Path":  "C:\\Users\\dell\\Desktop\\fusion32\\evidence\\clientcore\\unreal-slice\\movement_journal.jsonl",
+                                "Hash":  "09212ACD660C8F4FC2AE947CEB32CCDDC0A319073A64780D13ABA583F5C67605"
+                            },
+                            {
+                                "Path":  "C:\\Users\\dell\\Desktop\\fusion32\\evidence\\clientcore\\unreal-slice\\unreal_slice_evidence.json",
+                                "Hash":  "C2470826EB95FD47CEB407D6D4E39B78B567713807BF352F5002FE470A6E98A8"
+                            },
+                            {
+                                "Path":  "C:\\Users\\dell\\Desktop\\fusion32\\evidence\\clientcore\\unreal-slice\\unreal_slice_evidence_AfterCleanup.json",
+                                "Hash":  "9D5232AEB14531D0A89B0648BA3E3A739416229C4E65A0E4AAE4E10071E53A08"
+                            },
+                            {
+                                "Path":  "C:\\Users\\dell\\Desktop\\fusion32\\evidence\\clientcore\\unreal-slice\\unreal_slice_evidence_Failed.json",
+                                "Hash":  "C4545F328131E802AF106E019902DF1AF127F8F6F0E924B5FA3F949B52E1BA0D"
+                            }
+                        ],
+    "source_hashes":  [
+                          {
+                              "Path":  "C:\\Users\\dell\\Desktop\\fusion32\\build\\unreal-world-presentation-polish-001\\scripts\\client\\test_unreal_presentation.ps1",
+                              "Hash":  "97BF3236DF404950FB04C5B7A91C28BD6B710A0A6A77098D85BA0E5CA6281CB8"
+                          },
+                          {
+                              "Path":  "C:\\Users\\dell\\Desktop\\fusion32\\build\\unreal-world-presentation-polish-001\\unreal\\REAL33D\\Source\\REAL33D\\Private\\Real33DAssetRegistry.cpp",
+                              "Hash":  "D0A951792AFF5A18ADD8C9F426F7D82B319FEEBAFD5319977DB280EF109C15F1"
+                          },
+                          {
+                              "Path":  "C:\\Users\\dell\\Desktop\\fusion32\\build\\unreal-world-presentation-polish-001\\unreal\\REAL33D\\Source\\REAL33D\\Private\\Real33DPresentationTests.cpp",
+                              "Hash":  "068248D566832A9B3A1C7DFA1280D3788F982F967D8260F449599CCC4A5A0855"
+                          },
+                          {
+                              "Path":  "C:\\Users\\dell\\Desktop\\fusion32\\build\\unreal-world-presentation-polish-001\\unreal\\REAL33D\\Source\\REAL33D\\Private\\Real33DStaticSectorActor.cpp",
+                              "Hash":  "3E5E14A0CCF169E6E7CB4640D77B5B533CE05A161AEF06FBEB58E75D5420469F"
+                          },
+                          {
+                              "Path":  "C:\\Users\\dell\\Desktop\\fusion32\\build\\unreal-world-presentation-polish-001\\unreal\\REAL33D\\Source\\REAL33D\\Private\\Real33DTileActor.cpp",
+                              "Hash":  "6E0D5465091C59F95C90FD0F74517A02F135D1401240893729250315BFC840F9"
+                          },
+                          {
+                              "Path":  "C:\\Users\\dell\\Desktop\\fusion32\\build\\unreal-world-presentation-polish-001\\unreal\\REAL33D\\Source\\REAL33D\\Public\\Real33DAssetRegistry.h",
+                              "Hash":  "8E7AD7952DF9336FFEF5C4D584203648A323ED6CCD7CC3805DED95147566B083"
+                          },
+                          {
+                              "Path":  "C:\\Users\\dell\\Desktop\\fusion32\\build\\unreal-world-presentation-polish-001\\unreal\\REAL33D\\Source\\REAL33D\\Public\\Real33DPresentationPolicy.h",
+                              "Hash":  "5B748A5C94441017F2055882BA30D1927BCE86B84956C36872084F79CF000B13"
+                          },
+                          {
+                              "Path":  "C:\\Users\\dell\\Desktop\\fusion32\\build\\unreal-world-presentation-polish-001\\unreal\\REAL33D\\Source\\REAL33D\\Public\\Real33DStaticSectorActor.h",
+                              "Hash":  "3C46CFE5C6BDB2C05AB914558D9C5976F7EE3520C44F6D1632CE747C4F813C16"
+                          }
+                      ]
+}

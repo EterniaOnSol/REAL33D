@@ -1,0 +1,87 @@
+﻿{
+	"devices": [
+		{
+			"deviceName": "DESKTOP-9SKKIUM",
+			"instance": "1A2D818C45AC135409C2DABE2737D969",
+			"instanceName": "DESKTOP-9SKKIUM-9240",
+			"platform": "WindowsEditor",
+			"oSVersion": "Windows 11 (23H2) [10.0.22631.6199] ",
+			"model": "Default",
+			"gPU": "Intel(R) UHD Graphics 630",
+			"cPUModel": "Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz",
+			"rAMInGB": 12,
+			"renderMode": "SM6",
+			"rHI": "",
+			"appInstanceLog": ""
+		}
+	],
+	"reportCreatedOn": "2026.10.09-12.17.14",
+	"succeeded": 2,
+	"succeededWithWarnings": 1,
+	"failed": 0,
+	"notRun": 0,
+	"inProcess": 0,
+	"totalDuration": 0.71345651149749756,
+	"comparisonExported": false,
+	"comparisonExportDirectory": "",
+	"tests": [
+		{
+			"testDisplayName": "ExperimentalV08",
+			"fullTestPath": "REAL33D.AssetRegistry.ExperimentalV08",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"1A2D818C45AC135409C2DABE2737D969"
+			],
+			"duration": 0.6872556209564209,
+			"dateTime": "2026.10.09-12.17.14",
+			"entries": [
+				{
+					"event":
+					{
+						"type": "Warning",
+						"message": "LogReal33D: experimental V08 QA catalog ENABLED: 4913 entries; TEST_IMPORTED is not APPROVED/READY/INTEGRATED",
+						"context": "log",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.10.09-12.17.14"
+				}
+			],
+			"warnings": 1,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "CameraAndFloors",
+			"fullTestPath": "REAL33D.Presentation.CameraAndFloors",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"1A2D818C45AC135409C2DABE2737D969"
+			],
+			"duration": 0.0096435993909835815,
+			"dateTime": "2026.10.09-12.17.14",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "AuthoritativeWindow",
+			"fullTestPath": "REAL33D.WideWorld.AuthoritativeWindow",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"1A2D818C45AC135409C2DABE2737D969"
+			],
+			"duration": 0.016557298600673676,
+			"dateTime": "2026.10.09-12.17.14",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		}
+	]
+}

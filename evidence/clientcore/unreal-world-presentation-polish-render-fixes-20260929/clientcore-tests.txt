@@ -1,0 +1,63 @@
+=== library sources, C++17 ===
+  ok
+=== library sources, C++20, for the Unreal link ===
+  ok, archived to C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\tests\..\build\clientcore-windows\protocol772core.lib
+=== suites ===
+PASS partial header
+PASS partial payload
+PASS frame split across several reads
+PASS multiple frames and order
+PASS complete frame plus partial next
+PASS zero length preserves bytes
+PASS unsupported frame size
+PASS incomplete buffer preservation
+PASS correct write framing
+PASS write framing rejects invalid lengths
+PASS endpoint profile boundaries
+PASS finish detects truncation
+PASS local connection and clean disconnect
+PASS refused connection
+PASS read timeout separate from connect timeout
+PASS read timeout rejects unusable values
+PASS remote disconnect
+PASS loopback partial header and payload
+PASS loopback multiple frames
+PASS loopback write framing
+PASS reconnect lifecycle
+PASS remote disconnect with partial frame
+SUMMARY passed=22 failed=0 total=22
+PASS XTEA key little endian
+PASS deterministic key generation
+PASS key generation failure preserves key
+PASS uninitialized key rejected
+PASS XTEA move clears source
+PASS XTEA golden block
+PASS XTEA multiple blocks roundtrip
+PASS XTEA invalid block sizes
+PASS golden packet encode
+PASS golden packet decode and padding
+PASS framing crypto boundary
+PASS packet without padding avoids random
+PASS padding generation failure
+PASS payload validation
+PASS invalid ciphertext sizes preserved
+PASS inner length errors
+PASS source permitted long padding preserved
+PASS decrypt does not mutate framed packet
+PASS system key generation and roundtrip
+PASS RSA public key parsing
+PASS RSA golden no padding
+PASS RSA protocol leading byte
+PASS RSA message out of range
+PASS invalid RSA moduli
+PASS RSA uninitialized and error names
+SUMMARY passed=25 failed=0 total=25
+protocol772_login_tests: PASS
+protocol772_gamelogin_tests: PASS
+protocol772_initial_world_tests: PASS
+protocol772_movement_tests: PASS
+protocol772_player_state_tests: PASS
+protocol772_worldview_tests: PASS
+minimap_tests: PASS (18x14 observation, retention/cache, known/unknown-goal segments, blockers/detour/bounds; no phantom discovery)
+
+WINDOWS CLIENTCORE: PASS

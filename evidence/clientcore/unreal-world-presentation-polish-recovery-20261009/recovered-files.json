@@ -1,0 +1,218 @@
+﻿[
+    {
+        "path":  "PARITY_MATRIX.md",
+        "sha256":  "D059FD2149AAA012C4EC3AD8EEFAEFFDAB5F61917C3DE81AD590D97615B69AC0"
+    },
+    {
+        "path":  "PROJECT_STATUS.md",
+        "sha256":  "89EA70975D5F2F700082B7467078CFBB940B7ADD571DBC0C16E66F64A3184FF8"
+    },
+    {
+        "path":  "handoffs/CURRENT.md",
+        "sha256":  "C07C9F4C5644ADBAB9A1D5AD81115D5E7CD740B20F258CBE09A2BACD1A62B95A"
+    },
+    {
+        "path":  "scripts/client/run_unreal_presentation_qa.ps1",
+        "sha256":  "BE37B11D8B9B974C536D1F067061079220762FB1AE45877C83EE0381A3D852CC"
+    },
+    {
+        "path":  "scripts/client/test_unreal_presentation.ps1",
+        "sha256":  "97BF3236DF404950FB04C5B7A91C28BD6B710A0A6A77098D85BA0E5CA6281CB8"
+    },
+    {
+        "path":  "unreal/REAL33D/Source/REAL33D/Private/Real33DAssetRegistry.cpp",
+        "sha256":  "063C0EE85FCAB6258BA899BF948F9F87F74B74AD55DADAB4F80E1829BB1DF9AB"
+    },
+    {
+        "path":  "unreal/REAL33D/Source/REAL33D/Private/Real33DPresentationTests.cpp",
+        "sha256":  "068248D566832A9B3A1C7DFA1280D3788F982F967D8260F449599CCC4A5A0855"
+    },
+    {
+        "path":  "unreal/REAL33D/Source/REAL33D/Private/Real33DStaticSectorActor.cpp",
+        "sha256":  "3E5E14A0CCF169E6E7CB4640D77B5B533CE05A161AEF06FBEB58E75D5420469F"
+    },
+    {
+        "path":  "unreal/REAL33D/Source/REAL33D/Private/Real33DTileActor.cpp",
+        "sha256":  "6E0D5465091C59F95C90FD0F74517A02F135D1401240893729250315BFC840F9"
+    },
+    {
+        "path":  "unreal/REAL33D/Source/REAL33D/Public/Real33DAssetRegistry.h",
+        "sha256":  "8E7AD7952DF9336FFEF5C4D584203648A323ED6CCD7CC3805DED95147566B083"
+    },
+    {
+        "path":  "unreal/REAL33D/Source/REAL33D/Public/Real33DPresentationPolicy.h",
+        "sha256":  "5B748A5C94441017F2055882BA30D1927BCE86B84956C36872084F79CF000B13"
+    },
+    {
+        "path":  "unreal/REAL33D/Source/REAL33D/Public/Real33DStaticSectorActor.h",
+        "sha256":  "3C46CFE5C6BDB2C05AB914558D9C5976F7EE3520C44F6D1632CE747C4F813C16"
+    },
+    {
+        "path":  "evidence/clientcore/UNREAL-WORLD-PRESENTATION-POLISH-001-RECOVERY-20261007.md",
+        "sha256":  "7C96FD35A1783CBB8C2D9BF2EBBC4A1C1C5ABC5EE18EBCA972A105CEE2733414"
+    },
+    {
+        "path":  "evidence/clientcore/UNREAL-WORLD-PRESENTATION-POLISH-001-RENDER-FIXES-20260929.md",
+        "sha256":  "9B0389A6E203B47C3824E6EB34DA030312A187C3063023F125EF9FE67E2A40D4"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/automation-borders-results.json",
+        "sha256":  "B7C5FBDD11A45665917E748110A801415E98048D85E90A04FFED02729D94DEDC"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/automation-results.json",
+        "sha256":  "A3799D8DF1567BC34B4A0FABA2CB88A8955107BB7BE9A6E2F7485CC3F30ACC71"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/before-qa-manifest.json",
+        "sha256":  "BBA5865D2DE804BCA75202998D74C16D2FE5D114B55FA203E38BDCB914CACCF3"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/brother-creature-loading.txt",
+        "sha256":  "BFA432AB4FF67FC954AF1AE34EB403DDE3EFCC6D7F6CE437DB820ED081A6C92D"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/clientcore-tests.txt",
+        "sha256":  "64EF982B2F8FCDBA0734277B65E029CB6E7EF7B8E6BAA52F771A26D7B4A9B7F9"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/corrected-candidate-hashes.json",
+        "sha256":  "88E60B7CEEA339568B05919C913707D0C4F1190C0DBD3614FC8D2F358707EF6F"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/first-session-endplay.json",
+        "sha256":  "F25A5261FCA327F3A04119AC5CE86B19E8854E8F482D39F80DD7E084C3CD2937"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/inventory-sample-hashes.json",
+        "sha256":  "622DC528AD33E61692BEB110B1602ABED78C0213777080081D278C0ADC100D10"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/recovered-20261003-endplay.json",
+        "sha256":  "AF964ACB7C7C2ACFE22B4E16B2F92C58DC5C6926DA9A94176A717FB273B5D7A4"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/recovered-20261003-materials.png",
+        "sha256":  "AC8127902F3173C51382D32299113D6CEC250FD2EA39A2D16C1348486A4097E7"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/recovered-20261003-settled.json",
+        "sha256":  "23F221493D8CECF1438D4E428FF10EDDCB209527F3CD918AD54D3409592598E0"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/recovered-materials-automation.json",
+        "sha256":  "F6D0F530793A1D9848B6E561D743D1C84AD47060BF0441D6C5E5DB59B0D9A419"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/secret-check.txt",
+        "sha256":  "4BD55D9EBF8190DD304E18C0992064D312F48D847548A497C8645618207F464F"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/terrain-reference-offsets.json",
+        "sha256":  "C08EDC7862A53A5B475E097E4B34D0A93A4453AEADFF35C4F8A2C7BEC1492575"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/terrain_reference.py",
+        "sha256":  "F10202D2D19DE50F2B218B8DE052048AB1E3767FD374C751FEF34567C9FF7300"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/unreal-build-borders.txt",
+        "sha256":  "F6DEA658EF67F9F22BF8CAF429593DE57CDDD4A977929A4B41CF3F65C8B87FB1"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/unreal-build-retry.txt",
+        "sha256":  "A80218C04422A1EDE7B610379C832B4FEF68B730D84A3A1B8BC9A79943F834C3"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/unreal_slice_evidence_Manual_20261007T235259_790.json",
+        "sha256":  "9721B548D0F62160F65FEB29851EB3D39B2BA3ABC53B8796C01800886EF20894"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/unreal_slice_evidence_Manual_20261007T235259_790.png",
+        "sha256":  "54A68AC297EF7EB361BD0C34C19F1B027DC05D201219D12EAAEBB380FEBA38D6"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/unreal_slice_evidence_Manual_20261007T235304_511.json",
+        "sha256":  "15ABDFFB9D65B9368DA9CB472DA26A2E3DBF98A707B8278605A5C754E2A54A29"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/unreal_slice_evidence_Manual_20261007T235304_511.png",
+        "sha256":  "55052B47C7F8CC4C38944D5B20B2A808FFF4F8C389C5E476E1914713611EAF07"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/unreal_slice_evidence_Manual_20261007T235306_933.json",
+        "sha256":  "6B0439190CF1119E811DDD6E6A54AD5FA5E0B3B24738722D3685A53E38421E97"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-recovery-20261007/unreal_slice_evidence_Manual_20261007T235306_933.png",
+        "sha256":  "9EF00DE9B752C88FD882B2CFF33495F19DE2AD2A7F73396F770DC9D090235F56"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-render-fixes-20260929/automation-results.json",
+        "sha256":  "5E757315AB392605A812FAF446584CDFC547763E7BDB4163E2A68E04BAD7E4AD"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-render-fixes-20260929/clientcore-tests.txt",
+        "sha256":  "64EF982B2F8FCDBA0734277B65E029CB6E7EF7B8E6BAA52F771A26D7B4A9B7F9"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-render-fixes-20260929/first-session-endplay.json",
+        "sha256":  "2580B9571AFC212572084369ABA88071292879B2014BA5C91E65B9AEFC7EEE70"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-render-fixes-20260929/instancing-warning-sample.txt",
+        "sha256":  "F1E3FFF86414A411A2E9C3E4E2CCBFC36F6149E7B79428FBC306F85370D204FD"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-render-fixes-20260929/unreal-build-exit-verification.txt",
+        "sha256":  "82F8140C1C413C6199A4A0F3ECC4AEE0F5F87EEACE04A0A004623527665694AF"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-render-fixes-20260929/unreal-build.txt",
+        "sha256":  "2F06D1D185F41DBAFBFC79FA55A1AC4C001A9B018608D33BDAA45BA9C40D4764"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-render-fixes-20260929/unreal_slice_evidence_Manual_20260930T024314_745.json",
+        "sha256":  "C819150339CFCC1035F6319BE86744B813608323199B582303294D1B9C23322E"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-render-fixes-20260929/unreal_slice_evidence_Manual_20260930T024314_745.png",
+        "sha256":  "E31DDF87990766D66ACFF2E2A8ADB031C6A9145612A71F127C70997B559E54FB"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-render-fixes-20260929/unreal_slice_evidence_Manual_20260930T024400_770.json",
+        "sha256":  "A3FFEDCD1386738742774410861B25221A14C51CE75BDBA80DB29BE1B3BF4295"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-render-fixes-20260929/unreal_slice_evidence_Manual_20260930T024400_770.png",
+        "sha256":  "7D7396F945EC8FD11AB0E70F610871AEBAFEF1AD7C639CD657F3FF267CDF4019"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-render-fixes-20260929/unreal_slice_evidence_Manual_20260930T024414_540.json",
+        "sha256":  "56365442547A6E3D7B63B6A9AC51E9C8B3E89A3A5BF037A0F17E21CE16D91530"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-render-fixes-20260929/unreal_slice_evidence_Manual_20260930T024414_540.png",
+        "sha256":  "C80B293CE0E8B42ABF29EDB906A34DA81B84DE5FE479C6A93825CC432F256229"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-render-fixes-20260929/unreal_slice_evidence_Manual_20260930T024446_889.json",
+        "sha256":  "E3BDF33A3A125D8E7B2A77E2205B97D83F23DD6811A4C0AA45E8925D29670D07"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-render-fixes-20260929/unreal_slice_evidence_Manual_20260930T024446_889.png",
+        "sha256":  "C5CEBF3CD15BD0881C6F884FAA79610A1CF6B6719163456E3F045444531C92A0"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-render-fixes-20260929/unreal_slice_evidence_Manual_20260930T024553_236.json",
+        "sha256":  "3F29634BE3502BE4CF68FDDC5814189106CC04FBE5AABCF2279FB1BEDA4DA462"
+    },
+    {
+        "path":  "evidence/clientcore/unreal-world-presentation-polish-render-fixes-20260929/unreal_slice_evidence_Manual_20260930T024553_236.png",
+        "sha256":  "3827BBE308C8109992FE68ACDD2B6D9D146D3C6E784BAB71B71019B8EC2F8A3D"
+    },
+    {
+        "path":  "handoffs/archive/2026-10-07_UNREAL-WORLD-PRESENTATION-POLISH-001-before-recovery.md",
+        "sha256":  "BC47FDF400C2A188E1A8902F9B3B88A77E75F0CAE8D3663488B102580CE692C7"
+    }
+]

@@ -1,0 +1,99 @@
+﻿{
+	"devices": [
+		{
+			"deviceName": "DESKTOP-9SKKIUM",
+			"instance": "88D303634306B6DB968A448B5208DDFE",
+			"instanceName": "DESKTOP-9SKKIUM-16788",
+			"platform": "WindowsEditor",
+			"oSVersion": "Windows 11 (23H2) [10.0.22631.6199] ",
+			"model": "Default",
+			"gPU": "Intel(R) UHD Graphics 630",
+			"cPUModel": "Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz",
+			"rAMInGB": 12,
+			"renderMode": "SM6",
+			"rHI": "",
+			"appInstanceLog": ""
+		}
+	],
+	"reportCreatedOn": "2026.10.07-23.51.14",
+	"succeeded": 2,
+	"succeededWithWarnings": 1,
+	"failed": 0,
+	"notRun": 0,
+	"inProcess": 0,
+	"totalDuration": 3.6913540363311768,
+	"comparisonExported": false,
+	"comparisonExportDirectory": "",
+	"tests": [
+		{
+			"testDisplayName": "ExperimentalV08",
+			"fullTestPath": "REAL33D.AssetRegistry.ExperimentalV08",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"88D303634306B6DB968A448B5208DDFE"
+			],
+			"duration": 3.6670472621917725,
+			"dateTime": "2026.10.07-23.51.10",
+			"entries": [
+				{
+					"event":
+					{
+						"type": "Warning",
+						"message": "LogReal33D: experimental V08 QA catalog ENABLED: 4913 entries; TEST_IMPORTED is not APPROVED/READY/INTEGRATED",
+						"context": "log",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.10.07-23.51.11"
+				},
+				{
+					"event":
+					{
+						"type": "Warning",
+						"message": "LogHttp: HTTP request timed out after 3.00 seconds URL=https://www.google.com/generate_204",
+						"context": "log",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.10.07-23.51.13"
+				}
+			],
+			"warnings": 2,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "CameraAndFloors",
+			"fullTestPath": "REAL33D.Presentation.CameraAndFloors",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"88D303634306B6DB968A448B5208DDFE"
+			],
+			"duration": 0.0073180980980396271,
+			"dateTime": "2026.10.07-23.51.14",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "AuthoritativeWindow",
+			"fullTestPath": "REAL33D.WideWorld.AuthoritativeWindow",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"88D303634306B6DB968A448B5208DDFE"
+			],
+			"duration": 0.016988702118396759,
+			"dateTime": "2026.10.07-23.51.14",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		}
+	]
+}

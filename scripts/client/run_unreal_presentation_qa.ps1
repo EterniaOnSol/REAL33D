@@ -17,10 +17,13 @@ $previews = Join-Path $StaticDataRoot 'visual\reference_pack\previews\item'
 $creatures = Join-Path $taskRoot 'visual\qa\brother_creatures\runtime.json'
 $evidence = Join-Path $taskRoot ('build\unreal-world-presentation-polish-001\live-' + (Get-Date -Format 'yyyyMMddTHHmmss'))
 if (!$ClassicDat) { $ClassicDat = Join-Path $StaticDataRoot 'build\classic-client-772\app\Tibia.dat' }
-foreach ($required in @($editor, $project, $catalog, $cache, $ClassicDat, $PythonLauncher, (Join-Path $Runtime 'secrets\credentials.env'))) {
+$classicThings = Split-Path -Parent $ClassicDat
+foreach ($required in @($editor, $project, $catalog, $creatures, $cache, $ClassicDat, (Join-Path $classicThings 'Tibia.spr'), $PythonLauncher, (Join-Path $Runtime 'secrets\credentials.env'))) {
     if (!(Test-Path -LiteralPath $required)) { throw "Missing QA prerequisite: $required" }
 }
 New-Item -ItemType Directory -Path $evidence -Force | Out-Null
+& $PythonLauncher -3 (Join-Path $taskRoot 'scripts\client\extract_item_sprites.py') $classicThings (Join-Path $taskRoot 'unreal\REAL33D\Resources\UI\Items') *> (Join-Path $evidence 'item-sprite-generation.txt')
+if ($LASTEXITCODE -ne 0) { throw 'Inventory sprite generation failed; see item-sprite-generation.txt' }
 & $PythonLauncher -3 (Join-Path $taskRoot 'scripts\client\extract_minimap_palette.py') $ClassicDat (Join-Path $taskRoot 'unreal\REAL33D\Saved\Minimap\appearance-palette.txt') *> (Join-Path $evidence 'palette-generation.txt')
 if ($LASTEXITCODE -ne 0) { throw 'Validated minimap palette generation failed; see palette-generation.txt' }
 $arguments = @(

@@ -1,0 +1,4 @@
+Preserved absent PID873 lock as game.pid.stale-polish-20261009
+querymanager ALIVE pid=830 exe=VERIFIED cwd=VERIFIED start=VERIFIED port=7173
+game ALIVE pid=845 exe=VERIFIED cwd=VERIFIED start=VERIFIED port=7172
+login ALIVE pid=1067 exe=VERIFIED cwd=VERIFIED start=VERIFIED port=7171

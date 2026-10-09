@@ -1,0 +1,15 @@
+[2026.10.07-23.52.25:550][  0]LogReal33D: brother creature catalog enabled: 16 exact outfit mappings
+[2026.10.07-23.53.03:206][413]LogReal33D: creature 1073743165 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.10.07-23.53.03:208][413]LogReal33D: creature 1073743167 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.10.07-23.53.03:209][413]LogReal33D: creature 1073743308 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.10.07-23.53.03:211][413]LogReal33D: creature 1073743313 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.10.07-23.53.03:212][413]LogReal33D: creature 1073743314 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.10.07-23.53.03:214][413]LogReal33D: creature 1073743315 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.10.07-23.53.03:215][413]LogReal33D: creature 1073743316 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.10.07-23.53.03:217][413]LogReal33D: creature 1073743317 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.10.07-23.53.03:219][413]LogReal33D: creature 1073743318 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.10.07-23.53.06:012][508]LogReal33D: creature 1073743165 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.10.07-23.53.09:106][628]LogReal33D: creature 1073743317 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.10.07-23.53.13:106][790]LogReal33D: creature 1073743317 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.10.07-23.53.15:096][866]LogReal33D: creature 1073743317 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.10.07-23.53.15:862][891]LogReal33D: creature 1073743315 outfit 21: brother visual loaded parts=10 height=80.3

@@ -5,6 +5,19 @@
 // Render policy only. These functions never describe server walkability.
 namespace Real33D::Presentation
 {
+// Thin terrain/border meshes need distinct planes even at the first overlay.
+// Use rendered thickness, not gameplay blocking flags (static context has none).
+// Both live tiles and WideWorld call this with the transformed local bounds.
+inline bool IsFlatSurface(const FBox& Bounds)
+{
+	return Bounds.IsValid && Bounds.GetSize().Z <= 10.0;
+}
+
+inline double SurfaceLayerLift(int32 ItemIndex)
+{
+	return 2.0 * FMath::Max(0, ItemIndex);
+}
+
 inline bool HideUpperFloors(int32 PlayerFloor, bool bCovered)
 {
 	return bCovered || PlayerFloor > 7;

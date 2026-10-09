@@ -1,0 +1,182 @@
+[
+  {
+    "type_id": 4785,
+    "pixel_min": [
+      0,
+      0
+    ],
+    "pixel_max_exclusive": [
+      32,
+      11
+    ],
+    "offset_uu": [
+      0.0,
+      -32.8125
+    ]
+  },
+  {
+    "type_id": 4786,
+    "pixel_min": [
+      20,
+      0
+    ],
+    "pixel_max_exclusive": [
+      32,
+      32
+    ],
+    "offset_uu": [
+      31.25,
+      0.0
+    ]
+  },
+  {
+    "type_id": 4787,
+    "pixel_min": [
+      0,
+      21
+    ],
+    "pixel_max_exclusive": [
+      32,
+      32
+    ],
+    "offset_uu": [
+      0.0,
+      32.8125
+    ]
+  },
+  {
+    "type_id": 4788,
+    "pixel_min": [
+      0,
+      0
+    ],
+    "pixel_max_exclusive": [
+      11,
+      32
+    ],
+    "offset_uu": [
+      -32.8125,
+      0.0
+    ]
+  },
+  {
+    "type_id": 4789,
+    "pixel_min": [
+      0,
+      0
+    ],
+    "pixel_max_exclusive": [
+      11,
+      11
+    ],
+    "offset_uu": [
+      -32.8125,
+      -32.8125
+    ]
+  },
+  {
+    "type_id": 4790,
+    "pixel_min": [
+      21,
+      0
+    ],
+    "pixel_max_exclusive": [
+      32,
+      10
+    ],
+    "offset_uu": [
+      32.8125,
+      -34.375
+    ]
+  },
+  {
+    "type_id": 4791,
+    "pixel_min": [
+      0,
+      22
+    ],
+    "pixel_max_exclusive": [
+      12,
+      32
+    ],
+    "offset_uu": [
+      -31.25,
+      34.375
+    ]
+  },
+  {
+    "type_id": 4792,
+    "pixel_min": [
+      18,
+      22
+    ],
+    "pixel_max_exclusive": [
+      32,
+      32
+    ],
+    "offset_uu": [
+      28.125,
+      34.375
+    ]
+  },
+  {
+    "type_id": 4793,
+    "pixel_min": [
+      0,
+      0
+    ],
+    "pixel_max_exclusive": [
+      32,
+      32
+    ],
+    "offset_uu": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "type_id": 4794,
+    "pixel_min": [
+      0,
+      0
+    ],
+    "pixel_max_exclusive": [
+      32,
+      32
+    ],
+    "offset_uu": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "type_id": 4795,
+    "pixel_min": [
+      0,
+      0
+    ],
+    "pixel_max_exclusive": [
+      32,
+      32
+    ],
+    "offset_uu": [
+      0.0,
+      0.0
+    ]
+  },
+  {
+    "type_id": 4796,
+    "pixel_min": [
+      0,
+      0
+    ],
+    "pixel_max_exclusive": [
+      32,
+      32
+    ],
+    "offset_uu": [
+      0.0,
+      0.0
+    ]
+  }
+]
