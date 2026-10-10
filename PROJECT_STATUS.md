@@ -1,5 +1,10 @@
 # Project Status
 
+2026-10-09 gap QA: authorized safe push completed; remote now 6ac8a8e.
+Fresh client connected, but native input helper failed initialization twice.
+Operator input pending; no remaining live gap closed. Prior PASS items retained,
+no runtime/art changes. Overall IMPLEMENTED_UNVERIFIED; see GAP-QA-20261009 report.
+
 2026-10-09 live review at 55e468b: cave relief proportions and water/floor return
 proven in two F9 captures. FLOOR_READABILITY PASS for this scene; full milestone
 still IMPLEMENTED_UNVERIFIED. Remaining source wall-family inconsistency is

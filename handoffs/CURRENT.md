@@ -1,5 +1,25 @@
 # CURRENT - UNREAL-WORLD-PRESENTATION-POLISH-001
 
+UPDATE 2026-10-09 19:54 local: explicitly requested resume of remaining live gaps.
+Verified clean 6ac8a8e and remote 4305d23 ancestry; safely pushed existing commits
+without force and verified remote == local 6ac8a8e. Main remains fa3adcf.
+No already proven PASS items were retested and no runtime source/art was changed.
+Fresh normal client PID 3728/session live-20261009T194912 is connected and open.
+Native desktop-control initialization failed twice (kernel assets path missing,
+including after reset); no automated gameplay input was possible. Operator input
+was requested; no new Manual/Speech captures or performed smoke actions yet.
+Remaining gaps stay IMPLEMENTED_UNVERIFIED; connected baseline has protocol
+errors zero but proves none of the missing actions. All previous PASS retained.
+Current report: evidence/clientcore/UNREAL-WORLD-PRESENTATION-POLISH-001-GAP-QA-20261009.md.
+Next: use this existing client for camera obstruction/return, wall cutaway, Say,
+NPC if available, Follow/Stop, actual container open, Look/Use/Use With and minimap
+arrival with sector movement. F9 captures state/screenshots; received speech has
+automatic evidence. No hidden state or manufactured fixtures. Don't duplicate
+services/client. Completion and independent-certification readiness remain NO.
+Historical notes below are retained; this update supersedes their remote/client
+status. This documentation checkpoint is local; a further push is conditional
+on completing the requested gaps. No main merge or independent certification.
+
 UPDATE 2026-10-09 19:24 local: new F9 captures at 55e468b reviewed. At the same
 floor-8 cave position, stretched columns are gone and water stays clean. Live
 relief bounds are 4.5uu; normal floor-7 return restores roofs and synchronized
