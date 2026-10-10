@@ -1,5 +1,12 @@
 # Project Status
 
+2026-10-09 live review at 55e468b: cave relief proportions and water/floor return
+proven in two F9 captures. FLOOR_READABILITY PASS for this scene; full milestone
+still IMPLEMENTED_UNVERIFIED. Remaining source wall-family inconsistency is
+V08_ART_DEFECT (373/377 and provisional relief mix), recorded separately. Client
+closed normally; 22 accepted walks, zero unanswered or protocol errors. See
+UNREAL-WORLD-PRESENTATION-POLISH-001-CONTINUATION-20261009.md.
+
 2026-10-09 continuation: water overlap fix proven in normal live QA and accepted
 by operator. Raised cave walls rejected:20 provisional4.5uu reliefs were stretched
 48.44x. Runtime now preserves their native proportions; volumetric walls retain

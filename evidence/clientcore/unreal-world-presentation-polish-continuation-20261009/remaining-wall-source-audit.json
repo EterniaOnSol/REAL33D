@@ -1,0 +1,72 @@
+[
+  {
+    "item_id": 373,
+    "source_sha256": "0691832ea6f56408322f945209a839456747f2733a03efd49bc27461ddcd8ad8",
+    "triangles": 4592,
+    "constant_uv_triangles": 4592,
+    "nodes": [
+      {
+        "extras": {
+          "source_item_id": 373,
+          "source_name": "stone wall",
+          "authoring_unit": "1 tile = 1 metre; 100 cm in reference UE preview",
+          "art_status": "pilot_pending_review",
+          "hidden_surfaces": "artistic interpretation",
+          "source_sprite_sha256": "b754f8492e6669720f69a5d4f8427aceea1b0f0d35f17e6833c6116f0599da53",
+          "description": "stone wall; semantic family recipe with original sprite texture"
+        },
+        "mesh": 0,
+        "name": "SM_00373"
+      }
+    ],
+    "source_bounds_metres": {
+      "min": [
+        -0.5053303837776184,
+        0.0,
+        -0.20402871072292328
+      ],
+      "max": [
+        0.5053303837776184,
+        0.8590793609619141,
+        0.20402871072292328
+      ]
+    },
+    "runtime_height_uu": 218,
+    "runtime_vertical_scale": 2.53760024866509
+  },
+  {
+    "item_id": 377,
+    "source_sha256": "49a2070f3ddd00405340c09a4140c483b1ca40d399cacb3556ab429aff7dd21b",
+    "triangles": 8080,
+    "constant_uv_triangles": 8080,
+    "nodes": [
+      {
+        "extras": {
+          "source_item_id": 377,
+          "source_name": "stone wall",
+          "authoring_unit": "1 tile = 1 metre; 100 cm in reference UE preview",
+          "art_status": "pilot_pending_review",
+          "hidden_surfaces": "artistic interpretation",
+          "source_sprite_sha256": "8700a2f0166ec7c7b4aacb3f21222dc7c4ec5c0f853b0f3bc59194328c147427",
+          "description": "stone wall; semantic family recipe with original sprite texture"
+        },
+        "mesh": 0,
+        "name": "SM_00377"
+      }
+    ],
+    "source_bounds_metres": {
+      "min": [
+        -0.5271459221839905,
+        0.0,
+        -0.4676690697669983
+      ],
+      "max": [
+        0.5271459221839905,
+        0.8590793609619141,
+        0.4676690697669983
+      ]
+    },
+    "runtime_height_uu": 218,
+    "runtime_vertical_scale": 2.53760024866509
+  }
+]

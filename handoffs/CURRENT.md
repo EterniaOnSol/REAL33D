@@ -1,5 +1,18 @@
 # CURRENT - UNREAL-WORLD-PRESENTATION-POLISH-001
 
+UPDATE 2026-10-09 19:24 local: new F9 captures at 55e468b reviewed. At the same
+floor-8 cave position, stretched columns are gone and water stays clean. Live
+relief bounds are 4.5uu; normal floor-7 return restores roofs and synchronized
+minimap. FLOOR_READABILITY PASS for this bounded scene. Overall art finish is
+not approved: mixed low reliefs and tall FAMILY_RECIPE walls 373/377 remain.
+Read-only source audit confirms original geometry/constant per-triangle UVs and
+manifest hashes; source family assembly is unresolved. No further runtime/code
+or V08 changes were made after 55e468b. The user closed PID 1228 normally; EndPlay
+426 commands, 22 accepted walks, zero rejected/unanswered/protocol errors. No
+speech/follow was performed. All broader unverified checks below remain pending.
+Compact before/after frames, state JSON and source audit are in the continuation
+folder. This update supersedes the pending-capture and active-client notes below.
+
 Date: 2026-10-09, America/Guatemala. Agent: Codex, implementation/local QA.
 State: IMPLEMENTED_UNVERIFIED. Independent certification has not run.
 Branch: milestone/unreal-world-presentation-polish-001.
