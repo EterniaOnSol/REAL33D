@@ -1,5 +1,12 @@
 # Project Status
 
+2026-10-09 continuation: water overlap fix proven in normal live QA and accepted
+by operator. Raised cave walls rejected:20 provisional4.5uu reliefs were stretched
+48.44x. Runtime now preserves their native proportions; volumetric walls retain
+room height. Build and three actual-catalog/geometry/authority tests PASS; new
+live wall review pending. Full milestone remains IMPLEMENTED_UNVERIFIED. See
+evidence/clientcore/UNREAL-WORLD-PRESENTATION-POLISH-001-CONTINUATION-20261009.md.
+
 2026-10-09 preservation: recovered all existing polish work at local/remote4305d23
 and certified mainfa3adcf. Fresh ClientCore, Unreal build and initial three-case
 automation PASS. Real operator gameplay has zero protocol errors and no unanswered
@@ -147,7 +154,7 @@ Next gameplay candidate: trade or a live floor transition. Select one bounded sc
 
 Updated: 2026-09-17
 
-## Visual ingest audit Ã¢â‚¬â€ 2026-09-20
+## Visual ingest audit ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â 2026-09-20
 
 `REAL33D-VISUAL-INGEST-AUDIT-001 = PASS` only for the internal `visual/` reference area; its former artist-source conclusion was corrected. `REAL33D-3DTIBIA-ART-AUDIT-001 = PASS` for a read-only inventory of the actual source clone `C:/Users/dell/3DTIBIA_leo/motor3d/assets` at `21fafb57dd86b594223bab7dbe9076d1fa380640`: 96,478 files, including four GLB and four BLEND. Four GLBs map `EXACT` to three 7.72 outfit visual identities by pixel-checked source evidence, but the source project documents all four as failed/rejected experiments. No primary-source 3D asset is ready for a P0 vertical import. `TECHNICAL_IMPORT`, `IN_ENGINE_RENDER` and `VISUAL_APPROVAL` remain `NOT_STARTED`; no Unreal, gameplay, protocol or ClientCore change was made. The chat milestone and prior functional claims above are unchanged. Corrected evidence and next step: `visual/docs/EXTERNAL_3DTIBIA_INGEST_AUDIT_2026-09-20.md`.
 
@@ -161,7 +168,7 @@ UNREAL-PLAYER-VITALS-001 is IMPLEMENTED_UNVERIFIED. The worker publishes semanti
 
 ## Wide-world streamer - 2026-09-21
 
-UNREAL-WIDE-WORLD-001 = CERTIFIED_PASS. Unreal loads strict, generated 32Ã—32 .wws sector caches around the authoritative anchor, keeps the complete 18Ã—14 live window owned by WorldState, suppresses static tiles as they enter live authority, retains parsed data for cache hits, and destroys distant sector actors on the game thread. Async work is restricted to file IO and row parsing. Static baseline sectors never invent dynamic state.
+UNREAL-WIDE-WORLD-001 = CERTIFIED_PASS. Unreal loads strict, generated 32Ãƒâ€”32 .wws sector caches around the authoritative anchor, keeps the complete 18Ãƒâ€”14 live window owned by WorldState, suppresses static tiles as they enter live authority, retains parsed data for cache hits, and destroys distant sector actors on the game thread. Async work is restricted to file IO and row parsing. Static baseline sectors never invent dynamic state.
 
 Frozen V08 meshes resolve first. Missing physical V08 meshes use local gitignored classic previews as CLASSIC_SPRITE_FALLBACK; MISSING_PHYSICAL_ASSET remains separate and non-blocking. Thais exact-radius V08/fallback/missing occurrence counts are 12,286/0/0 at 32, 38,826/3/0 at 64, 71,845/8/0 at 96, and 110,073/17/0 at 128. TypeId 469 is explicitly CLASSIC_SPRITE_FALLBACK. The catalogue hash is unchanged and no V08 asset, ClientCore, protocol, server, or reference source changed. See evidence/clientcore/UNREAL-WIDE-WORLD-001.md.
 

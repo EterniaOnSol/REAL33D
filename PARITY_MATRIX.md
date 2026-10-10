@@ -1,5 +1,12 @@
 # Parity Matrix
 
+2026-10-09 continuation: water overlap fix proven in normal live QA and accepted
+by operator. Raised cave walls rejected:20 provisional4.5uu reliefs were stretched
+48.44x. Runtime now preserves their native proportions; volumetric walls retain
+room height. Build and three actual-catalog/geometry/authority tests PASS; new
+live wall review pending. Full milestone remains IMPLEMENTED_UNVERIFIED. See
+evidence/clientcore/UNREAL-WORLD-PRESENTATION-POLISH-001-CONTINUATION-20261009.md.
+
 2026-10-09 preservation: recovered all existing polish work at local/remote4305d23
 and certified mainfa3adcf. Fresh ClientCore, Unreal build and initial three-case
 automation PASS. Real operator gameplay has zero protocol errors and no unanswered
@@ -168,7 +175,7 @@ visual Look/chat and a valid fresh Use With still require live validation.
 
 Operator direction (2026-09-21): V08 visual certification is STANDBY, with no new PASS claim. The inspector notes and latest live-session journal are retained for later review while gameplay client programming resumes.
 
-UNREAL-WIDE-WORLD-001 = CERTIFIED_PASS. Strict generated 32Ã—32 sector caches stream outside the complete WorldState-owned 18Ã—14 live rectangle; async work reads and parses rows, while the game thread owns actor/component creation and destruction. Static tiles entering live authority are suppressed, distant sectors unload, parsed data is cached, and missing V08 meshes resolve to identity-retaining local classic sprite proxies or a separately counted non-blocking placeholder. This adds static-map reach and makes no dynamic-world or final-art parity claim. See evidence/clientcore/UNREAL-WIDE-WORLD-001.md.
+UNREAL-WIDE-WORLD-001 = CERTIFIED_PASS. Strict generated 32Ãƒâ€”32 sector caches stream outside the complete WorldState-owned 18Ãƒâ€”14 live rectangle; async work reads and parses rows, while the game thread owns actor/component creation and destruction. Static tiles entering live authority are suppressed, distant sectors unload, parsed data is cached, and missing V08 meshes resolve to identity-retaining local classic sprite proxies or a separately counted non-blocking placeholder. This adds static-map reach and makes no dynamic-world or final-art parity claim. See evidence/clientcore/UNREAL-WIDE-WORLD-001.md.
 
 Live round-trip at x=32096: 9 sector loads and 9 unloads in each direction; all crossing/return audits had zero visibility mismatches and zero static/live overlaps. TypeId 469 uses the exact classic sprite fallback.
 

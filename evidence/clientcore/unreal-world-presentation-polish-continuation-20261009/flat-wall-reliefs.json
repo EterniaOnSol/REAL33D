@@ -1,0 +1,302 @@
+﻿[
+    {
+        "item_id":  357,
+        "name":  "dirt wall",
+        "bounds_min":  [
+                           -0.5,
+                           0,
+                           -0.5
+                       ],
+        "bounds_max":  [
+                           0.5,
+                           0.04500000178813934,
+                           0.5
+                       ],
+        "geometry_quality":  "PROVISIONAL_SPRITE_RELIEF"
+    },
+    {
+        "item_id":  358,
+        "name":  "dirt wall",
+        "bounds_min":  [
+                           -0.5,
+                           0,
+                           -0.5
+                       ],
+        "bounds_max":  [
+                           0.5,
+                           0.04500000178813934,
+                           0.5
+                       ],
+        "geometry_quality":  "PROVISIONAL_SPRITE_RELIEF"
+    },
+    {
+        "item_id":  359,
+        "name":  "dirt wall",
+        "bounds_min":  [
+                           -0.5,
+                           0,
+                           -0.5
+                       ],
+        "bounds_max":  [
+                           0.5,
+                           0.04500000178813934,
+                           0.5
+                       ],
+        "geometry_quality":  "PROVISIONAL_SPRITE_RELIEF"
+    },
+    {
+        "item_id":  361,
+        "name":  "dirt wall",
+        "bounds_min":  [
+                           -0.5,
+                           0,
+                           -0.5
+                       ],
+        "bounds_max":  [
+                           0.5,
+                           0.04500000178813934,
+                           0.5
+                       ],
+        "geometry_quality":  "PROVISIONAL_SPRITE_RELIEF"
+    },
+    {
+        "item_id":  362,
+        "name":  "dirt wall",
+        "bounds_min":  [
+                           -0.5,
+                           0,
+                           -0.5
+                       ],
+        "bounds_max":  [
+                           0.5,
+                           0.04500000178813934,
+                           0.5
+                       ],
+        "geometry_quality":  "PROVISIONAL_SPRITE_RELIEF"
+    },
+    {
+        "item_id":  363,
+        "name":  "dirt wall",
+        "bounds_min":  [
+                           -0.5,
+                           0,
+                           -0.5
+                       ],
+        "bounds_max":  [
+                           0.5,
+                           0.04500000178813934,
+                           0.5
+                       ],
+        "geometry_quality":  "PROVISIONAL_SPRITE_RELIEF"
+    },
+    {
+        "item_id":  364,
+        "name":  "dirt wall",
+        "bounds_min":  [
+                           -0.5,
+                           0,
+                           -0.5
+                       ],
+        "bounds_max":  [
+                           0.5,
+                           0.04500000178813934,
+                           0.5
+                       ],
+        "geometry_quality":  "PROVISIONAL_SPRITE_RELIEF"
+    },
+    {
+        "item_id":  365,
+        "name":  "dirt wall",
+        "bounds_min":  [
+                           -0.5,
+                           0,
+                           -0.5
+                       ],
+        "bounds_max":  [
+                           0.5,
+                           0.04500000178813934,
+                           0.5
+                       ],
+        "geometry_quality":  "PROVISIONAL_SPRITE_RELIEF"
+    },
+    {
+        "item_id":  366,
+        "name":  "dirt wall",
+        "bounds_min":  [
+                           -0.5,
+                           0,
+                           -0.5
+                       ],
+        "bounds_max":  [
+                           0.5,
+                           0.04500000178813934,
+                           0.5
+                       ],
+        "geometry_quality":  "PROVISIONAL_SPRITE_RELIEF"
+    },
+    {
+        "item_id":  367,
+        "name":  "dirt wall",
+        "bounds_min":  [
+                           -0.5,
+                           0,
+                           -0.5
+                       ],
+        "bounds_max":  [
+                           0.5,
+                           0.04500000178813934,
+                           0.5
+                       ],
+        "geometry_quality":  "PROVISIONAL_SPRITE_RELIEF"
+    },
+    {
+        "item_id":  374,
+        "name":  "stone wall",
+        "bounds_min":  [
+                           -0.5,
+                           0,
+                           -0.5
+                       ],
+        "bounds_max":  [
+                           0.5,
+                           0.04500000178813934,
+                           0.5
+                       ],
+        "geometry_quality":  "PROVISIONAL_SPRITE_RELIEF"
+    },
+    {
+        "item_id":  375,
+        "name":  "stone wall",
+        "bounds_min":  [
+                           -0.5,
+                           0,
+                           -0.5
+                       ],
+        "bounds_max":  [
+                           0.5,
+                           0.04500000178813934,
+                           0.5
+                       ],
+        "geometry_quality":  "PROVISIONAL_SPRITE_RELIEF"
+    },
+    {
+        "item_id":  376,
+        "name":  "stone wall",
+        "bounds_min":  [
+                           -0.5,
+                           0,
+                           -0.5
+                       ],
+        "bounds_max":  [
+                           0.5,
+                           0.04500000178813934,
+                           0.5
+                       ],
+        "geometry_quality":  "PROVISIONAL_SPRITE_RELIEF"
+    },
+    {
+        "item_id":  378,
+        "name":  "stone wall",
+        "bounds_min":  [
+                           -0.5,
+                           0,
+                           -0.5
+                       ],
+        "bounds_max":  [
+                           0.5,
+                           0.04500000178813934,
+                           0.5
+                       ],
+        "geometry_quality":  "PROVISIONAL_SPRITE_RELIEF"
+    },
+    {
+        "item_id":  379,
+        "name":  "stone wall",
+        "bounds_min":  [
+                           -0.5,
+                           0,
+                           -0.5
+                       ],
+        "bounds_max":  [
+                           0.5,
+                           0.04500000178813934,
+                           0.5
+                       ],
+        "geometry_quality":  "PROVISIONAL_SPRITE_RELIEF"
+    },
+    {
+        "item_id":  380,
+        "name":  "stone wall",
+        "bounds_min":  [
+                           -0.5,
+                           0,
+                           -0.5
+                       ],
+        "bounds_max":  [
+                           0.5,
+                           0.04500000178813934,
+                           0.5
+                       ],
+        "geometry_quality":  "PROVISIONAL_SPRITE_RELIEF"
+    },
+    {
+        "item_id":  381,
+        "name":  "stone wall",
+        "bounds_min":  [
+                           -0.5,
+                           0,
+                           -0.5
+                       ],
+        "bounds_max":  [
+                           0.5,
+                           0.04500000178813934,
+                           0.5
+                       ],
+        "geometry_quality":  "PROVISIONAL_SPRITE_RELIEF"
+    },
+    {
+        "item_id":  382,
+        "name":  "stone wall",
+        "bounds_min":  [
+                           -0.5,
+                           0,
+                           -0.5
+                       ],
+        "bounds_max":  [
+                           0.5,
+                           0.04500000178813934,
+                           0.5
+                       ],
+        "geometry_quality":  "PROVISIONAL_SPRITE_RELIEF"
+    },
+    {
+        "item_id":  383,
+        "name":  "stone wall",
+        "bounds_min":  [
+                           -0.5,
+                           0,
+                           -0.5
+                       ],
+        "bounds_max":  [
+                           0.5,
+                           0.04500000178813934,
+                           0.5
+                       ],
+        "geometry_quality":  "PROVISIONAL_SPRITE_RELIEF"
+    },
+    {
+        "item_id":  384,
+        "name":  "stone wall",
+        "bounds_min":  [
+                           -0.5,
+                           0,
+                           -0.5
+                       ],
+        "bounds_max":  [
+                           0.5,
+                           0.04500000178813934,
+                           0.5
+                       ],
+        "geometry_quality":  "PROVISIONAL_SPRITE_RELIEF"
+    }
+]

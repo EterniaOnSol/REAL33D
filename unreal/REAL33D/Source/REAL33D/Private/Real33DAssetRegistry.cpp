@@ -245,7 +245,12 @@ bool UReal33DAssetRegistry::TryResolveExperimental(uint16 TypeId,
 	// spacing makes lower-floor wall caps coplanar with upper water/ground and
 	// exposes flickering wall triangles through that floor (live floor8/9 QA).
 	const double Height = Mesh->GetBoundingBox().GetSize().Z;
-	if (bWall && Height > KINDA_SMALL_NUMBER && Height < Real33D::UnitsPerFloor)
+	// A provisional sprite relief is a horizontal thin source image, not a
+	// volumetric wall. Name-only scaling stretched 4.5uu cave reliefs almost49x
+	// into columns. Preserve their native shape; do not invent replacement art.
+	const bool bFlatRelief = VisualEntry.GeometryQuality == TEXT("PROVISIONAL_SPRITE_RELIEF")
+		&& Height <= 10.0;
+	if (bWall && !bFlatRelief && Height > KINDA_SMALL_NUMBER && Height < Real33D::UnitsPerFloor)
 	{
 		OutVisual.Scale.Z = (Real33D::UnitsPerFloor - 2.0) / Height;
 	}
@@ -551,6 +556,26 @@ bool FReal33DExperimentalV08RegistryTest::RunTest(const FString& Parameters)
 		}
 	}
 	const FReal33DVisual Depot = Registry->ResolveThing(3502, false);
+	for (uint16 ReliefId : { uint16(357), uint16(358), uint16(363), uint16(367), uint16(379), uint16(383), uint16(384) })
+	{
+		const FReal33DVisual Relief = Registry->ResolveThing(ReliefId, true);
+		if (TestNotNull(TEXT("provisional cave relief mesh"), Relief.Mesh.Get()))
+		{
+			const FBox SourceBounds = Relief.Mesh->GetBoundingBox();
+			const FBox Placed = SourceBounds.TransformBy(FTransform(Relief.Rotation, Relief.Offset, Relief.Scale));
+			TestTrue(TEXT("reference cave relief is4.5uu thick"), FMath::IsNearlyEqual(SourceBounds.GetSize().Z, 4.5, 0.1));
+			TestTrue(TEXT("cave relief preserves authored shape instead of becoming a column"),
+				Placed.GetSize().Equals(SourceBounds.GetSize(), 0.1));
+		}
+	}
+	const FReal33DVisual VolumetricWall = Registry->ResolveThing(1294, true);
+	if (TestNotNull(TEXT("volumetric stone wall mesh"), VolumetricWall.Mesh.Get()))
+	{
+		const FBox Placed = VolumetricWall.Mesh->GetBoundingBox().TransformBy(FTransform(
+			VolumetricWall.Rotation, VolumetricWall.Offset, VolumetricWall.Scale));
+		TestTrue(TEXT("volumetric walls retain room height with ceiling clearance"),
+			FMath::IsNearlyEqual(Placed.GetSize().Z, Real33D::UnitsPerFloor - 2.0, 0.1));
+	}
 	// Regression: the live lower-floor dirt wall caps met the water plane at
 	// exactly Z=0. Check real imported bounds after the shared render transform.
 	const FReal33DVisual Water = Registry->ResolveGround(622);
