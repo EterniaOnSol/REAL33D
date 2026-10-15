@@ -1,4 +1,5 @@
 #include "fusion32/protocol772/movement.h"
+#include "fusion32/protocol772/trade.h"
 
 #include <algorithm>
 
@@ -895,6 +896,15 @@ ServerUpdateDecodeResult DecodeServerUpdate(const std::vector<std::uint8_t>& byt
         return result;
     }
 
+    if (opcode == kServerCommandTradeOfferOwn
+        || opcode == kServerCommandTradeOfferPartner
+        || opcode == kServerCommandCloseTrade) {
+        result.update.kind = ServerUpdateKind::Trade;
+        if (!DecodeTrade(&scanner, opcode, &result.update.trade)) return fail(scanner);
+        result.update.bytes_consumed = scanner.at() - offset;
+        return result;
+    }
+
     if (opcode == kServerCommandBuddyData || opcode == kServerCommandBuddyOnline
         || opcode == kServerCommandBuddyOffline) {
         result.update.kind = ServerUpdateKind::Buddy;
@@ -1238,6 +1248,17 @@ WorldStateApplyResult ApplyServerUpdate(WorldState* state, const ServerUpdate& u
             return result;
 
         case ServerUpdateKind::MarkCreature:
+        // Trade is decoded, typed and surfaced, and stores nothing.
+        //
+        // A trade is a dialogue between two players that Fusion32 owns
+        // outright: it sends the two offers whenever they change and one
+        // close when it ends, and it never asks the client what the trade
+        // currently is. Mirroring the offers into WorldState would create a
+        // second copy of state the server already resends in full, and the
+        // flat object list SendTradeObjects emits is a presentation list
+        // rather than world state. It therefore reaches the caller as an
+        // event and ends there, exactly like the effects.
+        case ServerUpdateKind::Trade:
         case ServerUpdateKind::Buddy:
         case ServerUpdateKind::OutfitDialog:
         case ServerUpdateKind::Ping:
@@ -1346,6 +1367,7 @@ const char* ServerUpdateKindName(ServerUpdateKind kind) noexcept {
         case ServerUpdateKind::ClearTarget: return "ClearTarget";
         case ServerUpdateKind::Inventory: return "Inventory";
         case ServerUpdateKind::Container: return "Container";
+        case ServerUpdateKind::Trade: return "Trade";
         case ServerUpdateKind::Buddy: return "Buddy";
         case ServerUpdateKind::OutfitDialog: return "OutfitDialog";
         case ServerUpdateKind::Unsupported: return "Unsupported";
