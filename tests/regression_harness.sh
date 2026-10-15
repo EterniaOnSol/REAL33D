@@ -105,6 +105,64 @@ have_wsl() {
     && wsl.exe -d "$WSL_DISTRO" -- true >/dev/null 2>&1
 }
 
+to_win_path() {
+  local p="$1"
+  if command -v cygpath >/dev/null 2>&1; then cygpath -w "$p"; return; fi
+  if command -v wslpath >/dev/null 2>&1; then wslpath -w "$p"; return; fi
+  printf '%s' "$p"
+}
+
+# Run a Windows command line and return its real exit status.
+#
+# Three hazards, each of which produced a silent false PASS before this helper
+# existed:
+#
+#   1. MSYS rewrites any argument that looks like an absolute Unix path, so a
+#      bare `cmd.exe /c ...` from Git Bash arrives as `cmd.exe C:/ ...`. cmd
+#      never sees the switch, starts interactively, reads EOF from the
+#      redirected stdin, prints its banner and exits 0 having run nothing.
+#      That is exactly the shape of a check that cannot fail, which is the one
+#      outcome this script exists to prevent.
+#   2. cmd's own quote stripping for `/c "<line>"` mangles a command whose
+#      program path is itself quoted, which every engine path here is.
+#   3. An interactive prompt would otherwise block until the CI timeout.
+#
+# The line is therefore written to a temporary .cmd and executed by path, with
+# argument conversion disabled and stdin closed. Quoting inside the line is
+# then plain Windows batch and nothing rewrites it.
+#
+# The switch stays `/c`, not `//c`. Both run under Git Bash, but for opposite
+# reasons: `//c` works only *because* MSYS collapses it back to `/c`, so it
+# breaks the moment conversion is turned off and is wrong on a non-MSYS host.
+# `/c` plus MSYS_NO_PATHCONV is correct everywhere, because the variables are
+# simply ignored where they mean nothing. Disabling conversion and writing
+# `//c` cancel each other out and silently restore the original bug, which is
+# what tests/regression_harness_selftest.sh case 1 is there to catch.
+#
+# Returns 127 when there is no cmd.exe at all. Callers must map that to SKIP,
+# never to FAIL: a Linux CI box is not a broken build.
+run_windows_command() { # workdir logfile line
+  local workdir="$1" log="$2" line="$3" script rc
+  command -v cmd.exe >/dev/null 2>&1 || return 127
+  script="$OUT/.run-$$.cmd"
+  printf '@echo off\r\ncd /d "%s" || exit /b 1\r\n%s\r\nexit /b %%ERRORLEVEL%%\r\n' \
+    "$(to_win_path "$workdir")" "$line" >"$script"
+  MSYS_NO_PATHCONV=1 MSYS2_ARG_CONV_EXCL='*' \
+    cmd.exe /c "$(to_win_path "$script")" </dev/null >"$log" 2>&1
+  rc=$?
+  rm -f "$script"
+  return "$rc"
+}
+
+# A zero exit is necessary but not sufficient. Both Windows checks below exist
+# to prove that a specific build really ran, so each also requires the success
+# line that build prints for itself. Exit status alone is what a no-op cmd.exe
+# was able to satisfy.
+MSVC_SUCCESS_MARKER='WINDOWS CLIENTCORE: PASS'
+UNREAL_SUCCESS_MARKER='Result: Succeeded'
+
+log_has() { grep -qF -- "$2" "$1" 2>/dev/null; }
+
 # Resolved once, and printed in the report, so a reader of a PASS knows which
 # compiler produced it.
 TOOLCHAIN="none"; TOOLCHAIN_NOTE="no C++ compiler and no usable WSL distro found"
@@ -267,12 +325,17 @@ if [ ! -f "$REPO/tests/build_clientcore_windows.cmd" ]; then
 elif ! command -v cl.exe >/dev/null 2>&1; then
   record build-sanity-msvc SKIP "cl.exe not on PATH; run from an x64 Native Tools prompt or call vcvars64.bat first"
 else
-  ( cd "$REPO" && cmd.exe /c "tests\\build_clientcore_windows.cmd" "$ENGINE" ) >"$msvc_log" 2>&1
+  run_windows_command "$REPO" "$msvc_log" 'tests\build_clientcore_windows.cmd "'"$ENGINE"'"'
   rc=$?
-  if [ "$rc" -eq 0 ]; then
-    record build-sanity-msvc PASS "C++17 suites and the C++20 archive Unreal links both built" build-sanity-msvc
-  else
+  if [ "$rc" -eq 127 ]; then
+    record build-sanity-msvc SKIP "no cmd.exe on this host; the Windows build cannot be launched" build-sanity-msvc
+  elif [ "$rc" -ne 0 ]; then
     record build-sanity-msvc FAIL "build_clientcore_windows.cmd exited $rc" build-sanity-msvc
+  elif ! log_has "$msvc_log" "$MSVC_SUCCESS_MARKER"; then
+    record build-sanity-msvc FAIL \
+      "exit 0 but the log does not contain '$MSVC_SUCCESS_MARKER'; the build did not run" build-sanity-msvc
+  else
+    record build-sanity-msvc PASS "C++17 suites and the C++20 archive Unreal links both built" build-sanity-msvc
   fi
 fi
 
@@ -293,13 +356,19 @@ elif ! command -v cl.exe >/dev/null 2>&1; then
 elif [ -z "$uproject" ]; then
   record unreal-module-build SKIP "no .uproject under unreal/REAL33D"
 else
-  win_uproject="$(cygpath -w "$uproject" 2>/dev/null || printf '%s' "$uproject")"
-  ( cd "$REPO" && cmd.exe /c "\"$ENGINE\\Engine\\Build\\BatchFiles\\Build.bat\" REAL33DEditor Win64 Development -Project=\"$win_uproject\" -WaitMutex" ) >"$ub_log" 2>&1
+  win_uproject="$(to_win_path "$uproject")"
+  run_windows_command "$REPO" "$ub_log" \
+    '"'"$ENGINE"'\Engine\Build\BatchFiles\Build.bat" REAL33DEditor Win64 Development -Project="'"$win_uproject"'" -WaitMutex'
   rc=$?
-  if [ "$rc" -eq 0 ]; then
-    record unreal-module-build PASS "REAL33DEditor Win64 Development built" unreal-module-build
-  else
+  if [ "$rc" -eq 127 ]; then
+    record unreal-module-build SKIP "no cmd.exe on this host; UnrealBuildTool cannot be launched" unreal-module-build
+  elif [ "$rc" -ne 0 ]; then
     record unreal-module-build FAIL "UnrealBuildTool exited $rc" unreal-module-build
+  elif ! log_has "$ub_log" "$UNREAL_SUCCESS_MARKER"; then
+    record unreal-module-build FAIL \
+      "exit 0 but the log does not contain '$UNREAL_SUCCESS_MARKER'; the build did not run" unreal-module-build
+  else
+    record unreal-module-build PASS "REAL33DEditor Win64 Development built" unreal-module-build
   fi
 fi
 
