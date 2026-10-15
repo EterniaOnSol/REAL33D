@@ -1,4 +1,5 @@
 #include "fusion32/protocol772/movement.h"
+#include "fusion32/protocol772/editors.h"
 
 #include <algorithm>
 
@@ -895,6 +896,13 @@ ServerUpdateDecodeResult DecodeServerUpdate(const std::vector<std::uint8_t>& byt
         return result;
     }
 
+    if (opcode == kServerCommandEditText || opcode == kServerCommandEditList) {
+        result.update.kind = ServerUpdateKind::Editor;
+        if (!DecodeEditor(&scanner, opcode, &result.update.editor)) return fail(scanner);
+        result.update.bytes_consumed = scanner.at() - offset;
+        return result;
+    }
+
     if (opcode == kServerCommandBuddyData || opcode == kServerCommandBuddyOnline
         || opcode == kServerCommandBuddyOffline) {
         result.update.kind = ServerUpdateKind::Buddy;
@@ -1238,6 +1246,12 @@ WorldStateApplyResult ApplyServerUpdate(WorldState* state, const ServerUpdate& u
             return result;
 
         case ServerUpdateKind::MarkCreature:
+        // An editor is decoded, typed and surfaced, and stores nothing.
+        // Fusion32 owns the text: it resends the whole body every time the
+        // window is opened, and CEditText re-reads the object before
+        // accepting anything back. A mirror in WorldState would be a second
+        // copy of state the server already resends in full.
+        case ServerUpdateKind::Editor:
         case ServerUpdateKind::Buddy:
         case ServerUpdateKind::OutfitDialog:
         case ServerUpdateKind::Ping:
@@ -1346,6 +1360,7 @@ const char* ServerUpdateKindName(ServerUpdateKind kind) noexcept {
         case ServerUpdateKind::ClearTarget: return "ClearTarget";
         case ServerUpdateKind::Inventory: return "Inventory";
         case ServerUpdateKind::Container: return "Container";
+        case ServerUpdateKind::Editor: return "Editor";
         case ServerUpdateKind::Buddy: return "Buddy";
         case ServerUpdateKind::OutfitDialog: return "OutfitDialog";
         case ServerUpdateKind::Unsupported: return "Unsupported";

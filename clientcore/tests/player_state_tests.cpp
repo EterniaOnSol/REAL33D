@@ -588,9 +588,10 @@ void TestNegativeCases() {
     // Explicitly typed: a bare braced list deduces initializer_list<int>, and
     // MSVC at /W4 rejects the narrowing that GCC accepts silently.
     // 110 and 112 were here until UNREAL-INVENTORY-CONTAINERS-001 decoded the
-    // container family; what is left is trade, the text editors and the
-    // quest/channel commands nothing has demonstrated.
-    const std::vector<std::uint8_t> still_unsupported{125, 126, 150, 171, 174};
+    // container family, and 150/151 until CLIENTCORE-EDITORS-772-001 decoded
+    // the text editors; what is left is trade and the quest/channel commands
+    // nothing has demonstrated.
+    const std::vector<std::uint8_t> still_unsupported{125, 126, 171, 174};
     for (const std::uint8_t opcode : still_unsupported) {
         const auto decoded = Decode({opcode, 1, 2, 3, 4, 5, 6, 7});
         CHECK(decoded.ok());

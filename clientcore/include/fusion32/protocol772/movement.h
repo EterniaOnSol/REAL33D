@@ -2,6 +2,7 @@
 #define FUSION32_PROTOCOL772_MOVEMENT_H
 
 #include "fusion32/protocol772/initial_world.h"
+#include "fusion32/protocol772/editors.h"
 #include "fusion32/protocol772/map_scan.h"
 #include "fusion32/protocol772/object_types.h"
 #include "fusion32/protocol772/player_state.h"
@@ -307,6 +308,7 @@ enum class ServerUpdateKind {
     Container,
     Buddy,
     OutfitDialog,
+    Editor,
     Unsupported,
 };
 
@@ -484,6 +486,7 @@ struct ServerUpdate {
     ContainerUpdate container;
     BuddyUpdate buddy;
     OutfitDialogUpdate outfit_dialog;
+    EditorUpdate editor;
 };
 
 struct ServerUpdateDecodeResult {
