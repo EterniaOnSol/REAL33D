@@ -1,4 +1,5 @@
 #include "fusion32/protocol772/movement.h"
+#include "fusion32/protocol772/channels.h"
 
 #include <algorithm>
 
@@ -895,6 +896,16 @@ ServerUpdateDecodeResult DecodeServerUpdate(const std::vector<std::uint8_t>& byt
         return result;
     }
 
+    if (opcode == kServerCommandChannels || opcode == kServerCommandOpenChannel
+        || opcode == kServerCommandPrivateChannel
+        || opcode == kServerCommandOpenOwnChannel
+        || opcode == kServerCommandCloseChannel) {
+        result.update.kind = ServerUpdateKind::Channel;
+        if (!DecodeChannel(&scanner, opcode, &result.update.channel)) return fail(scanner);
+        result.update.bytes_consumed = scanner.at() - offset;
+        return result;
+    }
+
     if (opcode == kServerCommandBuddyData || opcode == kServerCommandBuddyOnline
         || opcode == kServerCommandBuddyOffline) {
         result.update.kind = ServerUpdateKind::Buddy;
@@ -1238,6 +1249,11 @@ WorldStateApplyResult ApplyServerUpdate(WorldState* state, const ServerUpdate& u
             return result;
 
         case ServerUpdateKind::MarkCreature:
+        // Channel membership is decoded, typed and surfaced, and stores
+        // nothing. Fusion32 keeps the channel lists itself and resends them
+        // on request; what travels inside a channel is SV_CMD_TALK, which
+        // stores nothing either, for the reason given below.
+        case ServerUpdateKind::Channel:
         case ServerUpdateKind::Buddy:
         case ServerUpdateKind::OutfitDialog:
         case ServerUpdateKind::Ping:
@@ -1346,6 +1362,7 @@ const char* ServerUpdateKindName(ServerUpdateKind kind) noexcept {
         case ServerUpdateKind::ClearTarget: return "ClearTarget";
         case ServerUpdateKind::Inventory: return "Inventory";
         case ServerUpdateKind::Container: return "Container";
+        case ServerUpdateKind::Channel: return "Channel";
         case ServerUpdateKind::Buddy: return "Buddy";
         case ServerUpdateKind::OutfitDialog: return "OutfitDialog";
         case ServerUpdateKind::Unsupported: return "Unsupported";
