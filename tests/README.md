@@ -64,7 +64,18 @@ The checks are `provenance`, `branch-isolation`, `clientcore-tests` (the CTest s
 
 It borrows a toolchain from WSL when Windows has no native compiler, so the same command works from Git Bash, from WSL and from Linux CI. `build-sanity-msvc` needs `cl.exe` on PATH, so run from an x64 Native Tools prompt to get it; the Unreal module build is opt-in with `--unreal` because a full editor build is not a safe CI default.
 
-`protocol-log-check` looks for `unsupported_opcodes`, `protocol_anomalies` and `residual_bytes` above zero, and for the bridge diagnostics that name a command left unwalked. By default it only scans evidence logs this branch added or changed against `origin/main`, so a milestone is judged on its own sessions rather than re-reporting adjudicated history; `--logs-all` scans everything, and `--logs PATH` adds a file or directory.
+`protocol-log-check` looks for `unsupported_opcodes`, `protocol_anomalies` and `residual_bytes` above zero, and for the bridge diagnostics that name a command left unwalked.
+
+### Log scope policy
+
+This is the rule the check exists to enforce, and it is not a preference:
+
+- **The default scope is milestone-scoped.** Only evidence logs the current branch added or changed against `origin/main` are scanned — machine-written `.json`, `.jsonl`, `.txt` and `.log` files. A milestone is judged on the sessions it actually produced.
+- **`--logs-all` is historical audit only.** It is a census of the whole `evidence/` tree, useful for asking how widespread a known gap is. It is never the gate for a milestone and its result is never a milestone's result.
+- **A historical anomaly is not attributable to the current milestone unless that milestone's own logs reproduce it.** Nine logs under `evidence/` carry the long-known `SV_CMD_TALK` chat gap. A `--logs-all` run will keep reporting them for as long as they exist. Quoting that FAIL as if the current work caused it is a misattribution, and the reason the default scope is narrow: a check that re-reports adjudicated history on every run stops being read.
+- **The `PASS` / `FAIL` / `SKIP` semantics do not change with scope.** An empty scope is `SKIP` — no logs were examined, so nothing is claimed. It is never a `PASS`. Widening the scope widens what is examined; it never relaxes what a status means.
+
+`--logs PATH` adds a file or directory on top of the default scope. Explicitly named paths are scanned whatever their extension, because naming a file is the caller saying they meant that file.
 
 The harness is read-only against the repository. It writes only under `--out`, which defaults inside the gitignored `build/` tree, starts no server, launches no client and modifies no gameplay or protocol. Nothing it reports is live proof; live certification remains a separate, operator-driven step.
 

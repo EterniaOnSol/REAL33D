@@ -85,6 +85,22 @@ line below only where it mattered.
    result; `secret-check`, `provenance` and `output-secret-scan` still ran and
    passed.
 
+## Log scope policy
+
+Recorded in `tests/README.md` under "Log scope policy" and restated here
+because run 4 below produces a `FAIL` that must never be read as this
+milestone's result:
+
+- Default scope is milestone-scoped: only evidence logs the branch added or
+  changed against `origin/main`, machine-written extensions only.
+- `--logs-all` is historical audit only. It is never a milestone gate.
+- A historical anomaly is not attributable to the current milestone unless
+  that milestone's own logs reproduce it. The nine `SV_CMD_TALK` logs found by
+  run 4 predate this branch, are already adjudicated, and are not a finding
+  of `REAL33D-3D-REGRESSION-HARNESS-001`.
+- `PASS` / `FAIL` / `SKIP` semantics do not change with scope. An empty scope
+  is `SKIP`, never `PASS`.
+
 ## One defect the harness found in itself
 
 Adding this very document made run 1 turn `FAIL`. The default scope collects
