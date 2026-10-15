@@ -1,0 +1,95 @@
+{
+  "milestone": "UNREAL-SLICE-001",
+  "written_at": "2026-10-15T20:30:38.410Z",
+  "reason": "Manual",
+  "seconds_in_session": 696.3,
+  "connected_at_close": true,
+  "local_creature_id": 1002,
+  "local_position": { "x": 32097, "y": 32207, "z": 7 },
+  "origin": { "set": true, "x": 32095, "y": 32214, "z": 7 },
+  "anchor": { "x": 32097, "y": 32207, "z": 7 },
+  "minimap": { "player_known": true, "x": 32097, "y": 32207, "z": 7, "known_cells": 5520, "live_cells": 252 },
+  "clientcore": {
+    "frames": 645,
+    "commands": 937,
+    "residual_bytes": 0,
+    "unsupported_opcodes": 0,
+    "protocol_anomalies": 0,
+    "walks_requested_from_unreal": 84,
+    "walks_accepted": 83,
+    "walks_rejected": 1,
+    "walks_unanswered": 0,
+    "external_relocations": 4,
+    "local_player_moves_total": 87,
+    "says_requested": 0,
+    "moves_requested": 0,
+    "uses_requested": 12,
+    "looks_requested": 0,
+    "attacks_requested": 4,
+    "follows_requested": 0,
+    "combat_cancels_requested": 0,
+    "tactics_requested": 0,
+    "target_clears_received": 3,
+    "worldstate_tiles": 404,
+    "worldstate_visible_creatures": 2,
+    "viewport_synchronised": true
+  },
+  "camera": { "pitch": -52.72, "yaw": 274.85, "requested_distance": 1480.00, "actual_distance": 1480.00, "obstructed": false, "cutaway_meshes": 0, "hide_upper_floors": false },
+  "wideworld": { "loads": 69, "unloads": 13, "sectors": 56 },
+  "presentation": {
+    "tile_actors": 404,
+    "creature_actors": 2,
+    "tiles_spawned": 4008,
+    "tiles_removed": 3604,
+    "creatures_appeared": 24,
+    "creatures_vanished": 22,
+    "creature_moves": 664,
+    "duplicate_spawn_attempts": 0,
+    "orphan_events": 0,
+    "speech_shown_on_creature": 0,
+    "speech_shown_in_chat_area_only": 0,
+    "server_messages_received": 8,
+    "client_notices_raised": 0,
+    "chat_transcript_lines": 8,
+    "speech_seconds_NOT_PROVEN": 6.0
+  },
+  "talk_messages_decoded": 0,
+  "last_diagnostic": "none",
+  "inventory_known": true,
+  "inventory": [
+    { "slot": 3, "type_id": 2854, "amount": null, "liquid": null },
+    { "slot": 4, "type_id": 3379, "amount": null, "liquid": null },
+    { "slot": 5, "type_id": 3294, "amount": null, "liquid": null }
+  ],
+  "open_containers": 1,
+  "containers": [
+    {
+      "number": 0,
+      "type_id": 2854,
+      "name": "backpack",
+      "capacity": 20,
+      "has_parent": false,
+      "object_count": 3,
+      "objects": [
+        { "index": 0, "type_id": 3031, "amount": 4, "liquid": null },
+        { "index": 1, "type_id": 3457, "amount": null, "liquid": null },
+        { "index": 2, "type_id": 3003, "amount": null, "liquid": null }
+      ]
+    }
+  ],
+  "combat": { "target_creature_id": 0, "following": false, "tactics_sent": false, "attack_mode": 1, "chase_mode": 0, "target_actor_visible": false },
+  "chat_transcript": [
+    { "system_line": true, "line": "Server: Your last visit in Tibia: 15. Oct 2026 04:16:28 CST." },
+    { "system_line": true, "line": "Server: You cannot use this object." },
+    { "system_line": true, "line": "Server: You cannot use this object." },
+    { "system_line": true, "line": "Server: You lose 1 hitpoint due to an attack by a rat." },
+    { "system_line": true, "line": "Server: Target lost." },
+    { "system_line": true, "line": "Server: You cannot use this object." },
+    { "system_line": true, "line": "Server: You lose 1 hitpoint due to an attack by a rat." },
+    { "system_line": true, "line": "Server: You cannot use this object." }
+  ],
+  "creatures": [
+    { "id": 1002, "local": true, "x": 32097, "y": 32207, "z": 7 },
+    { "id": 1073742106, "local": false, "x": 32105, "y": 32206, "z": 6 }
+  ]
+}

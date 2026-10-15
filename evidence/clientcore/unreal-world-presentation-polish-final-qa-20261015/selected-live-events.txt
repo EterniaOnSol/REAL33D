@@ -1,0 +1,1013 @@
+[2026.10.15-20.19.01:143][  0]LogReal33D: scene built from code
+[2026.10.15-20.19.01:181][  0]LogReal33D: minimap palette: 2502 appearance colors; no map input
+[2026.10.15-20.19.01:210][  0]LogReal33D: Use With target cursor: existing asset loaded
+[2026.10.15-20.19.01:832][  0]LogReal33D: loaded approved visual for obj:3501
+[2026.10.15-20.19.02:062][  0]LogReal33D: Warning: experimental V08 QA catalog ENABLED: 4913 entries; TEST_IMPORTED is not APPROVED/READY/INTEGRATED
+[2026.10.15-20.19.02:095][  0]LogReal33D: brother creature catalog enabled: 16 exact outfit mappings
+[2026.10.15-20.19.02:096][  0]LogReal33D: wide world enabled: radius=64 sector=32 cache=C:/Users/dell/Desktop/fusion32/unreal/REAL33D/Saved/WideWorldCache fallback=C:/Users/dell/Desktop/fusion32/visual/reference_pack/previews/item
+[2026.10.15-20.19.02:096][  0]LogReal33D: connecting to 127.0.0.1:7171 as account B
+[2026.10.15-20.19.02:128][  0]LogReal33D: minimap cache load: accepted cells=5499
+[2026.10.15-20.19.02:131][  0]LogReal33D: speech display lifetime 6.0s (NOT a proven 7.72 value)
+[2026.10.15-20.19.02:282][  0]LogReal33D: Use target metadata: 204 runtime MultiUse types
+[2026.10.15-20.19.06:482][  1]LogReal33D: HUD vitals: HP --/--   Mana --/--   Level --
+[2026.10.15-20.19.06:485][  1]LogReal33D: minimap observation: player=32095,32214,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.19.06:534][  1]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.19.06:534][  1]LogReal33D: connected: Test Player B
+[2026.10.15-20.19.06:534][  1]LogReal33D: server message [LoginMessage]: Your last visit in Tibia: 15. Oct 2026 04:16:28 CST.
+[2026.10.15-20.19.06:534][  1]LogReal33D: local player is creature 1002
+[2026.10.15-20.19.11:903][  1]LogReal33D: creature 1002 outfit 136: delivered visual unavailable; placeholder
+[2026.10.15-20.19.11:904][  1]LogReal33D: creature 1002 "Test Player B" appeared at 32095,32214,7 health 40%
+[2026.10.15-20.19.11:907][  1]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.15-20.19.11:907][  1]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.15-20.19.31:201][  1]LogReal33D: wide world loaded sector X=1000 Y=1004 Z=3: objects=59 V08_RESOLVED=59 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.31:651][  1]LogReal33D: wide world loaded sector X=1004 Y=1005 Z=3: objects=35 V08_RESOLVED=35 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.32:977][  1]LogReal33D: wide world loaded sector X=1003 Y=1004 Z=4: objects=39 V08_RESOLVED=39 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.33:670][  1]LogReal33D: wide world loaded sector X=1000 Y=1004 Z=5: objects=52 V08_RESOLVED=52 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.35:871][  1]LogReal33D: wide world loaded sector X=1004 Y=1005 Z=4: objects=68 V08_RESOLVED=68 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.37:038][  1]LogReal33D: wide world loaded sector X=1000 Y=1006 Z=5: objects=135 V08_RESOLVED=135 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.37:894][  1]LogReal33D: wide world loaded sector X=1001 Y=1005 Z=5: objects=190 V08_RESOLVED=190 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.37:896][  1]LogReal33D: wide world loaded sector X=1001 Y=1006 Z=5: objects=108 V08_RESOLVED=108 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.37:900][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32083,32144,5
+[2026.10.15-20.19.38:194][  1]LogReal33D: wide world loaded sector X=1002 Y=1004 Z=5: objects=50 V08_RESOLVED=49 CLASSIC_SPRITE_FALLBACK=1 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.38:343][  1]LogReal33D: wide world loaded sector X=1001 Y=1005 Z=4: objects=46 V08_RESOLVED=46 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.38:348][  1]LogReal33D: wide world loaded sector X=1000 Y=1004 Z=4: objects=51 V08_RESOLVED=51 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.38:490][  1]LogReal33D: wide world loaded sector X=1002 Y=1005 Z=5: objects=116 V08_RESOLVED=116 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.38:529][  1]LogReal33D: wide world loaded sector X=1002 Y=1006 Z=5: objects=171 V08_RESOLVED=171 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.38:542][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32098,32181,5
+[2026.10.15-20.19.38:546][  1]LogReal33D: wide world loaded sector X=1003 Y=1005 Z=5: objects=103 V08_RESOLVED=102 CLASSIC_SPRITE_FALLBACK=1 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.38:646][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32098,32197,5
+[2026.10.15-20.19.38:884][  1]LogReal33D: wide world loaded sector X=1003 Y=1006 Z=5: objects=299 V08_RESOLVED=298 CLASSIC_SPRITE_FALLBACK=1 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.39:537][  1]LogReal33D: wide world loaded sector X=1004 Y=1005 Z=5: objects=73 V08_RESOLVED=73 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.39:863][  1]LogReal33D: wide world loaded sector X=1003 Y=1004 Z=5: objects=39 V08_RESOLVED=39 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.40:188][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32011,32135,6
+[2026.10.15-20.19.40:477][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32015,32144,6
+[2026.10.15-20.19.40:809][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32017,32131,6
+[2026.10.15-20.19.41:520][  1]LogReal33D: wide world loaded sector X=1000 Y=1004 Z=6: objects=264 V08_RESOLVED=261 CLASSIC_SPRITE_FALLBACK=3 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.41:717][  1]LogReal33D: wide world loaded sector X=1000 Y=1005 Z=6: objects=41 V08_RESOLVED=41 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.42:334][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32008,32197,6
+[2026.10.15-20.19.44:503][  1]LogReal33D: wide world loaded sector X=1000 Y=1006 Z=6: objects=299 V08_RESOLVED=298 CLASSIC_SPRITE_FALLBACK=1 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.44:899][  1]LogReal33D: wide world loaded sector X=1001 Y=1004 Z=6: objects=63 V08_RESOLVED=63 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.44:900][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32001,32225,6
+[2026.10.15-20.19.44:901][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32025,32243,6
+[2026.10.15-20.19.45:066][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32030,32249,6
+[2026.10.15-20.19.45:066][  1]LogReal33D: wide world loaded sector X=1000 Y=1007 Z=6: objects=84 V08_RESOLVED=81 CLASSIC_SPRITE_FALLBACK=3 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.45:069][  1]LogReal33D: wide world loaded sector X=1001 Y=1007 Z=6: objects=83 V08_RESOLVED=83 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.45:684][  1]LogReal33D: wide world loaded sector X=1001 Y=1006 Z=6: objects=292 V08_RESOLVED=292 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.47:004][  1]LogReal33D: wide world loaded sector X=1001 Y=1005 Z=6: objects=325 V08_RESOLVED=325 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.47:007][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32065,32155,6
+[2026.10.15-20.19.47:007][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32067,32138,6
+[2026.10.15-20.19.47:752][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32089,32147,6
+[2026.10.15-20.19.47:964][  1]LogReal33D: wide world loaded sector X=1002 Y=1004 Z=6: objects=377 V08_RESOLVED=374 CLASSIC_SPRITE_FALLBACK=3 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.48:433][  1]LogReal33D: wide world loaded sector X=1002 Y=1005 Z=6: objects=362 V08_RESOLVED=362 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.49:994][  1]LogReal33D: wide world loaded sector X=1002 Y=1006 Z=6: objects=476 V08_RESOLVED=476 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.51:960][  1]LogReal33D: wide world loaded sector X=1003 Y=1006 Z=6: objects=503 V08_RESOLVED=503 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.52:144][  1]LogReal33D: wide world loaded sector X=1003 Y=1005 Z=6: objects=243 V08_RESOLVED=243 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.52:328][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32093,32235,6
+[2026.10.15-20.19.52:329][  1]LogReal33D: wide world loaded sector X=1002 Y=1007 Z=6: objects=190 V08_RESOLVED=189 CLASSIC_SPRITE_FALLBACK=1 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.52:551][  1]LogReal33D: wide world loaded sector X=1003 Y=1004 Z=6: objects=250 V08_RESOLVED=250 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.52:559][  1]LogReal33D: wide world loaded sector X=1003 Y=1007 Z=6: objects=113 V08_RESOLVED=113 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.52:569][  1]LogReal33D: wide world loaded sector X=1004 Y=1004 Z=6: objects=223 V08_RESOLVED=223 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.52:572][  1]LogReal33D: wide world loaded sector X=1004 Y=1007 Z=6: objects=26 V08_RESOLVED=26 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.52:685][  1]LogReal33D: wide world loaded sector X=1004 Y=1006 Z=6: objects=117 V08_RESOLVED=117 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.53:387][  1]LogReal33D: wide world loaded sector X=1004 Y=1005 Z=6: objects=305 V08_RESOLVED=305 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.19.56:986][  1]LogReal33D: wide world loaded sector X=1000 Y=1004 Z=7: objects=1601 V08_RESOLVED=1601 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.01:445][  1]LogReal33D: wide world loaded sector X=1000 Y=1005 Z=7: objects=1786 V08_RESOLVED=1786 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.02:456][  1]LogReal33D: wide world loaded sector X=1000 Y=1006 Z=7: objects=1497 V08_RESOLVED=1497 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.02:659][  1]LogReal33D: wide world loaded sector X=1000 Y=1007 Z=7: objects=1341 V08_RESOLVED=1341 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.02:667][  1]LogReal33D: wide world loaded sector X=1000 Y=1008 Z=7: objects=1024 V08_RESOLVED=1024 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.02:684][  1]LogReal33D: wide world loaded sector X=1001 Y=1004 Z=7: objects=1288 V08_RESOLVED=1288 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.03:770][  1]LogReal33D: wide world loaded sector X=1001 Y=1006 Z=7: objects=1712 V08_RESOLVED=1712 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.03:797][  1]LogReal33D: wide world loaded sector X=1001 Y=1007 Z=7: objects=1506 V08_RESOLVED=1506 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.04:340][  1]LogReal33D: wide world loaded sector X=1001 Y=1005 Z=7: objects=1813 V08_RESOLVED=1813 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.04:912][  1]LogReal33D: wide world loaded sector X=1002 Y=1004 Z=7: objects=1625 V08_RESOLVED=1625 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.05:600][  1]LogReal33D: wide world loaded sector X=1002 Y=1005 Z=7: objects=1671 V08_RESOLVED=1671 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.07:089][  1]LogReal33D: wide world loaded sector X=1002 Y=1006 Z=7: objects=1652 V08_RESOLVED=1652 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.07:103][  1]LogReal33D: wide world loaded sector X=1001 Y=1008 Z=7: objects=1024 V08_RESOLVED=1024 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.07:733][  1]LogReal33D: wide world loaded sector X=1002 Y=1007 Z=7: objects=1440 V08_RESOLVED=1440 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.07:826][  1]LogReal33D: wide world loaded sector X=1003 Y=1004 Z=7: objects=1456 V08_RESOLVED=1456 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.07:834][  1]LogReal33D: wide world loaded sector X=1002 Y=1008 Z=7: objects=1024 V08_RESOLVED=1024 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.08:308][  1]LogReal33D: wide world loaded sector X=1003 Y=1006 Z=7: objects=1443 V08_RESOLVED=1443 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.08:545][  1]LogReal33D: wide world loaded sector X=1003 Y=1005 Z=7: objects=1398 V08_RESOLVED=1398 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.08:562][  1]LogReal33D: wide world loaded sector X=1003 Y=1008 Z=7: objects=1024 V08_RESOLVED=1024 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.08:595][  1]LogReal33D: wide world loaded sector X=1003 Y=1007 Z=7: objects=1412 V08_RESOLVED=1412 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.08:872][  1]LogReal33D: wide world loaded sector X=1004 Y=1005 Z=7: objects=1481 V08_RESOLVED=1481 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.08:917][  1]LogReal33D: wide world loaded sector X=1004 Y=1004 Z=7: objects=1488 V08_RESOLVED=1488 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.08:928][  1]LogReal33D: wide world loaded sector X=1004 Y=1008 Z=7: objects=1024 V08_RESOLVED=1024 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.08:966][  1]LogReal33D: wide world loaded sector X=1004 Y=1006 Z=7: objects=1415 V08_RESOLVED=1415 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.08:991][  1]LogReal33D: wide world loaded sector X=1004 Y=1007 Z=7: objects=1105 V08_RESOLVED=1105 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.20.09:621][  2]LogReal33D: HUD vitals: HP 65/160   Mana 10/10   Level 3
+[2026.10.15-20.20.09:699][  2]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.20.09:742][  2]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\build\unreal-world-presentation-polish-001\live-20261015T141652/unreal_slice_evidence_MinimapInitial.json
+[2026.10.15-20.20.12:823][  6]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\build\unreal-world-presentation-polish-001\live-20261015T141652/unreal_slice_evidence_MinimapSettled.json
+[2026.10.15-20.20.21:041][225]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\build\unreal-world-presentation-polish-001\live-20261015T141652/unreal_slice_evidence_Manual_20261015T202021_040.json
+[2026.10.15-20.20.21:112][225]LogReal33D: manual evidence snapshot requested
+[2026.10.15-20.20.39:755][785]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.21.09:839][523]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.21.39:950][260]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.21.51:474][556]LogReal33D: use 1 from world: object 2109 at 32094,32214,7 stack 3, would open as container 0
+[2026.10.15-20.21.52:721][598]LogReal33D: use 2 from world: object 2108 at 32094,32214,7 stack 3, would open as container 0
+[2026.10.15-20.22.10:014][ 83]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.22.40:085][905]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.22.58:962][398]LogReal33D: minimap destination: 32095,32205,7
+[2026.10.15-20.22.58:962][398]LogReal33D: left-click walk: target 32095,32205,7, 9 cardinal steps
+[2026.10.15-20.22.58:963][398]LogReal33D: input 3: left-click walk direction 0 to 32095,32213,7
+[2026.10.15-20.22.59:039][400]LogReal33D: input 3: walk command 1 sent to Fusion32
+[2026.10.15-20.22.59:079][401]LogReal33D: minimap observation: player=32095,32213,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.22.59:187][401]LogReal33D: input 3: Fusion32 accepted request 1, 32095,32214,7 -> 32095,32213,7
+[2026.10.15-20.22.59:188][401]LogReal33D: creature 1073742106 outfit 136: delivered visual unavailable; placeholder
+[2026.10.15-20.22.59:188][401]LogReal33D: creature 1073742106 "Dixi" appeared at 32105,32208,6 health 100%
+[2026.10.15-20.22.59:429][408]LogReal33D: input 4: left-click walk direction 0 to 32095,32212,7
+[2026.10.15-20.22.59:467][409]LogReal33D: input 4: walk command 2 sent to Fusion32
+[2026.10.15-20.22.59:533][411]LogReal33D: minimap observation: player=32095,32212,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.22.59:643][411]LogReal33D: input 4: Fusion32 accepted request 2, 32095,32213,7 -> 32095,32212,7
+[2026.10.15-20.22.59:893][418]LogReal33D: input 5: left-click walk direction 0 to 32095,32211,7
+[2026.10.15-20.22.59:963][420]LogReal33D: input 5: walk command 3 sent to Fusion32
+[2026.10.15-20.23.00:042][422]LogReal33D: minimap observation: player=32095,32211,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.23.00:133][422]LogReal33D: input 5: Fusion32 accepted request 3, 32095,32212,7 -> 32095,32211,7
+[2026.10.15-20.23.00:368][429]LogReal33D: input 6: left-click walk direction 0 to 32095,32210,7
+[2026.10.15-20.23.00:419][430]LogReal33D: input 6: walk command 4 sent to Fusion32
+[2026.10.15-20.23.00:538][433]LogReal33D: minimap observation: player=32095,32210,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.23.00:628][433]LogReal33D: input 6: Fusion32 accepted request 4, 32095,32211,7 -> 32095,32210,7
+[2026.10.15-20.23.00:822][438]LogReal33D: input 7: left-click walk direction 0 to 32095,32209,7
+[2026.10.15-20.23.00:899][440]LogReal33D: input 7: walk command 5 sent to Fusion32
+[2026.10.15-20.23.00:990][442]LogReal33D: minimap observation: player=32095,32209,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.23.01:074][442]LogReal33D: input 7: Fusion32 accepted request 5, 32095,32210,7 -> 32095,32209,7
+[2026.10.15-20.23.01:293][448]LogReal33D: input 8: left-click walk direction 0 to 32095,32208,7
+[2026.10.15-20.23.01:337][449]LogReal33D: input 8: walk command 6 sent to Fusion32
+[2026.10.15-20.23.01:469][452]LogReal33D: minimap observation: player=32095,32208,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.23.01:573][452]LogReal33D: input 8: Fusion32 accepted request 6, 32095,32209,7 -> 32095,32208,7
+[2026.10.15-20.23.01:762][457]LogReal33D: input 9: left-click walk direction 0 to 32095,32207,7
+[2026.10.15-20.23.01:784][458]LogReal33D: input 9: walk command 7 sent to Fusion32
+[2026.10.15-20.23.01:876][460]LogReal33D: minimap observation: player=32095,32207,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.23.01:974][460]LogReal33D: input 9: Fusion32 accepted request 7, 32095,32208,7 -> 32095,32207,7
+[2026.10.15-20.23.02:242][467]LogReal33D: input 10: left-click walk direction 0 to 32095,32206,7
+[2026.10.15-20.23.02:326][469]LogReal33D: input 10: walk command 8 sent to Fusion32
+[2026.10.15-20.23.02:397][471]LogReal33D: minimap observation: player=32095,32206,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.23.02:496][471]LogReal33D: input 10: Fusion32 accepted request 8, 32095,32207,7 -> 32095,32206,7
+[2026.10.15-20.23.02:693][476]LogReal33D: input 11: left-click walk direction 0 to 32095,32205,7
+[2026.10.15-20.23.02:785][478]LogReal33D: input 11: walk command 9 sent to Fusion32
+[2026.10.15-20.23.02:823][479]LogReal33D: minimap observation: player=32095,32205,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.23.02:913][479]LogReal33D: input 11: Fusion32 accepted request 9, 32095,32206,7 -> 32095,32205,7
+[2026.10.15-20.23.03:185][485]LogReal33D: left-click walk arrived: authoritative player=32095,32205,7
+[2026.10.15-20.23.10:152][650]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.23.40:209][448]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.24.09:423][ 55]LogReal33D: input 12: walk north requested from Unreal
+[2026.10.15-20.24.09:477][ 56]LogReal33D: input 12: walk command 10 sent to Fusion32
+[2026.10.15-20.24.09:525][ 57]LogReal33D: minimap observation: player=32095,32204,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.09:634][ 57]LogReal33D: input 12: Fusion32 accepted request 10, 32095,32205,7 -> 32095,32204,7
+[2026.10.15-20.24.09:928][ 63]LogReal33D: input 13: walk north requested from Unreal
+[2026.10.15-20.24.09:983][ 64]LogReal33D: input 13: walk command 11 sent to Fusion32
+[2026.10.15-20.24.10:027][ 65]LogReal33D: minimap observation: player=32095,32203,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.10:125][ 65]LogReal33D: input 13: Fusion32 accepted request 11, 32095,32204,7 -> 32095,32203,7
+[2026.10.15-20.24.10:190][ 66]LogReal33D: input 14: walk west requested from Unreal
+[2026.10.15-20.24.10:262][ 67]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.24.10:281][ 68]LogReal33D: input 14: walk command 12 sent to Fusion32
+[2026.10.15-20.24.10:511][ 73]LogReal33D: minimap observation: player=32094,32203,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.10:668][ 73]LogReal33D: input 14: Fusion32 accepted request 12, 32095,32203,7 -> 32094,32203,7
+[2026.10.15-20.24.10:733][ 74]LogReal33D: input 15: walk west requested from Unreal
+[2026.10.15-20.24.10:765][ 75]LogReal33D: input 15: walk command 13 sent to Fusion32
+[2026.10.15-20.24.10:956][ 79]LogReal33D: minimap observation: player=32093,32203,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.11:095][ 79]LogReal33D: input 15: Fusion32 accepted request 13, 32094,32203,7 -> 32093,32203,7
+[2026.10.15-20.24.11:096][ 79]LogReal33D: creature 1073742021 outfit 129: delivered visual unavailable; placeholder
+[2026.10.15-20.24.11:097][ 79]LogReal33D: creature 1073742021 "Tom" appeared at 32085,32198,7 health 100%
+[2026.10.15-20.24.11:190][ 81]LogReal33D: input 16: walk west requested from Unreal
+[2026.10.15-20.24.11:247][ 82]LogReal33D: input 16: walk command 14 sent to Fusion32
+[2026.10.15-20.24.11:394][ 85]LogReal33D: input 17: walk north requested from Unreal
+[2026.10.15-20.24.11:394][ 85]LogReal33D: minimap observation: player=32092,32203,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.11:531][ 85]LogReal33D: input 16: Fusion32 accepted request 14, 32093,32203,7 -> 32092,32203,7
+[2026.10.15-20.24.11:601][ 86]LogReal33D: input 17: walk command 15 sent to Fusion32
+[2026.10.15-20.24.11:853][ 91]LogReal33D: input 18: walk north requested from Unreal
+[2026.10.15-20.24.11:853][ 91]LogReal33D: minimap observation: player=32092,32202,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.11:936][ 91]LogReal33D: input 17: Fusion32 accepted request 15, 32092,32203,7 -> 32092,32202,7
+[2026.10.15-20.24.11:985][ 92]LogReal33D: input 18: walk command 16 sent to Fusion32
+[2026.10.15-20.24.12:283][ 99]LogReal33D: minimap observation: player=32092,32201,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.12:363][ 99]LogReal33D: input 18: Fusion32 accepted request 16, 32092,32202,7 -> 32092,32201,7
+[2026.10.15-20.24.12:415][100]LogReal33D: input 19: walk north requested from Unreal
+[2026.10.15-20.24.12:499][102]LogReal33D: input 19: walk command 17 sent to Fusion32
+[2026.10.15-20.24.12:726][107]LogReal33D: minimap observation: player=32092,32200,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.12:830][107]LogReal33D: input 19: Fusion32 accepted request 17, 32092,32201,7 -> 32092,32200,7
+[2026.10.15-20.24.12:875][108]LogReal33D: input 20: walk north requested from Unreal
+[2026.10.15-20.24.12:958][110]LogReal33D: input 20: walk command 18 sent to Fusion32
+[2026.10.15-20.24.13:234][116]LogReal33D: minimap observation: player=32092,32199,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.13:316][116]LogReal33D: input 20: Fusion32 accepted request 18, 32092,32200,7 -> 32092,32199,7
+[2026.10.15-20.24.13:361][117]LogReal33D: input 21: walk north requested from Unreal
+[2026.10.15-20.24.13:432][119]LogReal33D: input 21: walk command 19 sent to Fusion32
+[2026.10.15-20.24.13:669][124]LogReal33D: minimap observation: player=32092,32198,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.13:775][124]LogReal33D: input 21: Fusion32 accepted request 19, 32092,32199,7 -> 32092,32198,7
+[2026.10.15-20.24.13:832][125]LogReal33D: input 22: walk north requested from Unreal
+[2026.10.15-20.24.13:856][126]LogReal33D: input 22: walk command 20 sent to Fusion32
+[2026.10.15-20.24.14:115][131]LogReal33D: minimap observation: player=32092,32197,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.14:235][131]LogReal33D: input 22: Fusion32 accepted request 20, 32092,32198,7 -> 32092,32197,7
+[2026.10.15-20.24.14:369][132]LogReal33D: input 23: walk north requested from Unreal
+[2026.10.15-20.24.14:403][133]LogReal33D: input 23: walk command 21 sent to Fusion32
+[2026.10.15-20.24.14:565][136]LogReal33D: minimap observation: player=32092,32196,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.14:667][136]LogReal33D: input 23: Fusion32 accepted request 21, 32092,32197,7 -> 32092,32196,7
+[2026.10.15-20.24.14:852][140]LogReal33D: input 24: walk north requested from Unreal
+[2026.10.15-20.24.14:921][141]LogReal33D: input 24: walk command 22 sent to Fusion32
+[2026.10.15-20.24.15:026][143]LogReal33D: minimap observation: player=32092,32195,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.15:126][143]LogReal33D: input 24: Fusion32 accepted request 22, 32092,32196,7 -> 32092,32195,7
+[2026.10.15-20.24.17:335][192]LogReal33D: input 25: walk south requested from Unreal
+[2026.10.15-20.24.17:374][193]LogReal33D: input 25: walk command 23 sent to Fusion32
+[2026.10.15-20.24.17:458][195]LogReal33D: minimap observation: player=32092,32196,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.17:557][195]LogReal33D: input 25: Fusion32 accepted request 23, 32092,32195,7 -> 32092,32196,7
+[2026.10.15-20.24.23:545][340]LogReal33D: input 26: walk south requested from Unreal
+[2026.10.15-20.24.23:592][341]LogReal33D: input 26: walk command 24 sent to Fusion32
+[2026.10.15-20.24.23:690][343]LogReal33D: minimap observation: player=32092,32197,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.23:771][343]LogReal33D: input 26: Fusion32 accepted request 24, 32092,32196,7 -> 32092,32197,7
+[2026.10.15-20.24.24:005][349]LogReal33D: input 27: walk south requested from Unreal
+[2026.10.15-20.24.24:055][350]LogReal33D: input 27: walk command 25 sent to Fusion32
+[2026.10.15-20.24.24:137][352]LogReal33D: minimap observation: player=32092,32198,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.24:195][352]LogReal33D: input 27: Fusion32 accepted request 25, 32092,32197,7 -> 32092,32198,7
+[2026.10.15-20.24.24:472][358]LogReal33D: input 28: walk south requested from Unreal
+[2026.10.15-20.24.24:527][359]LogReal33D: input 28: walk command 26 sent to Fusion32
+[2026.10.15-20.24.24:620][361]LogReal33D: minimap observation: player=32092,32199,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.24:724][361]LogReal33D: input 28: Fusion32 accepted request 26, 32092,32198,7 -> 32092,32199,7
+[2026.10.15-20.24.24:957][366]LogReal33D: input 29: walk south requested from Unreal
+[2026.10.15-20.24.25:006][367]LogReal33D: input 29: walk command 27 sent to Fusion32
+[2026.10.15-20.24.25:107][369]LogReal33D: minimap observation: player=32092,32200,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.25:231][369]LogReal33D: input 29: Fusion32 accepted request 27, 32092,32199,7 -> 32092,32200,7
+[2026.10.15-20.24.25:407][373]LogReal33D: input 30: walk south requested from Unreal
+[2026.10.15-20.24.25:463][374]LogReal33D: input 30: walk command 28 sent to Fusion32
+[2026.10.15-20.24.25:565][376]LogReal33D: minimap observation: player=32092,32201,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.25:676][376]LogReal33D: input 30: Fusion32 accepted request 28, 32092,32200,7 -> 32092,32201,7
+[2026.10.15-20.24.25:804][379]LogReal33D: input 31: walk east requested from Unreal
+[2026.10.15-20.24.25:847][380]LogReal33D: input 31: walk command 29 sent to Fusion32
+[2026.10.15-20.24.25:995][383]LogReal33D: minimap observation: player=32093,32201,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.26:127][383]LogReal33D: input 31: Fusion32 accepted request 29, 32092,32201,7 -> 32093,32201,7
+[2026.10.15-20.24.26:274][386]LogReal33D: input 32: walk east requested from Unreal
+[2026.10.15-20.24.26:321][387]LogReal33D: input 32: walk command 30 sent to Fusion32
+[2026.10.15-20.24.26:428][389]LogReal33D: minimap observation: player=32094,32201,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.26:535][389]LogReal33D: input 32: Fusion32 accepted request 30, 32093,32201,7 -> 32094,32201,7
+[2026.10.15-20.24.26:783][394]LogReal33D: input 33: walk east requested from Unreal
+[2026.10.15-20.24.26:889][396]LogReal33D: input 33: walk command 31 sent to Fusion32
+[2026.10.15-20.24.27:169][402]LogReal33D: minimap observation: player=32095,32201,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.27:284][402]LogReal33D: input 33: Fusion32 accepted request 31, 32094,32201,7 -> 32095,32201,7
+[2026.10.15-20.24.27:286][402]LogReal33D: creature 1073742106 outfit 136: delivered visual unavailable; placeholder
+[2026.10.15-20.24.27:287][402]LogReal33D: creature 1073742106 "Dixi" appeared at 32105,32207,6 health 100%
+[2026.10.15-20.24.27:348][403]LogReal33D: input 34: walk east requested from Unreal
+[2026.10.15-20.24.27:382][404]LogReal33D: input 34: walk command 32 sent to Fusion32
+[2026.10.15-20.24.27:577][408]LogReal33D: minimap observation: player=32096,32201,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.27:652][408]LogReal33D: input 34: Fusion32 accepted request 32, 32095,32201,7 -> 32096,32201,7
+[2026.10.15-20.24.27:880][408]LogReal33D: wide world loaded sector X=1005 Y=1004 Z=5: objects=22 V08_RESOLVED=22 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.24.27:884][408]LogReal33D: wide world loaded sector X=1005 Y=1004 Z=6: objects=68 V08_RESOLVED=68 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.24.28:013][408]LogReal33D: wide world loaded sector X=1005 Y=1005 Z=7: objects=1245 V08_RESOLVED=1245 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.24.28:136][408]LogReal33D: wide world loaded sector X=1005 Y=1004 Z=7: objects=1214 V08_RESOLVED=1214 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.24.28:150][408]LogReal33D: wide world loaded sector X=1005 Y=1007 Z=7: objects=1024 V08_RESOLVED=1024 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.24.28:866][408]LogReal33D: wide world loaded sector X=1005 Y=1006 Z=7: objects=1210 V08_RESOLVED=1210 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.24.28:883][408]LogReal33D: wide world loaded sector X=1005 Y=1008 Z=7: objects=1024 V08_RESOLVED=1024 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.15-20.24.28:990][409]LogReal33D: input 35: walk east requested from Unreal
+[2026.10.15-20.24.29:815][409]LogReal33D: creature 1073742035 "Seymour" appeared at 32104,32195,7 health 100%
+[2026.10.15-20.24.29:912][410]LogReal33D: minimap observation: player=32097,32201,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.29:913][410]LogReal33D: input 35: walk command 33 sent to Fusion32
+[2026.10.15-20.24.30:026][410]LogReal33D: input 35: Fusion32 accepted request 33, 32096,32201,7 -> 32097,32201,7
+[2026.10.15-20.24.30:520][419]LogReal33D: input 36: walk east requested from Unreal
+[2026.10.15-20.24.30:564][420]LogReal33D: input 36: walk command 34 sent to Fusion32
+[2026.10.15-20.24.30:726][424]LogReal33D: minimap observation: player=32098,32201,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.30:816][424]LogReal33D: input 36: Fusion32 accepted request 34, 32097,32201,7 -> 32098,32201,7
+[2026.10.15-20.24.30:965][428]LogReal33D: input 37: walk north requested from Unreal
+[2026.10.15-20.24.31:011][429]LogReal33D: input 37: walk command 35 sent to Fusion32
+[2026.10.15-20.24.31:098][431]LogReal33D: minimap observation: player=32098,32200,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.31:246][431]LogReal33D: input 37: Fusion32 accepted request 35, 32098,32201,7 -> 32098,32200,7
+[2026.10.15-20.24.31:254][431]LogReal33D: creature 1073742035 "Seymour" appeared at 32104,32194,7 health 100%
+[2026.10.15-20.24.31:453][435]LogReal33D: input 38: walk north requested from Unreal
+[2026.10.15-20.24.31:508][436]LogReal33D: input 38: walk command 36 sent to Fusion32
+[2026.10.15-20.24.31:598][438]LogReal33D: minimap observation: player=32098,32199,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.31:726][438]LogReal33D: input 38: Fusion32 accepted request 36, 32098,32200,7 -> 32098,32199,7
+[2026.10.15-20.24.31:902][439]LogReal33D: input 39: walk north requested from Unreal
+[2026.10.15-20.24.31:952][440]LogReal33D: input 39: walk command 37 sent to Fusion32
+[2026.10.15-20.24.32:058][443]LogReal33D: minimap observation: player=32098,32198,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.32:208][443]LogReal33D: input 39: Fusion32 accepted request 37, 32098,32199,7 -> 32098,32198,7
+[2026.10.15-20.24.32:365][447]LogReal33D: input 40: walk north requested from Unreal
+[2026.10.15-20.24.32:410][448]LogReal33D: input 40: walk command 38 sent to Fusion32
+[2026.10.15-20.24.32:535][451]LogReal33D: minimap observation: player=32098,32197,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.24.32:649][451]LogReal33D: input 40: Fusion32 accepted request 38, 32098,32198,7 -> 32098,32197,7
+[2026.10.15-20.24.40:332][621]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.25.10:423][118]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.25.32:341][503]LogReal33D: left-click walk: target 32099,32201,7, 5 cardinal steps
+[2026.10.15-20.25.32:341][503]LogReal33D: input 41: left-click walk direction 2 to 32098,32198,7
+[2026.10.15-20.25.32:410][504]LogReal33D: input 41: walk command 39 sent to Fusion32
+[2026.10.15-20.25.32:575][507]LogReal33D: minimap observation: player=32098,32198,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.25.32:655][507]LogReal33D: input 41: Fusion32 accepted request 39, 32098,32197,7 -> 32098,32198,7
+[2026.10.15-20.25.32:843][511]LogReal33D: input 42: left-click walk direction 2 to 32098,32199,7
+[2026.10.15-20.25.32:909][512]LogReal33D: input 42: walk command 40 sent to Fusion32
+[2026.10.15-20.25.32:966][513]LogReal33D: left-click walk: target 32097,32203,7, 6 cardinal steps
+[2026.10.15-20.25.33:024][514]LogReal33D: minimap observation: player=32098,32199,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.25.33:139][514]LogReal33D: input 42: Fusion32 accepted request 40, 32098,32198,7 -> 32098,32199,7
+[2026.10.15-20.25.33:141][514]LogReal33D: creature 1073742106 outfit 136: delivered visual unavailable; placeholder
+[2026.10.15-20.25.33:141][514]LogReal33D: creature 1073742106 "Dixi" appeared at 32105,32207,6 health 100%
+[2026.10.15-20.25.33:328][518]LogReal33D: left-click walk replanned from 32098,32199,7 to 32097,32203,7
+[2026.10.15-20.25.33:328][518]LogReal33D: input 43: left-click walk direction 3 to 32097,32199,7
+[2026.10.15-20.25.33:393][519]LogReal33D: input 43: walk command 41 sent to Fusion32
+[2026.10.15-20.25.33:453][520]LogReal33D: minimap observation: player=32097,32199,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.25.33:518][520]LogReal33D: input 43: Fusion32 accepted request 41, 32098,32199,7 -> 32097,32199,7
+[2026.10.15-20.25.33:824][526]LogReal33D: input 44: left-click walk direction 2 to 32097,32200,7
+[2026.10.15-20.25.33:890][527]LogReal33D: input 44: walk command 42 sent to Fusion32
+[2026.10.15-20.25.33:944][528]LogReal33D: minimap observation: player=32097,32200,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.25.34:054][528]LogReal33D: input 44: Fusion32 accepted request 42, 32097,32199,7 -> 32097,32200,7
+[2026.10.15-20.25.34:331][531]LogReal33D: left-click walk: target 32096,32205,7, 6 cardinal steps
+[2026.10.15-20.25.34:331][531]LogReal33D: input 45: left-click walk direction 3 to 32096,32200,7
+[2026.10.15-20.25.34:405][532]LogReal33D: input 45: walk command 43 sent to Fusion32
+[2026.10.15-20.25.34:465][533]LogReal33D: minimap observation: player=32096,32200,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.25.34:563][533]LogReal33D: input 45: Fusion32 accepted request 43, 32097,32200,7 -> 32096,32200,7
+[2026.10.15-20.25.34:852][538]LogReal33D: input 46: left-click walk direction 2 to 32096,32201,7
+[2026.10.15-20.25.34:918][539]LogReal33D: input 46: walk command 44 sent to Fusion32
+[2026.10.15-20.25.34:976][540]LogReal33D: minimap observation: player=32096,32201,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.25.35:075][540]LogReal33D: input 46: Fusion32 accepted request 44, 32096,32200,7 -> 32096,32201,7
+[2026.10.15-20.25.35:366][545]LogReal33D: input 47: left-click walk direction 2 to 32096,32202,7
+[2026.10.15-20.25.35:439][546]LogReal33D: input 47: walk command 45 sent to Fusion32
+[2026.10.15-20.25.35:501][547]LogReal33D: left-click walk: target 32097,32203,7, 3 cardinal steps
+[2026.10.15-20.25.35:501][547]LogReal33D: minimap observation: player=32096,32202,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.25.35:587][547]LogReal33D: input 47: Fusion32 accepted request 45, 32096,32201,7 -> 32096,32202,7
+[2026.10.15-20.25.35:873][552]LogReal33D: left-click walk replanned from 32096,32202,7 to 32097,32203,7
+[2026.10.15-20.25.35:873][552]LogReal33D: input 48: left-click walk direction 2 to 32096,32203,7
+[2026.10.15-20.25.35:938][553]LogReal33D: input 48: walk command 46 sent to Fusion32
+[2026.10.15-20.25.36:005][554]LogReal33D: left-click walk: target 32096,32203,7, 1 cardinal steps
+[2026.10.15-20.25.36:005][554]LogReal33D: minimap observation: player=32096,32203,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.25.36:076][554]LogReal33D: input 48: Fusion32 accepted request 46, 32096,32202,7 -> 32096,32203,7
+[2026.10.15-20.25.36:354][559]LogReal33D: left-click walk stopped: live next step differs; no known detour
+[2026.10.15-20.25.40:468][621]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.25.42:126][647]LogReal33D: input 49: walk east requested from Unreal
+[2026.10.15-20.25.42:195][648]LogReal33D: input 49: walk command 47 sent to Fusion32
+[2026.10.15-20.25.42:256][649]LogReal33D: minimap observation: player=32097,32203,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.25.42:358][649]LogReal33D: input 49: Fusion32 accepted request 47, 32096,32203,7 -> 32097,32203,7
+[2026.10.15-20.25.43:143][662]LogReal33D: input 50: walk south requested from Unreal
+[2026.10.15-20.25.43:203][663]LogReal33D: input 50: walk command 48 sent to Fusion32
+[2026.10.15-20.25.43:256][664]LogReal33D: minimap observation: player=32097,32204,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.25.43:322][664]LogReal33D: input 50: Fusion32 accepted request 48, 32097,32203,7 -> 32097,32204,7
+[2026.10.15-20.25.43:603][669]LogReal33D: input 51: walk south requested from Unreal
+[2026.10.15-20.25.43:686][670]LogReal33D: input 51: walk command 49 sent to Fusion32
+[2026.10.15-20.25.43:742][671]LogReal33D: minimap observation: player=32097,32205,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.25.43:811][671]LogReal33D: input 51: Fusion32 accepted request 49, 32097,32204,7 -> 32097,32205,7
+[2026.10.15-20.25.44:093][676]LogReal33D: input 52: walk south requested from Unreal
+[2026.10.15-20.25.44:156][677]LogReal33D: input 52: walk command 50 sent to Fusion32
+[2026.10.15-20.25.44:286][679]LogReal33D: minimap observation: player=32097,32206,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.25.44:363][679]LogReal33D: input 52: Fusion32 accepted request 50, 32097,32205,7 -> 32097,32206,7
+[2026.10.15-20.25.44:597][683]LogReal33D: input 53: walk south requested from Unreal
+[2026.10.15-20.25.44:653][684]LogReal33D: input 53: walk command 51 sent to Fusion32
+[2026.10.15-20.25.44:736][685]LogReal33D: minimap observation: player=32097,32207,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.25.44:835][685]LogReal33D: input 53: Fusion32 accepted request 51, 32097,32206,7 -> 32097,32207,7
+[2026.10.15-20.25.47:159][723]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\build\unreal-world-presentation-polish-001\live-20261015T141652/unreal_slice_evidence_Manual_20261015T202547_158.json
+[2026.10.15-20.25.47:256][723]LogReal33D: manual evidence snapshot requested
+[2026.10.15-20.26.10:597][ 42]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.26.40:662][421]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.27.10:706][801]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.27.40:766][188]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.27.54:644][398]LogReal33D: use 54: object 2854 at body 0 slot 3, would open as container 0
+[2026.10.15-20.28.10:836][639]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.28.40:945][ 98]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.28.59:190][376]LogReal33D: use-with begun with object 3003; waiting for a target
+[2026.10.15-20.29.01:404][411]LogReal33D: use-with begun with object 3457; waiting for a target
+[2026.10.15-20.29.11:017][557]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.29.36:861][939]LogReal33D: use-with begun with object 3457; waiting for a target
+[2026.10.15-20.29.37:226][945]LogReal33D: use-with begun with object 3457; waiting for a target
+[2026.10.15-20.29.37:994][957]LogReal33D: use-with 55: object 3457 on object 870 at 32096,32205,7 stack 0
+[2026.10.15-20.29.38:254][961]LogReal33D: minimap observation: player=32097,32206,7 known=5499 live=252 viewport=18x14
+[2026.10.15-20.29.38:345][961]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32207,7 -> 32097,32206,7
+[2026.10.15-20.29.38:632][966]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.15-20.29.39:881][987]LogReal33D: use 56 from world: object 435 at 32097,32205,7 stack 1, would open as container 1
+[2026.10.15-20.29.40:135][991]LogReal33D: minimap observation: player=32097,32205,8 known=5499 live=252 viewport=18x14
+[2026.10.15-20.29.43:574][991]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32206,7 -> 32097,32205,8
+[2026.10.15-20.29.44:196][991]LogReal33D: creature 1073743165 "rat" appeared at 32099,32199,8 health 100%
+[2026.10.15-20.29.44:204][991]LogReal33D: creature 1073743167 "rat" appeared at 32090,32210,8 health 100%
+[2026.10.15-20.29.44:212][991]LogReal33D: creature 1073743308 "rat" appeared at 32098,32211,8 health 100%
+[2026.10.15-20.29.44:219][991]LogReal33D: creature 1073743313 "rat" appeared at 32097,32202,9 health 100%
+[2026.10.15-20.29.44:226][991]LogReal33D: creature 1073743314 "rat" appeared at 32097,32201,9 health 100%
+[2026.10.15-20.29.44:229][991]LogReal33D: creature 1073743315 "rat" appeared at 32092,32198,9 health 100%
+[2026.10.15-20.29.44:235][991]LogReal33D: creature 1073743316 "rat" appeared at 32092,32201,9 health 100%
+[2026.10.15-20.29.44:241][991]LogReal33D: creature 1073743317 "rat" appeared at 32096,32203,9 health 100%
+[2026.10.15-20.29.44:244][991]LogReal33D: creature 1073743318 "rat" appeared at 32091,32200,9 health 100%
+[2026.10.15-20.29.44:847][992]LogReal33D: minimap cache saved: cells=5499
+[2026.10.15-20.29.44:922][992]LogReal33D: creature 1073743165 "rat" appeared at 32101,32199,8 health 100%
+[2026.10.15-20.29.45:019][993]LogReal33D: use 57 from world: object 2772 at 32098,32204,8 stack 1, would open as container 1
+[2026.10.15-20.29.46:485][ 40]LogReal33D: input 58: walk west requested from Unreal
+[2026.10.15-20.29.46:512][ 41]LogReal33D: input 58: walk command 52 sent to Fusion32
+[2026.10.15-20.29.46:587][ 44]LogReal33D: minimap observation: player=32096,32205,8 known=5499 live=252 viewport=18x14
+[2026.10.15-20.29.46:697][ 44]LogReal33D: input 58: Fusion32 accepted request 52, 32097,32205,8 -> 32096,32205,8
+[2026.10.15-20.29.47:209][ 44]LogReal33D: creature 1073743179 "troll" appeared at 32086,32204,10 health 100%
+[2026.10.15-20.29.47:751][ 63]LogReal33D: input 59: walk north requested from Unreal
+[2026.10.15-20.29.47:780][ 64]LogReal33D: input 59: walk command 53 sent to Fusion32
+[2026.10.15-20.29.47:886][ 68]LogReal33D: minimap observation: player=32096,32204,8 known=5500 live=252 viewport=18x14
+[2026.10.15-20.29.48:178][ 68]LogReal33D: input 59: Fusion32 accepted request 53, 32096,32205,8 -> 32096,32204,8
+[2026.10.15-20.29.48:188][ 68]LogReal33D: creature 1073743164 "rat" appeared at 32095,32198,8 health 100%
+[2026.10.15-20.29.59:165][475]LogReal33D: use 60 from world: object 2773 at 32098,32204,8 stack 1, would open as container 1
+[2026.10.15-20.29.59:426][485]LogReal33D: minimap observation: player=32097,32204,8 known=5500 live=252 viewport=18x14
+[2026.10.15-20.29.59:507][485]LogReal33D: Fusion32 relocated us with no request outstanding, 32096,32204,8 -> 32097,32204,8
+[2026.10.15-20.30.00:882][535]LogReal33D: input 61: walk west requested from Unreal
+[2026.10.15-20.30.00:933][537]LogReal33D: input 61: walk command 54 sent to Fusion32
+[2026.10.15-20.30.01:036][541]LogReal33D: minimap observation: player=32096,32204,8 known=5500 live=252 viewport=18x14
+[2026.10.15-20.30.01:140][541]LogReal33D: input 61: Fusion32 accepted request 54, 32097,32204,8 -> 32096,32204,8
+[2026.10.15-20.30.01:513][554]LogReal33D: use 62 from world: object 353 at 32096,32205,8 stack 0, would open as container 1
+[2026.10.15-20.30.01:622][558]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.15-20.30.02:924][607]LogReal33D: combat input 63 from world right-click: attack creature 1073743165
+[2026.10.15-20.30.03:178][617]LogReal33D: combat state: target=1073743165 action=attack tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-20.30.04:227][655]LogReal33D: combat input 64 from world right-click: attack creature 1073743165
+[2026.10.15-20.30.04:634][670]LogReal33D: combat state: target=0 action=none tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-20.30.05:530][703]LogReal33D: combat input 65 from world right-click: attack creature 1073743165
+[2026.10.15-20.30.05:690][709]LogReal33D: combat state: target=1073743165 action=attack tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-20.30.06:319][733]LogReal33D: server message [StatusMessage]: You lose 1 hitpoint due to an attack by a rat.
+[2026.10.15-20.30.06:342][734]LogReal33D: HUD vitals: HP 64/160   Mana 10/10   Level 3
+[2026.10.15-20.30.06:369][735]LogReal33D: use 66 from world: object 1948 at 32097,32205,8 stack 1, would open as container 1
+[2026.10.15-20.30.06:561][739]LogReal33D: server message [FailureMessage]: Target lost.
+[2026.10.15-20.30.06:585][740]LogReal33D: minimap observation: player=32097,32206,7 known=5500 live=252 viewport=18x14
+[2026.10.15-20.30.06:686][740]LogReal33D: combat state: target=0 action=none tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-20.30.06:829][740]LogReal33D: Fusion32 relocated us with no request outstanding, 32096,32204,8 -> 32097,32206,7
+[2026.10.15-20.30.07:530][747]LogReal33D: use 67 from world: object 870 at 32098,32207,7 stack 0, would open as container 1
+[2026.10.15-20.30.07:655][749]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.15-20.30.08:765][767]LogReal33D: use-with begun with object 3003; waiting for a target
+[2026.10.15-20.30.09:946][785]LogReal33D: use-with 68: object 3003 on object 435 at 32097,32205,7 stack 1
+[2026.10.15-20.30.10:148][788]LogReal33D: creature 1073743165 "rat" appeared at 32097,32206,7 health 55%
+[2026.10.15-20.30.11:062][802]LogReal33D: input 69: walk east requested from Unreal
+[2026.10.15-20.30.11:131][803]LogReal33D: input 69: walk command 55 sent to Fusion32
+[2026.10.15-20.30.11:197][804]LogReal33D: minimap observation: player=32098,32206,7 known=5500 live=252 viewport=18x14
+[2026.10.15-20.30.11:286][804]LogReal33D: input 69: Fusion32 accepted request 55, 32097,32206,7 -> 32098,32206,7
+[2026.10.15-20.30.11:986][815]LogReal33D: combat input 70 from battle list: attack creature 1073743165
+[2026.10.15-20.30.12:127][817]LogReal33D: combat state: target=1073743165 action=attack tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-20.30.14:899][857]LogReal33D: minimap cache saved: cells=5500
+[2026.10.15-20.30.16:861][887]LogReal33D: server message [StatusMessage]: You lose 1 hitpoint due to an attack by a rat.
+[2026.10.15-20.30.16:928][888]LogReal33D: HUD vitals: HP 63/160   Mana 10/10   Level 3
+[2026.10.15-20.30.18:532][911]LogReal33D: left-click walk: target 32107,32213,7, 16 cardinal steps
+[2026.10.15-20.30.18:533][911]LogReal33D: input 71: left-click walk direction 2 to 32098,32207,7
+[2026.10.15-20.30.18:600][912]LogReal33D: input 71: walk command 56 sent to Fusion32
+[2026.10.15-20.30.18:728][914]LogReal33D: minimap observation: player=32098,32207,7 known=5500 live=252 viewport=18x14
+[2026.10.15-20.30.18:834][914]LogReal33D: input 71: Fusion32 accepted request 56, 32098,32206,7 -> 32098,32207,7
+[2026.10.15-20.30.18:996][917]LogReal33D: input 72: left-click walk direction 2 to 32098,32208,7
+[2026.10.15-20.30.19:062][918]LogReal33D: input 72: walk command 57 sent to Fusion32
+[2026.10.15-20.30.19:126][919]LogReal33D: minimap observation: player=32098,32208,7 known=5500 live=252 viewport=18x14
+[2026.10.15-20.30.19:223][919]LogReal33D: input 72: Fusion32 accepted request 57, 32098,32207,7 -> 32098,32208,7
+[2026.10.15-20.30.19:452][923]LogReal33D: input 73: left-click walk direction 2 to 32098,32209,7
+[2026.10.15-20.30.19:513][924]LogReal33D: input 73: walk command 58 sent to Fusion32
+[2026.10.15-20.30.19:585][925]LogReal33D: minimap observation: player=32098,32209,7 known=5500 live=252 viewport=18x14
+[2026.10.15-20.30.19:660][925]LogReal33D: input 73: Fusion32 accepted request 58, 32098,32208,7 -> 32098,32209,7
+[2026.10.15-20.30.19:957][930]LogReal33D: input 74: left-click walk direction 2 to 32098,32210,7
+[2026.10.15-20.30.20:013][931]LogReal33D: use-with begun with object 3457; waiting for a target
+[2026.10.15-20.30.20:022][931]LogReal33D: input 74: walk command 59 sent to Fusion32
+[2026.10.15-20.30.20:082][932]LogReal33D: minimap observation: player=32098,32210,7 known=5500 live=252 viewport=18x14
+[2026.10.15-20.30.20:155][932]LogReal33D: input 74: Fusion32 accepted request 59, 32098,32209,7 -> 32098,32210,7
+[2026.10.15-20.30.20:466][937]LogReal33D: input 75: left-click walk direction 2 to 32098,32211,7
+[2026.10.15-20.30.20:523][938]LogReal33D: input 75: walk command 60 sent to Fusion32
+[2026.10.15-20.30.20:654][940]LogReal33D: minimap observation: player=32098,32211,7 known=5500 live=252 viewport=18x14
+[2026.10.15-20.30.20:682][940]LogReal33D: combat state: target=0 action=none tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-20.30.20:737][940]LogReal33D: input 75: Fusion32 accepted request 60, 32098,32210,7 -> 32098,32211,7
+[2026.10.15-20.30.20:739][940]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.15-20.30.20:739][940]LogReal33D: creature 1073741889 "Cipfried" appeared at 32097,32218,7 health 100%
+[2026.10.15-20.30.20:999][944]LogReal33D: input 76: left-click walk direction 2 to 32098,32212,7
+[2026.10.15-20.30.21:050][945]LogReal33D: input 76: walk command 61 sent to Fusion32
+[2026.10.15-20.30.21:175][947]LogReal33D: minimap observation: player=32098,32212,7 known=5500 live=252 viewport=18x14
+[2026.10.15-20.30.21:258][947]LogReal33D: input 76: Fusion32 accepted request 61, 32098,32211,7 -> 32098,32212,7
+[2026.10.15-20.30.21:491][951]LogReal33D: input 77: left-click walk direction 2 to 32098,32213,7
+[2026.10.15-20.30.21:551][952]LogReal33D: input 77: walk command 62 sent to Fusion32
+[2026.10.15-20.30.21:623][953]LogReal33D: minimap observation: player=32098,32213,7 known=5500 live=252 viewport=18x14
+[2026.10.15-20.30.21:718][953]LogReal33D: input 77: Fusion32 accepted request 62, 32098,32212,7 -> 32098,32213,7
+[2026.10.15-20.30.21:975][955]LogReal33D: input 78: left-click walk direction 1 to 32099,32213,7
+[2026.10.15-20.30.22:008][956]LogReal33D: input 78: walk command 63 sent to Fusion32
+[2026.10.15-20.30.22:136][958]LogReal33D: minimap observation: player=32099,32213,7 known=5500 live=252 viewport=18x14
+[2026.10.15-20.30.22:209][958]LogReal33D: input 78: Fusion32 accepted request 63, 32098,32213,7 -> 32099,32213,7
+[2026.10.15-20.30.22:490][963]LogReal33D: input 79: left-click walk direction 1 to 32100,32213,7
+[2026.10.15-20.30.22:552][964]LogReal33D: input 79: walk command 64 sent to Fusion32
+[2026.10.15-20.30.22:614][965]LogReal33D: minimap observation: player=32100,32213,7 known=5504 live=252 viewport=18x14
+[2026.10.15-20.30.22:688][965]LogReal33D: input 79: Fusion32 accepted request 64, 32099,32213,7 -> 32100,32213,7
+[2026.10.15-20.30.23:000][970]LogReal33D: input 80: left-click walk direction 1 to 32101,32213,7
+[2026.10.15-20.30.23:000][970]LogReal33D: input 80: walk command 65 sent to Fusion32
+[2026.10.15-20.30.23:172][973]LogReal33D: minimap observation: player=32101,32213,7 known=5508 live=252 viewport=18x14
+[2026.10.15-20.30.23:247][973]LogReal33D: input 80: Fusion32 accepted request 65, 32100,32213,7 -> 32101,32213,7
+[2026.10.15-20.30.23:460][977]LogReal33D: input 81: left-click walk direction 1 to 32102,32213,7
+[2026.10.15-20.30.23:523][978]LogReal33D: input 81: walk command 66 sent to Fusion32
+[2026.10.15-20.30.23:630][980]LogReal33D: minimap observation: player=32102,32213,7 known=5512 live=252 viewport=18x14
+[2026.10.15-20.30.23:695][980]LogReal33D: input 81: Fusion32 accepted request 66, 32101,32213,7 -> 32102,32213,7
+[2026.10.15-20.30.23:981][985]LogReal33D: input 82: left-click walk direction 1 to 32103,32213,7
+[2026.10.15-20.30.24:033][986]LogReal33D: input 82: walk command 67 sent to Fusion32
+[2026.10.15-20.30.24:153][988]LogReal33D: minimap observation: player=32103,32213,7 known=5516 live=252 viewport=18x14
+[2026.10.15-20.30.24:221][988]LogReal33D: input 82: Fusion32 accepted request 67, 32102,32213,7 -> 32103,32213,7
+[2026.10.15-20.30.24:433][992]LogReal33D: input 83: left-click walk direction 1 to 32104,32213,7
+[2026.10.15-20.30.24:492][993]LogReal33D: input 83: walk command 68 sent to Fusion32
+[2026.10.15-20.30.24:684][996]LogReal33D: minimap observation: player=32104,32213,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.30.24:735][996]LogReal33D: input 83: Fusion32 accepted request 68, 32103,32213,7 -> 32104,32213,7
+[2026.10.15-20.30.24:889][999]LogReal33D: input 84: left-click walk direction 1 to 32105,32213,7
+[2026.10.15-20.30.24:937][  0]LogReal33D: use-with 85: object 3457 on object 103 at 32105,32212,7 stack 0
+[2026.10.15-20.30.24:947][  0]LogReal33D: input 84: walk command 69 sent to Fusion32
+[2026.10.15-20.30.25:067][  2]LogReal33D: left-click walk stopped: refusal, relocation or missing answer
+[2026.10.15-20.30.25:067][  2]LogReal33D: Warning: input 84: Fusion32 refused request 69; position unchanged
+[2026.10.15-20.30.25:067][  2]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.15-20.30.25:381][  7]LogReal33D: left-click walk: target 32100,32209,7, 10 cardinal steps
+[2026.10.15-20.30.25:381][  7]LogReal33D: input 86: left-click walk direction 3 to 32103,32213,7
+[2026.10.15-20.30.25:439][  8]LogReal33D: input 86: walk command 70 sent to Fusion32
+[2026.10.15-20.30.25:563][ 10]LogReal33D: minimap observation: player=32103,32213,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.30.25:625][ 10]LogReal33D: input 86: Fusion32 accepted request 70, 32104,32213,7 -> 32103,32213,7
+[2026.10.15-20.30.25:854][ 14]LogReal33D: input 87: left-click walk direction 3 to 32102,32213,7
+[2026.10.15-20.30.25:919][ 15]LogReal33D: input 87: walk command 71 sent to Fusion32
+[2026.10.15-20.30.26:050][ 17]LogReal33D: minimap observation: player=32102,32213,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.30.26:143][ 17]LogReal33D: input 87: Fusion32 accepted request 71, 32103,32213,7 -> 32102,32213,7
+[2026.10.15-20.30.26:312][ 20]LogReal33D: input 88: left-click walk direction 3 to 32101,32213,7
+[2026.10.15-20.30.26:387][ 21]LogReal33D: input 88: walk command 72 sent to Fusion32
+[2026.10.15-20.30.26:568][ 24]LogReal33D: minimap observation: player=32101,32213,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.30.26:653][ 24]LogReal33D: input 88: Fusion32 accepted request 72, 32102,32213,7 -> 32101,32213,7
+[2026.10.15-20.30.26:812][ 27]LogReal33D: input 89: left-click walk direction 3 to 32100,32213,7
+[2026.10.15-20.30.26:878][ 28]LogReal33D: input 89: walk command 73 sent to Fusion32
+[2026.10.15-20.30.27:071][ 31]LogReal33D: minimap observation: player=32100,32213,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.30.27:153][ 31]LogReal33D: input 89: Fusion32 accepted request 73, 32101,32213,7 -> 32100,32213,7
+[2026.10.15-20.30.27:311][ 34]LogReal33D: input 90: left-click walk direction 0 to 32100,32212,7
+[2026.10.15-20.30.27:378][ 35]LogReal33D: input 90: walk command 74 sent to Fusion32
+[2026.10.15-20.30.27:487][ 37]LogReal33D: minimap observation: player=32100,32212,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.30.27:594][ 37]LogReal33D: input 90: Fusion32 accepted request 74, 32100,32213,7 -> 32100,32212,7
+[2026.10.15-20.30.27:596][ 37]LogReal33D: creature 1073742106 outfit 136: delivered visual unavailable; placeholder
+[2026.10.15-20.30.27:596][ 37]LogReal33D: creature 1073742106 "Dixi" appeared at 32105,32207,6 health 100%
+[2026.10.15-20.30.27:811][ 41]LogReal33D: input 91: left-click walk direction 0 to 32100,32211,7
+[2026.10.15-20.30.27:868][ 42]LogReal33D: input 91: walk command 75 sent to Fusion32
+[2026.10.15-20.30.27:930][ 43]LogReal33D: minimap observation: player=32100,32211,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.30.28:023][ 43]LogReal33D: input 91: Fusion32 accepted request 75, 32100,32212,7 -> 32100,32211,7
+[2026.10.15-20.30.28:274][ 48]LogReal33D: input 92: left-click walk direction 3 to 32099,32211,7
+[2026.10.15-20.30.28:338][ 49]LogReal33D: input 92: walk command 76 sent to Fusion32
+[2026.10.15-20.30.28:394][ 50]LogReal33D: minimap observation: player=32099,32211,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.30.28:479][ 50]LogReal33D: input 92: Fusion32 accepted request 76, 32100,32211,7 -> 32099,32211,7
+[2026.10.15-20.30.28:752][ 55]LogReal33D: input 93: left-click walk direction 0 to 32099,32210,7
+[2026.10.15-20.30.28:814][ 56]LogReal33D: input 93: walk command 77 sent to Fusion32
+[2026.10.15-20.30.28:872][ 57]LogReal33D: minimap observation: player=32099,32210,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.30.28:961][ 57]LogReal33D: input 93: Fusion32 accepted request 77, 32099,32211,7 -> 32099,32210,7
+[2026.10.15-20.30.29:245][ 62]LogReal33D: input 94: left-click walk direction 0 to 32099,32209,7
+[2026.10.15-20.30.29:309][ 63]LogReal33D: input 94: walk command 78 sent to Fusion32
+[2026.10.15-20.30.29:372][ 64]LogReal33D: minimap observation: player=32099,32209,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.30.29:469][ 64]LogReal33D: input 94: Fusion32 accepted request 78, 32099,32210,7 -> 32099,32209,7
+[2026.10.15-20.30.29:737][ 69]LogReal33D: input 95: left-click walk direction 1 to 32100,32209,7
+[2026.10.15-20.30.29:805][ 70]LogReal33D: input 95: walk command 79 sent to Fusion32
+[2026.10.15-20.30.29:926][ 72]LogReal33D: minimap observation: player=32100,32209,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.30.30:013][ 72]LogReal33D: input 95: Fusion32 accepted request 79, 32099,32209,7 -> 32100,32209,7
+[2026.10.15-20.30.30:084][ 72]LogReal33D: creature 1073741976 "Obi" appeared at 32109,32204,7 health 100%
+[2026.10.15-20.30.30:245][ 75]LogReal33D: left-click walk arrived: authoritative player=32100,32209,7
+[2026.10.15-20.30.31:148][ 89]LogReal33D: left-click walk: target 32097,32207,7, 5 cardinal steps
+[2026.10.15-20.30.31:148][ 89]LogReal33D: input 96: left-click walk direction 3 to 32099,32209,7
+[2026.10.15-20.30.31:210][ 90]LogReal33D: input 96: walk command 80 sent to Fusion32
+[2026.10.15-20.30.31:279][ 91]LogReal33D: minimap observation: player=32099,32209,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.30.31:358][ 91]LogReal33D: input 96: Fusion32 accepted request 80, 32100,32209,7 -> 32099,32209,7
+[2026.10.15-20.30.31:636][ 96]LogReal33D: input 97: left-click walk direction 3 to 32098,32209,7
+[2026.10.15-20.30.31:700][ 97]LogReal33D: input 97: walk command 81 sent to Fusion32
+[2026.10.15-20.30.31:849][ 98]LogReal33D: input 97: Fusion32 accepted request 81, 32099,32209,7 -> 32098,32209,7
+[2026.10.15-20.30.31:906][ 99]LogReal33D: minimap observation: player=32098,32209,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.30.32:121][103]LogReal33D: input 98: left-click walk direction 3 to 32097,32209,7
+[2026.10.15-20.30.32:195][104]LogReal33D: input 98: walk command 82 sent to Fusion32
+[2026.10.15-20.30.32:243][105]LogReal33D: minimap observation: player=32097,32209,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.30.32:308][105]LogReal33D: input 98: Fusion32 accepted request 82, 32098,32209,7 -> 32097,32209,7
+[2026.10.15-20.30.32:625][111]LogReal33D: input 99: left-click walk direction 0 to 32097,32208,7
+[2026.10.15-20.30.32:694][112]LogReal33D: input 99: walk command 83 sent to Fusion32
+[2026.10.15-20.30.32:756][113]LogReal33D: minimap observation: player=32097,32208,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.30.32:856][113]LogReal33D: input 99: Fusion32 accepted request 83, 32097,32209,7 -> 32097,32208,7
+[2026.10.15-20.30.33:124][118]LogReal33D: input 100: left-click walk direction 0 to 32097,32207,7
+[2026.10.15-20.30.33:185][119]LogReal33D: input 100: walk command 84 sent to Fusion32
+[2026.10.15-20.30.33:241][120]LogReal33D: minimap observation: player=32097,32207,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.30.33:316][120]LogReal33D: input 100: Fusion32 accepted request 84, 32097,32208,7 -> 32097,32207,7
+[2026.10.15-20.30.33:584][125]LogReal33D: left-click walk arrived: authoritative player=32097,32207,7
+[2026.10.15-20.30.33:699][127]LogReal33D: use-with begun with object 3003; waiting for a target
+[2026.10.15-20.30.38:418][203]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\build\unreal-world-presentation-polish-001\live-20261015T141652/unreal_slice_evidence_Manual_20261015T203038_410.json
+[2026.10.15-20.30.38:518][203]LogReal33D: manual evidence snapshot requested
+[2026.10.15-20.30.44:974][296]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.31.03:282][543]LogReal33D: use-with 101: object 3003 on object 3994 at 32097,32212,7 stack 2
+[2026.10.15-20.31.03:533][547]LogReal33D: minimap observation: player=32097,32208,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.03:642][547]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32207,7 -> 32097,32208,7
+[2026.10.15-20.31.03:951][552]LogReal33D: minimap observation: player=32097,32209,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.04:034][552]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32208,7 -> 32097,32209,7
+[2026.10.15-20.31.04:265][556]LogReal33D: use 102 from world: object 870 at 32097,32213,7 stack 0, would open as container 1
+[2026.10.15-20.31.04:341][557]LogReal33D: Warning: input 0: Fusion32 refused request 0; position unchanged
+[2026.10.15-20.31.04:471][559]LogReal33D: minimap observation: player=32097,32210,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.04:535][559]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32209,7 -> 32097,32210,7
+[2026.10.15-20.31.04:897][565]LogReal33D: minimap observation: player=32097,32211,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.04:984][565]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32210,7 -> 32097,32211,7
+[2026.10.15-20.31.04:986][565]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.15-20.31.04:986][565]LogReal33D: creature 1073741889 "Cipfried" appeared at 32097,32218,7 health 100%
+[2026.10.15-20.31.05:345][571]LogReal33D: minimap observation: player=32097,32212,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.05:428][571]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32211,7 -> 32097,32212,7
+[2026.10.15-20.31.05:721][576]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.15-20.31.06:580][590]LogReal33D: creature 1073742106 outfit 136: delivered visual unavailable; placeholder
+[2026.10.15-20.31.06:580][590]LogReal33D: creature 1073742106 "Dixi" appeared at 32105,32207,6 health 100%
+[2026.10.15-20.31.13:729][704]LogReal33D: use 103 from world: object 3994 at 32097,32212,7 stack 3, would open as container 1
+[2026.10.15-20.31.14:525][717]LogReal33D: left-click walk: target 32097,32211,7, 1 cardinal steps
+[2026.10.15-20.31.14:525][717]LogReal33D: input 104: left-click walk direction 0 to 32097,32211,7
+[2026.10.15-20.31.14:594][718]LogReal33D: input 104: walk command 85 sent to Fusion32
+[2026.10.15-20.31.14:711][720]LogReal33D: minimap observation: player=32097,32211,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.14:803][720]LogReal33D: input 104: Fusion32 accepted request 85, 32097,32212,7 -> 32097,32211,7
+[2026.10.15-20.31.15:024][724]LogReal33D: left-click walk arrived: authoritative player=32097,32211,7
+[2026.10.15-20.31.15:069][724]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.31.26:505][903]LogReal33D: combat input 105 from battle list: follow creature 1073742106
+[2026.10.15-20.31.26:576][904]LogReal33D: server message [FailureMessage]: Target lost.
+[2026.10.15-20.31.28:026][928]LogReal33D: combat input 106 from battle list: follow creature 1073742106
+[2026.10.15-20.31.28:146][930]LogReal33D: server message [FailureMessage]: Target lost.
+[2026.10.15-20.31.28:687][939]LogReal33D: combat input 107 from battle list: follow creature 1073742106
+[2026.10.15-20.31.28:752][940]LogReal33D: server message [FailureMessage]: Target lost.
+[2026.10.15-20.31.30:468][968]LogReal33D: combat input 108 from battle list: follow creature 1073741889
+[2026.10.15-20.31.30:598][970]LogReal33D: minimap observation: player=32097,32212,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.30:628][970]LogReal33D: combat state: target=1073741889 action=follow tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-20.31.30:687][970]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32211,7 -> 32097,32212,7
+[2026.10.15-20.31.31:063][976]LogReal33D: minimap observation: player=32097,32213,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.31:160][976]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32212,7 -> 32097,32213,7
+[2026.10.15-20.31.31:530][982]LogReal33D: minimap observation: player=32097,32214,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.31:617][982]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32213,7 -> 32097,32214,7
+[2026.10.15-20.31.32:219][992]LogReal33D: minimap observation: player=32097,32215,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.32:294][992]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32214,7 -> 32097,32215,7
+[2026.10.15-20.31.32:587][996]LogReal33D: minimap observation: player=32097,32216,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.32:675][996]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32215,7 -> 32097,32216,7
+[2026.10.15-20.31.33:587][ 14]LogReal33D: combat input 109 from battle list: follow creature 1073741889
+[2026.10.15-20.31.33:747][ 17]LogReal33D: combat state: target=0 action=none tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-20.31.38:003][ 98]LogReal33D: left-click walk: target 32098,32210,7, 7 cardinal steps
+[2026.10.15-20.31.38:003][ 98]LogReal33D: input 110: left-click walk direction 0 to 32097,32215,7
+[2026.10.15-20.31.38:113][100]LogReal33D: input 110: walk command 86 sent to Fusion32
+[2026.10.15-20.31.38:211][102]LogReal33D: minimap observation: player=32097,32215,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.38:292][102]LogReal33D: input 110: Fusion32 accepted request 86, 32097,32216,7 -> 32097,32215,7
+[2026.10.15-20.31.38:478][106]LogReal33D: input 111: left-click walk direction 0 to 32097,32214,7
+[2026.10.15-20.31.38:532][107]LogReal33D: input 111: walk command 87 sent to Fusion32
+[2026.10.15-20.31.38:639][109]LogReal33D: minimap observation: player=32097,32214,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.38:722][109]LogReal33D: input 111: Fusion32 accepted request 87, 32097,32215,7 -> 32097,32214,7
+[2026.10.15-20.31.38:960][112]LogReal33D: input 112: left-click walk direction 0 to 32097,32213,7
+[2026.10.15-20.31.39:022][113]LogReal33D: input 112: walk command 88 sent to Fusion32
+[2026.10.15-20.31.39:075][114]LogReal33D: minimap observation: player=32097,32213,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.39:186][114]LogReal33D: input 112: Fusion32 accepted request 88, 32097,32214,7 -> 32097,32213,7
+[2026.10.15-20.31.39:461][119]LogReal33D: input 113: left-click walk direction 0 to 32097,32212,7
+[2026.10.15-20.31.39:524][120]LogReal33D: input 113: walk command 89 sent to Fusion32
+[2026.10.15-20.31.39:598][121]LogReal33D: minimap observation: player=32097,32212,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.39:694][121]LogReal33D: input 113: Fusion32 accepted request 89, 32097,32213,7 -> 32097,32212,7
+[2026.10.15-20.31.39:974][126]LogReal33D: input 114: left-click walk direction 0 to 32097,32211,7
+[2026.10.15-20.31.40:042][127]LogReal33D: input 114: walk command 90 sent to Fusion32
+[2026.10.15-20.31.40:099][128]LogReal33D: minimap observation: player=32097,32211,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.40:181][128]LogReal33D: input 114: Fusion32 accepted request 90, 32097,32212,7 -> 32097,32211,7
+[2026.10.15-20.31.40:183][128]LogReal33D: creature 1073742106 outfit 136: delivered visual unavailable; placeholder
+[2026.10.15-20.31.40:183][128]LogReal33D: creature 1073742106 "Dixi" appeared at 32105,32206,6 health 100%
+[2026.10.15-20.31.40:462][133]LogReal33D: input 115: left-click walk direction 0 to 32097,32210,7
+[2026.10.15-20.31.40:533][134]LogReal33D: input 115: walk command 91 sent to Fusion32
+[2026.10.15-20.31.40:594][135]LogReal33D: minimap observation: player=32097,32210,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.40:679][135]LogReal33D: input 115: Fusion32 accepted request 91, 32097,32211,7 -> 32097,32210,7
+[2026.10.15-20.31.40:970][140]LogReal33D: input 116: left-click walk direction 1 to 32098,32210,7
+[2026.10.15-20.31.41:033][141]LogReal33D: input 116: walk command 92 sent to Fusion32
+[2026.10.15-20.31.41:106][142]LogReal33D: minimap observation: player=32098,32210,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.41:178][142]LogReal33D: input 116: Fusion32 accepted request 92, 32097,32210,7 -> 32098,32210,7
+[2026.10.15-20.31.41:454][147]LogReal33D: left-click walk arrived: authoritative player=32098,32210,7
+[2026.10.15-20.31.43:480][181]LogReal33D: left-click walk: target 32097,32207,7, 4 cardinal steps
+[2026.10.15-20.31.43:480][181]LogReal33D: input 117: left-click walk direction 3 to 32097,32210,7
+[2026.10.15-20.31.43:536][182]LogReal33D: input 117: walk command 93 sent to Fusion32
+[2026.10.15-20.31.43:600][183]LogReal33D: minimap observation: player=32097,32210,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.43:672][183]LogReal33D: input 117: Fusion32 accepted request 93, 32098,32210,7 -> 32097,32210,7
+[2026.10.15-20.31.43:961][188]LogReal33D: input 118: left-click walk direction 0 to 32097,32209,7
+[2026.10.15-20.31.44:015][189]LogReal33D: input 118: walk command 94 sent to Fusion32
+[2026.10.15-20.31.44:080][190]LogReal33D: minimap observation: player=32097,32209,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.44:168][190]LogReal33D: input 118: Fusion32 accepted request 94, 32097,32210,7 -> 32097,32209,7
+[2026.10.15-20.31.44:453][195]LogReal33D: input 119: left-click walk direction 0 to 32097,32208,7
+[2026.10.15-20.31.44:524][196]LogReal33D: input 119: walk command 95 sent to Fusion32
+[2026.10.15-20.31.44:584][197]LogReal33D: minimap observation: player=32097,32208,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.44:683][197]LogReal33D: input 119: Fusion32 accepted request 95, 32097,32209,7 -> 32097,32208,7
+[2026.10.15-20.31.44:907][201]LogReal33D: input 120: left-click walk direction 0 to 32097,32207,7
+[2026.10.15-20.31.44:974][202]LogReal33D: input 120: walk command 96 sent to Fusion32
+[2026.10.15-20.31.45:028][203]LogReal33D: minimap observation: player=32097,32207,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.31.45:111][203]LogReal33D: input 120: Fusion32 accepted request 96, 32097,32208,7 -> 32097,32207,7
+[2026.10.15-20.31.45:202][204]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.31.45:409][208]LogReal33D: left-click walk arrived: authoritative player=32097,32207,7
+[2026.10.15-20.32.15:337][582]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.32.45:438][953]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.33.15:527][347]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.33.20:275][412]LogReal33D: use 121 from world: object 435 at 32097,32205,7 stack 1, would open as container 1
+[2026.10.15-20.33.20:519][416]LogReal33D: minimap observation: player=32097,32206,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.33.20:623][416]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32207,7 -> 32097,32206,7
+[2026.10.15-20.33.21:074][424]LogReal33D: minimap observation: player=32097,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.33.21:701][424]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32206,7 -> 32097,32205,8
+[2026.10.15-20.33.21:778][424]LogReal33D: creature 1073743164 "rat" appeared at 32103,32205,8 health 100%
+[2026.10.15-20.33.21:848][424]LogReal33D: creature 1073743179 "troll" appeared at 32089,32203,10 health 100%
+[2026.10.15-20.33.21:855][424]LogReal33D: creature 1073743308 "rat" appeared at 32096,32211,8 health 100%
+[2026.10.15-20.33.21:860][424]LogReal33D: creature 1073743313 "rat" appeared at 32099,32200,9 health 100%
+[2026.10.15-20.33.21:863][424]LogReal33D: creature 1073743314 "rat" appeared at 32097,32206,9 health 100%
+[2026.10.15-20.33.21:870][424]LogReal33D: creature 1073743315 "rat" appeared at 32098,32199,9 health 100%
+[2026.10.15-20.33.21:875][424]LogReal33D: creature 1073743316 "rat" appeared at 32094,32207,9 health 100%
+[2026.10.15-20.33.21:879][424]LogReal33D: creature 1073743317 "rat" appeared at 32096,32205,9 health 100%
+[2026.10.15-20.33.21:886][424]LogReal33D: creature 1073743318 "rat" appeared at 32093,32199,9 health 100%
+[2026.10.15-20.33.43:465][205]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\build\unreal-world-presentation-polish-001\live-20261015T141652/unreal_slice_evidence_Manual_20261015T203343_464.json
+[2026.10.15-20.33.43:569][205]LogReal33D: manual evidence snapshot requested
+[2026.10.15-20.33.45:601][264]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.34.15:663][265]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.34.38:049][ 36]LogReal33D: creature 1073743314 "rat" appeared at 32093,32198,9 health 100%
+[2026.10.15-20.34.45:727][294]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.35.04:294][938]LogReal33D: creature 1073743179 "troll" appeared at 32087,32203,10 health 100%
+[2026.10.15-20.35.15:773][323]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.35.45:835][320]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.36.02:056][874]LogReal33D: creature 1073743164 "rat" appeared at 32106,32201,8 health 100%
+[2026.10.15-20.36.15:879][364]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.36.18:051][442]LogReal33D: creature 1073743314 "rat" appeared at 32088,32199,9 health 100%
+[2026.10.15-20.36.22:147][585]LogReal33D: creature 1073743314 "rat" appeared at 32089,32198,9 health 100%
+[2026.10.15-20.36.29:607][837]LogReal33D: creature 1073743164 "rat" appeared at 32106,32201,8 health 100%
+[2026.10.15-20.36.31:660][911]LogReal33D: creature 1073743164 "rat" appeared at 32106,32201,8 health 100%
+[2026.10.15-20.36.33:345][970]LogReal33D: creature 1073743314 "rat" appeared at 32088,32198,9 health 100%
+[2026.10.15-20.36.45:923][413]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.37.07:549][182]LogReal33D: creature 1073743314 "rat" appeared at 32088,32198,9 health 100%
+[2026.10.15-20.37.11:666][327]LogReal33D: creature 1073743314 "rat" appeared at 32088,32198,9 health 100%
+[2026.10.15-20.37.15:851][473]LogReal33D: creature 1073743314 "rat" appeared at 32088,32198,9 health 100%
+[2026.10.15-20.37.15:993][477]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.37.35:183][150]LogReal33D: creature 1073743314 "rat" appeared at 32088,32199,9 health 100%
+[2026.10.15-20.37.45:282][494]LogReal33D: creature 1073743314 "rat" appeared at 32089,32198,9 health 100%
+[2026.10.15-20.37.46:052][521]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.38.00:710][ 43]LogReal33D: creature 1073743308 "rat" appeared at 32106,32210,8 health 100%
+[2026.10.15-20.38.12:753][472]LogReal33D: creature 1073743164 "rat" appeared at 32106,32201,8 health 100%
+[2026.10.15-20.38.16:108][590]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.38.24:915][915]LogReal33D: use 122 from world: object 4787 at 32098,32203,8 stack 1, would open as container 1
+[2026.10.15-20.38.25:134][924]LogReal33D: minimap observation: player=32097,32204,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.38.25:268][924]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32205,8 -> 32097,32204,8
+[2026.10.15-20.38.25:328][926]LogReal33D: use 123 from world: object 4787 at 32098,32203,8 stack 1, would open as container 1
+[2026.10.15-20.38.25:732][942]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.15-20.38.26:772][983]LogReal33D: use 124 from world: object 2772 at 32098,32204,8 stack 1, would open as container 1
+[2026.10.15-20.38.27:771][ 23]LogReal33D: input 125: walk north requested from Unreal
+[2026.10.15-20.38.27:831][ 25]LogReal33D: input 125: walk command 97 sent to Fusion32
+[2026.10.15-20.38.27:861][ 26]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.15-20.38.27:861][ 26]LogReal33D: Warning: input 125: Fusion32 refused request 97; position unchanged
+[2026.10.15-20.38.28:286][ 43]LogReal33D: creature 1073743314 "rat" appeared at 32088,32198,9 health 100%
+[2026.10.15-20.38.31:433][167]LogReal33D: creature 1073743314 "rat" appeared at 32088,32199,9 health 100%
+[2026.10.15-20.38.31:638][176]LogReal33D: input 126: walk east requested from Unreal
+[2026.10.15-20.38.31:668][177]LogReal33D: input 126: walk command 98 sent to Fusion32
+[2026.10.15-20.38.31:787][182]LogReal33D: minimap observation: player=32098,32204,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.38.31:898][182]LogReal33D: input 126: Fusion32 accepted request 98, 32097,32204,8 -> 32098,32204,8
+[2026.10.15-20.38.31:994][185]LogReal33D: input 127: walk south requested from Unreal
+[2026.10.15-20.38.32:055][188]LogReal33D: input 127: walk command 99 sent to Fusion32
+[2026.10.15-20.38.32:340][200]LogReal33D: creature 1073743164 "rat" appeared at 32107,32201,8 health 100%
+[2026.10.15-20.38.32:431][204]LogReal33D: minimap observation: player=32098,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.38.32:520][204]LogReal33D: input 127: Fusion32 accepted request 99, 32098,32204,8 -> 32098,32205,8
+[2026.10.15-20.38.32:556][205]LogReal33D: input 128: walk south requested from Unreal
+[2026.10.15-20.38.32:650][209]LogReal33D: input 128: walk command 100 sent to Fusion32
+[2026.10.15-20.38.32:768][214]LogReal33D: input 129: walk east requested from Unreal
+[2026.10.15-20.38.32:794][215]LogReal33D: input 129: walk command 101 sent to Fusion32
+[2026.10.15-20.38.32:818][216]LogReal33D: Warning: input 128: Fusion32 refused request 100; position unchanged
+[2026.10.15-20.38.33:082][227]LogReal33D: minimap observation: player=32099,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.38.33:172][227]LogReal33D: input 129: Fusion32 accepted request 101, 32098,32205,8 -> 32099,32205,8
+[2026.10.15-20.38.37:440][413]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\build\unreal-world-presentation-polish-001\live-20261015T141652/unreal_slice_evidence_Manual_20261015T203837_438.json
+[2026.10.15-20.38.37:552][413]LogReal33D: manual evidence snapshot requested
+[2026.10.15-20.38.38:753][451]LogReal33D: creature 1073743316 "rat" appeared at 32090,32199,9 health 100%
+[2026.10.15-20.38.42:832][617]LogReal33D: use 130 from world: object 2773 at 32098,32204,8 stack 1, would open as container 1
+[2026.10.15-20.38.43:652][652]LogReal33D: creature 1073743317 "rat" appeared at 32090,32200,9 health 100%
+[2026.10.15-20.38.46:164][760]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.38.53:839][ 97]LogReal33D: creature 1073743317 "rat" appeared at 32090,32200,9 health 100%
+[2026.10.15-20.39.01:045][415]LogReal33D: creature 1073743317 "rat" appeared at 32090,32199,9 health 100%
+[2026.10.15-20.39.16:207][ 82]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.39.20:043][250]LogReal33D: creature 1073743317 "rat" appeared at 32090,32198,9 health 100%
+[2026.10.15-20.39.22:247][348]LogReal33D: creature 1073743316 "rat" appeared at 32090,32200,9 health 100%
+[2026.10.15-20.39.24:242][436]LogReal33D: creature 1073743316 "rat" appeared at 32090,32200,9 health 100%
+[2026.10.15-20.39.25:949][510]LogReal33D: creature 1073743164 "rat" appeared at 32108,32201,8 health 100%
+[2026.10.15-20.39.26:149][518]LogReal33D: creature 1073743317 "rat" appeared at 32090,32198,9 health 100%
+[2026.10.15-20.39.30:043][685]LogReal33D: creature 1073743164 "rat" appeared at 32108,32201,8 health 100%
+[2026.10.15-20.39.36:153][939]LogReal33D: creature 1073765520 "rat" appeared at 32094,32199,8 health 100%
+[2026.10.15-20.39.38:144][ 23]LogReal33D: creature 1073743164 "rat" appeared at 32108,32201,8 health 100%
+[2026.10.15-20.39.40:503][123]LogReal33D: creature 1073765520 "rat" appeared at 32094,32199,8 health 100%
+[2026.10.15-20.39.43:852][264]LogReal33D: creature 1073765520 "rat" appeared at 32095,32199,8 health 100%
+[2026.10.15-20.39.46:268][365]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.40.12:933][492]LogReal33D: creature 1073743316 "rat" appeared at 32090,32198,9 health 100%
+[2026.10.15-20.40.16:326][634]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.40.46:409][854]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.40.49:938][965]LogReal33D: creature 1073743316 "rat" appeared at 32093,32198,9 health 100%
+[2026.10.15-20.41.16:467][ 10]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.41.21:445][212]LogReal33D: creature 1073765520 "rat" appeared at 32091,32209,8 health 100%
+[2026.10.15-20.41.46:526][227]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.41.47:453][266]LogReal33D: use 131 from world: object 2772 at 32098,32204,8 stack 1, would open as container 1
+[2026.10.15-20.41.48:064][292]LogReal33D: input 132: walk east requested from Unreal
+[2026.10.15-20.41.48:116][294]LogReal33D: input 132: walk command 102 sent to Fusion32
+[2026.10.15-20.41.48:183][297]LogReal33D: minimap observation: player=32100,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.41.48:274][297]LogReal33D: input 132: Fusion32 accepted request 102, 32099,32205,8 -> 32100,32205,8
+[2026.10.15-20.41.48:344][297]LogReal33D: creature 1073741976 "Obi" appeared at 32110,32204,7 health 100%
+[2026.10.15-20.41.48:515][302]LogReal33D: input 133: walk east requested from Unreal
+[2026.10.15-20.41.48:592][305]LogReal33D: input 133: walk command 103 sent to Fusion32
+[2026.10.15-20.41.48:693][309]LogReal33D: minimap observation: player=32101,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.41.48:802][309]LogReal33D: input 133: Fusion32 accepted request 103, 32100,32205,8 -> 32101,32205,8
+[2026.10.15-20.41.48:983][317]LogReal33D: input 134: walk east requested from Unreal
+[2026.10.15-20.41.49:035][319]LogReal33D: input 134: walk command 104 sent to Fusion32
+[2026.10.15-20.41.49:128][323]LogReal33D: minimap observation: player=32102,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.41.49:237][323]LogReal33D: input 134: Fusion32 accepted request 104, 32101,32205,8 -> 32102,32205,8
+[2026.10.15-20.41.49:469][332]LogReal33D: input 135: walk east requested from Unreal
+[2026.10.15-20.41.49:531][335]LogReal33D: input 135: walk command 105 sent to Fusion32
+[2026.10.15-20.41.49:744][344]LogReal33D: minimap observation: player=32103,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.41.49:834][344]LogReal33D: input 135: Fusion32 accepted request 105, 32102,32205,8 -> 32103,32205,8
+[2026.10.15-20.41.49:842][344]LogReal33D: creature 1073743164 "rat" appeared at 32112,32206,8 health 100%
+[2026.10.15-20.41.52:333][453]LogReal33D: creature 1073743164 "rat" appeared at 32112,32205,8 health 100%
+[2026.10.15-20.41.53:236][492]LogReal33D: input 136: walk north requested from Unreal
+[2026.10.15-20.41.53:349][497]LogReal33D: input 136: walk command 106 sent to Fusion32
+[2026.10.15-20.41.53:531][505]LogReal33D: minimap observation: player=32103,32204,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.41.53:696][505]LogReal33D: input 136: Fusion32 accepted request 106, 32103,32205,8 -> 32103,32204,8
+[2026.10.15-20.41.53:754][506]LogReal33D: input 137: walk north requested from Unreal
+[2026.10.15-20.41.53:791][507]LogReal33D: input 137: walk command 107 sent to Fusion32
+[2026.10.15-20.41.54:034][519]LogReal33D: minimap observation: player=32103,32203,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.41.54:225][519]LogReal33D: input 137: Fusion32 accepted request 107, 32103,32204,8 -> 32103,32203,8
+[2026.10.15-20.41.54:272][520]LogReal33D: input 138: walk north requested from Unreal
+[2026.10.15-20.41.54:348][524]LogReal33D: input 138: walk command 108 sent to Fusion32
+[2026.10.15-20.41.54:647][538]LogReal33D: minimap observation: player=32103,32202,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.41.54:818][538]LogReal33D: input 138: Fusion32 accepted request 108, 32103,32203,8 -> 32103,32202,8
+[2026.10.15-20.41.54:867][539]LogReal33D: input 139: walk north requested from Unreal
+[2026.10.15-20.41.54:921][542]LogReal33D: input 139: walk command 109 sent to Fusion32
+[2026.10.15-20.41.55:343][560]LogReal33D: minimap observation: player=32103,32201,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.41.55:467][560]LogReal33D: input 139: Fusion32 accepted request 109, 32103,32202,8 -> 32103,32201,8
+[2026.10.15-20.41.57:018][628]LogReal33D: input 140: walk south requested from Unreal
+[2026.10.15-20.41.57:129][633]LogReal33D: input 140: walk command 110 sent to Fusion32
+[2026.10.15-20.41.57:241][638]LogReal33D: minimap observation: player=32103,32202,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.41.57:368][638]LogReal33D: input 140: Fusion32 accepted request 110, 32103,32201,8 -> 32103,32202,8
+[2026.10.15-20.41.57:491][643]LogReal33D: input 141: walk south requested from Unreal
+[2026.10.15-20.41.57:518][644]LogReal33D: input 141: walk command 111 sent to Fusion32
+[2026.10.15-20.41.57:949][662]LogReal33D: input 142: walk south requested from Unreal
+[2026.10.15-20.41.58:036][666]LogReal33D: minimap observation: player=32103,32203,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.41.58:154][666]LogReal33D: input 141: Fusion32 accepted request 111, 32103,32202,8 -> 32103,32203,8
+[2026.10.15-20.41.58:164][666]LogReal33D: creature 1073765520 "rat" appeared at 32099,32210,8 health 100%
+[2026.10.15-20.41.58:166][666]LogReal33D: input 142: walk command 112 sent to Fusion32
+[2026.10.15-20.41.58:409][676]LogReal33D: input 143: walk south requested from Unreal
+[2026.10.15-20.41.58:436][677]LogReal33D: input 143: walk command 113 sent to Fusion32
+[2026.10.15-20.41.58:465][678]LogReal33D: Warning: input 142: Fusion32 refused request 112; position unchanged
+[2026.10.15-20.41.58:634][685]LogReal33D: minimap observation: player=32103,32204,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.41.58:739][685]LogReal33D: input 143: Fusion32 accepted request 113, 32103,32203,8 -> 32103,32204,8
+[2026.10.15-20.41.58:861][690]LogReal33D: input 144: walk south requested from Unreal
+[2026.10.15-20.41.58:939][693]LogReal33D: input 144: walk command 114 sent to Fusion32
+[2026.10.15-20.41.59:139][702]LogReal33D: minimap observation: player=32103,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.41.59:238][702]LogReal33D: input 144: Fusion32 accepted request 114, 32103,32204,8 -> 32103,32205,8
+[2026.10.15-20.41.59:317][705]LogReal33D: input 145: walk south requested from Unreal
+[2026.10.15-20.41.59:362][707]LogReal33D: input 145: walk command 115 sent to Fusion32
+[2026.10.15-20.41.59:613][718]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.15-20.41.59:617][718]LogReal33D: Warning: input 145: Fusion32 refused request 115; position unchanged
+[2026.10.15-20.42.00:044][736]LogReal33D: input 146: walk west requested from Unreal
+[2026.10.15-20.42.00:067][737]LogReal33D: input 146: walk command 116 sent to Fusion32
+[2026.10.15-20.42.00:191][742]LogReal33D: minimap observation: player=32102,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.42.00:287][742]LogReal33D: input 146: Fusion32 accepted request 116, 32103,32205,8 -> 32102,32205,8
+[2026.10.15-20.42.00:298][742]LogReal33D: creature 1073743318 "rat" appeared at 32093,32203,9 health 100%
+[2026.10.15-20.42.00:971][770]LogReal33D: input 147: walk east requested from Unreal
+[2026.10.15-20.42.00:992][771]LogReal33D: input 147: walk command 117 sent to Fusion32
+[2026.10.15-20.42.01:080][775]LogReal33D: minimap observation: player=32103,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.42.01:160][775]LogReal33D: input 147: Fusion32 accepted request 117, 32102,32205,8 -> 32103,32205,8
+[2026.10.15-20.42.01:581][793]LogReal33D: input 148: walk north requested from Unreal
+[2026.10.15-20.42.01:609][794]LogReal33D: input 148: walk command 118 sent to Fusion32
+[2026.10.15-20.42.01:731][799]LogReal33D: minimap observation: player=32103,32204,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.42.01:853][799]LogReal33D: input 148: Fusion32 accepted request 118, 32103,32205,8 -> 32103,32204,8
+[2026.10.15-20.42.02:536][827]LogReal33D: input 149: walk south requested from Unreal
+[2026.10.15-20.42.02:581][829]LogReal33D: input 149: walk command 119 sent to Fusion32
+[2026.10.15-20.42.02:724][835]LogReal33D: minimap observation: player=32103,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.42.02:821][835]LogReal33D: input 149: Fusion32 accepted request 119, 32103,32204,8 -> 32103,32205,8
+[2026.10.15-20.42.09:995][146]LogReal33D: world drag 150: type=99 creature=1073743164 from=32103,32204,8 stack=1 to=32102,32205,8 count=1
+[2026.10.15-20.42.11:078][194]LogReal33D: server message [FailureMessage]: Destination is out of range.
+[2026.10.15-20.42.11:791][225]LogReal33D: input 151: walk west requested from Unreal
+[2026.10.15-20.42.11:838][227]LogReal33D: input 151: walk command 120 sent to Fusion32
+[2026.10.15-20.42.11:934][231]LogReal33D: minimap observation: player=32102,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.42.12:047][231]LogReal33D: input 151: Fusion32 accepted request 120, 32103,32205,8 -> 32102,32205,8
+[2026.10.15-20.42.12:669][257]LogReal33D: input 152: walk east requested from Unreal
+[2026.10.15-20.42.12:720][259]LogReal33D: input 152: walk command 121 sent to Fusion32
+[2026.10.15-20.42.12:834][264]LogReal33D: minimap observation: player=32103,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.42.12:934][264]LogReal33D: input 152: Fusion32 accepted request 121, 32102,32205,8 -> 32103,32205,8
+[2026.10.15-20.42.13:848][305]LogReal33D: world drag 153: type=99 creature=1073743164 from=32103,32204,8 stack=1 to=32102,32205,8 count=1
+[2026.10.15-20.42.14:865][352]LogReal33D: server message [FailureMessage]: Destination is out of range.
+[2026.10.15-20.42.15:181][366]LogReal33D: input 154: walk east requested from Unreal
+[2026.10.15-20.42.15:348][373]LogReal33D: input 154: walk command 122 sent to Fusion32
+[2026.10.15-20.42.15:373][374]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.15-20.42.15:374][374]LogReal33D: Warning: input 154: Fusion32 refused request 122; position unchanged
+[2026.10.15-20.42.15:394][375]LogReal33D: input 155: walk west requested from Unreal
+[2026.10.15-20.42.15:443][377]LogReal33D: input 155: walk command 123 sent to Fusion32
+[2026.10.15-20.42.15:539][381]LogReal33D: minimap observation: player=32102,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.42.15:637][381]LogReal33D: input 155: Fusion32 accepted request 123, 32103,32205,8 -> 32102,32205,8
+[2026.10.15-20.42.16:341][411]LogReal33D: input 156: walk east requested from Unreal
+[2026.10.15-20.42.16:400][413]LogReal33D: input 156: walk command 124 sent to Fusion32
+[2026.10.15-20.42.16:489][417]LogReal33D: minimap observation: player=32103,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.42.16:605][417]LogReal33D: input 156: Fusion32 accepted request 124, 32102,32205,8 -> 32103,32205,8
+[2026.10.15-20.42.16:696][418]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.42.17:010][432]LogReal33D: left-click walk: target 32102,32205,8, 1 cardinal steps
+[2026.10.15-20.42.17:010][432]LogReal33D: input 157: left-click walk direction 3 to 32102,32205,8
+[2026.10.15-20.42.17:037][433]LogReal33D: input 157: walk command 125 sent to Fusion32
+[2026.10.15-20.42.17:140][437]LogReal33D: minimap observation: player=32102,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.42.17:259][437]LogReal33D: input 157: Fusion32 accepted request 125, 32103,32205,8 -> 32102,32205,8
+[2026.10.15-20.42.17:466][445]LogReal33D: left-click walk arrived: authoritative player=32102,32205,8
+[2026.10.15-20.42.17:691][455]LogReal33D: world drag 158: type=4796 creature=0 from=32102,32204,8 stack=1 to=32101,32205,8 count=1
+[2026.10.15-20.42.17:762][458]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.15-20.42.17:928][465]LogReal33D: input 159: walk east requested from Unreal
+[2026.10.15-20.42.17:974][467]LogReal33D: input 159: walk command 126 sent to Fusion32
+[2026.10.15-20.42.18:050][470]LogReal33D: minimap observation: player=32103,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.42.18:144][470]LogReal33D: input 159: Fusion32 accepted request 126, 32102,32205,8 -> 32103,32205,8
+[2026.10.15-20.42.19:427][524]LogReal33D: left-click walk: target 32102,32205,8, 1 cardinal steps
+[2026.10.15-20.42.19:427][524]LogReal33D: input 160: left-click walk direction 3 to 32102,32205,8
+[2026.10.15-20.42.19:452][525]LogReal33D: input 160: walk command 127 sent to Fusion32
+[2026.10.15-20.42.19:539][529]LogReal33D: minimap observation: player=32102,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.42.19:634][529]LogReal33D: input 160: Fusion32 accepted request 127, 32103,32205,8 -> 32102,32205,8
+[2026.10.15-20.42.19:885][539]LogReal33D: left-click walk arrived: authoritative player=32102,32205,8
+[2026.10.15-20.42.20:208][553]LogReal33D: input 161: walk east requested from Unreal
+[2026.10.15-20.42.20:286][556]LogReal33D: input 161: walk command 128 sent to Fusion32
+[2026.10.15-20.42.20:480][564]LogReal33D: minimap observation: player=32103,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.42.20:571][564]LogReal33D: input 161: Fusion32 accepted request 128, 32102,32205,8 -> 32103,32205,8
+[2026.10.15-20.42.22:116][630]LogReal33D: world drag 162: type=99 creature=1073743164 from=32103,32204,8 stack=1 to=32104,32204,8 count=1
+[2026.10.15-20.42.23:132][674]LogReal33D: server message [FailureMessage]: There is not enough room.
+[2026.10.15-20.42.23:588][694]LogReal33D: input 163: walk west requested from Unreal
+[2026.10.15-20.42.23:689][698]LogReal33D: input 163: walk command 129 sent to Fusion32
+[2026.10.15-20.42.23:823][704]LogReal33D: minimap observation: player=32102,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.42.23:905][704]LogReal33D: input 163: Fusion32 accepted request 129, 32103,32205,8 -> 32102,32205,8
+[2026.10.15-20.42.24:589][733]LogReal33D: input 164: walk east requested from Unreal
+[2026.10.15-20.42.24:611][734]LogReal33D: input 164: walk command 130 sent to Fusion32
+[2026.10.15-20.42.24:737][739]LogReal33D: minimap observation: player=32103,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.42.24:823][739]LogReal33D: input 164: Fusion32 accepted request 130, 32102,32205,8 -> 32103,32205,8
+[2026.10.15-20.42.26:413][806]LogReal33D: world drag 165: type=99 creature=1073743164 from=32103,32204,8 stack=1 to=32102,32205,8 count=1
+[2026.10.15-20.42.27:410][849]LogReal33D: input 166: walk west requested from Unreal
+[2026.10.15-20.42.27:410][849]LogReal33D: server message [FailureMessage]: Destination is out of range.
+[2026.10.15-20.42.27:477][852]LogReal33D: input 166: walk command 131 sent to Fusion32
+[2026.10.15-20.42.27:572][856]LogReal33D: minimap observation: player=32102,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.42.27:679][856]LogReal33D: input 166: Fusion32 accepted request 131, 32103,32205,8 -> 32102,32205,8
+[2026.10.15-20.42.28:351][884]LogReal33D: input 167: walk east requested from Unreal
+[2026.10.15-20.42.28:495][890]LogReal33D: input 167: walk command 132 sent to Fusion32
+[2026.10.15-20.42.28:588][894]LogReal33D: minimap observation: player=32103,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.42.28:685][894]LogReal33D: input 167: Fusion32 accepted request 132, 32102,32205,8 -> 32103,32205,8
+[2026.10.15-20.42.29:947][947]LogReal33D: world drag 168: type=99 creature=1073743164 from=32103,32204,8 stack=1 to=32102,32205,8 count=1
+[2026.10.15-20.42.30:054][951]LogReal33D: creature 1073743313 "rat" appeared at 32094,32202,9 health 100%
+[2026.10.15-20.42.42:342][461]LogReal33D: creature 1073743313 "rat" appeared at 32094,32198,9 health 100%
+[2026.10.15-20.42.46:761][621]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.42.59:867][147]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\build\unreal-world-presentation-polish-001\live-20261015T141652/unreal_slice_evidence_Manual_20261015T204259_865.json
+[2026.10.15-20.43.00:009][147]LogReal33D: manual evidence snapshot requested
+[2026.10.15-20.43.04:495][312]LogReal33D: creature 1073743313 "rat" appeared at 32094,32200,9 health 100%
+[2026.10.15-20.43.10:434][566]LogReal33D: server message [StatusMessage]: You lose 2 hitpoints due to an attack by a rat.
+[2026.10.15-20.43.10:458][567]LogReal33D: HUD vitals: HP 61/160   Mana 10/10   Level 3
+[2026.10.15-20.43.15:366][764]LogReal33D: combat input 169: attack mode 2
+[2026.10.15-20.43.15:499][769]LogReal33D: combat state: target=0 action=none tactics_sent=true attack_mode=2 chase_mode=0
+[2026.10.15-20.43.16:823][819]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.43.21:843][  4]LogReal33D: creature 1073743316 "rat" appeared at 32094,32199,9 health 100%
+[2026.10.15-20.43.28:733][274]LogReal33D: creature 1073743313 "rat" appeared at 32094,32204,9 health 100%
+[2026.10.15-20.43.36:941][599]LogReal33D: creature 1073743313 "rat" appeared at 32094,32202,9 health 100%
+[2026.10.15-20.43.44:946][922]LogReal33D: creature 1073743313 "rat" appeared at 32094,32200,9 health 100%
+[2026.10.15-20.43.46:419][992]LogReal33D: server message [StatusMessage]: You lose 3 hitpoints due to an attack by a rat.
+[2026.10.15-20.43.46:438][993]LogReal33D: HUD vitals: HP 58/160   Mana 10/10   Level 3
+[2026.10.15-20.43.46:891][ 10]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.43.46:936][ 12]LogReal33D: creature 1073743313 "rat" appeared at 32094,32200,9 health 100%
+[2026.10.15-20.44.08:297][895]LogReal33D: creature 1073743313 "rat" appeared at 32094,32203,9 health 100%
+[2026.10.15-20.44.11:798][ 42]LogReal33D: creature 1073765520 "rat" appeared at 32095,32210,8 health 100%
+[2026.10.15-20.44.13:890][120]LogReal33D: creature 1073765520 "rat" appeared at 32095,32210,8 health 100%
+[2026.10.15-20.44.16:956][230]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.44.17:270][242]LogReal33D: creature 1073743313 "rat" appeared at 32094,32204,9 health 100%
+[2026.10.15-20.44.18:442][285]LogReal33D: server message [StatusMessage]: You lose 1 hitpoint due to an attack by a rat.
+[2026.10.15-20.44.18:468][286]LogReal33D: HUD vitals: HP 57/160   Mana 10/10   Level 3
+[2026.10.15-20.44.43:726][210]LogReal33D: left-click walk: no reachable observed route/frontier
+[2026.10.15-20.44.43:952][219]LogReal33D: creature 1073743313 "rat" appeared at 32094,32202,9 health 100%
+[2026.10.15-20.44.46:008][298]LogReal33D: world drag 170: type=99 creature=1073743164 from=32102,32205,8 stack=1 to=32103,32204,8 count=1
+[2026.10.15-20.44.47:033][336]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.44.47:666][363]LogReal33D: input 171: walk west requested from Unreal
+[2026.10.15-20.44.47:689][364]LogReal33D: input 171: walk command 133 sent to Fusion32
+[2026.10.15-20.44.47:803][369]LogReal33D: minimap observation: player=32102,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.44.47:930][369]LogReal33D: input 171: Fusion32 accepted request 133, 32103,32205,8 -> 32102,32205,8
+[2026.10.15-20.44.48:129][377]LogReal33D: input 172: walk west requested from Unreal
+[2026.10.15-20.44.48:160][378]LogReal33D: input 172: walk command 134 sent to Fusion32
+[2026.10.15-20.44.48:383][387]LogReal33D: minimap observation: player=32101,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.44.48:510][387]LogReal33D: input 172: Fusion32 accepted request 134, 32102,32205,8 -> 32101,32205,8
+[2026.10.15-20.44.48:560][388]LogReal33D: input 173: walk west requested from Unreal
+[2026.10.15-20.44.48:599][390]LogReal33D: input 173: walk command 135 sent to Fusion32
+[2026.10.15-20.44.48:844][400]LogReal33D: minimap observation: player=32100,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.44.48:936][400]LogReal33D: input 173: Fusion32 accepted request 135, 32101,32205,8 -> 32100,32205,8
+[2026.10.15-20.44.48:942][400]LogReal33D: creature 1073743316 "rat" appeared at 32091,32201,9 health 100%
+[2026.10.15-20.44.49:016][403]LogReal33D: input 174: walk west requested from Unreal
+[2026.10.15-20.44.49:062][405]LogReal33D: input 174: walk command 136 sent to Fusion32
+[2026.10.15-20.44.49:298][414]LogReal33D: minimap observation: player=32099,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.44.49:404][414]LogReal33D: input 174: Fusion32 accepted request 136, 32100,32205,8 -> 32099,32205,8
+[2026.10.15-20.44.49:414][414]LogReal33D: creature 1073743318 "rat" appeared at 32090,32199,9 health 100%
+[2026.10.15-20.44.49:475][416]LogReal33D: input 175: walk west requested from Unreal
+[2026.10.15-20.44.49:550][419]LogReal33D: input 175: walk command 137 sent to Fusion32
+[2026.10.15-20.44.49:851][431]LogReal33D: minimap observation: player=32098,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.44.49:957][431]LogReal33D: input 175: Fusion32 accepted request 137, 32099,32205,8 -> 32098,32205,8
+[2026.10.15-20.44.53:971][591]LogReal33D: input 176: walk west requested from Unreal
+[2026.10.15-20.44.53:999][592]LogReal33D: input 176: walk command 138 sent to Fusion32
+[2026.10.15-20.44.54:077][595]LogReal33D: minimap observation: player=32097,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.44.54:185][595]LogReal33D: input 176: Fusion32 accepted request 138, 32098,32205,8 -> 32097,32205,8
+[2026.10.15-20.44.54:452][605]LogReal33D: input 177: walk west requested from Unreal
+[2026.10.15-20.44.54:515][607]LogReal33D: input 177: walk command 139 sent to Fusion32
+[2026.10.15-20.44.54:846][619]LogReal33D: minimap observation: player=32096,32205,8 known=5520 live=252 viewport=18x14
+[2026.10.15-20.44.54:956][619]LogReal33D: input 177: Fusion32 accepted request 139, 32097,32205,8 -> 32096,32205,8
+[2026.10.15-20.44.59:209][736]LogReal33D: creature 1073743314 "rat" appeared at 32087,32198,9 health 100%
+[2026.10.15-20.44.59:279][738]LogReal33D: creature 1073743315 "rat" appeared at 32087,32199,9 health 100%
+[2026.10.15-20.45.04:244][877]LogReal33D: creature 1073743314 "rat" appeared at 32088,32198,9 health 100%
+[2026.10.15-20.45.06:291][955]LogReal33D: creature 1073743315 "rat" appeared at 32089,32198,9 health 100%
+[2026.10.15-20.45.07:178][  2]LogReal33D: creature 1073743317 "rat" appeared at 32088,32198,9 health 100%
+[2026.10.15-20.45.13:276][406]LogReal33D: creature 1073743314 "rat" appeared at 32087,32198,9 health 100%
+[2026.10.15-20.45.17:061][685]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.45.18:385][783]LogReal33D: creature 1073743317 "rat" appeared at 32087,32198,9 health 100%
+[2026.10.15-20.45.21:933][ 40]LogReal33D: creature 1073743313 "rat" appeared at 32093,32198,9 health 100%
+[2026.10.15-20.45.26:035][332]LogReal33D: creature 1073743313 "rat" appeared at 32093,32198,9 health 100%
+[2026.10.15-20.45.32:677][811]LogReal33D: creature 1073743316 "rat" appeared at 32089,32198,9 health 100%
+[2026.10.15-20.45.32:978][833]LogReal33D: creature 1073743313 "rat" appeared at 32093,32198,9 health 100%
+[2026.10.15-20.45.35:465][ 19]LogReal33D: server message [StatusMessage]: You lose 3 hitpoints due to an attack by a rat.
+[2026.10.15-20.45.35:478][ 20]LogReal33D: HUD vitals: HP 54/160   Mana 10/10   Level 3
+[2026.10.15-20.45.43:078][595]LogReal33D: creature 1073743315 "rat" appeared at 32093,32198,9 health 100%
+[2026.10.15-20.45.44:384][693]LogReal33D: creature 1073743317 "rat" appeared at 32089,32198,9 health 100%
+[2026.10.15-20.45.47:087][895]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.45.47:100][896]LogReal33D: creature 1073743315 "rat" appeared at 32093,32198,9 health 100%
+[2026.10.15-20.45.47:466][924]LogReal33D: server message [StatusMessage]: You lose 2 hitpoints due to an attack by a rat.
+[2026.10.15-20.45.47:482][925]LogReal33D: HUD vitals: HP 52/160   Mana 10/10   Level 3
+[2026.10.15-20.45.51:386][217]LogReal33D: creature 1073743316 "rat" appeared at 32089,32198,9 health 100%
+[2026.10.15-20.45.55:469][524]LogReal33D: server message [StatusMessage]: You lose 1 hitpoint due to an attack by a rat.
+[2026.10.15-20.45.55:482][525]LogReal33D: HUD vitals: HP 51/160   Mana 10/10   Level 3
+[2026.10.15-20.45.58:477][749]LogReal33D: creature 1073743314 "rat" appeared at 32087,32198,9 health 100%
+[2026.10.15-20.46.04:535][ 84]LogReal33D: creature 1073743314 "rat" appeared at 32087,32198,9 health 100%
+[2026.10.15-20.46.06:475][200]LogReal33D: creature 1073743314 "rat" appeared at 32087,32198,9 health 100%
+[2026.10.15-20.46.13:586][645]LogReal33D: creature 1073743314 "rat" appeared at 32087,32199,9 health 100%
+[2026.10.15-20.46.14:084][678]LogReal33D: creature 1073765520 "rat" appeared at 32089,32212,8 health 100%
+[2026.10.15-20.46.15:882][810]LogReal33D: creature 1073743316 "rat" appeared at 32087,32198,9 health 100%
+[2026.10.15-20.46.17:132][901]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.46.17:175][904]LogReal33D: creature 1073765520 "rat" appeared at 32090,32212,8 health 100%
+[2026.10.15-20.46.19:877][ 87]LogReal33D: creature 1073743316 "rat" appeared at 32087,32198,9 health 100%
+[2026.10.15-20.46.21:585][206]LogReal33D: creature 1073765520 "rat" appeared at 32090,32212,8 health 100%
+[2026.10.15-20.46.25:576][505]LogReal33D: creature 1073743315 "rat" appeared at 32089,32198,9 health 100%
+[2026.10.15-20.46.32:478][ 25]LogReal33D: creature 1073743315 "rat" appeared at 32088,32198,9 health 100%
+[2026.10.15-20.46.35:978][292]LogReal33D: creature 1073743317 "rat" appeared at 32093,32198,9 health 100%
+[2026.10.15-20.46.38:088][449]LogReal33D: creature 1073743317 "rat" appeared at 32093,32198,9 health 100%
+[2026.10.15-20.46.39:572][559]LogReal33D: creature 1073743315 "rat" appeared at 32087,32198,9 health 100%
+[2026.10.15-20.46.43:467][853]LogReal33D: server message [StatusMessage]: You lose 1 hitpoint due to an attack by a rat.
+[2026.10.15-20.46.43:478][854]LogReal33D: HUD vitals: HP 50/160   Mana 10/10   Level 3
+[2026.10.15-20.46.43:984][893]LogReal33D: creature 1073743317 "rat" appeared at 32093,32198,9 health 100%
+[2026.10.15-20.46.45:578][ 14]LogReal33D: creature 1073743315 "rat" appeared at 32089,32198,9 health 100%
+[2026.10.15-20.46.47:160][130]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.46.47:579][161]LogReal33D: creature 1073743315 "rat" appeared at 32089,32198,9 health 100%
+[2026.10.15-20.46.48:314][216]LogReal33D: use 178 from world: object 1948 at 32097,32205,8 stack 1, would open as container 1
+[2026.10.15-20.46.48:572][235]LogReal33D: minimap observation: player=32097,32206,7 known=5520 live=252 viewport=18x14
+[2026.10.15-20.46.48:701][235]LogReal33D: Fusion32 relocated us with no request outstanding, 32096,32205,8 -> 32097,32206,7
+[2026.10.15-20.47.17:240][712]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.47.47:336][210]LogReal33D: minimap cache saved: cells=5520
+[2026.10.15-20.48.17:098][689]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\build\unreal-world-presentation-polish-001\live-20261015T141652/unreal_slice_evidence.json
+[2026.10.15-20.48.17:233][689]LogReal33D: minimap cache saved: cells=5520

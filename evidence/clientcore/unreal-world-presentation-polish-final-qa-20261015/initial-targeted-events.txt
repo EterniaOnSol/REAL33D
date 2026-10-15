@@ -1,0 +1,7 @@
+﻿[2026.10.15-20.22.58:962][398]LogReal33D: minimap destination: 32095,32205,7
+[2026.10.15-20.23.03:185][485]LogReal33D: left-click walk arrived: authoritative player=32095,32205,7
+[2026.10.15-20.28.59:190][376]LogReal33D: use-with begun with object 3003; waiting for a target
+[2026.10.15-20.30.08:765][767]LogReal33D: use-with begun with object 3003; waiting for a target
+[2026.10.15-20.30.09:946][785]LogReal33D: use-with 68: object 3003 on object 435 at 32097,32205,7 stack 1
+[2026.10.15-20.30.10:148][788]LogReal33D: creature 1073743165 "rat" appeared at 32097,32206,7 health 55%
+[2026.10.15-20.30.33:699][127]LogReal33D: use-with begun with object 3003; waiting for a target
