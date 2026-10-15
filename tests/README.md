@@ -52,6 +52,30 @@ Run it from an x64 Native Tools Command Prompt, or call `vcvars64.bat` first. Th
 wsl.exe -d Ubuntu-26.04 -- bash /mnt/c/Users/dell/Desktop/fusion32/tests/secret_check.sh /mnt/c/Users/dell/Desktop/fusion32
 ```
 
+`regression_harness.sh` is the one command a 3D milestone runs before it claims anything. It records provenance, runs every check above that needs neither a live Fusion32 nor a human at the GUI, scans existing logs for protocol anomalies, and writes a Markdown report with one status per check:
+
+```bash
+bash tests/regression_harness.sh
+```
+
+It reports three statuses, never two. `SKIP` means the check could not execute and says why — an absent MSVC, an engine that was not asked for, an empty log scope. A `SKIP` is never rounded up to a `PASS`, because the report exists to be trusted. Overall is `FAIL` if anything failed, `PASS_WITH_SKIPS` if anything was skipped, `PASS` only when every check ran and passed. Exit is `1` on any `FAIL`, or on any `SKIP` under `--strict`.
+
+The checks are `provenance`, `branch-isolation`, `clientcore-tests` (the CTest suites), `real33d-native-tests` (the header-only `tests/real33d_*.cpp`), `secret-check`, `build-sanity-msvc`, `unreal-module-build` and `protocol-log-check`, followed by `output-secret-scan` over everything the run just wrote.
+
+It borrows a toolchain from WSL when Windows has no native compiler, so the same command works from Git Bash, from WSL and from Linux CI. `build-sanity-msvc` needs `cl.exe` on PATH, so run from an x64 Native Tools prompt to get it; the Unreal module build is opt-in with `--unreal` because a full editor build is not a safe CI default.
+
+`protocol-log-check` looks for `unsupported_opcodes`, `protocol_anomalies` and `residual_bytes` above zero, and for the bridge diagnostics that name a command left unwalked. By default it only scans evidence logs this branch added or changed against `origin/main`, so a milestone is judged on its own sessions rather than re-reporting adjudicated history; `--logs-all` scans everything, and `--logs PATH` adds a file or directory.
+
+The harness is read-only against the repository. It writes only under `--out`, which defaults inside the gitignored `build/` tree, starts no server, launches no client and modifies no gameplay or protocol. Nothing it reports is live proof; live certification remains a separate, operator-driven step.
+
+```bash
+# full local run, including the MSVC archive Unreal links and the engine build
+bash tests/regression_harness.sh --unreal --objects-srv /path/to/objects.srv
+
+# CI gate: fail on anything that could not be executed
+bash tests/regression_harness.sh --no-wsl --allow-main --strict
+```
+
 Subsequent protocol tests should keep covering both directions:
 
 - known packet bytes -> expected typed semantic event;
