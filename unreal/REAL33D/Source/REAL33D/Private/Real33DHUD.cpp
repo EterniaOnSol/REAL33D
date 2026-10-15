@@ -16,6 +16,8 @@
 #include "Real33DWorldOverlay.h"
 #include "Styling/CoreStyle.h"
 #include "Styling/ISlateStyle.h"
+#include "Framework/Application/SlateApplication.h"
+#include "Layout/WidgetPath.h"
 #include "Widgets/Images/SImage.h"
 #include "Widgets/Layout/SBox.h"
 #include "Widgets/Layout/SBorder.h"
@@ -82,7 +84,7 @@ TSharedRef<SWidget> SReal33DHUD::MakeViewportFrame()
 	// GameMapPanel: a 4px 9-sliced border with the scene inside it. The middle
 	// remains transparent, with read-only projected labels and interaction cues.
 	// The overlay does not consume gameplay or panel input.
-	return SNew(SBorder)
+	return SAssignNew(ViewportFrame, SBorder)
 		.BorderImage(Style.GetBrush("Real33D.Chrome.MapPanel"))
 		.Padding(FMargin(4.0f))
 		.Visibility(EVisibility::HitTestInvisible)
@@ -139,6 +141,7 @@ TSharedRef<SWidget> SReal33DHUD::MakeBottomPanel(const FReal33DOnTypingChanged& 
 
 void SReal33DHUD::Construct(const FArguments& InArgs)
 {
+	OnWorldItemDropped = InArgs._OnWorldItemDropped;
 	Bridge = InArgs._Bridge;
 	const ISlateStyle& Style = FReal33DUIStyle::Get();
 
@@ -623,6 +626,49 @@ void SReal33DHUD::BeginUseTarget(const UReal33DBridge::FMoveSlot& Source,
 	Pending.StackIndex = StackIndex;
 	UpdateTargetingBanner();
 	UE_LOG(LogReal33D, Log, TEXT("use-with begun with object %u; waiting for a target"), TypeId);
+}
+
+bool SReal33DHUD::IsOverWorld(FVector2D DesktopPosition) const
+{
+	return ViewportFrame.IsValid()
+		&& ViewportFrame->GetCachedGeometry().IsUnderLocation(DesktopPosition);
+}
+
+FReal33DSlotRef SReal33DHUD::FindItemSlotAt(FVector2D DesktopPosition) const
+{
+	// Physical hit path, independent of the viewport's capture during a world drag.
+	auto& Slate = FSlateApplication::Get();
+	const auto Window = Slate.FindWidgetWindow(AsShared());
+	if (!Window.IsValid()) return {};
+	const TArray<TSharedRef<SWindow>> Windows { Window.ToSharedRef() };
+	const auto Path = Slate.LocateWindowUnderMouse(DesktopPosition, Windows, false, 0);
+	for (int32 Index = 0; Index < Path.Widgets.Num(); ++Index)
+	{
+		const auto& Arranged = Path.Widgets[Index];
+		if (Arranged.Widget->GetType() == FName(TEXT("SReal33DSlot")))
+			return StaticCastSharedRef<SReal33DSlot>(Arranged.Widget)->GetLocation();
+	}
+	return {};
+}
+
+bool SReal33DHUD::IsWorldItemDrop(const FDragDropEvent& Event) const
+{
+	const auto Drag = Event.GetOperationAs<FReal33DItemDrag>();
+	return Drag.IsValid() && Drag->Origin().IsValid() && Drag->Origin().TypeId != 0
+		&& OnWorldItemDropped.IsBound() && IsOverWorld(Event.GetScreenSpacePosition());
+}
+
+FReply SReal33DHUD::OnDragOver(const FGeometry& Geometry, const FDragDropEvent& Event)
+{
+	return IsWorldItemDrop(Event) ? FReply::Handled() : FReply::Unhandled();
+}
+
+FReply SReal33DHUD::OnDrop(const FGeometry& Geometry, const FDragDropEvent& Event)
+{
+	if (!IsWorldItemDrop(Event)) return FReply::Unhandled();
+	OnWorldItemDropped.Execute(Event.GetOperationAs<FReal33DItemDrag>()->Origin(),
+		Event.GetScreenSpacePosition());
+	return FReply::Handled();
 }
 
 void SReal33DHUD::ShowInteractionRequest(const FString& Text)

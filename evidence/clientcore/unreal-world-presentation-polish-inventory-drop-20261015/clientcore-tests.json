@@ -1,0 +1,38 @@
+﻿[
+    {
+        "suite":  "crypto_tests",
+        "exit_code":  0
+    },
+    {
+        "suite":  "gamelogin_tests",
+        "exit_code":  0
+    },
+    {
+        "suite":  "initial_world_tests",
+        "exit_code":  0
+    },
+    {
+        "suite":  "login_tests",
+        "exit_code":  0
+    },
+    {
+        "suite":  "minimap_tests",
+        "exit_code":  0
+    },
+    {
+        "suite":  "movement_tests",
+        "exit_code":  0
+    },
+    {
+        "suite":  "player_state_tests",
+        "exit_code":  0
+    },
+    {
+        "suite":  "transport_tests",
+        "exit_code":  0
+    },
+    {
+        "suite":  "worldview_tests",
+        "exit_code":  0
+    }
+]

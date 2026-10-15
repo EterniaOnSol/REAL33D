@@ -11,6 +11,7 @@ class SReal33DChatPanel;
 class SReal33DHUD;
 class STextBlock;
 class SEditableTextBox;
+struct FReal33DSlotRef;
 
 /**
  * Turns key presses into intents and nothing else.
@@ -56,6 +57,7 @@ private:
 	void EndLeftClick();
 	void BeginWorldDrag();
 	void CompleteWorldDrag();
+	void DropInventoryOnWorld(FReal33DSlotRef From, FVector2D DesktopPosition);
 	bool bWorldDragCandidate = false;
 	FVector2D WorldDragStart = FVector2D::ZeroVector;
 	Real33D::FMapPosition WorldDragFrom;

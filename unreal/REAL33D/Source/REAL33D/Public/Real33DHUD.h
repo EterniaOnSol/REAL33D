@@ -18,6 +18,9 @@ class SReal33DMinimapPanel;
 class SReal33DMiniWindow;
 class SReal33DSkillsPanel;
 class SReal33DVitalsPanel;
+class SBorder;
+
+DECLARE_DELEGATE_TwoParams(FReal33DOnWorldItemDropped, FReal33DSlotRef, FVector2D);
 
 /**
  * The whole in-game UI, laid out as `game_interface/gameinterface.otui` lays it.
@@ -45,9 +48,14 @@ public:
 		SLATE_ARGUMENT(TWeakObjectPtr<UReal33DBridge>, Bridge)
 		SLATE_EVENT(FReal33DOnTypingChanged, OnTypingChanged)
 		SLATE_EVENT(FReal33DOnMinimapDestination, OnMinimapDestination)
+		SLATE_EVENT(FReal33DOnWorldItemDropped, OnWorldItemDropped)
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);
+	virtual FReply OnDragOver(const FGeometry& Geometry, const FDragDropEvent& Event) override;
+	virtual FReply OnDrop(const FGeometry& Geometry, const FDragDropEvent& Event) override;
+	bool IsOverWorld(FVector2D DesktopPosition) const;
+	FReal33DSlotRef FindItemSlotAt(FVector2D DesktopPosition) const;
 
 	/** Pushes this frame's server-owned values into every live panel. */
 	void Refresh(const AReal33DWorld* World);
@@ -91,6 +99,11 @@ public:
 	void ShowInteractionRequest(const FString& Text);
 
 private:
+	// The HUD receives bubbled Slate drops, but only its map rectangle is a world target.
+	TSharedPtr<SBorder> ViewportFrame;
+	FReal33DOnWorldItemDropped OnWorldItemDropped;
+	bool IsWorldItemDrop(const FDragDropEvent& Event) const;
+
 	/** A 176px side column carrying a stack of mini windows. */
 	TSharedRef<SWidget> MakeSideColumn(TSharedRef<SWidget> Contents);
 

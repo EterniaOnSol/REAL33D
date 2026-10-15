@@ -25,6 +25,7 @@
 #include "Widgets/Input/SButton.h"
 #include "Widgets/Input/SEditableTextBox.h"
 #include "Widgets/Text/STextBlock.h"
+#include "Widgets/SViewport.h"
 
 AReal33DPlayerController::AReal33DPlayerController()
 {
@@ -61,6 +62,8 @@ void AReal33DPlayerController::BeginPlay()
 	// gameinterface.otui describes, and the HUD owns both.
 	HudRoot = SNew(SReal33DHUD)
 		.Bridge(Bridge)
+		.OnWorldItemDropped(FReal33DOnWorldItemDropped::CreateUObject(
+			this, &AReal33DPlayerController::DropInventoryOnWorld))
 		.OnMinimapDestination(FReal33DOnMinimapDestination::CreateUObject(
 			this, &AReal33DPlayerController::RequestKnownWalk))
 		.OnTypingChanged(FReal33DOnTypingChanged::CreateUObject(
@@ -618,6 +621,26 @@ void AReal33DPlayerController::CompleteWorldDrag()
 	const auto& Thing = Things[WorldDragStack];
 	if (WorldDragCreatureId ? (!Thing.bIsCreature || Thing.CreatureId != WorldDragCreatureId)
 		: (Thing.bIsCreature || Thing.TypeId != WorldDragTypeId)) return;
+	auto* Bridge = GetGameInstance()->GetSubsystem<UReal33DBridge>();
+	if (!Bridge || !Bridge->IsRunning() || !HudRoot.IsValid()) return;
+	const FVector2D DesktopPosition = FSlateApplication::Get().GetCursorPos();
+	const auto Slot = HudRoot->FindItemSlotAt(DesktopPosition);
+	if (Slot.IsValid())
+	{
+		if (WorldDragCreatureId) return;
+		const auto To = Slot.Kind == FReal33DSlotRef::EKind::Container
+			? UReal33DBridge::FMoveSlot::InContainer(Slot.Container, Slot.Slot)
+			: UReal33DBridge::FMoveSlot::InInventory(Slot.Slot);
+		const uint32 Id = Bridge->RequestMoveObject(UReal33DBridge::FMoveSlot::OnMap(WorldDragFrom),
+			WorldDragTypeId, WorldDragStack, To, 1);
+		if (Id) HudRoot->ShowInteractionRequest(TEXT("Move requested"));
+		UE_LOG(LogReal33D, Log, TEXT("world-to-slot drag %u: object=%u from=%d,%d,%d stack=%u to=%s%u slot=%u count=1"),
+			Id, WorldDragTypeId, WorldDragFrom.X, WorldDragFrom.Y, WorldDragFrom.Z, WorldDragStack,
+			Slot.Kind == FReal33DSlotRef::EKind::Container ? TEXT("container ") : TEXT("body "), Slot.Container, Slot.Slot);
+		return;
+	}
+	// Panel backgrounds and chat must never turn a pickup into a map move behind the UI.
+	if (!HudRoot->IsOverWorld(DesktopPosition)) return;
 	FHitResult Hit;
 	if (!GetHitResultUnderCursorByChannel(
 		UEngineTypes::ConvertToTraceType(ECC_Visibility), true, Hit)) return;
@@ -628,8 +651,6 @@ void AReal33DPlayerController::CompleteWorldDrag()
 	if (!Target || Target->IsHidden() || !Self || Target->GetMapPosition() == WorldDragFrom
 		|| Target->GetMapPosition().Z != Self->GetLogicalPosition().Z
 		|| WorldDragFrom.Z != Self->GetLogicalPosition().Z) return;
-	auto* Bridge = GetGameInstance()->GetSubsystem<UReal33DBridge>();
-	if (!Bridge || !Bridge->IsRunning()) return;
 	const auto To = Target->GetMapPosition();
 	const uint32 Id = Bridge->RequestMoveObject(UReal33DBridge::FMoveSlot::OnMap(WorldDragFrom),
 		WorldDragTypeId, WorldDragStack, UReal33DBridge::FMoveSlot::OnMap(To), 1);
@@ -637,6 +658,63 @@ void AReal33DPlayerController::CompleteWorldDrag()
 	UE_LOG(LogReal33D, Log, TEXT("world drag %u: type=%u creature=%u from=%d,%d,%d stack=%u to=%d,%d,%d count=1"),
 		Id, WorldDragTypeId, WorldDragCreatureId, WorldDragFrom.X, WorldDragFrom.Y, WorldDragFrom.Z,
 		WorldDragStack, To.X, To.Y, To.Z);
+}
+
+void AReal33DPlayerController::DropInventoryOnWorld(FReal33DSlotRef From, FVector2D DesktopPosition)
+{
+	AReal33DWorld* World = GetWorldActor();
+	if (!World || !From.IsValid() || From.TypeId == 0 || From.Count == 0
+		|| (HudRoot.IsValid() && HudRoot->IsTargeting())) return;
+	// Recheck the received slot: container contents may have changed during the drag.
+	const FReal33DItem* Item = nullptr;
+	if (From.Kind == FReal33DSlotRef::EKind::Inventory)
+	{
+		const auto& Inventory = World->GetInventory();
+		if (Inventory.bKnown && From.Slot >= FReal33DInventory::FirstSlot
+			&& From.Slot <= FReal33DInventory::LastSlot && Inventory.bOccupied[From.Slot])
+			Item = &Inventory.Items[From.Slot];
+	}
+	else if (From.Kind == FReal33DSlotRef::EKind::Container)
+	{
+		for (const auto& Container : World->GetContainers())
+			if (Container.bOpen && Container.Number == From.Container && Container.Objects.IsValidIndex(From.Slot))
+				Item = &Container.Objects[From.Slot];
+	}
+	if (!Item || Item->TypeId != From.TypeId
+		|| (Item->bHasAmount ? Item->Amount : 1) != From.Count) return;
+	const auto* Viewport = GetWorld()->GetGameViewport();
+	const auto Widget = Viewport ? Viewport->GetGameViewportWidget() : nullptr;
+	if (!Widget.IsValid()) return;
+	const auto& Geometry = Widget->GetCachedGeometry();
+	const FVector2D Size = Geometry.GetLocalSize();
+	int32 Width = 0, Height = 0;
+	GetViewportSize(Width, Height);
+	if (Size.X <= 0 || Size.Y <= 0 || Width <= 0 || Height <= 0) return;
+	// Slate supplies desktop coordinates; the trace takes viewport pixels (also at DPI != 100%).
+	const FVector2D Local = Geometry.AbsoluteToLocal(DesktopPosition);
+	const FVector2D Pixel(Local.X * Width / Size.X, Local.Y * Height / Size.Y);
+	FHitResult Hit;
+	if (!GetHitResultAtScreenPosition(Pixel, ECC_Visibility, true, Hit)) return;
+	const auto* Creature = Cast<AReal33DCreature>(Hit.GetActor());
+	const auto* Target = Creature ? World->FindPresentedTile(Creature->GetLogicalPosition())
+		: Cast<AReal33DTile>(Hit.GetActor());
+	const auto* Self = World->GetLocalPlayer();
+	if (!Target || Target->IsHidden() || !Self
+		|| Target->GetMapPosition().Z != Self->GetLogicalPosition().Z) return;
+	auto* Bridge = GetGameInstance()->GetSubsystem<UReal33DBridge>();
+	if (!Bridge || !Bridge->IsRunning()) return;
+	ClickWalkPath.Reset();
+	bWorldDragCandidate = false;
+	const auto Source = From.Kind == FReal33DSlotRef::EKind::Container
+		? UReal33DBridge::FMoveSlot::InContainer(From.Container, From.Slot)
+		: UReal33DBridge::FMoveSlot::InInventory(From.Slot);
+	const auto To = Target->GetMapPosition();
+	const uint32 Id = Bridge->RequestMoveObject(Source, From.TypeId, From.Slot,
+		UReal33DBridge::FMoveSlot::OnMap(To), From.Count);
+	if (Id && HudRoot.IsValid()) HudRoot->ShowInteractionRequest(TEXT("Move requested"));
+	UE_LOG(LogReal33D, Log, TEXT("slot-to-world drag %u: object=%u from=%s%u slot=%u to=%d,%d,%d count=%u"),
+		Id, From.TypeId, From.Kind == FReal33DSlotRef::EKind::Container ? TEXT("container ") : TEXT("body "),
+		From.Container, From.Slot, To.X, To.Y, To.Z, From.Count);
 }
 
 void AReal33DPlayerController::WalkUnderCursor()

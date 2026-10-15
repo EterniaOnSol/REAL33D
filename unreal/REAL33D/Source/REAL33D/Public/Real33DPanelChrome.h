@@ -172,6 +172,7 @@ public:
 	void Construct(const FArguments& InArgs);
 
 	// ------------------------------------------------------ drag and drop
+	FReal33DSlotRef GetLocation() const { return Location; }
 	//
 	// Dragging an object from one slot to another is a move, and a move is a
 	// request: the object stays drawn where it is until Fusion32 says

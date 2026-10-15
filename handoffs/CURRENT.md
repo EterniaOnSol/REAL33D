@@ -1,98 +1,87 @@
 # Current handoff
 
-2026-10-15 preservation update: operator explicitly requested committing/pushing
-the saved QA evidence before any code change. This commit is that honest
-IMPLEMENTED_UNVERIFIED checkpoint, starting at6f864e3; no implementation change.
-Prior uncommitted statements below describe the previous closeout. Next scope is
-now authorized: trace/classify inventory-to-ground routing, minimal bug fix if
-appropriate, normal live creature push, and compact post-fix regression. No
-unrelated features, rule changes, independent certification or main merge.
-Ending preservation commit is the commit containing this entry; verify normal
-push and local/remote equality before editing code. Retain all documented gaps.
-
-2026-10-15 03:38 America/Guatemala. Codex, operator-assisted local QA.
-Task UNREAL-WORLD-PRESENTATION-POLISH-001 remains IMPLEMENTED_UNVERIFIED.
-No independent certification, new milestone, feature/refactor or main merge.
+2026-10-15 04:36 America/Guatemala. Codex, implementation/operator-assisted QA.
+Task UNREAL-WORLD-PRESENTATION-POLISH-001 = IMPLEMENTED_UNVERIFIED.
+User requested immediate commit/push due remaining tokens. Preserve this state;
+no independent certification, new milestone, unrelated features or main merge.
 
 Branch milestone/unreal-world-presentation-polish-001.
 Base/main fa3adcfd3fa85ec2bcf2514fc5df46c45e1de0cf.
-Starting/ending code HEAD 6f864e3f9e9fbb82fccdf4c2ae1e4287c4360b52.
-Remote milestone equals HEAD; main unchanged, verified03:38 local.
+Original code6f864e3; saved prior evidence committed/pushed BEFORE code changes
+as1e7a2d5097b81e79c7441d819cbd7d585da36ef5, verified clean/local=remote.
+Starting implementation HEAD1e7a2d5; ending implementation commit is the commit
+containing this handoff. Verify normal push, local=remote and worktree clean.
+Remote precloseout unchanged1e7a2d5, main unchangedfa3adcf.
 Worktree C:/Users/dell/Desktop/fusion32/build/unreal-world-presentation-polish-001.
-The root fusion32 worktree is a DIFFERENT branch; do not edit it for this task.
-QA evidence/docs are uncommitted. No push because local acceptance remains unmet.
-Prior substantive handoff archived at
-archive/UNREAL-WORLD-PRESENTATION-POLISH-001-PRE-CLOSEOUT-20261015T0338.md.
+Root fusion32 worktree is a DIFFERENT branch; never edit it for this task.
+Prior handoff archive/UNREAL-WORLD-PRESENTATION-POLISH-001-PRE-DRAG-FIX-20261015T0402.md.
 
-Operator controlled every click/key. Agent inspected F9 PNG/JSON, logs, source and
-server identity. Desktop control previously failed; continue operator-assisted.
-Current camera keeps manual zoom, does not retract or hide walls by proximity.
-Accepted floor/roof restoration and water/geometry/label improvements preserved.
+Authorized scope: trace/classify inventory-ground drag, minimal routing fix,
+normal creature push and compact post-fix regression. Operator then reported
+pickup failure; fixed that same routing boundary. Operator supplied every click
+and key. Desktop automation previously failed. Continue ONE manual action at a
+ time via async question; inspect actual timestamped logs/F9 rather than assume
+operator performed only the requested action.
 
-PASS in this assisted run: CAMERA_COLLISION, WALL_OCCLUSION, LOOK_SMOKE,
-USE_WITH_SMOKE, USE_WITH_FEEDBACK, DRAG_OBJECT (world-to-world trough2524),
-LIGHT_TOGGLE (2108->2109->2108), MINIMAP_CLICK_SMOKE, MINIMAP_COMPATIBILITY,
-FOLLOW_SMOKE, STOP_FOLLOW_SMOKE, CONTAINER_SMOKE, WIDEWORLD_SMOKE.
-Prior Use/build/ClientCore and presentation passes retained; no code change here.
-Legitimate bucket2873 fill from well1930 and spill prove Use With. Operator saw
-cursor/notice appear and clear. Shovel593->594 received; rope on435 retrieved a
-rat to the surface (not a left-drag push). Local Say and natural Norma response
-visible in-world and chat; later image proves speech expired and chat retained.
+Root cause B: pre-existing missing inventory-to-world Slate drop receiver,
+not a camera/wall regression. Slot drag existed; only other slots accepted it.
+Existing Bridge/ClientCore/Fusion32 move supports all endpoints. Minimal changes:
+Public/Private Real33DHUD and Real33DPlayerController; Public Real33DPanelChrome.
+HUD forwards drops within world rectangle; controller revalidates source slot,
+converts desktop coordinates to viewport pixels and requests existing move to
+received visible same-floor tile. No optimistic inventory/world mutation.
+Reverse pickup resolves physical Slate item-slot hit path. Panel/chat drops
+cannot accidentally target world geometry behind UI. Creature-to-slot refused.
+Map drag retains existing count1 semantics; four ground coins were picked up
+individually. No quantity picker/refactor/new protocol/server-rule edits.
+Source: receiving.cc::CMoveObject; operate.cc::Move/CheckMoveObject/
+CheckMapDestination at selected game386fa9b, no TIBIA772 branch in these symbols.
 
-Remaining: inventory->world drop3031 FAILED (slot drag emits no move; no world
-receiver), PUSH_CREATURE IMPLEMENTED_UNVERIFIED (safe NPC attempts rejected;
-operator reports monsters movable but no attributable retained success), and
-GAMEPLAY_REGRESSION IMPLEMENTED_UNVERIFIED. Do not equate zero protocol counters
-or individually passing actions with complete regression acceptance. The compact
-final connection has no Look or UseWith request; those passed preceding sessions.
-Ledger14 unanswered final-session walks remain for source/event reconciliation;
-refused49 includes SNAPBACK without pending walk during blocked NPC Follow.
-No protocol anomaly inferred from that counter, and no counter silently zeroed.
+INVENTORY_GROUND_DRAG PASS: direct sword inventory5 removal and ground appearance
+on final build, request20/capture05. Container-to-ground four coins also proven.
+Ground-to-container and direct ground-to-inventory PASS; all dropped equipment
+recovered authoritatively. Final sword5/jacket4/backpack3, backpackcoins4/shovel/
+rope. Native protocol/world state remains server-authoritative.
+Final-build compact PASS: manual movement, Look, Use/container, world drag,
+Follow/Stop, world/NPC speech/chat/expiry, light on->off, camera-wall indoor/outdoor
+smoke and WideWorld movement. Prior camera obstruction/full lamp cycle retained.
+Remaining PUSH_CREATURE IMPLEMENTED_UNVERIFIED (no attributable other-creature
+push here), and GAMEPLAY_REGRESSION IMPLEMENTED_UNVERIFIED: UseWith and minimap
+click arrival still need final-build smoke. Prior6f864e3 passes retained but
+not substituted for post-fix checks. No local PASS/certification readiness.
 
-Evidence report:
-evidence/clientcore/UNREAL-WORLD-PRESENTATION-POLISH-001-ASSISTED-20261014.md
-Artifact folder:
-evidence/clientcore/unreal-world-presentation-polish-assisted-20261014/
-Contains four EndPlay records, camera/occlusion/floor/Look/lamp/trough/bucket,
-container/speech/Norma/minimap/Follow/Stop PNG/JSON, selected logs and movement
-journal. Original continuation/resume evidence remains untouched.
-Session4 EndPlay09:37:46.799Z:1284commands,residual0,unsupported0,anomalies0,
-viewport synchronized; player32097,32216,7, no target/follow, four coins retained.
-REAL33D20736 closed normally by operator. Fusion32 services last verified
-querymanager584/game599/login867, ports7173/7172/7171. Reverify before reuse.
-Current session folder build/unreal-world-presentation-polish-001/live-20261015T031623.
+Report evidence/clientcore/UNREAL-WORLD-PRESENTATION-POLISH-001-INVENTORY-DROP-20261015.md.
+Artifacts evidence/clientcore/unreal-world-presentation-polish-inventory-drop-20261015/.
+Captures01-12, received JSON/geometry, selected logs, movement journals and checks.
+Previous ASSISTED-20261014/CONTINUATION-20261009 evidence preserved untouched.
+Session1 live-20261015T040507 client9972 closed10:12:23.347Z:
+289commands,residual/unsupported/anomalies0,18accepted/0unanswered walks.
+Session2 live-20261015T041555 client18884 closed10:35:41.478Z:
+640commands,residual/unsupported/anomalies0,14accepted/0rejected/0unanswered;
+4external relocations from Follow/server approach for Use. Player32095,32214,7,
+HP65 after legitimate Cipfried heal. No combat/follow target. Lamp32094,32214,7
+is now2108/off. All gear and four coins recovered; no items left by these tests.
+Existing server runtime /var/lib/fusion32-server-baseline-772-0, Ubuntu-26.04,
+querymanager584/game599/login867 last verified. Services left running, client
+closed. Do not reset runtime or repeat prior equipment preparation script.
 
-User explicitly authorized earlier offline weapon/backpack/shovel/rope prep.
-Already applied once with all services stopped, backup1002.usr.bak-before-operator-
-qa-equipment-20261015 in /var/lib/fusion32-server-baseline-772-0/game/state/usr/02.
-Never repeat that script. Backpack2854 slot3 contains3457/3003; sword3294 slot5;
-jacket3379 and coins3031 preserved. All other save bytes preserved at prep.
-Reference source/data and production art unchanged. Inventory acquisition was
-synthetic setup, not gameplay acquisition evidence. SHA256s in report.
+Checks: final Unreal build PASS11.92s; CameraAndFloors/AuthoritativeWindow/
+ExperimentalV08 suites PASS; nine native ClientCore suites PASS. One intermediate
+pickup compile failed and was corrected before session2. Final staged diff/JSON
+validation and secret_check required before push; evidence saved during closeout.
+FAppTime handled engine ensure remains distinct from zero protocol errors.
+Historical14unanswered walks in prior6f864e3 session not silently cleared.
+V08 art issues: unfinished frames, cave continuity,373/377 wall finishes,
+missing outfits/mountains. No production art changes. Preserve manual zoom,
+no proximity wall hiding/retraction, accepted roof/water/proportion behavior.
 
-V08 art issues remain: unfinished separation frames, cave continuity,373/377 wall
-finishes, missing outfits, mountains/other asset defects. No production art edits.
-Lamp geometry alias/light runtime work already existed at6f864e3 and passed live.
-Startup handled FAppTime thread-context ensure is a separate engine diagnostic;
-do not claim an entirely clean engine log from protocol counters.
-
-Checks: prior6f864e3 Unreal build/automation/native suites retained; no rebuild
-needed for docs/evidence only. git diff --cached --check passes. Final secret_check
-on staged docs/evidence and reachable history PASS; secret-check-final.txt retained.
-38 source JSON artifacts parse; four EndPlay counters summarized; PNG hashes saved.
-Changes staged for review, not committed/pushed. WORKTREE_CLEAN=NO.
-
-Next permitted QA: inspect report and resume only missing live evidence. Do not
-start independent certification, another milestone or main merge. A code change
-for inventory->world dragging needs scope beyond current no-feature QA request.
-Relevant input source: Real33DPanelChrome.cpp::SReal33DSlot::OnDrop,
-Real33DHUD.cpp::HandleItemDropped and PlayerController world drag receiver.
-For walk attribution: clientcore/src/movement_ledger.cpp::NoteLocalMove and
-session4-movement-journal.jsonl; compare authoritative floor changes and NPC Follow.
-Server authority: selected game receiving.cc::CUseTwoObjects/CAttack,
-operate.cc::Use/CheckMoveObject, moveuse.cc::UseLiquidContainer, crcombat.cc.
-QA launch from this worktree:
+Next task: resume missing QA only. Launch from this worktree:
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/client/run_unreal_presentation_qa.ps1 -Account B
-Check existing server with scripts/server/status_wsl.sh via Ubuntu-26.04 root;
-start existing runtime only if needed, never reset/prepare it again.
-Final readiness for independent certification NO.
+Recheck existing server with scripts/server/status_wsl.sh, never prepare/reset.
+Use normal UseWith (rope3003/shovel3457/bucket if available), known minimap click
+arrival and safe other-creature push. Obi unpushable; earlier Cipfried attempts
+legitimately rejected. Rat race21 source has no Unpushable flag. Earlier rope
+on435 at32097,32205,7 retrieved rat to32097,32206,7; retrieval is NOT push proof.
+No Fusion32 rules/data changes for QA. Prefer captured before/request/after and
+operator witness for pushing a movable creature. Stop if conditions unsafe.
+READY_FOR_INDEPENDENT_CERTIFICATION=NO. No merge to main.
