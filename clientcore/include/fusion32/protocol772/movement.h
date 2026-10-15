@@ -30,11 +30,20 @@ constexpr std::uint8_t kClientCommandRotateWest = 114;
 // reference/game/src/connections.hh: CL_CMD_TALK = 150.
 constexpr std::uint8_t kClientCommandTalk = 150;
 
-// Fusion32 also accepts CL_CMD_GO_NORTHEAST (106) through CL_CMD_GO_NORTHWEST
-// (109), routed through the same CGoDirection with both offsets non-zero, and
-// charges them three times the walk delay in
-// reference/game/src/cract.cc::TCreature::NotifyGo. They are intentionally not
-// exposed here; see docs/protocol772/MOVEMENT.md.
+// The four diagonals, routed through the same CGoDirection with both offsets
+// non-zero. Source: reference/game/src/receiving.cc::ReceiveData lines
+// 1735-1738, which pass the offsets below. Fusion32 charges them three times
+// the walk delay; see PredictStepDelayMilliseconds.
+constexpr std::uint8_t kClientCommandGoNortheast = 106;
+constexpr std::uint8_t kClientCommandGoSoutheast = 107;
+constexpr std::uint8_t kClientCommandGoSouthwest = 108;
+constexpr std::uint8_t kClientCommandGoNorthwest = 109;
+
+// Object actions. Source: reference/game/src/receiving.cc::CTurnObject,
+// CCloseContainer and CUpContainer.
+constexpr std::uint8_t kClientCommandTurnObject = 133;
+constexpr std::uint8_t kClientCommandCloseContainer = 135;
+constexpr std::uint8_t kClientCommandUpContainer = 136;
 
 // Server command values used by this layer. Source:
 // reference/game/src/connections.hh::ServerCommand.
@@ -79,6 +88,76 @@ std::vector<std::uint8_t> BuildStopCommand();
 // LogoutPossible returns 0.
 std::vector<std::uint8_t> BuildPingCommand();
 std::vector<std::uint8_t> BuildLogoutCommand();
+
+/**
+ * The four diagonals. Source: the offsets receiving.cc::ReceiveData hands to
+ * CGoDirection at lines 1735-1738 -- Northeast (1, -1), Southeast (1, 1),
+ * Southwest (-1, 1), Northwest (-1, -1). Note that y grows southward, which
+ * is why Northeast subtracts from y.
+ *
+ * Like the cardinals these carry no payload: CGoDirection takes its offsets
+ * from the dispatcher and reads nothing from the buffer.
+ */
+enum class DiagonalDirection : std::uint8_t {
+    Northeast = 0,
+    Southeast = 1,
+    Southwest = 2,
+    Northwest = 3,
+};
+
+std::uint8_t DiagonalWalkCommandOpcode(DiagonalDirection direction) noexcept;
+const char* DiagonalDirectionName(DiagonalDirection direction) noexcept;
+
+/** The field a diagonal step would land on, by the dispatcher's offsets.
+ *  Prediction for presentation only: the authoritative position is whatever
+ *  Fusion32 reports next, exactly as for a cardinal step. */
+MapPosition DiagonalStepPosition(const MapPosition& from,
+                                 DiagonalDirection direction) noexcept;
+
+/** One-byte payload, like BuildWalkCommand. */
+std::vector<std::uint8_t> BuildDiagonalWalkCommand(DiagonalDirection direction);
+
+/**
+ * The server's own default step quantum, reference/game/src/config.cc:100
+ * (`Beat = 200`). It is script-overridable at config.cc:183, so it is a
+ * parameter of the prediction below rather than a constant baked into it.
+ */
+constexpr int kDefaultBeatMilliseconds = 200;
+
+/**
+ * Reproduces the step interval Fusion32 computes in
+ * reference/game/src/cract.cc::TCreature::NotifyGo lines 1453-1463:
+ *
+ *     if(DiagonalMove){ Waypoints *= 3; }
+ *     int Delay = (Waypoints * 1000) / this->GetSpeed();
+ *     int BeatCount = (Delay + Beat - 1) / Beat;
+ *     EarliestWalkTime = ServerMilliseconds + BeatCount * Beat;
+ *
+ * `waypoints` is the WAYPOINTS attribute of the destination field's BANK
+ * object (`:1446-1448`); `speed` is TCreature::GetSpeed().
+ *
+ * This is a **prediction, never an authority**. Nothing in this client may
+ * gate, delay or refuse a step on its result: a walk request is an intent
+ * and Fusion32 rules on it, which is the same contract the cardinal walk
+ * builders already have. It exists so a caller that wants to pace its own
+ * input or draw a cooldown can use the server's real arithmetic instead of
+ * inventing one, and so the x3 rule is written down somewhere testable.
+ *
+ * Returns 0 for a non-positive speed, waypoints or beat rather than
+ * dividing: the server would not be in that state, and a silent division by
+ * zero is worse than an obviously unusable answer.
+ */
+int PredictStepDelayMilliseconds(int waypoints, int speed, bool diagonal,
+                                 int beat = kDefaultBeatMilliseconds) noexcept;
+
+/**
+ * True when a step from `from` to `to` is the diagonal Fusion32 charges
+ * triple for. Source: `cract.cc:1341`,
+ * `DiagonalMove = (DestX != OrigX && DestY != OrigY && DestZ == OrigZ)` --
+ * both axes must change **and the floor must not**, so a diagonal that also
+ * changes floor is not charged triple.
+ */
+bool IsTripleDelayDiagonal(const MapPosition& from, const MapPosition& to) noexcept;
 
 /**
  * Where a move takes an object from, or puts one.
@@ -172,6 +251,53 @@ std::vector<std::uint8_t> BuildUseOnCreatureCommand(const MoveEndpoint& object,
  * for a body slot it chooses that slot; in a container z selects the item.
  * The description arrives through the ordinary SV_CMD_MESSAGE path. */
 std::vector<std::uint8_t> BuildLookAtPointCommand(const MoveEndpoint& point);
+
+/**
+ * Rotates an object in place. CL_CMD_TURN_OBJECT, opcode 133.
+ *
+ * Reads the same five-field object reference as CMoveObject and CUseObject:
+ * x/y/z, type id, stack index. Unlike CTradeObject and CMoveObject,
+ * CTurnObject does **not** overwrite the stack index for a map object, so
+ * the index sent is the index the server resolves with.
+ *
+ * Two server-side rules this builder does not pre-apply, as elsewhere:
+ * CTurnObject returns without answering when the type `isMapContainer()`,
+ * and its own source carries an open question about whether the ROTATE flag
+ * should be checked (`// TODO(fusion): Check Type.getFlag(ROTATE)?`), so a
+ * non-rotatable object is Fusion32's to refuse. The result arrives as the
+ * ordinary field or container updates, plus SendResult on failure.
+ */
+std::vector<std::uint8_t> BuildTurnObjectCommand(const MoveEndpoint& object,
+                                                 std::uint16_t type_id,
+                                                 std::uint8_t stack_index);
+
+/**
+ * Closes one open container. CL_CMD_CLOSE_CONTAINER, opcode 135,
+ * `byte ContainerNr`.
+ *
+ * Until now this client closed containers through the 7.72 use toggle, which
+ * works but is not what the dedicated command does: CCloseContainer clears
+ * the slot and answers SendCloseContainer, so the authoritative close always
+ * arrives as SV_CMD_CLOSE_CONTAINER. The number is 0-based, as the server
+ * indexes its own table; the +64 that turns it into a coordinate happens
+ * only on the wire of a move.
+ *
+ * CCloseContainer ignores a number at or beyond its sixteen-entry table
+ * (`cr.hh:917`, `Object OpenContainer[16]`), so nothing is enforced here.
+ */
+std::vector<std::uint8_t> BuildCloseContainerCommand(std::uint8_t container);
+
+/**
+ * Reopens an open container slot showing its parent. CL_CMD_UP_CONTAINER,
+ * opcode 136, `byte ContainerNr`.
+ *
+ * This is the command behind the parent arrow this client has drawn inert.
+ * CUpContainer answers in one of two ways and the client must handle both:
+ * SV_CMD_CONTAINER with the parent when the parent is an ordinary container,
+ * or SV_CMD_CLOSE_CONTAINER when the parent is a map or body container,
+ * because there is nothing left to show inside the window.
+ */
+std::vector<std::uint8_t> BuildUpContainerCommand(std::uint8_t container);
 
 // ------------------------------------------------------------ combat commands
 //
