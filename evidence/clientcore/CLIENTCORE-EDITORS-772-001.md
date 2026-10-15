@@ -141,9 +141,35 @@ list cannot pass unnoticed". It did not. The list becomes `{125, 126, 171,
 - ASan + UBSan rebuild of all ten: **10/10 PASS**
 - `tests/regression_harness.sh --repo-root <this worktree>`:
   `PASS_WITH_SKIPS`, 6 PASS / 0 FAIL / 3 SKIP
-- `build-sanity-msvc` is `SKIP`: no MSVC environment this session, so the
-  Windows `/W4 /WX /permissive-` build of `editors.cpp` and its suite is
-  **not claimed**. Both are registered for the next run that has one.
+- `tests/build_clientcore_windows.cmd` from a VS 2022 Build Tools x64
+  developer environment: **WINDOWS CLIENTCORE: PASS**, all nine suites plus
+  `editors_tests` at `/W4 /WX /permissive-`, C++17 for the suites and C++20
+  for the archive the Unreal module links.
+
+### The MSVC pass found a real defect
+
+The first MSVC run failed to compile this suite, and the failure was genuine
+rather than environmental:
+
+```
+editors_tests.cpp(160): error C2220: warning treated as error
+editors_tests.cpp(160): warning C4127: conditional expression is constant
+editors_tests.cpp(161): warning C4127: ...
+editors_tests.cpp(162): warning C4127: ...
+```
+
+Three assertions about the `EditListType` enum values were written as runtime
+`CHECK(...)` calls even though they are compile-time facts. GCC accepts a
+constant condition silently; MSVC at `/W4 /WX` does not. Fixed by stating
+them as `static_assert`, which is both what MSVC wants and a better
+expression of the intent — the enum values are fixed by
+`reference/game/src/enums.hh:280-282` and cannot vary at run time. The
+neighbouring `IsKnownEditListType` checks stay runtime `CHECK`s because they
+exercise a function over several inputs.
+
+This is the second time the Windows build has caught something GCC waved
+through; `UNREAL-SLICE-001` recorded four such defects on its first native
+run. Re-verified after the fix: MSVC `PASS`, and GCC `ctest` still 10/10.
 
 ## Audit: do books and signs need more protocol than these four commands?
 

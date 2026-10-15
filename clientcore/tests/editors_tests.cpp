@@ -156,10 +156,13 @@ void GoldenClientCommands() {
         CHECK(command[1] == 2);
     }
 
-    // The enum values are the server's own.
-    CHECK(static_cast<std::uint8_t>(EditListType::GuestList) == 1);
-    CHECK(static_cast<std::uint8_t>(EditListType::SubownerList) == 2);
-    CHECK(static_cast<std::uint8_t>(EditListType::DoorList) == 3);
+    // The enum values are the server's own, from enums.hh:280-282. These are
+    // compile-time facts, so they are asserted at compile time: MSVC at /W4
+    // /WX rejects a constant condition inside the runtime CHECK macro
+    // (C4127), and a static_assert states the intent better anyway.
+    static_assert(static_cast<std::uint8_t>(EditListType::GuestList) == 1, "GUESTLIST");
+    static_assert(static_cast<std::uint8_t>(EditListType::SubownerList) == 2, "SUBOWNERLIST");
+    static_assert(static_cast<std::uint8_t>(EditListType::DoorList) == 3, "DOORLIST");
     CHECK(!IsKnownEditListType(0) && IsKnownEditListType(1) && IsKnownEditListType(3));
     CHECK(!IsKnownEditListType(4) && !IsKnownEditListType(255));
 
