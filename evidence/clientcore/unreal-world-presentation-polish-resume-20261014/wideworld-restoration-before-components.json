@@ -1,0 +1,4542 @@
+[
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       5
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01294/SM_V08_01294.SM_V08_01294",
+        "instances":  9,
+        "render_instances":  9,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -50.00,
+                              -117.75,
+                              549.00
+                          ],
+        "bounds_radius":  620.07
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       5
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02164/SM_V08_02164.SM_V08_02164",
+        "instances":  11,
+        "render_instances":  11,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -50.00,
+                              1250.00,
+                              473.42
+                          ],
+        "bounds_radius":  1604.05
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       5
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01299/SM_V08_01299.SM_V08_01299",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -600.00,
+                              100.00,
+                              549.00
+                          ],
+        "bounds_radius":  120.18
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       5
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02162/SM_V08_02162.SM_V08_02162",
+        "instances":  18,
+        "render_instances":  18,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -100.00,
+                              1450.00,
+                              473.42
+                          ],
+        "bounds_radius":  1471.56
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       5
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_00409/SM_V08_00409.SM_V08_00409",
+        "instances":  56,
+        "render_instances":  56,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -300.00,
+                              2450.00,
+                              437.75
+                          ],
+        "bounds_radius":  531.51
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       5
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01152/SM_V08_01152.SM_V08_01152",
+        "instances":  153,
+        "render_instances":  153,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              200.00,
+                              600.00,
+                              446.50
+                          ],
+        "bounds_radius":  1210.39
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       5
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02020/SM_V08_02020.SM_V08_02020",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -100.00,
+                              -300.00,
+                              511.88
+                          ],
+        "bounds_radius":  102.04
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       5
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02026/SM_V08_02026.SM_V08_02026",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -100.00,
+                              2400.00,
+                              490.00
+                          ],
+        "bounds_radius":  316.99
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       5
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01155/SM_V08_01155.SM_V08_01155",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              0.00,
+                              400.00,
+                              446.50
+                          ],
+        "bounds_radius":  15.56
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       5
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01154/SM_V08_01154.SM_V08_01154",
+        "instances":  11,
+        "render_instances":  11,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              0.00,
+                              1025.00,
+                              446.50
+                          ],
+        "bounds_radius":  525.10
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       5
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_05054/SM_V08_05054.SM_V08_05054",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              0.00,
+                              1600.00,
+                              441.36
+                          ],
+        "bounds_radius":  21.01
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       5
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02168/SM_V08_02168.SM_V08_02168",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              0.00,
+                              2800.00,
+                              473.42
+                          ],
+        "bounds_radius":  80.83
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       5
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01153/SM_V08_01153.SM_V08_01153",
+        "instances":  9,
+        "render_instances":  9,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              500.00,
+                              400.00,
+                              446.50
+                          ],
+        "bounds_radius":  450.12
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       5
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_00411/SM_V08_00411.SM_V08_00411",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              100.00,
+                              600.00,
+                              440.00
+                          ],
+        "bounds_radius":  0.00
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       5
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_05052/SM_V08_05052.SM_V08_05052",
+        "instances":  9,
+        "render_instances":  9,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              500.00,
+                              1600.00,
+                              441.66
+                          ],
+        "bounds_radius":  450.10
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       5
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01298/SM_V08_01298.SM_V08_01298",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              500.00,
+                              100.00,
+                              549.00
+                          ],
+        "bounds_radius":  127.72
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       5
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_05048/SM_V08_05048.SM_V08_05048",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1000.00,
+                              400.00,
+                              441.56
+                          ],
+        "bounds_radius":  16.97
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       5
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_05049/SM_V08_05049.SM_V08_05049",
+        "instances":  11,
+        "render_instances":  11,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1000.00,
+                              1000.00,
+                              441.66
+                          ],
+        "bounds_radius":  550.08
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       5
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_05050/SM_V08_05050.SM_V08_05050",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1000.00,
+                              1600.00,
+                              441.36
+                          ],
+        "bounds_radius":  10.10
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_00429/SM_V08_00429.SM_V08_00429",
+        "instances":  57,
+        "render_instances":  57,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              50.00,
+                              50.00,
+                              217.75
+                          ],
+        "bounds_radius":  806.23
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01281/SM_V08_01281.SM_V08_01281",
+        "instances":  25,
+        "render_instances":  25,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              150.00,
+                              550.00,
+                              329.00
+                          ],
+        "bounds_radius":  1184.76
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02602/SM_V08_02602.SM_V08_02602",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -600.00,
+                              -250.00,
+                              310.81
+                          ],
+        "bounds_radius":  110.69
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02908/SM_V08_02908.SM_V08_02908",
+        "instances":  4,
+        "render_instances":  4,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -209.00,
+                              588.81,
+                              252.00
+                          ],
+        "bounds_radius":  821.03
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01286/SM_V08_01286.SM_V08_01286",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -300.00,
+                              800.00,
+                              329.00
+                          ],
+        "bounds_radius":  808.14
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02162/SM_V08_02162.SM_V08_02162",
+        "instances":  8,
+        "render_instances":  8,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              225.62,
+                              1257.00,
+                              253.42
+                          ],
+        "bounds_radius":  1190.47
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_00409/SM_V08_00409.SM_V08_00409",
+        "instances":  55,
+        "render_instances":  55,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              0.00,
+                              -100.00,
+                              217.75
+                          ],
+        "bounds_radius":  604.16
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01282/SM_V08_01282.SM_V08_01282",
+        "instances":  26,
+        "render_instances":  26,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              150.00,
+                              800.00,
+                              329.00
+                          ],
+        "bounds_radius":  1004.82
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01294/SM_V08_01294.SM_V08_01294",
+        "instances":  12,
+        "render_instances":  12,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -267.75,
+                              2400.00,
+                              329.00
+                          ],
+        "bounds_radius":  513.18
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01290/SM_V08_01290.SM_V08_01290",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -150.00,
+                              493.00,
+                              329.00
+                          ],
+        "bounds_radius":  547.75
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01947/SM_V08_01947.SM_V08_01947",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -400.00,
+                              200.00,
+                              265.50
+                          ],
+        "bounds_radius":  82.46
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01634/SM_V08_01634.SM_V08_01634",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -300.00,
+                              100.00,
+                              275.00
+                          ],
+        "bounds_radius":  61.60
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02320/SM_V08_02320.SM_V08_02320",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -200.00,
+                              -250.00,
+                              229.00
+                          ],
+        "bounds_radius":  121.39
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01635/SM_V08_01635.SM_V08_01635",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -200.00,
+                              100.00,
+                              282.50
+                          ],
+        "bounds_radius":  118.27
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02153/SM_V08_02153.SM_V08_02153",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -200.00,
+                              2400.00,
+                              280.00
+                          ],
+        "bounds_radius":  238.50
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01636/SM_V08_01636.SM_V08_01636",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -100.00,
+                              -100.00,
+                              275.00
+                          ],
+        "bounds_radius":  61.60
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01637/SM_V08_01637.SM_V08_01637",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -100.00,
+                              0.00,
+                              320.00
+                          ],
+        "bounds_radius":  118.27
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01289/SM_V08_01289.SM_V08_01289",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              50.00,
+                              800.00,
+                              329.00
+                          ],
+        "bounds_radius":  764.31
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01283/SM_V08_01283.SM_V08_01283",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              0.00,
+                              400.00,
+                              220.00
+                          ],
+        "bounds_radius":  0.00
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01288/SM_V08_01288.SM_V08_01288",
+        "instances":  8,
+        "render_instances":  8,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              481.25,
+                              950.00,
+                              329.00
+                          ],
+        "bounds_radius":  613.17
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01297/SM_V08_01297.SM_V08_01297",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              0.00,
+                              2000.00,
+                              329.00
+                          ],
+        "bounds_radius":  148.58
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01298/SM_V08_01298.SM_V08_01298",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              0.00,
+                              2800.00,
+                              329.00
+                          ],
+        "bounds_radius":  127.72
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02575/SM_V08_02575.SM_V08_02575",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              100.00,
+                              -200.00,
+                              224.25
+                          ],
+        "bounds_radius":  153.90
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02578/SM_V08_02578.SM_V08_02578",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              100.00,
+                              0.00,
+                              224.25
+                          ],
+        "bounds_radius":  47.57
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_00408/SM_V08_00408.SM_V08_00408",
+        "instances":  97,
+        "render_instances":  97,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              500.00,
+                              1000.00,
+                              217.75
+                          ],
+        "bounds_radius":  710.64
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02434/SM_V08_02434.SM_V08_02434",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              100.00,
+                              500.00,
+                              220.00
+                          ],
+        "bounds_radius":  0.00
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01948/SM_V08_01948.SM_V08_01948",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              100.00,
+                              600.00,
+                              220.00
+                          ],
+        "bounds_radius":  0.00
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02524/SM_V08_02524.SM_V08_02524",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              100.00,
+                              800.00,
+                              220.00
+                          ],
+        "bounds_radius":  0.00
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02472/SM_V08_02472.SM_V08_02472",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              474.70,
+                              881.32,
+                              257.02
+                          ],
+        "bounds_radius":  394.79
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03003/SM_V08_03003.SM_V08_03003",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              200.00,
+                              1050.00,
+                              222.00
+                          ],
+        "bounds_radius":  111.80
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02473/SM_V08_02473.SM_V08_02473",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              100.00,
+                              1200.00,
+                              228.00
+                          ],
+        "bounds_radius":  100.00
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03272/SM_V08_03272.SM_V08_03272",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              100.00,
+                              1300.00,
+                              222.00
+                          ],
+        "bounds_radius":  0.00
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03294/SM_V08_03294.SM_V08_03294",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              100.00,
+                              1400.00,
+                              225.18
+                          ],
+        "bounds_radius":  66.85
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02471/SM_V08_02471.SM_V08_02471",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              100.00,
+                              1400.00,
+                              271.12
+                          ],
+        "bounds_radius":  72.23
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02576/SM_V08_02576.SM_V08_02576",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              200.00,
+                              -200.00,
+                              224.25
+                          ],
+        "bounds_radius":  158.13
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02579/SM_V08_02579.SM_V08_02579",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              200.00,
+                              0.00,
+                              224.25
+                          ],
+        "bounds_radius":  60.72
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01629/SM_V08_01629.SM_V08_01629",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              200.00,
+                              1200.00,
+                              220.00
+                          ],
+        "bounds_radius":  0.00
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02577/SM_V08_02577.SM_V08_02577",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              300.00,
+                              -200.00,
+                              224.25
+                          ],
+        "bounds_radius":  153.90
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02580/SM_V08_02580.SM_V08_02580",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              300.00,
+                              0.00,
+                              224.25
+                          ],
+        "bounds_radius":  47.57
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02359/SM_V08_02359.SM_V08_02359",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              300.00,
+                              500.00,
+                              220.00
+                          ],
+        "bounds_radius":  0.00
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02982/SM_V08_02982.SM_V08_02982",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              300.00,
+                              1400.00,
+                              246.94
+                          ],
+        "bounds_radius":  42.94
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02319/SM_V08_02319.SM_V08_02319",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              400.00,
+                              500.00,
+                              220.00
+                          ],
+        "bounds_radius":  0.00
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02324/SM_V08_02324.SM_V08_02324",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              400.00,
+                              937.50,
+                              229.00
+                          ],
+        "bounds_radius":  0.00
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02322/SM_V08_02322.SM_V08_02322",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              400.00,
+                              1162.12,
+                              249.80
+                          ],
+        "bounds_radius":  100.00
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02325/SM_V08_02325.SM_V08_02325",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              400.00,
+                              1400.00,
+                              229.00
+                          ],
+        "bounds_radius":  86.68
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01285/SM_V08_01285.SM_V08_01285",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              500.00,
+                              100.00,
+                              329.00
+                          ],
+        "bounds_radius":  128.69
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02910/SM_V08_02910.SM_V08_02910",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              616.41,
+                              657.00,
+                              256.12
+                          ],
+        "bounds_radius":  283.53
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02361/SM_V08_02361.SM_V08_02361",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              500.00,
+                              500.00,
+                              220.00
+                          ],
+        "bounds_radius":  0.00
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02535/SM_V08_02535.SM_V08_02535",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              600.00,
+                              500.00,
+                              220.00
+                          ],
+        "bounds_radius":  0.00
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01632/SM_V08_01632.SM_V08_01632",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              600.00,
+                              900.00,
+                              220.00
+                          ],
+        "bounds_radius":  0.00
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02164/SM_V08_02164.SM_V08_02164",
+        "instances":  20,
+        "render_instances":  20,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              850.00,
+                              1150.00,
+                              253.42
+                          ],
+        "bounds_radius":  1510.55
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01292/SM_V08_01292.SM_V08_01292",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              700.00,
+                              400.00,
+                              329.00
+                          ],
+        "bounds_radius":  126.42
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02487/SM_V08_02487.SM_V08_02487",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              750.00,
+                              500.00,
+                              252.63
+                          ],
+        "bounds_radius":  105.00
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02488/SM_V08_02488.SM_V08_02488",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              750.00,
+                              600.00,
+                              265.31
+                          ],
+        "bounds_radius":  110.16
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02526/SM_V08_02526.SM_V08_02526",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              800.00,
+                              1000.00,
+                              252.81
+                          ],
+        "bounds_radius":  47.27
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_00434/SM_V08_00434.SM_V08_00434",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              800.00,
+                              1200.00,
+                              221.86
+                          ],
+        "bounds_radius":  70.74
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01284/SM_V08_01284.SM_V08_01284",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              900.00,
+                              400.00,
+                              329.00
+                          ],
+        "bounds_radius":  148.58
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01152/SM_V08_01152.SM_V08_01152",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              900.00,
+                              500.00,
+                              226.50
+                          ],
+        "bounds_radius":  71.01
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01291/SM_V08_01291.SM_V08_01291",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              900.00,
+                              900.00,
+                              329.00
+                          ],
+        "bounds_radius":  148.58
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01287/SM_V08_01287.SM_V08_01287",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              900.00,
+                              1500.00,
+                              329.00
+                          ],
+        "bounds_radius":  148.58
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01127/SM_V08_01127.SM_V08_01127",
+        "instances":  82,
+        "render_instances":  82,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1450.00,
+                              1700.00,
+                              222.04
+                          ],
+        "bounds_radius":  1254.15
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03654/SM_V08_03654.SM_V08_03654",
+        "instances":  5,
+        "render_instances":  5,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1300.00,
+                              1500.00,
+                              270.88
+                          ],
+        "bounds_radius":  978.18
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03681/SM_V08_03681.SM_V08_03681",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1150.00,
+                              950.00,
+                              255.27
+                          ],
+        "bounds_radius":  223.78
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01772/SM_V08_01772.SM_V08_01772",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1250.00,
+                              1750.00,
+                              253.03
+                          ],
+        "bounds_radius":  936.10
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01808/SM_V08_01808.SM_V08_01808",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1100.00,
+                              700.00,
+                              268.44
+                          ],
+        "bounds_radius":  69.09
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01811/SM_V08_01811.SM_V08_01811",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1100.00,
+                              800.00,
+                              268.44
+                          ],
+        "bounds_radius":  69.09
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01794/SM_V08_01794.SM_V08_01794",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1200.00,
+                              800.00,
+                              229.12
+                          ],
+        "bounds_radius":  204.80
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01797/SM_V08_01797.SM_V08_01797",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1200.00,
+                              900.00,
+                              268.44
+                          ],
+        "bounds_radius":  190.42
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01813/SM_V08_01813.SM_V08_01813",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1300.00,
+                              850.00,
+                              268.44
+                          ],
+        "bounds_radius":  222.85
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01810/SM_V08_01810.SM_V08_01810",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1200.00,
+                              800.00,
+                              315.31
+                          ],
+        "bounds_radius":  136.20
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01799/SM_V08_01799.SM_V08_01799",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1300.00,
+                              800.00,
+                              268.44
+                          ],
+        "bounds_radius":  190.42
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01796/SM_V08_01796.SM_V08_01796",
+        "instances":  5,
+        "render_instances":  5,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1400.00,
+                              1750.00,
+                              315.31
+                          ],
+        "bounds_radius":  1008.41
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01814/SM_V08_01814.SM_V08_01814",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1350.00,
+                              1100.00,
+                              313.75
+                          ],
+        "bounds_radius":  166.66
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01782/SM_V08_01782.SM_V08_01782",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1400.00,
+                              2400.00,
+                              245.00
+                          ],
+        "bounds_radius":  46.64
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01792/SM_V08_01792.SM_V08_01792",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1500.00,
+                              700.00,
+                              265.31
+                          ],
+        "bounds_radius":  68.54
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01787/SM_V08_01787.SM_V08_01787",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1500.00,
+                              2800.00,
+                              265.31
+                          ],
+        "bounds_radius":  66.29
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01793/SM_V08_01793.SM_V08_01793",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1600.00,
+                              700.00,
+                              268.44
+                          ],
+        "bounds_radius":  70.64
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01817/SM_V08_01817.SM_V08_01817",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1600.00,
+                              1100.00,
+                              315.31
+                          ],
+        "bounds_radius":  136.20
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01788/SM_V08_01788.SM_V08_01788",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1600.00,
+                              2800.00,
+                              265.31
+                          ],
+        "bounds_radius":  65.20
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03683/SM_V08_03683.SM_V08_03683",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1700.00,
+                              800.00,
+                              270.00
+                          ],
+        "bounds_radius":  71.72
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       6
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03655/SM_V08_03655.SM_V08_03655",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1700.00,
+                              2600.00,
+                              246.56
+                          ],
+        "bounds_radius":  40.50
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_00409/SM_V08_00409.SM_V08_00409",
+        "instances":  160,
+        "render_instances":  160,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              50.00,
+                              1250.00,
+                              -2.25
+                          ],
+        "bounds_radius":  1746.43
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01282/SM_V08_01282.SM_V08_01282",
+        "instances":  23,
+        "render_instances":  23,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              100.00,
+                              650.00,
+                              109.00
+                          ],
+        "bounds_radius":  1148.17
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02910/SM_V08_02910.SM_V08_02910",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -600.00,
+                              -200.00,
+                              36.12
+                          ],
+        "bounds_radius":  45.43
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02929/SM_V08_02929.SM_V08_02929",
+        "instances":  4,
+        "render_instances":  4,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              54.75,
+                              400.00,
+                              44.77
+                          ],
+        "bounds_radius":  656.21
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_00870/SM_V08_00870.SM_V08_00870",
+        "instances":  79,
+        "render_instances":  79,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -300.00,
+                              1275.00,
+                              -2.25
+                          ],
+        "bounds_radius":  850.37
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04535/SM_V08_04535.SM_V08_04535",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -600.00,
+                              500.00,
+                              2.00
+                          ],
+        "bounds_radius":  0.00
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_00410/SM_V08_00410.SM_V08_00410",
+        "instances":  8,
+        "render_instances":  8,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -450.00,
+                              2400.00,
+                              -2.25
+                          ],
+        "bounds_radius":  320.16
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02162/SM_V08_02162.SM_V08_02162",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -450.00,
+                              2800.00,
+                              33.42
+                          ],
+        "bounds_radius":  204.49
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01634/SM_V08_01634.SM_V08_01634",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -150.00,
+                              450.00,
+                              55.00
+                          ],
+        "bounds_radius":  767.41
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_00435/SM_V08_00435.SM_V08_00435",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -500.00,
+                              1000.00,
+                              4.00
+                          ],
+        "bounds_radius":  44.10
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02110/SM_V08_02110.SM_V08_02110",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              150.00,
+                              1850.00,
+                              11.00
+                          ],
+        "bounds_radius":  1119.18
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01294/SM_V08_01294.SM_V08_01294",
+        "instances":  18,
+        "render_instances":  18,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              232.25,
+                              2182.25,
+                              113.00
+                          ],
+        "bounds_radius":  1012.14
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01635/SM_V08_01635.SM_V08_01635",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -50.00,
+                              450.00,
+                              62.50
+                          ],
+        "bounds_radius":  800.43
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02597/SM_V08_02597.SM_V08_02597",
+        "instances":  5,
+        "render_instances":  5,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              150.00,
+                              100.00,
+                              35.75
+                          ],
+        "bounds_radius":  575.81
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02026/SM_V08_02026.SM_V08_02026",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -300.00,
+                              -100.00,
+                              50.00
+                          ],
+        "bounds_radius":  71.28
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04532/SM_V08_04532.SM_V08_04532",
+        "instances":  20,
+        "render_instances":  20,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              800.00,
+                              1675.00,
+                              -0.25
+                          ],
+        "bounds_radius":  1622.42
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02012/SM_V08_02012.SM_V08_02012",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -300.00,
+                              500.00,
+                              8.00
+                          ],
+        "bounds_radius":  0.00
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04536/SM_V08_04536.SM_V08_04536",
+        "instances":  6,
+        "render_instances":  6,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              750.00,
+                              1200.00,
+                              -0.25
+                          ],
+        "bounds_radius":  1227.19
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04538/SM_V08_04538.SM_V08_04538",
+        "instances":  7,
+        "render_instances":  7,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              750.00,
+                              1400.00,
+                              -0.25
+                          ],
+        "bounds_radius":  1182.46
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01281/SM_V08_01281.SM_V08_01281",
+        "instances":  19,
+        "render_instances":  19,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              350.00,
+                              550.00,
+                              113.00
+                          ],
+        "bounds_radius":  1067.61
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02908/SM_V08_02908.SM_V08_02908",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -200.00,
+                              -150.00,
+                              36.00
+                          ],
+        "bounds_radius":  175.56
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01287/SM_V08_01287.SM_V08_01287",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              350.00,
+                              650.00,
+                              109.00
+                          ],
+        "bounds_radius":  1086.68
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01636/SM_V08_01636.SM_V08_01636",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              100.00,
+                              700.00,
+                              55.00
+                          ],
+        "bounds_radius":  692.33
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01637/SM_V08_01637.SM_V08_01637",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              100.00,
+                              800.00,
+                              100.00
+                          ],
+        "bounds_radius":  715.74
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02602/SM_V08_02602.SM_V08_02602",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -200.00,
+                              300.00,
+                              8.00
+                          ],
+        "bounds_radius":  0.00
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01289/SM_V08_01289.SM_V08_01289",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              300.00,
+                              950.00,
+                              109.00
+                          ],
+        "bounds_radius":  761.56
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04515/SM_V08_04515.SM_V08_04515",
+        "instances":  286,
+        "render_instances":  286,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1150.00,
+                              1250.00,
+                              -2.25
+                          ],
+        "bounds_radius":  2126.03
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03682/SM_V08_03682.SM_V08_03682",
+        "instances":  34,
+        "render_instances":  34,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1177.18,
+                              1350.00,
+                              72.89
+                          ],
+        "bounds_radius":  2038.88
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04531/SM_V08_04531.SM_V08_04531",
+        "instances":  17,
+        "render_instances":  17,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              700.00,
+                              1050.00,
+                              0.75
+                          ],
+        "bounds_radius":  1108.05
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02014/SM_V08_02014.SM_V08_02014",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              200.00,
+                              1000.00,
+                              33.69
+                          ],
+        "bounds_radius":  493.07
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04533/SM_V08_04533.SM_V08_04533",
+        "instances":  10,
+        "render_instances":  10,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              650.00,
+                              1500.00,
+                              0.75
+                          ],
+        "bounds_radius":  992.65
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02109/SM_V08_02109.SM_V08_02109",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -200.00,
+                              1500.00,
+                              101.06
+                          ],
+        "bounds_radius":  431.67
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04517/SM_V08_04517.SM_V08_04517",
+        "instances":  11,
+        "render_instances":  11,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              950.00,
+                              1200.00,
+                              -2.25
+                          ],
+        "bounds_radius":  1882.15
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03614/SM_V08_03614.SM_V08_03614",
+        "instances":  10,
+        "render_instances":  10,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1100.00,
+                              1150.00,
+                              117.57
+                          ],
+        "bounds_radius":  2071.41
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04529/SM_V08_04529.SM_V08_04529",
+        "instances":  9,
+        "render_instances":  9,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1100.00,
+                              1400.00,
+                              -2.25
+                          ],
+        "bounds_radius":  1981.16
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03699/SM_V08_03699.SM_V08_03699",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              400.00,
+                              1325.00,
+                              37.11
+                          ],
+        "bounds_radius":  902.91
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04657/SM_V08_04657.SM_V08_04657",
+        "instances":  4,
+        "render_instances":  4,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -200.00,
+                              1750.00,
+                              -0.25
+                          ],
+        "bounds_radius":  200.89
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02153/SM_V08_02153.SM_V08_02153",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              -200.00,
+                              2400.00,
+                              60.00
+                          ],
+        "bounds_radius":  238.50
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02435/SM_V08_02435.SM_V08_02435",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              150.00,
+                              50.00,
+                              79.63
+                          ],
+        "bounds_radius":  356.44
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03617/SM_V08_03617.SM_V08_03617",
+        "instances":  12,
+        "render_instances":  12,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1251.63,
+                              950.00,
+                              103.95
+                          ],
+        "bounds_radius":  1914.45
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04526/SM_V08_04526.SM_V08_04526",
+        "instances":  21,
+        "render_instances":  21,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1225.00,
+                              1200.00,
+                              -2.25
+                          ],
+        "bounds_radius":  2039.15
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04528/SM_V08_04528.SM_V08_04528",
+        "instances":  6,
+        "render_instances":  6,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1100.00,
+                              1400.00,
+                              -2.25
+                          ],
+        "bounds_radius":  1632.48
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_00103/SM_V08_00103.SM_V08_00103",
+        "instances":  70,
+        "render_instances":  70,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              300.00,
+                              2200.00,
+                              -2.90
+                          ],
+        "bounds_radius":  790.58
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02436/SM_V08_02436.SM_V08_02436",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              250.00,
+                              50.00,
+                              79.63
+                          ],
+        "bounds_radius":  356.44
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01290/SM_V08_01290.SM_V08_01290",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              450.00,
+                              757.00,
+                              109.00
+                          ],
+        "bounds_radius":  584.66
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04523/SM_V08_04523.SM_V08_04523",
+        "instances":  14,
+        "render_instances":  14,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1025.00,
+                              1250.00,
+                              -2.25
+                          ],
+        "bounds_radius":  1900.17
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02931/SM_V08_02931.SM_V08_02931",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              0.00,
+                              1050.00,
+                              55.75
+                          ],
+        "bounds_radius":  264.55
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01288/SM_V08_01288.SM_V08_01288",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              0.00,
+                              1100.00,
+                              109.00
+                          ],
+        "bounds_radius":  126.42
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01735/SM_V08_01735.SM_V08_01735",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              0.00,
+                              1400.00,
+                              52.10
+                          ],
+        "bounds_radius":  73.66
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01286/SM_V08_01286.SM_V08_01286",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              0.00,
+                              1500.00,
+                              109.00
+                          ],
+        "bounds_radius":  126.42
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01297/SM_V08_01297.SM_V08_01297",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              500.00,
+                              2050.00,
+                              109.00
+                          ],
+        "bounds_radius":  613.17
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02164/SM_V08_02164.SM_V08_02164",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              0.00,
+                              2450.00,
+                              33.42
+                          ],
+        "bounds_radius":  204.49
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01298/SM_V08_01298.SM_V08_01298",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              0.00,
+                              2800.00,
+                              109.00
+                          ],
+        "bounds_radius":  127.72
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02437/SM_V08_02437.SM_V08_02437",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              350.00,
+                              50.00,
+                              79.63
+                          ],
+        "bounds_radius":  356.44
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_00408/SM_V08_00408.SM_V08_00408",
+        "instances":  99,
+        "render_instances":  99,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              500.00,
+                              1000.00,
+                              -2.25
+                          ],
+        "bounds_radius":  710.64
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02526/SM_V08_02526.SM_V08_02526",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              466.41,
+                              500.00,
+                              32.81
+                          ],
+        "bounds_radius":  367.98
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02372/SM_V08_02372.SM_V08_02372",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              100.00,
+                              1200.00,
+                              25.12
+                          ],
+        "bounds_radius":  66.20
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02373/SM_V08_02373.SM_V08_02373",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              100.00,
+                              1300.00,
+                              25.12
+                          ],
+        "bounds_radius":  66.20
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02875/SM_V08_02875.SM_V08_02875",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              100.00,
+                              1400.00,
+                              37.90
+                          ],
+        "bounds_radius":  42.44
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02319/SM_V08_02319.SM_V08_02319",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              100.00,
+                              1400.00,
+                              47.62
+                          ],
+        "bounds_radius":  75.33
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04519/SM_V08_04519.SM_V08_04519",
+        "instances":  25,
+        "render_instances":  25,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1300.00,
+                              1350.00,
+                              -2.25
+                          ],
+        "bounds_radius":  1952.56
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03622/SM_V08_03622.SM_V08_03622",
+        "instances":  6,
+        "render_instances":  6,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              300.00,
+                              2200.00,
+                              127.62
+                          ],
+        "bounds_radius":  726.91
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04524/SM_V08_04524.SM_V08_04524",
+        "instances":  7,
+        "render_instances":  7,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1250.00,
+                              1100.00,
+                              -2.25
+                          ],
+        "bounds_radius":  1732.77
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04522/SM_V08_04522.SM_V08_04522",
+        "instances":  33,
+        "render_instances":  33,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1300.00,
+                              1250.00,
+                              -2.25
+                          ],
+        "bounds_radius":  2030.40
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04530/SM_V08_04530.SM_V08_04530",
+        "instances":  5,
+        "render_instances":  5,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1350.00,
+                              1550.00,
+                              -2.25
+                          ],
+        "bounds_radius":  1562.05
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03681/SM_V08_03681.SM_V08_03681",
+        "instances":  39,
+        "render_instances":  39,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1350.00,
+                              1000.00,
+                              35.27
+                          ],
+        "bounds_radius":  1804.18
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04518/SM_V08_04518.SM_V08_04518",
+        "instances":  29,
+        "render_instances":  29,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1350.00,
+                              1200.00,
+                              -2.25
+                          ],
+        "bounds_radius":  1960.23
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04537/SM_V08_04537.SM_V08_04537",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              850.00,
+                              1600.00,
+                              -0.25
+                          ],
+        "bounds_radius":  704.43
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04541/SM_V08_04541.SM_V08_04541",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              850.00,
+                              1650.00,
+                              -0.25
+                          ],
+        "bounds_radius":  721.11
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04525/SM_V08_04525.SM_V08_04525",
+        "instances":  17,
+        "render_instances":  17,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1350.00,
+                              1300.00,
+                              -2.25
+                          ],
+        "bounds_radius":  1900.66
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03615/SM_V08_03615.SM_V08_03615",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              500.00,
+                              2050.00,
+                              107.59
+                          ],
+        "bounds_radius":  474.48
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03685/SM_V08_03685.SM_V08_03685",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              300.00,
+                              2500.00,
+                              50.00
+                          ],
+        "bounds_radius":  70.64
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03683/SM_V08_03683.SM_V08_03683",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              550.00,
+                              2550.00,
+                              50.00
+                          ],
+        "bounds_radius":  310.39
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04534/SM_V08_04534.SM_V08_04534",
+        "instances":  8,
+        "render_instances":  8,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              400.00,
+                              2450.00,
+                              -0.25
+                          ],
+        "bounds_radius":  400.38
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03692/SM_V08_03692.SM_V08_03692",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              400.00,
+                              2600.00,
+                              75.19
+                          ],
+        "bounds_radius":  92.54
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02535/SM_V08_02535.SM_V08_02535",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              500.00,
+                              1200.00,
+                              38.25
+                          ],
+        "bounds_radius":  59.32
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04540/SM_V08_04540.SM_V08_04540",
+        "instances":  6,
+        "render_instances":  6,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1200.00,
+                              1150.00,
+                              -0.25
+                          ],
+        "bounds_radius":  1025.92
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02330/SM_V08_02330.SM_V08_02330",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              600.00,
+                              800.00,
+                              9.00
+                          ],
+        "bounds_radius":  84.45
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02322/SM_V08_02322.SM_V08_02322",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              600.00,
+                              900.00,
+                              29.80
+                          ],
+        "bounds_radius":  62.63
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02325/SM_V08_02325.SM_V08_02325",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              600.00,
+                              1000.00,
+                              9.00
+                          ],
+        "bounds_radius":  86.68
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02323/SM_V08_02323.SM_V08_02323",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              700.00,
+                              800.00,
+                              9.00
+                          ],
+        "bounds_radius":  69.12
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02520/SM_V08_02520.SM_V08_02520",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              700.00,
+                              1200.00,
+                              47.21
+                          ],
+        "bounds_radius":  69.68
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04516/SM_V08_04516.SM_V08_04516",
+        "instances":  10,
+        "render_instances":  10,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1600.00,
+                              1000.00,
+                              -2.25
+                          ],
+        "bounds_radius":  1415.98
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_02327/SM_V08_02327.SM_V08_02327",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              800.00,
+                              800.00,
+                              9.00
+                          ],
+        "bounds_radius":  86.68
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03457/SM_V08_03457.SM_V08_03457",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              800.00,
+                              900.00,
+                              60.00
+                          ],
+        "bounds_radius":  61.54
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03003/SM_V08_03003.SM_V08_03003",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              800.00,
+                              900.00,
+                              7.68
+                          ],
+        "bounds_radius":  52.06
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01947/SM_V08_01947.SM_V08_01947",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              800.00,
+                              1200.00,
+                              45.50
+                          ],
+        "bounds_radius":  82.46
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03616/SM_V08_03616.SM_V08_03616",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              800.00,
+                              2300.00,
+                              79.57
+                          ],
+        "bounds_radius":  139.48
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_03689/SM_V08_03689.SM_V08_03689",
+        "instances":  4,
+        "render_instances":  4,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              850.00,
+                              2650.00,
+                              70.31
+                          ],
+        "bounds_radius":  216.36
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04527/SM_V08_04527.SM_V08_04527",
+        "instances":  13,
+        "render_instances":  13,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1650.00,
+                              1050.00,
+                              -2.25
+                          ],
+        "bounds_radius":  1612.45
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01284/SM_V08_01284.SM_V08_01284",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              900.00,
+                              400.00,
+                              109.00
+                          ],
+        "bounds_radius":  148.58
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01119/SM_V08_01119.SM_V08_01119",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              950.00,
+                              1400.00,
+                              100.00
+                          ],
+        "bounds_radius":  926.31
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04457/SM_V08_04457.SM_V08_04457",
+        "instances":  11,
+        "render_instances":  11,
+        "tree_built":  false,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1150.00,
+                              1600.00,
+                              104.00
+                          ],
+        "bounds_radius":  1068.46
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01118/SM_V08_01118.SM_V08_01118",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              900.00,
+                              1100.00,
+                              100.00
+                          ],
+        "bounds_radius":  142.11
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01299/SM_V08_01299.SM_V08_01299",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              900.00,
+                              2100.00,
+                              109.00
+                          ],
+        "bounds_radius":  120.18
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04405/SM_V08_04405.SM_V08_04405",
+        "instances":  5,
+        "render_instances":  5,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1450.00,
+                              900.00,
+                              -2.25
+                          ],
+        "bounds_radius":  672.68
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04458/SM_V08_04458.SM_V08_04458",
+        "instances":  15,
+        "render_instances":  15,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1400.00,
+                              1450.00,
+                              74.31
+                          ],
+        "bounds_radius":  1088.49
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01128/SM_V08_01128.SM_V08_01128",
+        "instances":  82,
+        "render_instances":  82,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1450.00,
+                              1700.00,
+                              2.25
+                          ],
+        "bounds_radius":  1254.00
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01085/SM_V08_01085.SM_V08_01085",
+        "instances":  6,
+        "render_instances":  6,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1400.00,
+                              1050.00,
+                              100.00
+                          ],
+        "bounds_radius":  574.19
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04398/SM_V08_04398.SM_V08_04398",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1200.00,
+                              950.00,
+                              -2.25
+                          ],
+        "bounds_radius":  559.02
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04521/SM_V08_04521.SM_V08_04521",
+        "instances":  8,
+        "render_instances":  8,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1600.00,
+                              1100.00,
+                              -2.25
+                          ],
+        "bounds_radius":  1408.90
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04463/SM_V08_04463.SM_V08_04463",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1050.00,
+                              2750.00,
+                              87.50
+                          ],
+        "bounds_radius":  161.95
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04394/SM_V08_04394.SM_V08_04394",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1450.00,
+                              1150.00,
+                              -2.25
+                          ],
+        "bounds_radius":  447.22
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04399/SM_V08_04399.SM_V08_04399",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1400.00,
+                              950.00,
+                              -2.25
+                          ],
+        "bounds_radius":  610.33
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04542/SM_V08_04542.SM_V08_04542",
+        "instances":  6,
+        "render_instances":  6,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1500.00,
+                              1150.00,
+                              -0.25
+                          ],
+        "bounds_radius":  540.84
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01082/SM_V08_01082.SM_V08_01082",
+        "instances":  6,
+        "render_instances":  6,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1250.00,
+                              1900.00,
+                              50.00
+                          ],
+        "bounds_radius":  852.99
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04467/SM_V08_04467.SM_V08_04467",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1200.00,
+                              2750.00,
+                              100.00
+                          ],
+        "bounds_radius":  232.59
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04406/SM_V08_04406.SM_V08_04406",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1500.00,
+                              550.00,
+                              -2.25
+                          ],
+        "bounds_radius":  364.01
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04403/SM_V08_04403.SM_V08_04403",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1550.00,
+                              950.00,
+                              -2.25
+                          ],
+        "bounds_radius":  500.01
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04460/SM_V08_04460.SM_V08_04460",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1200.00,
+                              2800.00,
+                              96.88
+                          ],
+        "bounds_radius":  139.93
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04397/SM_V08_04397.SM_V08_04397",
+        "instances":  8,
+        "render_instances":  8,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1650.00,
+                              900.00,
+                              -2.25
+                          ],
+        "bounds_radius":  540.84
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04402/SM_V08_04402.SM_V08_04402",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1400.00,
+                              1300.00,
+                              -2.25
+                          ],
+        "bounds_radius":  70.75
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_01081/SM_V08_01081.SM_V08_01081",
+        "instances":  8,
+        "render_instances":  8,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1700.00,
+                              1700.00,
+                              50.50
+                          ],
+        "bounds_radius":  1179.95
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04400/SM_V08_04400.SM_V08_04400",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1600.00,
+                              1200.00,
+                              -2.25
+                          ],
+        "bounds_radius":  70.75
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04462/SM_V08_04462.SM_V08_04462",
+        "instances":  4,
+        "render_instances":  4,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1800.00,
+                              2500.00,
+                              83.69
+                          ],
+        "bounds_radius":  376.65
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04466/SM_V08_04466.SM_V08_04466",
+        "instances":  3,
+        "render_instances":  3,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1750.00,
+                              2550.00,
+                              100.00
+                          ],
+        "bounds_radius":  315.27
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04395/SM_V08_04395.SM_V08_04395",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1700.00,
+                              1100.00,
+                              -2.25
+                          ],
+        "bounds_radius":  70.75
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04408/SM_V08_04408.SM_V08_04408",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1700.00,
+                              1200.00,
+                              -2.25
+                          ],
+        "bounds_radius":  70.75
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04407/SM_V08_04407.SM_V08_04407",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1800.00,
+                              700.00,
+                              -2.25
+                          ],
+        "bounds_radius":  70.75
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04461/SM_V08_04461.SM_V08_04461",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              1900.00,
+                              2650.00,
+                              104.00
+                          ],
+        "bounds_radius":  291.13
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04644/SM_V08_04644.SM_V08_04644",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              2000.00,
+                              2700.00,
+                              -0.25
+                          ],
+        "bounds_radius":  60.82
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04640/SM_V08_04640.SM_V08_04640",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              2000.00,
+                              2800.00,
+                              -0.25
+                          ],
+        "bounds_radius":  70.75
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04635/SM_V08_04635.SM_V08_04635",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              2150.00,
+                              2700.00,
+                              -0.25
+                          ],
+        "bounds_radius":  109.81
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04602/SM_V08_04602.SM_V08_04602",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              2100.00,
+                              2800.00,
+                              -2.25
+                          ],
+        "bounds_radius":  70.75
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04597/SM_V08_04597.SM_V08_04597",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              2200.00,
+                              2800.00,
+                              -2.25
+                          ],
+        "bounds_radius":  70.75
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04643/SM_V08_04643.SM_V08_04643",
+        "instances":  2,
+        "render_instances":  2,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              2350.00,
+                              2750.00,
+                              -0.25
+                          ],
+        "bounds_radius":  123.94
+    },
+    {
+        "sector":  [
+                       1003,
+                       1006,
+                       7
+                   ],
+        "mesh":  "/Game/Experimental/V08/ID_04639/SM_V08_04639.SM_V08_04639",
+        "instances":  1,
+        "render_instances":  1,
+        "tree_built":  true,
+        "actor_hidden":  false,
+        "visible":  true,
+        "hidden_in_game":  false,
+        "bounds_origin":  [
+                              2300.00,
+                              2800.00,
+                              -0.25
+                          ],
+        "bounds_radius":  70.75
+    }
+]

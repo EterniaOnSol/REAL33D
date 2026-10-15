@@ -1,0 +1,77 @@
+[
+    {
+        "type_id":  2109,
+        "tile":  [
+                     32088,
+                     32199,
+                     7
+                 ],
+        "mesh":  "/Game/Experimental/V08/ID_02108/SM_V08_02108.SM_V08_02108",
+        "visible":  true,
+        "rotation":  [
+                         0.00,
+                         0.00,
+                         0.00
+                     ],
+        "world_bounds_size":  [
+                                  36.00,
+                                  36.00,
+                                  170.00
+                              ],
+        "projected":  true,
+        "screen_center":  [
+                              720.86,
+                              1143.24
+                          ]
+    },
+    {
+        "type_id":  2109,
+        "tile":  [
+                     32094,
+                     32206,
+                     7
+                 ],
+        "mesh":  "/Game/Experimental/V08/ID_02108/SM_V08_02108.SM_V08_02108",
+        "visible":  true,
+        "rotation":  [
+                         0.00,
+                         0.00,
+                         0.00
+                     ],
+        "world_bounds_size":  [
+                                  36.00,
+                                  36.00,
+                                  170.00
+                              ],
+        "projected":  true,
+        "screen_center":  [
+                              718.67,
+                              349.27
+                          ]
+    },
+    {
+        "type_id":  2109,
+        "tile":  [
+                     32100,
+                     32206,
+                     7
+                 ],
+        "mesh":  "/Game/Experimental/V08/ID_02108/SM_V08_02108.SM_V08_02108",
+        "visible":  true,
+        "rotation":  [
+                         0.00,
+                         0.00,
+                         0.00
+                     ],
+        "world_bounds_size":  [
+                                  36.00,
+                                  36.00,
+                                  170.00
+                              ],
+        "projected":  true,
+        "screen_center":  [
+                              512.81,
+                              205.18
+                          ]
+    }
+]

@@ -1,0 +1,375 @@
+[2026.10.14-22.14.11:340][  1]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.11:478][  1]LogOutputDevice: Error: Ensure condition failed: IsInGameThread()  [File:D:\build\++UE5\Sync\Engine\Source\Runtime\Core\Private\Misc\AppTime.cpp] [Line: 38]
+[2026.10.14-22.14.29:554][  2]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.30:886][  3]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.30:978][  4]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.31:086][  6]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.31:345][ 11]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.31:591][ 32]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.31:791][ 50]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.31:882][ 58]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.32:092][ 76]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.32:236][ 88]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.32:596][115]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.32:736][126]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.32:939][142]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.33:090][154]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.33:734][213]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.33:893][227]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.34:189][254]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.34:395][273]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.34:685][298]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.34:896][315]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.34:995][323]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.35:234][343]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.35:530][368]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.35:737][387]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.35:937][405]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.36:043][414]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.36:292][435]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.36:489][452]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.37:048][494]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.37:136][501]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=344
+[2026.10.14-22.14.37:388][517]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=355
+[2026.10.14-22.14.37:550][529]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=355
+[2026.10.14-22.14.37:983][560]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=365
+[2026.10.14-22.14.38:259][581]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=360
+[2026.10.14-22.14.38:386][592]LogReal33D: floor visibility: player floor 8 covered=true hidden upper tiles=360
+[2026.10.14-22.14.38:784][618]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=188
+[2026.10.14-22.14.39:802][695]LogReal33D: input 2: Fusion32 accepted request 1, 32080,32182,7 -> 32081,32182,7
+[2026.10.14-22.14.39:806][695]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=193
+[2026.10.14-22.14.40:306][735]LogReal33D: input 3: Fusion32 accepted request 2, 32081,32182,7 -> 32082,32182,7
+[2026.10.14-22.14.40:308][735]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=198
+[2026.10.14-22.14.40:797][772]LogReal33D: input 4: Fusion32 accepted request 3, 32082,32182,7 -> 32083,32182,7
+[2026.10.14-22.14.40:801][772]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=203
+[2026.10.14-22.14.40:889][779]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=203
+[2026.10.14-22.14.41:309][811]LogReal33D: input 5: Fusion32 accepted request 4, 32083,32182,7 -> 32083,32183,7
+[2026.10.14-22.14.41:312][811]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=193
+[2026.10.14-22.14.41:798][838]LogReal33D: input 6: Fusion32 accepted request 5, 32083,32183,7 -> 32083,32184,7
+[2026.10.14-22.14.41:802][838]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=182
+[2026.10.14-22.14.42:299][883]LogReal33D: input 7: Fusion32 accepted request 6, 32083,32184,7 -> 32083,32185,7
+[2026.10.14-22.14.42:302][883]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=165
+[2026.10.14-22.14.42:800][925]LogReal33D: input 8: Fusion32 accepted request 7, 32083,32185,7 -> 32083,32186,7
+[2026.10.14-22.14.42:802][925]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=141
+[2026.10.14-22.14.43:304][964]LogReal33D: input 9: Fusion32 accepted request 8, 32083,32186,7 -> 32083,32187,7
+[2026.10.14-22.14.43:309][964]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=119
+[2026.10.14-22.14.43:810][  0]LogReal33D: input 11: Fusion32 accepted request 10, 32083,32187,7 -> 32083,32188,7
+[2026.10.14-22.14.43:812][  0]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=112
+[2026.10.14-22.14.44:313][ 42]LogReal33D: input 12: Fusion32 accepted request 11, 32083,32188,7 -> 32083,32189,7
+[2026.10.14-22.14.44:316][ 42]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=107
+[2026.10.14-22.14.44:799][ 84]LogReal33D: input 13: Fusion32 accepted request 12, 32083,32189,7 -> 32083,32190,7
+[2026.10.14-22.14.44:806][ 84]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.45:303][119]LogReal33D: input 14: Fusion32 accepted request 13, 32083,32190,7 -> 32083,32191,7
+[2026.10.14-22.14.45:306][119]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.45:818][153]LogReal33D: input 15: Fusion32 accepted request 14, 32083,32191,7 -> 32083,32192,7
+[2026.10.14-22.14.45:820][153]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.46:296][190]LogReal33D: input 16: Fusion32 accepted request 15, 32083,32192,7 -> 32082,32192,7
+[2026.10.14-22.14.46:297][190]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.46:385][197]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.46:794][230]LogReal33D: input 17: Fusion32 accepted request 16, 32082,32192,7 -> 32081,32192,7
+[2026.10.14-22.14.46:796][230]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.47:296][269]LogReal33D: input 18: Fusion32 accepted request 17, 32081,32192,7 -> 32080,32192,7
+[2026.10.14-22.14.47:298][269]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.47:801][304]LogReal33D: input 20: Fusion32 accepted request 19, 32080,32192,7 -> 32081,32192,7
+[2026.10.14-22.14.47:804][304]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.48:298][343]LogReal33D: input 21: Fusion32 accepted request 20, 32081,32192,7 -> 32082,32192,7
+[2026.10.14-22.14.48:301][343]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.48:385][350]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.48:789][383]LogReal33D: input 22: Fusion32 accepted request 21, 32082,32192,7 -> 32083,32192,7
+[2026.10.14-22.14.48:794][383]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.49:308][423]LogReal33D: input 23: Fusion32 accepted request 22, 32083,32192,7 -> 32084,32192,7
+[2026.10.14-22.14.49:311][423]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.49:821][458]LogReal33D: input 24: Fusion32 accepted request 23, 32084,32192,7 -> 32085,32192,7
+[2026.10.14-22.14.49:825][458]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.50:320][493]LogReal33D: input 25: Fusion32 accepted request 24, 32085,32192,7 -> 32086,32192,7
+[2026.10.14-22.14.50:322][493]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.50:394][498]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.50:760][525]LogReal33D: input 26: Fusion32 accepted request 25, 32086,32192,7 -> 32087,32192,7
+[2026.10.14-22.14.50:762][525]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.51:207][558]LogReal33D: input 27: Fusion32 accepted request 26, 32087,32192,7 -> 32088,32192,7
+[2026.10.14-22.14.51:210][558]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.51:661][590]LogReal33D: input 28: Fusion32 accepted request 27, 32088,32192,7 -> 32089,32192,7
+[2026.10.14-22.14.51:663][590]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.52:111][623]LogReal33D: input 29: Fusion32 accepted request 28, 32089,32192,7 -> 32090,32192,7
+[2026.10.14-22.14.52:112][623]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.52:394][646]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.52:559][658]LogReal33D: input 30: Fusion32 accepted request 29, 32090,32192,7 -> 32091,32192,7
+[2026.10.14-22.14.52:561][658]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.53:008][689]LogReal33D: input 31: Fusion32 accepted request 30, 32091,32192,7 -> 32092,32192,7
+[2026.10.14-22.14.53:010][689]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.53:467][716]LogReal33D: input 32: Fusion32 accepted request 31, 32092,32192,7 -> 32092,32193,7
+[2026.10.14-22.14.53:471][716]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.53:931][739]LogReal33D: input 33: Fusion32 accepted request 32, 32092,32193,7 -> 32092,32194,7
+[2026.10.14-22.14.53:935][739]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.54:409][767]LogReal33D: input 34: Fusion32 accepted request 33, 32092,32194,7 -> 32092,32195,7
+[2026.10.14-22.14.54:412][767]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.54:811][796]LogReal33D: input 35: Fusion32 accepted request 34, 32092,32195,7 -> 32092,32196,7
+[2026.10.14-22.14.54:813][796]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.55:256][830]LogReal33D: input 36: Fusion32 accepted request 35, 32092,32196,7 -> 32092,32197,7
+[2026.10.14-22.14.55:257][830]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.55:698][861]LogReal33D: input 37: Fusion32 accepted request 36, 32092,32197,7 -> 32092,32198,7
+[2026.10.14-22.14.55:701][861]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.56:151][894]LogReal33D: input 38: Fusion32 accepted request 37, 32092,32198,7 -> 32092,32199,7
+[2026.10.14-22.14.56:154][894]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.56:391][913]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.56:610][929]LogReal33D: input 39: Fusion32 accepted request 38, 32092,32199,7 -> 32092,32200,7
+[2026.10.14-22.14.56:612][929]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.56:883][950]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.57:059][962]LogReal33D: input 41: Fusion32 accepted request 40, 32092,32200,7 -> 32093,32200,7
+[2026.10.14-22.14.57:062][962]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.57:346][968]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.57:494][978]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.58:105][ 22]LogReal33D: input 44: Fusion32 accepted request 43, 32093,32200,7 -> 32093,32201,7
+[2026.10.14-22.14.58:107][ 22]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.58:386][ 43]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.58:561][ 55]LogReal33D: input 45: Fusion32 accepted request 44, 32093,32201,7 -> 32094,32201,7
+[2026.10.14-22.14.58:562][ 55]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.59:138][ 99]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.59:259][107]LogReal33D: input 46: Fusion32 accepted request 45, 32094,32201,7 -> 32095,32201,7
+[2026.10.14-22.14.59:262][107]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.14.59:333][112]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.00:718][211]LogReal33D: input 47: Fusion32 accepted request 46, 32095,32201,7 -> 32096,32201,7
+[2026.10.14-22.15.00:721][211]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.01:128][212]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.01:252][220]LogReal33D: input 48: Fusion32 accepted request 47, 32096,32201,7 -> 32097,32201,7
+[2026.10.14-22.15.01:254][220]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.01:344][226]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.01:716][249]LogReal33D: input 49: Fusion32 accepted request 48, 32097,32201,7 -> 32097,32202,7
+[2026.10.14-22.15.01:718][249]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.02:356][292]LogReal33D: input 50: Fusion32 accepted request 49, 32097,32202,7 -> 32097,32203,7
+[2026.10.14-22.15.02:358][292]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.03:350][361]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.05:346][497]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.07:336][634]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.09:345][753]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.11:336][886]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.13:342][995]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.15:350][120]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.17:334][257]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.19:339][402]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.21:332][540]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.23:346][680]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.25:342][818]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.27:337][959]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.29:342][100]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.31:334][234]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.33:342][362]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.35:342][505]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.37:344][648]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.39:334][784]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.41:360][881]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.43:340][975]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.45:334][ 76]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.47:334][189]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.49:344][307]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.51:338][416]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.53:335][523]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.55:348][629]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.57:344][746]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.15.59:342][860]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.01:342][965]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.03:337][ 73]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.05:346][179]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.07:333][288]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.09:337][389]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.11:352][490]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.13:271][591]LogReal33D: minimap destination: 32098,32217,7
+[2026.10.14-22.16.13:341][594]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.13:468][599]LogReal33D: input 51: Fusion32 accepted request 50, 32097,32203,7 -> 32097,32204,7
+[2026.10.14-22.16.13:470][599]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.13:914][621]LogReal33D: input 52: Fusion32 accepted request 51, 32097,32204,7 -> 32097,32205,7
+[2026.10.14-22.16.13:918][621]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.14:364][641]LogReal33D: input 53: Fusion32 accepted request 52, 32097,32205,7 -> 32097,32206,7
+[2026.10.14-22.16.14:367][641]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.14:834][661]LogReal33D: input 54: Fusion32 accepted request 53, 32097,32206,7 -> 32097,32207,7
+[2026.10.14-22.16.14:836][661]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.15:272][679]LogReal33D: input 55: Fusion32 accepted request 54, 32097,32207,7 -> 32097,32208,7
+[2026.10.14-22.16.15:277][679]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.15:343][682]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.15:710][698]LogReal33D: input 56: Fusion32 accepted request 55, 32097,32208,7 -> 32097,32209,7
+[2026.10.14-22.16.15:715][698]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.16:158][719]LogReal33D: input 57: Fusion32 accepted request 56, 32097,32209,7 -> 32097,32210,7
+[2026.10.14-22.16.16:162][719]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.16:627][742]LogReal33D: input 58: Fusion32 accepted request 57, 32097,32210,7 -> 32097,32211,7
+[2026.10.14-22.16.16:632][742]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.16:892][756]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.17:066][764]LogReal33D: input 59: Fusion32 accepted request 58, 32097,32211,7 -> 32097,32212,7
+[2026.10.14-22.16.17:069][764]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.17:353][779]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.17:569][788]LogReal33D: input 60: Fusion32 accepted request 59, 32097,32212,7 -> 32097,32213,7
+[2026.10.14-22.16.17:572][788]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.18:025][808]LogReal33D: input 61: Fusion32 accepted request 60, 32097,32213,7 -> 32097,32214,7
+[2026.10.14-22.16.18:028][808]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.16.18:456][829]LogReal33D: input 62: Fusion32 accepted request 61, 32097,32214,7 -> 32097,32215,7
+[2026.10.14-22.16.18:467][829]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=143
+[2026.10.14-22.16.18:913][850]LogReal33D: input 63: Fusion32 accepted request 62, 32097,32215,7 -> 32097,32216,7
+[2026.10.14-22.16.18:919][850]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=130
+[2026.10.14-22.16.19:416][876]LogReal33D: input 64: Fusion32 accepted request 63, 32097,32216,7 -> 32097,32217,7
+[2026.10.14-22.16.19:419][876]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.19:869][898]LogReal33D: input 65: Fusion32 accepted request 64, 32097,32217,7 -> 32098,32217,7
+[2026.10.14-22.16.19:871][898]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.20:051][906]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.20:152][911]LogReal33D: left-click walk arrived: authoritative player=32098,32217,7
+[2026.10.14-22.16.20:696][936]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.20:898][945]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.22:897][ 47]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.24:898][153]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.26:893][247]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.28:887][344]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.30:893][442]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.32:898][543]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.34:885][655]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.36:901][763]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.38:904][875]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.39:303][895]LogReal33D: input 66: Fusion32 accepted request 65, 32098,32217,7 -> 32097,32217,7
+[2026.10.14-22.16.39:307][895]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.40:888][979]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.42:893][ 94]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.44:883][209]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.46:887][326]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.48:899][440]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.50:932][544]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.52:896][644]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.54:905][744]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.56:885][851]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.16.58:884][971]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.00:887][ 86]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.02:891][202]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.04:880][317]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.06:892][423]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.08:886][534]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.10:894][653]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.12:885][767]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.14:900][886]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.16:887][  0]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.18:886][115]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.20:884][219]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.22:897][315]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.24:895][412]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.26:886][526]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.28:895][640]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.30:896][760]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.32:892][875]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.34:884][989]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.36:900][110]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.38:899][208]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.40:887][304]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.42:895][431]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.44:883][558]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.46:884][686]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.48:894][814]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.50:878][946]LogReal33D: minimap destination: 32097,32210,7
+[2026.10.14-22.17.50:883][946]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=132
+[2026.10.14-22.17.51:050][955]LogReal33D: input 67: Fusion32 accepted request 66, 32097,32217,7 -> 32097,32216,7
+[2026.10.14-22.17.51:053][955]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=130
+[2026.10.14-22.17.51:524][983]LogReal33D: input 68: Fusion32 accepted request 67, 32097,32216,7 -> 32097,32215,7
+[2026.10.14-22.17.51:527][983]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=143
+[2026.10.14-22.17.51:987][  6]LogReal33D: input 69: Fusion32 accepted request 68, 32097,32215,7 -> 32097,32214,7
+[2026.10.14-22.17.52:003][  6]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.17.52:430][ 25]LogReal33D: input 70: Fusion32 accepted request 69, 32097,32214,7 -> 32097,32213,7
+[2026.10.14-22.17.52:433][ 25]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.17.52:931][ 48]LogReal33D: input 71: Fusion32 accepted request 70, 32097,32213,7 -> 32097,32212,7
+[2026.10.14-22.17.52:936][ 48]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.17.53:150][ 58]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.17.53:330][ 66]LogReal33D: input 72: Fusion32 accepted request 71, 32097,32212,7 -> 32097,32211,7
+[2026.10.14-22.17.53:332][ 66]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.17.53:816][ 93]LogReal33D: input 73: Fusion32 accepted request 72, 32097,32211,7 -> 32097,32210,7
+[2026.10.14-22.17.53:819][ 93]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.17.54:104][111]LogReal33D: left-click walk arrived: authoritative player=32097,32210,7
+[2026.10.14-22.17.55:134][177]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.17.57:140][307]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.17.58:901][422]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.17.59:137][436]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.00:892][546]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.01:137][561]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.02:895][669]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.03:140][685]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.04:886][792]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.05:136][808]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.06:884][916]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.07:153][932]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.08:894][ 39]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.09:141][ 52]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.10:894][155]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.11:144][167]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.12:886][274]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.13:148][289]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.14:892][384]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.15:140][397]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.16:894][491]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.17:139][504]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.18:889][600]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.19:139][614]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.20:888][723]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.21:145][738]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.22:888][846]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.23:151][861]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.24:884][969]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.25:139][985]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.26:891][ 71]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.27:147][ 87]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.28:894][193]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.29:144][209]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.30:884][316]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.31:133][332]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.32:888][441]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.33:137][457]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.34:890][565]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.35:147][581]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.36:889][690]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.37:177][705]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.38:890][814]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.39:150][829]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.40:888][940]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.41:140][955]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.42:890][ 65]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.43:142][ 81]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.44:891][194]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.45:133][208]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.46:891][317]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.47:144][330]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.48:882][434]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.49:145][451]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.50:889][557]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.51:140][573]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.52:882][687]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.53:146][704]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.54:895][813]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.55:139][829]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.56:891][930]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.57:141][943]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.58:893][ 40]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.18.59:137][ 54]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.19.01:142][173]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.19.02:886][284]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.19.03:141][300]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.19.04:883][400]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.19.05:058][410]LogReal33D: input 74: Fusion32 accepted request 73, 32097,32210,7 -> 32097,32211,7
+[2026.10.14-22.19.05:060][410]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.19.05:140][415]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.19.05:499][437]LogReal33D: input 75: Fusion32 accepted request 74, 32097,32211,7 -> 32097,32212,7
+[2026.10.14-22.19.05:504][437]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.19.05:781][455]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.19.05:960][465]LogReal33D: input 78: Fusion32 accepted request 77, 32097,32212,7 -> 32097,32213,7
+[2026.10.14-22.19.05:962][465]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.19.06:420][492]LogReal33D: input 80: Fusion32 accepted request 79, 32097,32213,7 -> 32097,32214,7
+[2026.10.14-22.19.06:421][492]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.19.06:909][519]LogReal33D: input 82: Fusion32 accepted request 81, 32097,32214,7 -> 32097,32215,7
+[2026.10.14-22.19.06:918][519]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=143
+[2026.10.14-22.19.07:300][539]LogReal33D: input 84: Fusion32 accepted request 83, 32097,32215,7 -> 32097,32216,7
+[2026.10.14-22.19.07:305][539]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=130
+[2026.10.14-22.19.07:763][567]LogReal33D: input 85: Fusion32 accepted request 84, 32097,32216,7 -> 32097,32215,7
+[2026.10.14-22.19.07:766][567]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=143
+[2026.10.14-22.19.08:221][595]LogReal33D: input 87: Fusion32 accepted request 86, 32097,32215,7 -> 32097,32214,7
+[2026.10.14-22.19.08:228][595]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.19.08:674][618]LogReal33D: input 89: Fusion32 accepted request 88, 32097,32214,7 -> 32097,32213,7
+[2026.10.14-22.19.08:677][618]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.19.08:896][630]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.19.09:162][644]LogReal33D: input 92: Fusion32 accepted request 91, 32097,32213,7 -> 32097,32212,7
+[2026.10.14-22.19.09:165][644]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.19.09:566][667]LogReal33D: input 94: Fusion32 accepted request 93, 32097,32212,7 -> 32097,32211,7
+[2026.10.14-22.19.09:568][667]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.19.10:882][752]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.19.11:139][767]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.19.12:884][853]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.14-22.19.13:142][867]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0

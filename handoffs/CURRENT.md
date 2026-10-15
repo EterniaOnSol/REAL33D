@@ -1,3 +1,182 @@
+## Preserved continuation checkpoint - 2026-10-14 21:53 America/Guatemala
+
+Task UNREAL-WORLD-PRESENTATION-POLISH-001; agent Codex, implementation/local QA.
+Overall IMPLEMENTED_UNVERIFIED. User authorized commit/push and later accepted the
+house restoration. This checkpoint preserves that correction plus lamp/world-drag
+implementation with explicit live limitations; it is not a milestone PASS.
+Starting HEAD54f6abc6b323fee014c79d46b929b621a19ae7c5; ending commit is the commit
+containing this entry. Branch milestone/unreal-world-presentation-polish-001.
+Remote milestone and main verified unchanged before checkpoint; normal push only.
+
+Build PASS182.70s; three presentation/WideWorld/V08 automation suites PASS; native
+mouse gesture tests PASS; prior nine ClientCore suites retained; secret_check PASS.
+Fresh login live-20261014T214746 PID23020 reached32095,32205,7. Automatically saved
+MinimapSettled PNG/JSON shows complete outdoor presentation and upright lamps.
+Received lit type2109 at32094,32206,7 renders meshID_02108, bounds36x36x170;
+filtered geometry retained. This proves the received lit-state geometry alias only.
+No agent Use/drag command was sent. Windows activation timed out twice, including
+fresh returned-window recovery (exact error: computer-use request timed out:
+activate_window). Per computer-use recovery rules, stopped issuing app input.
+The client remains open, not normally closed; no EndPlay result claimed for this
+session. Snapshot37 commands has residual bytes0, unsupported0, anomalies0 and
+zero movement/Use requests. This is login health, NOT a compact gameplay regression.
+
+Evidence in resume folder: lamp-drag-login.png/json, lamp-drag-login-lamps.json,
+automation-lamp-drag.json, unreal-build-lamp-drag.txt. Prior roof/restoration/speech,
+Follow/Stop/container/minimap evidence retained. No production art/reference edits.
+Pending: live lamp ON->OFF->ON with authoritative state and visible light; world
+object drag and creature push with authoritative movement; valid Use With source/
+target and feedback; current-policy camera collision/walls; fresh Look and complete
+compact regression. No final acceptance weakened; readiness for independent
+certification NO. Camera keeps manual distance and no proximity wall hiding.
+Next: select the open REAL33D window afresh after control recovery, use nearby lamp
+at32094,32206,7 (currently lit), F9 before/after. Then legitimate world drag. Use
+WorldActor evidence/PlayerController BeginWorldDrag+CompleteWorldDrag and TileActor
+ApplyStack; never seed inventory or edit server data to satisfy tests.
+## Lamp and world-drag build checkpoint - 2026-10-14 21:48 America/Guatemala
+
+UNREAL-WORLD-PRESENTATION-POLISH-001 remains IMPLEMENTED_UNVERIFIED. Starting
+HEAD=54f6abc6b323fee014c79d46b929b621a19ae7c5; remote milestone matches; origin/main
+remains fa3adcfd3fa85ec2bcf2514fc5df46c45e1de0cf (verified this run).
+Lamp/world-drag build PASS (182.70s). Fresh CameraAndFloors, AuthoritativeWindow,
+and ExperimentalV08 automation suites PASS; secret_check PASS. Evidence:
+automation-lamp-drag.json and unreal-build-lamp-drag.txt in the resume evidence folder.
+These do not establish live lamp switching or object/creature drag success.
+Live verification is starting with the same existing server runtime; no server data,
+production mesh, protocol, or ClientCore changes. Accepted house restoration retained.
+## Accepted restoration and new operator scope - 2026-10-14 16:36 local
+
+Operator confirmed the roof fix, reported black distant scenery and incomplete
+house exteriors, then accepted the updated restoration live ("ahora lo probe y esta
+bien"). Prior capture had1662 stale HISM trees; post-fix F9 has3652 current trees.
+ApplyView now rebuilds changed component trees once per visibility batch and refreshes
+bounds. Selected UE5.8 HISM UpdateInstanceTransform can leave same-position scale
+changes in place with an outdated cluster tree. Build31.35s PASS and three suites
+PASS, including real HISM zero-scale/restore twice with geometry bounds checked.
+Session live-20261014T163152 is closed normally; EndPlay273 commands with residual,
+unsupported and anomalies0. It has22 unanswered walks (operator movement included),
+so this is NOT a complete gameplay regression PASS. Keep that limitation explicit.
+Current picture/evidence: restoration-and-unlit-lamp PNG/JSON; prior exterior and
+component diagnostic retained. QA-only F9 now includes static render-component stats.
+
+New explicit operator requests within presentation continuation: reuse street lamp
+OFF geometry for ON and toggle its light on server state; connect left-click world
+drag to move objects/push creatures. Runtime objects.srv2108 has ChangeTarget2109,
+Brightness0;2109 has ChangeTarget2108,Brightness7. Selected moveuse.cc::UseChangeObject
+and operate.cc CHANGEUSE dispatch are authority, no version-specific override here.
+Mapping2109->2108 and live-only point light have been implemented, not yet live tested.
+World drag now captures received source identity on press, revalidates it on release,
+uses existing RequestMoveObject count1 and shows Move requested; short click still
+walks. Creature type99 derives from selected objects.hh; receiving.cc::CMoveObject
+uses existing command for objects/creatures. No speculative movement or new opcode.
+No static light claims about unseen live state. No production asset changed.
+New lamp/drag build running; tests/live checks pending. No commit/push yet. Overall
+IMPLEMENTED_UNVERIFIED; no independent certification or main merge. Remaining original
+gaps still include Use With and full compact regression, camera/walls acceptance.
+## Live roof regression - 2026-10-14 16:18 America/Guatemala
+
+ROOF_MULTIFLOOR_REGRESSION=PASS (bounded temple case). Fresh rebuilt session
+live-20261014T161327, PID16568. Operator handled cave exit/manual movement before
+handing control to the agent. Agent then clicked the minimap at 22:16:13.271 UTC:
+target32098,32217,7; authoritative arrival22:16:20.152. One west step reproduced
+original F9 coordinate32097,32217,7. Roof above empty floor6 is now suppressed,
+player and current-floor walls/columns remain visible. F9 at22:17:39.323 shows
+requested=actual1413.50, cutaway_meshes0, hide_upper_floors=true. Pitch/yaw differ
+slightly from the operator's original capture; position and zoom distance match.
+Manual zoom2733.50->1413.50 remained under operator input, without retraction.
+
+Agent minimap exit to32097,32210,7 arrived authoritatively; F9 at22:18:25.569 shows
+hide_upper_floors=false, requested=actual1413.50, cutaways0. Upper geometry restored
+and player stays visible outdoors. Latest snapshot:724 commands, residual bytes0,
+unsupported opcodes0, protocol anomalies0,67 accepted/5 refused/0 unanswered walks,
+4 external relocations during operator movement/floor changes. The engine emitted
+its previously observed AppTime IsInGameThread Ensure during startup; this is not
+a protocol error and no clean-engine/no-Ensure result is claimed.
+
+Evidence: temple-roof-after-wide, temple-roof-after, temple-roof-outside PNG/JSON;
+roof-session-events.txt. Existing world/NPC speech, Use/container, Follow/Stop and
+minimap passes are retained with their exact prior preconditions. Current-policy
+CAMERA_COLLISION, WALL_OCCLUSION, USE_WITH_FEEDBACK, LOOK_SMOKE and full compact
+GAMEPLAY_REGRESSION remain IMPLEMENTED_UNVERIFIED. Available inventory remains
+three coins; no valid Use With source/target demonstrated or runtime inventory edited.
+V08 cave continuity, finishes373/377, missing outfits, lamps/mountains remain art work.
+Overall IMPLEMENTED_UNVERIFIED; independent certification readiness NO. No merge.
+Client is left open for operator review at32097,32210,7. No further input while the
+operator reviews. Original rejected snapshot was not published; latest roof fix is
+verified only for the documented case. User clarification of any other F9 defect
+is pending. All changes remain preserved in the milestone worktree.
+## Roof correction checkpoint - 2026-10-14 afternoon America/Guatemala
+
+This update supersedes the publication and active-process notes below. The operator
+rejected the no-cutaway version before commit/push; neither was executed. Local and
+remote milestone HEAD remain 54f6abc6b323fee014c79d46b929b621a19ae7c5; main remains
+fa3adcfd3fa85ec2bcf2514fc5df46c45e1de0cf. Pending edits/evidence are preserved.
+Task: UNREAL-WORLD-PRESENTATION-POLISH-001, runtime presentation only. No automatic
+camera approach or proximity wall/object hiding; no production art or protocol edits.
+
+Inspected F9 20261014T090025_554: player 32097,32217,7 is obscured by roof409 at
+32097,32217,5; floor6 in this column has no covering content. UpdateFloorVisibility
+previously checked only Z-1. It now checks all received overhead tiles in the same
+column via HasCoverAbove. This uses live tile content only. It retains the established
+floor/roof treatment; camera proximity never hides walls or objects.
+
+Unreal build PASS (73.14s). Three presentation/authoritative-window/V08 automation
+suites PASS, including roof-over-empty-storey regression and outdoor/top-floor cases.
+Live verification remains pending; overall IMPLEMENTED_UNVERIFIED, readiness NO.
+Artifacts: temple-roof-before.png/json, temple-roof-observed-column.json,
+automation-multifloor-roof.json and unreal-build-multifloor-roof.txt in
+unreal-world-presentation-polish-resume-20261014 (relative to evidence/clientcore).
+The prior live PID5600 ended normally; it is not still running. Local services were
+restarted through start_wsl.sh after verifying no game services/listeners or internal
+lock existed: verified querymanager519/game540/login717; bounded host keeper11124.
+Next: live return to temple, capture roof/player before/after crossing doorway,
+then remaining genuine Use With, camera/walls and compact regression. Prior named
+speech/NPC/minimap/Use/Follow evidence retained; no new PASS from compilation alone.
+## Preservation checkpoint - 2026-10-14 02:59:57 America/Guatemala
+
+Operator explicitly requested commit and push of this version despite remaining
+QA gaps. This supersedes the earlier publication-only-after-PASS condition.
+State remains IMPLEMENTED_UNVERIFIED; READY_FOR_INDEPENDENT_CERTIFICATION=NO.
+Final no-cutaway Unreal build PASS (107.10s), three automation suites PASS,
+nine existing native ClientCore executable suites PASS. First final automation
+attempt failed before tests because sandboxed Zen cache initialization failed;
+the fresh escalated retry completed all three tests with zero errors.
+Secret check will run on the staged checkpoint before commit/push.
+No V08/server/protocol changes, main merge or independent certification.
+
+New final-policy live client PID5600, session live-20261014T025802, was opened
+and is still loading/running at checkpoint; no complete final-policy live
+acceptance is claimed. Keep it available to the operator, do not launch a duplicate.
+Newly closed this run: minimap click attribution/arrival; legitimate NPC speech;
+fresh world speech/expiry, Use/container and Follow/Stop retained in artifacts.
+Remaining: camera/wall readability under the operator's no-hiding policy,
+Use With targeting/cancel/valid authoritative result, fresh Look/floor transition
+and completion of the compact regression. Prior 601-command closed session has
+residual bytes0, unsupported opcodes0, protocol anomalies0.
+Historical wall-cutaway PASS does not certify the newly requested no-hiding mode.
+No acceptance criterion was weakened. All earlier evidence retained.
+
+Next task: use existing final-policy client; F9 at near walls/zoom/indoors;
+exercise Look, floor transition and genuine Use With from an available item.
+Only three coins were last observed in inventory. Do not edit runtime inventory
+or invent a successful use. Inspect UpdateCamera, MeasureCameraObstruction,
+HUD::BeginUseTarget/HandleSlotPicked and retained new evidence. Current source
+and every pending result are preserved by the commit containing this checkpoint.
+UPDATE 2026-10-14 02:53 America/Guatemala; Codex implementation/local QA resumed after accidental agent closure.
+Starting HEAD54f6abc, ending HEAD unchanged so far; branch milestone/unreal-world-presentation-polish-001; worktree build/unreal-world-presentation-polish-001. Original requested6ac8a8e is direct parent of current local/remote54f6abc. Mainfa3adcf unchanged. Pre-existing dirty QA documentation/artifacts preserved; prior handoff archived at archive/2026-10-14_UNREAL-WORLD-PRESENTATION-POLISH-001-before-camera-resume.md.
+Operator now explicitly rejects BOTH automatic camera approach and proximity disappearance of walls/objects. Current implementation removes retraction and camera cutaway, keeping manual zoom, floors/roofs and server authority. MeasureCameraObstruction on live/static geometry is const and diagnostic only. Do not restore hiding as a purported fix or claim older cutaway evidence proves current policy.
+First camera-only build and all three presentation/authority/V08 tests PASS. Final no-cutaway build currently running; live QA must use newly built DLL after normal client restart. No protocol/ClientCore/server/art changes. Existing services verified querymanager618/game633/login846; no resets.
+Fresh session live-20261014T022908 ended normally:601 commands, residual/unsupported/anomalies0,76 accepted/4 refused/0 unanswered walks;4 Follow-related external relocations. New PASS: minimap click explicitly logged32094,32204,7 with authoritative arrival; NPC Seymour legitimate hi response displayed over actor and retained in transcript; world Say/expiry, Use/bookcase, Follow/Stop observed. Compact artifacts/report in evidence/clientcore/unreal-world-presentation-polish-resume-20261014/ and UNREAL-WORLD-PRESENTATION-POLISH-001-RESUME-20261014.md.
+Next session live-20261014T024803 PID14048 closed normally for no-cutaway rebuild. Remaining: final build/tests, manual camera/zoom and wall readability with no hiding, Look/floor transition/Use With and complete regression. Inventory only three coins3031; no supported Use With pair yet. No invented target or runtime inventory edit authorized. Computer-use works with intermittent user-input/activation errors; refresh actual returned window before retrying. Operator authorized agent to drive QA. Preserve unrelated Retronic/browser.
+Overall IMPLEMENTED_UNVERIFIED. No independent certification, no main merge, no final commit/push unless original acceptance closes. No new code PASS from compilation alone. Prior handoff below retained for historical context.
+UPDATE 2026-10-14 operator-assisted QA / Codex local observer.
+Branch milestone/unreal-world-presentation-polish-001; worktree build/unreal-world-presentation-polish-001. Starting/ending HEAD54f6abc; safe preservation push verified remote54f6abc. No code changes or independent certification. Existing handoff below retained intact.
+Inspection: startup contracts, launcher, LockGame, WorldActor evidence schema/PresentSpeech, input/Use paths, actual session logs/JSON/PNG. Two normal operator-input sessions ended normally. Fusion32 services618/633/846 verified; host keeper15936 bounded two hours. Stale internal lock845 preserved after absent process check; no map/account/config edits.
+PASS: bounded wall cutaway, world Say, Use feedback, bookcase open, Follow/Stop smoke. CAMERA_COLLISION FAILED operator acceptance: retraction1293.50->482.99 visible, operator requests removal. Do not implement under current no-code scope. Use With, minimap-click attribution, NPC response and full regression IMPLEMENTED_UNVERIFIED. Protocol errors0 both final snapshots; duplicate/orphan0. Engine AppTime Ensure observed, no clean-engine claim.
+Evidence/files/tests: evidence/clientcore/UNREAL-WORLD-PRESENTATION-POLISH-001-OPERATOR-QA-20261014.md and compact artifact folder; PROJECT_STATUS/PARITY updated. Git-for-Windows bash secret_check PASS before preservation push. New documentation remains uncommitted because final commit/push was conditional on all required gaps passing. Main/frozen agent work untouched.
+Next exact task: resolve operator camera rejection with explicit code-scope authorization; inspect Real33DWorldActor::UpdateCamera/ApplyCameraTransform. Remaining live QA: launcher scripts/client/run_unreal_presentation_qa.ps1 -Account B after checking existing services/client; capture actual Use With targeting/cancel/request, specifically minimap click+arrival, NPC hi response if available. F9 captures JSON/PNG. Never promote PASS from operator statement alone. No PASS LOCAL/readiness/certification/main merge.
+Full counters, artifacts, retained session paths and limits in current evidence report.
+
 # CURRENT - UNREAL-WORLD-PRESENTATION-POLISH-001
 
 UPDATE 2026-10-09 19:54 local: explicitly requested resume of remaining live gaps.

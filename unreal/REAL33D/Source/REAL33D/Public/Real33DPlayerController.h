@@ -54,6 +54,14 @@ private:
 	void DumpEvidence();
 	void BeginLeftClick();
 	void EndLeftClick();
+	void BeginWorldDrag();
+	void CompleteWorldDrag();
+	bool bWorldDragCandidate = false;
+	FVector2D WorldDragStart = FVector2D::ZeroVector;
+	Real33D::FMapPosition WorldDragFrom;
+	uint16 WorldDragTypeId = 0;
+	uint8 WorldDragStack = 0;
+	uint32 WorldDragCreatureId = 0;
 	void WalkUnderCursor();
 	void RequestKnownWalk(Real33D::FMapPosition Target);
 	void TickClickWalk();

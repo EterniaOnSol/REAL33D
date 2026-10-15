@@ -88,6 +88,7 @@ public:
 
 	/** Sends the existing 7.72 look request for a visible map point. */
 	bool LookAtWorldPoint(const Real33D::FMapPosition& Position);
+	void ShowInteractionRequest(const FString& Text);
 
 private:
 	/** A 176px side column carrying a stack of mini windows. */

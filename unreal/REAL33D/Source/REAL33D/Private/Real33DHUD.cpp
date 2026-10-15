@@ -625,6 +625,11 @@ void SReal33DHUD::BeginUseTarget(const UReal33DBridge::FMoveSlot& Source,
 	UE_LOG(LogReal33D, Log, TEXT("use-with begun with object %u; waiting for a target"), TypeId);
 }
 
+void SReal33DHUD::ShowInteractionRequest(const FString& Text)
+{
+	if (WorldOverlay.IsValid()) WorldOverlay->ShowRequest(Text);
+}
+
 void SReal33DHUD::CancelTargeting()
 {
 	if (!Pending.bActive)

@@ -1,0 +1,134 @@
+Log started at 10/14/2026 02:53:18 (2026-10-14T08:53:18Z)
+No project argument provided while trying to parse Project File. Attempting fallback parsing to attempt to find a Project File.
+Resolved project argument C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\unreal\REAL33D\REAL33D.uproject to C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\unreal\REAL33D\REAL33D.uproject
+No config file at C:\ProgramData\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml
+No config file at C:\Users\dell\AppData\Local\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml
+No config file at C:\Users\dell\Documents\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml
+Configuration will be read from:
+  C:\Users\dell\AppData\Roaming\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml
+Reading configuration file from cache (C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\unreal\REAL33D\Intermediate\Build\XmlConfigCache.bin): C:\Users\dell\AppData\Roaming\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml
+Reading configuration file from cache (C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\unreal\REAL33D\Intermediate\Build\XmlConfigCache.bin): C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\unreal\REAL33D\Saved\UnrealBuildTool\BuildConfiguration.xml
+Reading configuration file from cache (C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\unreal\REAL33D\Intermediate\Build\XmlConfigCache.bin): C:\Users\dell\AppData\Local\UnrealEngine\Intermediate\Build\UnrealBuildTool.Env.BuildConfiguration.xml
+Setting temp directory to 'C:\Users\dell\AppData\Local\Temp\UnrealBuildTool\eb6d2d82'
+    Registering build platform: UnrealBuildTool.AndroidPlatformFactory
+    Registering build platform: UnrealBuildTool.IOSPlatformFactory
+    Registering build platform: UnrealBuildTool.LinuxPlatformFactory
+    Registering build platform: UnrealBuildTool.MacPlatformFactory
+    Registering build platform: UnrealBuildTool.TVOSPlatformFactory
+    Registering build platform: UnrealBuildTool.WindowsPlatformFactory
+Found Windows 10 SDK root at C:\Program Files (x86)\Windows Kits\10 (1)
+Found Windows 10 SDK root at C:\Program Files (x86)\Windows Kits\10 (2)
+Found Windows 10 SDK version 10.0.26100.0 at C:\Program Files (x86)\Windows Kits\10
+Found Universal CRT version 10.0.26100.0 at C:\Program Files (x86)\Windows Kits\10
+Win64 Installed SDK(s): MinVersion_Sdk=10.0.19041.0, MaxVersion_Sdk=10.9.99999.0, CurrentVersion_Sdk=10.0.26100.0, Version_AutoSdk=10.0.22621.0, CurrentVersion_AutoSdk=
+        Registering build platform: Win64 - buildable: True
+    Registering build platform: UnrealBuildTool.VisionOSPlatformFactory
+Command line: "C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" REAL33DEditor Win64 Development C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\unreal\REAL33D\REAL33D.uproject -WaitMutex -NoHotReloadFromIDE
+Log file: C:\Users\dell\AppData\Local\UnrealBuildTool\Log.txt
+Deleting old log file: C:\Users\dell\AppData\Local\UnrealBuildTool\Log-backup-2026.09.29-22.31.18.txt
+Deleting old log file: C:\Users\dell\AppData\Local\UnrealBuildTool\Log-backup-2026.09.29-22.31.18.json
+
+Determining max actions to execute in parallel (4 physical cores, 8 logical cores)
+  Executing up to 4 processes, one per physical core
+  Requested 1.5 GB memory per action, 4.14 GB available: limiting max parallel actions to 2
+UbaStorageServer - Database loaded from C:\ProgramData\Epic\UnrealBuildAccelerator\cas\casdb (v32) in 2ms (contained 0 entries estimated to 0b)
+UbaServer - Listening on 0.0.0.0:1345
+Skipping C:\Program Files\Epic Games\UE_5.8\Engine\Intermediate\Build\BuildRules\UE5Rules.dll: File is installed
+Skipping C:\Program Files\Epic Games\UE_5.8\Engine\Intermediate\Build\BuildRules\UE5ProgramRules.dll: File is installed
+Building UnrealEditor - REAL33DEditor - Win64 - Development
+UnrealHeaderTool needs to run because SavedTimestamp is older than HeaderFileTimestamp (C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\unreal\REAL33D\Source\REAL33D\Public\Real33DStaticSectorActor.h) for module REAL33D
+Parsing headers for REAL33DEditor
+  Running Internal UnrealHeaderTool C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\unreal\REAL33D\REAL33D.uproject C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\unreal\REAL33D\Intermediate\Build\Win64\REAL33DEditor\REAL33DEditor.uhtmanifest -WarningsAsErrors -installed
+UHT compiled-in object format Default
+Step - Parse Headers
+Reading engine version from file: C:\Program Files\Epic Games\UE_5.8\Engine\Source\Runtime\Launch\Resources\Version.h
+Got engine version 5.8.2
+Step - Populate symbol table
+Step - Exports
+       Exporter Stats skipped
+       Exporter Json skipped
+       Running exporter CodeGen
+UHT processed REAL33DEditor in 29.0604666 seconds (0 generated files written)
+Deleting outdated item: C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\unreal\REAL33D\Binaries\Win64\UnrealEditor-REAL33D.pdb
+Deleting outdated item: C:\Users\dell\Desktop\fusion32\build\unreal-world-presentation-polish-001\unreal\REAL33D\Intermediate\Build\Win64\x64\UnrealEditor\Development\REAL33D\UnrealEditor-REAL33D.lib
+Building REAL33DEditor...
+===== Toolchain Information =====
+Using ISPC compiler (C:\Program Files\Epic Games\UE_5.8\Engine\Source\ThirdParty\Intel\ISPC\bin\Windows\ispc.exe)
+  Intel(r) Implicit SPMD Program Compiler (Intel(r) ISPC), 1.24.0 (build commit  @ 20250404, LLVM 18.1.2)
+Using Visual Studio 14.50.35738 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.50.35717) and Windows 10.0.26100.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[Adaptive Build] Excluded from REAL33D unity file: REAL33D.cpp, Real33DActionBarPanel.cpp, Real33DAssetRegistry.cpp, Real33DBattlePanel.cpp, Real33DBridge.cpp, Real33DChatPanel.cpp, Real33DContainersPanel.cpp, Real33DControlPanel.cpp, Real33DCreatureActor.cpp, Real33DGalleryActor.cpp, Real33DGalleryPanel.cpp, Real33DGameMode.cpp, Real33DHUD.cpp, Real33DInventoryPanel.cpp, Real33DMinimapPanel.cpp, Real33DPanelChrome.cpp, Real33DPlayerController.cpp, Real33DPresentationTests.cpp, Real33DSkillsPanel.cpp, Real33DStaticSectorActor.cpp, Real33DTileActor.cpp, Real33DUIStyle.cpp, Real33DVitalsPanel.cpp, Real33DWorldActor.cpp, Real33DWorldOverlay.cpp
+=================================
+Using Unreal Build Accelerator local executor to run 12 action(s)
+  CPU 4 physical cores, 8 logical cores
+  Memory 11.83 GB physical, 16.08 GB/18.58 GB committed
+  UBA Storage capacity 40 GB
+  UBA RootDir C:\ProgramData\Epic\UnrealBuildAccelerator
+Cache bucket 1085114404 used. Action: Compile [x64] Module.REAL33D.cpp ()
+Cache bucket 416513229 used. Action: Link [x64] UnrealEditor-REAL33D.dll ()
+All processes queued
+[1/12] Compile [x64] Module.REAL33D.cpp
+[2/12] Compile [x64] Real33DGameMode.cpp
+[3/12] Compile [x64] Real33DHUD.cpp
+[4/12] Compile [x64] Real33DPlayerController.cpp
+[5/12] Compile [x64] Real33DPresentationTests.cpp
+[6/12] Compile [x64] Real33DStaticSectorActor.cpp
+[7/12] Compile [x64] Real33DTileActor.cpp
+[8/12] Compile [x64] Real33DWorldActor.cpp
+[9/12] Compile [x64] Real33DWorldOverlay.cpp
+[10/12] Link [x64] UnrealEditor-REAL33D.lib
+   Creando biblioteca C:/Users/dell/Desktop/fusion32/build/unreal-world-presentation-polish-001/unreal/REAL33D/Intermediate/Build/Win64/x64/UnrealEditor/Development/REAL33D/UnrealEditor-REAL33D.lib y objeto C:/Users/dell/Desktop/fusion32/build/unreal-world-presentation-polish-001/unreal/REAL33D/Intermediate/Build/Win64/x64/UnrealEditor/Development/REAL33D/UnrealEditor-REAL33D.exp
+[11/12] Link [x64] UnrealEditor-REAL33D.dll
+[12/12] WriteMetadata REAL33DEditor.target [NoUba]
+
+Total time in Unreal Build Accelerator local executor: 74.92 seconds
+Output binary: C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\Win64\UnrealEditor.exe
+UbaStorageServer - Database saved in 1ms (0 file entries, 0 cas entries. deleted 0 dropped cas files)
+WriteFileIfChanged() wrote 0 changed files of 1 requested writes.
+
+Timeline:
+[  0.000]  +0.641 Main
+   0.025          [  0.024]  +0.175 Apply XmlConfig
+   0.034             0.034          [  0.009]  +0.012 Find target files
+   0.204          [  0.203]  +0.107 AddTelemetry
+   0.355          [  0.355]  +0.285 RegisterPlatforms
+[  0.712]  +0.103 ParseCommandLine
+[  1.000]  +0.679 LoadMakefile
+   1.000          [  0.000]  +0.328 <unknown>
+   1.329          [  0.328]  +0.281 EngineRulesPlugins
+   1.617          [  0.616]  +0.016 EngineRulesFetchDirs
+   1.661          [  0.660]  +0.020 EngineRulesAssembly
+[  1.682]  +0.003 ProgramRulesAssembly
+[  1.685]  +0.010 ProjectRulesAssembly
+   1.692          [  0.006]  +0.000 FindPlugins
+[  1.696]  +0.529 CreateTargetRules
+   1.730          [  0.033]  +0.074 MakefileValid
+   1.804          [  0.107]  +0.421 <unknown>
+[  2.350]  +0.012 CppDependencyCache
+[  2.375]  +0.178 REAL33DEditor Win64 Development
+[  2.556] +29.310 UHTWait
+   2.559          [  0.002]  +0.230 UHTManifest
+   2.789          [  0.232] +29.067 UHT
+  31.861          [ 29.305]  +0.045 UHTTimestamps
+[ 31.923]  +0.011 CppDependencyCache
+[ 31.934]  +0.101 Preparing ActionGraph
+  31.953          [  0.018]  +0.009 LinkActions
+  31.961             0.026          [  0.008]  +0.000 DetectActionGraphCycles
+  31.963          [  0.029]  +0.000 GatherPrerequisiteActions
+  31.965          [  0.031]  +0.000 CppDependencyCacheWait
+  31.966          [  0.031]  +0.056 GatherOutdatedActions
+  32.027          [  0.092]  +0.004 LinkActions
+  32.027             0.092          [  0.000]  +0.000 DetectActionGraphCycles
+  32.032          [  0.097]  +0.001 DeleteOutdatedProducedItems
+  32.034          [  0.099]  +0.001 SaveActionHistory
+  32.036          [  0.101]  +0.000 CreateDirectoriesForProducedItems
+[ 32.052]  +0.400 GarbageCollect
+[ 32.453] +74.516 <unknown>
+[106.970]  +0.000 Deploying targets
+[106.971]  +0.000 DisconnectCache
+[106.985]  +0.016 SaveCasTable
+[107.008]  +0.078 Saving caches
+[107.088]  +0.006 TelemetryService.FlushEvents
+[107.096]
+
+Result: Succeeded
+Total execution time: 107.10 seconds

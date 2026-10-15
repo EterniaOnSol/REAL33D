@@ -209,7 +209,10 @@ bool UReal33DAssetRegistry::TryResolveExperimental(uint16 TypeId,
 	const bool bDepotLocker = TypeId >= 3497 && TypeId <= 3500;
 	// Operator-reviewed wall variants borrow 1294 appearance in V08 QA only.
 	const bool bReviewedWallAlias = TypeId == 1295 || TypeId == 1301 || TypeId == 1303;
-	const uint16 VisualTypeId = bDepotLocker ? 3502 : (bReviewedWallAlias ? 1294 : TypeId);
+	// Fusion32 objects.srv: 2108 <-> 2109 via ChangeUse; only 2109 emits light.
+	// Operator requested the upright unlit mesh for both authoritative states.
+	const uint16 VisualTypeId = TypeId == 2109 ? 2108
+		: (bDepotLocker ? 3502 : (bReviewedWallAlias ? 1294 : TypeId));
 	const int32* VisualIndex = ExperimentalCatalogById.Find(VisualTypeId);
 	const FReal33DExperimentalCatalogEntry& VisualEntry = VisualIndex != nullptr
 		? ExperimentalCatalog[*VisualIndex] : Entry;
@@ -642,6 +645,12 @@ bool FReal33DExperimentalV08RegistryTest::RunTest(const FString& Parameters)
 	TestEqual(TEXT("north-south alias keeps reviewed rotation"),
 		Registry->ResolveThing(1301, true).Rotation.Yaw, 90.0);
 	const FReal33DVisual ReviewedWall = Registry->ResolveThing(1294, true);
+	const FReal33DVisual UnlitLamp = Registry->ResolveThing(2108, true);
+	const FReal33DVisual LitLamp = Registry->ResolveThing(2109, true);
+	TestEqual(TEXT("lit street lamp uses upright unlit geometry"), LitLamp.VisualSourceTypeId, uint16(2108));
+	TestTrue(TEXT("street lamp toggle preserves mesh and transform"), LitLamp.Mesh == UnlitLamp.Mesh
+		&& LitLamp.Rotation.Equals(UnlitLamp.Rotation) && LitLamp.Scale.Equals(UnlitLamp.Scale)
+		&& LitLamp.Offset.Equals(UnlitLamp.Offset));
 	for (uint16 AliasId : { uint16(1295), uint16(1301), uint16(1303) })
 	{
 		const FReal33DVisual ReusedWall = Registry->ResolveThing(AliasId, true);

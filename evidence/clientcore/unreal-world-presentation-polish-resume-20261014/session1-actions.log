@@ -1,0 +1,103 @@
+[2026.10.14-08.29.51:311][  0]LogReal33D: Use With target cursor: existing asset loaded
+[2026.10.14-08.29.51:630][  0]LogReal33D: Use target metadata: 204 runtime MultiUse types
+[2026.10.14-08.29.53:147][  1]LogReal33D: server message [LoginMessage]: Your last visit in Tibia: 14. Oct 2026 02:20:39 CST.
+[2026.10.14-08.30.07:334][102]LogReal33D: input 1: Fusion32 accepted request 1, 32092,32198,7 -> 32091,32198,7
+[2026.10.14-08.30.07:944][122]LogReal33D: input 2: Fusion32 accepted request 2, 32091,32198,7 -> 32091,32197,7
+[2026.10.14-08.30.08:445][138]LogReal33D: input 3: Fusion32 accepted request 3, 32091,32197,7 -> 32091,32196,7
+[2026.10.14-08.30.08:893][151]LogReal33D: input 4: Fusion32 accepted request 4, 32091,32196,7 -> 32091,32195,7
+[2026.10.14-08.30.09:322][163]LogReal33D: input 5: Fusion32 accepted request 5, 32091,32195,7 -> 32091,32194,7
+[2026.10.14-08.30.09:885][179]LogReal33D: input 6: Fusion32 accepted request 6, 32091,32194,7 -> 32091,32193,7
+[2026.10.14-08.30.10:261][190]LogReal33D: input 7: Fusion32 accepted request 7, 32091,32193,7 -> 32091,32192,7
+[2026.10.14-08.30.11:138][216]LogReal33D: input 8: Fusion32 accepted request 8, 32091,32192,7 -> 32091,32193,7
+[2026.10.14-08.30.12:525][258]LogReal33D: input 9: Fusion32 accepted request 9, 32091,32193,7 -> 32091,32194,7
+[2026.10.14-08.30.12:967][271]LogReal33D: input 10: Fusion32 accepted request 10, 32091,32194,7 -> 32091,32195,7
+[2026.10.14-08.30.13:436][285]LogReal33D: input 11: Fusion32 accepted request 11, 32091,32195,7 -> 32091,32196,7
+[2026.10.14-08.30.13:969][301]LogReal33D: input 12: Fusion32 accepted request 12, 32091,32196,7 -> 32091,32197,7
+[2026.10.14-08.30.14:428][315]LogReal33D: input 13: Fusion32 accepted request 13, 32091,32197,7 -> 32091,32198,7
+[2026.10.14-08.30.14:881][329]LogReal33D: input 14: Fusion32 accepted request 14, 32091,32198,7 -> 32091,32199,7
+[2026.10.14-08.30.15:341][343]LogReal33D: input 15: Fusion32 accepted request 15, 32091,32199,7 -> 32091,32200,7
+[2026.10.14-08.30.15:785][357]LogReal33D: input 16: Fusion32 accepted request 16, 32091,32200,7 -> 32091,32201,7
+[2026.10.14-08.30.16:235][371]LogReal33D: input 17: Fusion32 accepted request 17, 32091,32201,7 -> 32091,32202,7
+[2026.10.14-08.30.16:672][385]LogReal33D: input 18: Fusion32 accepted request 18, 32091,32202,7 -> 32091,32203,7
+[2026.10.14-08.30.17:130][399]LogReal33D: input 19: Fusion32 accepted request 19, 32091,32203,7 -> 32092,32203,7
+[2026.10.14-08.30.17:608][413]LogReal33D: input 20: Fusion32 accepted request 20, 32092,32203,7 -> 32093,32203,7
+[2026.10.14-08.30.18:044][426]LogReal33D: input 21: Fusion32 accepted request 21, 32093,32203,7 -> 32094,32203,7
+[2026.10.14-08.30.18:525][441]LogReal33D: input 22: Fusion32 accepted request 22, 32094,32203,7 -> 32095,32203,7
+[2026.10.14-08.30.18:980][455]LogReal33D: input 23: Fusion32 accepted request 23, 32095,32203,7 -> 32095,32204,7
+[2026.10.14-08.30.19:423][469]LogReal33D: input 24: Fusion32 accepted request 24, 32095,32204,7 -> 32095,32205,7
+[2026.10.14-08.30.19:881][483]LogReal33D: input 25: Fusion32 accepted request 25, 32095,32205,7 -> 32096,32205,7
+[2026.10.14-08.30.31:120][789]LogReal33D: input 26: Fusion32 accepted request 26, 32096,32205,7 -> 32096,32204,7
+[2026.10.14-08.30.32:369][816]LogReal33D: input 28: Fusion32 accepted request 28, 32096,32204,7 -> 32095,32204,7
+[2026.10.14-08.30.32:638][821]LogReal33D: input 29: Fusion32 accepted request 29, 32095,32204,7 -> 32095,32205,7
+[2026.10.14-08.30.33:090][833]LogReal33D: input 30: Fusion32 accepted request 30, 32095,32205,7 -> 32095,32206,7
+[2026.10.14-08.30.35:097][889]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.14-08.30.35:596][904]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.14-08.30.35:867][910]LogReal33D: input 33: Fusion32 accepted request 33, 32095,32206,7 -> 32095,32205,7
+[2026.10.14-08.30.36:325][921]LogReal33D: input 34: Fusion32 accepted request 34, 32095,32205,7 -> 32094,32205,7
+[2026.10.14-08.30.36:772][931]LogReal33D: input 35: Fusion32 accepted request 35, 32094,32205,7 -> 32093,32205,7
+[2026.10.14-08.30.37:211][941]LogReal33D: input 37: Fusion32 accepted request 37, 32093,32205,7 -> 32092,32205,7
+[2026.10.14-08.30.37:672][952]LogReal33D: input 38: Fusion32 accepted request 38, 32092,32205,7 -> 32091,32205,7
+[2026.10.14-08.30.43:114][114]LogReal33D: input 39: Fusion32 accepted request 39, 32091,32205,7 -> 32091,32204,7
+[2026.10.14-08.30.44:780][161]LogReal33D: input 40: Fusion32 accepted request 40, 32091,32204,7 -> 32090,32204,7
+[2026.10.14-08.30.46:036][197]LogReal33D: use 41 from world: object 1294 at 32087,32201,6 stack 1, would open as container 0
+[2026.10.14-08.30.46:036][197]LogReal33D: use 42 from world: object 1294 at 32087,32201,6 stack 1, would open as container 0
+[2026.10.14-08.30.46:094][199]LogReal33D: server message [FailureMessage]: First go upstairs.
+[2026.10.14-08.30.46:095][199]LogReal33D: server message [FailureMessage]: First go upstairs.
+[2026.10.14-08.32.05:608][472]LogReal33D: minimap destination: 32094,32204,7
+[2026.10.14-08.32.05:802][475]LogReal33D: input 43: Fusion32 accepted request 41, 32090,32204,7 -> 32091,32204,7
+[2026.10.14-08.32.06:311][486]LogReal33D: input 44: Fusion32 accepted request 42, 32091,32204,7 -> 32092,32204,7
+[2026.10.14-08.32.06:737][494]LogReal33D: input 45: Fusion32 accepted request 43, 32092,32204,7 -> 32093,32204,7
+[2026.10.14-08.32.07:146][503]LogReal33D: input 46: Fusion32 accepted request 44, 32093,32204,7 -> 32094,32204,7
+[2026.10.14-08.32.07:465][511]LogReal33D: left-click walk arrived: authoritative player=32094,32204,7
+[2026.10.14-08.34.09:457][614]LogReal33D: minimap destination: 32094,32195,7
+[2026.10.14-08.35.08:091][ 42]LogReal33D: minimap destination: 32099,32196,7
+[2026.10.14-08.35.08:299][ 45]LogReal33D: input 47: Fusion32 accepted request 45, 32094,32204,7 -> 32094,32203,7
+[2026.10.14-08.35.08:754][ 54]LogReal33D: input 48: Fusion32 accepted request 46, 32094,32203,7 -> 32095,32203,7
+[2026.10.14-08.35.09:232][ 63]LogReal33D: input 49: Fusion32 accepted request 47, 32095,32203,7 -> 32095,32202,7
+[2026.10.14-08.35.10:019][ 67]LogReal33D: input 50: Fusion32 accepted request 48, 32095,32202,7 -> 32095,32201,7
+[2026.10.14-08.35.10:542][ 76]LogReal33D: input 51: Fusion32 accepted request 49, 32095,32201,7 -> 32095,32200,7
+[2026.10.14-08.35.11:209][ 84]LogReal33D: input 52: Fusion32 accepted request 50, 32095,32200,7 -> 32096,32200,7
+[2026.10.14-08.35.11:456][ 88]LogReal33D: input 53: Fusion32 accepted request 51, 32096,32200,7 -> 32097,32200,7
+[2026.10.14-08.35.11:982][ 98]LogReal33D: input 54: Fusion32 accepted request 52, 32097,32200,7 -> 32097,32199,7
+[2026.10.14-08.35.12:433][106]LogReal33D: input 55: Fusion32 accepted request 53, 32097,32199,7 -> 32097,32198,7
+[2026.10.14-08.35.12:919][116]LogReal33D: input 56: Fusion32 accepted request 54, 32097,32198,7 -> 32097,32197,7
+[2026.10.14-08.35.13:403][126]LogReal33D: input 57: Fusion32 accepted request 55, 32097,32197,7 -> 32097,32196,7
+[2026.10.14-08.35.13:844][135]LogReal33D: input 58: Fusion32 accepted request 56, 32097,32196,7 -> 32098,32196,7
+[2026.10.14-08.35.14:307][144]LogReal33D: input 59: Fusion32 accepted request 57, 32098,32196,7 -> 32099,32196,7
+[2026.10.14-08.35.14:606][151]LogReal33D: left-click walk arrived: authoritative player=32099,32196,7
+[2026.10.14-08.35.50:879][945]LogReal33D: Say 60: "hi" handed to Fusion32
+[2026.10.14-08.35.50:961][946]LogReal33D: talk [Say] at 32099,32196,7, Test Player B: "hi"  speaker Resolved creature 1002
+[2026.10.14-08.36.09:775][348]LogReal33D: input 61: Fusion32 accepted request 58, 32099,32196,7 -> 32100,32196,7
+[2026.10.14-08.36.10:223][357]LogReal33D: input 62: Fusion32 accepted request 59, 32100,32196,7 -> 32101,32196,7
+[2026.10.14-08.36.13:069][420]LogReal33D: Say 63: "hi" handed to Fusion32
+[2026.10.14-08.36.13:204][422]LogReal33D: talk [Say] at 32101,32196,7, Test Player B: "hi"  speaker Resolved creature 1002
+[2026.10.14-08.36.14:167][436]LogReal33D: talk [Say] at 32102,32196,7, Seymour: "Hello, Test Player B. What do you need?"  speaker Resolved creature 1073742035
+[2026.10.14-08.36.50:217][328]LogReal33D: talk [Say] at 32102,32196,7, Seymour: "Good bye! And remember: No running up and down in the academy!"  speaker Resolved creature 1073742035
+[2026.10.14-08.37.06:824][676]LogReal33D: input 64: Fusion32 accepted request 60, 32101,32196,7 -> 32101,32197,7
+[2026.10.14-08.37.07:262][686]LogReal33D: input 65: Fusion32 accepted request 61, 32101,32197,7 -> 32100,32197,7
+[2026.10.14-08.37.07:738][697]LogReal33D: input 66: Fusion32 accepted request 62, 32100,32197,7 -> 32099,32197,7
+[2026.10.14-08.37.08:248][708]LogReal33D: input 67: Fusion32 accepted request 63, 32099,32197,7 -> 32099,32198,7
+[2026.10.14-08.37.08:752][719]LogReal33D: input 68: Fusion32 accepted request 64, 32099,32198,7 -> 32099,32197,7
+[2026.10.14-08.37.09:221][729]LogReal33D: input 69: Fusion32 accepted request 65, 32099,32197,7 -> 32100,32197,7
+[2026.10.14-08.37.09:630][738]LogReal33D: input 70: Fusion32 accepted request 66, 32100,32197,7 -> 32101,32197,7
+[2026.10.14-08.37.10:142][750]LogReal33D: input 71: Fusion32 accepted request 67, 32101,32197,7 -> 32102,32197,7
+[2026.10.14-08.37.10:479][759]LogReal33D: left-click walk arrived: authoritative player=32102,32197,7
+[2026.10.14-08.37.24:273][ 96]LogReal33D: input 72: Fusion32 accepted request 68, 32102,32197,7 -> 32101,32197,7
+[2026.10.14-08.37.24:709][107]LogReal33D: input 73: Fusion32 accepted request 69, 32101,32197,7 -> 32100,32197,7
+[2026.10.14-08.37.25:172][119]LogReal33D: input 74: Fusion32 accepted request 70, 32100,32197,7 -> 32099,32197,7
+[2026.10.14-08.37.25:662][131]LogReal33D: input 75: Fusion32 accepted request 71, 32099,32197,7 -> 32099,32198,7
+[2026.10.14-08.37.26:117][143]LogReal33D: input 76: Fusion32 accepted request 72, 32099,32198,7 -> 32098,32198,7
+[2026.10.14-08.37.26:651][156]LogReal33D: input 77: Fusion32 accepted request 73, 32098,32198,7 -> 32098,32199,7
+[2026.10.14-08.37.27:094][167]LogReal33D: input 78: Fusion32 accepted request 74, 32098,32199,7 -> 32098,32200,7
+[2026.10.14-08.37.27:609][177]LogReal33D: input 79: Fusion32 accepted request 75, 32098,32200,7 -> 32098,32199,7
+[2026.10.14-08.37.28:060][187]LogReal33D: input 80: Fusion32 accepted request 76, 32098,32199,7 -> 32098,32198,7
+[2026.10.14-08.37.28:491][198]LogReal33D: input 81: Fusion32 accepted request 77, 32098,32198,7 -> 32098,32197,7
+[2026.10.14-08.37.28:998][211]LogReal33D: input 82: Fusion32 accepted request 78, 32098,32197,7 -> 32099,32197,7
+[2026.10.14-08.37.29:460][223]LogReal33D: input 83: Fusion32 accepted request 79, 32099,32197,7 -> 32100,32197,7
+[2026.10.14-08.37.29:946][235]LogReal33D: input 84: Fusion32 accepted request 80, 32100,32197,7 -> 32101,32197,7
+[2026.10.14-08.37.30:219][243]LogReal33D: left-click walk arrived: authoritative player=32101,32197,7
+[2026.10.14-08.41.04:932][772]LogReal33D: use 85 from world: object 2437 at 32103,32194,7 stack 1, would open as container 0
+[2026.10.14-08.42.15:200][186]LogReal33D: combat input 86 from battle list: follow creature 1073742035
+[2026.10.14-08.42.15:373][189]LogReal33D: combat state: target=1073742035 action=follow tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.14-08.42.55:357][967]LogReal33D: combat input 87 from battle list: follow creature 1073742035
+[2026.10.14-08.42.55:459][969]LogReal33D: combat state: target=0 action=none tactics_sent=false attack_mode=1 chase_mode=0

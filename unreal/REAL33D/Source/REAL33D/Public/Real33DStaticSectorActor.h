@@ -30,7 +30,7 @@ public:
 		const FString& ReferencePreviewDirectory,
 		const Real33D::FWorldOrigin& Origin);
 	void ApplyView(const Real33D::FMapPosition& Anchor, int32 VisualRadius, bool bHideUpper = false);
-	int32 ApplyCameraVisibility(const FVector& Focus, const FVector& Eye, double& SafeDistance);
+	void MeasureCameraObstruction(const FVector& Focus, const FVector& Eye, double& SafeDistance) const;
 	static bool ShouldSuppressTile(const FIntVector& Key,
 		const Real33D::FMapPosition& Anchor, int32 VisualRadius);
 	static TSet<FIntVector> DesiredSectors(

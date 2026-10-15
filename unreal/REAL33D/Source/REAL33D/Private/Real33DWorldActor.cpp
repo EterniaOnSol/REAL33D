@@ -4,6 +4,7 @@
 
 #include "Camera/CameraComponent.h"
 #include "Components/StaticMeshComponent.h"
+#include "Components/HierarchicalInstancedStaticMeshComponent.h"
 #include "Async/Async.h"
 #include "Engine/Engine.h"
 #include "Engine/GameInstance.h"
@@ -329,6 +330,12 @@ void AReal33DWorld::ClearWorld()
 	// Speech attached to a creature died with its actor above. The transcript
 	// is the other half and the bridge clears it on the same disconnect, so a
 	// reconnect inherits nothing the previous session was saying.
+}
+
+const AReal33DTile* AReal33DWorld::FindPresentedTile(const Real33D::FMapPosition& Position) const
+{
+	const auto* Found = Tiles.Find(Real33D::ToKey(Position));
+	return Found ? Found->Get() : nullptr;
 }
 
 void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
@@ -682,10 +689,12 @@ void AReal33DWorld::UpdateFloorVisibility()
 	const AReal33DCreature* Local = GetLocalPlayer();
 	if (Local == nullptr) return;
 	const Real33D::FMapPosition& Position = Local->GetLogicalPosition();
-	const bool bCovered = Position.Z > 0
-		&& Tiles.Contains(FIntVector(Position.X, Position.Y, Position.Z - 1))
-		&& Tiles[FIntVector(Position.X, Position.Y, Position.Z - 1)]
-		&& Tiles[FIntVector(Position.X, Position.Y, Position.Z - 1)]->HasCoveringContent();
+	const bool bCovered = Real33D::Presentation::HasCoverAbove(Position.Z,
+		[this, &Position](int32 Floor)
+		{
+			const auto* Tile = Tiles.Find(FIntVector(Position.X, Position.Y, Floor));
+			return Tile && *Tile && (*Tile)->HasCoveringContent();
+		});
 	bHideUpperFloors = Real33D::Presentation::HideUpperFloors(Position.Z, bCovered);
 	int32 HiddenTiles = 0;
 	for (TPair<FIntVector, TObjectPtr<AReal33DTile>>& Pair : Tiles)
@@ -740,12 +749,13 @@ void AReal33DWorld::UpdateCamera(float DeltaSeconds)
  double SafeDistance = Smoothed;
  CameraCutaways = 0;
  for (auto& Pair : Tiles)
-  if (Pair.Value) CameraCutaways += Pair.Value->ApplyCameraVisibility(GetActorLocation(), Eye, SafeDistance);
+  if (Pair.Value) Pair.Value->MeasureCameraObstruction(GetActorLocation(), Eye, SafeDistance);
  for (auto& Pair : StaticSectors)
-  if (Pair.Value) CameraCutaways += Pair.Value->ApplyCameraVisibility(GetActorLocation(), Eye, SafeDistance);
+  if (Pair.Value) Pair.Value->MeasureCameraObstruction(GetActorLocation(), Eye, SafeDistance);
  bCameraObstructed = SafeDistance < Smoothed - 1.0;
- // Retract immediately for clearance; ease restoration and ordinary wheel zoom.
- DrawnCameraDistance = FMath::Min(Smoothed, static_cast<float>(SafeDistance));
+ // Keep the operator's zoom distance and all current-floor geometry intact.
+ // Obstruction detection is diagnostic only: no retraction or camera cutaways.
+ DrawnCameraDistance = Smoothed;
  ApplyCameraTransform();
 }
 
@@ -1425,8 +1435,29 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 						bProjected ? TEXT("true") : TEXT("false"), Pixel.X, Pixel.Y));
 				}
 			}
-			FFileHelper::SaveStringToFile(FString::Printf(TEXT("{\"source\":\"current_live_render_components\",\"objects\":[\n%s\n]}"),
-				*FString::Join(GeometryLines, TEXT(",\n"))), *FPaths::ChangeExtension(Path, TEXT("geometry.json")));
+			TArray<FString> StaticLines;
+			for (const auto& Pair : StaticSectors)
+			{
+				if (!Pair.Value) continue;
+				TArray<UHierarchicalInstancedStaticMeshComponent*> Components;
+				Pair.Value->GetComponents(Components);
+				for (const auto* Component : Components)
+				{
+					if (!Component || !Component->GetStaticMesh()) continue;
+					StaticLines.Add(FString::Printf(TEXT("{\"sector\":[%d,%d,%d],\"mesh\":\"%s\",\"instances\":%d,\"render_instances\":%d,\"tree_built\":%s,\"actor_hidden\":%s,\"visible\":%s,\"hidden_in_game\":%s,\"bounds_origin\":[%.2f,%.2f,%.2f],\"bounds_radius\":%.2f}"),
+						Pair.Key.X, Pair.Key.Y, Pair.Key.Z,
+						*EscapeForJson(Component->GetStaticMesh()->GetPathName()),
+						Component->GetInstanceCount(), Component->GetNumRenderInstances(),
+						Component->IsTreeFullyBuilt() ? TEXT("true") : TEXT("false"),
+						Pair.Value->IsHidden() ? TEXT("true") : TEXT("false"),
+						Component->IsVisible() ? TEXT("true") : TEXT("false"),
+						Component->bHiddenInGame ? TEXT("true") : TEXT("false"),
+						Component->Bounds.Origin.X, Component->Bounds.Origin.Y,
+						Component->Bounds.Origin.Z, Component->Bounds.SphereRadius));
+				}
+			}
+			FFileHelper::SaveStringToFile(FString::Printf(TEXT("{\"source\":\"current_live_render_components\",\"objects\":[\n%s\n],\"static_components\":[\n%s\n]}"),
+				*FString::Join(GeometryLines, TEXT(",\n")), *FString::Join(StaticLines, TEXT(",\n"))), *FPaths::ChangeExtension(Path, TEXT("geometry.json")));
 		}
 		if (Reason != TEXT("EndPlay") && FParse::Param(FCommandLine::Get(), TEXT("real33d-minimap-qa")))
 		{

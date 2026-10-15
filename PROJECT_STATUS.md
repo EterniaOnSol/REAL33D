@@ -1,3 +1,11 @@
+UPDATE 2026-10-14 21:53 checkpoint: build/three suites/secret_check PASS; fresh login screenshot proves lit2109 uses upright2108 mesh. Live toggle/drag pending: window activation timed out twice, input stopped. Full milestone IMPLEMENTED_UNVERIFIED; no certification/main merge. See RESUME-20261014 report.
+UPDATE 2026-10-14 21:48: lamp/world-drag build PASS, three Unreal automation suites PASS, secret_check PASS. Live lamp/drag verification pending; overall IMPLEMENTED_UNVERIFIED. Accepted house restoration retained.
+UPDATE 2026-10-14 restoration: HISM cluster refresh fixes incomplete exterior/distant scenery after visibility changes; build and three suites PASS,3652 current trees in live F9, operator accepted. New authorized lamp2109->2108 geometry/light and world drag fixes implemented, build/live verification pending. Overall IMPLEMENTED_UNVERIFIED;22 unanswered walks in operator session prevent full gameplay PASS.
+UPDATE 2026-10-14 live temple roof regression PASS: same original player tile and zoom now readable with current-floor walls intact; outdoor roof restoration and new authoritative minimap arrival verified. Cutaways0; latest724 commands have residual/unsupported/anomalies0. Full camera/wall/Use With/gameplay acceptance remains IMPLEMENTED_UNVERIFIED. See RESUME-20261014 report.
+UPDATE 2026-10-14 afternoon: rejected no-cutaway version was NOT committed/pushed. F9 reveals temple roof two floors above player bypassed immediate-floor cover detection. UpdateFloorVisibility now checks all received overhead tiles in the same column. Build and three automation suites PASS; live roof check pending. No automatic camera approach/proximity cutaways restored. Overall IMPLEMENTED_UNVERIFIED; no certification/main merge. See RESUME-20261014 report.
+UPDATE 2026-10-14 resumed polish: operator authorized removing BOTH automatic camera retraction and proximity cutaways. UpdateCamera keeps manual zoom; live/static MeasureCameraObstruction is diagnostic-only and no longer hides meshes, changes collision or zeroes instance transforms. Floor/roof and authoritative-window rules remain. Camera/wall readability on this changed policy is IMPLEMENTED_UNVERIFIED pending new live QA; earlier cutaway PASS is historical, not acceptance of the new policy. New minimap-click arrival and legitimate Seymour world/chat speech PASS. Overall IMPLEMENTED_UNVERIFIED; no certification/main merge. See evidence/clientcore/UNREAL-WORLD-PRESENTATION-POLISH-001-RESUME-20261014.md.
+2026-10-14 operator-assisted polish QA: preserved 54f6abc pushed/verified. No code changes. CAMERA_COLLISION FAILED operator acceptance (requests removal). WORLD_SPEECH, USE_FEEDBACK, CONTAINER_SMOKE, FOLLOW/STOP smoke and bounded WALL_OCCLUSION PASS with live PNG/JSON/log evidence. Use With, minimap-click attribution, NPC response and full regression IMPLEMENTED_UNVERIFIED. Protocol errors0 in both EndPlay snapshots. Overall IMPLEMENTED_UNVERIFIED; no certification/main merge. See evidence/clientcore/UNREAL-WORLD-PRESENTATION-POLISH-001-OPERATOR-QA-20261014.md.
+
 # Project Status
 
 2026-10-09 gap QA: authorized safe push completed; remote now 6ac8a8e.
@@ -166,7 +174,7 @@ Next gameplay candidate: trade or a live floor transition. Select one bounded sc
 
 Updated: 2026-09-17
 
-## Visual ingest audit ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â 2026-09-20
+## Visual ingest audit ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â 2026-09-20
 
 `REAL33D-VISUAL-INGEST-AUDIT-001 = PASS` only for the internal `visual/` reference area; its former artist-source conclusion was corrected. `REAL33D-3DTIBIA-ART-AUDIT-001 = PASS` for a read-only inventory of the actual source clone `C:/Users/dell/3DTIBIA_leo/motor3d/assets` at `21fafb57dd86b594223bab7dbe9076d1fa380640`: 96,478 files, including four GLB and four BLEND. Four GLBs map `EXACT` to three 7.72 outfit visual identities by pixel-checked source evidence, but the source project documents all four as failed/rejected experiments. No primary-source 3D asset is ready for a P0 vertical import. `TECHNICAL_IMPORT`, `IN_ENGINE_RENDER` and `VISUAL_APPROVAL` remain `NOT_STARTED`; no Unreal, gameplay, protocol or ClientCore change was made. The chat milestone and prior functional claims above are unchanged. Corrected evidence and next step: `visual/docs/EXTERNAL_3DTIBIA_INGEST_AUDIT_2026-09-20.md`.
 
@@ -180,7 +188,7 @@ UNREAL-PLAYER-VITALS-001 is IMPLEMENTED_UNVERIFIED. The worker publishes semanti
 
 ## Wide-world streamer - 2026-09-21
 
-UNREAL-WIDE-WORLD-001 = CERTIFIED_PASS. Unreal loads strict, generated 32Ãƒâ€”32 .wws sector caches around the authoritative anchor, keeps the complete 18Ãƒâ€”14 live window owned by WorldState, suppresses static tiles as they enter live authority, retains parsed data for cache hits, and destroys distant sector actors on the game thread. Async work is restricted to file IO and row parsing. Static baseline sectors never invent dynamic state.
+UNREAL-WIDE-WORLD-001 = CERTIFIED_PASS. Unreal loads strict, generated 32ÃƒÆ’Ã¢â‚¬â€32 .wws sector caches around the authoritative anchor, keeps the complete 18ÃƒÆ’Ã¢â‚¬â€14 live window owned by WorldState, suppresses static tiles as they enter live authority, retains parsed data for cache hits, and destroys distant sector actors on the game thread. Async work is restricted to file IO and row parsing. Static baseline sectors never invent dynamic state.
 
 Frozen V08 meshes resolve first. Missing physical V08 meshes use local gitignored classic previews as CLASSIC_SPRITE_FALLBACK; MISSING_PHYSICAL_ASSET remains separate and non-blocking. Thais exact-radius V08/fallback/missing occurrence counts are 12,286/0/0 at 32, 38,826/3/0 at 64, 71,845/8/0 at 96, and 110,073/17/0 at 128. TypeId 469 is explicitly CLASSIC_SPRITE_FALLBACK. The catalogue hash is unchanged and no V08 asset, ClientCore, protocol, server, or reference source changed. See evidence/clientcore/UNREAL-WIDE-WORLD-001.md.
 

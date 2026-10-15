@@ -14,6 +14,19 @@
 #include "Misc/AutomationTest.h"
 #endif
 
+namespace
+{
+void RefreshVisibilityTree(UHierarchicalInstancedStaticMeshComponent* Component)
+{
+	// UE can update same-position scale changes in place without rebuilding its
+	// cluster tree. A tree built while instances were zero-scaled can then cull
+	// restored scenery. Publish the complete visibility batch with fresh bounds.
+	Component->BuildTreeIfOutdated(false, false);
+	Component->UpdateBounds();
+	Component->MarkRenderTransformDirty();
+}
+}
+
 AReal33DStaticSector::AReal33DStaticSector()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -141,6 +154,7 @@ void AReal33DStaticSector::ApplyView(
 	const Real33D::FMapPosition& Anchor, int32 VisualRadius, bool bHideUpper)
 {
 	check(IsInGameThread());
+	TSet<UHierarchicalInstancedStaticMeshComponent*> ChangedComponents;
 	for (TPair<FIntVector, FTileRefs>& Pair : TileRefs)
 	{
 		const bool bSuppressed = ShouldSuppressTile(Pair.Key, Anchor, VisualRadius)
@@ -161,6 +175,7 @@ void AReal33DStaticSector::ApplyView(
 			}
 			Ref.Component->UpdateInstanceTransform(
 				Ref.Index, Transform, false, true, true);
+			ChangedComponents.Add(Ref.Component);
 		}
 		for (TObjectPtr<UBillboardComponent>& Sprite : Pair.Value.Sprites)
 		{
@@ -170,6 +185,7 @@ void AReal33DStaticSector::ApplyView(
 			}
 		}
 	}
+	for (auto* Component : ChangedComponents) RefreshVisibilityTree(Component);
 }
 
 
@@ -223,6 +239,30 @@ bool FReal33DWideWorldWindowTest::RunTest(const FString& Parameters)
 	for (const FIntVector& Key : After) bHasLoad |= !Before.Contains(Key);
 	TestTrue(TEXT("sector movement has unload candidates"), bHasUnload);
 	TestTrue(TEXT("sector movement has load candidates"), bHasLoad);
+	// Exercise the real HISM zero-scale/restore path, not only tile policy.
+	UStaticMesh* Mesh = LoadObject<UStaticMesh>(nullptr, TEXT("/Engine/BasicShapes/Cube.Cube"));
+	if (!TestNotNull(TEXT("restoration test mesh"), Mesh)) return false;
+	auto* Component = NewObject<UHierarchicalInstancedStaticMeshComponent>();
+	Component->SetStaticMesh(Mesh);
+	Component->bAutoRebuildTreeOnInstanceChanges = false;
+	const FTransform Visible(FQuat::Identity, FVector(1400, 800, 220), FVector(1));
+	FTransform Hidden = Visible;
+	Hidden.SetScale3D(FVector::ZeroVector);
+	const int32 Instance = Component->AddInstance(Hidden);
+	RefreshVisibilityTree(Component);
+	for (int32 Cycle = 0; Cycle < 2; ++Cycle)
+	{
+		Component->UpdateInstanceTransform(Instance, Visible, false, true, true);
+		RefreshVisibilityTree(Component);
+		TestTrue(TEXT("restored instance has a current cluster tree"), Component->IsTreeFullyBuilt());
+		TestTrue(TEXT("restored bounds include full geometry"), Component->Bounds.BoxExtent.GetMin() >= 49.0);
+		FTransform Actual;
+		Component->GetInstanceTransform(Instance, Actual);
+		TestTrue(TEXT("restoration preserves original transform"), Actual.Equals(Visible));
+		Component->UpdateInstanceTransform(Instance, Hidden, false, true, true);
+		RefreshVisibilityTree(Component);
+		TestTrue(TEXT("hidden instance bounds collapse again"), Component->Bounds.BoxExtent.IsNearlyZero());
+	}
 	return true;
 }
 #endif
@@ -253,24 +293,17 @@ TSet<FIntVector> AReal33DStaticSector::DesiredSectors(
 	return Result;
 }
 
-int32 AReal33DStaticSector::ApplyCameraVisibility(const FVector& Focus, const FVector& Eye, double& SafeDistance)
+void AReal33DStaticSector::MeasureCameraObstruction(const FVector& Focus, const FVector& Eye, double& SafeDistance) const
 {
- int32 CutCount = 0;
- for (auto& Pair : TileRefs)
+ // ApplyView alone owns floor/radius/live-window visibility. Camera proximity
+ // must not remove static scenery or alter instance transforms.
+ for (const auto& Pair : TileRefs)
  {
   if (Pair.Value.bSuppressed) continue;
-  for (FInstanceRef& Ref : Pair.Value.Meshes)
+  for (const FInstanceRef& Ref : Pair.Value.Meshes)
   {
    if (!Ref.Component || Ref.Index == INDEX_NONE) continue;
-   const bool bCut = Real33D::Presentation::CutAway(Focus, Eye, Ref.WorldBounds);
-   if (bCut) ++CutCount;
-   else Real33D::Presentation::LimitCamera(Focus, Eye, Ref.WorldBounds, SafeDistance);
-   if (Ref.bVisible == !bCut) continue;
-   Ref.bVisible = !bCut;
-   FTransform Transform = Ref.VisibleTransform;
-   if (bCut) Transform.SetScale3D(FVector::ZeroVector);
-   Ref.Component->UpdateInstanceTransform(Ref.Index, Transform, false, true, true);
+   Real33D::Presentation::LimitCamera(Focus, Eye, Ref.WorldBounds, SafeDistance);
   }
  }
- return CutCount;
 }

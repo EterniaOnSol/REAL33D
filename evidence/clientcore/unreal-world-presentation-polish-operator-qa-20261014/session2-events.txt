@@ -1,0 +1,20 @@
+1563:[2026.10.14-08.15.05:264][  0]LogReal33D: speech display lifetime 6.0s (NOT a proven 7.72 value)
+1615:[2026.10.14-08.15.08:351][  1]LogReal33D: connected: Test Player B
+1616:[2026.10.14-08.15.08:351][  1]LogReal33D: server message [LoginMessage]: Your last visit in Tibia: 14. Oct 2026 02:10:30 CST.
+1756:[2026.10.14-08.15.20:336][ 38]LogReal33D: left-click walk: no reachable observed route/frontier
+1757:[2026.10.14-08.15.21:267][ 90]LogReal33D: use 1: object 3031 at body 0 slot 10, would open as container 0
+1758:[2026.10.14-08.15.21:381][ 96]LogReal33D: server message [FailureMessage]: You cannot use this object.
+1826:[2026.10.14-08.15.28:592][387]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+1830:[2026.10.14-08.15.28:723][392]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+1834:[2026.10.14-08.15.29:190][415]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+1882:[2026.10.14-08.15.34:760][610]LogReal33D: talk [Say] at 32096,32209,7, Test Player B: "hola"  speaker Resolved creature 1002
+1988:[2026.10.14-08.15.52:187][203]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+1993:[2026.10.14-08.15.52:626][222]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+2068:[2026.10.14-08.16.03:927][572]LogReal33D: use 53 from world: object 2435 at 32101,32194,7 stack 1, would open as container 0
+2078:[2026.10.14-08.16.16:556][874]LogReal33D: combat input 54 from battle list: follow creature 1073742035
+2080:[2026.10.14-08.16.16:728][878]LogReal33D: combat state: target=1073742035 action=follow tactics_sent=false attack_mode=1 chase_mode=0
+2084:[2026.10.14-08.16.17:094][887]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+2089:[2026.10.14-08.16.18:527][914]LogReal33D: combat input 55: general cancel
+2090:[2026.10.14-08.16.18:656][917]LogReal33D: combat state: target=0 action=none tactics_sent=false attack_mode=1 chase_mode=0
+2103:[2026.10.14-08.16.33:873][271]LogReal33D: left-click walk: target 32098,32212,7, 21 cardinal steps
+2225:[2026.10.14-08.16.44:195][483]LogReal33D: left-click walk arrived: authoritative player=32098,32212,7

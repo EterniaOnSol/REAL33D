@@ -20,6 +20,16 @@ bool FReal33DPresentationTest::RunTest(const FString& Parameters)
 	TestFalse(TEXT("outdoor roof remains"), HideUpperFloors(7, false));
 	TestTrue(TEXT("covered room cuts upper floors"), HideUpperFloors(7, true));
 	TestTrue(TEXT("underground cannot show surface through missing cover"), HideUpperFloors(8, false));
+	TestTrue(TEXT("temple F9: floor 7 covered by floor 5 despite empty floor 6"),
+		HasCoverAbove(7, [](int32 Floor) { return Floor == 5; }));
+	TestTrue(TEXT("ordinary immediate cover remains supported"),
+		HasCoverAbove(7, [](int32 Floor) { return Floor == 6; }));
+	TestFalse(TEXT("outdoors with no observed overhead content stays uncovered"),
+		HasCoverAbove(7, [](int32) { return false; }));
+	TestFalse(TEXT("current and lower floor content cannot count as overhead"),
+		HasCoverAbove(7, [](int32 Floor) { return Floor >= 7; }));
+	TestFalse(TEXT("topmost floor has no overhead tiles"),
+		HasCoverAbove(0, [](int32) { return true; }));
 	const FBox Wall(FVector(100, -50, 0), FVector(120, 50, 220));
 	double Entry = -1;
 	TestTrue(TEXT("wall across camera ray"), SegmentEntry(FVector(0,0,80), FVector(500,0,80), Wall, 0, Entry));
@@ -29,11 +39,9 @@ bool FReal33DPresentationTest::RunTest(const FString& Parameters)
 	TestTrue(TEXT("inside bounds is detected"), SegmentEntry(FVector(110,0,80), FVector(500,0,80), Wall, 0, Entry));
 	TestEqual(TEXT("inside contact is immediate"), Entry, 0.0);
 	TestFalse(TEXT("wall beyond camera does not collide"), SegmentEntry(FVector(0,0,80), FVector(50,0,80), Wall, 0, Entry));
-	TestTrue(TEXT("near occluder cuts away"), CutAway(FVector(0,0,80), FVector(500,0,80), Wall));
-	TestFalse(TEXT("thin ground remains"), CutAway(FVector(0,0,5), FVector(500,0,5), FBox(FVector(100,-50,0), FVector(120,50,10))));
 	double Distance = 500;
 	LimitCamera(FVector(0,0,80), FVector(500,0,80), Wall, Distance);
-	TestEqual(TEXT("camera stops before padded wall"), Distance, 80.0);
+	TestEqual(TEXT("diagnostic clearance before padded wall"), Distance, 80.0);
 	return true;
 }
 #endif

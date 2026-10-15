@@ -1,0 +1,80 @@
+{
+  "milestone": "UNREAL-SLICE-001",
+  "written_at": "2026-10-14T22:16:50.722Z",
+  "reason": "Manual",
+  "seconds_in_session": 165.3,
+  "connected_at_close": true,
+  "local_creature_id": 1002,
+  "local_position": { "x": 32097, "y": 32217, "z": 7 },
+  "origin": { "set": true, "x": 32082, "y": 32183, "z": 8 },
+  "anchor": { "x": 32097, "y": 32217, "z": 7 },
+  "minimap": { "player_known": true, "x": 32097, "y": 32217, "z": 7, "known_cells": 4933, "live_cells": 252 },
+  "clientcore": {
+    "frames": 400,
+    "commands": 647,
+    "residual_bytes": 0,
+    "unsupported_opcodes": 0,
+    "protocol_anomalies": 0,
+    "walks_requested_from_unreal": 65,
+    "walks_accepted": 60,
+    "walks_rejected": 5,
+    "walks_unanswered": 0,
+    "external_relocations": 4,
+    "local_player_moves_total": 64,
+    "says_requested": 0,
+    "moves_requested": 0,
+    "uses_requested": 1,
+    "looks_requested": 0,
+    "attacks_requested": 0,
+    "follows_requested": 0,
+    "combat_cancels_requested": 0,
+    "tactics_requested": 0,
+    "target_clears_received": 0,
+    "worldstate_tiles": 384,
+    "worldstate_visible_creatures": 2,
+    "viewport_synchronised": true
+  },
+  "camera": { "pitch": -45.26, "yaw": 314.19, "requested_distance": 2733.50, "actual_distance": 2733.50, "obstructed": false, "cutaway_meshes": 0, "hide_upper_floors": true },
+  "wideworld": { "loads": 82, "unloads": 26, "sectors": 56 },
+  "presentation": {
+    "tile_actors": 384,
+    "creature_actors": 2,
+    "tiles_spawned": 3093,
+    "tiles_removed": 2709,
+    "creatures_appeared": 38,
+    "creatures_vanished": 36,
+    "creature_moves": 429,
+    "duplicate_spawn_attempts": 0,
+    "orphan_events": 0,
+    "speech_shown_on_creature": 0,
+    "speech_shown_in_chat_area_only": 0,
+    "server_messages_received": 7,
+    "client_notices_raised": 0,
+    "chat_transcript_lines": 7,
+    "speech_seconds_NOT_PROVEN": 6.0
+  },
+  "talk_messages_decoded": 0,
+  "last_diagnostic": "none",
+  "inventory_known": true,
+  "inventory": [
+    { "slot": 10, "type_id": 3031, "amount": 3, "liquid": null }
+  ],
+  "open_containers": 0,
+  "containers": [
+
+  ],
+  "combat": { "target_creature_id": 0, "following": false, "tactics_sent": false, "attack_mode": 1, "chase_mode": 0, "target_actor_visible": false },
+  "chat_transcript": [
+    { "system_line": true, "line": "Server: Your last visit in Tibia: 14. Oct 2026 02:59:10 CST." },
+    { "system_line": true, "line": "Server: You lose 2 hitpoints due to an attack by a rat." },
+    { "system_line": true, "line": "Server: You lose 1 hitpoint due to an attack by a rat." },
+    { "system_line": true, "line": "Server: You lose 1 hitpoint due to an attack by a rat." },
+    { "system_line": true, "line": "Server: You lose 3 hitpoints due to an attack by a rat." },
+    { "system_line": true, "line": "Server: Sorry, not possible." },
+    { "system_line": true, "line": "Server: Sorry, not possible." }
+  ],
+  "creatures": [
+    { "id": 1002, "local": true, "x": 32097, "y": 32217, "z": 7 },
+    { "id": 1073741889, "local": false, "x": 32098, "y": 32216, "z": 7 }
+  ]
+}

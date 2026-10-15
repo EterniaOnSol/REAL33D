@@ -1,6 +1,7 @@
 ﻿#include "Real33DTileActor.h"
 
 #include "Components/StaticMeshComponent.h"
+#include "Components/PointLightComponent.h"
 #include "Engine/StaticMesh.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Real33DCoords.h"
@@ -23,6 +24,8 @@ void AReal33DTile::ClearComponents()
 		}
 	}
 	StackComponents.Reset();
+	for (auto& Light : LampLights) if (Light) Light->DestroyComponent();
+	LampLights.Reset();
 }
 
 bool AReal33DTile::GetTopObject(uint16& OutTypeId, uint8& OutStackIndex) const
@@ -126,6 +129,23 @@ void AReal33DTile::ApplyStack(const TArray<FReal33DThing>& InThings,
 			}
 		}
 		StackComponents.Add(Component);
+		// Only a received lit-lamp state creates light. Use never toggles it locally.
+		// Static scenery has no live light state and cannot create these components.
+		if (Thing.TypeId == 2109 && Visual.bIsExperimental && Visual.Mesh)
+		{
+			auto* Light = NewObject<UPointLightComponent>(this);
+			Light->SetupAttachment(Root);
+			const FBox LampBounds = Visual.Mesh->GetBoundingBox().TransformBy(
+				FTransform(Visual.Rotation, Visual.Offset, Visual.Scale));
+			Light->SetRelativeLocation(FVector(LampBounds.GetCenter().X,
+				LampBounds.GetCenter().Y, LampBounds.Max.Z - 12.0));
+			Light->SetLightColor(FLinearColor(1.0f, 0.65f, 0.22f));
+			Light->SetIntensity(2500.0f);
+			Light->SetAttenuationRadius(400.0f);
+			Light->SetCastShadows(false);
+			Light->RegisterComponent();
+			LampLights.Add(Light);
+		}
 		++Index;
 	}
 	SetFloorVisible(bFloorVisible);
@@ -136,6 +156,7 @@ void AReal33DTile::SetFloorVisible(bool bVisible)
 	bFloorVisible = bVisible;
 	SetActorHiddenInGame(!bVisible);
 	SetActorEnableCollision(bVisible);
+	for (auto& Light : LampLights) if (Light) Light->SetVisibility(bVisible);
 	for (const TObjectPtr<UStaticMeshComponent>& Component : StackComponents)
 	{
 		if (!Component) continue;
@@ -145,19 +166,13 @@ void AReal33DTile::SetFloorVisible(bool bVisible)
 	}
 }
 
-int32 AReal33DTile::ApplyCameraVisibility(const FVector& Focus, const FVector& Eye, double& SafeDistance)
+void AReal33DTile::MeasureCameraObstruction(const FVector& Focus, const FVector& Eye, double& SafeDistance) const
 {
- if (!bFloorVisible) return 0;
- int32 CutCount = 0;
+ if (!bFloorVisible) return;
+ // Camera proximity never changes visibility or interaction collision.
  for (const auto& Component : StackComponents)
  {
   if (!Component) continue;
-  const FBox Bounds = Component->Bounds.GetBox();
-  const bool bCut = Real33D::Presentation::CutAway(Focus, Eye, Bounds);
-  Component->SetVisibility(!bCut);
-  Component->SetCollisionEnabled(bCut ? ECollisionEnabled::NoCollision : ECollisionEnabled::QueryOnly);
-  if (bCut) ++CutCount;
-  else Real33D::Presentation::LimitCamera(Focus, Eye, Bounds, SafeDistance);
+  Real33D::Presentation::LimitCamera(Focus, Eye, Component->Bounds.GetBox(), SafeDistance);
  }
- return CutCount;
 }

@@ -542,6 +542,7 @@ void AReal33DPlayerController::DumpEvidence()
 
 void AReal33DPlayerController::BeginLeftClick()
 {
+	bWorldDragCandidate = false;
 	const auto Modifiers = FSlateApplication::Get().GetModifierKeys();
 	const auto Action = MouseGesture.Press(Real33D::MouseButton::Left,
 		Modifiers.IsShiftDown(), Modifiers.IsAltDown());
@@ -557,15 +558,85 @@ void AReal33DPlayerController::BeginLeftClick()
 		MouseGesture.LeftConsumed();
 		ClickWalkPath.Reset();
 		InspectUnderCursor();
+		return;
 	}
+	if (!bTypingActive && !MouseGesture.IsChord()) BeginWorldDrag();
 }
 
 void AReal33DPlayerController::EndLeftClick()
 {
 	if (MouseGesture.Release(Real33D::MouseButton::Left) == Real33D::MouseAction::Walk)
 	{
-		WalkUnderCursor();
+		float X = 0, Y = 0;
+		if (bWorldDragCandidate && GetMousePosition(X, Y)
+			&& FVector2D::DistSquared(WorldDragStart, FVector2D(X, Y)) > 25.0)
+			CompleteWorldDrag();
+		else WalkUnderCursor();
 	}
+	bWorldDragCandidate = false;
+}
+
+void AReal33DPlayerController::BeginWorldDrag()
+{
+	FHitResult Hit;
+	AReal33DWorld* World = GetWorldActor();
+	float X = 0, Y = 0;
+	if (!World || !GetMousePosition(X, Y) || !GetHitResultUnderCursorByChannel(
+		UEngineTypes::ConvertToTraceType(ECC_Visibility), true, Hit)) return;
+	const auto* Creature = Cast<AReal33DCreature>(Hit.GetActor());
+	const auto* Tile = Creature ? World->FindPresentedTile(Creature->GetLogicalPosition())
+		: Cast<AReal33DTile>(Hit.GetActor());
+	if (!Tile || Tile->IsHidden()) return;
+	WorldDragCreatureId = Creature ? Creature->GetCreatureId() : 0;
+	const auto& Things = Tile->GetThings();
+	for (int32 Index = Things.Num() - 1; Index >= 0; --Index)
+	{
+		const auto& Thing = Things[Index];
+		if (Creature ? (!Thing.bIsCreature || Thing.CreatureId != WorldDragCreatureId)
+			: (Thing.bIsCreature || Thing.bGround || Thing.TypeId == 0)) continue;
+		if (Index > 255) return;
+		WorldDragFrom = Tile->GetMapPosition();
+		// Selected source objects.hh: TYPEID_CREATURE_CONTAINER=99; CMoveObject
+		// uses the same existing move command for creatures and map objects.
+		WorldDragTypeId = Creature ? 99 : Thing.TypeId;
+		WorldDragStack = static_cast<uint8>(Index);
+		WorldDragStart = FVector2D(X, Y);
+		bWorldDragCandidate = true;
+		return;
+	}
+}
+
+void AReal33DPlayerController::CompleteWorldDrag()
+{
+	ClickWalkPath.Reset();
+	AReal33DWorld* World = GetWorldActor();
+	const auto* Source = World ? World->FindPresentedTile(WorldDragFrom) : nullptr;
+	if (bTypingActive || !Source || Source->IsHidden()
+		|| (HudRoot.IsValid() && HudRoot->IsTargeting())) return;
+	const auto& Things = Source->GetThings();
+	if (!Things.IsValidIndex(WorldDragStack)) return;
+	const auto& Thing = Things[WorldDragStack];
+	if (WorldDragCreatureId ? (!Thing.bIsCreature || Thing.CreatureId != WorldDragCreatureId)
+		: (Thing.bIsCreature || Thing.TypeId != WorldDragTypeId)) return;
+	FHitResult Hit;
+	if (!GetHitResultUnderCursorByChannel(
+		UEngineTypes::ConvertToTraceType(ECC_Visibility), true, Hit)) return;
+	const auto* Creature = Cast<AReal33DCreature>(Hit.GetActor());
+	const auto* Target = Creature ? World->FindPresentedTile(Creature->GetLogicalPosition())
+		: Cast<AReal33DTile>(Hit.GetActor());
+	const auto* Self = World->GetLocalPlayer();
+	if (!Target || Target->IsHidden() || !Self || Target->GetMapPosition() == WorldDragFrom
+		|| Target->GetMapPosition().Z != Self->GetLogicalPosition().Z
+		|| WorldDragFrom.Z != Self->GetLogicalPosition().Z) return;
+	auto* Bridge = GetGameInstance()->GetSubsystem<UReal33DBridge>();
+	if (!Bridge || !Bridge->IsRunning()) return;
+	const auto To = Target->GetMapPosition();
+	const uint32 Id = Bridge->RequestMoveObject(UReal33DBridge::FMoveSlot::OnMap(WorldDragFrom),
+		WorldDragTypeId, WorldDragStack, UReal33DBridge::FMoveSlot::OnMap(To), 1);
+	if (Id && HudRoot.IsValid()) HudRoot->ShowInteractionRequest(TEXT("Move requested"));
+	UE_LOG(LogReal33D, Log, TEXT("world drag %u: type=%u creature=%u from=%d,%d,%d stack=%u to=%d,%d,%d count=1"),
+		Id, WorldDragTypeId, WorldDragCreatureId, WorldDragFrom.X, WorldDragFrom.Y, WorldDragFrom.Z,
+		WorldDragStack, To.X, To.Y, To.Z);
 }
 
 void AReal33DPlayerController::WalkUnderCursor()

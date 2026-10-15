@@ -46,6 +46,7 @@ public:
 
 	/** Local input planning using only current server-described tiles, never static art/cache. */
 	bool IsKnownWalkTile(const FIntVector& Key) const;
+	const AReal33DTile* FindPresentedTile(const Real33D::FMapPosition& Position) const;
 	bool FindKnownWalkPath(const Real33D::FMapPosition& Target, TArray<FIntVector>& OutPath) const;
 
 	/**

@@ -7,6 +7,7 @@
 #include "Real33DTileActor.generated.h"
 
 class UStaticMeshComponent;
+class UPointLightComponent;
 
 /**
  * One visible field. Owns the components that draw its stack.
@@ -25,7 +26,7 @@ public:
 	/** Rebuilds the stack. Game thread only. */
 	void ApplyStack(const TArray<FReal33DThing>& Things, const UReal33DAssetRegistry* Registry);
 	void SetFloorVisible(bool bVisible);
-	int32 ApplyCameraVisibility(const FVector& Focus, const FVector& Eye, double& SafeDistance);
+	void MeasureCameraObstruction(const FVector& Focus, const FVector& Eye, double& SafeDistance) const;
 
 	const Real33D::FMapPosition& GetMapPosition() const { return MapPosition; }
 	void SetMapPosition(const Real33D::FMapPosition& Position) { MapPosition = Position; }
@@ -58,6 +59,8 @@ private:
 
 	UPROPERTY()
 	TArray<TObjectPtr<UStaticMeshComponent>> StackComponents;
+	UPROPERTY()
+	TArray<TObjectPtr<UPointLightComponent>> LampLights;
 
 	/** What WorldState says is on this field. Presentation reads it; it owns nothing. */
 	TArray<FReal33DThing> Things;

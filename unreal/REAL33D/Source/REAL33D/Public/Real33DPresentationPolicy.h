@@ -23,6 +23,15 @@ inline bool HideUpperFloors(int32 PlayerFloor, bool bCovered)
 	return bCovered || PlayerFloor > 7;
 }
 
+// A room may span several floors: an empty immediate upper tile does not mean
+// outdoors. The caller supplies only already-received live tile content.
+inline bool HasCoverAbove(int32 PlayerFloor, TFunctionRef<bool(int32)> HasContent)
+{
+	for (int32 Floor = PlayerFloor - 1; Floor >= 0; --Floor)
+		if (HasContent(Floor)) return true;
+	return false;
+}
+
 // Slab intersection also handles a camera starting inside a mesh's bounds.
 // Padding reserves camera/near-plane clearance without requiring asset collision.
 inline bool SegmentEntry(const FVector& Start, const FVector& End,
@@ -48,15 +57,6 @@ inline bool SegmentEntry(const FVector& Start, const FVector& End,
 	}
 	Entry = First;
 	return true;
-}
-
-inline bool CutAway(const FVector& Focus, const FVector& Eye, const FBox& Bounds)
-{
-	if (!Bounds.IsValid || Bounds.GetSize().Z < 70.0) return false;
-	const FVector Nearest = Bounds.GetClosestPointTo(Focus);
-	if (FVector::DistSquaredXY(Nearest, Focus) > FMath::Square(300.0)) return false;
-	double Entry = 0.0;
-	return SegmentEntry(Focus, Eye, Bounds, 18.0, Entry);
 }
 
 inline void LimitCamera(const FVector& Focus, const FVector& Eye,
