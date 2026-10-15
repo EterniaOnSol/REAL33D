@@ -1,0 +1,40 @@
+  UBA Storage capacity 40 GB
+[1/31] Compile [x64] SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.cpp
+[2/31] Compile [x64] Module.REAL33D.cpp
+[3/31] Compile [x64] REAL33D.cpp
+[4/31] Compile [x64] Real33DActionBarPanel.cpp
+[5/31] Compile [x64] Real33DAssetRegistry.cpp
+[6/31] Compile [x64] Real33DBattlePanel.cpp
+[7/31] Compile [x64] Real33DBridge.cpp
+[8/31] Compile [x64] Real33DChatPanel.cpp
+[9/31] Compile [x64] Real33DContainersPanel.cpp
+[10/31] Compile [x64] Real33DControlPanel.cpp
+[11/31] Compile [x64] Real33DCreatureActor.cpp
+[12/31] Compile [x64] Real33DGalleryActor.cpp
+[13/31] Compile [x64] Real33DGalleryPanel.cpp
+[14/31] Compile [x64] Real33DGameMode.cpp
+[15/31] Compile [x64] Real33DHUD.cpp
+[16/31] Compile [x64] Real33DInventoryPanel.cpp
+[17/31] Compile [x64] Real33DMinimapPanel.cpp
+[18/31] Compile [x64] Real33DPanelChrome.cpp
+[19/31] Compile [x64] Real33DPlayerController.cpp
+[20/31] Compile [x64] Real33DPresentationTests.cpp
+[21/31] Compile [x64] Real33DSkillsPanel.cpp
+[22/31] Compile [x64] Real33DStaticSectorActor.cpp
+[23/31] Compile [x64] Real33DTileActor.cpp
+[24/31] Compile [x64] Real33DUIStyle.cpp
+[25/31] Compile [x64] Real33DVitalsPanel.cpp
+[26/31] Compile [x64] Real33DWorldActor.cpp
+[27/31] Compile [x64] Real33DWorldOverlay.cpp
+[28/31] Link [x64] UnrealEditor-REAL33D.lib
+   Creando biblioteca C:/Users/dell/Desktop/fusion32/build/cert-unreal-world-presentation-polish-001-20261015/unreal/REAL33D/Intermediate/Build/Win64/x64/UnrealEditor/Development/REAL33D/UnrealEditor-REAL33D.lib y objeto C:/Users/dell/Desktop/fusion32/build/cert-unreal-world-presentation-polish-001-20261015/unreal/REAL33D/Intermediate/Build/Win64/x64/UnrealEditor/Development/REAL33D/UnrealEditor-REAL33D.exp
+[29/31] Compile Resource [x64] Default.rc2
+[30/31] Link [x64] UnrealEditor-REAL33D.dll
+[31/31] WriteMetadata REAL33DEditor.target [NoUba]
+
+Total time in Unreal Build Accelerator local executor: 291.47 seconds
+Output binary: C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\Win64\UnrealEditor.exe
+
+Result: Succeeded
+Total execution time: 365.74 seconds
+Trace written to file C:\Users\dell\AppData\Local\UnrealBuildTool\Trace.uba with size 38.9kb

@@ -1,0 +1,7 @@
+=== real33d_mouse_input_tests ===
+PASS: left walk, shift-left look, both chord orders/release orders, UI release isolation, use-with, orbit, reset
+=== real33d_minimap_view_tests ===
+real33d_minimap_view_tests: PASS (palette validation/isolation, north-up, inverse clicks, delta, pan, zoom bounds, floors/recenter/offline)
+=== real33d_item_use_policy_tests ===
+runtime MultiUse metadata PASS: 204 types
+item use policy PASS
