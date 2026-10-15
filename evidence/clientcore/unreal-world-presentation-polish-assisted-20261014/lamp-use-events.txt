@@ -1,0 +1,7 @@
+[2026.10.15-03.52.20:650][762]LogReal33D: use 1 from world: object 2109 at 32094,32206,7 stack 2, would open as container 0
+[2026.10.15-03.52.21:923][786]LogReal33D: use 2 from world: object 2108 at 32094,32206,7 stack 2, would open as container 0
+[2026.10.15-04.32.36:831][194]LogReal33D: use 113 from world: object 2109 at 32100,32206,7 stack 2, would open as container 0
+[2026.10.15-04.32.37:858][210]LogReal33D: use 114 from world: object 2108 at 32100,32206,7 stack 2, would open as container 0
+[2026.10.15-04.32.49:535][336]LogReal33D: use 115 from world: object 2109 at 32100,32206,7 stack 2, would open as container 0
+[2026.10.15-04.33.51:921][266]LogReal33D: use 116 from world: object 2108 at 32100,32206,7 stack 2, would open as container 0
+[2026.10.15-04.35.16:736][365]LogReal33D: use 117 from world: object 2109 at 32100,32206,7 stack 2, would open as container 0

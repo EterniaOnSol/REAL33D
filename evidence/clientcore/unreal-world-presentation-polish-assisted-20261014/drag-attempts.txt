@@ -1,0 +1,19 @@
+[2026.10.15-04.25.54:709][278]LogReal33D: world drag 60: type=2319 creature=0 from=32103,32209,7 stack=2 to=32104,32208,7 count=1
+[2026.10.15-04.26.29:883][648]LogReal33D: world drag 62: type=2319 creature=0 from=32103,32209,7 stack=2 to=32104,32208,7 count=1
+[2026.10.15-04.26.40:088][776]LogReal33D: world drag 63: type=2319 creature=0 from=32103,32209,7 stack=2 to=32104,32208,7 count=1
+[2026.10.15-04.26.41:956][793]LogReal33D: world drag 64: type=2319 creature=0 from=32103,32209,7 stack=2 to=32104,32208,7 count=1
+[2026.10.15-04.26.44:336][823]LogReal33D: world drag 65: type=2319 creature=0 from=32103,32209,7 stack=2 to=32104,32208,7 count=1
+[2026.10.15-04.26.46:567][854]LogReal33D: world drag 66: type=2319 creature=0 from=32103,32209,7 stack=2 to=32104,32208,7 count=1
+[2026.10.15-04.26.48:176][879]LogReal33D: world drag 67: type=2319 creature=0 from=32103,32209,7 stack=2 to=32105,32207,7 count=1
+[2026.10.15-04.26.49:436][894]LogReal33D: world drag 68: type=2319 creature=0 from=32103,32209,7 stack=2 to=32104,32208,7 count=1
+[2026.10.15-04.26.50:413][905]LogReal33D: world drag 69: type=2319 creature=0 from=32103,32209,7 stack=2 to=32104,32208,7 count=1
+[2026.10.15-04.26.51:296][915]LogReal33D: world drag 70: type=2319 creature=0 from=32103,32209,7 stack=2 to=32104,32208,7 count=1
+[2026.10.15-04.26.58:993][991]LogReal33D: world drag 71: type=2319 creature=0 from=32103,32209,7 stack=2 to=32104,32208,7 count=1
+[2026.10.15-04.27.02:525][ 36]LogReal33D: world drag 72: type=2319 creature=0 from=32103,32209,7 stack=2 to=32104,32208,7 count=1
+[2026.10.15-04.27.08:482][103]LogReal33D: world drag 80: type=2520 creature=0 from=32109,32207,7 stack=1 to=32109,32208,7 count=1
+[2026.10.15-04.27.10:510][128]LogReal33D: world drag 81: type=1947 creature=0 from=32110,32207,7 stack=1 to=32110,32208,7 count=1
+[2026.10.15-04.27.19:128][230]LogReal33D: world drag 85: type=2520 creature=0 from=32109,32207,7 stack=1 to=32108,32208,7 count=1
+[2026.10.15-04.27.21:239][258]LogReal33D: world drag 86: type=2520 creature=0 from=32109,32207,7 stack=1 to=32109,32208,7 count=1
+[2026.10.15-04.27.22:597][275]LogReal33D: world drag 87: type=2520 creature=0 from=32109,32207,7 stack=1 to=32111,32208,7 count=1
+[2026.10.15-04.27.24:362][295]LogReal33D: world drag 89: type=2520 creature=0 from=32109,32207,7 stack=1 to=32108,32207,7 count=1
+[2026.10.15-04.27.26:087][313]LogReal33D: world drag 92: type=2014 creature=0 from=32108,32207,7 stack=1 to=32108,32208,7 count=1

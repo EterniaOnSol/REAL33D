@@ -1,0 +1,5 @@
+[2026.10.15-04.37.04:086][ 40]LogReal33D: world drag 155: type=99 creature=1073741889 from=32096,32218,7 stack=1 to=32095,32217,7 count=1
+[2026.10.15-04.37.07:363][119]LogReal33D: world drag 158: type=99 creature=1073741889 from=32096,32216,7 stack=1 to=32095,32216,7 count=1
+[2026.10.15-04.37.08:230][139]LogReal33D: world drag 160: type=99 creature=1073741889 from=32096,32216,7 stack=1 to=32097,32216,7 count=1
+[2026.10.15-04.37.09:803][175]LogReal33D: world drag 162: type=99 creature=1073741889 from=32097,32216,7 stack=1 to=32098,32216,7 count=1
+[2026.10.15-04.37.14:309][274]LogReal33D: world drag 166: type=99 creature=1073741889 from=32097,32216,7 stack=1 to=32096,32215,7 count=1

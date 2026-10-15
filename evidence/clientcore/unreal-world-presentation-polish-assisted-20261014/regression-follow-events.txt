@@ -1,0 +1,96 @@
+﻿[2026.10.15-09.18.16:736][  1]LogReal33D: server message [LoginMessage]: Your last visit in Tibia: 14. Oct 2026 23:33:05 CST.
+[2026.10.15-09.18.50:555][  8]LogReal33D: combat input 1 from world right-click: attack creature 1073765520
+[2026.10.15-09.18.50:682][ 10]LogReal33D: combat state: target=1073765520 action=attack tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-09.18.54:674][ 90]LogReal33D: combat state: target=0 action=none tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-09.19.08:348][346]LogReal33D: combat input 6 from world right-click: attack creature 1073765519
+[2026.10.15-09.19.08:529][350]LogReal33D: combat state: target=1073765519 action=attack tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-09.19.09:096][362]LogReal33D: server message [StatusMessage]: You are poisoned.
+[2026.10.15-09.19.12:592][441]LogReal33D: server message [StatusMessage]: You lose 1 hitpoint due to an attack by a snake.
+[2026.10.15-09.19.14:549][479]LogReal33D: combat state: target=0 action=none tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-09.19.16:607][514]LogReal33D: server message [StatusMessage]: You lose 1 hitpoint.
+[2026.10.15-09.19.20:594][600]LogReal33D: server message [StatusMessage]: You lose 1 hitpoint.
+[2026.10.15-09.19.24:598][686]LogReal33D: server message [StatusMessage]: You lose 1 hitpoint.
+[2026.10.15-09.19.28:563][771]LogReal33D: server message [StatusMessage]: You lose 1 hitpoint.
+[2026.10.15-09.19.32:596][853]LogReal33D: server message [StatusMessage]: You lose 1 hitpoint.
+[2026.10.15-09.19.36:566][936]LogReal33D: server message [StatusMessage]: You lose 1 hitpoint.
+[2026.10.15-09.19.40:601][ 18]LogReal33D: server message [StatusMessage]: You lose 1 hitpoint.
+[2026.10.15-09.19.44:578][ 85]LogReal33D: server message [StatusMessage]: You lose 1 hitpoint.
+[2026.10.15-09.19.48:610][150]LogReal33D: server message [StatusMessage]: You lose 1 hitpoint.
+[2026.10.15-09.19.52:637][201]LogReal33D: server message [StatusMessage]: You lose 1 hitpoint.
+[2026.10.15-09.23.55:937][106]LogReal33D: talk [Say] at 32088,32172,7, Test Player B: "qa polish 15"  speaker Resolved creature 1002
+[2026.10.15-09.27.32:728][700]LogReal33D: talk [Say] at 32088,32172,7, Test Player B: "QA POLISH 15"  speaker Resolved creature 1002
+[2026.10.15-09.28.32:685][414]LogReal33D: Fusion32 relocated us with no request outstanding, 32090,32168,7 -> 32091,32167,6
+[2026.10.15-09.28.34:990][442]LogReal33D: Fusion32 relocated us with no request outstanding, 32092,32167,6 -> 32092,32168,6
+[2026.10.15-09.28.35:430][446]LogReal33D: Fusion32 relocated us with no request outstanding, 32092,32168,6 -> 32092,32169,6
+[2026.10.15-09.28.35:962][451]LogReal33D: Fusion32 relocated us with no request outstanding, 32092,32169,6 -> 32092,32170,6
+[2026.10.15-09.28.36:429][456]LogReal33D: Fusion32 relocated us with no request outstanding, 32092,32170,6 -> 32092,32171,6
+[2026.10.15-09.29.39:240][117]LogReal33D: Fusion32 relocated us with no request outstanding, 32092,32178,6 -> 32091,32179,7
+[2026.10.15-09.29.40:543][133]LogReal33D: Fusion32 relocated us with no request outstanding, 32091,32179,7 -> 32091,32180,7
+[2026.10.15-09.29.40:888][137]LogReal33D: Fusion32 relocated us with no request outstanding, 32091,32180,7 -> 32091,32181,7
+[2026.10.15-09.29.41:518][143]LogReal33D: Fusion32 relocated us with no request outstanding, 32091,32181,7 -> 32091,32182,7
+[2026.10.15-09.29.42:106][146]LogReal33D: Fusion32 relocated us with no request outstanding, 32091,32182,7 -> 32092,32182,7
+[2026.10.15-09.29.42:540][151]LogReal33D: Fusion32 relocated us with no request outstanding, 32092,32182,7 -> 32093,32182,7
+[2026.10.15-09.29.43:142][156]LogReal33D: Fusion32 relocated us with no request outstanding, 32093,32182,7 -> 32094,32182,7
+[2026.10.15-09.29.43:659][162]LogReal33D: Fusion32 relocated us with no request outstanding, 32094,32182,7 -> 32095,32182,7
+[2026.10.15-09.29.44:066][166]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.15-09.29.44:367][171]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.15-09.29.44:911][176]LogReal33D: Fusion32 relocated us with no request outstanding, 32095,32182,7 -> 32095,32181,7
+[2026.10.15-09.29.46:690][197]LogReal33D: talk [Say] at 32095,32181,7, Test Player B: "hi"  speaker Resolved creature 1002
+[2026.10.15-09.29.47:606][198]LogReal33D: talk [Say] at 32098,32179,7, Norma: "I'm sorry Test Player B, but I only serve premium account customers."  speaker Resolved creature 1073741858
+[2026.10.15-09.32.02:370][707]LogReal33D: combat input 70 from battle list: follow creature 1073741858
+[2026.10.15-09.32.02:477][709]LogReal33D: server message [FailureMessage]: There is no way.
+[2026.10.15-09.32.02:539][710]LogReal33D: combat state: target=1073741858 action=follow tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-09.32.20:023][912]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.15-09.32.20:718][919]LogReal33D: Fusion32 relocated us with no request outstanding, 32095,32181,7 -> 32095,32182,7
+[2026.10.15-09.32.21:413][928]LogReal33D: Fusion32 relocated us with no request outstanding, 32095,32182,7 -> 32094,32182,7
+[2026.10.15-09.32.23:472][954]LogReal33D: Fusion32 relocated us with no request outstanding, 32094,32182,7 -> 32093,32182,7
+[2026.10.15-09.32.23:949][958]LogReal33D: Fusion32 relocated us with no request outstanding, 32093,32182,7 -> 32092,32182,7
+[2026.10.15-09.32.26:753][991]LogReal33D: Fusion32 relocated us with no request outstanding, 32092,32182,7 -> 32091,32182,7
+[2026.10.15-09.32.28:376][ 10]LogReal33D: Fusion32 relocated us with no request outstanding, 32091,32182,7 -> 32092,32182,7
+[2026.10.15-09.32.28:746][ 14]LogReal33D: Fusion32 relocated us with no request outstanding, 32092,32182,7 -> 32093,32182,7
+[2026.10.15-09.32.29:248][ 19]LogReal33D: Fusion32 relocated us with no request outstanding, 32093,32182,7 -> 32094,32182,7
+[2026.10.15-09.32.29:798][ 26]LogReal33D: Fusion32 relocated us with no request outstanding, 32094,32182,7 -> 32094,32183,7
+[2026.10.15-09.32.30:397][ 30]LogReal33D: Fusion32 relocated us with no request outstanding, 32094,32183,7 -> 32094,32184,7
+[2026.10.15-09.32.30:903][ 35]LogReal33D: Fusion32 relocated us with no request outstanding, 32094,32184,7 -> 32094,32185,7
+[2026.10.15-09.32.31:133][ 38]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.15-09.32.31:430][ 41]LogReal33D: Fusion32 relocated us with no request outstanding, 32094,32185,7 -> 32093,32185,7
+[2026.10.15-09.32.32:037][ 45]LogReal33D: Fusion32 relocated us with no request outstanding, 32093,32185,7 -> 32092,32185,7
+[2026.10.15-09.32.32:447][ 49]LogReal33D: Fusion32 relocated us with no request outstanding, 32092,32185,7 -> 32092,32186,7
+[2026.10.15-09.32.32:853][ 54]LogReal33D: Fusion32 relocated us with no request outstanding, 32092,32186,7 -> 32092,32187,7
+[2026.10.15-09.32.33:395][ 59]LogReal33D: Fusion32 relocated us with no request outstanding, 32092,32187,7 -> 32092,32188,7
+[2026.10.15-09.32.33:638][ 63]LogReal33D: server message [FailureMessage]: Target lost.
+[2026.10.15-09.32.33:766][ 64]LogReal33D: combat state: target=0 action=none tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-09.32.54:664][286]LogReal33D: combat input 121 from battle list: follow creature 1073741889
+[2026.10.15-09.32.54:828][288]LogReal33D: combat state: target=1073741889 action=follow tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-09.32.54:909][288]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32213,7 -> 32097,32214,7
+[2026.10.15-09.32.55:447][290]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32214,7 -> 32097,32215,7
+[2026.10.15-09.32.55:627][291]LogReal33D: combat input 122 from battle list: follow creature 1073741889
+[2026.10.15-09.32.55:840][293]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32215,7 -> 32097,32216,7
+[2026.10.15-09.32.55:911][294]LogReal33D: combat state: target=0 action=none tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-09.32.56:677][311]LogReal33D: combat input 123 from battle list: follow creature 1073741889
+[2026.10.15-09.32.56:799][314]LogReal33D: combat state: target=1073741889 action=follow tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-09.33.05:343][469]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32216,7 -> 32097,32217,7
+[2026.10.15-09.34.21:159][681]LogReal33D: Fusion32 relocated us with no request outstanding, 32095,32217,7 -> 32096,32217,7
+[2026.10.15-09.34.22:758][709]LogReal33D: world drag 126: type=99 creature=1073741889 from=32096,32218,7 stack=1 to=32096,32219,7 count=1
+[2026.10.15-09.34.23:824][729]LogReal33D: server message [FailureMessage]: There is not enough room.
+[2026.10.15-09.34.24:413][741]LogReal33D: world drag 127: type=99 creature=1073741889 from=32097,32218,7 stack=1 to=32097,32219,7 count=1
+[2026.10.15-09.34.25:434][762]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.15-09.34.25:755][766]LogReal33D: Fusion32 relocated us with no request outstanding, 32096,32217,7 -> 32097,32217,7
+[2026.10.15-09.34.28:760][806]LogReal33D: Fusion32 relocated us with no request outstanding, 32099,32219,7 -> 32098,32219,7
+[2026.10.15-09.34.31:327][848]LogReal33D: Fusion32 relocated us with no request outstanding, 32098,32219,7 -> 32098,32218,7
+[2026.10.15-09.34.39:330][986]LogReal33D: Fusion32 relocated us with no request outstanding, 32098,32218,7 -> 32098,32217,7
+[2026.10.15-09.34.44:675][ 65]LogReal33D: combat input 132 from battle list: follow creature 1073741889
+[2026.10.15-09.34.44:785][ 67]LogReal33D: combat state: target=0 action=none tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-09.34.53:855][199]LogReal33D: combat input 144 from battle list: follow creature 1073741889
+[2026.10.15-09.34.54:046][201]LogReal33D: combat state: target=1073741889 action=follow tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-09.34.54:129][201]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32211,7 -> 32097,32212,7
+[2026.10.15-09.34.54:837][208]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32212,7 -> 32097,32213,7
+[2026.10.15-09.34.54:993][209]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32213,7 -> 32097,32214,7
+[2026.10.15-09.34.55:120][212]LogReal33D: combat input 145: general cancel
+[2026.10.15-09.34.55:270][215]LogReal33D: combat state: target=0 action=none tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-09.36.00:726][176]LogReal33D: combat input 146 from battle list: follow creature 1073741889
+[2026.10.15-09.36.00:895][179]LogReal33D: combat state: target=1073741889 action=follow tactics_sent=false attack_mode=1 chase_mode=0
+[2026.10.15-09.36.00:947][179]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32214,7 -> 32097,32215,7
+[2026.10.15-09.36.01:386][185]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32215,7 -> 32097,32216,7
+[2026.10.15-09.36.03:788][244]LogReal33D: combat input 147 from battle list: follow creature 1073741889
+[2026.10.15-09.36.03:951][248]LogReal33D: combat state: target=0 action=none tactics_sent=false attack_mode=1 chase_mode=0

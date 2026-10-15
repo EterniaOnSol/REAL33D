@@ -1,0 +1,25 @@
+﻿{
+    "type_id":  594,
+    "tile":  [
+                 32077,
+                 32151,
+                 7
+             ],
+    "mesh":  "/Game/Experimental/V08/ID_00594/SM_V08_00594.SM_V08_00594",
+    "visible":  true,
+    "rotation":  [
+                     0.00,
+                     0.00,
+                     0.00
+                 ],
+    "world_bounds_size":  [
+                              100.00,
+                              100.00,
+                              4.50
+                          ],
+    "projected":  false,
+    "screen_center":  [
+                          0.00,
+                          0.00
+                      ]
+}

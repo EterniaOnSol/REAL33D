@@ -1,0 +1,12 @@
+[2026.10.15-05.07.50:998][173]LogReal33D: world drag 7: type=99 creature=1002 from=32097,32204,8 stack=1 to=32098,32205,8 count=1
+[2026.10.15-05.08.16:616][672]LogReal33D: slot drag detected: object 3031
+[2026.10.15-05.08.20:226][736]LogReal33D: slot drag detected: object 3031
+[2026.10.15-05.08.45:742][286]LogReal33D: world drag 70: type=2523 creature=0 from=32084,32181,8 stack=1 to=32084,32182,8 count=1
+[2026.10.15-05.09.19:204][230]LogReal33D: slot drag detected: object 3031
+[2026.10.15-05.09.19:833][251]LogReal33D: move 81: object 3031 from container 0 slot 1 to body 0 slot 10, count 1
+[2026.10.15-05.10.05:529][883]LogReal33D: slot drag detected: object 3031
+[2026.10.15-05.10.19:018][  2]LogReal33D: world drag 113: type=2524 creature=0 from=32080,32186,7 stack=1 to=32081,32185,7 count=1
+[2026.10.15-05.10.21:217][ 29]LogReal33D: world drag 114: type=2524 creature=0 from=32080,32187,7 stack=1 to=32081,32187,7 count=1
+[2026.10.15-05.10.28:808][ 89]LogReal33D: world drag 115: type=2524 creature=0 from=32081,32185,7 stack=1 to=32080,32186,7 count=1
+[2026.10.15-05.11.15:599][434]LogReal33D: slot drag detected: object 3031
+[2026.10.15-05.13.26:385][299]LogReal33D: slot drag detected: object 3379

@@ -1,0 +1,6 @@
+﻿[2026.10.15-09.23.46:799][994]LogReal33D: chat input active; movement keys are inert
+[2026.10.15-09.23.55:569][104]LogReal33D: chat input released; movement keys are live
+[2026.10.15-09.23.55:937][106]LogReal33D: talk [Say] at 32088,32172,7, Test Player B: "qa polish 15"  speaker Resolved creature 1002
+[2026.10.15-09.27.21:352][558]LogReal33D: chat input active; movement keys are inert
+[2026.10.15-09.27.32:499][699]LogReal33D: chat input released; movement keys are live
+[2026.10.15-09.27.32:728][700]LogReal33D: talk [Say] at 32088,32172,7, Test Player B: "QA POLISH 15"  speaker Resolved creature 1002

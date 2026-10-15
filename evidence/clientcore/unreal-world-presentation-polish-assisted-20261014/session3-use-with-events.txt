@@ -1,0 +1,62 @@
+﻿[2026.10.15-05.33.50:936][289]LogReal33D: server message [InfoMessage]: You see a bucket. It is empty.
+[2026.10.15-05.33.51:964][316]LogReal33D: world drag 7: type=2873 creature=0 from=32080,32185,7 stack=1 to=32082,32187,7 count=1
+[2026.10.15-05.33.52:941][341]LogReal33D: world drag 8: type=2873 creature=0 from=32082,32187,7 stack=1 to=32083,32187,7 count=1
+[2026.10.15-05.33.54:299][372]LogReal33D: world drag 12: type=2873 creature=0 from=32083,32187,7 stack=1 to=32083,32188,7 count=1
+[2026.10.15-05.33.56:696][425]LogReal33D: world drag 15: type=2873 creature=0 from=32083,32187,7 stack=1 to=32085,32188,7 count=1
+[2026.10.15-05.33.58:263][466]LogReal33D: world drag 16: type=2873 creature=0 from=32083,32187,7 stack=1 to=32084,32188,7 count=1
+[2026.10.15-05.34.01:279][543]LogReal33D: world drag 17: type=2873 creature=0 from=32083,32187,7 stack=1 to=32082,32189,7 count=1
+[2026.10.15-05.34.06:186][647]LogReal33D: world drag 21: type=2873 creature=0 from=32082,32189,7 stack=1 to=32084,32191,7 count=1
+[2026.10.15-05.34.08:185][687]LogReal33D: world drag 23: type=2873 creature=0 from=32084,32191,7 stack=2 to=32085,32191,7 count=1
+[2026.10.15-05.34.09:392][707]LogReal33D: world drag 26: type=2873 creature=0 from=32085,32191,7 stack=3 to=32086,32191,7 count=1
+[2026.10.15-05.34.11:055][741]LogReal33D: world drag 29: type=99 creature=1002 from=32086,32191,7 stack=3 to=32087,32191,7 count=1
+[2026.10.15-05.34.12:251][764]LogReal33D: Fusion32 relocated us with no request outstanding, 32086,32191,7 -> 32087,32191,7
+[2026.10.15-05.34.12:600][771]LogReal33D: world drag 30: type=99 creature=1002 from=32087,32191,7 stack=2 to=32088,32190,7 count=1
+[2026.10.15-05.34.17:668][872]LogReal33D: world drag 33: type=2873 creature=0 from=32086,32191,7 stack=3 to=32088,32191,7 count=1
+[2026.10.15-05.34.21:363][949]LogReal33D: world drag 36: type=2873 creature=0 from=32088,32191,7 stack=2 to=32090,32190,7 count=1
+[2026.10.15-05.34.29:962][141]LogReal33D: world drag 39: type=99 creature=1002 from=32090,32190,7 stack=1 to=32090,32194,7 count=1
+[2026.10.15-05.34.32:272][194]LogReal33D: world drag 40: type=99 creature=1002 from=32090,32190,7 stack=1 to=32090,32193,7 count=1
+[2026.10.15-05.34.35:001][253]LogReal33D: world drag 42: type=2873 creature=0 from=32090,32190,7 stack=1 to=32091,32194,7 count=1
+[2026.10.15-05.34.38:302][321]LogReal33D: world drag 47: type=2873 creature=0 from=32091,32194,7 stack=1 to=32091,32199,7 count=1
+[2026.10.15-05.34.41:010][385]LogReal33D: world drag 52: type=2873 creature=0 from=32091,32199,7 stack=1 to=32093,32201,7 count=1
+[2026.10.15-05.34.44:361][460]LogReal33D: use-with begun with object 2873; waiting for a target
+[2026.10.15-05.34.45:098][479]LogReal33D: use-with 58: object 2873 on object 1930 at 32093,32202,7 stack 2
+[2026.10.15-05.34.46:584][515]LogReal33D: server message [InfoMessage]: You see a bucket of water.
+[2026.10.15-05.34.50:517][613]LogReal33D: server message [InfoMessage]: You see a bucket of water.
+[2026.10.15-05.34.54:103][694]LogReal33D: use-with begun with object 2873; waiting for a target
+[2026.10.15-05.34.54:960][713]LogReal33D: use-with 63: object 2873 on object 870 at 32092,32201,7 stack 0
+[2026.10.15-05.35.12:674][968]LogReal33D: use 74: object 2854 at body 0 slot 3, would open as container 0
+[2026.10.15-05.35.21:070][ 77]LogReal33D: use 82 from world: object 435 at 32097,32205,7 stack 1, would open as container 1
+[2026.10.15-05.35.26:052][ 85]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32204,7 -> 32097,32205,8
+[2026.10.15-05.35.35:647][217]LogReal33D: use 88 from world: object 2772 at 32098,32204,8 stack 1, would open as container 1
+[2026.10.15-05.35.53:067][672]LogReal33D: use 109 from world: object 2773 at 32098,32204,8 stack 1, would open as container 1
+[2026.10.15-05.35.57:041][782]LogReal33D: use 113 from world: object 1948 at 32097,32205,8 stack 1, would open as container 1
+[2026.10.15-05.35.57:743][788]LogReal33D: Fusion32 relocated us with no request outstanding, 32096,32205,8 -> 32097,32206,7
+[2026.10.15-05.36.00:014][822]LogReal33D: use-with begun with object 3003; waiting for a target
+[2026.10.15-05.36.01:152][846]LogReal33D: use-with 114: object 3003 on object 435 at 32097,32205,7 stack 1
+[2026.10.15-05.36.02:070][864]LogReal33D: use 115 from world: object 435 at 32097,32205,7 stack 1, would open as container 1
+[2026.10.15-05.36.03:521][871]LogReal33D: Fusion32 relocated us with no request outstanding, 32097,32206,7 -> 32097,32205,8
+[2026.10.15-05.36.13:508][180]LogReal33D: use 120 from world: object 1948 at 32097,32205,8 stack 1, would open as container 1
+[2026.10.15-05.36.14:414][191]LogReal33D: Fusion32 relocated us with no request outstanding, 32098,32204,8 -> 32097,32206,7
+[2026.10.15-05.36.15:498][202]LogReal33D: use-with begun with object 3003; waiting for a target
+[2026.10.15-05.36.16:633][228]LogReal33D: use-with 121: object 3003 on object 435 at 32097,32205,7 stack 1
+[2026.10.15-05.36.34:668][559]LogReal33D: Fusion32 relocated us with no request outstanding, 32096,32206,7 -> 32095,32206,7
+[2026.10.15-05.36.38:303][625]LogReal33D: use 127 from world: object 3994 at 32094,32207,7 stack 2, would open as container 1
+[2026.10.15-05.37.04:872][899]LogReal33D: Fusion32 relocated us with no request outstanding, 32091,32179,7 -> 32091,32177,6
+[2026.10.15-05.37.10:472][944]LogReal33D: Fusion32 relocated us with no request outstanding, 32091,32169,6 -> 32091,32169,7
+[2026.10.15-05.37.11:024][947]LogReal33D: Fusion32 relocated us with no request outstanding, 32091,32169,7 -> 32091,32167,6
+[2026.10.15-05.37.12:834][960]LogReal33D: Fusion32 relocated us with no request outstanding, 32091,32167,6 -> 32091,32169,7
+[2026.10.15-05.37.13:912][972]LogReal33D: Fusion32 relocated us with no request outstanding, 32091,32169,7 -> 32090,32169,7
+[2026.10.15-05.37.14:456][977]LogReal33D: Fusion32 relocated us with no request outstanding, 32090,32169,7 -> 32089,32169,7
+[2026.10.15-05.37.14:935][982]LogReal33D: Fusion32 relocated us with no request outstanding, 32089,32169,7 -> 32088,32169,7
+[2026.10.15-05.37.15:622][986]LogReal33D: Fusion32 relocated us with no request outstanding, 32088,32169,7 -> 32088,32168,7
+[2026.10.15-05.37.16:344][992]LogReal33D: Fusion32 relocated us with no request outstanding, 32088,32168,7 -> 32088,32167,7
+[2026.10.15-05.37.17:133][993]LogReal33D: Fusion32 relocated us with no request outstanding, 32088,32167,7 -> 32088,32166,7
+[2026.10.15-05.37.17:746][999]LogReal33D: Fusion32 relocated us with no request outstanding, 32088,32166,7 -> 32088,32165,7
+[2026.10.15-05.37.19:842][ 17]LogReal33D: Fusion32 relocated us with no request outstanding, 32088,32163,7 -> 32088,32162,7
+[2026.10.15-05.37.21:423][ 31]LogReal33D: Fusion32 relocated us with no request outstanding, 32088,32161,7 -> 32087,32161,7
+[2026.10.15-05.37.34:234][148]LogReal33D: use-with begun with object 3457; waiting for a target
+[2026.10.15-05.37.39:644][195]LogReal33D: use-with 226: object 3457 on object 593 at 32077,32151,7 stack 0
+[2026.10.15-05.37.43:102][231]LogReal33D: use 228 from world: object 4515 at 32081,32157,7 stack 0, would open as container 1
+[2026.10.15-05.37.43:375][234]LogReal33D: Fusion32 relocated us with no request outstanding, 32078,32153,7 -> 32078,32154,7
+[2026.10.15-05.37.44:312][243]LogReal33D: Fusion32 relocated us with no request outstanding, 32078,32154,7 -> 32078,32155,7
+[2026.10.15-05.37.44:865][249]LogReal33D: Fusion32 relocated us with no request outstanding, 32078,32155,7 -> 32079,32155,7

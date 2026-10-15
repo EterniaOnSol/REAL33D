@@ -1,0 +1,101 @@
+{
+  "milestone": "UNREAL-SLICE-001",
+  "written_at": "2026-10-15T09:27:19.369Z",
+  "reason": "Manual",
+  "seconds_in_session": 546.1,
+  "connected_at_close": true,
+  "local_creature_id": 1002,
+  "local_position": { "x": 32088, "y": 32172, "z": 7 },
+  "origin": { "set": true, "x": 32079, "y": 32155, "z": 7 },
+  "anchor": { "x": 32088, "y": 32172, "z": 7 },
+  "minimap": { "player_known": true, "x": 32088, "y": 32172, "z": 7, "known_cells": 5487, "live_cells": 252 },
+  "clientcore": {
+    "frames": 348,
+    "commands": 613,
+    "residual_bytes": 0,
+    "unsupported_opcodes": 0,
+    "protocol_anomalies": 0,
+    "walks_requested_from_unreal": 33,
+    "walks_accepted": 32,
+    "walks_rejected": 1,
+    "walks_unanswered": 0,
+    "external_relocations": 0,
+    "local_player_moves_total": 32,
+    "says_requested": 1,
+    "moves_requested": 0,
+    "uses_requested": 1,
+    "looks_requested": 0,
+    "attacks_requested": 2,
+    "follows_requested": 0,
+    "combat_cancels_requested": 0,
+    "tactics_requested": 0,
+    "target_clears_received": 2,
+    "worldstate_tiles": 418,
+    "worldstate_visible_creatures": 2,
+    "viewport_synchronised": true
+  },
+  "camera": { "pitch": -48.36, "yaw": 47.30, "requested_distance": 1293.50, "actual_distance": 1293.50, "obstructed": true, "cutaway_meshes": 0, "hide_upper_floors": false },
+  "wideworld": { "loads": 78, "unloads": 8, "sectors": 70 },
+  "presentation": {
+    "tile_actors": 418,
+    "creature_actors": 2,
+    "tiles_spawned": 1058,
+    "tiles_removed": 640,
+    "creatures_appeared": 41,
+    "creatures_vanished": 39,
+    "creature_moves": 204,
+    "duplicate_spawn_attempts": 0,
+    "orphan_events": 0,
+    "speech_shown_on_creature": 1,
+    "speech_shown_in_chat_area_only": 0,
+    "server_messages_received": 13,
+    "client_notices_raised": 0,
+    "chat_transcript_lines": 14,
+    "speech_seconds_NOT_PROVEN": 6.0
+  },
+  "talk_messages_decoded": 1,
+  "last_diagnostic": "none",
+  "inventory_known": true,
+  "inventory": [
+    { "slot": 3, "type_id": 2854, "amount": null, "liquid": null },
+    { "slot": 4, "type_id": 3379, "amount": null, "liquid": null },
+    { "slot": 5, "type_id": 3294, "amount": null, "liquid": null },
+    { "slot": 10, "type_id": 3031, "amount": 4, "liquid": null }
+  ],
+  "open_containers": 1,
+  "containers": [
+    {
+      "number": 0,
+      "type_id": 2854,
+      "name": "backpack",
+      "capacity": 20,
+      "has_parent": false,
+      "object_count": 2,
+      "objects": [
+        { "index": 0, "type_id": 3457, "amount": null, "liquid": null },
+        { "index": 1, "type_id": 3003, "amount": null, "liquid": null }
+      ]
+    }
+  ],
+  "combat": { "target_creature_id": 0, "following": false, "tactics_sent": false, "attack_mode": 1, "chase_mode": 0, "target_actor_visible": false },
+  "chat_transcript": [
+    { "system_line": true, "line": "Server: Your last visit in Tibia: 14. Oct 2026 23:33:05 CST." },
+    { "system_line": true, "line": "Server: You are poisoned." },
+    { "system_line": true, "line": "Server: You lose 1 hitpoint due to an attack by a snake." },
+    { "system_line": true, "line": "Server: You lose 1 hitpoint." },
+    { "system_line": true, "line": "Server: You lose 1 hitpoint." },
+    { "system_line": true, "line": "Server: You lose 1 hitpoint." },
+    { "system_line": true, "line": "Server: You lose 1 hitpoint." },
+    { "system_line": true, "line": "Server: You lose 1 hitpoint." },
+    { "system_line": true, "line": "Server: You lose 1 hitpoint." },
+    { "system_line": true, "line": "Server: You lose 1 hitpoint." },
+    { "system_line": true, "line": "Server: You lose 1 hitpoint." },
+    { "system_line": true, "line": "Server: You lose 1 hitpoint." },
+    { "system_line": true, "line": "Server: You lose 1 hitpoint." },
+    { "system_line": false, "line": "Test Player B: qa polish 15" }
+  ],
+  "creatures": [
+    { "id": 1002, "local": true, "x": 32088, "y": 32172, "z": 7 },
+    { "id": 1073741965, "local": false, "x": 32092, "y": 32179, "z": 6 }
+  ]
+}

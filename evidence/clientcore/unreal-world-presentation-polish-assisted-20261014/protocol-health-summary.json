@@ -1,0 +1,34 @@
+﻿[
+    {
+        "file":  "session1-endplay.json",
+        "reason":  "EndPlay",
+        "commands":  4788,
+        "residual":  0,
+        "unsupported":  0,
+        "anomalies":  0
+    },
+    {
+        "file":  "session2-endplay.json",
+        "reason":  "EndPlay",
+        "commands":  1620,
+        "residual":  0,
+        "unsupported":  0,
+        "anomalies":  0
+    },
+    {
+        "file":  "session3-endplay.json",
+        "reason":  "EndPlay",
+        "commands":  1478,
+        "residual":  0,
+        "unsupported":  0,
+        "anomalies":  0
+    },
+    {
+        "file":  "session4-endplay.json",
+        "reason":  "EndPlay",
+        "commands":  1284,
+        "residual":  0,
+        "unsupported":  0,
+        "anomalies":  0
+    }
+]

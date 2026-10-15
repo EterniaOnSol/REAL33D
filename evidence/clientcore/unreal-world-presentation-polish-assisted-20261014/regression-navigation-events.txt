@@ -1,0 +1,29 @@
+﻿[2026.10.15-09.19.06:701][314]LogReal33D: input 2: Fusion32 accepted request 1, 32079,32155,7 -> 32079,32156,7
+[2026.10.15-09.19.07:345][326]LogReal33D: input 3: Fusion32 accepted request 2, 32079,32156,7 -> 32080,32156,7
+[2026.10.15-09.19.08:083][340]LogReal33D: input 4: Fusion32 accepted request 3, 32080,32156,7 -> 32081,32156,7
+[2026.10.15-09.19.11:985][427]LogReal33D: use 7: object 2854 at body 0 slot 3, would open as container 0
+[2026.10.15-09.21.57:207][685]LogReal33D: minimap destination: 32088,32172,7
+[2026.10.15-09.21.57:406][686]LogReal33D: input 8: Fusion32 accepted request 5, 32081,32156,7 -> 32081,32157,7
+[2026.10.15-09.21.58:136][696]LogReal33D: input 9: Fusion32 accepted request 6, 32081,32157,7 -> 32081,32158,7
+[2026.10.15-09.21.58:834][706]LogReal33D: input 10: Fusion32 accepted request 7, 32081,32158,7 -> 32082,32158,7
+[2026.10.15-09.21.59:506][716]LogReal33D: input 11: Fusion32 accepted request 8, 32082,32158,7 -> 32082,32159,7
+[2026.10.15-09.22.00:202][727]LogReal33D: input 12: Fusion32 accepted request 9, 32082,32159,7 -> 32082,32160,7
+[2026.10.15-09.22.02:103][729]LogReal33D: input 13: Fusion32 accepted request 10, 32082,32160,7 -> 32082,32161,7
+[2026.10.15-09.22.02:793][738]LogReal33D: input 14: Fusion32 accepted request 11, 32082,32161,7 -> 32083,32161,7
+[2026.10.15-09.22.03:457][746]LogReal33D: input 15: Fusion32 accepted request 12, 32083,32161,7 -> 32084,32161,7
+[2026.10.15-09.22.04:151][756]LogReal33D: input 16: Fusion32 accepted request 13, 32084,32161,7 -> 32085,32161,7
+[2026.10.15-09.22.04:867][765]LogReal33D: input 17: Fusion32 accepted request 14, 32085,32161,7 -> 32085,32162,7
+[2026.10.15-09.22.05:576][775]LogReal33D: input 18: Fusion32 accepted request 15, 32085,32162,7 -> 32085,32163,7
+[2026.10.15-09.22.06:315][784]LogReal33D: input 19: Fusion32 accepted request 16, 32085,32163,7 -> 32085,32164,7
+[2026.10.15-09.22.07:012][792]LogReal33D: input 20: Fusion32 accepted request 17, 32085,32164,7 -> 32085,32165,7
+[2026.10.15-09.22.07:662][800]LogReal33D: input 21: Fusion32 accepted request 18, 32085,32165,7 -> 32085,32166,7
+[2026.10.15-09.22.08:407][808]LogReal33D: input 22: Fusion32 accepted request 19, 32085,32166,7 -> 32085,32167,7
+[2026.10.15-09.22.09:102][816]LogReal33D: input 23: Fusion32 accepted request 20, 32085,32167,7 -> 32085,32168,7
+[2026.10.15-09.22.09:888][823]LogReal33D: input 24: Fusion32 accepted request 21, 32085,32168,7 -> 32085,32169,7
+[2026.10.15-09.22.10:488][828]LogReal33D: input 25: Fusion32 accepted request 22, 32085,32169,7 -> 32085,32170,7
+[2026.10.15-09.22.11:238][835]LogReal33D: input 26: Fusion32 accepted request 23, 32085,32170,7 -> 32085,32171,7
+[2026.10.15-09.22.11:872][842]LogReal33D: input 27: Fusion32 accepted request 24, 32085,32171,7 -> 32086,32171,7
+[2026.10.15-09.22.12:583][849]LogReal33D: input 28: Fusion32 accepted request 25, 32086,32171,7 -> 32087,32171,7
+[2026.10.15-09.22.13:319][856]LogReal33D: input 29: Fusion32 accepted request 26, 32087,32171,7 -> 32087,32172,7
+[2026.10.15-09.22.14:057][862]LogReal33D: input 30: Fusion32 accepted request 27, 32087,32172,7 -> 32088,32172,7
+[2026.10.15-09.22.14:146][863]LogReal33D: left-click walk arrived: authoritative player=32088,32172,7

@@ -1,0 +1,6 @@
+﻿[2026.10.15-05.36.13:508][180]LogReal33D: use 120 from world: object 1948 at 32097,32205,8 stack 1, would open as container 1
+[2026.10.15-05.36.14:414][191]LogReal33D: Fusion32 relocated us with no request outstanding, 32098,32204,8 -> 32097,32206,7
+[2026.10.15-05.36.15:498][202]LogReal33D: use-with begun with object 3003; waiting for a target
+[2026.10.15-05.36.16:633][228]LogReal33D: use-with 121: object 3003 on object 435 at 32097,32205,7 stack 1
+[2026.10.15-05.36.16:903][233]LogReal33D: creature 1073743165 outfit 21: brother visual loaded parts=10 height=80.3
+[2026.10.15-05.36.16:903][233]LogReal33D: creature 1073743165 "rat" appeared at 32097,32206,7 health 85%

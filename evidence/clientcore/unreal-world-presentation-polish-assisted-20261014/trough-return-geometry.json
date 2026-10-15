@@ -1,0 +1,52 @@
+[
+    {
+        "type_id":  2524,
+        "tile":  [
+                     32080,
+                     32186,
+                     7
+                 ],
+        "mesh":  "/Game/Experimental/V08/ID_02524/SM_V08_02524.SM_V08_02524",
+        "visible":  true,
+        "rotation":  [
+                         0.00,
+                         0.00,
+                         0.00
+                     ],
+        "world_bounds_size":  [
+                                  59.38,
+                                  18.00,
+                                  100.00
+                              ],
+        "projected":  true,
+        "screen_center":  [
+                              531.62,
+                              392.13
+                          ]
+    },
+    {
+        "type_id":  2524,
+        "tile":  [
+                     32081,
+                     32187,
+                     7
+                 ],
+        "mesh":  "/Game/Experimental/V08/ID_02524/SM_V08_02524.SM_V08_02524",
+        "visible":  true,
+        "rotation":  [
+                         0.00,
+                         0.00,
+                         0.00
+                     ],
+        "world_bounds_size":  [
+                                  59.38,
+                                  18.00,
+                                  100.00
+                              ],
+        "projected":  true,
+        "screen_center":  [
+                              675.08,
+                              464.66
+                          ]
+    }
+]
