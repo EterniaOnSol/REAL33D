@@ -1,0 +1,48 @@
+[2026.10.16-21.29.20:108][715]LogAutomationController: Received FindWorkersResponseMessage from D5E5E0874C83D03653A7A0998330BF4C
+[2026.10.16-21.29.20:109][715]LogAutomationController: Requesting test list from D5E5E0874C83D03653A7A0998330BF4C
+[2026.10.16-21.29.20:225][716]LogAutomationController: Received RequestTestsReplyCompleteMessage from D5E5E0874C83D03653A7A0998330BF4C
+[2026.10.16-21.29.20:231][716]LogAutomationController: 6360 tests available on D5E5E0874C83D03653A7A0998330BF4C
+[2026.10.16-21.29.20:283][716]LogAutomationController: Sending StopTests to D5E5E0874C83D03653A7A0998330BF4C
+[2026.10.16-21.29.20:286][716]LogAutomationController: Display: Loading results html template...
+[2026.10.16-21.29.20:369][716]LogAutomationController: Display: Successfully wrote html results file!
+[2026.10.16-21.29.20:369][716]LogAutomationController: Sending StartTestSession to D5E5E0874C83D03653A7A0998330BF4C
+[2026.10.16-21.29.20:369][716]LogAutomationController: Display: Clearing ../../../../../../Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Saved/Automation/Logs/ and ../../../../../../Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Saved/Automation/Tmp/
+[2026.10.16-21.29.20:371][716]LogAutomationController: Sending RunTest ExperimentalV08 to D5E5E0874C83D03653A7A0998330BF4C
+[2026.10.16-21.29.20:371][717]LogAutomationController: Display: Test Started. Name={ExperimentalV08} Path={REAL33D.AssetRegistry.ExperimentalV08}
+[2026.10.16-21.29.22:082][719]LogAutomationController: Display: Test Completed. Result={Success} Name={ExperimentalV08} Path={REAL33D.AssetRegistry.ExperimentalV08}
+[2026.10.16-21.29.22:082][719]LogAutomationController: BeginEvents: REAL33D.AssetRegistry.ExperimentalV08
+[2026.10.16-21.29.22:083][719]LogAutomationController: Warning: LogReal33D: experimental V08 QA catalog ENABLED: 4913 entries; TEST_IMPORTED is not APPROVED/READY/INTEGRATED [log] 
+[2026.10.16-21.29.22:083][719]LogAutomationController: EndEvents: REAL33D.AssetRegistry.ExperimentalV08
+[2026.10.16-21.29.22:086][719]LogAutomationController: Sending RunTest CameraAndFloors to D5E5E0874C83D03653A7A0998330BF4C
+[2026.10.16-21.29.22:086][719]LogAutomationController: Display: Test Started. Name={CameraAndFloors} Path={REAL33D.Presentation.CameraAndFloors}
+[2026.10.16-21.29.22:116][721]LogAutomationController: Display: Test Completed. Result={Success} Name={CameraAndFloors} Path={REAL33D.Presentation.CameraAndFloors}
+[2026.10.16-21.29.22:116][721]LogAutomationController: BeginEvents: REAL33D.Presentation.CameraAndFloors
+[2026.10.16-21.29.22:116][721]LogAutomationController: EndEvents: REAL33D.Presentation.CameraAndFloors
+[2026.10.16-21.29.22:116][721]LogAutomationController: Sending RunTest CertificationHUDSixPanels to D5E5E0874C83D03653A7A0998330BF4C
+[2026.10.16-21.29.22:116][722]LogAutomationController: Display: Test Started. Name={CertificationHUDSixPanels} Path={REAL33D.Presentation.CertificationHUDSixPanels}
+[2026.10.16-21.29.22:148][723]LogAutomationController: Display: Test Completed. Result={Success} Name={CertificationHUDSixPanels} Path={REAL33D.Presentation.CertificationHUDSixPanels}
+[2026.10.16-21.29.22:148][723]LogAutomationController: BeginEvents: REAL33D.Presentation.CertificationHUDSixPanels
+[2026.10.16-21.29.22:148][723]LogAutomationController: Minimap: registered / close / open / toggle twice / independent / original content PASS
+[2026.10.16-21.29.22:148][723]LogAutomationController: Health: registered / close / open / toggle twice / independent / original content PASS
+[2026.10.16-21.29.22:148][723]LogAutomationController: Inventory: registered / close / open / toggle twice / independent / original content PASS
+[2026.10.16-21.29.22:148][723]LogAutomationController: Skills: registered / close / open / toggle twice / independent / original content PASS
+[2026.10.16-21.29.22:148][723]LogAutomationController: Battle: registered / close / open / toggle twice / independent / original content PASS
+[2026.10.16-21.29.22:148][723]LogAutomationController: Containers: registered / close / open / toggle twice / independent / original content PASS
+[2026.10.16-21.29.22:148][723]LogAutomationController: EndEvents: REAL33D.Presentation.CertificationHUDSixPanels
+[2026.10.16-21.29.22:149][723]LogAutomationController: Sending RunTest PanelRegistry to D5E5E0874C83D03653A7A0998330BF4C
+[2026.10.16-21.29.22:149][724]LogAutomationController: Display: Test Started. Name={PanelRegistry} Path={REAL33D.Presentation.PanelRegistry}
+[2026.10.16-21.29.22:197][726]LogAutomationController: Display: Test Completed. Result={Success} Name={PanelRegistry} Path={REAL33D.Presentation.PanelRegistry}
+[2026.10.16-21.29.22:197][726]LogAutomationController: BeginEvents: REAL33D.Presentation.PanelRegistry
+[2026.10.16-21.29.22:197][726]LogAutomationController: EndEvents: REAL33D.Presentation.PanelRegistry
+[2026.10.16-21.29.22:199][726]LogAutomationController: Sending RunTest AuthoritativeWindow to D5E5E0874C83D03653A7A0998330BF4C
+[2026.10.16-21.29.22:199][726]LogAutomationController: Display: Test Started. Name={AuthoritativeWindow} Path={REAL33D.WideWorld.AuthoritativeWindow}
+[2026.10.16-21.29.22:254][729]LogAutomationController: Display: Test Completed. Result={Success} Name={AuthoritativeWindow} Path={REAL33D.WideWorld.AuthoritativeWindow}
+[2026.10.16-21.29.22:254][729]LogAutomationController: BeginEvents: REAL33D.WideWorld.AuthoritativeWindow
+[2026.10.16-21.29.22:254][729]LogAutomationController: EndEvents: REAL33D.WideWorld.AuthoritativeWindow
+[2026.10.16-21.29.22:257][729]LogAutomationController: Display: Exporting Automation Report.
+[2026.10.16-21.29.22:258][729]LogAutomationController: Display: Converting results to json object...
+[2026.10.16-21.29.22:259][729]LogAutomationController: Writing reports to C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\build\certification\automation\automation-report...
+[2026.10.16-21.29.22:260][729]LogAutomationController: Display: Successfully wrote json results file!
+[2026.10.16-21.29.22:260][729]LogAutomationController: Exported report to 'C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\build\certification\automation\automation-report' in 0.00 Seconds
+[2026.10.16-21.29.22:260][729]LogAutomationController: Display: Report can be opened in the editor at 'C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\build\certification\automation\automation-report'
+[2026.10.16-21.29.22:260][729]LogAutomationController: Sending StopTestSession to D5E5E0874C83D03653A7A0998330BF4C

@@ -1,0 +1,74 @@
+Using bundled DotNet SDK version: 10.0 win-x64
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" REAL33DEditor Win64 Development -Project=C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/REAL33D.uproject -WaitMutex -NoUBA -MaxParallelActions=1
+Log file: C:\Users\dell\AppData\Local\UnrealBuildTool\Log.txt
+Executing up to 1 actions based on MaxProcessorCount override
+UbaSessionServer - Disable remote execution (remote sessions will finish current processes)
+Creating makefile for REAL33DEditor (command line arguments changed)
+Building REAL33DEditor...
+===== Toolchain Information =====
+Using ISPC compiler (C:\Program Files\Epic Games\UE_5.8\Engine\Source\ThirdParty\Intel\ISPC\bin\Windows\ispc.exe)
+  Intel(r) Implicit SPMD Program Compiler (Intel(r) ISPC), 1.24.0 (build commit  @ 20250404, LLVM 18.1.2) 
+Using Visual Studio 14.50.35738 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.50.35717) and Windows 10.0.26100.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[Adaptive Build] Excluded from REAL33D unity file: REAL33D.cpp, Real33DActionBarPanel.cpp, Real33DAssetRegistry.cpp, Real33DBattlePanel.cpp, Real33DBridge.cpp, Real33DChatPanel.cpp, Real33DContainersPanel.cpp, Real33DControlPanel.cpp, Real33DCreatureActor.cpp, Real33DGalleryActor.cpp, Real33DGalleryPanel.cpp, Real33DGameMode.cpp, Real33DHUD.cpp, Real33DHUDCertificationTests.cpp, Real33DInventoryPanel.cpp, Real33DMinimapPanel.cpp, Real33DPanelChrome.cpp, Real33DPanelRegistry.cpp, Real33DPlayerController.cpp, Real33DPresentationTests.cpp, Real33DSkillsPanel.cpp, Real33DStaticSectorActor.cpp, Real33DTileActor.cpp, Real33DUIStyle.cpp, Real33DVitalsPanel.cpp, Real33DWorldActor.cpp, Real33DWorldOverlay.cpp
+=================================
+Using Unreal Build Accelerator local executor to run 32 action(s)
+  CPU 4 physical cores, 8 logical cores
+  Memory 11.83 GB physical, 21.24 GB/24.42 GB committed
+  UBA Storage capacity 40 GB
+[1/32] Compile [x64] SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.cpp [NoUba]
+[2/32] Compile [x64] Module.REAL33D.cpp [NoUba]
+[3/32] Compile [x64] REAL33D.cpp [NoUba]
+[4/32] Compile [x64] Real33DActionBarPanel.cpp [NoUba]
+[5/32] Compile [x64] Real33DAssetRegistry.cpp [NoUba]
+[6/32] Compile [x64] Real33DBattlePanel.cpp [NoUba]
+[7/32] Compile [x64] Real33DBridge.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DBridge.cpp : fatal error C1083: No se puede abrir el archivo intermedio para compilador: 'c:\users\dell\desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\real33d\intermediate\build\win64\x64\real33deditor\development\unrealed\sharedpch.unrealed.project.valapi.valexpapi.cpp20.h.pch': Permission denied
+[8/32] Compile [x64] Real33DChatPanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DChatPanel.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[9/32] Compile [x64] Real33DContainersPanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DContainersPanel.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[10/32] Compile [x64] Real33DControlPanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DControlPanel.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[11/32] Compile [x64] Real33DCreatureActor.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DCreatureActor.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[12/32] Compile [x64] Real33DGalleryActor.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DGalleryActor.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[13/32] Compile [x64] Real33DGalleryPanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DGalleryPanel.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[14/32] Compile [x64] Real33DGameMode.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DGameMode.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[15/32] Compile [x64] Real33DHUD.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DHUD.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[16/32] Compile [x64] Real33DHUDCertificationTests.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DHUDCertificationTests.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[17/32] Compile [x64] Real33DInventoryPanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DInventoryPanel.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[18/32] Compile [x64] Real33DMinimapPanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DMinimapPanel.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[19/32] Compile [x64] Real33DPanelChrome.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DPanelChrome.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[20/32] Compile [x64] Real33DPanelRegistry.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DPanelRegistry.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[21/32] Compile [x64] Real33DPlayerController.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DPlayerController.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[22/32] Compile [x64] Real33DPresentationTests.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DPresentationTests.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[23/32] Compile [x64] Real33DSkillsPanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DSkillsPanel.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[24/32] Compile [x64] Real33DStaticSectorActor.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DStaticSectorActor.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[25/32] Compile [x64] Real33DTileActor.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DTileActor.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[26/32] Compile [x64] Real33DUIStyle.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DUIStyle.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[27/32] Compile [x64] Real33DVitalsPanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DVitalsPanel.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[28/32] Compile [x64] Real33DWorldActor.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DWorldActor.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+[29/32] Compile [x64] Real33DWorldOverlay.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DWorldOverlay.cpp: fatal error C1083: No se puede abrir el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Permission denied
+Total time in Unreal Build Accelerator local executor: 147.17 seconds
+
+Result: Failed (OtherCompilationError)
+Total execution time: 153.30 seconds
+Trace written to file C:\Users\dell\AppData\Local\UnrealBuildTool\Trace.uba with size 28.0kb

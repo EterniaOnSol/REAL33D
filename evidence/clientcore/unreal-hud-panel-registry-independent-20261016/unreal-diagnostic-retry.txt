@@ -1,0 +1,47 @@
+Using bundled DotNet SDK version: 10.0 win-x64
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" REAL33DEditor Win64 Development -Project=C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016/unreal/REAL33D/REAL33D.uproject -WaitMutex -NoUBA -NoPCH -MaxParallelActions=1
+Log file: C:\Users\dell\AppData\Local\UnrealBuildTool\Log.txt
+Executing up to 1 actions based on MaxProcessorCount override
+UbaSessionServer - Disable remote execution (remote sessions will finish current processes)
+Creating makefile for REAL33DEditor (command line arguments changed)
+Building REAL33DEditor...
+===== Toolchain Information =====
+Using ISPC compiler (C:\Program Files\Epic Games\UE_5.8\Engine\Source\ThirdParty\Intel\ISPC\bin\Windows\ispc.exe)
+  Intel(r) Implicit SPMD Program Compiler (Intel(r) ISPC), 1.24.0 (build commit  @ 20250404, LLVM 18.1.2) 
+Using Visual Studio 14.50.35738 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.50.35717) and Windows 10.0.26100.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[Adaptive Build] Excluded from REAL33D unity file: REAL33D.cpp, Real33DActionBarPanel.cpp, Real33DAssetRegistry.cpp, Real33DBattlePanel.cpp, Real33DBridge.cpp, Real33DChatPanel.cpp, Real33DContainersPanel.cpp, Real33DControlPanel.cpp, Real33DCreatureActor.cpp, Real33DGalleryActor.cpp, Real33DGalleryPanel.cpp, Real33DGameMode.cpp, Real33DHUD.cpp, Real33DHUDCertificationTests.cpp, Real33DInventoryPanel.cpp, Real33DMinimapPanel.cpp, Real33DPanelChrome.cpp, Real33DPanelRegistry.cpp, Real33DPlayerController.cpp, Real33DPresentationTests.cpp, Real33DSkillsPanel.cpp, Real33DStaticSectorActor.cpp, Real33DTileActor.cpp, Real33DUIStyle.cpp, Real33DVitalsPanel.cpp, Real33DWorldActor.cpp, Real33DWorldOverlay.cpp
+=================================
+Using Unreal Build Accelerator local executor to run 31 action(s)
+  CPU 4 physical cores, 8 logical cores
+  Memory 11.83 GB physical, 21.15 GB/24.42 GB committed
+  UBA Storage capacity 40 GB
+[1/31] Compile [x64] Module.REAL33D.cpp [NoUba]
+[2/31] Compile [x64] REAL33D.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Public\Real33DUIStyle.h(62,2): error C4430: falta el especificador de tipo; se presupone int. Nota: C++ no admite default-int
+	static const FSlateBrush* ItemBrush(uint16 TypeId, uint32 Amount = 0);
+	^
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Public\Real33DUIStyle.h(62,26): error C2143: error de sintaxis: falta ';' delante de '*'
+	static const FSlateBrush* ItemBrush(uint16 TypeId, uint32 Amount = 0);
+	                        ^
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Public\Real33DUIStyle.h(62,71): error C2238: sﾡmbolos (token) inesperados delante de ';'
+	static const FSlateBrush* ItemBrush(uint16 TypeId, uint32 Amount = 0);
+	                                                                     ^
+[3/31] Compile [x64] Real33DActionBarPanel.cpp [NoUba]
+[4/31] Compile [x64] Real33DAssetRegistry.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DAssetRegistry.cpp(39,37): error C2672: 'DuplicateObject': no se encontrﾢ una funciﾢn sobrecargada que coincida
+		UMaterialInstanceConstant* Copy = DuplicateObject<UMaterialInstanceConstant>(Instance, GetTransientPackage());
+		                                  ^
+C:\Program Files\Epic Games\UE_5.8\Engine\Source\Runtime\CoreUObject\Public\UObject\UObjectGlobals.h(2023,4): note: puede ser 'T *DuplicateObject(const TObjectPtr<T> &,UObject *,const FName)'
+T* DuplicateObject(const TObjectPtr<T>& SourceObject,UObject* Outer, const FName Name = NAME_None)
+   ^
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DAssetRegistry.cpp(39,109): note: 'inicializando': no se puede realizar la conversiﾢn de 'UPackage *' a 'UObject *'
+		UMaterialInstanceConstant* Copy = DuplicateObject<UMaterialInstanceConstant>(Instance, GetTransientPackage());
+		                                                                                                          ^
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DAssetRegistry.cpp(39,109): note: Los tipos seﾤalados no estﾠn relacionados; la conversiﾢn requiere reinterpret_cast, conversiﾢn de estilo de C o conversiﾢn de estilo de funciﾢn entre parﾂntesis
+C:\Program Files\Epic Games\UE_5.8\Engine\Source\Runtime\CoreUObject\Public\UObject\UObjectGlobals.h(2017,4): note: o       'T *DuplicateObject(const T *,UObject *,const FName)'
+T* DuplicateObject(T const* SourceObject,UObject* Outer, const FName Name = NAME_None)
+   ^
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DAssetRegistry.cpp(39,109): note: 'inicializando': no se puede realizar la conversiﾢn de 'UPackage *' a 'UObject *'
+		UMaterialInstanceConstant* Copy = DuplicateObject<UMaterialInstanceConstant>(Instance, GetTransientPackage());
+		                                                                                                          ^
+C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\unreal\REAL33D\Source\REAL33D\Private\Real33DAssetRegistry.cpp(39,109): note: Los tipos seﾤalados no estﾠn relacionados; la conversiﾢn requiere reinterpret_cast, conversiﾢn de estilo de C o conversiﾢn de estilo de funciﾢn entre parﾂntesis

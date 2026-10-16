@@ -1,85 +1,64 @@
-# Current handoff
+# Current handoff — UNREAL-HUD-PANEL-REGISTRY-001 independent certification
 
-2026-10-16 01:30 America/Guatemala. Codex independent reviewer, final closeout.
-Live QA and the final harness completed on October 15; the evidence commit was
-completed after the operator resumed on October 16. Implementation stayed fixed.
-UNREAL-STACKABLE-SPRITE-PATTERNS-001 = CERTIFIED.
-READY_TO_MERGE_MAIN = YES, with a separately authorized merge. None performed.
+2026-10-16 15:43 America/Guatemala. Codex, independent reviewer. IN_PROGRESS.
 
-Candidate/start `68f2ffe488627d5da52981bd83a2e95a5846ecc3`.
-Base/origin/main `1a15ddbd79a23a2841d882584afaa82fabd9f74d` at start.
-Branch `certification/unreal-stackable-sprite-patterns-001-20261015`.
-Worktree `C:/Users/dell/Desktop/fusion32/build/cert-stackable-20261015`.
-Ending commit is the certification evidence commit containing this handoff.
-No implementation, server rule, save-file or production-art changes. No main merge
-or push authorized/performed for this certification. Root/implementer worktrees
-were preserved; compiled artifacts and live evidence are fresh from this checkout.
+Worktree: C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016
+Branch: certification/unreal-hud-panel-registry-001-20261016
+Base: 611939af271a3d21fd9e3993a42150c3439cb08d (fetched origin/main)
+Implementation: 64aa86a38d8f15c42cde275401d4942b9e174ab8, older base1a15ddbd.
+Current merge: 55d1d4660110ce2ca8e09a8d5e944a16d0750574.
+No rebase, main merge/push or implementation-branch change. User authorizes pushing
+the certification branch only after all requested checks pass. No production fix.
 
-Scope: independently verify cumulative extraction, single-frame non-stackables,
-generic amount selection, inventory/container rendering and counts, gold x1/x12,
-second legitimate cumulative type, missing/malformed fallback, tests/build/harness
-and zero protocol diagnostics. World mesh amount invariance is explicitly accepted.
+Zero changed-file overlap and zero conflicts. Merge retains main's stackable
+rendering and corrected harness verbatim. Reviewed registry API, all HUD
+construction/toggle/refresh/input callbacks. Root's unrelated four runtime evidence
+modifications preserved. Prior handoff archived unchanged in
+archive/BEFORE-UNREAL-HUD-PANEL-REGISTRY-INDEPENDENT-20261016.md.
 
-Inspected candidate extractor, StackSpriteFrame, UIStyle, PanelChrome,
-InventoryPanel, ContainersPanel, Bridge, tests/harness and author report.
-Independent probe checked 432 cumulative images over 81 types and 4,832
-single-image non-cumulative types against classic data decoding. Worms have
-two animation phases: all 16 images extracted, first eight are amount patterns.
-Spears are cumulative but single-picture; author's gained-frame wording imprecise.
-10/25/50 byte-level provenance against the original binary remains unclaimed.
+PASS: harness selftest10/10; fresh MSVC ClientCore and Unreal C++20 archive;
+actual Unreal build; five exported Unreal tests, each zero errors:
+PanelRegistry, independent actual-HUD six-panels test, CameraAndFloors,
+WideWorld.AuthoritativeWindow, AssetRegistry.ExperimentalV08. One expected V08
+experimental-catalog warning. The independent probe was removed from Source and
+retained only as evidence. Exact merged-source rebuild PASSED in53.37s afterward.
 
-Live operator-assisted QA (desktop automation failed before input), own compiled
-candidate process 3600, now CLOSED normally. Existing Fusion32 kept running in
-Ubuntu-26.04 at /var/lib/fusion32-server-baseline-772-0, no reset or preparation.
-Fresh session `build/unreal-world-presentation-polish-001/live-20261015T204404`.
-Confirmed gold x1/frame0 in body slot10, x12/frame5 in backpack and body slot10,
-and worms3492 x6/frame4 purchased from Obi for5gold. Torch purchased normally
-for2gold before worms. Final gold5; no manufactured state. Non-stackable shovel,
-rope and equipment retained single pictures and no invented amount labels.
-51 snapshots: unsupported/anomalies/residual0, diagnostic none. EndPlay1772.3s,
-1170commands,33/33accepted walks,0unanswered,13moves,viewport synchronized.
+Build setup: initial PCH failed disk; removed ONLY owned failed PCH; no-PCH trial
+exposed existing main transitive-include dependencies and was stopped without
+source changes. Standard PCH generated, compressed to896901120 stored bytes;
+compression raced reads, so that attempt failed; next build PASSED179.17s.
+Only own SourceFileCache.bin/Makefile.bin cleared after diagnostic removal.
 
-Fresh ClientCore13/13, MSVC, native4 inclstackable/runtimeMultiUse204, Unrealbuild
-PASS. Actual diagnostic Slate test REAL33D.Certification.StackableSpriteFiles
-Success,0errors,0warnings at03:19:28UTC. Checks generic resource selection,
-missing base, gapped/short ranges, file disappearing before first brush and bad
-frame counts. Temporary test source removed from implementation and retained
-only in evidence. Owned64000..64003 fixture files removed by the test.
+Additional PASS at15:57: fresh GCC CTest13/13, native4/4 including204 MultiUse types, direct Git Bash secret6/6. Raw outputs retained in evidence.
 
-Exact candidate rebuild after removing the diagnostic test PASSED. UBT retained
-deleted source in its caches; only this checkout's SourceFileCache.bin and
-Makefile.bin were cleared and regenerated. No production source diff remains.
-Final `cmd.exe /d /c build\certification\run-harness.cmd` uses correct read-only
-game/reference/dat/objects.srv, --strict, --unreal and this session's --logs.
-Result: 9 PASS / 0 FAIL / 0 SKIP, 175 logs scanned, zero anomalies. Raw results
-independently inspected: 13/13 CTest, 4/4 native, MSVC and Unreal PASS, six real
-secret sub-checks PASS. See harness/REGRESSION-HARNESS-20261016T032947Z.md.
+Remaining gates: fresh UI/stackable rendering capture, corrected harness requiring
+13 CTest suites,4 native suites,real Unreal build,0FAIL; direct Git Bash secret6/6;
+final documentation/evidence commit/push, local/remote equality and clean checkout.
+Do not infer UI PASS from compilation or reuse implementing screenshots.
 
-Setup findings: first harness wrong fixture produced raw native assertion while
-wrapper claimed PASS; that summary rejected, independent strict run PASSED.
-First diagnostic used cached build and matched0tests despite exit0; rejected,
-actual named exported test subsequently PASSED. Final gate used raw results.
-Git Bash secret_check must print SIX checks (WSL linked-worktree git can fail
-vacuously). Four mailbox LFS pointer assets hydrated/hash-checked against HEAD,
-index refreshed, zero asset diff. Own generated PCH compressed for disk space;
-no other work/cache removed. Startup package warnings were LFS setup only.
+Live startup is currently preparing shaders, NOT gameplay evidence yet.
+First graphical PID6780 with five shader workers ran out of disk through pagefile
+pressure; stopped only owned process/workers before login. Early operator F9
+produced no capture and was rejected. Single-worker PID16324 stable but slow;
+stopped before login and retried two workers. Neither attempt changed server.
+CURRENT QA PID28912, live-20261016T154238-two-workers under
+build/unreal-world-presentation-polish-001. Log confirms TWO workers, initial9.5GB
+free. Same exact binary/game arguments; process-only shader-thread ini overrides.
+No global config/cache changes. Fusion32 existing WSL runtime stays untouched.
+Wait for real connection, then ask operator ONE action at a time: F9 baseline,
+open backpack, F9; inspect actual stack icons/counts and all UI. Test existing
+Skills/Battle toggles visibly if needed, then ask normal close to save EndPlay.
+No question currently pending; operator already answered early F9, which did not
+capture because the new process was still loading.
 
-Evidence: `evidence/clientcore/UNREAL-STACKABLE-SPRITE-PATTERNS-001-INDEPENDENT-20261015.md`
-and `evidence/clientcore/unreal-stackable-sprite-independent-20261015/`.
-Contains received states, screenshots, all51snapshotJSONs, selected event log,
-independent extractor/pixel probes, native script/output, Slate test/source/report,
-fresh build/test logs. Previous handoff archived unchanged as
-`archive/UNREAL-WORLD-PRESENTATION-POLISH-001-INDEPENDENT-BEFORE-STACKABLE-20261015.md`.
-
-All requested certification gates are closed. Remaining boundaries: world 3D
-meshes stay amount-invariant as explicitly accepted; 10/25/50 tiers are not proven
-against the original executable; corrupt PNG bytes and hot replacement of cached
-brushes are outside the tested missing/malformed-range fallback. No unrelated
-art, camera or gameplay gaps were reclassified. No candidate defect found.
-
-Main and remote milestone remain 1a15ddbd and 68f2ffe respectively. Documentation
-and evidence only were committed; no push authorized/performed for this task.
-Next action requires explicit instruction: a separately authorized merge, or
-another scoped task. To repeat, follow the report's reproduction steps and the
-retained probe/runner sources, using a fresh isolated candidate checkout. Do not
-reuse implementing evidence or call a zero-test/empty secret check a pass.
+Read evidence/clientcore/UNREAL-HUD-PANEL-REGISTRY-001-INDEPENDENT-20261016.md.
+Retained evidence directory: unreal-hud-panel-registry-independent-20261016.
+Build scripts/raw logs: build/certification. Live process/evidence path recorded
+in build/certification/live-session.json. Existing corrected harness runner:
+cmd.exe /d /c build\certification\run-bash.cmd build/certification/harness.sh
+Run AFTER closing graphical client (it rebuilds/relinks its DLL). It uses MSVC on
+Git Bash PATH, --strict --unreal, correct read-only objects.srv and fresh live logs.
+It additionally asserts exactly13 passing CTest results. Inspect raw native4/4.
+Run secret_check directly using C:/Program Files/Git/bin/bash.exe and require six
+ok lines; WSL linked-worktree scans can be vacuous. Preserve all failure records
+as setup failures. No final certification until remaining evidence is obtained.

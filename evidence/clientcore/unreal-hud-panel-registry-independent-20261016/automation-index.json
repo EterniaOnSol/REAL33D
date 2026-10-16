@@ -1,0 +1,190 @@
+﻿{
+	"devices": [
+		{
+			"deviceName": "DESKTOP-9SKKIUM",
+			"instance": "1524204A421883D258F9D08D25D1BF63",
+			"instanceName": "DESKTOP-9SKKIUM-9460",
+			"platform": "WindowsEditor",
+			"oSVersion": "Windows 11 (23H2) [10.0.22631.6199] ",
+			"model": "Default",
+			"gPU": "Intel(R) UHD Graphics 630",
+			"cPUModel": "Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz",
+			"rAMInGB": 12,
+			"renderMode": "SM6",
+			"rHI": "",
+			"appInstanceLog": ""
+		}
+	],
+	"reportCreatedOn": "2026.10.16-21.29.22",
+	"succeeded": 4,
+	"succeededWithWarnings": 1,
+	"failed": 0,
+	"notRun": 0,
+	"inProcess": 0,
+	"totalDuration": 1.7722964286804199,
+	"comparisonExported": false,
+	"comparisonExportDirectory": "",
+	"tests": [
+		{
+			"testDisplayName": "ExperimentalV08",
+			"fullTestPath": "REAL33D.AssetRegistry.ExperimentalV08",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"1524204A421883D258F9D08D25D1BF63"
+			],
+			"duration": 1.7064322233200073,
+			"dateTime": "2026.10.16-21.29.20",
+			"entries": [
+				{
+					"event":
+					{
+						"type": "Warning",
+						"message": "LogReal33D: experimental V08 QA catalog ENABLED: 4913 entries; TEST_IMPORTED is not APPROVED/READY/INTEGRATED",
+						"context": "log",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.10.16-21.29.20"
+				}
+			],
+			"warnings": 1,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "CameraAndFloors",
+			"fullTestPath": "REAL33D.Presentation.CameraAndFloors",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"1524204A421883D258F9D08D25D1BF63"
+			],
+			"duration": 0.016354203224182129,
+			"dateTime": "2026.10.16-21.29.22",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "CertificationHUDSixPanels",
+			"fullTestPath": "REAL33D.Presentation.CertificationHUDSixPanels",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"1524204A421883D258F9D08D25D1BF63"
+			],
+			"duration": 0.016007401049137115,
+			"dateTime": "2026.10.16-21.29.22",
+			"entries": [
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "Minimap: registered / close / open / toggle twice / independent / original content PASS",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.10.16-21.29.22"
+				},
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "Health: registered / close / open / toggle twice / independent / original content PASS",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.10.16-21.29.22"
+				},
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "Inventory: registered / close / open / toggle twice / independent / original content PASS",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.10.16-21.29.22"
+				},
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "Skills: registered / close / open / toggle twice / independent / original content PASS",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.10.16-21.29.22"
+				},
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "Battle: registered / close / open / toggle twice / independent / original content PASS",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.10.16-21.29.22"
+				},
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "Containers: registered / close / open / toggle twice / independent / original content PASS",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.10.16-21.29.22"
+				}
+			],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "PanelRegistry",
+			"fullTestPath": "REAL33D.Presentation.PanelRegistry",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"1524204A421883D258F9D08D25D1BF63"
+			],
+			"duration": 0.01632240042090416,
+			"dateTime": "2026.10.16-21.29.22",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "AuthoritativeWindow",
+			"fullTestPath": "REAL33D.WideWorld.AuthoritativeWindow",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"1524204A421883D258F9D08D25D1BF63"
+			],
+			"duration": 0.017180200666189194,
+			"dateTime": "2026.10.16-21.29.22",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		}
+	]
+}

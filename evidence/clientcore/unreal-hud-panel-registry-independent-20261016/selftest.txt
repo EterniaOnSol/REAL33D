@@ -1,0 +1,12 @@
+ok   : the Unreal check actually executes its command (sentinel written)
+ok   : a real build that prints its success line is PASS
+ok   : no-op cmd.exe exit 0 is FAIL for unreal-module-build, not PASS
+ok   : no-op cmd.exe exit 0 is FAIL for build-sanity-msvc, not PASS
+ok   : build-sanity-msvc is PASS when its success line is present
+ok   : a non-zero exit is FAIL even when the success line was printed
+ok   : a missing engine is SKIP, not FAIL and not PASS
+ok   : a clientcore that cannot be configured is FAIL, not PASS
+ok   : confirmed: a captured exit status does not survive wsl.exe
+ok   : a failing && chain does propagate through wsl.exe
+
+10 passed, 0 failed

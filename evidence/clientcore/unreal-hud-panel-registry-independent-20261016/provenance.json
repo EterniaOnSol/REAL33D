@@ -1,0 +1,25 @@
+{
+    "task":  "UNREAL-HUD-PANEL-REGISTRY-001",
+    "base":  "611939af271a3d21fd9e3993a42150c3439cb08d",
+    "implementation":  "64aa86a38d8f15c42cde275401d4942b9e174ab8",
+    "implementation_base":  "1a15ddbd79a23a2841d882584afaa82fabd9f74d",
+    "merge":  "55d1d4660110ce2ca8e09a8d5e944a16d0750574",
+    "parents":  "611939af271a3d21fd9e3993a42150c3439cb08d 64aa86a38d8f15c42cde275401d4942b9e174ab8",
+    "worktree":  "C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-hud-panel-registry-20261016",
+    "root_preexisting_changes_preserved":  true,
+    "overlap":  [
+
+                ],
+    "changed_from_main":  [
+                              "evidence/clientcore/UNREAL-HUD-PANEL-REGISTRY-001.md",
+                              "unreal/REAL33D/Source/REAL33D/Private/Real33DHUD.cpp",
+                              "unreal/REAL33D/Source/REAL33D/Private/Real33DPanelRegistry.cpp",
+                              "unreal/REAL33D/Source/REAL33D/Private/Real33DPresentationTests.cpp",
+                              "unreal/REAL33D/Source/REAL33D/Public/Real33DHUD.h",
+                              "unreal/REAL33D/Source/REAL33D/Public/Real33DPanelRegistry.h"
+                          ],
+    "unmerged":  [
+
+                 ],
+    "protected_main_features_identical":  true
+}
