@@ -1,6 +1,8 @@
 #include "Real33DPresentationPolicy.h"
+#include "Real33DPanelRegistry.h"
 #if WITH_DEV_AUTOMATION_TESTS
 #include "Misc/AutomationTest.h"
+#include "Widgets/Layout/SBox.h"
 
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FReal33DPresentationTest,
 	"REAL33D.Presentation.CameraAndFloors",
@@ -42,6 +44,82 @@ bool FReal33DPresentationTest::RunTest(const FString& Parameters)
 	double Distance = 500;
 	LimitCamera(FVector(0,0,80), FVector(500,0,80), Wall, Distance);
 	TestEqual(TEXT("diagnostic clearance before padded wall"), Distance, 80.0);
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FReal33DPanelRegistryTest,
+	"REAL33D.Presentation.PanelRegistry",
+	EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FReal33DPanelRegistryTest::RunTest(const FString& Parameters)
+{
+	(void)Parameters;
+	FReal33DPanelRegistry Registry;
+	// Real widgets, not SNullWidget: that is a shared singleton and Slate
+	// ensures on any attempt to mutate it, so it cannot stand in for a
+	// panel that gets shown and hidden.
+	const TSharedRef<SWidget> First = SNew(SBox);
+	const TSharedRef<SWidget> Second = SNew(SBox);
+	// Captured rather than assumed: a widget's default visibility is its
+	// own business, and this test only cares that the registry leaves it.
+	const EVisibility SecondBuiltWith = Second->GetVisibility();
+
+	// Nothing is registered to begin with, and an unknown id is inert rather
+	// than a crash: that is what lets the control strip name a panel the HUD
+	// does not carry.
+	TestEqual(TEXT("starts empty"), Registry.Num(), 0);
+	TestFalse(TEXT("unknown id is not registered"), Registry.IsRegistered(Real33D::PanelIds::Skills));
+	TestFalse(TEXT("unknown id is not open"), Registry.IsOpen(Real33D::PanelIds::Skills));
+	TestFalse(TEXT("toggling an unknown id reports failure"), Registry.Toggle(Real33D::PanelIds::Skills));
+	TestFalse(TEXT("opening an unknown id reports failure"), Registry.Open(Real33D::PanelIds::Skills));
+
+	TestTrue(TEXT("registers"), Registry.Register(Real33D::PanelIds::Skills, First));
+	TestEqual(TEXT("counted"), Registry.Num(), 1);
+	TestTrue(TEXT("found"), Registry.IsRegistered(Real33D::PanelIds::Skills));
+	TestEqual(TEXT("returns the widget it was given"),
+		Registry.Find(Real33D::PanelIds::Skills), TSharedPtr<SWidget>(First));
+
+	// A duplicate is refused rather than silently replacing the first.
+	TestFalse(TEXT("duplicate id refused"), Registry.Register(Real33D::PanelIds::Skills, Second));
+	TestEqual(TEXT("duplicate did not replace"),
+		Registry.Find(Real33D::PanelIds::Skills), TSharedPtr<SWidget>(First));
+	TestEqual(TEXT("duplicate did not grow the list"), Registry.Num(), 1);
+	TestFalse(TEXT("empty id refused"), Registry.Register(NAME_None, Second));
+
+	// Open state is the widget's own visibility, not a cached flag.
+	TestTrue(TEXT("a panel built visible reads as open"), Registry.IsOpen(Real33D::PanelIds::Skills));
+	TestTrue(TEXT("close succeeds"), Registry.Close(Real33D::PanelIds::Skills));
+	TestFalse(TEXT("closed reads as closed"), Registry.IsOpen(Real33D::PanelIds::Skills));
+	TestEqual(TEXT("closed collapses so the column reclaims the space"),
+		First->GetVisibility(), EVisibility::Collapsed);
+	TestTrue(TEXT("toggle reopens"), Registry.Toggle(Real33D::PanelIds::Skills));
+	TestTrue(TEXT("reopened reads as open"), Registry.IsOpen(Real33D::PanelIds::Skills));
+	TestTrue(TEXT("toggle closes again"), Registry.Toggle(Real33D::PanelIds::Skills));
+	TestFalse(TEXT("closed again"), Registry.IsOpen(Real33D::PanelIds::Skills));
+
+	// Visibility set outside the registry is still what the registry reports.
+	First->SetVisibility(EVisibility::Visible);
+	TestTrue(TEXT("external change is observed, not cached over"),
+		Registry.IsOpen(Real33D::PanelIds::Skills));
+
+	// Registration order is the order ids come back in.
+	TestTrue(TEXT("second panel registers"), Registry.Register(Real33D::PanelIds::Battle, Second));
+	TArray<FName> Ids;
+	Registry.GetIds(Ids);
+	TestEqual(TEXT("both ids listed"), Ids.Num(), 2);
+	TestEqual(TEXT("registration order kept"), Ids[0], Real33D::PanelIds::Skills);
+	TestEqual(TEXT("registration order kept"), Ids[1], Real33D::PanelIds::Battle);
+
+	// Panels are independent of one another.
+	TestTrue(TEXT("closing one"), Registry.Close(Real33D::PanelIds::Skills));
+	TestTrue(TEXT("leaves the other open"), Registry.IsOpen(Real33D::PanelIds::Battle));
+
+	TestTrue(TEXT("unregister"), Registry.Unregister(Real33D::PanelIds::Skills));
+	TestFalse(TEXT("unregistering twice reports failure"), Registry.Unregister(Real33D::PanelIds::Skills));
+	TestEqual(TEXT("one left"), Registry.Num(), 1);
+	Registry.Reset();
+	TestEqual(TEXT("reset empties"), Registry.Num(), 0);
+	// Reset forgets panels; it does not touch the widgets themselves.
+	TestEqual(TEXT("reset left the widget alone"), Second->GetVisibility(), SecondBuiltWith);
 	return true;
 }
 #endif

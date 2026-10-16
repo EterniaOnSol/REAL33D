@@ -77,6 +77,25 @@ TSharedRef<SWidget> SReal33DHUD::MakeSideColumn(TSharedRef<SWidget> Contents)
 		];
 }
 
+void SReal33DHUD::AddPanel(const TSharedRef<SVerticalBox>& Column, FName Id,
+	const FText& Title, FName IconBrush, float ContentHeight,
+	const TSharedRef<SWidget>& Content)
+{
+	TSharedPtr<SReal33DMiniWindow> Window;
+	Column->AddSlot()
+		.AutoHeight()
+		[
+			SAssignNew(Window, SReal33DMiniWindow)
+			.Title(Title)
+			.IconBrush(IconBrush)
+			.ContentHeight(ContentHeight)
+			[
+				Content
+			]
+		];
+	Panels.Register(Id, Window.ToSharedRef());
+}
+
 TSharedRef<SWidget> SReal33DHUD::MakeViewportFrame()
 {
 	const ISlateStyle& Style = FReal33DUIStyle::Get();
@@ -166,115 +185,74 @@ void SReal33DHUD::Construct(const FArguments& InArgs)
 			]
 		];
 
-	Outer->AddSlot()
-		.AutoHeight()
-		[
-			SNew(SReal33DMiniWindow)
-			.Title(FText::FromString(TEXT("Minimap")))
-			.ContentHeight(SReal33DMinimapPanel::PanelHeight)
-			[
-				SAssignNew(Minimap, SReal33DMinimapPanel)
-				.Bridge(Bridge)
-				.OnDestination(InArgs._OnMinimapDestination)
-			]
-		];
+	AddPanel(Outer, Real33D::PanelIds::Minimap,
+		FText::FromString(TEXT("Minimap")), NAME_None,
+		SReal33DMinimapPanel::PanelHeight,
+		SAssignNew(Minimap, SReal33DMinimapPanel)
+		.Bridge(Bridge)
+		.OnDestination(InArgs._OnMinimapDestination));
 
-	Outer->AddSlot()
-		.AutoHeight()
+	AddPanel(Outer, Real33D::PanelIds::Health,
+		FText::FromString(TEXT("Health")), NAME_None, VitalsHeight,
+		SNew(SBox)
+		.Padding(FMargin(8.0f, 4.0f, 8.0f, 0.0f))
 		[
-			SNew(SReal33DMiniWindow)
-			.Title(FText::FromString(TEXT("Health")))
-			.ContentHeight(VitalsHeight)
-			[
-				SNew(SBox)
-				.Padding(FMargin(8.0f, 4.0f, 8.0f, 0.0f))
-				[
-					SAssignNew(Vitals, SReal33DVitalsPanel)
-				]
-			]
-		];
+			SAssignNew(Vitals, SReal33DVitalsPanel)
+		]);
 
-	Outer->AddSlot()
-		.AutoHeight()
+	AddPanel(Outer, Real33D::PanelIds::Inventory,
+		FText::FromString(TEXT("Inventory")), NAME_None,
+		SReal33DInventoryPanel::PanelHeight,
+		SNew(SVerticalBox)
+		+ SVerticalBox::Slot()
+		.FillHeight(1.0f)
 		[
-			SNew(SReal33DMiniWindow)
-			.Title(FText::FromString(TEXT("Inventory")))
-			.ContentHeight(SReal33DInventoryPanel::PanelHeight)
-			[
-				SNew(SVerticalBox)
-				+ SVerticalBox::Slot()
-				.FillHeight(1.0f)
-				[
-					SAssignNew(Inventory, SReal33DInventoryPanel)
-					.OnItemDropped(FReal33DOnItemDropped::CreateSP(
-						this, &SReal33DHUD::HandleItemDropped))
-					.OnSlotUsed(FReal33DOnSlotUsed::CreateSP(
-						this, &SReal33DHUD::HandleSlotUsed))
-					.OnSlotPicked(FReal33DOnSlotPicked::CreateSP(
-						this, &SReal33DHUD::HandleSlotPicked))
-					.OnAttackModeChanged(FReal33DOnAttackModeChanged::CreateSP(
-						this, &SReal33DHUD::HandleAttackModeChanged))
-					.OnChaseModeChanged(FReal33DOnChaseModeChanged::CreateSP(
-						this, &SReal33DHUD::HandleChaseModeChanged))
-				]
-				// The condition strip sits along the bottom of the inventory
-				// panel in inventory.otui, and does here too.
-				+ SVerticalBox::Slot()
-				.AutoHeight()
-				.Padding(FMargin(8.0f, 2.0f, 8.0f, 4.0f))
-				[
-					SAssignNew(Conditions, SReal33DConditionStrip)
-				]
-			]
-		];
+			SAssignNew(Inventory, SReal33DInventoryPanel)
+			.OnItemDropped(FReal33DOnItemDropped::CreateSP(
+				this, &SReal33DHUD::HandleItemDropped))
+			.OnSlotUsed(FReal33DOnSlotUsed::CreateSP(
+				this, &SReal33DHUD::HandleSlotUsed))
+			.OnSlotPicked(FReal33DOnSlotPicked::CreateSP(
+				this, &SReal33DHUD::HandleSlotPicked))
+			.OnAttackModeChanged(FReal33DOnAttackModeChanged::CreateSP(
+				this, &SReal33DHUD::HandleAttackModeChanged))
+			.OnChaseModeChanged(FReal33DOnChaseModeChanged::CreateSP(
+				this, &SReal33DHUD::HandleChaseModeChanged))
+		]
+		// The condition strip sits along the bottom of the inventory
+		// panel in inventory.otui, and does here too.
+		+ SVerticalBox::Slot()
+		.AutoHeight()
+		.Padding(FMargin(8.0f, 2.0f, 8.0f, 4.0f))
+		[
+			SAssignNew(Conditions, SReal33DConditionStrip)
+		]);
 
 	// ------------------------------------------------- the inner right column
 
 	TSharedRef<SVerticalBox> Inner = SNew(SVerticalBox);
 
-	Inner->AddSlot()
-		.AutoHeight()
-		[
-			SAssignNew(SkillsWindow, SReal33DMiniWindow)
-			.Title(FText::FromString(TEXT("Skills")))
-			.IconBrush("Real33D.Control.SkillsIcon")
-			.ContentHeight(SReal33DSkillsPanel::DesiredContentHeight())
-			[
-				SAssignNew(Skills, SReal33DSkillsPanel)
-			]
-		];
+	AddPanel(Inner, Real33D::PanelIds::Skills,
+		FText::FromString(TEXT("Skills")), "Real33D.Control.SkillsIcon",
+		SReal33DSkillsPanel::DesiredContentHeight(),
+		SAssignNew(Skills, SReal33DSkillsPanel));
 
-	Inner->AddSlot()
-		.AutoHeight()
-		[
-			SAssignNew(BattleWindow, SReal33DMiniWindow)
-			.Title(FText::FromString(TEXT("Battle List")))
-			.IconBrush("Real33D.Battle.Icon")
-			.ContentHeight(140.0f)
-			[
-				SAssignNew(Battle, SReal33DBattlePanel)
-				.OnCreatureTargeted(FReal33DOnCreatureTargeted::CreateSP(
-					this, &SReal33DHUD::HandleCreatureTargeted))
-			]
-		];
+	AddPanel(Inner, Real33D::PanelIds::Battle,
+		FText::FromString(TEXT("Battle List")), "Real33D.Battle.Icon", 140.0f,
+		SAssignNew(Battle, SReal33DBattlePanel)
+		.OnCreatureTargeted(FReal33DOnCreatureTargeted::CreateSP(
+			this, &SReal33DHUD::HandleCreatureTargeted)));
 
-	Inner->AddSlot()
-		.AutoHeight()
-		[
-			SNew(SReal33DMiniWindow)
-			.Title(FText::FromString(TEXT("Containers")))
-			.ContentHeight(ContainersHeight)
-			[
-				SAssignNew(Containers, SReal33DContainersPanel)
-					.Columns(4)
-					.OnItemDropped(FReal33DOnItemDropped::CreateSP(
-						this, &SReal33DHUD::HandleItemDropped))
-					.OnSlotUsed(FReal33DOnSlotUsed::CreateSP(
-						this, &SReal33DHUD::HandleSlotUsed))
-					.OnSlotPicked(FReal33DOnSlotPicked::CreateSP(
-						this, &SReal33DHUD::HandleSlotPicked))
-			]
-		];
+	AddPanel(Inner, Real33D::PanelIds::Containers,
+		FText::FromString(TEXT("Containers")), NAME_None, ContainersHeight,
+		SAssignNew(Containers, SReal33DContainersPanel)
+		.Columns(4)
+		.OnItemDropped(FReal33DOnItemDropped::CreateSP(
+			this, &SReal33DHUD::HandleItemDropped))
+		.OnSlotUsed(FReal33DOnSlotUsed::CreateSP(
+			this, &SReal33DHUD::HandleSlotUsed))
+		.OnSlotPicked(FReal33DOnSlotPicked::CreateSP(
+			this, &SReal33DHUD::HandleSlotPicked)));
 
 	// ------------------------------------------------------------- assembly
 	//
@@ -701,14 +679,11 @@ void SReal33DHUD::UpdateTargetingBanner()
 void SReal33DHUD::HandlePanelToggled(FName Panel)
 {
 	// Purely local: showing and hiding a panel asks Fusion32 for nothing.
-	const TSharedPtr<SWidget> Target = Panel == TEXT("Skills")
-		? SkillsWindow : (Panel == TEXT("Battle") ? BattleWindow : nullptr);
-	if (!Target.IsValid())
-	{
-		return;
-	}
-	Target->SetVisibility(Target->GetVisibility() == EVisibility::Collapsed
-		? EVisibility::Visible : EVisibility::Collapsed);
+	//
+	// An unknown id does nothing, exactly as the if-chain this replaced did:
+	// a control naming a panel the HUD does not carry is ignored, not an
+	// error.
+	Panels.Toggle(Panel);
 }
 
 void SReal33DHUD::Refresh(const AReal33DWorld* World)

@@ -4,6 +4,7 @@
 #include "Real33DBridge.h"
 #include "Real33DChatPanel.h"
 #include "Real33DPanelChrome.h"
+#include "Real33DPanelRegistry.h"
 #include "Real33DMinimapPanel.h"
 #include "Widgets/DeclarativeSyntaxSupport.h"
 #include "Widgets/SCompoundWidget.h"
@@ -16,6 +17,7 @@ class SReal33DControlPanel;
 class SReal33DInventoryPanel;
 class SReal33DMinimapPanel;
 class SReal33DMiniWindow;
+class SVerticalBox;
 class SReal33DSkillsPanel;
 class SReal33DVitalsPanel;
 class SBorder;
@@ -62,6 +64,14 @@ public:
 
 	/** The chat panel, so the controller can focus it and gate movement. */
 	TSharedPtr<SReal33DChatPanel> GetChatPanel() const { return ChatPanel; }
+
+	/**
+	 * The HUD's panels, for anything that needs to open, close or ask
+	 * after one. Exposed so a future panel can be driven from a hotkey or
+	 * a menu without adding another accessor here for each one.
+	 */
+	FReal33DPanelRegistry& GetPanels() { return Panels; }
+	const FReal33DPanelRegistry& GetPanels() const { return Panels; }
 
 	// --------------------------------------------------------- object use
 	//
@@ -114,6 +124,19 @@ private:
 	TSharedRef<SWidget> MakeBottomPanel(const FReal33DOnTypingChanged& OnTypingChanged);
 
 	void HandlePanelToggled(FName Panel);
+
+	/**
+	 * Adds a panel to a column as a standard mini window and registers it.
+	 *
+	 * The one call a future panel needs. Everything that used to be
+	 * repeated per panel -- the slot, the mini-window chrome, the member
+	 * to hold the window, the branch in the toggle -- happens here or in
+	 * the registry instead.
+	 *
+	 * @param IconBrush NAME_None for a window with no header icon.
+	 */
+	void AddPanel(const TSharedRef<SVerticalBox>& Column, FName Id, const FText& Title,
+		FName IconBrush, float ContentHeight, const TSharedRef<SWidget>& Content);
 
 	/** Turns a drop between two slots into a move request on the bridge. */
 	void HandleItemDropped(FReal33DSlotRef From, FReal33DSlotRef To);
@@ -170,9 +193,14 @@ private:
 	TSharedPtr<SReal33DMinimapPanel> Minimap;
 	TSharedPtr<SReal33DControlPanel> Controls;
 
-	/** The two windows the control strip can roll away. */
-	TSharedPtr<SWidget> SkillsWindow;
-	TSharedPtr<SWidget> BattleWindow;
+	/**
+	 * Every mini window on the HUD, by id.
+	 *
+	 * Replaces the per-panel members and the if-chain that mapped a name
+	 * to one of them. Declared after the panel pointers so it is
+	 * destroyed before them.
+	 */
+	FReal33DPanelRegistry Panels;
 
 	TWeakObjectPtr<UReal33DBridge> Bridge;
 
