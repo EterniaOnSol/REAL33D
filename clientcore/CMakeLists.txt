@@ -101,6 +101,7 @@ add_library(protocol772_initial_world
     src/map_scan.cpp
     src/minimap.cpp
     src/movement.cpp
+    src/movement_actions.cpp
     src/movement_ledger.cpp
     src/chat_log.cpp
     src/talk_command.cpp
@@ -272,6 +273,23 @@ if(BUILD_TESTING)
 
     add_test(NAME protocol772_worldview_tests COMMAND protocol772_worldview_tests)
     set_tests_properties(protocol772_worldview_tests PROPERTIES TIMEOUT 120)
+    add_executable(protocol772_movement_actions_tests
+        tests/movement_actions_tests.cpp
+    )
+    target_link_libraries(protocol772_movement_actions_tests
+        PRIVATE
+            protocol772_initial_world
+    )
+
+    if(MSVC)
+        target_compile_options(protocol772_movement_actions_tests PRIVATE /W4 /WX /permissive-)
+    else()
+        target_compile_options(protocol772_movement_actions_tests PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    endif()
+
+    add_test(NAME protocol772_movement_actions_tests COMMAND protocol772_movement_actions_tests)
+    set_tests_properties(protocol772_movement_actions_tests PROPERTIES TIMEOUT 120)
+
     add_executable(protocol772_minimap_tests tests/minimap_tests.cpp)
     target_link_libraries(protocol772_minimap_tests PRIVATE protocol772_initial_world)
     if(MSVC)
