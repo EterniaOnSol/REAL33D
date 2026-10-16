@@ -588,10 +588,16 @@ void TestNegativeCases() {
     // Explicitly typed: a bare braced list deduces initializer_list<int>, and
     // MSVC at /W4 rejects the narrowing that GCC accepts silently.
     // 110 and 112 were here until UNREAL-INVENTORY-CONTAINERS-001 decoded the
-    // container family, and 125/126/127 until CLIENTCORE-TRADE-772-001 decoded
-    // trade; what is left is the text editors and the quest/channel commands
-    // nothing has demonstrated.
-    const std::vector<std::uint8_t> still_unsupported{150, 151, 171, 174};
+    // container family, 125/126/127 until CLIENTCORE-TRADE-772-001 decoded
+    // trade, 171 until CLIENTCORE-CHANNELS-772-001 decoded the channel
+    // commands, and 150/151 until CLIENTCORE-EDITORS-772-001 decoded the text
+    // editors. What is left is the gamemaster request queue, the only server
+    // command group this project leaves undecoded.
+    //
+    // This list is the intersection of the four branches that each shrank it,
+    // not any one branch's version: every branch is right about the opcodes it
+    // decoded and stale about the ones its siblings decoded.
+    const std::vector<std::uint8_t> still_unsupported{174, 175, 176, 177};
     for (const std::uint8_t opcode : still_unsupported) {
         const auto decoded = Decode({opcode, 1, 2, 3, 4, 5, 6, 7});
         CHECK(decoded.ok());
