@@ -20,8 +20,18 @@ this exact file:
     larger than one tile, layers, three pattern counts and a phase count,
     followed by that many u16 sprite ids.
 
-Only the first frame, first pattern and first layer is written: an inventory
-square shows an object at rest, not an animation.
+For an ordinary object only the first frame, first pattern and first layer is
+written: an inventory square shows an object at rest, not an animation.
+
+A cumulative object is the exception, and getting it wrong was a real defect.
+Gold coin 3031 declares pattern_x=4 and pattern_y=2, so it owns eight
+pictures (sprites 410..417) and the client chooses one from the amount. While
+only the first was written, a pile of fifty coins drew as a single coin. Every
+frame of a cumulative object is therefore written: `<id>.png` stays the
+one-object picture so nothing else has to change, and the rest land beside it
+as `<id>_1.png`, `<id>_2.png` and so on, in the order the .dat declares them,
+which is ascending amount. Which objects are cumulative comes from
+ATTR_CUMULATIVE in the data, never from a list of type ids.
 
 Objects wider or taller than one tile are composed onto a single image at their
 full size and then fitted into the 32x32 square, because a two-tile object drawn
@@ -52,6 +62,8 @@ ATTR_U16 = {0, 8, 9, 25, 28, 29, 32}          # Ground, Writable, WritableOnce,
                                               # Elevation, MinimapColor,
                                               # LensHelp, Cloth
 ATTR_TWO_U16 = {21, 24}                       # Light, Displacement
+ATTR_CUMULATIVE = 5                           # stackable; objects.srv calls it
+                                              # Cumulative
 ATTR_MARKET = 33                              # not present in 7.72, handled anyway
 ATTR_LAST = 255
 
@@ -84,11 +96,22 @@ class Reader:
 
 
 def read_attributes(reader):
-    """Walks the attribute stream. Returns nothing; it exists to advance past."""
+    """Walks the attribute stream.
+
+    Returns (terminated, cumulative): whether the stream ended properly, and
+    whether the thing carries ATTR_CUMULATIVE. A cumulative thing keeps one
+    picture per amount tier, so the caller has to write all of them rather
+    than only the first. visual/tools/tibia772.py maps this same attribute to
+    the server's `Cumulative` flag in objects.srv, which is how the two sides
+    are known to agree.
+    """
+    cumulative = False
     for _ in range(ATTR_LAST):
         attr = reader.u8()
         if attr == ATTR_LAST:
-            return True
+            return True, cumulative
+        if attr == ATTR_CUMULATIVE:
+            cumulative = True
         if attr in ATTR_TWO_U16:
             reader.u16()
             reader.u16()
@@ -101,11 +124,18 @@ def read_attributes(reader):
             reader.u16()
         elif attr in ATTR_U16:
             reader.u16()
-    return False
+    return False, cumulative
 
 
 def parse_dat(path):
-    """type id -> (width, height, [sprite ids of the first frame])."""
+    """type id -> (width, height, cumulative, [frames]).
+
+    A frame is the width*height sprite ids of one picture. Things carry
+    several: layers, three pattern axes and animation phases. Only a
+    cumulative thing's pattern frames are wanted here -- they are the pile
+    pictures the client picks between by amount -- so every frame is kept and
+    the caller decides which ones to write.
+    """
     with open(path, "rb") as handle:
         reader = Reader(handle.read())
 
@@ -118,7 +148,8 @@ def parse_dat(path):
     items = {}
     # Items are numbered from 100: everything below is reserved by the client.
     for type_id in range(100, item_count + 1):
-        if not read_attributes(reader):
+        terminated, cumulative = read_attributes(reader)
+        if not terminated:
             raise ValueError(f"attribute stream never terminated at id {type_id}")
 
         width = reader.u8()
@@ -134,10 +165,13 @@ def parse_dat(path):
         total = width * height * layers * pattern_x * pattern_y * pattern_z * phases
         sprites = [reader.u16() for _ in range(total)]
 
-        # The first layer of the first pattern of the first phase: the object
-        # standing still, which is what an inventory square shows.
-        first = sprites[:width * height] if sprites else []
-        items[type_id] = (width, height, first)
+        # One frame is width*height sprite ids. Frame 0 is the first layer of
+        # the first pattern of the first phase: the object standing still,
+        # which is what a non-cumulative inventory square shows.
+        per_frame = width * height
+        frames = [sprites[i:i + per_frame]
+                  for i in range(0, len(sprites), per_frame)] if sprites else []
+        items[type_id] = (width, height, cumulative, frames)
     return items
 
 
@@ -294,20 +328,44 @@ def main():
 
     written = 0
     blank = 0
-    for type_id, (width, height, sprite_ids) in items.items():
-        if not sprite_ids or all(s == 0 for s in sprite_ids):
+    stacked = 0
+    extra = 0
+    for type_id, (width, height, cumulative, frames) in items.items():
+        if not frames:
             blank += 1
             continue
-        full_w, full_h, canvas = compose(width, height, sprite_ids, data, offsets)
-        if not any(canvas[3::4]):
+
+        # A non-cumulative object contributes its resting picture only. A
+        # cumulative one contributes every frame, because each is the picture
+        # of a different amount.
+        wanted = frames if cumulative else frames[:1]
+
+        produced = 0
+        for index, sprite_ids in enumerate(wanted):
+            if not sprite_ids or all(s == 0 for s in sprite_ids):
+                continue
+            full_w, full_h, canvas = compose(width, height, sprite_ids, data, offsets)
+            if not any(canvas[3::4]):
+                continue
+            square = fit_to_square(full_w, full_h, canvas)
+            # Frame 0 keeps the bare name so every existing reader of these
+            # files is unaffected; only the added amount pictures are suffixed.
+            name = f"{type_id}.png" if index == 0 else f"{type_id}_{index}.png"
+            write_png(os.path.join(out, name), SPRITE_PIXELS, SPRITE_PIXELS, square)
+            produced += 1
+            if index > 0:
+                extra += 1
+
+        if produced == 0:
             blank += 1
             continue
-        square = fit_to_square(full_w, full_h, canvas)
-        write_png(os.path.join(out, f"{type_id}.png"),
-                  SPRITE_PIXELS, SPRITE_PIXELS, square)
         written += 1
+        if cumulative and produced > 1:
+            stacked += 1
 
     print(f"wrote {written} item sprites to {out} ({blank} had no picture)")
+    print(f"  of those, {stacked} cumulative object(s) contributed "
+          f"{extra} extra amount picture(s)")
 
 
 if __name__ == "__main__":

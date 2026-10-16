@@ -263,7 +263,12 @@ void SReal33DSlot::Construct(const FArguments& InArgs)
 		// loads. When an id has no picture -- a few dozen do not -- the number
 		// is shown instead, because the number is still the truth about what
 		// is in the slot and an empty square would not be.
-		const FSlateBrush* Picture = FReal33DUIStyle::ItemBrush(InArgs._TypeId);
+		//
+		// The amount picks the picture for a cumulative object: fifty coins
+		// are a different image from one, and drawing the single-coin picture
+		// for every pile was a real defect. The count text beside it is
+		// unaffected and still comes straight from the server.
+		const FSlateBrush* Picture = FReal33DUIStyle::ItemBrush(InArgs._TypeId, InArgs._Count);
 		if (Picture != nullptr)
 		{
 			Stack->AddSlot()

@@ -53,8 +53,23 @@ public:
 	 * back to showing the number, which is still the truth about what is there.
 	 *
 	 * Game thread only: the cache is not guarded, and Slate is single-threaded.
+	 *
+	 * A cumulative object has one picture per amount tier, so the amount
+	 * selects between them. Pass 0 when the object carries no amount: that is
+	 * what the wire says for anything non-cumulative, and it resolves to the
+	 * single-object picture.
 	 */
-	static const FSlateBrush* ItemBrush(uint16 TypeId);
+	static const FSlateBrush* ItemBrush(uint16 TypeId, uint32 Amount = 0);
+
+	/**
+	 * How many pictures an object actually has on disk.
+	 *
+	 * Probed once per id and kept. The extractor writes `<id>.png` plus
+	 * `<id>_1.png`.. for a cumulative object, so counting the files is how the
+	 * runtime learns the frame count without shipping a second metadata file
+	 * that could disagree with the pictures beside it.
+	 */
+	static int32 ItemFrameCount(uint16 TypeId);
 
 	// Native pixel geometry of the health/mana art, shared with the widgets so
 	// a layout cannot drift from the images it is laying out.
@@ -139,5 +154,7 @@ private:
 	 * FSlateDynamicImageBrush is the kind meant to be loaded from disk at
 	 * runtime, which is exactly what an item picture is.
 	 */
-	static TMap<uint16, TSharedPtr<struct FSlateDynamicImageBrush>> ItemBrushes;
+	// Keyed by id and frame, because one id now owns several pictures.
+	static TMap<uint32, TSharedPtr<struct FSlateDynamicImageBrush>> ItemBrushes;
+	static TMap<uint16, int32> ItemFrameCounts;
 };

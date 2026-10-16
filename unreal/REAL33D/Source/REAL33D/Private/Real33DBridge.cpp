@@ -831,6 +831,9 @@ private:
 					Flat.bIsCreature = Thing.kind == p772::MapThingKind::Creature;
 					Flat.TypeId = Thing.item.type_id;
 					Flat.CreatureId = Thing.creature.creature_id;
+					// Carried as received. Only a cumulative object has one.
+					Flat.bHasAmount = !Flat.bIsCreature && Thing.item.has_amount;
+					Flat.Amount = Thing.item.amount;
 					// Resolved here, where the object type table already lives,
 					// so nothing above the bridge needs a type id to know how
 					// to draw a field.

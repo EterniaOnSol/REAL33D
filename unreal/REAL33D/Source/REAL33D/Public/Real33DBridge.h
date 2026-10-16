@@ -201,6 +201,18 @@ struct FReal33DThing
 	 */
 	bool bBlocking = false;
 	bool bGround = false;
+
+	/**
+	 * The stack size Fusion32 reported for a cumulative object on this field.
+	 *
+	 * `bHasAmount` is false for everything non-cumulative, which is what the
+	 * wire says: the amount byte is only present when the object type carries
+	 * the CUMULATIVE flag. Kept so presentation never has to re-derive a
+	 * count the server already stated, and so a pile can be told from a
+	 * single object without asking the type table again.
+	 */
+	bool bHasAmount = false;
+	uint8 Amount = 0;
 };
 
 /**

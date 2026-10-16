@@ -1,5 +1,7 @@
 #include "Real33DUIStyle.h"
 
+#include "Real33DStackSprite.h"
+
 #include "Brushes/SlateDynamicImageBrush.h"
 #include "Misc/Paths.h"
 #include "Styling/SlateStyle.h"
@@ -7,7 +9,8 @@
 #include "Styling/SlateTypes.h"
 
 TSharedPtr<FSlateStyleSet> FReal33DUIStyle::Instance = nullptr;
-TMap<uint16, TSharedPtr<FSlateDynamicImageBrush>> FReal33DUIStyle::ItemBrushes;
+TMap<uint32, TSharedPtr<FSlateDynamicImageBrush>> FReal33DUIStyle::ItemBrushes;
+TMap<uint16, int32> FReal33DUIStyle::ItemFrameCounts;
 
 namespace
 {
@@ -83,26 +86,65 @@ void FReal33DUIStyle::Shutdown()
 	Instance.Reset();
 	// The item pictures point into the style's content root, so they go with it.
 	ItemBrushes.Reset();
+	ItemFrameCounts.Reset();
 }
 
-const FSlateBrush* FReal33DUIStyle::ItemBrush(uint16 TypeId)
+int32 FReal33DUIStyle::ItemFrameCount(uint16 TypeId)
+{
+	if (TypeId == 0 || !Instance.IsValid())
+	{
+		return 0;
+	}
+	if (const int32* Found = ItemFrameCounts.Find(TypeId))
+	{
+		return *Found;
+	}
+
+	int32 Count = 0;
+	if (FPaths::FileExists(Instance->RootToContentDir(
+			*FString::Printf(TEXT("Items/%u"), TypeId), TEXT(".png"))))
+	{
+		Count = 1;
+		// Frames are contiguous from 1, so the first gap is the end. Bounded by
+		// the tier table: no amount can address a picture beyond it.
+		while (Count < Real33D::kStackSpriteTierCount
+			&& FPaths::FileExists(Instance->RootToContentDir(
+				*FString::Printf(TEXT("Items/%u_%d"), TypeId, Count), TEXT(".png"))))
+		{
+			++Count;
+		}
+	}
+	ItemFrameCounts.Add(TypeId, Count);
+	return Count;
+}
+
+const FSlateBrush* FReal33DUIStyle::ItemBrush(uint16 TypeId, uint32 Amount)
 {
 	if (TypeId == 0 || !Instance.IsValid())
 	{
 		return nullptr;
 	}
-	if (const TSharedPtr<FSlateDynamicImageBrush>* Found = ItemBrushes.Find(TypeId))
+
+	// Which picture this amount shows. A non-cumulative object has a single
+	// picture and lands on frame 0 whatever the amount claims.
+	const int32 Frame = Real33D::StackSpriteFrame(Amount, ItemFrameCount(TypeId));
+	const uint32 Key = (static_cast<uint32>(TypeId) << 8) | static_cast<uint32>(Frame & 0xFF);
+
+	if (const TSharedPtr<FSlateDynamicImageBrush>* Found = ItemBrushes.Find(Key))
 	{
 		return Found->Get();
 	}
 
-	const FString Path = Instance->RootToContentDir(
-		*FString::Printf(TEXT("Items/%u"), TypeId), TEXT(".png"));
+	// Frame 0 keeps the bare name; see extract_item_sprites.py.
+	const FString Leaf = Frame == 0
+		? FString::Printf(TEXT("Items/%u"), TypeId)
+		: FString::Printf(TEXT("Items/%u_%d"), TypeId, Frame);
+	const FString Path = Instance->RootToContentDir(*Leaf, TEXT(".png"));
 	if (!FPaths::FileExists(Path))
 	{
 		// Remembered as absent so a missing picture is one file check per id
 		// per session rather than one per frame.
-		ItemBrushes.Add(TypeId, nullptr);
+		ItemBrushes.Add(Key, nullptr);
 		return nullptr;
 	}
 
@@ -110,7 +152,7 @@ const FSlateBrush* FReal33DUIStyle::ItemBrush(uint16 TypeId)
 	// and not read from the file: see extract_item_sprites.py.
 	TSharedPtr<FSlateDynamicImageBrush> Brush = MakeShareable(
 		new FSlateDynamicImageBrush(FName(*Path), FVector2D(SlotIconSize, SlotIconSize)));
-	ItemBrushes.Add(TypeId, Brush);
+	ItemBrushes.Add(Key, Brush);
 	return Brush.Get();
 }
 
