@@ -281,3 +281,141 @@ read as 6 PASS / 0 FAIL / 3 not-executed. Its gates were likewise obtained by
 running CTest, the sanitizers, MSVC and the Unreal build directly, and the
 integrated tree's `REAL33DEditor` build plus all three polish automation
 suites passed on their own evidence.
+
+## Second false PASS: clientcore-tests could not fail, 2026-10-16
+
+The first false PASS was found by reading a log. This one was found the same
+way, during UNREAL-HUD-PANEL-REGISTRY-001: a run recorded
+
+```
+| `clientcore-tests` | **PASS** | 0 CTest suite(s) passed via wsl |
+```
+
+beside a log whose first line was
+
+```
+CMake Error: The source directory "..." does not exist.
+```
+
+"PASS, 0 suites passed" is a sentence that contradicts itself, and it was
+counted as success.
+
+### What happened
+
+Worse than the symptom. The string handed to `bash -c` through `wsl.exe` is
+expanded **once more** before the inner shell ever sees it, so every `$var`
+and `$?` inside it is replaced with the *outer* shell's value. Measured
+directly on this host:
+
+```
+wsl.exe -- bash -c 'x=5; echo "x=$x"'        ->  x=          (not x=5)
+wsl.exe -- bash -c 'false; echo "q=$?"'      ->  q=0         (the outer $?)
+wsl.exe -- bash -c 'false && true'           ->  rc=1        (chains are fine)
+wsl.exe -- bash -c 'exit 1'                  ->  rc=1        (literals are fine)
+```
+
+The runner ended `rc=$?; rm -rf '$wbuild'; exit $rc`, which therefore arrived
+as `rc=; rm -rf ...; exit`. A bare `exit` returns the status of the last
+command — the `rm`, which always succeeds. **`clientcore-tests` returned 0
+unconditionally**, so it could not report `FAIL` for a configure error, a
+build error, or a genuinely failing test suite. The "0 suites" case is simply
+the one that made it visible.
+
+`run_one_wsl`, which drives the `real33d-native-tests` stems, ended with the
+same idiom and had the same hole:
+
+```
+wsl.exe -- bash -c '/bin/false; rc=$?; rm -rf /tmp/x; exit $rc'   ->  rc=0
+```
+
+Its compile failures still surfaced, because those take a `|| { ...; exit 1; }`
+branch with a literal status, which is why the breakage stayed hidden: the
+check looked like it worked whenever the build was what broke.
+
+### The fix
+
+Stop depending on a status surviving the hop, in both runners.
+
+- The measured command is now a plain `&&` chain and the **last thing**
+  `wsl.exe` runs, so its own status is what propagates — the one form the
+  measurements above show is reliable.
+- Cleanup moved out of the measured command into a separate `wsl.exe -- rm`,
+  so it can no longer overwrite the result.
+- `run_one_wsl` names its build directory from the caller instead of
+  `$(mktemp -d)`, which was being expanded away too, and ends with the run.
+
+And `clientcore-tests` no longer trusts a status alone. Three things must all
+hold, mirroring the marker gating the Windows checks already use:
+
+| condition | otherwise |
+|---|---|
+| `rc == 0` | FAIL "configure/build/ctest returned N" |
+| at least one suite ran | FAIL "exit 0 but no CTest suite ran; configure or build produced no tests" |
+| ctest printed `100% tests passed` | FAIL "N suite(s) ran but ctest did not report 100% tests passed" |
+
+`SKIP` is untouched and still means only one thing: no toolchain. `PASS`,
+`FAIL` and `SKIP` keep their existing meanings.
+
+### A/B proof
+
+The same fixture — a repository whose `clientcore/` cannot be configured —
+through both versions:
+
+```
+old harness (ab54527):  clientcore-tests  PASS  0 CTest suite(s) passed via wsl
+new harness:            clientcore-tests  FAIL
+```
+
+with `CMake Error: The source directory ... does not exist.` in the log both
+times.
+
+### Regression test
+
+`tests/regression_harness_selftest.sh` grows to **10 assertions**, three of
+them new:
+
+```
+ok   : a clientcore that cannot be configured is FAIL, not PASS
+ok   : confirmed: a captured exit status does not survive wsl.exe
+ok   : a failing && chain does propagate through wsl.exe
+```
+
+The second and third are there because the fix *depends* on that asymmetry.
+If a future refactor goes back to capturing `$?` across the hop, or if a host
+ever stops propagating chain status, the suite says so instead of silently
+returning to a gate that cannot fail. The clientcore cases skip cleanly where
+there is no WSL distro.
+
+### Scope
+
+`tests/regression_harness.sh` and `tests/regression_harness_selftest.sh`
+only. No other file, no protocol, no gameplay. The HUD panel registry branch
+was not touched and shares no file with this change.
+
+### Harness run for this change
+
+Default mode, from an x64 Native Tools environment:
+
+```
+clientcore-tests       PASS  13 CTest suite(s) passed via wsl
+real33d-native-tests   PASS  4 passed, 0 failed via wsl
+secret-check           PASS  6 sub-check(s) ok
+build-sanity-msvc      PASS  C++17 suites and the C++20 archive Unreal links both built
+unreal-module-build    SKIP  engine present but --unreal not passed
+protocol-log-check     SKIP  no logs in scope
+OVERALL                PASS_WITH_SKIPS          (0 FAIL)
+```
+
+`clientcore-tests` reporting 13 and `real33d-native-tests` reporting 4 are
+both through the repaired WSL path, so the fix is exercised by the run that
+reports it.
+
+One limitation, stated rather than papered over: `--unreal` was attempted
+twice and both runs ended `FAIL  UnrealBuildTool exited 6 / 112`, in each case
+with `fatal error C1085 ... Espacio en disco insuficiente` while writing the
+UnrealEd shared PCH. That is disk exhaustion on this machine, not a result of
+this change — the diff is two shell scripts and a document and contains no
+C++ at all, so it cannot affect whether the module compiles. The harness
+reported those runs as `FAIL` rather than passing them, which is the corrected
+behaviour working. The editor build is covered on the branches that actually
+change C++.

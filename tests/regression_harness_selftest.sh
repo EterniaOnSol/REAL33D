@@ -37,6 +37,12 @@ pass=0; fail=0
 ok()  { printf 'ok   : %s\n' "$1"; pass=$((pass + 1)); }
 bad() { printf 'FAIL : %s\n' "$1" >&2; fail=$((fail + 1)); }
 
+have_wsl_for_selftest() {
+  command -v wsl.exe >/dev/null 2>&1 \
+    && wsl.exe -d "$WSL_DISTRO" -- true >/dev/null 2>&1
+}
+
+WSL_DISTRO="${WSL_DISTRO:-Ubuntu-26.04}"
 ROOT="$(mktemp -d)"
 trap 'rm -rf "$ROOT"' EXIT
 
@@ -69,6 +75,13 @@ run_harness() { # extra args...
   bash "$HARNESS" --repo-root "$FIX" --out "$out" --no-wsl \
     --engine "$ENGINE_WIN" "$@" 2>/dev/null
 }
+# Same as run_harness but lets the harness use WSL, which is the toolchain
+# the clientcore-tests cases are about.
+run_harness_wsl() {
+  local out="$ROOT/out-wsl-$RANDOM"
+  bash "$HARNESS" --repo-root "$FIX" --out "$out" --engine "$ENGINE_WIN" "$@" 2>/dev/null
+}
+
 status_of() { # check-name < harness output
   awk -v want="$1" '$1 == want { print $2; exit }'
 }
@@ -136,6 +149,45 @@ if [ "$got" = "SKIP" ]; then
   ok "a missing engine is SKIP, not FAIL and not PASS"
 else
   bad "a missing engine produced '$got'; expected SKIP"
+fi
+
+
+# ------------------------ 5. clientcore-tests cannot pass without running ---
+# The second false PASS this harness shipped. A repo whose clientcore/ cannot
+# be configured made cmake fail, but the status was lost crossing into WSL
+# (every $var and $? in a `bash -c` string is expanded away before the
+# inner shell sees it), so the run was filed as
+#
+#   | `clientcore-tests` | **PASS** | 0 CTest suite(s) passed via wsl |
+#
+# next to a log containing "CMake Error: The source directory does not
+# exist". Zero suites is not a pass. The same loss masked genuine ctest
+# failures, so this check could not fail at all.
+if ! have_wsl_for_selftest; then
+  echo "skip : no WSL distro; the clientcore-tests cases need one"
+else
+  # A clientcore/ with no CMakeLists.txt: configure must fail.
+  mkdir -p "$FIX/clientcore"
+  got="$(run_harness_wsl | status_of clientcore-tests)"
+  if [ "$got" = "FAIL" ]; then
+    ok "a clientcore that cannot be configured is FAIL, not PASS"
+  else
+    bad "unconfigurable clientcore produced '$got'; expected FAIL"
+  fi
+
+  # And the status really is lost in that hop, which is why the chain, not a
+  # captured $?, has to be the last thing wsl.exe runs. Asserted directly so
+  # a future refactor back to `rc=$?; ...; exit $rc` is caught here.
+  if wsl.exe -d "$WSL_DISTRO" -- bash -c '/bin/false; rc=$?; exit $rc' >/dev/null 2>&1; then
+    ok "confirmed: a captured exit status does not survive wsl.exe"
+  else
+    ok "this host propagates a captured exit status through wsl.exe"
+  fi
+  if wsl.exe -d "$WSL_DISTRO" -- bash -c '/bin/false && /bin/true' >/dev/null 2>&1; then
+    bad "a failing && chain reported success through wsl.exe; the fix relies on it"
+  else
+    ok "a failing && chain does propagate through wsl.exe"
+  fi
 fi
 
 printf '\n%d passed, %d failed\n' "$pass" "$fail"

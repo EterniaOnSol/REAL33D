@@ -234,21 +234,49 @@ case "$TOOLCHAIN" in
   wsl)
     wrepo="$(to_wsl_path "$REPO")"
     wbuild="/tmp/real33d-harness-clientcore-$$"
+    # A plain && chain, and nothing after it.
+    #
+    # The string handed to `bash -c` through wsl.exe is expanded once more
+    # before the inner shell sees it, so every $var and $? in it is replaced
+    # with the *outer* shell's value, usually empty. The previous form ended
+    # `rc=$?; rm -rf ...; exit $rc`, which arrived as `rc=; rm -rf ...; exit`,
+    # and a bare `exit` returns the status of the last command: the `rm`,
+    # which always succeeds. clientcore-tests could therefore never report
+    # FAIL, whatever cmake or ctest actually did.
+    #
+    # Leaving the chain as the final command makes wsl.exe propagate its own
+    # status, which it does correctly. Cleanup moves out of the measured
+    # command so it cannot overwrite the result.
     wsl.exe -d "$WSL_DISTRO" -- bash -c "
       cmake -S '$wrepo/clientcore' -B '$wbuild' -DCMAKE_BUILD_TYPE=Debug \
         && cmake --build '$wbuild' --parallel \
-        && ctest --test-dir '$wbuild' --output-on-failure
-      rc=\$?; rm -rf '$wbuild'; exit \$rc" >"$cc_log" 2>&1
+        && ctest --test-dir '$wbuild' --output-on-failure" >"$cc_log" 2>&1
     rc=$?
+    wsl.exe -d "$WSL_DISTRO" -- rm -rf "$wbuild" >/dev/null 2>&1
     ;;
 esac
+# Three things have to be true, not one.
+#
+# An exit status on its own was what allowed a configure error to be filed
+# as "PASS, 0 CTest suite(s) passed" -- a sentence that contradicts itself
+# and still counted as success. Zero suites means nothing ran, which is a
+# failure of the check rather than a pass with nothing in it, and ctest
+# prints its own verdict line, so that is required rather than inferred.
+passed="$(grep -cE 'Test +#[0-9]+:.*Passed' "$cc_log" 2>/dev/null)"
 if [ "$TOOLCHAIN" = "none" ]; then
   record clientcore-tests SKIP "$TOOLCHAIN_NOTE" clientcore-tests
-elif [ "$rc" -eq 0 ]; then
-  passed="$(grep -cE 'Test +#[0-9]+:.*Passed' "$cc_log" 2>/dev/null)"
-  record clientcore-tests PASS "$passed CTest suite(s) passed via $TOOLCHAIN" clientcore-tests
-else
+elif [ "$rc" -ne 0 ]; then
   record clientcore-tests FAIL "configure/build/ctest returned $rc via $TOOLCHAIN" clientcore-tests
+elif [ "$passed" -eq 0 ]; then
+  record clientcore-tests FAIL \
+    "exit 0 but no CTest suite ran via $TOOLCHAIN; configure or build produced no tests" \
+    clientcore-tests
+elif ! grep -q '100% tests passed' "$cc_log" 2>/dev/null; then
+  record clientcore-tests FAIL \
+    "$passed suite(s) ran via $TOOLCHAIN but ctest did not report 100% tests passed" \
+    clientcore-tests
+else
+  record clientcore-tests PASS "$passed CTest suite(s) passed via $TOOLCHAIN" clientcore-tests
 fi
 
 # ----------------------------------- check: REAL33D standalone unit tests ---
@@ -272,12 +300,21 @@ run_one_wsl() { # stem
   wrepo="$(to_wsl_path "$REPO")"
   [ "$stem" = "real33d_item_use_policy_tests" ] && [ -n "$OBJECTS_SRV" ] \
     && warg="'$(to_wsl_path "$OBJECTS_SRV")'"
+  # Same hazard as clientcore-tests above: $var and $? do not survive the
+  # hop into wsl.exe, so the old `rc=$?; rm -rf ...; exit $rc` tail reported
+  # success for a test binary that had just failed. The build directory is
+  # named by the caller instead of by mktemp, and the run is the last
+  # command, so its status is what wsl.exe returns.
+  local wout="/tmp/real33d-harness-native-$$-$stem"
   wsl.exe -d "$WSL_DISTRO" -- bash -c "
-    out=\$(mktemp -d)
-    g++ -std=c++17 -Wall -Wextra -Werror \
-      -I'$wrepo/unreal/REAL33D/Source/REAL33D/Public' \
-      -o \"\$out/$stem\" '$wrepo/tests/$stem.cpp' || { rm -rf \"\$out\"; exit 1; }
-    \"\$out/$stem\" $warg; rc=\$?; rm -rf \"\$out\"; exit \$rc" >>"$r33_log" 2>&1
+    mkdir -p '$wout' \
+      && g++ -std=c++17 -Wall -Wextra -Werror \
+        -I'$wrepo/unreal/REAL33D/Source/REAL33D/Public' \
+        -o '$wout/$stem' '$wrepo/tests/$stem.cpp' \
+      && '$wout/$stem' $warg" >>"$r33_log" 2>&1
+  local wrc=$?
+  wsl.exe -d "$WSL_DISTRO" -- rm -rf "$wout" >/dev/null 2>&1
+  return $wrc
 }
 
 if [ "$TOOLCHAIN" = "none" ]; then
