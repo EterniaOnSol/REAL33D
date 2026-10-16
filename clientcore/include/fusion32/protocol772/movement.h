@@ -5,6 +5,7 @@
 #include "fusion32/protocol772/map_scan.h"
 #include "fusion32/protocol772/object_types.h"
 #include "fusion32/protocol772/player_state.h"
+#include "fusion32/protocol772/trade.h"
 #include "fusion32/protocol772/worldstate.h"
 
 #include <cstddef>
@@ -247,6 +248,33 @@ std::vector<std::uint8_t> BuildUseOnCreatureCommand(const MoveEndpoint& object,
                                                     std::uint8_t stack_index,
                                                     std::uint32_t creature_id);
 
+/**
+ * Offers an object into a trade. CL_CMD_TRADE_OBJECT, opcode 125.
+ *
+ * Declared here, with the other builders that name an object, because it
+ * takes a MoveEndpoint; the rest of trade lives in trade.h and all of it is
+ * implemented in src/trade.cpp.
+ *
+ * The object is named the way every other object command names one: x/y/z,
+ * type id, stack index. `trade_partner` is the creature id of the player or
+ * NPC being traded with, which CTradeObject reads as a quad.
+ *
+ * Two server-side rules this builder does not apply, for the same reason
+ * BuildUseObjectCommand does not test MULTIUSE -- the caller states what it
+ * means and Fusion32 rules on it:
+ *
+ *  - CTradeObject returns without answering when the object's type
+ *    `isMapContainer()`. The type flags are not consulted here.
+ *  - For a map object, `if(ObjX != 0xFFFF){ RNum = 1; }`: the server
+ *    overwrites the stack index with 1 before resolving the object. Sending
+ *    the real stack index is still correct, and is still what
+ *    CheckVisibility is given; it is simply not what GetObject finally sees.
+ */
+std::vector<std::uint8_t> BuildTradeObjectCommand(const MoveEndpoint& object,
+                                                  std::uint16_t type_id,
+                                                  std::uint8_t stack_index,
+                                                  std::uint32_t trade_partner);
+
 /** CLookAtPoint reads only x/y/z. On the map Fusion32 chooses its top object;
  * for a body slot it chooses that slot; in a container z selects the item.
  * The description arrives through the ordinary SV_CMD_MESSAGE path. */
@@ -433,6 +461,7 @@ enum class ServerUpdateKind {
     Container,
     Buddy,
     OutfitDialog,
+    Trade,
     Unsupported,
 };
 
@@ -610,6 +639,7 @@ struct ServerUpdate {
     ContainerUpdate container;
     BuddyUpdate buddy;
     OutfitDialogUpdate outfit_dialog;
+    TradeUpdate trade;
 };
 
 struct ServerUpdateDecodeResult {

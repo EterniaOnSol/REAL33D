@@ -711,13 +711,21 @@ void TestNegativeCases() {
 
     // An opcode this layer does not decode consumes nothing and is named.
     // This was SV_CMD_CONTAINER until UNREAL-INVENTORY-CONTAINERS-001 decoded
-    // it; trade is the remaining example, and is out of scope for the same
-    // reason containers used to be -- nothing has demonstrated it.
-    const auto unsupported = DecodeServerUpdate({125, 1, 2, 3, 4, 5, 6}, 0, anchor, Types());
+    // it, and SV_CMD_TRADE_OFFER_OWN until CLIENTCORE-TRADE-772-001 did. The
+    // text editors are the remaining example, out of scope for the same
+    // reason the other two used to be -- nothing has demonstrated them.
+    const auto unsupported = DecodeServerUpdate({150, 1, 2, 3, 4, 5, 6}, 0, anchor, Types());
     CHECK(unsupported.ok());
     CHECK(unsupported.update.kind == ServerUpdateKind::Unsupported);
     CHECK(unsupported.update.bytes_consumed == 0);
-    CHECK(std::string(unsupported.update.name) == "SV_CMD_TRADE_OFFER_OWN");
+    CHECK(std::string(unsupported.update.name) == "SV_CMD_EDIT_TEXT");
+
+    // Trade is decoded now, and consumes its whole body. Leaving 125 in the
+    // check above would have quietly asserted the opposite.
+    const auto close_trade = DecodeServerUpdate({127}, 0, anchor, Types());
+    CHECK(close_trade.ok());
+    CHECK(close_trade.update.kind == ServerUpdateKind::Trade);
+    CHECK(std::string(ServerUpdateKindName(ServerUpdateKind::Trade)) == "Trade");
     CHECK(std::string(ServerUpdateKindName(ServerUpdateKind::Row)) == "Row");
 
     // Stack indexes at or beyond MAX_OBJECTS_PER_POINT cannot be produced by
