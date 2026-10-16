@@ -52,6 +52,57 @@ Run it from an x64 Native Tools Command Prompt, or call `vcvars64.bat` first. Th
 wsl.exe -d Ubuntu-26.04 -- bash /mnt/c/Users/dell/Desktop/fusion32/tests/secret_check.sh /mnt/c/Users/dell/Desktop/fusion32
 ```
 
+`regression_harness.sh` is the one command a 3D milestone runs before it claims anything. It records provenance, runs every check above that needs neither a live Fusion32 nor a human at the GUI, scans existing logs for protocol anomalies, and writes a Markdown report with one status per check:
+
+```bash
+bash tests/regression_harness.sh
+```
+
+It reports three statuses, never two. `SKIP` means the check could not execute and says why — an absent MSVC, an engine that was not asked for, an empty log scope. A `SKIP` is never rounded up to a `PASS`, because the report exists to be trusted. Overall is `FAIL` if anything failed, `PASS_WITH_SKIPS` if anything was skipped, `PASS` only when every check ran and passed. Exit is `1` on any `FAIL`, or on any `SKIP` under `--strict`.
+
+The checks are `provenance`, `branch-isolation`, `clientcore-tests` (the CTest suites), `real33d-native-tests` (the header-only `tests/real33d_*.cpp`), `secret-check`, `build-sanity-msvc`, `unreal-module-build` and `protocol-log-check`, followed by `output-secret-scan` over everything the run just wrote.
+
+It borrows a toolchain from WSL when Windows has no native compiler, so the same command works from Git Bash, from WSL and from Linux CI. `build-sanity-msvc` needs `cl.exe` on PATH, so run from an x64 Native Tools prompt to get it; the Unreal module build is opt-in with `--unreal` because a full editor build is not a safe CI default.
+
+`protocol-log-check` looks for `unsupported_opcodes`, `protocol_anomalies` and `residual_bytes` above zero, and for the bridge diagnostics that name a command left unwalked.
+
+### The two Windows checks, and why exit status is not enough
+
+`build-sanity-msvc` and `unreal-module-build` launch a Windows build. Both also require the success line that build prints for itself — `WINDOWS CLIENTCORE: PASS` and `Result: Succeeded` respectively. Exit 0 without that line is `FAIL`, reported as *"exit 0 but the log does not contain '…'; the build did not run"*.
+
+That is not belt-and-braces. Until 2026-10-15 both checks were written as `cmd.exe /c "<command>"`, and from Git Bash that ran nothing: MSYS rewrites an argument that looks like an absolute Unix path, so the `/c` **switch** arrived as the path `C:/`, cmd started interactively, read EOF from the redirected stdin, printed its banner and exited 0. Both checks recorded `PASS` against a four-line log containing no build output.
+
+Launch Windows commands through `run_windows_command`, which writes the line to a temporary `.cmd` and runs it by path with argument conversion disabled and stdin closed. Keep the switch as `/c`: `//c` also works under Git Bash, but only *because* MSYS collapses it back to `/c`, so it breaks as soon as conversion is disabled and is wrong on a non-MSYS host. Disabling conversion **and** writing `//c` cancel out and silently restore the original bug.
+
+`regression_harness_selftest.sh` is the guard. It drives the real harness against a throwaway fixture repository whose batch files it writes, so it exercises the real `cmd.exe` rather than a mock, and asserts all four outcomes: the command actually executes (the fixture leaves a sentinel on disk), a no-op exit 0 is `FAIL`, a real success is `PASS`, a non-zero exit is `FAIL`, and an absent toolchain is still `SKIP`.
+
+```bash
+bash tests/regression_harness_selftest.sh
+```
+
+It skips cleanly where there is no `cmd.exe`. Run it from an x64 Native Tools prompt to exercise the `build-sanity-msvc` cases too; without `cl.exe` on PATH those report `SKIP` instead of asserting.
+
+### Log scope policy
+
+This is the rule the check exists to enforce, and it is not a preference:
+
+- **The default scope is milestone-scoped.** Only evidence logs the current branch added or changed against `origin/main` are scanned — machine-written `.json`, `.jsonl`, `.txt` and `.log` files. A milestone is judged on the sessions it actually produced.
+- **`--logs-all` is historical audit only.** It is a census of the whole `evidence/` tree, useful for asking how widespread a known gap is. It is never the gate for a milestone and its result is never a milestone's result.
+- **A historical anomaly is not attributable to the current milestone unless that milestone's own logs reproduce it.** Nine logs under `evidence/` carry the long-known `SV_CMD_TALK` chat gap. A `--logs-all` run will keep reporting them for as long as they exist. Quoting that FAIL as if the current work caused it is a misattribution, and the reason the default scope is narrow: a check that re-reports adjudicated history on every run stops being read.
+- **The `PASS` / `FAIL` / `SKIP` semantics do not change with scope.** An empty scope is `SKIP` — no logs were examined, so nothing is claimed. It is never a `PASS`. Widening the scope widens what is examined; it never relaxes what a status means.
+
+`--logs PATH` adds a file or directory on top of the default scope. Explicitly named paths are scanned whatever their extension, because naming a file is the caller saying they meant that file.
+
+The harness is read-only against the repository. It writes only under `--out`, which defaults inside the gitignored `build/` tree, starts no server, launches no client and modifies no gameplay or protocol. Nothing it reports is live proof; live certification remains a separate, operator-driven step.
+
+```bash
+# full local run, including the MSVC archive Unreal links and the engine build
+bash tests/regression_harness.sh --unreal --objects-srv /path/to/objects.srv
+
+# CI gate: fail on anything that could not be executed
+bash tests/regression_harness.sh --no-wsl --allow-main --strict
+```
+
 Subsequent protocol tests should keep covering both directions:
 
 - known packet bytes -> expected typed semantic event;
