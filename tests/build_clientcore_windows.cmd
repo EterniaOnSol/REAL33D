@@ -43,7 +43,7 @@ mkdir "%LIBDIR%"
 mkdir "%LIBDIR20%"
 
 set "CORE=%ROOT%\clientcore"
-set "SOURCES=channels chat_log crypto framed_connection framing gamelogin initial_world login map_scan minimap movement movement_actions movement_ledger object_types player_state talk_command talk_speaker tcp_transport trade worldstate worldview"
+set "SOURCES=channels chat_log crypto editors framed_connection framing gamelogin initial_world login map_scan minimap movement movement_actions movement_ledger object_types player_state talk_command talk_speaker tcp_transport trade worldstate worldview"
 set "COMMON=/nologo /EHsc /W4 /WX /permissive- /MD /O2 /D_CRT_SECURE_NO_WARNINGS"
 set "FLAGS=/std:c++17 %COMMON%"
 set "INCS=/I"%CORE%\include" /I"%CORE%\tests" /I"%SSLINC%""
@@ -82,6 +82,7 @@ call :suite initial_world
 call :suite movement
 call :suite player_state
 call :suite worldview
+call :suite editors
 call :suite channels
 call :suite trade
 call :suite movement_actions

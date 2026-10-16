@@ -110,6 +110,7 @@ add_library(protocol772_initial_world
     src/player_state.cpp
     src/trade.cpp
     src/channels.cpp
+    src/editors.cpp
     src/worldstate.cpp
     src/worldview.cpp
 )
@@ -325,6 +326,23 @@ if(BUILD_TESTING)
 
     add_test(NAME protocol772_channels_tests COMMAND protocol772_channels_tests)
     set_tests_properties(protocol772_channels_tests PROPERTIES TIMEOUT 120)
+
+    add_executable(protocol772_editors_tests
+        tests/editors_tests.cpp
+    )
+    target_link_libraries(protocol772_editors_tests
+        PRIVATE
+            protocol772_initial_world
+    )
+
+    if(MSVC)
+        target_compile_options(protocol772_editors_tests PRIVATE /W4 /WX /permissive-)
+    else()
+        target_compile_options(protocol772_editors_tests PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    endif()
+
+    add_test(NAME protocol772_editors_tests COMMAND protocol772_editors_tests)
+    set_tests_properties(protocol772_editors_tests PROPERTIES TIMEOUT 120)
 
     add_executable(protocol772_minimap_tests tests/minimap_tests.cpp)
     target_link_libraries(protocol772_minimap_tests PRIVATE protocol772_initial_world)
