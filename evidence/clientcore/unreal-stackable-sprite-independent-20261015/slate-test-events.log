@@ -1,0 +1,27 @@
+﻿[2026.10.16-03.19.22:429][  0]Cmd: Automation RunTests REAL33D.Certification.StackableSpriteFiles
+[2026.10.16-03.19.22:433][  0]Automation: RunTests='REAL33D.Certification.StackableSpriteFiles' Queued.
+[2026.10.16-03.19.23:123][  2]LogAutomationCommandLine: Display: Ready to start automation
+[2026.10.16-03.19.28:155][294]LogAutomationController: Received FindWorkersResponseMessage from 2A3BDBA745D228AF8F02F9B0ACC6C095
+[2026.10.16-03.19.28:155][294]LogAutomationController: Requesting test list from 2A3BDBA745D228AF8F02F9B0ACC6C095
+[2026.10.16-03.19.28:227][295]LogAutomationController: Received RequestTestsReplyCompleteMessage from 2A3BDBA745D228AF8F02F9B0ACC6C095
+[2026.10.16-03.19.28:232][295]LogAutomationController: 6359 tests available on 2A3BDBA745D228AF8F02F9B0ACC6C095
+[2026.10.16-03.19.28:281][295]LogAutomationCommandLine: Display: Found 1 automation tests based on 'REAL33D.Certification.StackableSpriteFiles'
+[2026.10.16-03.19.28:281][295]LogAutomationCommandLine: Display: 	REAL33D.Certification.StackableSpriteFiles
+[2026.10.16-03.19.28:282][295]LogAutomationController: Sending StopTests to 2A3BDBA745D228AF8F02F9B0ACC6C095
+[2026.10.16-03.19.28:288][295]LogAutomationController: Display: Loading results html template...
+[2026.10.16-03.19.28:363][295]LogAutomationController: Display: Successfully wrote html results file!
+[2026.10.16-03.19.28:363][295]LogAutomationController: Sending StartTestSession to 2A3BDBA745D228AF8F02F9B0ACC6C095
+[2026.10.16-03.19.28:363][295]LogAutomationController: Display: Clearing ../../../../../../Users/dell/Desktop/fusion32/build/cert-stackable-20261015/unreal/REAL33D/Saved/Automation/Logs/ and ../../../../../../Users/dell/Desktop/fusion32/build/cert-stackable-20261015/unreal/REAL33D/Saved/Automation/Tmp/
+[2026.10.16-03.19.28:365][295]LogAutomationController: Sending RunTest StackableSpriteFiles to 2A3BDBA745D228AF8F02F9B0ACC6C095
+[2026.10.16-03.19.28:365][296]LogAutomationController: Display: Test Started. Name={StackableSpriteFiles} Path={REAL33D.Certification.StackableSpriteFiles}
+[2026.10.16-03.19.28:384][297]LogAutomationController: Display: Test Completed. Result={Success} Name={StackableSpriteFiles} Path={REAL33D.Certification.StackableSpriteFiles}
+[2026.10.16-03.19.28:384][297]LogAutomationController: BeginEvents: REAL33D.Certification.StackableSpriteFiles
+[2026.10.16-03.19.28:384][297]LogAutomationController: EndEvents: REAL33D.Certification.StackableSpriteFiles
+[2026.10.16-03.19.28:386][297]LogAutomationController: Display: Exporting Automation Report.
+[2026.10.16-03.19.28:386][297]LogAutomationController: Display: Converting results to json object...
+[2026.10.16-03.19.28:388][297]LogAutomationController: Writing reports to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015/build/certification/slate-report...
+[2026.10.16-03.19.28:389][297]LogAutomationController: Display: Successfully wrote json results file!
+[2026.10.16-03.19.28:389][298]LogAutomationController: Exported report to 'C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015/build/certification/slate-report' in 0.00 Seconds
+[2026.10.16-03.19.28:389][298]LogAutomationController: Display: Report can be opened in the editor at 'C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015/build/certification/slate-report'
+[2026.10.16-03.19.28:389][298]LogAutomationController: Sending StopTestSession to 2A3BDBA745D228AF8F02F9B0ACC6C095
+[2026.10.16-03.19.28:389][298]LogAutomationCommandLine: Display: ...Automation Test Queue Empty 1 tests performed.

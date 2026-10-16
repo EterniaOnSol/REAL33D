@@ -1,0 +1,6 @@
+ M PARITY_MATRIX.md
+ M PROJECT_STATUS.md
+ M handoffs/CURRENT.md
+?? evidence/clientcore/UNREAL-STACKABLE-SPRITE-PATTERNS-001-INDEPENDENT-20261015.md
+?? evidence/clientcore/unreal-stackable-sprite-independent-20261015/
+?? handoffs/archive/UNREAL-WORLD-PRESENTATION-POLISH-001-INDEPENDENT-BEFORE-STACKABLE-20261015.md

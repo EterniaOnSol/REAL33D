@@ -1,0 +1,421 @@
+﻿[2026.10.16-02.45.05:649][  0]LogReal33D: scene built from code
+[2026.10.16-02.45.05:664][  0]LogReal33D: minimap palette: 2502 appearance colors; no map input
+[2026.10.16-02.45.05:689][  0]LogReal33D: Use With target cursor: existing asset loaded
+[2026.10.16-02.45.05:733][  0]LogReal33D: Error: approved obj:3501 mailbox mesh is missing
+[2026.10.16-02.45.05:828][  0]LogReal33D: Warning: experimental V08 QA catalog ENABLED: 4913 entries; TEST_IMPORTED is not APPROVED/READY/INTEGRATED
+[2026.10.16-02.45.05:843][  0]LogReal33D: brother creature catalog enabled: 16 exact outfit mappings
+[2026.10.16-02.45.05:843][  0]LogReal33D: wide world enabled: radius=64 sector=32 cache=C:/Users/dell/Desktop/fusion32/unreal/REAL33D/Saved/WideWorldCache fallback=C:/Users/dell/Desktop/fusion32/visual/reference_pack/previews/item
+[2026.10.16-02.45.05:843][  0]LogReal33D: connecting to 127.0.0.1:7171 as account B
+[2026.10.16-02.45.05:847][  0]LogReal33D: speech display lifetime 6.0s (NOT a proven 7.72 value)
+[2026.10.16-02.45.05:951][  0]LogReal33D: Use target metadata: 204 runtime MultiUse types
+[2026.10.16-02.46.38:977][  1]LogReal33D: HUD vitals: HP --/--   Mana --/--   Level --
+[2026.10.16-02.46.38:978][  1]LogReal33D: minimap observation: player=32092,32204,7 known=252 live=252 viewport=18x14
+[2026.10.16-02.46.39:030][  1]LogReal33D: connected: Test Player B
+[2026.10.16-02.46.39:030][  1]LogReal33D: server message [LoginMessage]: Your last visit in Tibia: 15. Oct 2026 20:18:25 CST.
+[2026.10.16-02.46.39:030][  1]LogReal33D: local player is creature 1002
+[2026.10.16-02.46.40:006][  1]LogReal33D: creature 1002 outfit 136: delivered visual unavailable; placeholder
+[2026.10.16-02.46.40:006][  1]LogReal33D: creature 1002 "Test Player B" appeared at 32092,32204,7 health 39%
+[2026.10.16-02.46.40:008][  1]LogReal33D: creature 1073742021 outfit 129: delivered visual unavailable; placeholder
+[2026.10.16-02.46.40:008][  1]LogReal33D: creature 1073742021 "Tom" appeared at 32085,32199,7 health 100%
+[2026.10.16-02.46.40:242][  1]LogReal33D: wide world loaded sector X=1000 Y=1004 Z=4: objects=51 V08_RESOLVED=51 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.40:301][  1]LogReal33D: wide world loaded sector X=1004 Y=1005 Z=3: objects=35 V08_RESOLVED=35 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.42:180][  1]LogReal33D: wide world loaded sector X=1001 Y=1005 Z=4: objects=46 V08_RESOLVED=46 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.42:288][  1]LogReal33D: wide world loaded sector X=1000 Y=1004 Z=3: objects=59 V08_RESOLVED=59 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.42:354][  1]LogReal33D: wide world loaded sector X=1003 Y=1004 Z=4: objects=39 V08_RESOLVED=39 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.42:355][  1]LogReal33D: wide world loaded sector X=1000 Y=1004 Z=5: objects=52 V08_RESOLVED=52 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.42:644][  1]LogReal33D: wide world loaded sector X=1004 Y=1005 Z=4: objects=68 V08_RESOLVED=68 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.42:795][  1]LogReal33D: wide world loaded sector X=1000 Y=1006 Z=5: objects=135 V08_RESOLVED=135 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.42:799][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32083,32144,5
+[2026.10.16-02.46.42:837][  1]LogReal33D: wide world loaded sector X=1002 Y=1004 Z=5: objects=50 V08_RESOLVED=49 CLASSIC_SPRITE_FALLBACK=1 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.42:984][  1]LogReal33D: wide world loaded sector X=1001 Y=1005 Z=5: objects=190 V08_RESOLVED=190 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.42:988][  1]LogReal33D: wide world loaded sector X=1001 Y=1006 Z=5: objects=108 V08_RESOLVED=108 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.43:013][  1]LogReal33D: wide world loaded sector X=1002 Y=1005 Z=5: objects=116 V08_RESOLVED=116 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.43:054][  1]LogReal33D: wide world loaded sector X=1002 Y=1006 Z=5: objects=171 V08_RESOLVED=171 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.43:082][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32098,32181,5
+[2026.10.16-02.46.43:118][  1]LogReal33D: wide world loaded sector X=1003 Y=1005 Z=5: objects=103 V08_RESOLVED=102 CLASSIC_SPRITE_FALLBACK=1 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.43:226][  1]LogReal33D: wide world loaded sector X=1004 Y=1005 Z=5: objects=73 V08_RESOLVED=73 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.43:241][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32011,32135,6
+[2026.10.16-02.46.43:468][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32015,32144,6
+[2026.10.16-02.46.43:518][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32017,32131,6
+[2026.10.16-02.46.43:652][  1]LogReal33D: wide world loaded sector X=1000 Y=1004 Z=6: objects=264 V08_RESOLVED=261 CLASSIC_SPRITE_FALLBACK=3 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.43:679][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32098,32197,5
+[2026.10.16-02.46.43:701][  1]LogReal33D: wide world loaded sector X=1003 Y=1006 Z=5: objects=299 V08_RESOLVED=298 CLASSIC_SPRITE_FALLBACK=1 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.43:730][  1]LogReal33D: wide world loaded sector X=1000 Y=1005 Z=6: objects=41 V08_RESOLVED=41 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.43:732][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32001,32225,6
+[2026.10.16-02.46.43:732][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32025,32243,6
+[2026.10.16-02.46.43:839][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32030,32249,6
+[2026.10.16-02.46.43:839][  1]LogReal33D: wide world loaded sector X=1000 Y=1007 Z=6: objects=84 V08_RESOLVED=81 CLASSIC_SPRITE_FALLBACK=3 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.43:861][  1]LogReal33D: wide world loaded sector X=1003 Y=1004 Z=5: objects=39 V08_RESOLVED=39 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.43:932][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32008,32197,6
+[2026.10.16-02.46.44:366][  1]LogReal33D: wide world loaded sector X=1000 Y=1006 Z=6: objects=299 V08_RESOLVED=298 CLASSIC_SPRITE_FALLBACK=1 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.44:391][  1]LogReal33D: wide world loaded sector X=1001 Y=1004 Z=6: objects=63 V08_RESOLVED=63 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.44:630][  1]LogReal33D: wide world loaded sector X=1001 Y=1005 Z=6: objects=325 V08_RESOLVED=325 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.44:632][  1]LogReal33D: wide world loaded sector X=1001 Y=1007 Z=6: objects=83 V08_RESOLVED=83 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.44:692][  1]LogReal33D: wide world loaded sector X=1001 Y=1006 Z=6: objects=292 V08_RESOLVED=292 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.44:693][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32065,32155,6
+[2026.10.16-02.46.44:693][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32067,32138,6
+[2026.10.16-02.46.44:849][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32089,32147,6
+[2026.10.16-02.46.44:906][  1]LogReal33D: wide world loaded sector X=1002 Y=1004 Z=6: objects=377 V08_RESOLVED=374 CLASSIC_SPRITE_FALLBACK=3 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.45:018][  1]LogReal33D: wide world loaded sector X=1002 Y=1005 Z=6: objects=362 V08_RESOLVED=362 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.45:051][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32093,32235,6
+[2026.10.16-02.46.45:055][  1]LogReal33D: wide world loaded sector X=1002 Y=1007 Z=6: objects=190 V08_RESOLVED=189 CLASSIC_SPRITE_FALLBACK=1 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.45:321][  1]LogReal33D: wide world loaded sector X=1002 Y=1006 Z=6: objects=476 V08_RESOLVED=476 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.45:390][  1]LogReal33D: wide world loaded sector X=1003 Y=1004 Z=6: objects=250 V08_RESOLVED=250 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.45:658][  1]LogReal33D: wide world loaded sector X=1003 Y=1006 Z=6: objects=503 V08_RESOLVED=503 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.45:697][  1]LogReal33D: wide world loaded sector X=1003 Y=1005 Z=6: objects=243 V08_RESOLVED=243 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.45:701][  1]LogReal33D: wide world loaded sector X=1004 Y=1004 Z=6: objects=223 V08_RESOLVED=223 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.45:702][  1]LogReal33D: wide world loaded sector X=1004 Y=1007 Z=6: objects=26 V08_RESOLVED=26 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.45:704][  1]LogReal33D: wide world loaded sector X=1003 Y=1007 Z=6: objects=113 V08_RESOLVED=113 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.45:721][  1]LogReal33D: wide world loaded sector X=1004 Y=1006 Z=6: objects=117 V08_RESOLVED=117 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.45:774][  1]LogReal33D: wide world loaded sector X=1004 Y=1005 Z=6: objects=305 V08_RESOLVED=305 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.46:215][  1]LogReal33D: wide world loaded sector X=1000 Y=1004 Z=7: objects=1601 V08_RESOLVED=1601 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.46:593][  1]LogReal33D: wide world loaded sector X=1000 Y=1007 Z=7: objects=1341 V08_RESOLVED=1341 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.47:006][  1]LogReal33D: wide world loaded sector X=1000 Y=1006 Z=7: objects=1497 V08_RESOLVED=1497 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.47:776][  1]LogReal33D: wide world loaded sector X=1000 Y=1005 Z=7: objects=1786 V08_RESOLVED=1786 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.47:783][  1]LogReal33D: wide world loaded sector X=1000 Y=1008 Z=7: objects=1024 V08_RESOLVED=1024 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.47:816][  1]LogReal33D: wide world loaded sector X=1001 Y=1007 Z=7: objects=1506 V08_RESOLVED=1506 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.48:177][  1]LogReal33D: wide world loaded sector X=1001 Y=1006 Z=7: objects=1712 V08_RESOLVED=1712 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.48:193][  1]LogReal33D: wide world loaded sector X=1001 Y=1004 Z=7: objects=1288 V08_RESOLVED=1288 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.48:477][  1]LogReal33D: wide world loaded sector X=1002 Y=1004 Z=7: objects=1625 V08_RESOLVED=1625 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.48:639][  1]LogReal33D: wide world loaded sector X=1001 Y=1005 Z=7: objects=1813 V08_RESOLVED=1813 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.48:647][  1]LogReal33D: wide world loaded sector X=1001 Y=1008 Z=7: objects=1024 V08_RESOLVED=1024 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.48:929][  1]LogReal33D: wide world loaded sector X=1002 Y=1005 Z=7: objects=1671 V08_RESOLVED=1671 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.49:414][  1]LogReal33D: wide world loaded sector X=1002 Y=1007 Z=7: objects=1440 V08_RESOLVED=1440 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.49:692][  1]LogReal33D: wide world loaded sector X=1002 Y=1006 Z=7: objects=1652 V08_RESOLVED=1652 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.49:712][  1]LogReal33D: wide world loaded sector X=1003 Y=1004 Z=7: objects=1456 V08_RESOLVED=1456 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.50:024][  1]LogReal33D: wide world loaded sector X=1003 Y=1006 Z=7: objects=1443 V08_RESOLVED=1443 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.50:028][  1]LogReal33D: wide world loaded sector X=1002 Y=1008 Z=7: objects=1024 V08_RESOLVED=1024 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.50:076][  1]LogReal33D: wide world loaded sector X=1003 Y=1005 Z=7: objects=1398 V08_RESOLVED=1398 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.50:081][  1]LogReal33D: wide world loaded sector X=1003 Y=1008 Z=7: objects=1024 V08_RESOLVED=1024 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.50:209][  1]LogReal33D: wide world loaded sector X=1004 Y=1005 Z=7: objects=1481 V08_RESOLVED=1481 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.50:217][  1]LogReal33D: wide world loaded sector X=1003 Y=1007 Z=7: objects=1412 V08_RESOLVED=1412 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.50:229][  1]LogReal33D: wide world loaded sector X=1004 Y=1004 Z=7: objects=1488 V08_RESOLVED=1488 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.50:240][  1]LogReal33D: wide world loaded sector X=1004 Y=1006 Z=7: objects=1415 V08_RESOLVED=1415 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.50:246][  1]LogReal33D: wide world loaded sector X=1004 Y=1008 Z=7: objects=1024 V08_RESOLVED=1024 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.50:253][  1]LogReal33D: wide world loaded sector X=1004 Y=1007 Z=7: objects=1105 V08_RESOLVED=1105 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-02.46.50:705][  2]LogReal33D: HUD vitals: HP 65/165   Mana 15/15   Level 4
+[2026.10.16-02.46.50:724][  2]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_MinimapInitial.json
+[2026.10.16-02.47.10:031][689]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_MinimapSettled.json
+[2026.10.16-02.47.57:664][447]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Manual_20261016T024757_663.json
+[2026.10.16-02.47.57:720][447]LogReal33D: manual evidence snapshot requested
+[2026.10.16-02.48.06:197][724]LogReal33D: use 1: object 2854 at body 0 slot 3, would open as container 0
+[2026.10.16-02.48.08:398][794]LogReal33D: world-to-slot drag 2: object=3031 from=32092,32203,7 stack=1 to=container 0 slot=0 count=1
+[2026.10.16-02.48.11:430][890]LogReal33D: world-to-slot drag 3: object=3031 from=32092,32203,7 stack=1 to=container 0 slot=0 count=1
+[2026.10.16-02.48.13:283][947]LogReal33D: world-to-slot drag 4: object=3031 from=32092,32203,7 stack=1 to=container 0 slot=0 count=1
+[2026.10.16-02.49.26:957][ 17]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Manual_20261016T024926_957.json
+[2026.10.16-02.49.27:009][ 17]LogReal33D: manual evidence snapshot requested
+[2026.10.16-02.50.22:972][958]LogReal33D: world-to-slot drag 5: object=3031 from=32092,32203,7 stack=1 to=body 0 slot=10 count=1
+[2026.10.16-02.50.47:038][364]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Manual_20261016T025047_036.json
+[2026.10.16-02.50.47:103][364]LogReal33D: manual evidence snapshot requested
+[2026.10.16-03.00.45:342][ 95]LogReal33D: slot drag detected: object 3031
+[2026.10.16-03.00.46:122][108]LogReal33D: slot drop: valid=1 onto kind=2 slot=0
+[2026.10.16-03.00.46:122][108]LogReal33D: move 6: object 3031 from body 0 slot 10 to container 0 slot 0, count 1
+[2026.10.16-03.01.04:894][419]LogReal33D: world-to-slot drag 7: object=3031 from=32092,32203,7 stack=1 to=container 0 slot=0 count=1
+[2026.10.16-03.01.29:311][823]LogReal33D: world-to-slot drag 8: object=3031 from=32092,32203,7 stack=1 to=container 0 slot=0 count=1
+[2026.10.16-03.01.31:299][856]LogReal33D: world-to-slot drag 9: object=3031 from=32092,32203,7 stack=1 to=container 0 slot=0 count=1
+[2026.10.16-03.01.33:403][891]LogReal33D: world-to-slot drag 10: object=3031 from=32092,32203,7 stack=1 to=container 0 slot=0 count=1
+[2026.10.16-03.01.35:213][921]LogReal33D: world-to-slot drag 11: object=3031 from=32092,32203,7 stack=1 to=container 0 slot=0 count=1
+[2026.10.16-03.01.36:720][946]LogReal33D: world-to-slot drag 12: object=3031 from=32092,32203,7 stack=1 to=container 0 slot=0 count=1
+[2026.10.16-03.01.38:646][978]LogReal33D: world-to-slot drag 13: object=3031 from=32092,32203,7 stack=1 to=container 0 slot=0 count=1
+[2026.10.16-03.02.06:922][446]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Manual_20261016T030206_921.json
+[2026.10.16-03.02.06:981][446]LogReal33D: manual evidence snapshot requested
+[2026.10.16-03.02.42:933][ 34]LogReal33D: slot drag detected: object 3031
+[2026.10.16-03.02.43:644][ 46]LogReal33D: slot drop: valid=1 onto kind=1 slot=10
+[2026.10.16-03.02.43:644][ 46]LogReal33D: move 14: object 3031 from container 0 slot 0 to body 0 slot 10, count 12
+[2026.10.16-03.03.26:026][746]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Manual_20261016T030326_025.json
+[2026.10.16-03.03.26:094][746]LogReal33D: manual evidence snapshot requested
+[2026.10.16-03.04.35:169][876]LogReal33D: left-click walk: target 32098,32202,7, 8 cardinal steps
+[2026.10.16-03.04.35:169][876]LogReal33D: input 15: left-click walk direction 0 to 32092,32203,7
+[2026.10.16-03.04.35:229][877]LogReal33D: input 15: walk command 1 sent to Fusion32
+[2026.10.16-03.04.35:346][879]LogReal33D: minimap observation: player=32092,32203,7 known=270 live=252 viewport=18x14
+[2026.10.16-03.04.35:414][879]LogReal33D: input 15: Fusion32 accepted request 1, 32092,32204,7 -> 32092,32203,7
+[2026.10.16-03.04.35:643][884]LogReal33D: input 16: left-click walk direction 1 to 32093,32203,7
+[2026.10.16-03.04.35:705][885]LogReal33D: input 16: walk command 2 sent to Fusion32
+[2026.10.16-03.04.35:828][887]LogReal33D: minimap observation: player=32093,32203,7 known=284 live=252 viewport=18x14
+[2026.10.16-03.04.35:892][887]LogReal33D: input 16: Fusion32 accepted request 2, 32092,32203,7 -> 32093,32203,7
+[2026.10.16-03.04.36:130][892]LogReal33D: input 17: left-click walk direction 1 to 32094,32203,7
+[2026.10.16-03.04.36:249][894]LogReal33D: input 17: walk command 3 sent to Fusion32
+[2026.10.16-03.04.36:310][895]LogReal33D: minimap observation: player=32094,32203,7 known=298 live=252 viewport=18x14
+[2026.10.16-03.04.36:364][895]LogReal33D: input 17: Fusion32 accepted request 3, 32093,32203,7 -> 32094,32203,7
+[2026.10.16-03.04.36:552][899]LogReal33D: left-click walk: target 32097,32202,7, 4 cardinal steps
+[2026.10.16-03.04.36:614][900]LogReal33D: input 18: left-click walk direction 1 to 32095,32203,7
+[2026.10.16-03.04.36:671][901]LogReal33D: input 18: walk command 4 sent to Fusion32
+[2026.10.16-03.04.36:733][902]LogReal33D: minimap observation: player=32095,32203,7 known=312 live=252 viewport=18x14
+[2026.10.16-03.04.36:774][902]LogReal33D: input 18: Fusion32 accepted request 4, 32094,32203,7 -> 32095,32203,7
+[2026.10.16-03.04.36:778][902]LogReal33D: creature 1073742106 outfit 136: delivered visual unavailable; placeholder
+[2026.10.16-03.04.36:778][902]LogReal33D: creature 1073742106 "Dixi" appeared at 32105,32207,6 health 100%
+[2026.10.16-03.04.37:092][908]LogReal33D: left-click walk: no reachable observed route/frontier
+[2026.10.16-03.04.38:044][924]LogReal33D: left-click walk: no reachable observed route/frontier
+[2026.10.16-03.04.38:407][930]LogReal33D: left-click walk: no reachable observed route/frontier
+[2026.10.16-03.04.38:705][935]LogReal33D: left-click walk: no reachable observed route/frontier
+[2026.10.16-03.04.39:242][944]LogReal33D: left-click walk: no reachable observed route/frontier
+[2026.10.16-03.04.40:018][957]LogReal33D: left-click walk: no reachable observed route/frontier
+[2026.10.16-03.04.40:920][972]LogReal33D: left-click walk: target 32096,32204,7, 2 cardinal steps
+[2026.10.16-03.04.40:920][972]LogReal33D: input 19: left-click walk direction 2 to 32095,32204,7
+[2026.10.16-03.04.40:981][973]LogReal33D: input 19: walk command 5 sent to Fusion32
+[2026.10.16-03.04.41:042][974]LogReal33D: minimap observation: player=32095,32204,7 known=315 live=252 viewport=18x14
+[2026.10.16-03.04.41:095][974]LogReal33D: input 19: Fusion32 accepted request 5, 32095,32203,7 -> 32095,32204,7
+[2026.10.16-03.04.41:397][980]LogReal33D: input 20: left-click walk direction 1 to 32096,32204,7
+[2026.10.16-03.04.41:461][981]LogReal33D: input 20: walk command 6 sent to Fusion32
+[2026.10.16-03.04.41:576][983]LogReal33D: minimap observation: player=32096,32204,7 known=329 live=252 viewport=18x14
+[2026.10.16-03.04.41:621][983]LogReal33D: input 20: Fusion32 accepted request 6, 32095,32204,7 -> 32096,32204,7
+[2026.10.16-03.04.41:632][983]LogReal33D: wide world loaded sector X=1005 Y=1004 Z=6: objects=68 V08_RESOLVED=68 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-03.04.41:895][983]LogReal33D: wide world loaded sector X=1005 Y=1004 Z=5: objects=22 V08_RESOLVED=22 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-03.04.42:046][983]LogReal33D: wide world loaded sector X=1005 Y=1004 Z=7: objects=1214 V08_RESOLVED=1214 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-03.04.42:185][983]LogReal33D: wide world loaded sector X=1005 Y=1005 Z=7: objects=1245 V08_RESOLVED=1245 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-03.04.42:196][983]LogReal33D: wide world loaded sector X=1005 Y=1007 Z=7: objects=1024 V08_RESOLVED=1024 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-03.04.42:208][983]LogReal33D: wide world loaded sector X=1005 Y=1008 Z=7: objects=1024 V08_RESOLVED=1024 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-03.04.43:117][983]LogReal33D: wide world loaded sector X=1005 Y=1006 Z=7: objects=1210 V08_RESOLVED=1210 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-03.04.43:204][984]LogReal33D: use 21 from world: object 1152 at 32103,32207,5 stack 0, would open as container 1
+[2026.10.16-03.04.43:204][984]LogReal33D: use 22 from world: object 1152 at 32103,32207,5 stack 0, would open as container 1
+[2026.10.16-03.04.43:334][987]LogReal33D: server message [FailureMessage]: First go upstairs.
+[2026.10.16-03.04.43:335][987]LogReal33D: server message [FailureMessage]: First go upstairs.
+[2026.10.16-03.04.49:510][115]LogReal33D: left-click walk: target 32104,32206,7, 10 cardinal steps
+[2026.10.16-03.04.49:510][115]LogReal33D: input 23: left-click walk direction 2 to 32096,32205,7
+[2026.10.16-03.04.49:560][116]LogReal33D: input 23: walk command 7 sent to Fusion32
+[2026.10.16-03.04.49:652][118]LogReal33D: minimap observation: player=32096,32205,7 known=347 live=252 viewport=18x14
+[2026.10.16-03.04.49:682][118]LogReal33D: input 23: Fusion32 accepted request 7, 32096,32204,7 -> 32096,32205,7
+[2026.10.16-03.04.49:983][125]LogReal33D: input 24: left-click walk direction 1 to 32097,32205,7
+[2026.10.16-03.04.50:076][127]LogReal33D: input 24: walk command 8 sent to Fusion32
+[2026.10.16-03.04.50:125][128]LogReal33D: minimap observation: player=32097,32205,7 known=361 live=252 viewport=18x14
+[2026.10.16-03.04.50:177][128]LogReal33D: input 24: Fusion32 accepted request 8, 32096,32205,7 -> 32097,32205,7
+[2026.10.16-03.04.50:453][135]LogReal33D: input 25: left-click walk direction 1 to 32098,32205,7
+[2026.10.16-03.04.50:501][136]LogReal33D: input 25: walk command 9 sent to Fusion32
+[2026.10.16-03.04.50:595][138]LogReal33D: minimap observation: player=32098,32205,7 known=375 live=252 viewport=18x14
+[2026.10.16-03.04.50:651][138]LogReal33D: input 25: Fusion32 accepted request 9, 32097,32205,7 -> 32098,32205,7
+[2026.10.16-03.04.50:923][145]LogReal33D: input 26: left-click walk direction 1 to 32099,32205,7
+[2026.10.16-03.04.50:970][146]LogReal33D: input 26: walk command 10 sent to Fusion32
+[2026.10.16-03.04.51:064][148]LogReal33D: minimap observation: player=32099,32205,7 known=389 live=252 viewport=18x14
+[2026.10.16-03.04.51:110][148]LogReal33D: input 26: Fusion32 accepted request 10, 32098,32205,7 -> 32099,32205,7
+[2026.10.16-03.04.51:142][149]LogReal33D: left-click walk: target 32104,32205,7, 5 cardinal steps
+[2026.10.16-03.04.51:391][155]LogReal33D: input 27: left-click walk direction 1 to 32100,32205,7
+[2026.10.16-03.04.51:441][156]LogReal33D: input 27: walk command 11 sent to Fusion32
+[2026.10.16-03.04.51:535][158]LogReal33D: minimap observation: player=32100,32205,7 known=403 live=252 viewport=18x14
+[2026.10.16-03.04.51:595][158]LogReal33D: input 27: Fusion32 accepted request 11, 32099,32205,7 -> 32100,32205,7
+[2026.10.16-03.04.52:110][159]LogReal33D: creature 1073741976 outfit 128: brother visual loaded parts=8 height=104.0
+[2026.10.16-03.04.52:111][159]LogReal33D: creature 1073741976 "Obi" appeared at 32109,32204,7 health 100%
+[2026.10.16-03.04.52:184][160]LogReal33D: input 28: left-click walk direction 1 to 32101,32205,7
+[2026.10.16-03.04.52:201][161]LogReal33D: input 28: walk command 12 sent to Fusion32
+[2026.10.16-03.04.52:330][165]LogReal33D: minimap observation: player=32101,32205,7 known=417 live=252 viewport=18x14
+[2026.10.16-03.04.52:375][165]LogReal33D: input 28: Fusion32 accepted request 12, 32100,32205,7 -> 32101,32205,7
+[2026.10.16-03.04.52:642][172]LogReal33D: input 29: left-click walk direction 1 to 32102,32205,7
+[2026.10.16-03.04.52:690][173]LogReal33D: input 29: walk command 13 sent to Fusion32
+[2026.10.16-03.04.52:738][174]LogReal33D: minimap observation: player=32102,32205,7 known=431 live=252 viewport=18x14
+[2026.10.16-03.04.52:781][174]LogReal33D: input 29: Fusion32 accepted request 13, 32101,32205,7 -> 32102,32205,7
+[2026.10.16-03.04.53:114][182]LogReal33D: input 30: left-click walk direction 1 to 32103,32205,7
+[2026.10.16-03.04.53:196][184]LogReal33D: input 30: walk command 14 sent to Fusion32
+[2026.10.16-03.04.53:279][186]LogReal33D: minimap observation: player=32103,32205,7 known=445 live=252 viewport=18x14
+[2026.10.16-03.04.53:311][186]LogReal33D: input 30: Fusion32 accepted request 14, 32102,32205,7 -> 32103,32205,7
+[2026.10.16-03.04.53:567][193]LogReal33D: input 31: left-click walk direction 1 to 32104,32205,7
+[2026.10.16-03.04.53:650][195]LogReal33D: input 31: walk command 15 sent to Fusion32
+[2026.10.16-03.04.53:732][197]LogReal33D: minimap observation: player=32104,32205,7 known=459 live=252 viewport=18x14
+[2026.10.16-03.04.53:771][197]LogReal33D: input 31: Fusion32 accepted request 15, 32103,32205,7 -> 32104,32205,7
+[2026.10.16-03.04.54:020][204]LogReal33D: left-click walk arrived: authoritative player=32104,32205,7
+[2026.10.16-03.04.54:954][227]LogReal33D: left-click walk: target 32106,32205,7, 2 cardinal steps
+[2026.10.16-03.04.54:954][227]LogReal33D: input 32: left-click walk direction 1 to 32105,32205,7
+[2026.10.16-03.04.54:994][228]LogReal33D: input 32: walk command 16 sent to Fusion32
+[2026.10.16-03.04.55:074][230]LogReal33D: minimap observation: player=32105,32205,7 known=473 live=252 viewport=18x14
+[2026.10.16-03.04.55:107][230]LogReal33D: input 32: Fusion32 accepted request 16, 32104,32205,7 -> 32105,32205,7
+[2026.10.16-03.04.55:437][239]LogReal33D: input 33: left-click walk direction 1 to 32106,32205,7
+[2026.10.16-03.04.55:478][240]LogReal33D: left-click walk: target 32107,32205,7, 2 cardinal steps
+[2026.10.16-03.04.55:521][241]LogReal33D: input 33: walk command 17 sent to Fusion32
+[2026.10.16-03.04.55:642][244]LogReal33D: minimap observation: player=32106,32205,7 known=487 live=252 viewport=18x14
+[2026.10.16-03.04.55:680][244]LogReal33D: input 33: Fusion32 accepted request 17, 32105,32205,7 -> 32106,32205,7
+[2026.10.16-03.04.55:888][250]LogReal33D: left-click walk replanned from 32106,32205,7 to 32107,32205,7
+[2026.10.16-03.04.55:888][250]LogReal33D: input 34: left-click walk direction 1 to 32107,32205,7
+[2026.10.16-03.04.55:927][251]LogReal33D: input 34: walk command 18 sent to Fusion32
+[2026.10.16-03.04.56:047][254]LogReal33D: minimap observation: player=32107,32205,7 known=501 live=252 viewport=18x14
+[2026.10.16-03.04.56:072][254]LogReal33D: input 34: Fusion32 accepted request 18, 32106,32205,7 -> 32107,32205,7
+[2026.10.16-03.04.56:368][262]LogReal33D: left-click walk arrived: authoritative player=32107,32205,7
+[2026.10.16-03.05.08:088][558]LogReal33D: left-click walk: no reachable observed route/frontier
+[2026.10.16-03.05.09:116][584]LogReal33D: chat input active; movement keys are inert
+[2026.10.16-03.05.10:421][617]LogReal33D: Say 35: "hi" handed to Fusion32
+[2026.10.16-03.05.10:422][617]LogReal33D: chat input released; movement keys are live
+[2026.10.16-03.05.10:542][620]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030510_541.json
+[2026.10.16-03.05.10:607][620]LogReal33D: talk [Say] at 32107,32205,7, Test Player B: "hi"  speaker Resolved creature 1002
+[2026.10.16-03.05.11:517][629]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030511_516.json
+[2026.10.16-03.05.11:575][629]LogReal33D: talk [Say] at 32109,32204,7, Obi: "Hello, hello, Test Player B! Please come in, look, and buy!"  speaker Resolved creature 1073741976
+[2026.10.16-03.05.26:040][982]LogReal33D: Say 36: "buy torch" handed to Fusion32
+[2026.10.16-03.05.26:125][984]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030526_124.json
+[2026.10.16-03.05.26:191][984]LogReal33D: talk [Say] at 32107,32205,7, Test Player B: "buy torch"  speaker Resolved creature 1002
+[2026.10.16-03.05.27:112][994]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030527_111.json
+[2026.10.16-03.05.27:178][994]LogReal33D: talk [Say] at 32109,32204,7, Obi: "Do you want to buy a torch for 2 gold?"  speaker Resolved creature 1073741976
+[2026.10.16-03.05.32:998][128]LogReal33D: Say 37: "yes" handed to Fusion32
+[2026.10.16-03.05.33:082][130]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030533_081.json
+[2026.10.16-03.05.33:157][130]LogReal33D: talk [Say] at 32107,32205,7, Test Player B: "yes"  speaker Resolved creature 1002
+[2026.10.16-03.05.34:091][140]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030534_090.json
+[2026.10.16-03.05.34:155][140]LogReal33D: talk [Say] at 32109,32204,7, Obi: "Thank you. Here it is."  speaker Resolved creature 1073741976
+[2026.10.16-03.06.09:300][ 14]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030609_295.json
+[2026.10.16-03.06.09:376][ 14]LogReal33D: talk [Say] at 32109,32204,7, Obi: "Bye, bye."  speaker Resolved creature 1073741976
+[2026.10.16-03.06.35:460][656]LogReal33D: left-click walk: target 32099,32201,7, 12 cardinal steps
+[2026.10.16-03.06.35:460][656]LogReal33D: input 38: left-click walk direction 3 to 32106,32205,7
+[2026.10.16-03.06.35:504][657]LogReal33D: input 38: walk command 19 sent to Fusion32
+[2026.10.16-03.06.35:582][659]LogReal33D: minimap observation: player=32106,32205,7 known=501 live=252 viewport=18x14
+[2026.10.16-03.06.35:618][659]LogReal33D: input 38: Fusion32 accepted request 19, 32107,32205,7 -> 32106,32205,7
+[2026.10.16-03.06.35:941][668]LogReal33D: input 39: left-click walk direction 3 to 32105,32205,7
+[2026.10.16-03.06.36:023][670]LogReal33D: input 39: walk command 20 sent to Fusion32
+[2026.10.16-03.06.36:100][672]LogReal33D: minimap observation: player=32105,32205,7 known=501 live=252 viewport=18x14
+[2026.10.16-03.06.36:122][672]LogReal33D: input 39: Fusion32 accepted request 20, 32106,32205,7 -> 32105,32205,7
+[2026.10.16-03.06.36:423][680]LogReal33D: input 40: left-click walk direction 3 to 32104,32205,7
+[2026.10.16-03.06.36:507][682]LogReal33D: input 40: walk command 21 sent to Fusion32
+[2026.10.16-03.06.36:585][684]LogReal33D: minimap observation: player=32104,32205,7 known=501 live=252 viewport=18x14
+[2026.10.16-03.06.36:606][684]LogReal33D: input 40: Fusion32 accepted request 21, 32105,32205,7 -> 32104,32205,7
+[2026.10.16-03.06.36:911][692]LogReal33D: input 41: left-click walk direction 3 to 32103,32205,7
+[2026.10.16-03.06.36:954][693]LogReal33D: input 41: walk command 22 sent to Fusion32
+[2026.10.16-03.06.37:034][695]LogReal33D: minimap observation: player=32103,32205,7 known=501 live=252 viewport=18x14
+[2026.10.16-03.06.37:058][695]LogReal33D: input 41: Fusion32 accepted request 22, 32104,32205,7 -> 32103,32205,7
+[2026.10.16-03.06.37:362][703]LogReal33D: input 42: left-click walk direction 3 to 32102,32205,7
+[2026.10.16-03.06.37:403][704]LogReal33D: input 42: walk command 23 sent to Fusion32
+[2026.10.16-03.06.37:485][706]LogReal33D: minimap observation: player=32102,32205,7 known=501 live=252 viewport=18x14
+[2026.10.16-03.06.37:522][706]LogReal33D: input 42: Fusion32 accepted request 23, 32103,32205,7 -> 32102,32205,7
+[2026.10.16-03.06.37:650][710]LogReal33D: left-click walk: no reachable observed route/frontier
+[2026.10.16-03.06.38:354][727]LogReal33D: left-click walk: no reachable observed route/frontier
+[2026.10.16-03.06.38:723][736]LogReal33D: left-click walk: no reachable observed route/frontier
+[2026.10.16-03.06.39:055][744]LogReal33D: left-click walk: no reachable observed route/frontier
+[2026.10.16-03.06.39:841][763]LogReal33D: left-click walk: target 32104,32205,7, 2 cardinal steps
+[2026.10.16-03.06.39:841][763]LogReal33D: input 43: left-click walk direction 1 to 32103,32205,7
+[2026.10.16-03.06.39:885][764]LogReal33D: input 43: walk command 24 sent to Fusion32
+[2026.10.16-03.06.39:925][765]LogReal33D: minimap observation: player=32103,32205,7 known=501 live=252 viewport=18x14
+[2026.10.16-03.06.39:962][765]LogReal33D: input 43: Fusion32 accepted request 24, 32102,32205,7 -> 32103,32205,7
+[2026.10.16-03.06.40:091][769]LogReal33D: left-click walk: target 32102,32204,7, 2 cardinal steps
+[2026.10.16-03.06.40:301][774]LogReal33D: input 44: left-click walk direction 3 to 32102,32205,7
+[2026.10.16-03.06.40:342][775]LogReal33D: left-click walk: no reachable observed route/frontier
+[2026.10.16-03.06.40:343][775]LogReal33D: input 44: walk command 25 sent to Fusion32
+[2026.10.16-03.06.40:423][777]LogReal33D: minimap observation: player=32102,32205,7 known=501 live=252 viewport=18x14
+[2026.10.16-03.06.40:479][777]LogReal33D: input 44: Fusion32 accepted request 25, 32103,32205,7 -> 32102,32205,7
+[2026.10.16-03.06.41:332][799]LogReal33D: left-click walk: target 32104,32206,7, 3 cardinal steps
+[2026.10.16-03.06.41:332][799]LogReal33D: input 45: left-click walk direction 1 to 32103,32205,7
+[2026.10.16-03.06.41:375][800]LogReal33D: input 45: walk command 26 sent to Fusion32
+[2026.10.16-03.06.41:457][802]LogReal33D: minimap observation: player=32103,32205,7 known=501 live=252 viewport=18x14
+[2026.10.16-03.06.41:489][802]LogReal33D: input 45: Fusion32 accepted request 26, 32102,32205,7 -> 32103,32205,7
+[2026.10.16-03.06.41:787][810]LogReal33D: input 46: left-click walk direction 1 to 32104,32205,7
+[2026.10.16-03.06.41:869][812]LogReal33D: input 46: walk command 27 sent to Fusion32
+[2026.10.16-03.06.41:954][814]LogReal33D: minimap observation: player=32104,32205,7 known=501 live=252 viewport=18x14
+[2026.10.16-03.06.41:996][814]LogReal33D: input 46: Fusion32 accepted request 27, 32103,32205,7 -> 32104,32205,7
+[2026.10.16-03.06.42:242][821]LogReal33D: input 47: left-click walk direction 2 to 32104,32206,7
+[2026.10.16-03.06.42:286][822]LogReal33D: input 47: walk command 28 sent to Fusion32
+[2026.10.16-03.06.42:413][825]LogReal33D: minimap observation: player=32104,32206,7 known=519 live=252 viewport=18x14
+[2026.10.16-03.06.42:455][825]LogReal33D: input 47: Fusion32 accepted request 28, 32104,32205,7 -> 32104,32206,7
+[2026.10.16-03.06.42:697][832]LogReal33D: left-click walk arrived: authoritative player=32104,32206,7
+[2026.10.16-03.06.43:743][858]LogReal33D: left-click walk: target 32107,32204,7, 5 cardinal steps
+[2026.10.16-03.06.43:744][858]LogReal33D: input 48: left-click walk direction 0 to 32104,32205,7
+[2026.10.16-03.06.43:784][859]LogReal33D: input 48: walk command 29 sent to Fusion32
+[2026.10.16-03.06.43:904][862]LogReal33D: minimap observation: player=32104,32205,7 known=519 live=252 viewport=18x14
+[2026.10.16-03.06.43:953][862]LogReal33D: input 48: Fusion32 accepted request 29, 32104,32206,7 -> 32104,32205,7
+[2026.10.16-03.06.44:229][870]LogReal33D: input 49: left-click walk direction 0 to 32104,32204,7
+[2026.10.16-03.06.44:312][872]LogReal33D: input 49: walk command 30 sent to Fusion32
+[2026.10.16-03.06.44:391][874]LogReal33D: minimap observation: player=32104,32204,7 known=527 live=252 viewport=18x14
+[2026.10.16-03.06.44:430][874]LogReal33D: input 49: Fusion32 accepted request 30, 32104,32205,7 -> 32104,32204,7
+[2026.10.16-03.06.44:718][882]LogReal33D: input 50: left-click walk direction 1 to 32105,32204,7
+[2026.10.16-03.06.44:762][883]LogReal33D: input 50: walk command 31 sent to Fusion32
+[2026.10.16-03.06.44:883][886]LogReal33D: minimap observation: player=32105,32204,7 known=528 live=252 viewport=18x14
+[2026.10.16-03.06.44:913][886]LogReal33D: input 50: Fusion32 accepted request 31, 32104,32204,7 -> 32105,32204,7
+[2026.10.16-03.06.45:173][893]LogReal33D: input 51: left-click walk direction 1 to 32106,32204,7
+[2026.10.16-03.06.45:215][894]LogReal33D: input 51: walk command 32 sent to Fusion32
+[2026.10.16-03.06.45:338][897]LogReal33D: minimap observation: player=32106,32204,7 known=529 live=252 viewport=18x14
+[2026.10.16-03.06.45:367][897]LogReal33D: input 51: Fusion32 accepted request 32, 32105,32204,7 -> 32106,32204,7
+[2026.10.16-03.06.45:627][904]LogReal33D: input 52: left-click walk direction 1 to 32107,32204,7
+[2026.10.16-03.06.45:670][905]LogReal33D: input 52: walk command 33 sent to Fusion32
+[2026.10.16-03.06.45:794][908]LogReal33D: minimap observation: player=32107,32204,7 known=530 live=252 viewport=18x14
+[2026.10.16-03.06.45:828][908]LogReal33D: input 52: Fusion32 accepted request 33, 32106,32204,7 -> 32107,32204,7
+[2026.10.16-03.06.46:081][915]LogReal33D: left-click walk arrived: authoritative player=32107,32204,7
+[2026.10.16-03.06.48:841][983]LogReal33D: Say 53: "hi" handed to Fusion32
+[2026.10.16-03.06.48:925][985]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030648_924.json
+[2026.10.16-03.06.48:990][985]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "hi"  speaker Resolved creature 1002
+[2026.10.16-03.06.49:984][998]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030649_979.json
+[2026.10.16-03.06.50:046][998]LogReal33D: talk [Say] at 32109,32204,7, Obi: "Hello, hello, Test Player B! Please come in, look, and buy!"  speaker Resolved creature 1073741976
+[2026.10.16-03.06.55:410][119]LogReal33D: Say 54: "1 worm" handed to Fusion32
+[2026.10.16-03.06.55:495][121]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030655_493.json
+[2026.10.16-03.06.55:547][121]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "1 worm"  speaker Resolved creature 1002
+[2026.10.16-03.06.56:470][132]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030656_466.json
+[2026.10.16-03.06.56:521][132]LogReal33D: talk [Say] at 32109,32204,7, Obi: "I sell worms only in sixpacks for 5 gold each, how many sixpacks of worms do you want to buy?"  speaker Resolved creature 1073741976
+[2026.10.16-03.07.05:049][331]LogReal33D: Say 55: "yes" handed to Fusion32
+[2026.10.16-03.07.05:174][333]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030705_173.json
+[2026.10.16-03.07.05:223][333]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "yes"  speaker Resolved creature 1002
+[2026.10.16-03.07.23:189][757]LogReal33D: Say 56: "6" handed to Fusion32
+[2026.10.16-03.07.23:278][759]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030723_277.json
+[2026.10.16-03.07.23:361][759]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "6"  speaker Resolved creature 1002
+[2026.10.16-03.07.39:849][135]LogReal33D: Say 57: "buy worm" handed to Fusion32
+[2026.10.16-03.07.39:936][137]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030739_935.json
+[2026.10.16-03.07.40:006][137]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "buy worm"  speaker Resolved creature 1002
+[2026.10.16-03.07.40:921][146]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030740_920.json
+[2026.10.16-03.07.41:003][146]LogReal33D: talk [Say] at 32109,32204,7, Obi: "I sell worms only in sixpacks for 5 gold each, how many sixpacks of worms do you want to buy?"  speaker Resolved creature 1073741976
+[2026.10.16-03.07.45:465][241]LogReal33D: Say 58: "1" handed to Fusion32
+[2026.10.16-03.07.45:593][244]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030745_592.json
+[2026.10.16-03.07.45:656][244]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "1"  speaker Resolved creature 1002
+[2026.10.16-03.07.55:040][455]LogReal33D: Say 59: "one" handed to Fusion32
+[2026.10.16-03.07.55:128][457]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030755_126.json
+[2026.10.16-03.07.55:197][457]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "one"  speaker Resolved creature 1002
+[2026.10.16-03.08.27:615][216]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030827_614.json
+[2026.10.16-03.08.27:686][216]LogReal33D: talk [Say] at 32109,32204,7, Obi: "Bye, bye."  speaker Resolved creature 1073741976
+[2026.10.16-03.08.52:615][798]LogReal33D: chat input active; movement keys are inert
+[2026.10.16-03.08.55:085][857]LogReal33D: Say 60: "buy worm" handed to Fusion32
+[2026.10.16-03.08.55:085][857]LogReal33D: chat input released; movement keys are live
+[2026.10.16-03.08.55:130][858]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030855_129.json
+[2026.10.16-03.08.55:189][858]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "buy worm"  speaker Resolved creature 1002
+[2026.10.16-03.09.00:370][970]LogReal33D: Say 61: "hi" handed to Fusion32
+[2026.10.16-03.09.00:416][971]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030900_415.json
+[2026.10.16-03.09.00:477][971]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "hi"  speaker Resolved creature 1002
+[2026.10.16-03.09.01:450][982]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030901_449.json
+[2026.10.16-03.09.01:521][982]LogReal33D: talk [Say] at 32110,32204,7, Obi: "Hello, hello, Test Player B! Please come in, look, and buy!"  speaker Resolved creature 1073741976
+[2026.10.16-03.09.08:739][143]LogReal33D: Say 62: "worm" handed to Fusion32
+[2026.10.16-03.09.08:866][146]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030908_865.json
+[2026.10.16-03.09.08:936][146]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "worm"  speaker Resolved creature 1002
+[2026.10.16-03.09.09:877][157]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030909_875.json
+[2026.10.16-03.09.09:970][157]LogReal33D: talk [Say] at 32110,32204,7, Obi: "I sell worms only in sixpacks for 5 gold each, how many sixpacks of worms do you want to buy?"  speaker Resolved creature 1073741976
+[2026.10.16-03.09.20:687][399]LogReal33D: Say 63: "sixpack" handed to Fusion32
+[2026.10.16-03.09.20:777][401]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030920_773.json
+[2026.10.16-03.09.20:841][401]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "sixpack"  speaker Resolved creature 1002
+[2026.10.16-03.09.35:239][733]LogReal33D: Say 64: "six" handed to Fusion32
+[2026.10.16-03.09.35:284][734]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030935_283.json
+[2026.10.16-03.09.35:362][734]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "six"  speaker Resolved creature 1002
+[2026.10.16-03.09.40:107][833]LogReal33D: Say 65: "6" handed to Fusion32
+[2026.10.16-03.09.40:235][836]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030940_234.json
+[2026.10.16-03.09.40:295][836]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "6"  speaker Resolved creature 1002
+[2026.10.16-03.09.45:804][955]LogReal33D: Say 66: "1" handed to Fusion32
+[2026.10.16-03.09.45:889][957]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030945_889.json
+[2026.10.16-03.09.45:952][957]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "1"  speaker Resolved creature 1002
+[2026.10.16-03.09.58:561][246]LogReal33D: Say 67: "buy worm" handed to Fusion32
+[2026.10.16-03.09.58:644][248]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030958_643.json
+[2026.10.16-03.09.58:709][248]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "buy worm"  speaker Resolved creature 1002
+[2026.10.16-03.09.59:628][258]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T030959_626.json
+[2026.10.16-03.09.59:684][258]LogReal33D: talk [Say] at 32110,32204,7, Obi: "I sell worms only in sixpacks for 5 gold each, how many sixpacks of worms do you want to buy?"  speaker Resolved creature 1073741976
+[2026.10.16-03.10.03:589][339]LogReal33D: Say 68: "yes" handed to Fusion32
+[2026.10.16-03.10.03:631][340]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T031003_630.json
+[2026.10.16-03.10.03:695][340]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "yes"  speaker Resolved creature 1002
+[2026.10.16-03.10.34:317][ 59]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T031034_317.json
+[2026.10.16-03.10.34:390][ 59]LogReal33D: talk [Say] at 32110,32204,7, Obi: "Bye, bye."  speaker Resolved creature 1073741976
+[2026.10.16-03.11.43:238][688]LogReal33D: chat input active; movement keys are inert
+[2026.10.16-03.11.46:759][772]LogReal33D: Say 69: "buy worm" handed to Fusion32
+[2026.10.16-03.11.46:759][772]LogReal33D: chat input released; movement keys are live
+[2026.10.16-03.11.46:843][774]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T031146_842.json
+[2026.10.16-03.11.46:904][774]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "buy worm"  speaker Resolved creature 1002
+[2026.10.16-03.11.50:738][853]LogReal33D: Say 70: "hi" handed to Fusion32
+[2026.10.16-03.11.50:866][856]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T031150_865.json
+[2026.10.16-03.11.50:929][856]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "hi"  speaker Resolved creature 1002
+[2026.10.16-03.11.51:900][867]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T031151_899.json
+[2026.10.16-03.11.51:968][867]LogReal33D: talk [Say] at 32110,32204,7, Obi: "Hello, hello, Test Player B! Please come in, look, and buy!"  speaker Resolved creature 1073741976
+[2026.10.16-03.11.57:680][991]LogReal33D: Say 71: "buy womrs" handed to Fusion32
+[2026.10.16-03.11.57:765][993]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T031157_764.json
+[2026.10.16-03.11.57:842][993]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "buy womrs"  speaker Resolved creature 1002
+[2026.10.16-03.12.03:423][111]LogReal33D: Say 72: "buy worms" handed to Fusion32
+[2026.10.16-03.12.03:468][112]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T031203_467.json
+[2026.10.16-03.12.03:531][112]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "buy worms"  speaker Resolved creature 1002
+[2026.10.16-03.12.04:490][123]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T031204_490.json
+[2026.10.16-03.12.04:555][123]LogReal33D: talk [Say] at 32110,32204,7, Obi: "I sell worms only in sixpacks for 5 gold each, how many sixpacks of worms do you want to buy?"  speaker Resolved creature 1073741976
+[2026.10.16-03.12.08:938][215]LogReal33D: Say 73: "1 worms" handed to Fusion32
+[2026.10.16-03.12.08:983][216]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T031208_982.json
+[2026.10.16-03.12.09:046][216]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "1 worms"  speaker Resolved creature 1002
+[2026.10.16-03.12.09:964][226]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T031209_962.json
+[2026.10.16-03.12.10:033][226]LogReal33D: talk [Say] at 32110,32204,7, Obi: "So you want to buy some of my sixpacks with altogether 6 worms for 5 gold?"  speaker Resolved creature 1073741976
+[2026.10.16-03.12.14:367][318]LogReal33D: Say 74: "yes" handed to Fusion32
+[2026.10.16-03.12.14:452][320]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T031214_452.json
+[2026.10.16-03.12.14:504][320]LogReal33D: talk [Say] at 32107,32204,7, Test Player B: "yes"  speaker Resolved creature 1002
+[2026.10.16-03.12.15:429][330]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T031215_425.json
+[2026.10.16-03.12.15:489][330]LogReal33D: talk [Say] at 32110,32204,7, Obi: "Thank you. Here it is."  speaker Resolved creature 1073741976
+[2026.10.16-03.12.50:619][150]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Speech_20261016T031250_618.json
+[2026.10.16-03.12.50:688][150]LogReal33D: talk [Say] at 32110,32204,7, Obi: "Bye, bye."  speaker Resolved creature 1073741976
+[2026.10.16-03.13.58:843][762]LogReal33D: combat input 75: general cancel
+[2026.10.16-03.14.01:028][814]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence_Manual_20261016T031401_024.json
+[2026.10.16-03.14.01:083][814]LogReal33D: manual evidence snapshot requested
+[2026.10.16-03.14.38:100][674]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stackable-20261015\build\unreal-world-presentation-polish-001\live-20261015T204404/unreal_slice_evidence.json

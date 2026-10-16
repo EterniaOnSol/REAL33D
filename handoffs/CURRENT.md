@@ -1,100 +1,85 @@
 # Current handoff
 
-2026-10-15 16:10 America/Guatemala. Independent reviewer, certification.
-UNREAL-WORLD-PRESENTATION-POLISH-001 = **CERTIFIED**.
-`main` was NOT merged and was NOT modified. Merging is a separate authorised step.
+2026-10-16 01:30 America/Guatemala. Codex independent reviewer, final closeout.
+Live QA and the final harness completed on October 15; the evidence commit was
+completed after the operator resumed on October 16. Implementation stayed fixed.
+UNREAL-STACKABLE-SPRITE-PATTERNS-001 = CERTIFIED.
+READY_TO_MERGE_MAIN = YES, with a separately authorized merge. None performed.
 
-Branch `certification/unreal-world-presentation-polish-001-20261015`.
-Starting and candidate commit `bc9ce8fd00102c4d35f9cdfd60ddbf6e5b1f36ce`
-(= `origin/milestone/unreal-world-presentation-polish-001`, untouched).
-Base/main `fa3adcfd3fa85ec2bcf2514fc5df46c45e1de0cf`, rechecked unchanged at close;
-merge base is that commit, 10 ahead / 0 behind, no merge and no rebase.
+Candidate/start `68f2ffe488627d5da52981bd83a2e95a5846ecc3`.
+Base/origin/main `1a15ddbd79a23a2841d882584afaa82fabd9f74d` at start.
+Branch `certification/unreal-stackable-sprite-patterns-001-20261015`.
+Worktree `C:/Users/dell/Desktop/fusion32/build/cert-stackable-20261015`.
 Ending commit is the certification evidence commit containing this handoff.
-Certification worktree `build/cert-unreal-world-presentation-polish-001-20261015`,
-created with `git worktree add -b … bc9ce8fd…`.
+No implementation, server rule, save-file or production-art changes. No main merge
+or push authorized/performed for this certification. Root/implementer worktrees
+were preserved; compiled artifacts and live evidence are fresh from this checkout.
 
-**The implementing agent's worktree `build/unreal-world-presentation-polish-001`
-was not used** — not built in, not run from, not read as input, not written to.
-The certification checkout compiled its own `build/clientcore-windows/protocol772core.lib`
-and linked `REAL33DEditor Win64 Development` against it.
+Scope: independently verify cumulative extraction, single-frame non-stackables,
+generic amount selection, inventory/container rendering and counts, gold x1/x12,
+second legitimate cumulative type, missing/malformed fallback, tests/build/harness
+and zero protocol diagnostics. World mesh amount invariance is explicitly accepted.
 
-Two gitignored local-only art trees were supplied as junctions so the checkout
-rendered the art the milestone is judged on: `Content/Experimental/V08` from the
-root worktree, `Content/Experimental/BrotherCreatures` from
-`build/unreal-minimap-certification-20260928`. Neither is the implementing
-worktree; both are SHA-pinned by committed manifests. The minimap cache was left
-EMPTY on purpose and discovered 1819 cells during play.
+Inspected candidate extractor, StackSpriteFrame, UIStyle, PanelChrome,
+InventoryPanel, ContainersPanel, Bridge, tests/harness and author report.
+Independent probe checked 432 cumulative images over 81 types and 4,832
+single-image non-cumulative types against classic data decoding. Worms have
+two animation phases: all 16 images extracted, first eight are amount patterns.
+Spears are cumulative but single-picture; author's gained-frame wording imprecise.
+10/25/50 byte-level provenance against the original binary remains unclaimed.
 
-Closed this run — all seventeen named criteria reproduced live by the reviewer in
-ONE new 2811 s connection, none carried over from a prior session:
-- CAMERA PASS `obstructed=true` pitch −25.00 yaw 265.15. Detect-only by design
-  (`Real33DWorldActor.cpp:755-758`): zoom is kept, `cutaway_meshes` always 0.
-- OCCLUSION PASS `hide_upper_floors=true`, `covered=true hidden upper tiles=143`,
-  outdoor roofs retained.
-- READABILITY PASS, bounded: labels/health bars/battle list plus correct
-  authoritative positions; outfits 21 and 128 loaded delivered models, outfits
-  136 and 57 stayed documented placeholders.
-- WORLD_SPEECH / NPC_SPEECH PASS, `speech_shown_on_creature=15`, `chat_only=0`,
-  `talk_messages_decoded=15`; Cipfried heal and a completed Tom trade.
-- LOOK PASS 7 requests, 7 server descriptions.
-- USE PASS req 7; CONTAINER PASS `open_containers=1` capacity 20, 3 objects.
-- USE_WITH PASS req 359 rope 3003 on 435; same creature id moved z=8 → z=7 in 191 ms.
-- WORLD_DRAG PASS reqs 28/49/50; INVENTORY_GROUND_DRAG PASS reqs 20/25/32/40/47/48/51;
-  GROUND_INVENTORY_PICKUP PASS reqs 29/30 plus eight coin pickups.
-- PUSH_CREATURE PASS **only** on req 447: snapshot 1.64 s later holds creature
-  1073743167 on the exact requested tile 32093,32204,7. Earlier attempts were
-  authoritative refusals ("There is not enough room.", "Sorry, not possible.")
-  and are retained as refusals, not rounded up.
-- FOLLOW/STOP PASS reqs 208/211 with a server-driven relocation while following.
-- MINIMAP PASS destination 32096,32202,7 → 12 accepted steps → exact authoritative
-  arrival; two further click-walks also arrived exactly.
-- WIDEWORLD PASS `loads=187 unloads=125 sectors=62`, 17097 tiles spawned /
-  16735 removed, `orphan_events=0`, `duplicate_spawn_attempts=0`.
-- LIGHT PASS lamp 2109 → 2108 at 32094,32214,7 with the untouched twin at
-  32100,32214,7 still 2109 as a control.
+Live operator-assisted QA (desktop automation failed before input), own compiled
+candidate process 3600, now CLOSED normally. Existing Fusion32 kept running in
+Ubuntu-26.04 at /var/lib/fusion32-server-baseline-772-0, no reset or preparation.
+Fresh session `build/unreal-world-presentation-polish-001/live-20261015T204404`.
+Confirmed gold x1/frame0 in body slot10, x12/frame5 in backpack and body slot10,
+and worms3492 x6/frame4 purchased from Obi for5gold. Torch purchased normally
+for2gold before worms. Final gold5; no manufactured state. Non-stackable shovel,
+rope and equipment retained single pictures and no invented amount labels.
+51 snapshots: unsupported/anomalies/residual0, diagnostic none. EndPlay1772.3s,
+1170commands,33/33accepted walks,0unanswered,13moves,viewport synchronized.
 
-PROTOCOL_ERRORS = 0, UNSUPPORTED_OPCODES = 0, PROTOCOL_ANOMALIES = 0 across all 30
-snapshots; `last_diagnostic "none"`, `viewport_synchronised true`, 357 walks
-requested / 311 accepted / 46 refused / 0 unanswered. The 46 refusals are blocked
-tiles — normal gameplay, preserved verbatim.
+Fresh ClientCore13/13, MSVC, native4 inclstackable/runtimeMultiUse204, Unrealbuild
+PASS. Actual diagnostic Slate test REAL33D.Certification.StackableSpriteFiles
+Success,0errors,0warnings at03:19:28UTC. Checks generic resource selection,
+missing base, gapped/short ranges, file disappearing before first brush and bad
+frame counts. Temporary test source removed from implementation and retained
+only in evidence. Owned64000..64003 fixture files removed by the test.
 
-Tests: nine ClientCore CTest suites PASS; `build_clientcore_windows.cmd` PASS
-(transport 22/22, crypto 25/25, C++17 suites + C++20 archive); three REAL33D native
-tests PASS with `--objects-srv` so the MultiUse assertions ran; three Unreal suites
-Success 0 errors / 0 failed / 0 notRun with only the expected TEST_IMPORTED warning;
-`REAL33DEditor Win64 Development` Succeeded; `secret_check` PASS with six sub-checks.
-Regression harness run **from its preserved worktree**
-`build/real33d-3d-regression-harness-001` (`377b47be`) with `--repo-root` pointed at
-this checkout, `--unreal`, `--objects-srv` and `--logs <live dir>`:
-**OVERALL PASS, 9 PASS / 0 FAIL / 0 SKIP**, 293 logs scanned, 0 anomalies.
+Exact candidate rebuild after removing the diagnostic test PASSED. UBT retained
+deleted source in its caches; only this checkout's SourceFileCache.bin and
+Makefile.bin were cleared and regenerated. No production source diff remains.
+Final `cmd.exe /d /c build\certification\run-harness.cmd` uses correct read-only
+game/reference/dat/objects.srv, --strict, --unreal and this session's --logs.
+Result: 9 PASS / 0 FAIL / 0 SKIP, 175 logs scanned, zero anomalies. Raw results
+independently inspected: 13/13 CTest, 4/4 native, MSVC and Unreal PASS, six real
+secret sub-checks PASS. See harness/REGRESSION-HARNESS-20261016T032947Z.md.
 
-**Finding, recorded and NOT patched:** `tests/secret_check.sh` returns a vacuous
-PASS when run through WSL inside a *linked worktree*. The worktree's `.git` is a
-file holding a Windows `gitdir:` path that WSL git cannot resolve, every `git` call
-fails, and because each check is `hits="$(git … || true)"` an empty result reads as
-clean. The tell is sub-check 6, which only prints when `git ls-files` returns rows:
-a real run shows six `ok` lines, a vacuous one shows five. Run it from Git Bash and
-require six. Both runs recorded here produced six. Hardening it (one up-front
-`git rev-parse` guard) is a scoped task, not a certification change.
+Setup findings: first harness wrong fixture produced raw native assertion while
+wrapper claimed PASS; that summary rejected, independent strict run PASSED.
+First diagnostic used cached build and matched0tests despite exit0; rejected,
+actual named exported test subsequently PASSED. Final gate used raw results.
+Git Bash secret_check must print SIX checks (WSL linked-worktree git can fail
+vacuously). Four mailbox LFS pointer assets hydrated/hash-checked against HEAD,
+index refreshed, zero asset diff. Own generated PCH compressed for disk space;
+no other work/cache removed. Startup package warnings were LFS setup only.
 
-Deliberately NOT re-examined, because they sit outside the seventeen criteria and
-the candidate already records them as open — none was reclassified or waived: the
-new grass-edge and house-roof alignment offsets, the underground
-`StaticSectorActor::DesiredSectors` Z=0..7 coverage limit, and the requested
-right-click cancellation of Use With.
+Evidence: `evidence/clientcore/UNREAL-STACKABLE-SPRITE-PATTERNS-001-INDEPENDENT-20261015.md`
+and `evidence/clientcore/unreal-stackable-sprite-independent-20261015/`.
+Contains received states, screenshots, all51snapshotJSONs, selected event log,
+independent extractor/pixel probes, native script/output, Slate test/source/report,
+fresh build/test logs. Previous handoff archived unchanged as
+`archive/UNREAL-WORLD-PRESENTATION-POLISH-001-INDEPENDENT-BEFORE-STACKABLE-20261015.md`.
 
-Fusion32 was left running on the same saved runtime: `querymanager` 601, `game` 622,
-`login` 931 in `Ubuntu-26.04`, `/var/lib/fusion32-server-baseline-772-0`. No prepare,
-reset, save edit, equipment preparation or rule change. The character closed with
-backpack 3 / jacket 4 / sword 5 and shovel, rope, 12 gold.
+All requested certification gates are closed. Remaining boundaries: world 3D
+meshes stay amount-invariant as explicitly accepted; 10/25/50 tiers are not proven
+against the original executable; corrupt PNG bytes and hot replacement of cached
+brushes are outside the tested missing/malformed-range fallback. No unrelated
+art, camera or gameplay gaps were reclassified. No candidate defect found.
 
-Evidence: `evidence/clientcore/UNREAL-WORLD-PRESENTATION-POLISH-001-INDEPENDENT-20261015.md`
-and `evidence/clientcore/unreal-world-presentation-polish-independent-20261015/`
-(11 received-state snapshots incl. EndPlay, 4 geometry dumps, 3 screenshots,
-movement journal, 2266-line selected event log, harness report and check logs,
-test and build output). All earlier reports and handoffs are preserved unchanged.
-Previous handoff archived as
-`archive/UNREAL-WORLD-PRESENTATION-POLISH-001-FINAL-QA-20261015T1452.md`.
-
-Next work only as explicitly requested. The merge of this milestone into `main` is
-authorised separately and was deliberately not performed here.
+Main and remote milestone remain 1a15ddbd and 68f2ffe respectively. Documentation
+and evidence only were committed; no push authorized/performed for this task.
+Next action requires explicit instruction: a separately authorized merge, or
+another scoped task. To repeat, follow the report's reproduction steps and the
+retained probe/runner sources, using a fresh isolated candidate checkout. Do not
+reuse implementing evidence or call a zero-test/empty secret check a pass.

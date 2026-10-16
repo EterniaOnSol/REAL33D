@@ -1,0 +1,88 @@
+{
+  "milestone": "UNREAL-SLICE-001",
+  "written_at": "2026-10-16T03:03:26.025Z",
+  "reason": "Manual",
+  "seconds_in_session": 1100.2,
+  "connected_at_close": true,
+  "local_creature_id": 1002,
+  "local_position": { "x": 32092, "y": 32204, "z": 7 },
+  "origin": { "set": true, "x": 32092, "y": 32204, "z": 7 },
+  "anchor": { "x": 32092, "y": 32204, "z": 7 },
+  "minimap": { "player_known": true, "x": 32092, "y": 32204, "z": 7, "known_cells": 252, "live_cells": 252 },
+  "clientcore": {
+    "frames": 554,
+    "commands": 592,
+    "residual_bytes": 0,
+    "unsupported_opcodes": 0,
+    "protocol_anomalies": 0,
+    "walks_requested_from_unreal": 0,
+    "walks_accepted": 0,
+    "walks_rejected": 0,
+    "walks_unanswered": 0,
+    "external_relocations": 0,
+    "local_player_moves_total": 0,
+    "says_requested": 0,
+    "moves_requested": 13,
+    "uses_requested": 1,
+    "looks_requested": 0,
+    "attacks_requested": 0,
+    "follows_requested": 0,
+    "combat_cancels_requested": 0,
+    "tactics_requested": 0,
+    "target_clears_received": 0,
+    "worldstate_tiles": 383,
+    "worldstate_visible_creatures": 2,
+    "viewport_synchronised": true
+  },
+  "camera": { "pitch": -32.90, "yaw": 171.18, "requested_distance": 1293.50, "actual_distance": 1293.50, "obstructed": false, "cutaway_meshes": 0, "hide_upper_floors": false },
+  "wideworld": { "loads": 62, "unloads": 0, "sectors": 62 },
+  "presentation": {
+    "tile_actors": 383,
+    "creature_actors": 2,
+    "tiles_spawned": 383,
+    "tiles_removed": 0,
+    "creatures_appeared": 2,
+    "creatures_vanished": 0,
+    "creature_moves": 533,
+    "duplicate_spawn_attempts": 0,
+    "orphan_events": 0,
+    "speech_shown_on_creature": 0,
+    "speech_shown_in_chat_area_only": 0,
+    "server_messages_received": 1,
+    "client_notices_raised": 0,
+    "chat_transcript_lines": 1,
+    "speech_seconds_NOT_PROVEN": 6.0
+  },
+  "talk_messages_decoded": 0,
+  "last_diagnostic": "none",
+  "inventory_known": true,
+  "inventory": [
+    { "slot": 3, "type_id": 2854, "amount": null, "liquid": null },
+    { "slot": 4, "type_id": 3379, "amount": null, "liquid": null },
+    { "slot": 5, "type_id": 3294, "amount": null, "liquid": null },
+    { "slot": 10, "type_id": 3031, "amount": 12, "liquid": null }
+  ],
+  "open_containers": 1,
+  "containers": [
+    {
+      "number": 0,
+      "type_id": 2854,
+      "name": "backpack",
+      "capacity": 20,
+      "has_parent": false,
+      "object_count": 2,
+      "objects": [
+        { "index": 0, "type_id": 3457, "amount": null, "liquid": null },
+        { "index": 1, "type_id": 3003, "amount": null, "liquid": null }
+      ]
+    }
+  ],
+  "combat": { "target_creature_id": 0, "following": false, "tactics_sent": false, "attack_mode": 1, "chase_mode": 0, "target_actor_visible": false },
+  "chat_transcript": [
+    { "system_line": true, "line": "Server: Your last visit in Tibia: 15. Oct 2026 20:18:25 CST." }
+  ],
+  "creatures": [
+    { "id": 1002, "local": true, "x": 32092, "y": 32204, "z": 7 },
+    { "id": 1073742021, "local": false, "x": 32085, "y": 32200, "z": 7 }
+  ]
+}

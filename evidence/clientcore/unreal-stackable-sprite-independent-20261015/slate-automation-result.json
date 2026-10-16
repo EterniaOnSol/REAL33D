@@ -1,0 +1,44 @@
+﻿{
+	"devices": [
+		{
+			"deviceName": "DESKTOP-9SKKIUM",
+			"instance": "5AE79A504C0067C3403190AC89DEAC27",
+			"instanceName": "DESKTOP-9SKKIUM-6060",
+			"platform": "WindowsEditor",
+			"oSVersion": "Windows 11 (23H2) [10.0.22631.6199] ",
+			"model": "Default",
+			"gPU": "Intel(R) UHD Graphics 630",
+			"cPUModel": "Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz",
+			"rAMInGB": 12,
+			"renderMode": "SM6",
+			"rHI": "",
+			"appInstanceLog": ""
+		}
+	],
+	"reportCreatedOn": "2026.10.16-03.19.28",
+	"succeeded": 1,
+	"succeededWithWarnings": 0,
+	"failed": 0,
+	"notRun": 0,
+	"inProcess": 0,
+	"totalDuration": 0.016110498458147049,
+	"comparisonExported": false,
+	"comparisonExportDirectory": "",
+	"tests": [
+		{
+			"testDisplayName": "StackableSpriteFiles",
+			"fullTestPath": "REAL33D.Certification.StackableSpriteFiles",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"5AE79A504C0067C3403190AC89DEAC27"
+			],
+			"duration": 0.016110498458147049,
+			"dateTime": "2026.10.16-03.19.28",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		}
+	]
+}

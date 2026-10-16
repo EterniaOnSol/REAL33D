@@ -1,0 +1,9 @@
+=== real33d_mouse_input_tests ===
+PASS: left walk, shift-left look, both chord orders/release orders, UI release isolation, use-with, orbit, reset
+=== real33d_minimap_view_tests ===
+real33d_minimap_view_tests: PASS (palette validation/isolation, north-up, inverse clicks, delta, pan, zoom bounds, floors/recenter/offline)
+=== real33d_item_use_policy_tests ===
+real33d_item_use_policy_tests: /mnt/c/Users/dell/Desktop/fusion32/build/cert-stackable-20261015/tests/real33d_item_use_policy_tests.cpp:22: int main(int, char**): Assertion `file.good()' failed.
+bash: line 4: 10474 Aborted                    "/real33d_item_use_policy_tests" '/var/lib/fusion32-server-baseline-772-0/game/dat/objects.srv'
+=== real33d_stackable_sprite_tests ===
+real33d_stackable_sprite_tests: PASS

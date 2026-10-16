@@ -1,0 +1,9 @@
+Independent strict native run, 2026-10-16 UTC, candidate 68f2ffe.
+Command: wsl.exe -d Ubuntu-26.04 -u root -- bash /mnt/c/Users/dell/Desktop/fusion32/build/cert-stackable-20261015/build/certification/native-direct.sh
+Exit status: 0
+Captured stdout from exec session 41478:
+PASS: left walk, shift-left look, both chord orders/release orders, UI release isolation, use-with, orbit, reset
+real33d_minimap_view_tests: PASS (palette validation/isolation, north-up, inverse clicks, delta, pan, zoom bounds, floors/recenter/offline)
+runtime MultiUse metadata PASS: 204 types
+item use policy PASS
+real33d_stackable_sprite_tests: PASS

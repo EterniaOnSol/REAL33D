@@ -1,0 +1,4 @@
+﻿[2026.10.16-03.17.24:546][444]LogAutomationCommandLine: Error: No automation tests matched 'REAL33D.Certification.StackableSpriteFiles'
+[2026.10.16-03.17.24:546][444]LogAutomationCommandLine: Display: ...Automation Test Queue Empty 0 tests performed.
+[2026.10.16-03.17.24:546][445]LogExit: Display: **** TestExit: Automation Test Queue Empty ****
+[2026.10.16-03.17.24:547][445]LogWindows: FPlatformMisc::RequestExitWithStatus(1, 0, FEngineLoop::Tick.GScopedTestExit)
