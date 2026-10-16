@@ -369,10 +369,13 @@ void MalformedAndUnknown() {
         }
     }
 
-    // Neighbouring opcodes this milestone does not touch stay unsupported,
-    // so it cannot be read as covering more than it does.
-    for (const std::uint8_t opcode : {std::uint8_t{125}, std::uint8_t{171},
-                                      std::uint8_t{174}}) {
+    // Opcodes no milestone decodes stay unsupported, so this one cannot be
+    // read as covering more than it does. 125 and 171 were here until
+    // CLIENTCORE-TRADE-772-001 and CLIENTCORE-CHANNELS-772-001 decoded them;
+    // what is left is the gamemaster request queue, and this set must stay
+    // identical to the one in player_state_tests.cpp.
+    for (const std::uint8_t opcode : {std::uint8_t{174}, std::uint8_t{175},
+                                      std::uint8_t{176}, std::uint8_t{177}}) {
         const auto decoded = Decode({opcode, 1, 2, 3, 4, 5, 6, 7});
         CHECK(decoded.ok());
         CHECK(decoded.update.kind == ServerUpdateKind::Unsupported);

@@ -711,14 +711,15 @@ void TestNegativeCases() {
 
     // An opcode this layer does not decode consumes nothing and is named.
     // This was SV_CMD_CONTAINER until UNREAL-INVENTORY-CONTAINERS-001 decoded
-    // it, and SV_CMD_TRADE_OFFER_OWN until CLIENTCORE-TRADE-772-001 did. The
-    // text editors are the remaining example, out of scope for the same
-    // reason the other two used to be -- nothing has demonstrated them.
-    const auto unsupported = DecodeServerUpdate({150, 1, 2, 3, 4, 5, 6}, 0, anchor, Types());
+    // it, SV_CMD_TRADE_OFFER_OWN until CLIENTCORE-TRADE-772-001 did, and
+    // SV_CMD_EDIT_TEXT until CLIENTCORE-EDITORS-772-001 did. The gamemaster
+    // request queue is the remaining example, out of scope for the same
+    // reason the others used to be -- nothing has demonstrated it.
+    const auto unsupported = DecodeServerUpdate({174, 1, 2, 3, 4, 5, 6}, 0, anchor, Types());
     CHECK(unsupported.ok());
     CHECK(unsupported.update.kind == ServerUpdateKind::Unsupported);
     CHECK(unsupported.update.bytes_consumed == 0);
-    CHECK(std::string(unsupported.update.name) == "SV_CMD_EDIT_TEXT");
+    CHECK(std::string(unsupported.update.name) == "SV_CMD_OPEN_REQUEST_QUEUE");
 
     // Trade is decoded now, and consumes its whole body. Leaving 125 in the
     // check above would have quietly asserted the opposite.
