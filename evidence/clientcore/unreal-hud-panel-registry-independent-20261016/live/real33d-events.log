@@ -1,0 +1,766 @@
+[2026.10.16-22.09.13:389][  0]LogReal33D: scene built from code
+[2026.10.16-22.09.13:393][  0]LogReal33D: minimap palette: 2502 appearance colors; no map input
+[2026.10.16-22.09.13:399][  0]LogReal33D: Use With target cursor: existing asset loaded
+[2026.10.16-22.09.13:495][  0]LogReal33D: loaded approved visual for obj:3501
+[2026.10.16-22.09.13:588][  0]LogReal33D: Warning: experimental V08 QA catalog ENABLED: 4913 entries; TEST_IMPORTED is not APPROVED/READY/INTEGRATED
+[2026.10.16-22.09.13:592][  0]LogReal33D: brother creature catalog enabled: 16 exact outfit mappings
+[2026.10.16-22.09.13:593][  0]LogReal33D: wide world enabled: radius=64 sector=32 cache=C:/Users/dell/Desktop/fusion32/unreal/REAL33D/Saved/WideWorldCache fallback=C:/Users/dell/Desktop/fusion32/visual/reference_pack/previews/item
+[2026.10.16-22.09.13:593][  0]LogReal33D: connecting to 127.0.0.1:7171 as account B
+[2026.10.16-22.09.13:595][  0]LogReal33D: speech display lifetime 6.0s (NOT a proven 7.72 value)
+[2026.10.16-22.09.13:661][  0]LogReal33D: Use target metadata: 204 runtime MultiUse types
+[2026.10.16-22.09.16:315][  1]LogReal33D: HUD vitals: HP --/--   Mana --/--   Level --
+[2026.10.16-22.09.16:317][  1]LogReal33D: minimap observation: player=32107,32204,7 known=252 live=252 viewport=18x14
+[2026.10.16-22.09.16:321][  1]LogReal33D: minimap cache saved: cells=252
+[2026.10.16-22.09.16:321][  1]LogReal33D: connected: Test Player B
+[2026.10.16-22.09.16:321][  1]LogReal33D: server message [LoginMessage]: Your last visit in Tibia: 15. Oct 2026 20:45:06 CST.
+[2026.10.16-22.09.16:321][  1]LogReal33D: local player is creature 1002
+[2026.10.16-22.09.21:299][  1]LogReal33D: creature 1002 outfit 136: delivered visual unavailable; placeholder
+[2026.10.16-22.09.21:299][  1]LogReal33D: creature 1002 "Test Player B" appeared at 32107,32204,7 health 39%
+[2026.10.16-22.09.21:837][  1]LogReal33D: creature 1073741976 outfit 128: brother visual loaded parts=8 height=104.0
+[2026.10.16-22.09.21:837][  1]LogReal33D: creature 1073741976 "Obi" appeared at 32109,32205,7 health 100%
+[2026.10.16-22.09.21:837][  1]LogReal33D: creature 1073742106 outfit 136: delivered visual unavailable; placeholder
+[2026.10.16-22.09.21:837][  1]LogReal33D: creature 1073742106 "Dixi" appeared at 32105,32208,6 health 100%
+[2026.10.16-22.09.21:839][  1]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.09.31:998][  1]LogReal33D: wide world loaded sector X=1001 Y=1005 Z=4: objects=46 V08_RESOLVED=46 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.09.32:510][  1]LogReal33D: wide world loaded sector X=1004 Y=1005 Z=3: objects=35 V08_RESOLVED=35 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.09.34:585][  1]LogReal33D: wide world loaded sector X=1003 Y=1004 Z=4: objects=39 V08_RESOLVED=39 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.09.42:513][  1]LogReal33D: wide world loaded sector X=1004 Y=1005 Z=4: objects=68 V08_RESOLVED=68 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.09.42:516][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32083,32144,5
+[2026.10.16-22.09.43:685][  1]LogReal33D: wide world loaded sector X=1002 Y=1004 Z=5: objects=50 V08_RESOLVED=49 CLASSIC_SPRITE_FALLBACK=1 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.09.43:689][  1]LogReal33D: wide world loaded sector X=1001 Y=1006 Z=5: objects=108 V08_RESOLVED=108 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.09.49:559][  1]LogReal33D: wide world loaded sector X=1001 Y=1005 Z=5: objects=190 V08_RESOLVED=190 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.09.49:759][  1]LogReal33D: wide world loaded sector X=1002 Y=1005 Z=5: objects=116 V08_RESOLVED=116 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.09.50:454][  1]LogReal33D: wide world loaded sector X=1002 Y=1006 Z=5: objects=171 V08_RESOLVED=171 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.09.51:340][  1]LogReal33D: wide world loaded sector X=1004 Y=1005 Z=5: objects=73 V08_RESOLVED=73 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.09.52:458][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32098,32197,5
+[2026.10.16-22.09.57:324][  1]LogReal33D: wide world loaded sector X=1003 Y=1006 Z=5: objects=299 V08_RESOLVED=298 CLASSIC_SPRITE_FALLBACK=1 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.09.58:201][  1]LogReal33D: wide world loaded sector X=1005 Y=1004 Z=5: objects=22 V08_RESOLVED=22 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.00:674][  1]LogReal33D: wide world loaded sector X=1001 Y=1004 Z=6: objects=63 V08_RESOLVED=63 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.01:452][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32098,32181,5
+[2026.10.16-22.10.01:824][  1]LogReal33D: wide world loaded sector X=1003 Y=1005 Z=5: objects=103 V08_RESOLVED=102 CLASSIC_SPRITE_FALLBACK=1 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.10:004][  1]LogReal33D: wide world loaded sector X=1001 Y=1005 Z=6: objects=325 V08_RESOLVED=325 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.10:960][  1]LogReal33D: wide world loaded sector X=1003 Y=1004 Z=5: objects=39 V08_RESOLVED=39 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.11:323][  1]LogReal33D: wide world loaded sector X=1001 Y=1007 Z=6: objects=83 V08_RESOLVED=83 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.11:325][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32065,32155,6
+[2026.10.16-22.10.11:327][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32067,32138,6
+[2026.10.16-22.10.14:856][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32089,32147,6
+[2026.10.16-22.10.16:089][  1]LogReal33D: wide world loaded sector X=1002 Y=1004 Z=6: objects=377 V08_RESOLVED=374 CLASSIC_SPRITE_FALLBACK=3 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.17:417][  1]LogReal33D: wide world loaded sector X=1001 Y=1006 Z=6: objects=292 V08_RESOLVED=292 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.20:244][  1]LogReal33D: wide world loaded sector X=1002 Y=1005 Z=6: objects=362 V08_RESOLVED=362 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.27:688][  1]LogReal33D: wide world loaded sector X=1002 Y=1006 Z=6: objects=476 V08_RESOLVED=476 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.28:230][  1]LogReal33D: wide world TypeId=469 CLASSIC_SPRITE_FALLBACK at 32093,32235,6
+[2026.10.16-22.10.28:232][  1]LogReal33D: wide world loaded sector X=1002 Y=1007 Z=6: objects=190 V08_RESOLVED=189 CLASSIC_SPRITE_FALLBACK=1 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.30:071][  1]LogReal33D: wide world loaded sector X=1003 Y=1004 Z=6: objects=250 V08_RESOLVED=250 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.30:606][  1]LogReal33D: wide world loaded sector X=1003 Y=1006 Z=6: objects=503 V08_RESOLVED=503 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.30:611][  1]LogReal33D: wide world loaded sector X=1004 Y=1004 Z=6: objects=223 V08_RESOLVED=223 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.30:993][  1]LogReal33D: wide world loaded sector X=1003 Y=1005 Z=6: objects=243 V08_RESOLVED=243 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.32:138][  1]LogReal33D: wide world loaded sector X=1004 Y=1005 Z=6: objects=305 V08_RESOLVED=305 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.32:139][  1]LogReal33D: wide world loaded sector X=1004 Y=1007 Z=6: objects=26 V08_RESOLVED=26 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.32:141][  1]LogReal33D: wide world loaded sector X=1004 Y=1006 Z=6: objects=117 V08_RESOLVED=117 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.32:471][  1]LogReal33D: wide world loaded sector X=1005 Y=1004 Z=6: objects=68 V08_RESOLVED=68 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.32:474][  1]LogReal33D: wide world loaded sector X=1003 Y=1007 Z=6: objects=113 V08_RESOLVED=113 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.43:263][  1]LogReal33D: wide world loaded sector X=1001 Y=1006 Z=7: objects=1712 V08_RESOLVED=1712 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.43:817][  1]LogReal33D: wide world loaded sector X=1001 Y=1004 Z=7: objects=1288 V08_RESOLVED=1288 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.48:714][  1]LogReal33D: wide world loaded sector X=1001 Y=1005 Z=7: objects=1813 V08_RESOLVED=1813 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.48:874][  1]LogReal33D: wide world loaded sector X=1001 Y=1007 Z=7: objects=1506 V08_RESOLVED=1506 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.50:894][  1]LogReal33D: wide world loaded sector X=1002 Y=1005 Z=7: objects=1671 V08_RESOLVED=1671 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.54:575][  1]LogReal33D: wide world loaded sector X=1002 Y=1004 Z=7: objects=1625 V08_RESOLVED=1625 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.54:585][  1]LogReal33D: wide world loaded sector X=1001 Y=1008 Z=7: objects=1024 V08_RESOLVED=1024 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.10.58:447][  1]LogReal33D: wide world loaded sector X=1002 Y=1006 Z=7: objects=1652 V08_RESOLVED=1652 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.11.01:099][  1]LogReal33D: wide world loaded sector X=1002 Y=1007 Z=7: objects=1440 V08_RESOLVED=1440 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.11.01:348][  1]LogReal33D: wide world loaded sector X=1003 Y=1004 Z=7: objects=1456 V08_RESOLVED=1456 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.11.01:354][  1]LogReal33D: wide world loaded sector X=1002 Y=1008 Z=7: objects=1024 V08_RESOLVED=1024 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.11.04:918][  1]LogReal33D: wide world loaded sector X=1003 Y=1005 Z=7: objects=1398 V08_RESOLVED=1398 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.11.04:943][  1]LogReal33D: wide world loaded sector X=1003 Y=1006 Z=7: objects=1443 V08_RESOLVED=1443 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.11.04:959][  1]LogReal33D: wide world loaded sector X=1003 Y=1007 Z=7: objects=1412 V08_RESOLVED=1412 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.11.04:965][  1]LogReal33D: wide world loaded sector X=1003 Y=1008 Z=7: objects=1024 V08_RESOLVED=1024 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.11.04:982][  1]LogReal33D: wide world loaded sector X=1004 Y=1004 Z=7: objects=1488 V08_RESOLVED=1488 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.11.06:417][  1]LogReal33D: wide world loaded sector X=1004 Y=1005 Z=7: objects=1481 V08_RESOLVED=1481 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.11.06:587][  1]LogReal33D: wide world loaded sector X=1004 Y=1006 Z=7: objects=1415 V08_RESOLVED=1415 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.11.06:598][  1]LogReal33D: wide world loaded sector X=1004 Y=1007 Z=7: objects=1105 V08_RESOLVED=1105 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.11.06:605][  1]LogReal33D: wide world loaded sector X=1004 Y=1008 Z=7: objects=1024 V08_RESOLVED=1024 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.11.06:866][  1]LogReal33D: wide world loaded sector X=1005 Y=1004 Z=7: objects=1214 V08_RESOLVED=1214 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.11.08:921][  1]LogReal33D: wide world loaded sector X=1005 Y=1005 Z=7: objects=1245 V08_RESOLVED=1245 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.11.08:933][  1]LogReal33D: wide world loaded sector X=1005 Y=1008 Z=7: objects=1024 V08_RESOLVED=1024 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.11.10:718][  1]LogReal33D: wide world loaded sector X=1005 Y=1006 Z=7: objects=1210 V08_RESOLVED=1210 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.11.10:725][  1]LogReal33D: wide world loaded sector X=1005 Y=1007 Z=7: objects=1024 V08_RESOLVED=1024 CLASSIC_SPRITE_FALLBACK=0 MISSING_PHYSICAL_ASSET=0
+[2026.10.16-22.11.11:070][  2]LogReal33D: input 1: walk south requested from Unreal
+[2026.10.16-22.11.11:078][  2]LogReal33D: HUD vitals: HP 65/165   Mana 15/15   Level 4
+[2026.10.16-22.11.11:214][  2]LogReal33D: minimap cache saved: cells=252
+[2026.10.16-22.11.11:308][  2]LogReal33D: input 1: walk command 1 sent to Fusion32
+[2026.10.16-22.11.11:310][  2]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\build\unreal-world-presentation-polish-001\live-20261016T160844-two-workers/unreal_slice_evidence_MinimapInitial.json
+[2026.10.16-22.11.11:368][  2]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.11.12:976][  3]LogReal33D: minimap observation: player=32107,32205,7 known=270 live=252 viewport=18x14
+[2026.10.16-22.11.13:010][  3]LogReal33D: input 1: Fusion32 accepted request 1, 32107,32204,7 -> 32107,32205,7
+[2026.10.16-22.11.13:015][  3]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=274
+[2026.10.16-22.11.13:909][ 10]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=274
+[2026.10.16-22.11.15:886][ 71]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=274
+[2026.10.16-22.11.16:687][104]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\build\unreal-world-presentation-polish-001\live-20261016T160844-two-workers/unreal_slice_evidence_MinimapSettled.json
+[2026.10.16-22.11.17:650][133]LogReal33D: input 2: walk west requested from Unreal
+[2026.10.16-22.11.17:724][136]LogReal33D: input 2: walk command 2 sent to Fusion32
+[2026.10.16-22.11.17:891][143]LogReal33D: minimap observation: player=32106,32205,7 known=284 live=252 viewport=18x14
+[2026.10.16-22.11.17:932][143]LogReal33D: input 2: Fusion32 accepted request 2, 32107,32205,7 -> 32106,32205,7
+[2026.10.16-22.11.17:937][143]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=267
+[2026.10.16-22.11.18:103][151]LogReal33D: input 3: walk west requested from Unreal
+[2026.10.16-22.11.18:151][153]LogReal33D: input 3: walk command 3 sent to Fusion32
+[2026.10.16-22.11.18:270][158]LogReal33D: minimap observation: player=32105,32205,7 known=298 live=252 viewport=18x14
+[2026.10.16-22.11.18:302][158]LogReal33D: input 3: Fusion32 accepted request 3, 32106,32205,7 -> 32105,32205,7
+[2026.10.16-22.11.18:308][158]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=261
+[2026.10.16-22.11.18:570][170]LogReal33D: input 4: walk west requested from Unreal
+[2026.10.16-22.11.18:623][172]LogReal33D: input 4: walk command 4 sent to Fusion32
+[2026.10.16-22.11.18:740][177]LogReal33D: minimap observation: player=32104,32205,7 known=312 live=252 viewport=18x14
+[2026.10.16-22.11.18:777][177]LogReal33D: input 4: Fusion32 accepted request 4, 32105,32205,7 -> 32104,32205,7
+[2026.10.16-22.11.18:781][177]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=255
+[2026.10.16-22.11.19:040][189]LogReal33D: input 5: walk west requested from Unreal
+[2026.10.16-22.11.19:064][190]LogReal33D: input 5: walk command 5 sent to Fusion32
+[2026.10.16-22.11.19:185][195]LogReal33D: minimap observation: player=32103,32205,7 known=326 live=252 viewport=18x14
+[2026.10.16-22.11.19:221][195]LogReal33D: input 5: Fusion32 accepted request 5, 32104,32205,7 -> 32103,32205,7
+[2026.10.16-22.11.19:224][195]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=249
+[2026.10.16-22.11.19:389][203]LogReal33D: input 6: walk north requested from Unreal
+[2026.10.16-22.11.19:461][206]LogReal33D: input 6: walk command 6 sent to Fusion32
+[2026.10.16-22.11.19:631][213]LogReal33D: minimap observation: player=32103,32204,7 known=330 live=252 viewport=18x14
+[2026.10.16-22.11.19:682][213]LogReal33D: input 6: Fusion32 accepted request 6, 32103,32205,7 -> 32103,32204,7
+[2026.10.16-22.11.19:685][213]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=275
+[2026.10.16-22.11.19:848][221]LogReal33D: input 7: walk north requested from Unreal
+[2026.10.16-22.11.19:875][222]LogReal33D: input 7: walk command 7 sent to Fusion32
+[2026.10.16-22.11.19:878][222]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=275
+[2026.10.16-22.11.20:093][231]LogReal33D: minimap observation: player=32103,32203,7 known=348 live=252 viewport=18x14
+[2026.10.16-22.11.20:134][231]LogReal33D: input 7: Fusion32 accepted request 7, 32103,32204,7 -> 32103,32203,7
+[2026.10.16-22.11.20:138][231]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=299
+[2026.10.16-22.11.20:326][240]LogReal33D: input 8: walk north requested from Unreal
+[2026.10.16-22.11.20:348][241]LogReal33D: input 8: walk command 8 sent to Fusion32
+[2026.10.16-22.11.20:420][244]LogReal33D: input 9: walk east requested from Unreal
+[2026.10.16-22.11.20:444][245]LogReal33D: input 9: walk command 9 sent to Fusion32
+[2026.10.16-22.11.20:469][246]LogReal33D: Warning: input 8: Fusion32 refused request 8; position unchanged
+[2026.10.16-22.11.20:517][248]LogReal33D: minimap observation: player=32104,32203,7 known=349 live=252 viewport=18x14
+[2026.10.16-22.11.20:543][248]LogReal33D: input 9: Fusion32 accepted request 9, 32103,32203,7 -> 32104,32203,7
+[2026.10.16-22.11.20:546][248]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=303
+[2026.10.16-22.11.20:885][263]LogReal33D: input 10: walk east requested from Unreal
+[2026.10.16-22.11.20:937][265]LogReal33D: input 10: walk command 10 sent to Fusion32
+[2026.10.16-22.11.21:033][269]LogReal33D: minimap observation: player=32105,32203,7 known=350 live=252 viewport=18x14
+[2026.10.16-22.11.21:066][269]LogReal33D: input 10: Fusion32 accepted request 10, 32104,32203,7 -> 32105,32203,7
+[2026.10.16-22.11.21:072][269]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=307
+[2026.10.16-22.11.21:358][282]LogReal33D: input 11: walk east requested from Unreal
+[2026.10.16-22.11.21:381][283]LogReal33D: input 11: walk command 11 sent to Fusion32
+[2026.10.16-22.11.21:479][287]LogReal33D: minimap observation: player=32106,32203,7 known=351 live=252 viewport=18x14
+[2026.10.16-22.11.21:511][287]LogReal33D: input 11: Fusion32 accepted request 11, 32105,32203,7 -> 32106,32203,7
+[2026.10.16-22.11.21:513][287]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=311
+[2026.10.16-22.11.21:811][300]LogReal33D: input 12: walk east requested from Unreal
+[2026.10.16-22.11.21:895][303]LogReal33D: input 12: walk command 12 sent to Fusion32
+[2026.10.16-22.11.21:900][303]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=311
+[2026.10.16-22.11.21:974][306]LogReal33D: minimap observation: player=32107,32203,7 known=352 live=252 viewport=18x14
+[2026.10.16-22.11.22:010][306]LogReal33D: input 12: Fusion32 accepted request 12, 32106,32203,7 -> 32107,32203,7
+[2026.10.16-22.11.22:014][306]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=316
+[2026.10.16-22.11.22:032][307]LogReal33D: input 13: walk south requested from Unreal
+[2026.10.16-22.11.22:041][308]LogReal33D: input 13: walk command 13 sent to Fusion32
+[2026.10.16-22.11.22:426][323]LogReal33D: minimap observation: player=32107,32204,7 known=352 live=252 viewport=18x14
+[2026.10.16-22.11.22:459][323]LogReal33D: input 13: Fusion32 accepted request 13, 32107,32203,7 -> 32107,32204,7
+[2026.10.16-22.11.22:463][323]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.11.23:895][383]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.11.25:881][463]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.11.27:895][544]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.11.29:890][624]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.11.30:850][662]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\build\unreal-world-presentation-polish-001\live-20261016T160844-two-workers/unreal_slice_evidence_Manual_20261016T221130_849.json
+[2026.10.16-22.11.30:915][662]LogReal33D: manual evidence snapshot requested
+[2026.10.16-22.11.31:890][695]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.11.33:887][775]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.11.35:876][855]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.11.37:876][935]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.11.38:371][955]LogReal33D: use 14: object 2854 at body 0 slot 3, would open as container 0
+[2026.10.16-22.11.39:875][ 15]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.11.41:227][ 69]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.11.41:884][ 95]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.11.43:877][175]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.11.45:883][255]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.11.47:891][335]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.11.49:895][415]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.11.51:872][494]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.11.53:870][573]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.11.55:892][652]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.11.57:324][707]LogReal33D: left-click walk: target 32102,32204,7, 5 cardinal steps
+[2026.10.16-22.11.57:325][707]LogReal33D: input 15: left-click walk direction 3 to 32106,32204,7
+[2026.10.16-22.11.57:351][708]LogReal33D: input 15: walk command 14 sent to Fusion32
+[2026.10.16-22.11.57:430][711]LogReal33D: minimap observation: player=32106,32204,7 known=352 live=252 viewport=18x14
+[2026.10.16-22.11.57:450][711]LogReal33D: input 15: Fusion32 accepted request 14, 32107,32204,7 -> 32106,32204,7
+[2026.10.16-22.11.57:454][711]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=290
+[2026.10.16-22.11.57:786][725]LogReal33D: input 16: left-click walk direction 3 to 32105,32204,7
+[2026.10.16-22.11.57:895][729]LogReal33D: input 16: walk command 15 sent to Fusion32
+[2026.10.16-22.11.57:898][729]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=290
+[2026.10.16-22.11.57:968][732]LogReal33D: minimap observation: player=32105,32204,7 known=352 live=252 viewport=18x14
+[2026.10.16-22.11.57:991][732]LogReal33D: input 16: Fusion32 accepted request 15, 32106,32204,7 -> 32105,32204,7
+[2026.10.16-22.11.57:996][732]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=285
+[2026.10.16-22.11.58:252][743]LogReal33D: input 17: left-click walk direction 3 to 32104,32204,7
+[2026.10.16-22.11.58:334][746]LogReal33D: input 17: walk command 16 sent to Fusion32
+[2026.10.16-22.11.58:434][750]LogReal33D: minimap observation: player=32104,32204,7 known=352 live=252 viewport=18x14
+[2026.10.16-22.11.58:457][750]LogReal33D: input 17: Fusion32 accepted request 16, 32105,32204,7 -> 32104,32204,7
+[2026.10.16-22.11.58:460][750]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=280
+[2026.10.16-22.11.58:718][761]LogReal33D: input 18: left-click walk direction 3 to 32103,32204,7
+[2026.10.16-22.11.58:774][763]LogReal33D: input 18: walk command 17 sent to Fusion32
+[2026.10.16-22.11.58:881][767]LogReal33D: minimap observation: player=32103,32204,7 known=352 live=252 viewport=18x14
+[2026.10.16-22.11.58:917][767]LogReal33D: input 18: Fusion32 accepted request 17, 32104,32204,7 -> 32103,32204,7
+[2026.10.16-22.11.58:918][767]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=275
+[2026.10.16-22.11.59:103][775]LogReal33D: left-click walk: target 32105,32204,7, 2 cardinal steps
+[2026.10.16-22.11.59:181][778]LogReal33D: input 19: left-click walk direction 1 to 32104,32204,7
+[2026.10.16-22.11.59:215][779]LogReal33D: input 19: walk command 18 sent to Fusion32
+[2026.10.16-22.11.59:317][783]LogReal33D: minimap observation: player=32104,32204,7 known=352 live=252 viewport=18x14
+[2026.10.16-22.11.59:344][783]LogReal33D: input 19: Fusion32 accepted request 18, 32103,32204,7 -> 32104,32204,7
+[2026.10.16-22.11.59:350][783]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=280
+[2026.10.16-22.11.59:398][786]LogReal33D: left-click walk: target 32105,32205,7, 2 cardinal steps
+[2026.10.16-22.11.59:645][795]LogReal33D: input 20: left-click walk direction 2 to 32104,32205,7
+[2026.10.16-22.11.59:671][796]LogReal33D: input 20: walk command 19 sent to Fusion32
+[2026.10.16-22.11.59:780][800]LogReal33D: minimap observation: player=32104,32205,7 known=352 live=252 viewport=18x14
+[2026.10.16-22.11.59:803][800]LogReal33D: input 20: Fusion32 accepted request 19, 32104,32204,7 -> 32104,32205,7
+[2026.10.16-22.11.59:806][800]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=255
+[2026.10.16-22.11.59:836][802]LogReal33D: left-click walk: target 32107,32205,7, 3 cardinal steps
+[2026.10.16-22.11.59:895][804]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=255
+[2026.10.16-22.12.00:107][812]LogReal33D: input 21: left-click walk direction 1 to 32105,32205,7
+[2026.10.16-22.12.00:163][814]LogReal33D: input 21: walk command 20 sent to Fusion32
+[2026.10.16-22.12.00:216][816]LogReal33D: minimap observation: player=32105,32205,7 known=352 live=252 viewport=18x14
+[2026.10.16-22.12.00:239][816]LogReal33D: input 21: Fusion32 accepted request 20, 32104,32205,7 -> 32105,32205,7
+[2026.10.16-22.12.00:243][816]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=261
+[2026.10.16-22.12.00:571][829]LogReal33D: input 22: left-click walk direction 1 to 32106,32205,7
+[2026.10.16-22.12.00:652][832]LogReal33D: input 22: walk command 21 sent to Fusion32
+[2026.10.16-22.12.00:733][835]LogReal33D: minimap observation: player=32106,32205,7 known=352 live=252 viewport=18x14
+[2026.10.16-22.12.00:764][835]LogReal33D: input 22: Fusion32 accepted request 21, 32105,32205,7 -> 32106,32205,7
+[2026.10.16-22.12.00:767][835]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=267
+[2026.10.16-22.12.01:025][846]LogReal33D: input 23: left-click walk direction 1 to 32107,32205,7
+[2026.10.16-22.12.01:080][848]LogReal33D: input 23: walk command 22 sent to Fusion32
+[2026.10.16-22.12.01:186][852]LogReal33D: minimap observation: player=32107,32205,7 known=352 live=252 viewport=18x14
+[2026.10.16-22.12.01:211][852]LogReal33D: input 23: Fusion32 accepted request 22, 32106,32205,7 -> 32107,32205,7
+[2026.10.16-22.12.01:215][852]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=274
+[2026.10.16-22.12.01:483][863]LogReal33D: left-click walk arrived: authoritative player=32107,32205,7
+[2026.10.16-22.12.01:888][878]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=274
+[2026.10.16-22.12.01:968][881]LogReal33D: left-click walk: target 32103,32202,7, 7 cardinal steps
+[2026.10.16-22.12.01:968][881]LogReal33D: input 24: left-click walk direction 3 to 32106,32205,7
+[2026.10.16-22.12.02:021][883]LogReal33D: input 24: walk command 23 sent to Fusion32
+[2026.10.16-22.12.02:074][885]LogReal33D: minimap observation: player=32106,32205,7 known=352 live=252 viewport=18x14
+[2026.10.16-22.12.02:095][885]LogReal33D: input 24: Fusion32 accepted request 23, 32107,32205,7 -> 32106,32205,7
+[2026.10.16-22.12.02:098][885]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=267
+[2026.10.16-22.12.02:424][898]LogReal33D: input 25: left-click walk direction 3 to 32105,32205,7
+[2026.10.16-22.12.02:507][901]LogReal33D: left-click walk: no reachable observed route/frontier
+[2026.10.16-22.12.02:508][901]LogReal33D: input 25: walk command 24 sent to Fusion32
+[2026.10.16-22.12.02:586][904]LogReal33D: minimap observation: player=32105,32205,7 known=352 live=252 viewport=18x14
+[2026.10.16-22.12.02:612][904]LogReal33D: input 25: Fusion32 accepted request 24, 32106,32205,7 -> 32105,32205,7
+[2026.10.16-22.12.02:614][904]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=261
+[2026.10.16-22.12.03:098][923]LogReal33D: left-click walk: target 32106,32204,7, 2 cardinal steps
+[2026.10.16-22.12.03:098][923]LogReal33D: input 26: left-click walk direction 0 to 32105,32204,7
+[2026.10.16-22.12.03:130][924]LogReal33D: input 26: walk command 25 sent to Fusion32
+[2026.10.16-22.12.03:236][928]LogReal33D: minimap observation: player=32105,32204,7 known=352 live=252 viewport=18x14
+[2026.10.16-22.12.03:284][928]LogReal33D: input 26: Fusion32 accepted request 25, 32105,32205,7 -> 32105,32204,7
+[2026.10.16-22.12.03:288][928]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=285
+[2026.10.16-22.12.03:312][929]LogReal33D: left-click walk: target 32106,32204,7, 1 cardinal steps
+[2026.10.16-22.12.03:490][937]LogReal33D: left-click walk: target 32106,32204,7, 1 cardinal steps
+[2026.10.16-22.12.03:566][940]LogReal33D: input 27: left-click walk direction 1 to 32106,32204,7
+[2026.10.16-22.12.03:590][941]LogReal33D: input 27: walk command 26 sent to Fusion32
+[2026.10.16-22.12.03:669][944]LogReal33D: minimap observation: player=32106,32204,7 known=352 live=252 viewport=18x14
+[2026.10.16-22.12.03:698][944]LogReal33D: input 27: Fusion32 accepted request 26, 32105,32204,7 -> 32106,32204,7
+[2026.10.16-22.12.03:704][944]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=290
+[2026.10.16-22.12.03:723][945]LogReal33D: left-click walk: target 32106,32204,7, 0 cardinal steps
+[2026.10.16-22.12.03:885][952]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=290
+[2026.10.16-22.12.03:958][955]LogReal33D: left-click walk: target 32107,32204,7, 1 cardinal steps
+[2026.10.16-22.12.04:043][958]LogReal33D: input 28: left-click walk direction 1 to 32107,32204,7
+[2026.10.16-22.12.04:098][960]LogReal33D: input 28: walk command 27 sent to Fusion32
+[2026.10.16-22.12.04:178][963]LogReal33D: minimap observation: player=32107,32204,7 known=352 live=252 viewport=18x14
+[2026.10.16-22.12.04:201][963]LogReal33D: input 28: Fusion32 accepted request 27, 32106,32204,7 -> 32107,32204,7
+[2026.10.16-22.12.04:204][963]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.04:517][975]LogReal33D: left-click walk arrived: authoritative player=32107,32204,7
+[2026.10.16-22.12.05:871][ 26]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.07:895][101]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.09:888][174]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.11:244][224]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.12.11:876][247]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.13:890][321]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.15:881][394]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.16:125][403]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\build\unreal-world-presentation-polish-001\live-20261016T160844-two-workers/unreal_slice_evidence_Manual_20261016T221216_123.json
+[2026.10.16-22.12.16:170][403]LogReal33D: manual evidence snapshot requested
+[2026.10.16-22.12.17:896][460]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.19:882][530]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.21:894][601]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.23:876][671]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.25:891][742]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.27:880][812]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.29:897][883]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.31:888][953]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.33:871][ 23]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.35:882][ 94]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.37:896][165]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.39:885][235]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.41:251][283]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.12.41:873][305]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.43:888][376]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.45:882][446]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.47:890][517]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.49:880][587]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.51:895][658]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.53:880][728]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.55:895][799]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.57:880][869]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.12.59:888][939]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.01:884][  8]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.03:883][ 77]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.05:884][146]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.07:884][215]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.09:878][284]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.11:271][332]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.13.11:877][353]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.13:878][422]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.15:876][491]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.17:877][560]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.25:316][570]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.25:891][586]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.27:881][662]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.29:881][736]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.31:890][810]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.33:873][883]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.35:875][959]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.37:879][ 31]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.39:876][103]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.41:295][154]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.13.41:880][175]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.43:886][247]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.45:895][319]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.47:872][390]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.49:872][462]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.51:878][534]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.53:887][606]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.55:891][675]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.57:889][747]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.13.59:878][818]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.01:882][890]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.03:883][962]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.05:888][ 34]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.07:884][106]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.09:885][178]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.11:307][229]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.14.11:892][250]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.13:891][322]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.15:893][394]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.17:873][465]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.19:874][537]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.21:877][609]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.23:883][681]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.25:888][753]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.27:896][825]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.29:898][897]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.31:878][968]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.33:882][ 40]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.35:888][112]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.37:888][184]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.39:896][256]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.41:316][307]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.14.41:898][328]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.43:874][399]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.45:878][471]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.47:886][543]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.49:891][615]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.51:888][687]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.53:873][758]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.55:877][830]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.57:877][902]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.14.59:876][974]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.01:876][ 46]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.03:872][118]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.05:871][190]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.07:872][262]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.09:898][335]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.11:340][387]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.15.11:897][407]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.13:897][479]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.15:898][551]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.17:894][623]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.19:891][695]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.21:896][767]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.23:891][839]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.25:893][911]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.27:896][983]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.29:873][ 54]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.31:876][126]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.33:881][198]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.35:883][270]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.37:883][342]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.39:892][414]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.41:372][467]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.15.41:877][485]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.43:878][557]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.45:883][629]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.47:885][701]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.49:892][773]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.51:895][845]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.53:871][916]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.55:872][988]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.57:876][ 60]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.15.59:878][132]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.01:884][204]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.03:891][276]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.05:894][348]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.07:877][419]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.09:874][491]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.11:397][546]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.16.11:897][564]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.13:873][635]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.15:879][707]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.17:884][779]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.19:886][851]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.21:892][923]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.23:895][995]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.25:897][ 67]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.27:894][139]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.29:871][210]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.31:875][282]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.33:877][354]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.35:894][426]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.37:888][498]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.39:894][570]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.41:430][625]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.16.41:895][642]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.43:877][713]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.45:876][785]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.47:883][857]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.49:889][929]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.51:897][  1]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.53:874][ 72]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.55:881][144]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.57:889][216]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.16.59:896][288]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.01:887][359]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.03:892][431]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.05:869][502]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.07:883][574]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.09:881][646]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.11:442][702]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.17.11:885][718]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.13:890][790]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.15:870][861]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.17:877][933]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.19:885][  5]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.21:897][ 77]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.23:880][148]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.25:886][220]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.27:896][292]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.29:896][364]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.31:879][435]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.33:877][507]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.35:881][579]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.37:893][651]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.39:900][723]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.41:456][779]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.17.41:870][794]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.43:874][866]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.45:881][938]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.47:885][ 10]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.49:896][ 82]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.51:896][154]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.53:876][225]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.55:885][297]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.57:895][369]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.17.59:895][441]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.01:872][511]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.03:874][583]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.05:886][655]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.07:894][727]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.09:873][798]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.11:461][855]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.18.11:879][870]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.13:884][942]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.15:870][ 12]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.17:895][ 83]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.19:893][154]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.21:882][222]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.23:876][290]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.25:873][361]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.27:891][433]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.29:877][504]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.31:900][576]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.33:881][646]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.35:886][717]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.37:896][788]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.39:889][859]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.41:489][916]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.18.41:877][930]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.43:882][  2]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.45:893][ 74]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.47:877][145]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.49:884][217]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.51:891][289]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.53:879][360]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.55:890][432]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.57:957][506]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.18.59:888][575]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.01:876][646]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.03:882][718]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.05:928][791]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.07:889][861]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.09:901][933]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.11:519][991]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.19.11:877][  4]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.13:888][ 76]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.15:897][148]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.17:875][219]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.19:892][291]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.21:878][362]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.23:884][434]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.25:888][506]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.27:896][578]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.29:897][650]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.31:882][721]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.33:893][793]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.35:874][864]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.37:888][936]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.39:873][  7]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.41:554][ 67]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.19.41:885][ 79]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.43:890][151]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.45:876][222]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.47:888][294]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.49:895][366]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.51:877][437]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.53:888][509]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.55:876][580]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.57:891][652]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.19.59:896][724]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.01:875][795]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.03:892][867]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.05:898][939]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.07:876][ 10]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.09:890][ 82]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.11:563][142]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.20.11:898][154]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.13:882][225]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.15:891][297]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.17:872][368]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.19:883][440]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.21:894][512]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.23:877][583]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.25:887][655]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.27:872][726]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.29:879][798]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.32:186][863]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.33:885][924]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.35:900][994]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.37:895][ 64]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.39:892][136]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.41:592][197]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.20.41:873][207]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.43:881][279]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.45:887][351]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.47:872][422]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.49:883][494]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.51:893][566]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.53:877][637]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.55:889][709]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.57:873][780]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.20.59:883][852]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.01:898][924]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.03:881][995]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.05:893][ 67]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.07:877][138]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.09:888][210]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.11:621][272]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.21.11:871][281]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.13:883][353]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.15:894][425]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.17:878][496]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.19:888][568]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.21:874][639]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.23:884][711]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.25:896][783]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.27:879][854]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.29:887][925]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.31:880][995]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.33:888][ 67]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.35:878][138]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.37:896][210]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.39:899][280]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.41:628][342]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.21.41:879][351]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.43:889][423]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.45:870][494]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.47:881][566]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.49:893][638]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.51:891][709]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.53:873][779]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.55:888][851]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.57:871][922]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.21.59:886][994]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.01:896][ 66]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.03:883][137]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.05:896][209]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.07:888][280]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.09:872][351]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.11:658][415]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.22.11:881][423]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.13:891][495]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.15:876][566]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.17:888][638]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.19:870][709]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.21:879][781]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.23:890][853]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.25:873][924]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.27:887][996]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.29:895][ 68]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.31:878][139]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.33:888][211]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.35:880][281]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.37:871][352]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.39:874][423]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.41:683][488]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.22.41:878][495]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.43:890][567]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.45:875][638]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.47:883][710]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.49:893][782]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.51:905][853]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.53:888][924]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.55:897][996]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.57:883][ 67]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.22.59:892][139]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.01:884][210]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.03:884][282]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.05:898][354]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.07:881][425]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.09:891][497]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.11:705][562]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.23.11:873][568]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.13:887][640]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.15:894][712]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.17:876][783]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.19:889][855]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.21:871][926]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.23:884][998]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.25:895][ 70]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.27:876][141]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.29:889][213]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.31:872][284]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.33:883][356]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.35:893][428]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.37:875][499]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.39:888][571]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.41:733][637]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.23.41:872][642]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.43:885][714]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.45:893][786]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.47:874][857]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.49:883][929]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.51:894][  1]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.53:878][ 72]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.55:890][144]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.57:871][215]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.23.59:881][287]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.01:893][359]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.03:876][430]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.05:888][502]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.07:869][573]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.09:886][645]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.11:749][712]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.24.11:888][717]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.13:872][788]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.15:883][860]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.17:891][932]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.19:876][  3]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.21:889][ 75]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.23:873][146]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.25:883][218]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.27:892][290]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.29:876][361]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.31:886][433]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.33:894][505]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.35:877][576]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.37:888][648]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.39:869][719]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.41:773][787]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.24.41:885][791]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.43:896][863]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.45:877][934]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.47:890][  6]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.49:898][ 78]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.51:880][149]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.53:891][221]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.55:899][293]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.57:878][364]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.24.59:889][436]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.01:872][507]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.03:883][579]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.05:895][651]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.07:880][722]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.09:893][794]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.11:795][862]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.25.11:878][865]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.13:881][937]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.15:892][  9]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.17:877][ 80]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.19:887][152]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.21:896][224]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.23:880][295]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.25:891][367]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.27:878][438]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.29:882][510]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.31:895][582]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.33:875][653]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.35:887][725]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.37:896][797]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.39:881][868]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.41:808][937]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.25.41:892][940]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.43:875][ 11]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.45:885][ 83]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.47:896][155]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.49:881][226]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.51:894][298]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.53:875][369]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.55:887][441]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.57:870][512]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.25.59:880][584]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.01:892][656]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.03:875][727]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.05:887][799]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.07:898][871]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.09:881][942]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.11:836][ 12]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.26.11:892][ 14]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.13:875][ 85]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.15:887][157]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.17:873][228]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.19:883][300]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.21:893][372]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.23:877][443]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.25:888][515]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.27:875][586]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.29:880][658]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.31:892][730]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.33:875][801]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.35:885][873]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.37:896][945]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.39:880][ 16]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.41:865][ 87]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.26.41:893][ 88]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.43:872][159]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.45:884][231]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.47:894][303]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.49:880][374]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.51:892][446]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.53:872][517]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.55:886][589]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.57:896][661]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.26.59:879][732]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.27.01:890][804]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.27.03:585][865]LogReal33D: server message [AdminMessage]: You have been idle for 15 minutes. You will be disconnected in one minute if you are still idle then.
+[2026.10.16-22.27.03:870][875]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.27.05:883][947]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.27.07:897][ 19]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.27.09:895][ 88]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.27.11:900][151]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.27.11:911][151]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.27.13:885][218]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.27.15:904][290]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.27.17:883][357]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.27.19:893][413]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.27.21:897][472]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.27.23:880][541]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.27.25:883][606]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.27.27:891][674]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.27.29:887][738]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.27.31:891][805]LogReal33D: floor visibility: player floor 7 covered=true hidden upper tiles=296
+[2026.10.16-22.27.33:883][869]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-hud-panel-registry-20261016\build\unreal-world-presentation-polish-001\live-20261016T160844-two-workers/unreal_slice_evidence.json
+[2026.10.16-22.27.34:092][869]LogReal33D: minimap cache saved: cells=352
+[2026.10.16-22.27.39:782][869]LogExit: Exiting.
+[2026.10.16-22.27.39:881][869]Log file closed, 10/16/26 16:27:39

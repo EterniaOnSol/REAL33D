@@ -1,6 +1,6 @@
 # UNREAL-HUD-PANEL-REGISTRY-001 independent certification
 
-Status: IN_PROGRESS. No certification or main integration claimed yet.
+Status: CERTIFIED. Independent review completed 2026-10-17. No main integration.
 
 ## Provenance and scope
 
@@ -39,7 +39,7 @@ It passed, was removed from production Source and retained as evidence, and is
 followed by an exact merged-source build (PASS). No implementation defect or
 production change has been established by this review.
 
-## Execution record (pending completion)
+## Execution record
 
 - Harness selftest: PASS, **10 passed / 0 failed**, MSVC on PATH.
 - Fresh MSVC ClientCore build: PASS, C++17 suites and C++20 Unreal archive.
@@ -86,9 +86,85 @@ production change has been established by this review.
   Free disk remains approximately7.8GB. Shader cache file count keeps growing
   (977 at21:44UTC,1599 at21:49,2969 at21:51,3479 at21:56); this is slow cold
   compilation, not an observed HUD/gameplay defect. No server connection/capture
-  exists yet, so UI compatibility remains unverified.
+  existed at that checkpoint, so UI compatibility was still unverified then.
 
-Remaining: fresh UI/stackable compatibility
-evidence, corrected harness with 13 CTest suites and
-4 native suites, direct Git Bash six-check secret scan, clean committed closeout
-and remote certification publication only if all requirements pass.
+## Completed live compatibility and final gates
+
+The final graphical run was `live-20261016T160844-two-workers`, PID10080, using
+the independently built exact merge. Fusion32's game service had shut down
+normally while the cold engine was loading; its previous log was preserved and
+only that selected service restarted. No server rules, saved character contents,
+reference material or production source were edited. Details and scope are in
+`unreal-hud-panel-registry-independent-20261016/live/OBSERVATIONS.md`.
+
+Two fresh F9 screenshots and received-state JSON show all six panels plus chat,
+then the normally opened backpack. Inventory gold3031 amount5 and container
+worms3492 amount6 display their cumulative frame4 images and unchanged counts.
+Shovel/rope and equipment remain present. Minimap/player coordinates agree;
+vitals and battle entries display normally. The operator confirmed the existing
+Skills button alternates visibility. All six panels' actual register/open/close/
+toggle behavior was independently exercised in the real HUD automation probe;
+a live Battle-button toggle is not claimed. Chat retained the server login and
+idle-warning messages. This is bounded HUD compatibility, not full gameplay
+recertification or new asset approval.
+
+Normal EndPlay at2026-10-16T22:27:33.882Z records1137commands/581frames,
+26accepted walks/1server rejection/0unanswered, one normal Use and one open
+backpack. All five retained snapshots have residual_bytes0, unsupported_opcodes0
+and protocol_anomalies0. No duplicate spawns or orphan events; viewport remains
+synchronized. Compact raw events and SHA256 provenance accompany the snapshots.
+
+The corrected strict harness completed at2026-10-17 with **9 PASS / 0 FAIL /
+0 SKIP**, including a fresh real Unreal build (44.47s), MSVC C++17 suites/C++20
+archive, native4/4, exactly13 CTest suites, Git Bash secret6/6 and33 protocol logs
+with zero anomalies. Raw report and every gate log are retained under `harness/`.
+The wrapper independently asserted13 Passed lines and the exact100%/13 marker;
+its exit was0. Earlier selftest10/10 and independent Unreal5/5 remain valid:
+production implementation did not change. Final direct Git Bash secret output is
+retained as `secret-check-final.txt` after all final evidence is staged.
+
+| Criterion | Result | Evidence |
+| --- | --- | --- |
+| File overlap / merge conflicts | PASS: 0 / 0 | provenance.json and two-parent merge55d1d466 |
+| Panel registry and six actual panels | PASS | automation-index.json, retained independent probe |
+| Inventory/containers/chat/vitals/minimap/battle compatibility | PASS | two fresh screenshots, JSON, unchanged content implementations |
+| Stackable compatibility | PASS | gold5 and worms6 live; generic frame code unchanged; native suite PASS |
+| Harness selftest | PASS: 10/10 | selftest.txt |
+| ClientCore | PASS: 13/13 | direct and final harness CTest logs |
+| Native suites | PASS: 4/4 | direct and harness native logs |
+| Unreal tests | PASS: 5/5 | PanelRegistry, actual six-panel HUD, CameraAndFloors, AuthoritativeWindow, ExperimentalV08 |
+| MSVC / actual Unreal build | PASS / PASS | final harness build logs |
+| Corrected harness | PASS: 9/0/0 | REGRESSION-HARNESS-20261017T092251Z.md |
+| Secret check | PASS: Git Bash 6/6 | direct/final secret logs |
+| Protocol | PASS: all counters0 | five snapshots and33-log harness scan |
+
+No certification requirement remains unverified. Known art/3D presentation
+boundaries remain unchanged, including amount-invariant world meshes; this HUD
+review does not change their acceptance. Root's four unrelated dirty evidence
+files are preserved. Main and implementation checkouts remained clean at their
+expected611939af/64aa86a heads. Only the certification branch is published.
+
+## Reproduction
+
+From the isolated certification checkout with the documented engine/MSVC tools:
+
+1. Run `tests/regression_harness_selftest.sh` from Git Bash with MSVC on PATH;
+   require10passed/0failed.
+2. Run `tests/regression_harness.sh --out build/new-cert-harness --strict --unreal
+   --objects-srv /var/lib/fusion32-server-baseline-772-0/game/reference/dat/objects.srv
+   --logs evidence/clientcore/unreal-hud-panel-registry-independent-20261016/live`.
+   Require9PASS/0FAIL/0SKIP and independently count13 CTest Passed lines and4 native
+   results. Use the Visual Studio developer environment for the MSVC gate.
+3. For the independent six-panel probe, copy its retained `.cpp` into a new
+   disposable certification checkout's `unreal/REAL33D/Source/REAL33D/Private`,
+   build REAL33DEditor Win64 Development, then run
+   `scripts/client/test_unreal_presentation.ps1 -EvidenceDirectory <fresh-dir>
+   -ExperimentalCatalog visual/qa/full_catalog_v08/experimental_catalog_runtime.json`.
+   Inspect all five named tests in automation-report/index.json, requiring
+   Success/errors0 and failed/notRun/inProcess0. Remove the temporary probe from
+   that disposable source tree and rebuild the unchanged implementation afterward.
+4. Launch `scripts/client/run_unreal_presentation_qa.ps1 -Account B` against the
+   existing authoritative runtime; capture the HUD, open the backpack normally,
+   capture again, operate the existing Skills button, and close normally. Confirm
+   actual counts/images, registry/API results and zero protocol counters. No
+   synthetic local state or new items are needed.

@@ -1,0 +1,56 @@
+{
+    "source_session":  "C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-hud-panel-registry-20261016\\build\\unreal-world-presentation-polish-001\\live-20261016T160844-two-workers",
+    "implementation":  "55d1d4660110ce2ca8e09a8d5e944a16d0750574",
+    "checkout_head":  "304fa11d0f6c6f3f505c514cc9f3a2b249a6efb5",
+    "raw_log_sha256":  "4CE49C04BF62A8C76367DC8046E98C2D7E888BC7F49E32DF13074854CFEC41EA",
+    "raw_log_filter":  "LogReal33D lines, LogExit Exiting and final Log file closed; all JSON snapshots retained except geometry",
+    "snapshot_count":  5,
+    "all_protocol_counters_zero":  true,
+    "snapshots":  [
+                      {
+                          "file":  "unreal_slice_evidence.json",
+                          "reason":  "EndPlay",
+                          "commands":  1137,
+                          "residual_bytes":  0,
+                          "unsupported_opcodes":  0,
+                          "protocol_anomalies":  0,
+                          "sha256":  "B79F09370DC31A714AB010621A6C1E63F444E0AEB7AA01281664128FB8D482FE"
+                      },
+                      {
+                          "file":  "unreal_slice_evidence_Manual_20261016T221130_849.json",
+                          "reason":  "Manual",
+                          "commands":  173,
+                          "residual_bytes":  0,
+                          "unsupported_opcodes":  0,
+                          "protocol_anomalies":  0,
+                          "sha256":  "20E16C3FE97D12D82253032693185BA4E9B01D8E415B32038982604BC21E79CF"
+                      },
+                      {
+                          "file":  "unreal_slice_evidence_Manual_20261016T221216_123.json",
+                          "reason":  "Manual",
+                          "commands":  248,
+                          "residual_bytes":  0,
+                          "unsupported_opcodes":  0,
+                          "protocol_anomalies":  0,
+                          "sha256":  "2A733AAA6823D330CE97376514BCAAD190B51E376A1E6D0F1D13A521ACE8772F"
+                      },
+                      {
+                          "file":  "unreal_slice_evidence_MinimapInitial.json",
+                          "reason":  "MinimapInitial",
+                          "commands":  131,
+                          "residual_bytes":  0,
+                          "unsupported_opcodes":  0,
+                          "protocol_anomalies":  0,
+                          "sha256":  "FB6FC833F34C98401544D93F7B27252C9294B411C76371581D0654730FB11ACC"
+                      },
+                      {
+                          "file":  "unreal_slice_evidence_MinimapSettled.json",
+                          "reason":  "MinimapSettled",
+                          "commands":  136,
+                          "residual_bytes":  0,
+                          "unsupported_opcodes":  0,
+                          "protocol_anomalies":  0,
+                          "sha256":  "15C280ACD83A89BABA635EDE0C0813DDFAD88FD0213002174C50D79FBA4E2E9C"
+                      }
+                  ]
+}
