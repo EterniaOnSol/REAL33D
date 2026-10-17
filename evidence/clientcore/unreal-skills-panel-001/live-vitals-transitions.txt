@@ -1,0 +1,33 @@
+[2026.10.17-10.48.05:389][  1]LogReal33D: HUD vitals: HP --/--   Mana --/--   Level --
+[2026.10.17-10.48.05:402][  1]LogReal33D: connected: Test Player B
+[2026.10.17-10.48.05:402][  1]LogReal33D: local player is creature 1002
+[2026.10.17-10.48.46:838][  2]LogReal33D: HUD vitals: HP 65/165   Mana 15/15   Level 4
+[2026.10.17-10.54.17:643][501]LogReal33D: HUD vitals: HP 63/165   Mana 15/15   Level 4
+[2026.10.17-10.54.28:840][984]LogReal33D: HUD vitals: HP 64/165   Mana 15/15   Level 4
+[2026.10.17-10.54.34:846][263]LogReal33D: HUD vitals: HP 65/165   Mana 15/15   Level 4
+[2026.10.17-10.54.44:451][482]LogReal33D: HUD vitals: HP 66/165   Mana 15/15   Level 4
+[2026.10.17-10.54.46:837][562]LogReal33D: HUD vitals: HP 67/165   Mana 15/15   Level 4
+[2026.10.17-10.54.57:163][770]LogReal33D: HUD vitals: HP 68/165   Mana 15/15   Level 4
+[2026.10.17-10.54.58:849][826]LogReal33D: HUD vitals: HP 69/165   Mana 15/15   Level 4
+[2026.10.17-10.55.04:041][ 37]LogReal33D: HUD vitals: HP 67/165   Mana 15/15   Level 4
+[2026.10.17-10.55.04:846][ 69]LogReal33D: HUD vitals: HP 68/165   Mana 15/15   Level 4
+[2026.10.17-10.55.10:844][305]LogReal33D: HUD vitals: HP 69/165   Mana 15/15   Level 4
+[2026.10.17-10.55.16:844][520]LogReal33D: HUD vitals: HP 70/165   Mana 15/15   Level 4
+[2026.10.17-10.55.22:871][709]LogReal33D: HUD vitals: HP 71/165   Mana 15/15   Level 4
+[2026.10.17-10.55.28:855][910]LogReal33D: HUD vitals: HP 72/165   Mana 15/15   Level 4
+[2026.10.17-10.55.31:787][ 23]LogReal33D: HUD vitals: HP 71/165   Mana 15/15   Level 4
+[2026.10.17-10.55.33:435][ 87]LogReal33D: HUD vitals: HP 68/165   Mana 15/15   Level 4
+[2026.10.17-10.55.34:843][142]LogReal33D: HUD vitals: HP 69/165   Mana 15/15   Level 4
+[2026.10.17-10.55.35:803][178]LogReal33D: HUD vitals: HP 68/165   Mana 15/15   Level 4
+[2026.10.17-10.55.40:852][365]LogReal33D: HUD vitals: HP 69/165   Mana 15/15   Level 4
+[2026.10.17-10.55.43:437][464]LogReal33D: HUD vitals: HP 67/165   Mana 15/15   Level 4
+[2026.10.17-10.55.45:447][541]LogReal33D: HUD vitals: HP 66/165   Mana 15/15   Level 4
+[2026.10.17-10.55.46:828][592]LogReal33D: HUD vitals: HP 67/165   Mana 15/15   Level 4
+[2026.10.17-10.55.52:908][816]LogReal33D: HUD vitals: HP 68/165   Mana 15/15   Level 4
+[2026.10.17-10.55.58:690][ 24]LogReal33D: HUD vitals: HP 65/165   Mana 15/15   Level 4
+[2026.10.17-10.55.58:857][ 30]LogReal33D: HUD vitals: HP 66/165   Mana 15/15   Level 4
+[2026.10.17-10.56.04:837][236]LogReal33D: HUD vitals: HP 67/165   Mana 15/15   Level 4
+[2026.10.17-10.56.05:454][259]LogReal33D: HUD vitals: HP 65/165   Mana 15/15   Level 4
+[2026.10.17-10.56.10:338][429]LogReal33D: HUD vitals: HP 64/165   Mana 15/15   Level 4
+[2026.10.17-10.56.10:847][448]LogReal33D: HUD vitals: HP 65/165   Mana 15/15   Level 4
+[2026.10.17-10.56.20:355][813]LogReal33D: HUD vitals: HP 64/165   Mana 15/15   Level 4

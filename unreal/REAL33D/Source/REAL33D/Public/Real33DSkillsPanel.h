@@ -38,6 +38,27 @@ public:
 	/** The height the rows need, so the window can be sized to its contents. */
 	static float DesiredContentHeight();
 
+	/**
+	 * What a row shows for a value the server may or may not have sent.
+	 *
+	 * `--` while `bKnown` is false, because until SV_CMD_PLAYER_DATA or
+	 * SV_CMD_PLAYER_SKILLS arrives there is no value and a zero printed
+	 * here would be a claim the client is not entitled to make. A real
+	 * zero that the server did send is shown as 0.
+	 *
+	 * Static and public so the rule can be asserted directly; it is the
+	 * one property of this panel that must never regress.
+	 */
+	static FText RowText(int64 Value, bool bKnown);
+
+	/**
+	 * Bar fill for a server-reported percentage towards the next level.
+	 *
+	 * Clamped, because a percentage cannot overrun a bar, and empty while
+	 * the value is unknown for the same reason `RowText` shows `--`.
+	 */
+	static float BarFill(int32 Percent, bool bKnown);
+
 private:
 	/** One name/value row, optionally with a percent bar under it. */
 	TSharedRef<SWidget> MakeRow(const FText& Name, int32 Index, bool bWithBar);

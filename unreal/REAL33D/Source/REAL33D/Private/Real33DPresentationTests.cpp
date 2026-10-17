@@ -1,5 +1,6 @@
 #include "Real33DPresentationPolicy.h"
 #include "Real33DPanelRegistry.h"
+#include "Real33DSkillsPanel.h"
 #if WITH_DEV_AUTOMATION_TESTS
 #include "Misc/AutomationTest.h"
 #include "Widgets/Layout/SBox.h"
@@ -120,6 +121,72 @@ bool FReal33DPanelRegistryTest::RunTest(const FString& Parameters)
 	TestEqual(TEXT("reset empties"), Registry.Num(), 0);
 	// Reset forgets panels; it does not touch the widgets themselves.
 	TestEqual(TEXT("reset left the widget alone"), Second->GetVisibility(), SecondBuiltWith);
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FReal33DSkillsPanelTest,
+	"REAL33D.Presentation.SkillsPanel",
+	EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FReal33DSkillsPanelTest::RunTest(const FString& Parameters)
+{
+	(void)Parameters;
+
+	// The rule this panel exists to keep: nothing is shown until Fusion32 has
+	// said it. SV_CMD_PLAYER_DATA and SV_CMD_PLAYER_SKILLS set bKnown; before
+	// either arrives every row reads "--", because a 0 drawn there would be a
+	// number this client invented.
+	const FText Unknown = FText::FromString(TEXT("--"));
+	for (int64 Value : {int64(0), int64(1), int64(10), int64(4200), int64(-1)})
+	{
+		TestEqual(TEXT("an unsent value is never printed"),
+			SReal33DSkillsPanel::RowText(Value, false).ToString(), Unknown.ToString());
+	}
+
+	// A zero the server really sent is a fact and is shown as 0, not hidden
+	// behind the same dashes. Magic level 0 is the ordinary case on Rookgaard.
+	TestEqual(TEXT("a server-sent zero is shown"),
+		SReal33DSkillsPanel::RowText(0, true).ToString(), FString(TEXT("0")));
+
+	// The seven fighting skills are small numbers; experience is not. Both go
+	// through the same formatter, so the wide one is checked too.
+	TestEqual(TEXT("skill level"), SReal33DSkillsPanel::RowText(11, true).ToString(),
+		FString(TEXT("11")));
+	TestEqual(TEXT("experience"), SReal33DSkillsPanel::RowText(441, true).ToString(),
+		FString(TEXT("441")));
+	TestEqual(TEXT("a value wider than 32 bits still formats"),
+		SReal33DSkillsPanel::RowText(4294967296LL, true).ToString(),
+		FString(TEXT("4294967296")));
+
+	// Percent bars. Unknown is empty for the same reason as the text.
+	TestEqual(TEXT("unknown percent draws empty"),
+		SReal33DSkillsPanel::BarFill(57, false), 0.0f);
+	TestEqual(TEXT("zero percent"), SReal33DSkillsPanel::BarFill(0, true), 0.0f);
+	TestEqual(TEXT("half"), SReal33DSkillsPanel::BarFill(50, true), 0.5f);
+	TestEqual(TEXT("full"), SReal33DSkillsPanel::BarFill(100, true), 1.0f);
+
+	// Clamped at both ends: a percentage cannot overrun a bar, and the wire
+	// carries a byte this client does not get to trust blindly.
+	TestEqual(TEXT("above full is clamped"),
+		SReal33DSkillsPanel::BarFill(101, true), 1.0f);
+	TestEqual(TEXT("far above full is clamped"),
+		SReal33DSkillsPanel::BarFill(255, true), 1.0f);
+	TestEqual(TEXT("below zero is clamped"),
+		SReal33DSkillsPanel::BarFill(-1, true), 0.0f);
+
+	// Monotonic across the whole byte range, and always a usable fill.
+	float Previous = -1.0f;
+	for (int32 Percent = 0; Percent <= 255; ++Percent)
+	{
+		const float Fill = SReal33DSkillsPanel::BarFill(Percent, true);
+		TestTrue(TEXT("fill stays in range"), Fill >= 0.0f && Fill <= 1.0f);
+		TestTrue(TEXT("fill never decreases"), Fill >= Previous);
+		Previous = Fill;
+	}
+
+	// The window sizes itself to its rows; a non-positive height would
+	// collapse the panel the registry shows.
+	TestTrue(TEXT("panel asks for a real height"),
+		SReal33DSkillsPanel::DesiredContentHeight() > 0.0f);
 	return true;
 }
 #endif

@@ -35,11 +35,6 @@ namespace
 	{
 		return Row == RowLevel || Row >= RowMagic;
 	}
-
-	FText Number(int64 Value)
-	{
-		return FText::FromString(FString::Printf(TEXT("%lld"), Value));
-	}
 }
 
 float SReal33DSkillsPanel::DesiredContentHeight()
@@ -140,6 +135,17 @@ void SReal33DSkillsPanel::Construct(const FArguments& InArgs)
 	];
 }
 
+FText SReal33DSkillsPanel::RowText(int64 Value, bool bKnown)
+{
+	return bKnown ? FText::FromString(FString::Printf(TEXT("%lld"), Value))
+		: FText::FromString(TEXT("--"));
+}
+
+float SReal33DSkillsPanel::BarFill(int32 Percent, bool bKnown)
+{
+	return bKnown ? FMath::Clamp(Percent / 100.0f, 0.0f, 1.0f) : 0.0f;
+}
+
 void SReal33DSkillsPanel::SetValues(
 	const FReal33DPlayerVitals& Vitals, const FReal33DPlayerSkills& Skills)
 {
@@ -165,36 +171,34 @@ void SReal33DSkillsPanel::SetValues(
 	LastSkills = Skills;
 	bHasDrawnOnce = true;
 
-	const auto Set = [this](int32 Row, const FText& Text, int32 Percent, bool bKnown)
+	// Both rules live in RowText/BarFill so the behaviour under test is the
+	// behaviour drawn, rather than a copy of it that could drift.
+	const auto Set = [this](int32 Row, int64 Value, int32 Percent, bool bKnown)
 	{
 		if (Values[Row].IsValid())
 		{
-			Values[Row]->SetText(bKnown ? Text : FText::FromString(TEXT("--")));
+			Values[Row]->SetText(RowText(Value, bKnown));
 		}
 		if (Bars[Row].IsValid())
 		{
-			// Clamped because a percentage cannot overrun a bar.
-			Bars[Row]->SetPercent(bKnown
-				? FMath::Clamp(Percent / 100.0f, 0.0f, 1.0f) : 0.0f);
+			Bars[Row]->SetPercent(BarFill(Percent, bKnown));
 		}
 	};
 
-	Set(RowLevel, Number(Vitals.Level), Vitals.LevelPercent, Vitals.bKnown);
-	Set(RowExperience, Number(Vitals.Experience), 0, Vitals.bKnown);
-	Set(RowHitpoints, FText::FromString(FString::Printf(TEXT("%d"),
-		static_cast<int32>(Vitals.Hitpoints))), 0, Vitals.bKnown);
-	Set(RowMana, FText::FromString(FString::Printf(TEXT("%d"),
-		static_cast<int32>(Vitals.Mana))), 0, Vitals.bKnown);
-	Set(RowSoul, Number(Vitals.SoulPoints), 0, Vitals.bKnown);
-	Set(RowCapacity, Number(Vitals.Capacity), 0, Vitals.bKnown);
-	Set(RowMagic, Number(Vitals.MagicLevel), Vitals.MagicLevelPercent, Vitals.bKnown);
+	Set(RowLevel, Vitals.Level, Vitals.LevelPercent, Vitals.bKnown);
+	Set(RowExperience, Vitals.Experience, 0, Vitals.bKnown);
+	Set(RowHitpoints, Vitals.Hitpoints, 0, Vitals.bKnown);
+	Set(RowMana, Vitals.Mana, 0, Vitals.bKnown);
+	Set(RowSoul, Vitals.SoulPoints, 0, Vitals.bKnown);
+	Set(RowCapacity, Vitals.Capacity, 0, Vitals.bKnown);
+	Set(RowMagic, Vitals.MagicLevel, Vitals.MagicLevelPercent, Vitals.bKnown);
 
 	const FReal33DSkill* const Seven[] = {
 		&Skills.Fist, &Skills.Club, &Skills.Sword, &Skills.Axe,
 		&Skills.Distance, &Skills.Shielding, &Skills.Fishing };
 	for (int32 Index = 0; Index < UE_ARRAY_COUNT(Seven); ++Index)
 	{
-		Set(RowFist + Index, Number(Seven[Index]->Level),
+		Set(RowFist + Index, Seven[Index]->Level,
 			Seven[Index]->Percent, Skills.bKnown);
 	}
 }
