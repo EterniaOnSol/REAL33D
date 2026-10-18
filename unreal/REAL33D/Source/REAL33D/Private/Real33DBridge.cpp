@@ -1,5 +1,6 @@
 #include "Real33DBridge.h"
 #include "REAL33D.h"
+#include "Real33DChatViews.h"
 #include "Real33DItemUsePolicy.h"
 #include "Real33DMinimapPalette.h"
 
@@ -16,6 +17,7 @@
 // Protocol772Core. Included only here, in the worker. Nothing above this file
 // may include a protocol header: that is the boundary.
 THIRD_PARTY_INCLUDES_START
+#include "fusion32/protocol772/channels.h"
 #include "fusion32/protocol772/chat_log.h"
 #include "fusion32/protocol772/gamelogin.h"
 #include "fusion32/protocol772/initial_world.h"
@@ -30,6 +32,7 @@ THIRD_PARTY_INCLUDES_START
 THIRD_PARTY_INCLUDES_END
 
 #include <chrono>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -108,17 +111,88 @@ static FReal33DCombat ToUnrealCombat(const p772::CombatState& From)
 }
 
 /**
- * The transcript, wrapped so Real33DBridge.h needs nothing from fusion32/.
+ * The transcripts, wrapped so Real33DBridge.h needs nothing from fusion32/.
  *
  * ChatLog is documented as single-owner, single-thread. Its owner is the game
  * thread, because that is where DrainEvents runs and where the widget reads.
- * The worker never touches it.
+ * The worker never touches any of this.
+ *
+ * One log per surface, keyed by the view id, which is monotonic and never
+ * reused. Keyed rather than parallel-indexed on purpose: an array indexed
+ * alongside `Views` would have to be kept in step with every open and close by
+ * hand, and the first missed close would show one conversation's lines under
+ * another's name. A key cannot drift -- closing a view erases its log, and a
+ * log with no view is unreachable.
+ *
+ * `Local` is the view id Local Chat holds, so the no-argument
+ * GetChatTranscript keeps meaning exactly what it meant before channels
+ * existed.
  */
 struct FReal33DChatTranscript
 {
-	p772::ChatLog Log;
+	Real33D::ChatViewSet Views;
+	std::map<std::uint32_t, p772::ChatLog> Logs;
+	/** Bumped by any change to any transcript or to the set of surfaces. */
 	uint64 Revision = 0;
+
+	/** The channel list Fusion32 last sent, and whether it ever answered. */
+	std::vector<FReal33DChannelEntry> ChannelList;
+	bool bChannelListKnown = false;
+	uint64 ChannelListRevision = 0;
+
+	FReal33DChatTranscript()
+	{
+		// Local Chat exists before the first connection, because a failure
+		// during login has to have somewhere to be read.
+		Logs.emplace(Views.LocalId(), p772::ChatLog());
+	}
+
+	/** The log for a view, created on first use. Never null. */
+	p772::ChatLog& LogFor(std::uint32_t ViewId)
+	{
+		const auto Found = Logs.find(ViewId);
+		if (Found != Logs.end())
+		{
+			return Found->second;
+		}
+		return Logs.emplace(ViewId, p772::ChatLog()).first->second;
+	}
+
+	const p772::ChatLog* FindLog(std::uint32_t ViewId) const
+	{
+		const auto Found = Logs.find(ViewId);
+		return Found != Logs.end() ? &Found->second : nullptr;
+	}
+
+	/** Back to Local Chat alone, with nothing in it. Used when a session ends. */
+	void Reset()
+	{
+		Views.Reset();
+		Logs.clear();
+		Logs.emplace(Views.LocalId(), p772::ChatLog());
+		ChannelList.clear();
+		// Not known again. The list was this player's, filtered by their own
+		// rights, and a list from the previous session must not look current.
+		bChannelListKnown = false;
+		++ChannelListRevision;
+		++Revision;
+	}
 };
+
+// The two chat-view enums are deliberately unrelated types -- one is Unreal's,
+// one is Slate-free and testable with plain g++ -- so they are pinned here, in
+// the one file that can see both.
+static_assert(static_cast<uint8>(EReal33DChatViewKind::Local)
+	== static_cast<uint8>(Real33D::ChatViewKind::Local), "chat view kind drift");
+static_assert(static_cast<uint8>(EReal33DChatViewKind::Channel)
+	== static_cast<uint8>(Real33D::ChatViewKind::Channel), "chat view kind drift");
+static_assert(static_cast<uint8>(EReal33DChatViewKind::Private)
+	== static_cast<uint8>(Real33D::ChatViewKind::Private), "chat view kind drift");
+
+// This client refuses to join the one channel whose answer it cannot read. The
+// number is Fusion32's own, from operate.hh::CHANNEL_RULEVIOLATIONS.
+static_assert(UReal33DBridge::kRuleViolationsChannel
+	== static_cast<int32>(p772::kChannelRuleViolations), "rule violations channel drift");
 
 namespace
 {
@@ -325,6 +399,31 @@ public:
 	void PostCombat(const FCombatIntent& Intent)
 	{
 		CombatIntents.Enqueue(Intent);
+	}
+
+	/**
+	 * Something the player asked of a channel. Semantic until DrainChannels
+	 * encodes it, like every other intent here.
+	 *
+	 * The two talk kinds are in this queue rather than in `Says` because they
+	 * carry a field a Say does not have, and because keeping them together
+	 * means a join and the first line typed into the channel it opened cannot
+	 * be reordered relative to one another.
+	 */
+	struct FChannelIntent
+	{
+		enum class EKind : uint8 { List, Join, Leave, OpenPrivate, ChannelTalk, PrivateTalk };
+		uint32 ActionId = 0;
+		EKind Kind = EKind::List;
+		uint16 Channel = 0;
+		/** The character, for OpenPrivate and PrivateTalk. */
+		FString Name;
+		FString Text;
+	};
+
+	void PostChannel(const FChannelIntent& Intent)
+	{
+		ChannelIntents.Enqueue(Intent);
 	}
 
 	bool Dequeue(FReal33DEvent& OutEvent) { return Events.Dequeue(OutEvent); }
@@ -623,10 +722,98 @@ private:
 					Spoken.TalkLayout = EReal33DTalkLayout::Plain;
 					break;
 				}
+				// Decided here, where the mode is still a number, so nothing
+				// above the bridge has to recognise one. A private message is
+				// the only talk addressed to this player alone, and it is what
+				// decides the line belongs in a private conversation rather
+				// than in Local Chat.
+				Spoken.bPrivateMessage =
+					Talk.mode == static_cast<std::uint8_t>(p772::TalkMode::PrivateMessage);
+				const bool bWasChannel = Spoken.bHasChannel;
+				const bool bWasPrivate = Spoken.bPrivateMessage;
 				Publish(MoveTemp(Spoken));
 
 				FScopeLock Lock(&StatsMutex);
 				++Stats.TalkMessages;
+				if (bWasChannel)
+				{
+					++Stats.ChannelTalkReceived;
+				}
+				if (bWasPrivate)
+				{
+					++Stats.PrivateTalkReceived;
+				}
+			}
+
+			if (Decoded.update.kind == p772::ServerUpdateKind::Channel)
+			{
+				// The five channel commands, decoded by ClientCore and turned
+				// into four events here. Nothing is stored on this thread:
+				// WorldState deliberately keeps no channel membership --
+				// Fusion32 owns the lists and resends them on request -- so
+				// which tabs exist is presentation state and belongs to the
+				// game thread, next to the transcripts.
+				const p772::ChannelUpdate& Chan = Decoded.update.channel;
+				FReal33DEvent Event;
+				Event.Direction = kNoDirection;
+				switch (Chan.kind)
+				{
+				case p772::ChannelUpdateKind::List:
+					Event.Kind = EReal33DEventKind::ChannelList;
+					Event.Channels.Reserve(static_cast<int32>(Chan.channels.size()));
+					for (const p772::ChannelEntry& Each : Chan.channels)
+					{
+						FReal33DChannelEntry Row;
+						// The offer row's id is 0xFFFF and is not a channel
+						// number, so it is carried as the flag ClientCore
+						// already resolved rather than as a number a caller
+						// could mistake for one.
+						Row.Id = Each.own_channel_offer
+							? 0 : static_cast<int32>(Each.id);
+						Row.Name = UTF8_TO_TCHAR(Each.name.c_str());
+						Row.bOwnChannelOffer = Each.own_channel_offer;
+						Event.Channels.Add(MoveTemp(Row));
+					}
+					break;
+
+				case p772::ChannelUpdateKind::Opened:
+				case p772::ChannelUpdateKind::OpenedOwn:
+					Event.Kind = EReal33DEventKind::ChannelOpened;
+					Event.bHasChannel = true;
+					Event.Channel = static_cast<int32>(Chan.channel);
+					Event.ChannelName = UTF8_TO_TCHAR(Chan.name.c_str());
+					Event.bOwnChannel =
+						Chan.kind == p772::ChannelUpdateKind::OpenedOwn;
+					break;
+
+				case p772::ChannelUpdateKind::PrivateOpened:
+					Event.Kind = EReal33DEventKind::PrivateChannelOpened;
+					Event.ChannelName = UTF8_TO_TCHAR(Chan.name.c_str());
+					break;
+
+				case p772::ChannelUpdateKind::Closed:
+					Event.Kind = EReal33DEventKind::ChannelClosed;
+					Event.bHasChannel = true;
+					Event.Channel = static_cast<int32>(Chan.channel);
+					break;
+				}
+				const EReal33DEventKind Published = Event.Kind;
+				Publish(MoveTemp(Event));
+
+				FScopeLock Lock(&StatsMutex);
+				switch (Published)
+				{
+				case EReal33DEventKind::ChannelList:
+					++Stats.ChannelListsReceived; break;
+				case EReal33DEventKind::ChannelOpened:
+					++Stats.ChannelsOpened; break;
+				case EReal33DEventKind::ChannelClosed:
+					++Stats.ChannelsClosed; break;
+				case EReal33DEventKind::PrivateChannelOpened:
+					++Stats.PrivateChannelsOpened; break;
+				default:
+					break;
+				}
 			}
 
 			if (Decoded.update.kind == p772::ServerUpdateKind::Snapback)
@@ -951,6 +1138,7 @@ private:
 		DrainMoves();
 		DrainUses();
 		DrainCombat();
+		DrainChannels();
 
 		// A reply that never comes must not be allowed to claim a later move.
 		// Three seconds is far longer than a local round trip; the server's own
@@ -1171,22 +1359,7 @@ private:
 				ToWireTalkMode(Say.Mode), TCHAR_TO_UTF8(*Say.Text));
 			if (!Built.ok())
 			{
-				// A refusal the player caused and can act on, so it is told to
-				// them rather than filed as a protocol diagnostic. Not a
-				// ServerMessage: Fusion32 never saw this command.
-				FReal33DEvent Refused;
-				Refused.Kind = EReal33DEventKind::ClientNotice;
-				Refused.Detail = FString::Printf(
-					TEXT("Your message was not sent: %hs"),
-					p772::TalkBuildErrorName(Built.error));
-				Refused.Direction = kNoDirection;
-				Publish(MoveTemp(Refused));
-
-				UE_LOG(LogTemp, Warning, TEXT("REAL33D: talk %u refused before sending: %hs"),
-					Say.SayId, p772::TalkBuildErrorName(Built.error));
-
-				FScopeLock Lock(&StatsMutex);
-				++Stats.SaysRefusedLocally;
+				PublishTalkRefusal(Say.SayId, Built.error);
 				continue;
 			}
 			if (!Session.SendCommand(Built.payload).ok())
@@ -1195,6 +1368,101 @@ private:
 			}
 			FScopeLock Lock(&StatsMutex);
 			++Stats.SaysRequested;
+		}
+	}
+
+	/**
+	 * A line ClientCore refused before it reached the wire.
+	 *
+	 * A refusal the player caused and can act on, so it is told to them rather
+	 * than filed as a protocol diagnostic. Not a ServerMessage: Fusion32 never
+	 * saw this command.
+	 */
+	void PublishTalkRefusal(uint32 ActionId, p772::TalkBuildError Error)
+	{
+		FReal33DEvent Refused;
+		Refused.Kind = EReal33DEventKind::ClientNotice;
+		Refused.Detail = FString::Printf(
+			TEXT("Your message was not sent: %hs"),
+			p772::TalkBuildErrorName(Error));
+		Refused.Direction = kNoDirection;
+		Publish(MoveTemp(Refused));
+
+		UE_LOG(LogTemp, Warning, TEXT("REAL33D: talk %u refused before sending: %hs"),
+			ActionId, p772::TalkBuildErrorName(Error));
+
+		FScopeLock Lock(&StatsMutex);
+		++Stats.SaysRefusedLocally;
+	}
+
+	void DrainChannels()
+	{
+		FChannelIntent Intent;
+		while (ChannelIntents.Dequeue(Intent))
+		{
+			// Built by ClientCore in every case, including the two talk forms:
+			// the channel number and the addressee are written by the same
+			// builder that enforces what CTalk enforces, so a command cannot
+			// leave here missing the field its mode requires.
+			std::vector<std::uint8_t> Command;
+			switch (Intent.Kind)
+			{
+			case FChannelIntent::EKind::List:
+				Command = p772::BuildGetChannelsCommand();
+				break;
+			case FChannelIntent::EKind::Join:
+				Command = p772::BuildJoinChannelCommand(Intent.Channel);
+				break;
+			case FChannelIntent::EKind::Leave:
+				Command = p772::BuildLeaveChannelCommand(Intent.Channel);
+				break;
+			case FChannelIntent::EKind::OpenPrivate:
+				Command = p772::BuildOpenPrivateChannelCommand(
+					TCHAR_TO_UTF8(*Intent.Name));
+				break;
+
+			case FChannelIntent::EKind::ChannelTalk:
+			case FChannelIntent::EKind::PrivateTalk:
+			{
+				const bool bPrivate = Intent.Kind == FChannelIntent::EKind::PrivateTalk;
+				const auto Built = p772::BuildTalkCommand(
+					static_cast<std::uint8_t>(bPrivate
+						? p772::TalkMode::PrivateMessage
+						: p772::TalkMode::ChannelCall),
+					TCHAR_TO_UTF8(*Intent.Text),
+					bPrivate ? std::string(TCHAR_TO_UTF8(*Intent.Name)) : std::string(),
+					bPrivate ? std::uint16_t(0) : Intent.Channel);
+				if (!Built.ok())
+				{
+					PublishTalkRefusal(Intent.ActionId, Built.error);
+					continue;
+				}
+				Command = Built.payload;
+				break;
+			}
+			}
+
+			if (Command.empty() || !Session.SendCommand(Command).ok())
+			{
+				continue;
+			}
+
+			FScopeLock Lock(&StatsMutex);
+			switch (Intent.Kind)
+			{
+			case FChannelIntent::EKind::List:
+				++Stats.ChannelListsRequested; break;
+			case FChannelIntent::EKind::Join:
+				++Stats.ChannelJoinsRequested; break;
+			case FChannelIntent::EKind::Leave:
+				++Stats.ChannelLeavesRequested; break;
+			case FChannelIntent::EKind::OpenPrivate:
+				++Stats.PrivateChannelsRequested; break;
+			case FChannelIntent::EKind::ChannelTalk:
+				++Stats.ChannelSaysRequested; break;
+			case FChannelIntent::EKind::PrivateTalk:
+				++Stats.PrivateSaysRequested; break;
+			}
 		}
 	}
 
@@ -1278,6 +1546,7 @@ private:
 	TQueue<FMove, EQueueMode::Spsc> Moves;
 	TQueue<FUse, EQueueMode::Spsc> Uses;
 	TQueue<FCombatIntent, EQueueMode::Spsc> CombatIntents;
+	TQueue<FChannelIntent, EQueueMode::Spsc> ChannelIntents;
 
 	TQueue<FReal33DEvent, EQueueMode::Spsc> Events;
 	TQueue<FIntent, EQueueMode::Spsc> Intents;
@@ -1421,6 +1690,10 @@ void UReal33DBridge::DrainEvents(TArray<FReal33DEvent>& OutEvents)
 		// Filed as it passes, so the transcript is complete whatever the
 		// presenter does with the event afterwards, and so there is exactly one
 		// place that decides what a player is allowed to read.
+		//
+		// Channels first: an open and the first line spoken in it can arrive in
+		// the same drain, and the line has to find the tab already there.
+		NoteChannel(Event);
 		NoteChat(Event);
 		NoteMinimap(Event);
 		OutEvents.Add(MoveTemp(Event));
@@ -1531,36 +1804,59 @@ void UReal33DBridge::NoteChat(const FReal33DEvent& Event)
 	switch (Event.Kind)
 	{
 	case EReal33DEventKind::Talk:
+	{
 		// Every utterance, including one that will also be drawn above its
 		// speaker. A console that omitted what was said nearby would be a
 		// partial record of a conversation, and the nearby case is exactly the
 		// one an operator uses to check the distant case is not lying.
-		Transcript->Log.AddSpeech(
+		//
+		// Which surface it belongs on is `ChatViewSet`'s decision, and it is
+		// made so that no line is ever dropped: a channel this client has left
+		// and an unnamed private line both land in Local Chat.
+		std::uint32_t ViewId = Transcript->Views.LocalId();
+		if (Event.bHasChannel)
+		{
+			ViewId = Transcript->Views.RouteChannel(
+				static_cast<std::uint16_t>(Event.Channel));
+		}
+		else if (Event.bPrivateMessage)
+		{
+			ViewId = Transcript->Views.RoutePrivate(TCHAR_TO_UTF8(*Event.Speaker));
+		}
+		Transcript->LogFor(ViewId).AddSpeech(
 			TCHAR_TO_UTF8(*Event.Speaker),
 			TCHAR_TO_UTF8(*Event.TalkMode),
 			TCHAR_TO_UTF8(*Event.Detail));
 		++Transcript->Revision;
 		break;
+	}
 
 	case EReal33DEventKind::ServerMessage:
-		Transcript->Log.AddServerMessage(
+		// Local Chat, which is where it has always gone. SV_CMD_MESSAGE
+		// carries a mode and a text and names no conversation, so putting one
+		// in a channel tab would mean guessing from its English prose which
+		// tab it was about -- and "Message sent to X." is exactly the line
+		// that would tempt it.
+		Transcript->LogFor(Transcript->Views.LocalId()).AddServerMessage(
 			TCHAR_TO_UTF8(*Event.TalkMode),
 			TCHAR_TO_UTF8(*Event.Detail));
 		++Transcript->Revision;
 		break;
 
 	case EReal33DEventKind::ClientNotice:
-		Transcript->Log.AddClientNotice(TCHAR_TO_UTF8(*Event.Detail));
+		Transcript->LogFor(Transcript->Views.LocalId()).AddClientNotice(
+			TCHAR_TO_UTF8(*Event.Detail));
 		++Transcript->Revision;
 		break;
 
 	case EReal33DEventKind::Disconnected:
 	case EReal33DEventKind::Failed:
 		// A transcript from a previous connection must not appear to belong to
-		// the new one. The sequence keeps counting, so two arrivals are never
-		// confusable in evidence even across the gap.
-		Transcript->Log.Clear();
-		++Transcript->Revision;
+		// the new one, and neither must a tab: a channel is joined per
+		// connection, so every one of them is gone. The sequence and the view
+		// ids keep counting, so two arrivals are never confusable in evidence
+		// even across the gap.
+		Transcript->Reset();
 		break;
 
 	// Diagnostic is deliberately absent. It is developer prose and has no
@@ -1571,7 +1867,190 @@ void UReal33DBridge::NoteChat(const FReal33DEvent& Event)
 	}
 }
 
+void UReal33DBridge::NoteChannel(const FReal33DEvent& Event)
+{
+	if (Transcript == nullptr)
+	{
+		return;
+	}
+
+	switch (Event.Kind)
+	{
+	case EReal33DEventKind::ChannelList:
+		// Replaced wholesale, not merged. SendChannels sends the list this
+		// player may see at this moment, and merging an older one into it would
+		// keep offering a channel their rights no longer reach.
+		Transcript->ChannelList.assign(Event.Channels.begin(), Event.Channels.end());
+		Transcript->bChannelListKnown = true;
+		++Transcript->ChannelListRevision;
+		++Transcript->Revision;
+		// Named on the way in, for the same reason the undecoded opcodes are
+		// named on the way out: "the list arrived" is a number nobody can act
+		// on, and an operator reading this later has to be able to see which
+		// channels Fusion32 offered this character without a screenshot.
+		for (const FReal33DChannelEntry& Row : Event.Channels)
+		{
+			UE_LOG(LogReal33D, Log, TEXT("channel list: %s"),
+				Row.bOwnChannelOffer
+					? *FString::Printf(TEXT("(own-channel offer) \"%s\""), *Row.Name)
+					: *FString::Printf(TEXT("%d \"%s\""), Row.Id, *Row.Name));
+		}
+		UE_LOG(LogReal33D, Log, TEXT("channel list: %d row(s) from Fusion32"),
+			Event.Channels.Num());
+		break;
+
+	case EReal33DEventKind::ChannelOpened:
+	{
+		// The server said this player is in it, so now there is a tab. A join
+		// this client sent is not what creates one.
+		const std::uint32_t ViewId = Transcript->Views.OpenChannel(
+			static_cast<std::uint16_t>(Event.Channel),
+			TCHAR_TO_UTF8(*Event.ChannelName),
+			Event.bOwnChannel);
+		// Touched so the surface exists with an empty transcript rather than
+		// appearing only once something is said in it.
+		Transcript->LogFor(ViewId);
+		++Transcript->Revision;
+		UE_LOG(LogReal33D, Log, TEXT("channel %d (%s) opened by Fusion32%s"),
+			Event.Channel, *Event.ChannelName,
+			Event.bOwnChannel ? TEXT(" as this player's own") : TEXT(""));
+		break;
+	}
+
+	case EReal33DEventKind::ChannelClosed:
+	{
+		const std::uint32_t ViewId = Transcript->Views.FindChannel(
+			static_cast<std::uint16_t>(Event.Channel));
+		if (ViewId != 0)
+		{
+			Transcript->Views.Close(ViewId);
+			Transcript->Logs.erase(ViewId);
+			++Transcript->Revision;
+		}
+		UE_LOG(LogReal33D, Log, TEXT("channel %d closed by Fusion32"), Event.Channel);
+		break;
+	}
+
+	case EReal33DEventKind::PrivateChannelOpened:
+	{
+		const std::uint32_t ViewId = Transcript->Views.OpenPrivate(
+			TCHAR_TO_UTF8(*Event.ChannelName));
+		if (ViewId != 0)
+		{
+			Transcript->LogFor(ViewId);
+			++Transcript->Revision;
+		}
+		break;
+	}
+
+	default:
+		break;
+	}
+}
+
+void UReal33DBridge::GetChannelList(TArray<FReal33DChannelEntry>& OutChannels) const
+{
+	check(IsInGameThread());
+	OutChannels.Reset();
+	if (Transcript == nullptr)
+	{
+		return;
+	}
+	OutChannels.Reserve(static_cast<int32>(Transcript->ChannelList.size()));
+	for (const FReal33DChannelEntry& Each : Transcript->ChannelList)
+	{
+		OutChannels.Add(Each);
+	}
+}
+
+bool UReal33DBridge::IsChannelListKnown() const
+{
+	return Transcript != nullptr && Transcript->bChannelListKnown;
+}
+
+uint64 UReal33DBridge::GetChannelListRevision() const
+{
+	return Transcript != nullptr ? Transcript->ChannelListRevision : 0;
+}
+
+bool UReal33DBridge::IsChannelJoined(int32 Channel) const
+{
+	return Transcript != nullptr && Channel >= 0 && Channel <= 0xFFFF
+		&& Transcript->Views.FindChannel(static_cast<std::uint16_t>(Channel)) != 0;
+}
+
+void UReal33DBridge::GetChatViews(TArray<FReal33DChatView>& OutViews) const
+{
+	check(IsInGameThread());
+	OutViews.Reset();
+	if (Transcript == nullptr)
+	{
+		return;
+	}
+	const auto& Views = Transcript->Views.views();
+	OutViews.Reserve(static_cast<int32>(Views.size()));
+	for (const Real33D::ChatView& View : Views)
+	{
+		FReal33DChatView Out;
+		Out.ViewId = View.id;
+		Out.Kind = static_cast<EReal33DChatViewKind>(View.kind);
+		Out.Channel = static_cast<int32>(View.channel);
+		Out.Name = UTF8_TO_TCHAR(View.name.c_str());
+		Out.bOwnChannel = View.own_channel;
+		OutViews.Add(MoveTemp(Out));
+	}
+}
+
+uint32 UReal33DBridge::GetSelectedChatView() const
+{
+	return Transcript != nullptr ? Transcript->Views.Selected() : 0;
+}
+
+bool UReal33DBridge::SelectChatView(uint32 ViewId)
+{
+	check(IsInGameThread());
+	return Transcript != nullptr && Transcript->Views.Select(ViewId);
+}
+
+bool UReal33DBridge::CloseChatView(uint32 ViewId)
+{
+	check(IsInGameThread());
+	if (Transcript == nullptr)
+	{
+		return false;
+	}
+	const Real33D::ChatView* View = Transcript->Views.Find(ViewId);
+	if (View == nullptr)
+	{
+		return false;
+	}
+	// A channel tab closing means leaving the channel, which is what the 2D's
+	// close button does. The command goes out first: if the session is already
+	// gone the tab still closes, because a tab for a channel this client can no
+	// longer be in is worse than none.
+	if (View->kind == Real33D::ChatViewKind::Channel)
+	{
+		RequestLeaveChannel(static_cast<int32>(View->channel));
+		// RequestLeaveChannel closed it already, having found it the same way.
+		return Transcript->Views.Find(ViewId) == nullptr;
+	}
+	if (!Transcript->Views.Close(ViewId))
+	{
+		return false;
+	}
+	Transcript->Logs.erase(ViewId);
+	++Transcript->Revision;
+	return true;
+}
+
 void UReal33DBridge::GetChatTranscript(TArray<FReal33DChatLine>& OutLines) const
+{
+	// Local Chat, which is what this has always returned.
+	GetChatTranscript(Transcript != nullptr ? Transcript->Views.LocalId() : 0, OutLines);
+}
+
+void UReal33DBridge::GetChatTranscript(uint32 ViewId,
+	TArray<FReal33DChatLine>& OutLines) const
 {
 	check(IsInGameThread());
 	OutLines.Reset();
@@ -1579,7 +2058,15 @@ void UReal33DBridge::GetChatTranscript(TArray<FReal33DChatLine>& OutLines) const
 	{
 		return;
 	}
-	const auto& Entries = Transcript->Log.entries();
+	const p772::ChatLog* Log = Transcript->FindLog(ViewId);
+	if (Log == nullptr)
+	{
+		// A surface that is not open has no transcript. Empty rather than
+		// Local Chat's: showing one conversation's lines under another's name
+		// is the one mistake a multi-tab console must not make.
+		return;
+	}
+	const auto& Entries = Log->entries();
 	OutLines.Reserve(static_cast<int32>(Entries.size()));
 	for (const auto& Entry : Entries)
 	{
@@ -1595,6 +2082,147 @@ void UReal33DBridge::GetChatTranscript(TArray<FReal33DChatLine>& OutLines) const
 uint64 UReal33DBridge::GetChatRevision() const
 {
 	return Transcript != nullptr ? Transcript->Revision : 0;
+}
+
+uint32 UReal33DBridge::RequestChannelList()
+{
+	if (Worker == nullptr)
+	{
+		return 0;
+	}
+	const uint32 ActionId = ++NextInputId;
+	FReal33DWorker::FChannelIntent Intent;
+	Intent.ActionId = ActionId;
+	Intent.Kind = FReal33DWorker::FChannelIntent::EKind::List;
+	Worker->PostChannel(Intent);
+	return ActionId;
+}
+
+uint32 UReal33DBridge::RequestJoinChannel(int32 Channel)
+{
+	if (Worker == nullptr)
+	{
+		return 0;
+	}
+	if (Channel < 0 || Channel > 0xFFFF)
+	{
+		// Not a word, so there is no command to build. CL_CMD_JOIN_CHANNEL
+		// carries exactly one.
+		return 0;
+	}
+	if (Channel == kRuleViolationsChannel)
+	{
+		// Refused by this client, not by the server, and said so plainly. The
+		// answer to joining it is SV_CMD_OPEN_REQUEST_QUEUE, which this project
+		// does not decode; an undecoded command stops the payload walk, so the
+		// cost of asking is the rest of that packet.
+		FReal33DEvent Notice;
+		Notice.Kind = EReal33DEventKind::ClientNotice;
+		Notice.Detail = TEXT("This client cannot open the Rule Violations channel.");
+		Notice.Direction = kNoDirection;
+		if (Transcript != nullptr)
+		{
+			Transcript->LogFor(Transcript->Views.LocalId())
+				.AddClientNotice(TCHAR_TO_UTF8(*Notice.Detail));
+			++Transcript->Revision;
+		}
+		UE_LOG(LogReal33D, Warning,
+			TEXT("join refused locally: channel %d answers with an undecoded command"),
+			Channel);
+		return 0;
+	}
+	const uint32 ActionId = ++NextInputId;
+	FReal33DWorker::FChannelIntent Intent;
+	Intent.ActionId = ActionId;
+	Intent.Kind = FReal33DWorker::FChannelIntent::EKind::Join;
+	Intent.Channel = static_cast<uint16>(Channel);
+	Worker->PostChannel(Intent);
+	return ActionId;
+}
+
+uint32 UReal33DBridge::RequestLeaveChannel(int32 Channel)
+{
+	if (Worker == nullptr || Channel < 0 || Channel > 0xFFFF)
+	{
+		return 0;
+	}
+	const uint32 ActionId = ++NextInputId;
+	FReal33DWorker::FChannelIntent Intent;
+	Intent.ActionId = ActionId;
+	Intent.Kind = FReal33DWorker::FChannelIntent::EKind::Leave;
+	Intent.Channel = static_cast<uint16>(Channel);
+	Worker->PostChannel(Intent);
+
+	// Logged here rather than at the button, because there are two ways to
+	// leave -- the Channels panel's Leave and the tab's close box -- and both
+	// arrive here. Logging it at one of the callers made the other invisible:
+	// a live run showed two joins and one leave, and the log could not say
+	// whether the second leave had reached the wire or been dropped.
+	UE_LOG(LogReal33D, Log, TEXT("leave of channel %d handed to Fusion32 as %u"),
+		Channel, ActionId);
+
+	// Applied here, because CLeaveChannel answers with nothing at all. This is
+	// the one channel effect not waited for, and the reason is in the header.
+	if (Transcript != nullptr)
+	{
+		const std::uint32_t ViewId = Transcript->Views.FindChannel(
+			static_cast<std::uint16_t>(Channel));
+		if (ViewId != 0)
+		{
+			Transcript->Views.Close(ViewId);
+			Transcript->Logs.erase(ViewId);
+			++Transcript->Revision;
+		}
+	}
+	return ActionId;
+}
+
+uint32 UReal33DBridge::RequestOpenPrivateChannel(const FString& Name)
+{
+	if (Worker == nullptr || Name.IsEmpty())
+	{
+		// CPrivateChannel returns an empty name unsent.
+		return 0;
+	}
+	const uint32 ActionId = ++NextInputId;
+	FReal33DWorker::FChannelIntent Intent;
+	Intent.ActionId = ActionId;
+	Intent.Kind = FReal33DWorker::FChannelIntent::EKind::OpenPrivate;
+	Intent.Name = Name;
+	Worker->PostChannel(Intent);
+	return ActionId;
+}
+
+uint32 UReal33DBridge::RequestChannelTalk(int32 Channel, const FString& Text)
+{
+	if (Worker == nullptr || Channel < 0 || Channel > 0xFFFF)
+	{
+		return 0;
+	}
+	const uint32 ActionId = ++NextInputId;
+	FReal33DWorker::FChannelIntent Intent;
+	Intent.ActionId = ActionId;
+	Intent.Kind = FReal33DWorker::FChannelIntent::EKind::ChannelTalk;
+	Intent.Channel = static_cast<uint16>(Channel);
+	Intent.Text = Text;
+	Worker->PostChannel(Intent);
+	return ActionId;
+}
+
+uint32 UReal33DBridge::RequestPrivateTalk(const FString& Addressee, const FString& Text)
+{
+	if (Worker == nullptr)
+	{
+		return 0;
+	}
+	const uint32 ActionId = ++NextInputId;
+	FReal33DWorker::FChannelIntent Intent;
+	Intent.ActionId = ActionId;
+	Intent.Kind = FReal33DWorker::FChannelIntent::EKind::PrivateTalk;
+	Intent.Name = Addressee;
+	Intent.Text = Text;
+	Worker->PostChannel(Intent);
+	return ActionId;
 }
 
 uint32 UReal33DBridge::RequestWalk(uint8 Direction)

@@ -1,4 +1,7 @@
 #include "Real33DPresentationPolicy.h"
+#include "Real33DChannelsPanel.h"
+#include "Real33DChatPanel.h"
+#include "Real33DChatViews.h"
 #include "Real33DPanelRegistry.h"
 #include "Real33DSkillsPanel.h"
 #if WITH_DEV_AUTOMATION_TESTS
@@ -114,6 +117,23 @@ bool FReal33DPanelRegistryTest::RunTest(const FString& Parameters)
 	TestTrue(TEXT("closing one"), Registry.Close(Real33D::PanelIds::Skills));
 	TestTrue(TEXT("leaves the other open"), Registry.IsOpen(Real33D::PanelIds::Battle));
 
+	// The channels panel is a registry panel like every other, and its id is
+	// its own: the HUD was not edited to hold it by hand.
+	const TSharedRef<SWidget> Third = SNew(SBox);
+	TestFalse(TEXT("channels is not registered before it is added"),
+		Registry.IsRegistered(Real33D::PanelIds::Channels));
+	TestTrue(TEXT("channels registers"),
+		Registry.Register(Real33D::PanelIds::Channels, Third));
+	TestEqual(TEXT("channels is a distinct id"), Registry.Num(), 3);
+	TestTrue(TEXT("channels closes"), Registry.Close(Real33D::PanelIds::Channels));
+	TestFalse(TEXT("channels reads as closed"), Registry.IsOpen(Real33D::PanelIds::Channels));
+	TestTrue(TEXT("channels toggles back open"), Registry.Toggle(Real33D::PanelIds::Channels));
+	TestTrue(TEXT("channels reads as open"), Registry.IsOpen(Real33D::PanelIds::Channels));
+	TestTrue(TEXT("closing channels leaves battle alone"),
+		Registry.Close(Real33D::PanelIds::Channels) && Registry.IsOpen(Real33D::PanelIds::Battle));
+	TestTrue(TEXT("channels unregisters"), Registry.Unregister(Real33D::PanelIds::Channels));
+	TestEqual(TEXT("back to two"), Registry.Num(), 2);
+
 	TestTrue(TEXT("unregister"), Registry.Unregister(Real33D::PanelIds::Skills));
 	TestFalse(TEXT("unregistering twice reports failure"), Registry.Unregister(Real33D::PanelIds::Skills));
 	TestEqual(TEXT("one left"), Registry.Num(), 1);
@@ -187,6 +207,179 @@ bool FReal33DSkillsPanelTest::RunTest(const FString& Parameters)
 	// collapse the panel the registry shows.
 	TestTrue(TEXT("panel asks for a real height"),
 		SReal33DSkillsPanel::DesiredContentHeight() > 0.0f);
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FReal33DChannelsPanelTest,
+	"REAL33D.Presentation.ChannelsPanel",
+	EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FReal33DChannelsPanelTest::RunTest(const FString& Parameters)
+{
+	(void)Parameters;
+
+	// The rule this panel exists to keep: every channel on screen came off the
+	// wire. Before SV_CMD_CHANNELS answers there is nothing to show, and the
+	// three empty states are told apart, because two of them are statements
+	// about this client and only the third is a statement about the server.
+	const FString Unasked = SReal33DChannelsPanel::EmptyListText(false, false).ToString();
+	const FString Waiting = SReal33DChannelsPanel::EmptyListText(true, false).ToString();
+	const FString None = SReal33DChannelsPanel::EmptyListText(true, true).ToString();
+	TestTrue(TEXT("an unasked list does not claim the server sent nothing"),
+		!Unasked.IsEmpty() && Unasked != None);
+	TestTrue(TEXT("an unanswered list does not claim the server sent nothing"),
+		!Waiting.IsEmpty() && Waiting != None);
+	TestTrue(TEXT("the three empty states are distinct"),
+		Unasked != Waiting && Waiting != None);
+	// Asking before a request cannot be reported as an answer.
+	TestEqual(TEXT("not asked outranks not answered"),
+		SReal33DChannelsPanel::EmptyListText(false, true).ToString(), Unasked);
+
+	// A row shows the server's name and the number the player is joining.
+	FReal33DChannelEntry Help;
+	Help.Id = 7;
+	Help.Name = TEXT("Help");
+	TestEqual(TEXT("a row carries the number and the server's own name"),
+		SReal33DChannelsPanel::RowLabel(Help).ToString(), FString(TEXT("7  Help")));
+	TestTrue(TEXT("an ordinary channel is joinable"),
+		SReal33DChannelsPanel::IsJoinable(Help));
+	TestTrue(TEXT("a joinable row needs no refusal"),
+		SReal33DChannelsPanel::JoinRefusalReason(Help).IsEmpty());
+
+	// Channel 0's name is the player's own guild, so the name is never local.
+	FReal33DChannelEntry Guild;
+	Guild.Id = 0;
+	Guild.Name = TEXT("Some Guild");
+	TestEqual(TEXT("channel zero is the guild, named by the server"),
+		SReal33DChannelsPanel::RowLabel(Guild).ToString(),
+		FString(TEXT("0  Some Guild")));
+	TestTrue(TEXT("channel zero is joinable"), SReal33DChannelsPanel::IsJoinable(Guild));
+
+	// The own-channel offer is not a channel. Its 0xFFFF is not a number to
+	// show and joining it would be meaningless.
+	FReal33DChannelEntry Offer;
+	Offer.Id = 0;
+	Offer.Name = TEXT("Private Chat Channel");
+	Offer.bOwnChannelOffer = true;
+	TestEqual(TEXT("the offer row shows no channel number"),
+		SReal33DChannelsPanel::RowLabel(Offer).ToString(),
+		FString(TEXT("Private Chat Channel")));
+	TestFalse(TEXT("the offer row is not joinable"),
+		SReal33DChannelsPanel::IsJoinable(Offer));
+	TestFalse(TEXT("and says why"),
+		SReal33DChannelsPanel::JoinRefusalReason(Offer).IsEmpty());
+
+	// Channel 3 is answered with a command this project does not decode, so
+	// this client refuses it -- and reports that as its own limitation.
+	FReal33DChannelEntry Violations;
+	Violations.Id = UReal33DBridge::kRuleViolationsChannel;
+	Violations.Name = TEXT("Rule Violations");
+	TestEqual(TEXT("the refused channel is Fusion32's channel 3"),
+		UReal33DBridge::kRuleViolationsChannel, 3);
+	TestFalse(TEXT("rule violations is not joinable"),
+		SReal33DChannelsPanel::IsJoinable(Violations));
+	TestFalse(TEXT("and says why"),
+		SReal33DChannelsPanel::JoinRefusalReason(Violations).IsEmpty());
+	TestTrue(TEXT("the two refusals give different reasons"),
+		SReal33DChannelsPanel::JoinRefusalReason(Violations).ToString()
+			!= SReal33DChannelsPanel::JoinRefusalReason(Offer).ToString());
+	// Its neighbours are unaffected: only 3 is refused.
+	for (const int32 Id : {0, 1, 2, 4, 5, 6, 7})
+	{
+		FReal33DChannelEntry Each;
+		Each.Id = Id;
+		Each.Name = TEXT("Named by the server");
+		TestTrue(TEXT("every channel but 3 is offered"),
+			SReal33DChannelsPanel::IsJoinable(Each));
+	}
+
+	// The window has to have a height, or the registry would show a panel with
+	// nothing in it.
+	TestTrue(TEXT("panel asks for a real height"),
+		SReal33DChannelsPanel::PanelHeight > 0.0f);
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FReal33DChatTabsTest,
+	"REAL33D.Presentation.ChatTabs",
+	EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FReal33DChatTabsTest::RunTest(const FString& Parameters)
+{
+	(void)Parameters;
+
+	// Local Chat is preserved: a default view is it, it is labelled, and it
+	// cannot be closed, because it is where every unaddressed line goes.
+	const FReal33DChatView Local;
+	TestEqual(TEXT("a default view is Local Chat"),
+		static_cast<int32>(Local.Kind), static_cast<int32>(EReal33DChatViewKind::Local));
+	TestEqual(TEXT("Local Chat keeps its name"),
+		SReal33DChatPanel::TabLabel(Local).ToString(), FString(TEXT("Local Chat")));
+	TestFalse(TEXT("Local Chat cannot be closed"), SReal33DChatPanel::IsClosable(Local));
+	// And it has no destination of its own: the mode selector decides there.
+	TestTrue(TEXT("Local Chat offers the mode choice instead of a destination"),
+		SReal33DChatPanel::DestinationLabel(Local).IsEmpty());
+
+	// A channel tab is labelled with the server's name, not with its number and
+	// not with a local table's idea of what channel 7 is called.
+	FReal33DChatView Channel;
+	Channel.ViewId = 12;
+	Channel.Kind = EReal33DChatViewKind::Channel;
+	Channel.Channel = 7;
+	Channel.Name = TEXT("Help");
+	TestEqual(TEXT("a channel tab wears the server's channel name"),
+		SReal33DChatPanel::TabLabel(Channel).ToString(), FString(TEXT("Help")));
+	TestTrue(TEXT("a channel tab can be closed"), SReal33DChatPanel::IsClosable(Channel));
+	const FString ChannelDestination =
+		SReal33DChatPanel::DestinationLabel(Channel).ToString();
+	TestTrue(TEXT("a channel tab says where the line goes"),
+		ChannelDestination.Contains(TEXT("Help")) && ChannelDestination.Contains(TEXT("7")));
+
+	// A guild channel is named after the guild, which is exactly why the label
+	// is never derived from the number.
+	FReal33DChatView GuildChannel = Channel;
+	GuildChannel.Channel = 0;
+	GuildChannel.Name = TEXT("Some Guild");
+	TestEqual(TEXT("channel zero wears the guild's name"),
+		SReal33DChatPanel::TabLabel(GuildChannel).ToString(), FString(TEXT("Some Guild")));
+
+	// A private tab is the character, and carries no channel number because
+	// SV_CMD_PRIVATE_CHANNEL carries none.
+	FReal33DChatView Private;
+	Private.ViewId = 13;
+	Private.Kind = EReal33DChatViewKind::Private;
+	Private.Name = TEXT("Rook Sample");
+	TestEqual(TEXT("a private tab wears the character's name"),
+		SReal33DChatPanel::TabLabel(Private).ToString(), FString(TEXT("Rook Sample")));
+	TestTrue(TEXT("a private tab can be closed"), SReal33DChatPanel::IsClosable(Private));
+	TestTrue(TEXT("a private tab says who the line goes to"),
+		SReal33DChatPanel::DestinationLabel(Private).ToString()
+			.Contains(TEXT("Rook Sample")));
+	// The two destinations cannot read alike: one reaches a whole channel.
+	TestTrue(TEXT("a channel and a private destination are told apart"),
+		SReal33DChatPanel::DestinationLabel(Private).ToString() != ChannelDestination);
+
+	// The Unreal-side kinds and the Slate-free ones agree. The bridge pins this
+	// with static_asserts; checked here too, because a silent drift would route
+	// a line to the wrong conversation.
+	TestEqual(TEXT("Local matches"), static_cast<int32>(EReal33DChatViewKind::Local),
+		static_cast<int32>(Real33D::ChatViewKind::Local));
+	TestEqual(TEXT("Channel matches"), static_cast<int32>(EReal33DChatViewKind::Channel),
+		static_cast<int32>(Real33D::ChatViewKind::Channel));
+	TestEqual(TEXT("Private matches"), static_cast<int32>(EReal33DChatViewKind::Private),
+		static_cast<int32>(Real33D::ChatViewKind::Private));
+
+	// The routing model itself, which the native suite covers in full. Repeated
+	// here only to prove the header the module compiles is the one that was
+	// tested: Local Chat is present from the start and nothing is dropped.
+	Real33D::ChatViewSet Views;
+	TestEqual(TEXT("one surface to begin with"), static_cast<int32>(Views.size()), 1);
+	TestEqual(TEXT("an unjoined channel's line still has somewhere to go"),
+		static_cast<int32>(Views.RouteChannel(7)), static_cast<int32>(Views.LocalId()));
+	const std::uint32_t Joined = Views.OpenChannel(7, "Help", false);
+	TestEqual(TEXT("a joined channel's line goes to its own surface"),
+		static_cast<int32>(Views.RouteChannel(7)), static_cast<int32>(Joined));
+	TestTrue(TEXT("leaving removes it"), Views.CloseChannel(7));
+	TestEqual(TEXT("and its traffic falls back to Local Chat"),
+		static_cast<int32>(Views.RouteChannel(7)), static_cast<int32>(Views.LocalId()));
 	return true;
 }
 #endif

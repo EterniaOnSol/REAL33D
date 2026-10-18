@@ -1,0 +1,22 @@
+[2026.10.18-09.31.22:503][166]LogReal33D: channel list: 4 "Game-Chat"
+[2026.10.18-09.31.22:530][166]LogReal33D: channel list: 5 "Trade"
+[2026.10.18-09.31.22:530][166]LogReal33D: channel list: 6 "RL-Chat"
+[2026.10.18-09.31.22:552][167]LogReal33D: channel list: 7 "Help"
+[2026.10.18-09.31.22:559][167]LogReal33D: channel list: 4 row(s) from Fusion32
+[2026.10.18-09.31.27:253][328]LogReal33D: join of channel 6 handed to Fusion32 as 2
+[2026.10.18-09.31.27:350][331]LogReal33D: channel 6 (RL-Chat) opened by Fusion32
+[2026.10.18-09.31.29:208][393]LogReal33D: join of channel 4 handed to Fusion32 as 3
+[2026.10.18-09.31.29:277][395]LogReal33D: channel 4 (Game-Chat) opened by Fusion32
+[2026.10.18-09.31.30:306][427]LogReal33D: join of channel 5 handed to Fusion32 as 4
+[2026.10.18-09.31.30:368][429]LogReal33D: channel 5 (Trade) opened by Fusion32
+[2026.10.18-09.32.02:320][100]LogReal33D: talk [Say] at 32095,32204,7, Test Player B: "hola"  speaker Resolved creature 1002
+[2026.10.18-09.32.10:571][346]LogReal33D: channel 6 talk 6: "hola" handed to Fusion32
+[2026.10.18-09.32.10:629][348]LogReal33D: talk [ChannelCall] channel 6, Test Player B: "hola"
+[2026.10.18-09.32.18:652][588]LogReal33D: channel 4 talk 7: "hola" handed to Fusion32
+[2026.10.18-09.32.18:749][591]LogReal33D: talk [ChannelCall] channel 4, Test Player B: "hola"
+[2026.10.18-09.32.27:021][839]LogReal33D: channel 5 talk 8: "hola" handed to Fusion32
+[2026.10.18-09.32.27:133][842]LogReal33D: talk [ChannelCall] channel 5, Test Player B: "hola"
+[2026.10.18-09.32.51:048][353]LogReal33D: leave of channel 6 handed to Fusion32 as 9
+[2026.10.18-09.32.51:866][376]LogReal33D: leave of channel 4 handed to Fusion32 as 10
+[2026.10.18-09.32.52:812][403]LogReal33D: leave of channel 5 handed to Fusion32 as 11
+[2026.10.18-09.33.13:432][836]LogReal33D: talk [Say] at 32095,32204,7, Test Player B: "w"  speaker Resolved creature 1002

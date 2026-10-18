@@ -320,7 +320,7 @@ run_one_wsl() { # stem
 if [ "$TOOLCHAIN" = "none" ]; then
   record real33d-native-tests SKIP "$TOOLCHAIN_NOTE" real33d-native-tests
 else
-  for stem in real33d_mouse_input_tests real33d_minimap_view_tests real33d_item_use_policy_tests real33d_stackable_sprite_tests; do
+  for stem in real33d_mouse_input_tests real33d_minimap_view_tests real33d_item_use_policy_tests real33d_stackable_sprite_tests real33d_chat_views_tests; do
     if [ ! -f "$REPO/tests/$stem.cpp" ]; then
       printf '=== %s === SOURCE MISSING\n' "$stem" >>"$r33_log"
       r33_fail=$((r33_fail + 1)); continue

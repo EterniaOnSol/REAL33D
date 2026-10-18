@@ -62,44 +62,228 @@ FReply SReal33DChatInput::OnFocusReceived(const FGeometry& MyGeometry,
 
 // ----------------------------------------------------------------- the panel
 
-TSharedRef<SWidget> SReal33DChatPanel::BuildChannelTabs()
+FText SReal33DChatPanel::TabLabel(const FReal33DChatView& View)
+{
+	switch (View.Kind)
+	{
+	case EReal33DChatViewKind::Channel:
+	case EReal33DChatViewKind::Private:
+		// The server's own name in both cases. A name this client made up
+		// would eventually be the wrong one: channel 0 is named after the
+		// player's guild.
+		return FText::FromString(View.Name);
+	default:
+		return NSLOCTEXT("Real33D", "ChatLocal", "Local Chat");
+	}
+}
+
+FText SReal33DChatPanel::DestinationLabel(const FReal33DChatView& View)
+{
+	switch (View.Kind)
+	{
+	case EReal33DChatViewKind::Channel:
+		return FText::FromString(FString::Printf(
+			TEXT("to %s (channel %d)"), *View.Name, View.Channel));
+	case EReal33DChatViewKind::Private:
+		return FText::FromString(FString::Printf(TEXT("to %s, privately"), *View.Name));
+	default:
+		return FText::GetEmpty();
+	}
+}
+
+bool SReal33DChatPanel::IsClosable(const FReal33DChatView& View)
+{
+	// Local Chat is where every unaddressed line goes. A console with nowhere
+	// to put ordinary speech would discard what the server said.
+	return View.Kind != EReal33DChatViewKind::Local;
+}
+
+TSharedRef<SWidget> SReal33DChatPanel::MakeTab(const FReal33DChatView& View, bool bSelected)
 {
 	const ISlateStyle& Style = FReal33DUIStyle::Get();
+	const bool bClosable = IsClosable(View);
 
-	// console.otui: a 96x18 tab, the selected cell on top of the sheet.
-	return SNew(SHorizontalBox)
-		+ SHorizontalBox::Slot()
-		.AutoWidth()
+	const FText Tip = View.Kind == EReal33DChatViewKind::Local
+		? NSLOCTEXT("Real33D", "ChatLocalTip",
+			"Speech, the server's own messages, and this client's notices")
+		: DestinationLabel(View);
+
+	TSharedRef<SOverlay> Cell = SNew(SOverlay)
+		+ SOverlay::Slot()
 		[
-			SNew(SBox)
-			.WidthOverride(96.0f)
-			.HeightOverride(18.0f)
-			.ToolTipText(FText::FromString(
-				TEXT("Everything Fusion32 says to this client arrives here")))
+			// console.otui: the selected cell sits on top of the sheet, the
+			// idle one behind it.
+			SNew(SImage).Image(Style.GetBrush(bSelected
+				? "Real33D.Chrome.TabSelected" : "Real33D.Chrome.TabIdle"))
+		]
+		+ SOverlay::Slot()
+		.HAlign(HAlign_Center)
+		.VAlign(VAlign_Center)
+		.Padding(FMargin(2.0f, 0.0f, bClosable ? 14.0f : 2.0f, 0.0f))
+		[
+			SNew(STextBlock)
+			.Text(TabLabel(View))
+			.ColorAndOpacity(FSlateColor(FLinearColor(FColor(0xDF, 0xDF, 0xDF, 0xFF))))
+			.Font(FCoreStyle::GetDefaultFontStyle("Regular", 8))
+		];
+
+	if (bClosable)
+	{
+		// The 2D's own close box, in the corner of the cell. Closing a channel
+		// tab leaves the channel; closing a private one just puts the
+		// conversation away.
+		Cell->AddSlot()
+			.HAlign(HAlign_Right)
+			.VAlign(VAlign_Center)
+			.Padding(FMargin(0.0f, 0.0f, 2.0f, 0.0f))
 			[
-				SNew(SOverlay)
-				+ SOverlay::Slot()
+				SNew(SButton)
+				.ButtonStyle(FCoreStyle::Get(), "NoBorder")
+				.ContentPadding(FMargin(0.0f))
+				.ToolTipText(View.Kind == EReal33DChatViewKind::Channel
+					? NSLOCTEXT("Real33D", "ChatCloseChannelTip",
+						"Leaves this channel and closes the tab")
+					: NSLOCTEXT("Real33D", "ChatClosePrivateTip",
+						"Closes this conversation"))
+				.OnClicked(FOnClicked::CreateSP(
+					this, &SReal33DChatPanel::HandleTabClosed, View.ViewId))
 				[
-					SNew(SImage).Image(Style.GetBrush("Real33D.Chrome.TabSelected"))
+					SNew(SBox)
+					.WidthOverride(10.0f)
+					.HeightOverride(10.0f)
+					[
+						SNew(SImage).Image(Style.GetBrush("Real33D.Chrome.Close"))
+					]
 				]
-				+ SOverlay::Slot()
-				.HAlign(HAlign_Center)
-				.VAlign(VAlign_Center)
-				[
-					SNew(STextBlock)
-					.Text(NSLOCTEXT("Real33D", "ChatLocal", "Local Chat"))
-					.ColorAndOpacity(FSlateColor(FLinearColor(FColor(0xDF, 0xDF, 0xDF, 0xFF))))
-					.Font(FCoreStyle::GetDefaultFontStyle("Regular", 8))
-				]
+			];
+	}
+
+	return SNew(SBox)
+		.WidthOverride(96.0f)
+		.HeightOverride(18.0f)
+		.ToolTipText(Tip)
+		[
+			SNew(SButton)
+			.ButtonStyle(FCoreStyle::Get(), "NoBorder")
+			.ContentPadding(FMargin(0.0f))
+			.OnClicked(FOnClicked::CreateSP(
+				this, &SReal33DChatPanel::HandleTabClicked, View.ViewId))
+			[
+				Cell
 			]
 		];
+}
+
+TSharedRef<SWidget> SReal33DChatPanel::BuildChannelTabs()
+{
+	SAssignNew(Tabs, SHorizontalBox);
+	RebuildTabs();
+	return Tabs.ToSharedRef();
+}
+
+void SReal33DChatPanel::RebuildTabs()
+{
+	if (!Tabs.IsValid())
+	{
+		return;
+	}
+	Tabs->ClearChildren();
+
+	const UReal33DBridge* Live = Bridge.Get();
+	TArray<FReal33DChatView> Views;
+	if (Live != nullptr)
+	{
+		Live->GetChatViews(Views);
+	}
+	if (Views.Num() == 0)
+	{
+		// No bridge at all: the gallery and headless modes still put this panel
+		// on screen. One Local Chat tab, as before channels existed.
+		FReal33DChatView Local;
+		Views.Add(Local);
+	}
+
+	const uint32 Selected = Live != nullptr ? Live->GetSelectedChatView() : 0;
+	for (const FReal33DChatView& View : Views)
+	{
+		Tabs->AddSlot()
+			.AutoWidth()
+			.Padding(FMargin(0.0f, 0.0f, 1.0f, 0.0f))
+			[
+				MakeTab(View, View.ViewId == Selected)
+			];
+	}
+
+	// The input row's left-hand slot follows the tab: the mode choice belongs
+	// to Local Chat alone.
+	if (Destination.IsValid())
+	{
+		const FReal33DChatView Current = CurrentView();
+		if (Current.Kind == EReal33DChatViewKind::Local)
+		{
+			Destination->SetContent(BuildModeSelector());
+		}
+		else
+		{
+			Destination->SetContent(
+				SNew(STextBlock)
+				.Text(DestinationLabel(Current))
+				.ColorAndOpacity(FSlateColor(ServerColour))
+				.Font(FCoreStyle::GetDefaultFontStyle("Regular", 8)));
+		}
+	}
+}
+
+FReal33DChatView SReal33DChatPanel::CurrentView() const
+{
+	const UReal33DBridge* Live = Bridge.Get();
+	if (Live != nullptr)
+	{
+		TArray<FReal33DChatView> Views;
+		Live->GetChatViews(Views);
+		const uint32 Selected = Live->GetSelectedChatView();
+		for (const FReal33DChatView& View : Views)
+		{
+			if (View.ViewId == Selected)
+			{
+				return View;
+			}
+		}
+	}
+	// A default-constructed view is Local Chat, which is the right answer both
+	// when there is no bridge and when the selection has just been closed.
+	return FReal33DChatView();
+}
+
+FReply SReal33DChatPanel::HandleTabClicked(uint32 ViewId)
+{
+	UReal33DBridge* Live = Bridge.Get();
+	if (Live != nullptr && Live->SelectChatView(ViewId))
+	{
+		// Redrawn now rather than on the next revision change: selecting a tab
+		// changes nothing in any transcript, so nothing else would redraw it.
+		RebuildTabs();
+		RebuildTranscript();
+	}
+	return FReply::Handled();
+}
+
+FReply SReal33DChatPanel::HandleTabClosed(uint32 ViewId)
+{
+	UReal33DBridge* Live = Bridge.Get();
+	if (Live != nullptr && Live->CloseChatView(ViewId))
+	{
+		RebuildTabs();
+		RebuildTranscript();
+	}
+	return FReply::Handled();
 }
 
 void SReal33DChatPanel::Construct(const FArguments& InArgs)
 {
 	Bridge = InArgs._Bridge;
 	OnTypingChanged = InArgs._OnTypingChanged;
-	const bool bEmbedded = InArgs._Embedded;
+	bEmbedded = InArgs._Embedded;
 
 	const ISlateStyle& Style = FReal33DUIStyle::Get();
 
@@ -172,7 +356,12 @@ void SReal33DChatPanel::Construct(const FArguments& InArgs)
 			.AutoWidth()
 			.VAlign(VAlign_Center)
 			[
-				BuildModeSelector()
+				// Filled by RebuildTabs: the mode selector on Local Chat, the
+				// destination on any other tab.
+				SAssignNew(Destination, SBox)
+				[
+					BuildModeSelector()
+				]
 			]
 
 			+ SHorizontalBox::Slot()
@@ -347,9 +536,42 @@ void SReal33DChatPanel::Send()
 	// who hears it, and the authoritative talk it broadcasts is what fills the
 	// transcript. Rendering it locally as well would show the player their own
 	// line twice, once for a message the server may never have accepted.
-	const uint32 TalkId = Live->RequestTalk(Mode, Text);
-	UE_LOG(LogReal33D, Log, TEXT("%s %u: \"%s\" handed to Fusion32"),
-		Real33DTalkModeLabel(Mode), TalkId, *Text);
+	//
+	// Where it goes is the tab, not the mode selector. A channel line carries
+	// the channel number of the tab it was typed in and a private line the
+	// character of its conversation, so the command cannot leave here without
+	// the field its mode requires.
+	const FReal33DChatView View = CurrentView();
+	switch (View.Kind)
+	{
+	case EReal33DChatViewKind::Channel:
+	{
+		const uint32 TalkId = Live->RequestChannelTalk(View.Channel, Text);
+		UE_LOG(LogReal33D, Log,
+			TEXT("channel %d talk %u: \"%s\" handed to Fusion32"),
+			View.Channel, TalkId, *Text);
+		break;
+	}
+	case EReal33DChatViewKind::Private:
+	{
+		const uint32 TalkId = Live->RequestPrivateTalk(View.Name, Text);
+		// The sender gets no copy of their own private line: Fusion32 sends it
+		// to the addressee and answers the sender "Message sent to X." That
+		// confirmation lands in Local Chat, which is where SV_CMD_MESSAGE
+		// always lands.
+		UE_LOG(LogReal33D, Log,
+			TEXT("private talk %u to %s: \"%s\" handed to Fusion32"),
+			TalkId, *View.Name, *Text);
+		break;
+	}
+	default:
+	{
+		const uint32 TalkId = Live->RequestTalk(Mode, Text);
+		UE_LOG(LogReal33D, Log, TEXT("%s %u: \"%s\" handed to Fusion32"),
+			Real33DTalkModeLabel(Mode), TalkId, *Text);
+		break;
+	}
+	}
 
 	Input->SetText(FText::GetEmpty());
 }
@@ -365,12 +587,18 @@ void SReal33DChatPanel::Tick(const FGeometry& AllottedGeometry,
 		return;
 	}
 	const uint64 Revision = Live->GetChatRevision();
-	if (bEverDrawn && Revision == DrawnRevision)
+	const uint32 Selected = Live->GetSelectedChatView();
+	if (bEverDrawn && Revision == DrawnRevision && Selected == DrawnViewId)
 	{
 		return;
 	}
 	DrawnRevision = Revision;
+	DrawnViewId = Selected;
 	bEverDrawn = true;
+	// The strip too: the one revision covers both the transcripts and the set
+	// of surfaces, so a channel that just opened gets its tab in the same frame
+	// its first line could arrive.
+	RebuildTabs();
 	RebuildTranscript();
 }
 
@@ -385,7 +613,10 @@ void SReal33DChatPanel::RebuildTranscript()
 	TArray<FReal33DChatLine> Transcript;
 	if (Live != nullptr)
 	{
-		Live->GetChatTranscript(Transcript);
+		// The selected surface's own lines, never another's. One conversation's
+		// transcript shown under another's name is the one mistake a multi-tab
+		// console must not make.
+		Live->GetChatTranscript(Live->GetSelectedChatView(), Transcript);
 	}
 
 	// Rebuilt whole rather than appended to, because the log evicts from the

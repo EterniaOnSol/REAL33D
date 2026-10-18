@@ -3,6 +3,7 @@
 #include "REAL33D.h"
 #include "Real33DActionBarPanel.h"
 #include "Real33DBattlePanel.h"
+#include "Real33DChannelsPanel.h"
 #include "Real33DContainersPanel.h"
 #include "Real33DControlPanel.h"
 #include "Real33DCreatureActor.h"
@@ -242,6 +243,14 @@ void SReal33DHUD::Construct(const FArguments& InArgs)
 		SAssignNew(Battle, SReal33DBattlePanel)
 		.OnCreatureTargeted(FReal33DOnCreatureTargeted::CreateSP(
 			this, &SReal33DHUD::HandleCreatureTargeted)));
+
+	// The one call this panel needs, which is what the registry exists for.
+	// It goes above the containers because a stack of open bags is the tallest
+	// thing in this column and would push it off the fold.
+	AddPanel(Inner, Real33D::PanelIds::Channels,
+		FText::FromString(TEXT("Channels")), NAME_None,
+		SReal33DChannelsPanel::PanelHeight,
+		SAssignNew(Channels, SReal33DChannelsPanel).Bridge(Bridge));
 
 	AddPanel(Inner, Real33D::PanelIds::Containers,
 		FText::FromString(TEXT("Containers")), NAME_None, ContainersHeight,

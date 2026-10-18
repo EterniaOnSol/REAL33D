@@ -139,7 +139,41 @@ enum class EReal33DEventKind : uint8
 	 * can change. There is no third: the server acknowledges an accepted
 	 * target with silence.
 	 */
-	CombatChanged
+	CombatChanged,
+
+	// ------------------------------------------------------------- channels
+	//
+	// One event per channel command Fusion32 sends. Four kinds for five
+	// commands: SV_CMD_OPEN_CHANNEL and SV_CMD_OPEN_OWN_CHANNEL have the same
+	// shape and differ only in whose channel it is, which `bOwnChannel`
+	// carries.
+
+	/**
+	 * The channel list, from SV_CMD_CHANNELS, in answer to a request.
+	 *
+	 * `Channels` is the whole list as the server sent it. It is the only thing
+	 * that may put a channel name on screen: a client that drew "Trade" or
+	 * "Help" from a table of its own would be naming channels this player may
+	 * not be allowed to see, since SendChannels filters by
+	 * `ChannelAvailable(Channel, Player->ID)`.
+	 */
+	ChannelList,
+
+	/**
+	 * A channel this player is now in, from SV_CMD_OPEN_CHANNEL or
+	 * SV_CMD_OPEN_OWN_CHANNEL. Carries `Channel` and `ChannelName`.
+	 */
+	ChannelOpened,
+
+	/** A channel this player is no longer in, from SV_CMD_CLOSE_CHANNEL. */
+	ChannelClosed,
+
+	/**
+	 * A private conversation with one named character, from
+	 * SV_CMD_PRIVATE_CHANNEL. Carries `ChannelName` and no number, because
+	 * SendPrivateChannel writes no number.
+	 */
+	PrivateChannelOpened
 };
 
 /** Which shape of talk this was, mirroring the three forms Fusion32 emits. */
@@ -160,10 +194,12 @@ enum class EReal33DTalkLayout : uint8
  * prefix that the bridge parsed back out, which put a wire convention in the
  * one place that must not have one.
  *
- * Only the three positional modes are offered. The addressed and channel modes
- * `CTalk` also accepts need an addressee or a channel this client has no UI
- * for, and offering a mode that cannot carry its required field would produce
- * a command the server refuses.
+ * The three positional modes, and only those. The addressed and channel modes
+ * `CTalk` also accepts carry a required extra field, so they are not a *mode*
+ * the player picks here at all: a channel line is addressed by the tab it is
+ * typed into and a private line by the character it is typed at. Those travel
+ * through `RequestChannelTalk` and `RequestPrivateTalk`, which take the field
+ * the mode needs, so a mode can never reach the wire without it.
  */
 UENUM()
 enum class EReal33DTalkMode : uint8
@@ -415,6 +451,57 @@ struct FReal33DMinimapState
 	uint64 Revision = 0;
 };
 
+/**
+ * One row of SV_CMD_CHANNELS, as the server sent it.
+ *
+ * `Id` and `Name` are both the server's. Nothing here is looked up in a table
+ * of this client's own: `operate.cc::GetChannelName` returns the player's own
+ * guild name for channel 0, so even the "fixed" channels cannot be named
+ * locally without eventually naming one of them wrongly.
+ */
+struct FReal33DChannelEntry
+{
+	int32 Id = 0;
+	FString Name;
+	/**
+	 * True for the one row that is not a channel: SendChannels writes id
+	 * 0xFFFF and the name "Private Chat Channel" as an *offer* to create a
+	 * channel when `MayOpenChannel` is true. Joining it would be meaningless,
+	 * so the row is flagged rather than presented as joinable, and `Id` is not
+	 * a channel number.
+	 */
+	bool bOwnChannelOffer = false;
+};
+
+/** Which kind of conversation a chat surface carries. Mirrors Real33D::ChatViewKind. */
+UENUM()
+enum class EReal33DChatViewKind : uint8
+{
+	Local,
+	Channel,
+	Private
+};
+
+/**
+ * One chat surface: Local Chat, a joined channel, or a private conversation.
+ *
+ * Identity only. The lines themselves are fetched per view with
+ * `GetChatTranscript`, so a widget cannot hold a transcript that has since been
+ * evicted or cleared.
+ */
+struct FReal33DChatView
+{
+	/** Monotonic and never reused, including across a reconnect. */
+	uint32 ViewId = 0;
+	EReal33DChatViewKind Kind = EReal33DChatViewKind::Local;
+	/** Meaningful for Channel only. */
+	int32 Channel = 0;
+	/** The server's channel name, or the character. Empty for Local Chat. */
+	FString Name;
+	/** The channel arrived as SV_CMD_OPEN_OWN_CHANNEL rather than the plain one. */
+	bool bOwnChannel = false;
+};
+
 /** An event crossing the thread boundary. Copied, never shared. */
 struct FReal33DEvent
 {
@@ -446,6 +533,15 @@ struct FReal33DEvent
 	bool bHasChannel = false;
 	int32 Channel = 0;
 	/**
+	 * True when this talk was addressed to this player alone: TALK_PRIVATE_MESSAGE.
+	 *
+	 * A flag rather than a mode comparison above the bridge. `TalkLayout` cannot
+	 * answer it -- a private message and a gamemaster request are both `Plain`
+	 * -- and `TalkMode` is a display string, so deciding it by matching that
+	 * text would put a protocol fact in a label.
+	 */
+	bool bPrivateMessage = false;
+	/**
 	 * How the speaker was identified, for evidence: `Resolved`, `NoMatch`,
 	 * `Ambiguous` or `NotPositional`. Anything but `Resolved` means
 	 * `CreatureId` is zero and the message belongs on the fallback surface,
@@ -453,6 +549,14 @@ struct FReal33DEvent
 	 * showing it in the world at all.
 	 */
 	FString SpeakerResolution;
+
+	// Channels. Populated only for the four channel event kinds.
+	/** The whole list, for ChannelList. */
+	TArray<FReal33DChannelEntry> Channels;
+	/** The channel's own name, for ChannelOpened and PrivateChannelOpened. */
+	FString ChannelName;
+	/** ChannelOpened arrived as SV_CMD_OPEN_OWN_CHANNEL. */
+	bool bOwnChannel = false;
 
 	/** 0..100 as the server reports it. Meaningful for creature events. */
 	uint8 HealthPercent = 100;
@@ -526,6 +630,33 @@ struct FReal33DStats
 	int32 TargetClearsReceived = 0;
 	/** Say commands ClientCore refused before sending, with the reason logged. */
 	int32 SaysRefusedLocally = 0;
+
+	// Channels. Requests and arrivals are counted apart, as walks are: a join
+	// this client sent is not proof the server opened anything.
+	/** CL_CMD_GET_CHANNELS commands put on the wire. */
+	int32 ChannelListsRequested = 0;
+	/** CL_CMD_JOIN_CHANNEL commands put on the wire. */
+	int32 ChannelJoinsRequested = 0;
+	/** CL_CMD_LEAVE_CHANNEL commands put on the wire. */
+	int32 ChannelLeavesRequested = 0;
+	/** CL_CMD_PRIVATE_CHANNEL commands put on the wire. */
+	int32 PrivateChannelsRequested = 0;
+	/** CL_CMD_TALK commands sent in TALK_CHANNEL_CALL mode. */
+	int32 ChannelSaysRequested = 0;
+	/** CL_CMD_TALK commands sent in TALK_PRIVATE_MESSAGE mode. */
+	int32 PrivateSaysRequested = 0;
+	/** SV_CMD_CHANNELS lists Fusion32 sent. */
+	int32 ChannelListsReceived = 0;
+	/** SV_CMD_OPEN_CHANNEL and SV_CMD_OPEN_OWN_CHANNEL commands received. */
+	int32 ChannelsOpened = 0;
+	/** SV_CMD_CLOSE_CHANNEL commands received. */
+	int32 ChannelsClosed = 0;
+	/** SV_CMD_PRIVATE_CHANNEL commands received. */
+	int32 PrivateChannelsOpened = 0;
+	/** Talk that arrived with a channel number. */
+	int32 ChannelTalkReceived = 0;
+	/** Talk that arrived in TALK_PRIVATE_MESSAGE mode. */
+	int32 PrivateTalkReceived = 0;
 	/** Talk shown above the creature that said it. */
 	int32 TalkShownOnCreature = 0;
 	/** Talk shown on the fallback surface because no speaker could be proven. */
@@ -688,6 +819,122 @@ public:
 	/** Changes only stand/chase; ClientCore preserves the other tactics. */
 	uint32 RequestChaseMode(EReal33DChaseMode Mode);
 
+	// --------------------------------------------------------------- channels
+	//
+	// Four commands out, five in. Every one of them is an intent, exactly like
+	// a walk: none of these opens, closes or fills a tab by itself. A channel
+	// appears when Fusion32 answers with SV_CMD_OPEN_CHANNEL, and what travels
+	// inside it is the ordinary SV_CMD_TALK the server broadcasts back.
+	//
+	// Each returns the id identifying the request for the rest of its life, or
+	// 0 when there is no live worker to hand it to.
+
+	/**
+	 * Asks for the channel list. CL_CMD_GET_CHANNELS.
+	 *
+	 * The answer is the only thing that may name a channel on screen. Until it
+	 * arrives this client knows of no channels at all, which is why the panel
+	 * starts empty rather than with the eight `operate.hh` happens to define:
+	 * which of them exist for this player is `ChannelAvailable`'s answer, and
+	 * that is server state.
+	 */
+	uint32 RequestChannelList();
+
+	/**
+	 * Joins a channel. CL_CMD_JOIN_CHANNEL.
+	 *
+	 * Refused locally for `kRuleViolationsChannel` and for a number outside a
+	 * word, and for nothing else: CJoinChannel checks the number against
+	 * `GetNumberOfChannels()`, which is server state this client has no copy
+	 * of, so a range cannot be enforced here without inventing one.
+	 */
+	uint32 RequestJoinChannel(int32 Channel);
+
+	/**
+	 * Leaves a channel. CL_CMD_LEAVE_CHANNEL.
+	 *
+	 * The one command here whose effect is applied without waiting:
+	 * CLeaveChannel answers with nothing at all, so this client's own command
+	 * is the only signal the channel has been left. The tab therefore closes
+	 * here. A line already in flight when it closes is not lost -- it arrives
+	 * in Local Chat, see `Real33DChatViews.h`.
+	 */
+	uint32 RequestLeaveChannel(int32 Channel);
+
+	/**
+	 * Opens a private conversation with a character by name.
+	 * CL_CMD_PRIVATE_CHANNEL.
+	 *
+	 * The character must exist but need not be online: CPrivateChannel only
+	 * calls `GetCharacterID`. An unknown name is answered with
+	 * PLAYERNOTEXISTING, and the player's own name with a refusal message --
+	 * both of which arrive as server messages the player reads, so neither is
+	 * second-guessed here.
+	 */
+	uint32 RequestOpenPrivateChannel(const FString& Name);
+
+	/**
+	 * Speaks into a channel. CL_CMD_TALK in TALK_CHANNEL_CALL mode.
+	 *
+	 * Fusion32 broadcasts the line to every subscriber, this player included,
+	 * so what fills the tab is the server's own copy and not a local echo.
+	 *
+	 * Two of its refusals are the server's to make and are not pre-empted
+	 * here: speaking into a channel needs level 2 or better, and a channel
+	 * this player is not subscribed to silently becomes an ordinary Say. Both
+	 * are visible -- the first as a server message, the second as speech that
+	 * appears in Local Chat instead of the tab.
+	 */
+	uint32 RequestChannelTalk(int32 Channel, const FString& Text);
+
+	/**
+	 * Sends a private message. CL_CMD_TALK in TALK_PRIVATE_MESSAGE mode.
+	 *
+	 * The addressee has to be online: `operate.cc` throws PLAYERNOTONLINE
+	 * otherwise, and the player is told so.
+	 *
+	 * The sender gets no copy of their own line -- Fusion32 sends the receiver
+	 * the talk and the sender "Message sent to X." through SV_CMD_MESSAGE -- so
+	 * a sender's tab shows that confirmation and not the line. Echoing it
+	 * locally would show the player a message the server might have refused.
+	 */
+	uint32 RequestPrivateTalk(const FString& Addressee, const FString& Text);
+
+	/**
+	 * The channel list Fusion32 last sent, and whether it has ever answered.
+	 *
+	 * Empty and false before the first SV_CMD_CHANNELS. The panel draws nothing
+	 * in that state rather than a plausible list.
+	 */
+	void GetChannelList(TArray<FReal33DChannelEntry>& OutChannels) const;
+	bool IsChannelListKnown() const;
+
+	/** Changes whenever the list does, so the panel rebuilds only then. */
+	uint64 GetChannelListRevision() const;
+
+	/** Whether Fusion32 has confirmed this player is in a channel. */
+	bool IsChannelJoined(int32 Channel) const;
+
+	/**
+	 * The chat surfaces, Local Chat first and then in the order they opened.
+	 *
+	 * Local Chat is always present and is never removed, so there is always
+	 * somewhere for an unaddressed line to go.
+	 */
+	void GetChatViews(TArray<FReal33DChatView>& OutViews) const;
+
+	/** The surface the player is looking at, and the one a typed line goes to. */
+	uint32 GetSelectedChatView() const;
+	bool SelectChatView(uint32 ViewId);
+
+	/**
+	 * Closes a surface the player is done with.
+	 *
+	 * A channel view leaves the channel on the way out, which is what the 2D's
+	 * tab close does. Local Chat is refused.
+	 */
+	bool CloseChatView(uint32 ViewId);
+
 	/**
 	 * The transcript of what the player should be able to read, oldest first.
 	 *
@@ -695,15 +942,36 @@ public:
 	 * diagnostics. Bounded and ordered by ClientCore's `ChatLog`, which owns
 	 * those rules because they are testable without a renderer.
 	 *
+	 * The no-argument form is Local Chat, which is what it has always been.
+	 *
 	 * Game thread only, like DrainEvents: one owner on one thread.
 	 */
 	void GetChatTranscript(TArray<FReal33DChatLine>& OutLines) const;
 
+	/** The transcript of one surface. Empty for a view that is not open. */
+	void GetChatTranscript(uint32 ViewId, TArray<FReal33DChatLine>& OutLines) const;
+
 	/**
-	 * Changes whenever the transcript does, so a widget can rebuild only then
-	 * rather than every frame. Never reused, including across a reconnect.
+	 * Changes whenever any transcript or the set of surfaces does, so a widget
+	 * can rebuild only then rather than every frame. Never reused, including
+	 * across a reconnect.
+	 *
+	 * One revision for all of them on purpose: a tab strip and a transcript
+	 * drawn from two separate counters could show a tab whose conversation had
+	 * already gone.
 	 */
 	uint64 GetChatRevision() const;
+
+	/**
+	 * Channel 3, CHANNEL_RULEVIOLATIONS.
+	 *
+	 * Named here because this client refuses to join it. `CJoinChannel`
+	 * answers that one with SV_CMD_OPEN_REQUEST_QUEUE (174) and the existing
+	 * requests, and this project decodes neither; an undecoded command stops
+	 * the payload walk, so asking for it would cost the rest of that packet.
+	 * Refusing is a client limitation and is reported as one.
+	 */
+	static constexpr int32 kRuleViolationsChannel = 3;
 
 	FReal33DStats GetStats() const;
 	FReal33DMinimapState GetMinimapState() const;
@@ -723,15 +991,30 @@ private:
 	/** Files one drained event into the transcript, if it belongs there. */
 	void NoteChat(const FReal33DEvent& Event);
 
+	/**
+	 * Applies one drained channel event: opens, closes, or records the list.
+	 *
+	 * Separate from NoteChat because the two answer different questions. This
+	 * one decides which surfaces exist; that one decides which surface a line
+	 * goes on. Both run on the game thread, in arrival order, so a line that
+	 * arrives in the same drain as the open that created its tab lands in it.
+	 */
+	void NoteChannel(const FReal33DEvent& Event);
+
 	FReal33DWorker* Worker = nullptr;
 	FRunnableThread* Thread = nullptr;
 	/** Game thread only. Numbers key presses so evidence can follow one. */
 	uint32 NextInputId = 0;
 
 	/**
-	 * ClientCore's ChatLog, held behind a pointer so this header stays free of
+	 * The chat surfaces, one ClientCore ChatLog each, and the channel list
+	 * Fusion32 last sent. Held behind a pointer so this header stays free of
 	 * anything under fusion32/. Created in Initialize, destroyed in
 	 * Deinitialize, game thread only.
+	 *
+	 * One pointer for all of it rather than one per thing: a surface and its
+	 * transcript are created and destroyed together, and splitting them would
+	 * let a log outlive the conversation it belongs to.
 	 *
 	 * A raw pointer rather than a TUniquePtr on purpose: a smart pointer would
 	 * instantiate its deleter wherever this header is included, including UHT's

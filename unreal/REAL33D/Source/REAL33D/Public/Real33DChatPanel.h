@@ -98,6 +98,36 @@ public:
 	/** The widget the controller must focus to put the caret in the box. */
 	TSharedPtr<SWidget> GetInputWidget() const;
 
+	// ------------------------------------------------------- display rules
+	//
+	// Static and free of Slate, so each is testable without a renderer.
+
+	/**
+	 * What a tab reads.
+	 *
+	 * Local Chat is this client's own word for the surface that holds
+	 * everything unaddressed, and is the one label here that is not the
+	 * server's. A channel's label is the name Fusion32 sent with
+	 * SV_CMD_OPEN_CHANNEL and a private conversation's is the character the
+	 * server named, because channel 0 is named after the player's guild and no
+	 * local table could get that right.
+	 */
+	static FText TabLabel(const FReal33DChatView& View);
+
+	/**
+	 * What the line being typed will be sent as, named for the player.
+	 *
+	 * The destination is the tab, not a mode the player picks: a line typed in
+	 * a channel tab is a TALK_CHANNEL_CALL into that channel, and one typed in
+	 * a private tab is a TALK_PRIVATE_MESSAGE to that character. Only Local
+	 * Chat leaves the choice open, which is why the Say/Whisper/Yell selector
+	 * belongs to it alone.
+	 */
+	static FText DestinationLabel(const FReal33DChatView& View);
+
+	/** Whether this surface can be closed. False for Local Chat. */
+	static bool IsClosable(const FReal33DChatView& View);
+
 private:
 	void HandleTextCommitted(const FText& Text, ETextCommit::Type Cause);
 	FReply HandleSendClicked();
@@ -109,16 +139,24 @@ private:
 	TSharedRef<SWidget> BuildModeSelector();
 
 	/**
-	 * The channel tab strip of `console.otui`, with the one tab this client has.
+	 * The channel tab strip of `console.otui`, one tab per open surface.
 	 *
-	 * Fusion32 carries channels -- a talk can arrive with a channel number --
-	 * but ClientCore keeps a single transcript and there is no command decoded
-	 * that would tell this client which channels it is even in. So there is one
-	 * tab, holding everything, drawn with the 2D's own tab art. Naming a
-	 * "Trade" or "Help" tab that this client could neither fill nor join would
-	 * be an invention, so none is drawn.
+	 * Local Chat is always the first tab and cannot be closed: it is where
+	 * every unaddressed line goes. The rest appear only when Fusion32 confirms
+	 * a channel open or a private conversation, and in the order they opened.
+	 * Nothing here names a channel this client is not actually in.
 	 */
 	TSharedRef<SWidget> BuildChannelTabs();
+	void RebuildTabs();
+
+	/** One tab: the 2D's 96x18 cell, selected or idle, with its close box. */
+	TSharedRef<SWidget> MakeTab(const FReal33DChatView& View, bool bSelected);
+
+	FReply HandleTabClicked(uint32 ViewId);
+	FReply HandleTabClosed(uint32 ViewId);
+
+	/** The surface the player is typing into, or a Local-Chat stand-in. */
+	FReal33DChatView CurrentView() const;
 
 	TWeakObjectPtr<UReal33DBridge> Bridge;
 	FReal33DOnTypingChanged OnTypingChanged;
@@ -126,6 +164,15 @@ private:
 	TSharedPtr<SReal33DChatInput> Input;
 	TSharedPtr<SScrollBox> History;
 	TSharedPtr<SVerticalBox> Lines;
+	/** The tab strip, rebuilt when the set of surfaces changes. */
+	TSharedPtr<SHorizontalBox> Tabs;
+	/**
+	 * Holds the mode selector on Local Chat and the destination label
+	 * elsewhere. One slot, because the two are alternatives: offering
+	 * Say/Whisper/Yell beside a channel tab would imply a choice that tab does
+	 * not have.
+	 */
+	TSharedPtr<class SBox> Destination;
 
 	/**
 	 * The talk mode persists until the player changes it.
@@ -145,4 +192,15 @@ private:
 	/** Last transcript revision drawn, so the list rebuilds only on a change. */
 	uint64 DrawnRevision = 0;
 	bool bEverDrawn = false;
+
+	/**
+	 * Which surface the transcript on screen belongs to.
+	 *
+	 * Kept so a rebuild can tell a new line in the same conversation from a
+	 * move to a different one. The bridge owns the selection itself -- a copy
+	 * here would be a second answer to "where does the next line go".
+	 */
+	uint32 DrawnViewId = 0;
+	/** True when the strip is the standalone single-tab form. */
+	bool bEmbedded = false;
 };

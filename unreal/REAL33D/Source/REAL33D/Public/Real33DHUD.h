@@ -189,6 +189,12 @@ private:
 	TSharedPtr<SReal33DBattlePanel> Battle;
 	TSharedPtr<SReal33DInventoryPanel> Inventory;
 	TSharedPtr<SReal33DContainersPanel> Containers;
+	/**
+	 * The channel list. Held like the others, though nothing pushes into it:
+	 * it reads the bridge in its own Tick, because the channel list is bridge
+	 * state rather than world state and `Refresh` carries the world actor.
+	 */
+	TSharedPtr<class SReal33DChannelsPanel> Channels;
 	TSharedPtr<SReal33DConditionStrip> Conditions;
 	TSharedPtr<SReal33DMinimapPanel> Minimap;
 	TSharedPtr<SReal33DControlPanel> Controls;

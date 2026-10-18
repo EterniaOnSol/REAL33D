@@ -21,6 +21,7 @@ namespace PanelIds
 	REAL33D_API extern const FName Skills;
 	REAL33D_API extern const FName Battle;
 	REAL33D_API extern const FName Containers;
+	REAL33D_API extern const FName Channels;
 }
 }
 

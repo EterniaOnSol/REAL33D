@@ -1326,6 +1326,21 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		TEXT("    \"combat_cancels_requested\": %d,\n")
 		TEXT("    \"tactics_requested\": %d,\n")
 		TEXT("    \"target_clears_received\": %d,\n")
+		// Channels. Requests and arrivals apart, as the walks are: a join this
+		// client sent is not proof the server opened anything, and a reader of
+		// this file has to be able to see the difference without the log.
+		TEXT("    \"channel_lists_requested\": %d,\n")
+		TEXT("    \"channel_lists_received\": %d,\n")
+		TEXT("    \"channel_joins_requested\": %d,\n")
+		TEXT("    \"channels_opened\": %d,\n")
+		TEXT("    \"channel_leaves_requested\": %d,\n")
+		TEXT("    \"channels_closed\": %d,\n")
+		TEXT("    \"private_channels_requested\": %d,\n")
+		TEXT("    \"private_channels_opened\": %d,\n")
+		TEXT("    \"channel_says_requested\": %d,\n")
+		TEXT("    \"channel_talk_received\": %d,\n")
+		TEXT("    \"private_says_requested\": %d,\n")
+		TEXT("    \"private_talk_received\": %d,\n")
 		TEXT("    \"worldstate_tiles\": %d,\n")
 		TEXT("    \"worldstate_visible_creatures\": %d,\n")
 		TEXT("    \"viewport_synchronised\": %s\n")
@@ -1381,6 +1396,18 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		Stats.AttacksRequested, Stats.FollowsRequested,
 		Stats.CombatCancelsRequested, Stats.TacticsRequested,
 		Stats.TargetClearsReceived,
+		Stats.ChannelListsRequested,
+		Stats.ChannelListsReceived,
+		Stats.ChannelJoinsRequested,
+		Stats.ChannelsOpened,
+		Stats.ChannelLeavesRequested,
+		Stats.ChannelsClosed,
+		Stats.PrivateChannelsRequested,
+		Stats.PrivateChannelsOpened,
+		Stats.ChannelSaysRequested,
+		Stats.ChannelTalkReceived,
+		Stats.PrivateSaysRequested,
+		Stats.PrivateTalkReceived,
 		Stats.Tiles,
 		Stats.VisibleCreatures, Stats.bViewportSynchronised ? TEXT("true") : TEXT("false"),
 		CameraPitch, CameraYaw, CameraDistance, DrawnCameraDistance, bCameraObstructed ? TEXT("true") : TEXT("false"), CameraCutaways, bHideUpperFloors ? TEXT("true") : TEXT("false"),
