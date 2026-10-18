@@ -1,0 +1,4 @@
+ M handoffs/CURRENT.md
+?? evidence/clientcore/UNREAL-SKILLS-PANEL-001-INDEPENDENT-20261017.md
+?? evidence/clientcore/unreal-skills-panel-independent-20261017/
+?? handoffs/archive/BEFORE-UNREAL-SKILLS-PANEL-INDEPENDENT-20261017.md

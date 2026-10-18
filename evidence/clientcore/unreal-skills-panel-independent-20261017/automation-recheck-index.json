@@ -1,0 +1,145 @@
+﻿{
+	"devices": [
+		{
+			"deviceName": "DESKTOP-9SKKIUM",
+			"instance": "52A668F042884DB400BD658FE02BADA3",
+			"instanceName": "DESKTOP-9SKKIUM-7188",
+			"platform": "WindowsEditor",
+			"oSVersion": "Windows 11 (23H2) [10.0.22631.6199] ",
+			"model": "Default",
+			"gPU": "Intel(R) UHD Graphics 630",
+			"cPUModel": "Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz",
+			"rAMInGB": 12,
+			"renderMode": "SM6",
+			"rHI": "",
+			"appInstanceLog": ""
+		}
+	],
+	"reportCreatedOn": "2026.10.17-23.53.30",
+	"succeeded": 5,
+	"succeededWithWarnings": 1,
+	"failed": 0,
+	"notRun": 0,
+	"inProcess": 0,
+	"totalDuration": 2.5181570053100586,
+	"comparisonExported": false,
+	"comparisonExportDirectory": "",
+	"tests": [
+		{
+			"testDisplayName": "ExperimentalV08",
+			"fullTestPath": "REAL33D.AssetRegistry.ExperimentalV08",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"52A668F042884DB400BD658FE02BADA3"
+			],
+			"duration": 2.4019525051116943,
+			"dateTime": "2026.10.17-23.53.27",
+			"entries": [
+				{
+					"event":
+					{
+						"type": "Warning",
+						"message": "LogReal33D: experimental V08 QA catalog ENABLED: 4913 entries; TEST_IMPORTED is not APPROVED/READY/INTEGRATED",
+						"context": "log",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.10.17-23.53.28"
+				}
+			],
+			"warnings": 1,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "CameraAndFloors",
+			"fullTestPath": "REAL33D.Presentation.CameraAndFloors",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"52A668F042884DB400BD658FE02BADA3"
+			],
+			"duration": 0.011519599705934525,
+			"dateTime": "2026.10.17-23.53.30",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "CertificationSkillsWidgets",
+			"fullTestPath": "REAL33D.Presentation.CertificationSkillsWidgets",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"52A668F042884DB400BD658FE02BADA3"
+			],
+			"duration": 0.054586600512266159,
+			"dateTime": "2026.10.17-23.53.30",
+			"entries": [
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "14 rows, 7 named skills, independent known flags, actual zero, large experience, 9 painted bars, percent-only refresh and six-panel registry PASS",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.10.17-23.53.30"
+				}
+			],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "PanelRegistry",
+			"fullTestPath": "REAL33D.Presentation.PanelRegistry",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"52A668F042884DB400BD658FE02BADA3"
+			],
+			"duration": 0.016409002244472504,
+			"dateTime": "2026.10.17-23.53.30",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "SkillsPanel",
+			"fullTestPath": "REAL33D.Presentation.SkillsPanel",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"52A668F042884DB400BD658FE02BADA3"
+			],
+			"duration": 0.017025697976350784,
+			"dateTime": "2026.10.17-23.53.30",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "AuthoritativeWindow",
+			"fullTestPath": "REAL33D.WideWorld.AuthoritativeWindow",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"52A668F042884DB400BD658FE02BADA3"
+			],
+			"duration": 0.016663599759340286,
+			"dateTime": "2026.10.17-23.53.30",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		}
+	]
+}

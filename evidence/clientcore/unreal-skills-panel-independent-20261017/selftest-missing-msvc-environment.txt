@@ -1,0 +1,18 @@
+﻿bash.exe : FAIL : the Unreal check did not execute anything; cmd.exe invocation is broken again
+En línea: 2 Carácter: 329
++ ... lyContinue; & 'C:/Program Files/Git/bin/bash.exe' tests/regression_ha ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (FAIL : the Unre...is broken again:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+FAIL : a real successful build was not recorded as PASS
+FAIL : no-op cmd.exe exit 0 produced 'SKIP' for unreal-module-build; expected FAIL
+ok   : build-sanity-msvc SKIPped (no cl.exe on PATH); run from a developer environment to assert FAIL
+ok   : build-sanity-msvc SKIPped (no cl.exe on PATH)
+FAIL : a command exiting 3 produced 'SKIP'; expected FAIL
+ok   : a missing engine is SKIP, not FAIL and not PASS
+ok   : a clientcore that cannot be configured is FAIL, not PASS
+ok   : confirmed: a captured exit status does not survive wsl.exe
+ok   : a failing && chain does propagate through wsl.exe
+
+6 passed, 4 failed

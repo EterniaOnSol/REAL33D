@@ -1,0 +1,21 @@
+Certification branch:
+certification/unreal-skills-panel-001-20261017
+63a62ddf9477cb8ccdc91525d7f505fee192f2f4
+Base origin/main:
+370b5676e2a186d44e11aeffe1fb4766593f8d9e
+Candidate parents:
+63a62ddf9477cb8ccdc91525d7f505fee192f2f4 370b5676e2a186d44e11aeffe1fb4766593f8d9e test(unreal): cover the skills panel's no-invented-values rule
+Candidate file delta:
+A	evidence/clientcore/UNREAL-SKILLS-PANEL-001.md
+A	evidence/clientcore/unreal-skills-panel-001/01-skills-before.json
+A	evidence/clientcore/unreal-skills-panel-001/01-skills-before.png
+A	evidence/clientcore/unreal-skills-panel-001/02-skills-after-combat.json
+A	evidence/clientcore/unreal-skills-panel-001/02-skills-after-combat.png
+A	evidence/clientcore/unreal-skills-panel-001/clientcore-tests.txt
+A	evidence/clientcore/unreal-skills-panel-001/live-vitals-transitions.txt
+A	evidence/clientcore/unreal-skills-panel-001/regression-harness-report.md
+A	evidence/clientcore/unreal-skills-panel-001/secret-check.txt
+A	evidence/clientcore/unreal-skills-panel-001/unreal-automation.json
+M	unreal/REAL33D/Source/REAL33D/Private/Real33DPresentationTests.cpp
+M	unreal/REAL33D/Source/REAL33D/Private/Real33DSkillsPanel.cpp
+M	unreal/REAL33D/Source/REAL33D/Public/Real33DSkillsPanel.h

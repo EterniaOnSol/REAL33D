@@ -1,79 +1,82 @@
-# Current handoff — UNREAL-HUD-PANEL-REGISTRY-001 independent certification
+﻿# Current handoff - UNREAL-SKILLS-PANEL-001 independent certification
 
-2026-10-17 03:29 America/Guatemala. Codex, independent reviewer. CERTIFIED.
+Date/time: 2026-10-17 18:00 America/Guatemala. Agent: Codex, independent reviewer.
+Task: UNREAL-SKILLS-PANEL-001. Status: CERTIFIED.
+Worktree: C:/Users/dell/Desktop/fusion32/build/cert-skills-panel-20261017
+Branch: certification/unreal-skills-panel-001-20261017
+Starting/candidate commit: 63a62ddf9477cb8ccdc91525d7f505fee192f2f4
+Base main: 370b5676e2a186d44e11aeffe1fb4766593f8d9e
+Ending commit: certification closeout commit containing this handoff; resolve
+with git rev-parse certification/unreal-skills-panel-001-20261017.
+No main merge, push, remote edit or implementation change.
 
-Worktree: C:/Users/dell/Desktop/fusion32/build/cert-hud-panel-registry-20261016
-Branch: certification/unreal-hud-panel-registry-001-20261016
-Base/current origin/main: 611939af271a3d21fd9e3993a42150c3439cb08d
-Implementation: 64aa86a38d8f15c42cde275401d4942b9e174ab8
-Implementation's older base: 1a15ddbd79a23a2841d882584afaa82fabd9f74d
-Merge: 55d1d4660110ce2ca8e09a8d5e944a16d0750574 (parents main, implementation).
-Preservation checkpoint: 304fa11d0f6c6f3f505c514cc9f3a2b249a6efb5.
-Ending commit: the certification closeout commit containing this handoff;
-resolve with git rev-parse certification/unreal-hud-panel-registry-001-20261016.
-Delivery: normal push of this certification branch and local/remote verification.
-No rebase, cherry-pick, main integration or implementation-branch changes.
+Objective: independently verify seven visible skills, authoritative values only,
+unknown dashes/received zero, received percentage fill, legitimate live update,
+PanelRegistry/HUD compatibility and all requested test/build/protocol gates.
+Startup: read contract/status/architecture/roadmap/parity/current handoff; audited
+Git state/remotes and exact candidate diff. Resumed this existing isolated
+certification worktree and checkpoint. Archived both the prior substantive HUD
+handoff and the skills checkpoint without changing their contents.
 
-Objective: independently verify the HUD registry merged onto CURRENT main while
-retaining stackable rendering and the corrected harness. Zero changed-file
-intersection and zero merge conflicts. Inspected registry API, actual HUD
-construction, callbacks and unchanged refresh/input paths. Main stackable UI,
-ClientCore/protocol, scripts and harness blobs remain unchanged. No production
-implementation defect found; no implementation fix was made.
+Inspection: selected Fusion32 sending.cc::SendPlayerData/SendPlayerSkills (game
+386fa9b; no local version guard, TIBIA772 runtime), ClientCore player_state.cpp,
+Bridge publish path, WorldActor copies/reset, HUD Refresh and SkillsPanel.
+Candidate extracts formatting helpers and adds tests to an existing panel.
+No production defect found. All production Source/clientcore/tests/scripts
+remain identical to candidate63a62dd. No reference/runtime rules or data edited.
 
-PASS:
-- PanelRegistry and independent CertificationHUDSixPanels: real six panel windows,
-  correct original content types/order, register/find/close/open/toggle, independent
-  visibility, original widget identity and separate visible chat.
-- Existing Unreal CameraAndFloors, WideWorld.AuthoritativeWindow and
-  AssetRegistry.ExperimentalV08. Total5/5 Success, errors0; expected V08 notice1.
-- Actual fresh Unreal build with the independent probe, then removal of the probe
-  and successful exact merged-source build. Final harness build44.47s Succeeded.
-- ClientCore13/13, native4/4, harness selftest10/10, MSVC C++17 suites and C++20
-  archive. Strict corrected harness9PASS/0FAIL/0SKIP,33protocol logs scanned.
-- Git Bash secret_check6/6, with final direct output retained after staging.
-- Fresh operator-assisted HUD compatibility: all six panels/chat visible; gold5
-  in inventory and worms6 in normally opened backpack show cumulative frame4 and
-  authoritative counts. Equipment, shovel, rope, minimap marker, health/mana and
-  battle entries intact. Operator confirms existing Skills control toggles.
-- Final live EndPlay1100.3s,1137commands,581frames; all5snapshots residual/unsupported/
-  anomalies0.26accepted walks/1server rejection/0unanswered; viewport synchronized.
+PASS evidence:
+- Seven skills visible in retained independent live F9 screenshots. Actual
+  widget test verifies14rows/7skill labels/9painted bars, known flags, dashes,
+  zero, large experience, percentage-only refresh and reset.
+- Three ordinary world right-click attacks: Sword11/67% to11/83%,XP471->486.
+  Replay50observer records:46full matches,4pre-refresh transitions; all17skill
+  vectors rendered with matching actual paint. No skill level gain claimed.
+- All six real HUD registry panels close/open/toggle in automation; chat retained.
+  Live HUD screenshots retain inventory, containers/stack counts, minimap,
+  health/mana, Battle List and chat. Live button toggles are not claimed.
+- Repeated independent Unreal automation6/6 Success/errors0; one expected V08
+  notice. Removed temporary diagnostic from Source (preserved under evidence).
+- Fresh corrected strict harness9PASS/0FAIL/0SKIP: ClientCore13/13,native4/4,
+  MSVC C++17 suites/C++20 archive, exact-source Unreal build PASS9.06s,
+  secret_check6/6,42protocol files clean. Selftest10/10 with vcvars64.
+- Exact-source final automation5/5 Success/errors0,failed/notRun/inProcess0;
+  the diagnostic suite is absent, confirming it is no longer in the module.
+- Eight live snapshots residual/unsupported/anomalies0. Final EndPlay3128.8s,
+  3073frames,4295commands; normal exit12:11:48Z. No live client remains running.
 
 Evidence/report:
-- evidence/clientcore/UNREAL-HUD-PANEL-REGISTRY-001-INDEPENDENT-20261016.md
-- evidence/clientcore/unreal-hud-panel-registry-independent-20261016/
-  automation-index.json, independent probe.cpp, build/test logs, live/ and harness/.
-- live/OBSERVATIONS.md distinguishes direct screenshots, operator confirmation,
-  automated six-panel behavior and source-review evidence. A live Battle-button
-  toggle is not claimed; all six API toggles were actually tested in Unreal.
-- harness/REGRESSION-HARNESS-20261017T092251Z.md and every raw gate log.
+- evidence/clientcore/UNREAL-SKILLS-PANEL-001-INDEPENDENT-20261017.md
+- evidence/clientcore/unreal-skills-panel-independent-20261017/ contains
+  REPRODUCTION.md,LIVE_OBSERVATIONS.md,probe,automation indices/logs,live/,
+  verify_live.py/live-replay.json,harness/ and build/binary/source hashes.
+- Initial native include-path failure and closeout selftest without MSVC failure
+  are preserved; corrected runs PASS. PowerShell script policy required a
+  process-scoped authorized rerun. These are setup issues, not product defects.
+- Geometry sidecars remain in ignored build/certification original live records;
+  source probe retired to build/certification/Real33DSkillsCertification.cpp.retired.
 
-Startup/setup: initial owned PCH disk failure, alternate no-PCH failure and
-compression/read-lock failures are retained, never counted as PASS. Only this
-session's failed PCH/source-cache/makefile were removed; no other caches deleted.
-Cold graphical shader/model preparation was slow. Fusion32 had closed normally
-with saved players; only its existing game service was restarted, preserving the
-prior log. No server rules/config/runtime data edits. Final live PID10080 in
-live-20261016T160844-two-workers closed normally on2026-10-16. No graphical client
-from this session remains running. No further operator input is needed.
+Files changed: PROJECT_STATUS.md,PARITY_MATRIX.md,this handoff, archived handoffs,
+certification report and evidence only. Final staged secret6/6 and clean-checkout
+verification accompany the local commit. No implicit publication is authorized.
 
-Files changed since merge: documentation, evidence and handoff only. Temporary
-actual-HUD test is retained under evidence, absent from production Source. Prior
-substantive handoffs archived unchanged:
-- archive/BEFORE-UNREAL-HUD-PANEL-REGISTRY-INDEPENDENT-20261016.md
-- archive/UNREAL-HUD-PANEL-REGISTRY-INDEPENDENT-CHECKPOINT-20261016.md
+Remaining UNVERIFIED work: none for this bounded certification. World-art issues,
+full gameplay parity and skill-level advancement remain outside this task.
+Blockers: none. Risk: retained live proof uses a read-only diagnostic; exact
+candidate build and five final suites were separately verified after removal.
+One handled engine FAppTime rendering ensure appears in the live log and also
+in main's2026-10-14 roof-session-events.txt, before this candidate. It is a
+pre-existing engine issue, not a protocol failure; full detail is in the report.
 
-Remaining certification requirements: none. Known V08 art issues, missing outfits,
-world-mesh amount invariance and other pre-existing presentation boundaries are
-unchanged and outside this registry certification. No gameplay parity upgrade is
-claimed. This is independent certification, not main integration.
+Protected work: root branch b9ed335 has four pre-existing unreal-slice evidence
+modifications, untouched. main checkout370b567 and implementation checkout63a62dd
+are clean and unchanged. WORKTREE_CLEAN refers to this isolated checkout.
 
-Protected work: root checkout b9ed335 on milestone/real33d-agent-veteran-play-002
-still has its four unrelated pre-existing unreal-slice evidence modifications.
-Do not erase or stage them. Main and implementation worktrees were checked clean
-and remain611939af/64aa86a. WORKTREE_CLEAN refers to this certification checkout.
-
-Next authorized work: none. Wait for explicit instruction to integrate main.
-If integration is requested, fetch first, verify main still611939af and ancestor
-of this certification head, ensure target main checkout clean, and perform only
-an authorized fast-forward/normal push. Do not merge main in this certification.
+Exact next task: await explicit main-integration authorization. If authorized,
+verify main still370b567, candidate/source invariance, clean target checkout and
+ancestry before integrating this certification branch. Commands:
+git rev-parse main milestone/unreal-skills-panel-001
+git status --short
+git diff 63a62dd -- unreal/REAL33D/Source clientcore tests scripts
+python evidence/clientcore/unreal-skills-panel-independent-20261017/verify_live.py
+Do not merge main or push as part of this certification.

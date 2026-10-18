@@ -19,6 +19,21 @@ UPDATE 2026-10-14 resumed polish: operator authorized removing BOTH automatic ca
 
 # Project Status
 
+## UNREAL-SKILLS-PANEL-001 independent review - 2026-10-17
+
+`CERTIFIED`. Candidate63a62ddf9477cb8ccdc91525d7f505fee192f2f4
+on base main370b5676e2a186d44e11aeffe1fb4766593f8d9e, isolated certification
+worktree. No implementation defect or change. Independent actual-widget tests
+and retained live session verify all seven skills, authoritative values,
+unsent dashes, received zero and percentage bars. Sword11 progresses67->83%
+after three ordinary world attacks; XP471->486. Six Unreal tests PASS; final
+ClientCore13/13/native4/4 and harness selftest10/10 PASS. Eight live snapshots
+have zero residual bytes/unsupported opcodes/anomalies. Final exact-candidate
+Unreal build PASS (9.06s), five exact-source automation tests PASS; corrected
+strict harness9PASS/0FAIL/0SKIP,42logs scanned; secret_check6/6 PASS.
+Report: evidence/clientcore/UNREAL-SKILLS-PANEL-001-INDEPENDENT-20261017.md.
+No merge to main and no push.
+
 2026-10-09 gap QA: authorized safe push completed; remote now 6ac8a8e.
 Fresh client connected, but native input helper failed initialization twice.
 Operator input pending; no remaining live gap closed. Prior PASS items retained,

@@ -1,0 +1,21 @@
+﻿{
+  "status": "PASS",
+  "observer_records": 50,
+  "matching_records": 46,
+  "pre_refresh_transitions": 4,
+  "received_skill_vectors": 17,
+  "all_vectors_rendered": true,
+  "sword_before": "11/67%",
+  "sword_after": "11/83%",
+  "experience": [
+    471,
+    486
+  ],
+  "ordinary_world_attacks": 3,
+  "snapshots": 8,
+  "final_frames": 3073,
+  "final_commands": 4295,
+  "residual_bytes": 0,
+  "unsupported_opcodes": 0,
+  "protocol_anomalies": 0
+}

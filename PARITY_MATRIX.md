@@ -19,6 +19,20 @@ UPDATE 2026-10-14 resumed polish: operator authorized removing BOTH automatic ca
 
 # Parity Matrix
 
+## Skills-panel independent review - 2026-10-17
+
+UNREAL-SKILLS-PANEL-001: `CERTIFIED` for the bounded skills-panel scope.
+Candidate63a62dd, base370b567. Seven visible skills, received vitals/skills only,
+unknown-- versus actual0, nine received-percent bars, live Sword67->83%, six
+real registered HUD panels and retained HUD layout: named widget/replay tests
+PASS. Independent live evidence has8snapshots with protocol counters0.
+ClientCore13/13, native4/4, independent Unreal6/6, exact-source Unreal5/5,
+MSVC C++17/C++20 and Unreal build PASS; corrected strict harness9/0/0,
+selftest10/10 and secret_check6/6 PASS.
+No skill-level advancement, full gameplay parity or world-art certification is
+claimed. No implementation changes or main merge. See
+evidence/clientcore/UNREAL-SKILLS-PANEL-001-INDEPENDENT-20261017.md.
+
 2026-10-09 gap QA: authorized safe push completed; remote now 6ac8a8e.
 Fresh client connected, but native input helper failed initialization twice.
 Operator input pending; no remaining live gap closed. Prior PASS items retained,
