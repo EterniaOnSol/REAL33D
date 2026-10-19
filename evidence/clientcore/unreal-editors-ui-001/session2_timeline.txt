@@ -1,0 +1,44 @@
+[2026.10.19-23.03.39:371][288]LogReal33D: edit text: object 19036773 type 2815, 0 char(s), max 511, editor ""
+[2026.10.19-23.03.39:406][290]LogReal33D: editor window shown: Text
+[2026.10.19-23.03.55:392][879]LogReal33D: editor submit 2: 34 char(s)
+[2026.10.19-23.03.55:406][879]LogReal33D: edit text for object 19036773 submitted to Fusion32 as 2, 34 char(s); acceptance is silent and only a refusal answers
+[2026.10.19-23.04.10:304][489]LogReal33D: editor submit 3: 34 char(s)
+[2026.10.19-23.04.10:331][490]LogReal33D: edit text for object 19036773 submitted to Fusion32 as 3, 34 char(s); acceptance is silent and only a refusal answers
+[2026.10.19-23.04.11:047][520]LogReal33D: editor submit 4: 34 char(s)
+[2026.10.19-23.04.11:055][520]LogReal33D: edit text for object 19036773 submitted to Fusion32 as 4, 34 char(s); acceptance is silent and only a refusal answers
+[2026.10.19-23.04.11:286][530]LogReal33D: editor submit 5: 34 char(s)
+[2026.10.19-23.04.11:343][532]LogReal33D: edit text for object 19036773 submitted to Fusion32 as 5, 34 char(s); acceptance is silent and only a refusal answers
+[2026.10.19-23.04.13:821][634]LogReal33D: edit text: object 19036773 type 2815, 34 char(s), max 511, editor "Test Player B"
+[2026.10.19-23.04.13:846][635]LogReal33D: editor window shown: Text
+[2026.10.19-23.04.22:231][996]LogReal33D: editor submit 7: 34 char(s)
+[2026.10.19-23.04.22:263][997]LogReal33D: edit text for object 19036773 submitted to Fusion32 as 7, 34 char(s); acceptance is silent and only a refusal answers
+[2026.10.19-23.04.50:885][182]LogReal33D: editor submit 8: 111 char(s)
+[2026.10.19-23.04.50:910][182]LogReal33D: edit text for object 19036773 submitted to Fusion32 as 8, 111 char(s); acceptance is silent and only a refusal answers
+[2026.10.19-23.04.53:772][300]LogReal33D: edit text: object 19036773 type 2815, 111 char(s), max 511, editor "Test Player B"
+[2026.10.19-23.04.53:892][305]LogReal33D: editor window shown: Text
+[2026.10.19-23.04.55:225][362]LogReal33D: editor submit 10: 111 char(s)
+[2026.10.19-23.04.55:271][364]LogReal33D: edit text for object 19036773 submitted to Fusion32 as 10, 111 char(s); acceptance is silent and only a refusal answers
+[2026.10.19-23.05.35:973][749]LogReal33D: edit text: object 19036773 type 2815, 111 char(s), max 511, editor "Test Player B"
+[2026.10.19-23.05.36:011][751]LogReal33D: editor window shown: Text
+[2026.10.19-23.05.49:804][332]LogReal33D: editor submit 12: 315 char(s)
+[2026.10.19-23.05.49:842][333]LogReal33D: edit text for object 19036773 submitted to Fusion32 as 12, 315 char(s); acceptance is silent and only a refusal answers
+[2026.10.19-23.05.57:922][602]LogReal33D: edit text: object 19036773 type 2815, 315 char(s), max 511, editor "Test Player B"
+[2026.10.19-23.05.57:969][604]LogReal33D: editor window shown: Text
+[2026.10.19-23.06.06:680][966]LogReal33D: editor submit 14: 4778 char(s)
+[2026.10.19-23.06.10:071][104]LogReal33D: edit text: object 19036773 type 2815, 315 char(s), max 511, editor "Test Player B"
+[2026.10.19-23.06.10:112][106]LogReal33D: editor window shown: Text
+[2026.10.19-23.06.28:278][787]LogReal33D: edit text: object 19036773 type 2815, 315 char(s), max 511, editor "Test Player B"
+[2026.10.19-23.06.28:304][789]LogReal33D: editor window shown: Text
+[2026.10.19-23.06.32:168][948]LogReal33D: editor submit 17: 4515 char(s)
+[2026.10.19-23.06.34:038][ 26]LogReal33D: editor submit 18: 4515 char(s)
+[2026.10.19-23.06.36:071][109]LogReal33D: edit text: object 19036773 type 2815, 315 char(s), max 511, editor "Test Player B"
+[2026.10.19-23.06.36:113][111]LogReal33D: editor window shown: Text
+[2026.10.19-23.06.42:201][364]LogReal33D: editor submit 20: 7515 char(s)
+[2026.10.19-23.15.28:371][672]LogReal33D: edit text: object 19036773 type 2815, 315 char(s), max 511, editor "Test Player B"
+[2026.10.19-23.15.28:403][674]LogReal33D: editor window shown: Text
+[2026.10.19-23.15.35:545][956]LogReal33D: editor submit 32: 600 char(s)
+[2026.10.19-23.15.35:584][957]LogReal33D: edit text for object 19036773 submitted to Fusion32 as 32, 600 char(s); acceptance is silent and only a refusal answers
+[2026.10.19-23.15.35:636][959]LogReal33D: server message [FailureMessage]: There is not enough room.
+[2026.10.19-23.15.37:572][ 37]LogReal33D: editor submit 33: 600 char(s)
+[2026.10.19-23.15.37:734][ 43]LogReal33D: edit text for object 19036773 submitted to Fusion32 as 33, 600 char(s); acceptance is silent and only a refusal answers
+[2026.10.19-23.15.37:875][ 49]LogReal33D: server message [FailureMessage]: There is not enough room.

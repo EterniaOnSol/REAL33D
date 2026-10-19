@@ -1,80 +1,144 @@
-# UNREAL-CHAT-CHANNELS-001 independent certification
+# HANDOFF - UNREAL-EDITORS-UI-001
 
-2026-10-19 15:49 America/Guatemala. Codex independent reviewer. CERTIFIED for
-requested bounded scope. Live run: 2026-10-18; final gates/review: October 19.
-Branch: certification/unreal-chat-channels-001-20261018
-Worktree: C:/Users/dell/Desktop/fusion32/build/cert-chat-channels-20261018
-Starting/candidate: 239f89f07430ecd4d4348d69f183a9935e4bd992
-Base/current main: ca3121c42e8db7902bd155572bcb42c3c852bb8f
-Ending commit: the certification commit containing this handoff; resolve with
-`git log -1 --format=%H -- handoffs/CURRENT.md`. Its parent is the exact candidate.
+Date/time: 2026-10-19, America/Guatemala
+Task ID: `UNREAL-EDITORS-UI-001`
+Agent / role: Claude; implementation and operator-assisted live QA
+Starting commit: `18b587df92c51be60e734b4f2ece2f39f2065d29` (origin/main)
+Ending commit: the commit carrying this handoff on
+`milestone/unreal-editors-ui-001`
+Worktree: `C:/Users/dell/Desktop/fusion32`
 
-## Objective and preservation
+EDITORS_UI_001_STATUS = PASS LOCAL for text; EDIT_LIST UNVERIFIED
+MAIN_MERGE = NONE. Branched from origin/main; main untouched.
+PUSH = NONE. No remote operation was performed or authorized.
 
-User requested preserve first, independently certify chat/channels, no main
-merge. Fetched origin, found remote milestone absent, passed Git Bash secrets,
-normally pushed exact239f89f (including LFS) and verified the remote. Only then
-created fresh certification worktree. October19 remote recheck matched main
-ca3121c and milestone239f89f. No branch deletion, rewrite or force operation.
-Root untracked work and prior preservation stash were left untouched.
+## Objective and allowed scope
 
-## Inspection, discoveries and changes
+A real 7.72 UI for books, signs and house lists: open and display
+`SV_CMD_EDIT_TEXT`, show the text and its editor, submit an edit through the
+existing ClientCore builder, let Fusion32 rule on it, and the same for
+`SV_CMD_EDIT_LIST`. No protocol or server change. No invented writability.
+No fake success. Minimal HUD edits.
 
-Read AGENTS, status, architecture, roadmap, parity, prior handoff, source truth,
-Git state and exact authoritative channel/talk functions. Detailed file/symbol/
-version-guard citations are in the independent report. Server owns list names,
-Join response and message recipients. Leave has no acknowledgement; private
-sender receives a server message rather than an echo. No implementation defect
-found, so no implementation edits in the final commit.
+## Inspection
 
-Independent temporary opt-in driver invoked actual production Slate controls
-through SButton::SimulateClick. Primary B used actual live HUD; peer A used an
-independent real Bridge connection and production widgets. No fabricated
-packets/events/state, server restart, runtime/save edits or legacy executable.
-Driver now resides only under evidence; final Unreal build and tests excluded
-it, and clientcore/unreal/tests/scripts diff against candidate is empty.
+Read `AGENTS.md`, `PROJECT_STATUS.md`, `ARCHITECTURE.md`, `ROADMAP.md`,
+`PARITY_MATRIX.md` and the prior handoff (the chat-channels independent
+certification, archived intact at
+`handoffs/archive/2026-10-19_UNREAL-CHAT-CHANNELS-001-INDEPENDENT-before-editors.md`).
+Branched from a clean worktree at origin/main.
 
-Only evidence, PROJECT_STATUS, PARITY_MATRIX and this handoff changed. Original
-author handoff archived intact at
-handoffs/archive/BEFORE-UNREAL-CHAT-CHANNELS-INDEPENDENT-20261018.md.
+## Discoveries worth keeping
 
-## Tests and evidence
+- **ClientCore already had the whole protocol layer.** `editors.cpp` carries
+  both builders and the two-command decoder with its own suite, and
+  `ApplyServerUpdate` stores nothing for `ServerUpdateKind::Editor`. No
+  ClientCore file changed; the suite count stays 13.
+- **THE TEXT FLAG IS NOT ENOUGH TO OPEN A WINDOW.** `operate.cc::Use` is an
+  if-else chain; an object reaches `UseTextObject` only when it is WRITE or
+  WRITEONCE, or INFORMATION, or **TEXT with `FONTSIZE == 1`**, and only if no
+  earlier branch claimed it. Of 135 TEXT types in the runtime `objects.srv`,
+  **57 can open a window**. The Rookgaard signs (`FontSize=5`) and tutorial
+  blackboards (`FontSize=4`) cannot: they answer a Look and refuse a Use with
+  NOTUSABLE. This cost the first twenty minutes of the live run.
+- **Read-only is not detectable from the wire.** `SendEditText` reports
+  `MaxLength = strlen(Text)` for a read-only object and the type's limit
+  minus one for a writable one, so the two are indistinguishable. The window
+  therefore always offers Submit and Fusion32 rules.
+- **Success is silent.** `operate.cc::EditText` writes the text, sets EDITOR
+  to the writer's name and answers nothing. Only a refusal comes back, as an
+  ordinary `SV_CMD_MESSAGE` through `SendResult`. The only proof an edit was
+  kept is reading the object again.
+- **A writable object is reachable by ordinary play.** Dixi at
+  `[32105,32207,6]` sells a scroll (type 2815, WRITE, MaxLength 512,
+  FontSize 1) for 5 gold. No server edit was needed for the whole run.
+- **This client cannot send a text beyond about 2041 characters.**
+  `kGameClientFrameLimits` caps a sent payload at 2048 while the server reads
+  into `char Text[4096]`.
 
-Report: evidence/clientcore/UNREAL-CHAT-CHANNELS-001-INDEPENDENT-20261018.md
-Artifacts: evidence/clientcore/unreal-chat-channels-independent-20261018/
+## Changes
 
-PASS: 58 live assertion evaluations, 15 completed stages, actual list four rows;
-server-confirmed Join on channels4/6; Leave button and tab-close both stop server
-delivery (peer counter and transcripts checked after distinct later messages);
-Game/RL/Local transcript isolation; channel send4/receive4 on B and receive2 on A;
-private send1/receive1 each direction; seven actual PanelRegistry panels tested.
-Five criterion screenshots visually reviewed. Nine snapshots all protocol0.
-B EndPlay69frames/89commands; A final driver31frames/42commands, protocol0.
-Existing minimap QA drove seven legitimate walks, all accepted, journal retained.
+New: `Public/Real33DEditorWindow.h` + `Private/Real33DEditorWindow.cpp`.
 
-ClientCore13/13; native5/5 including204 runtime MultiUse types; MSVC C++17/C++20;
-Unreal build PASS after removed-source detection; Unreal automation6/6, zero
-errors/warnings; selftest10/10; corrected strict harness9PASS/0FAIL/0SKIP over38
-logs; Git Bash secret_check6/6. Raw outputs retained. Restricted initial build
-retry and network retry are documented as environment limitations, not silently
-claimed passes. verify-evidence.ps1 independently validates retained totals.
+Changed: `Real33DBridge.h/.cpp` (two editor event kinds, the open-window
+record and revision, `RequestEditText`/`RequestEditList`, four counters, the
+list-type `static_assert`s), `Real33DPanelRegistry.h/.cpp` (the `TextEditor`
+id), `Real33DHUD.h/.cpp` (**17 lines**: include, overlay slot, Register,
+member, and the one `Refresh` call), `Real33DWorldActor.cpp` (four counters
+in the snapshot), `Real33DPresentationTests.cpp` (a new `EditorWindow` suite
+and the registry suite extended), `PARITY_MATRIX.md`, `PROJECT_STATUS.md`.
 
-## Remaining UNVERIFIED and risks
+### Architecture
 
-Own-channel create/invite/exclude, guild0, GM/anonymous modes, request queue
-174-177/channel3 are explicitly out of this certification gate per user.
-Server-forced close179, repeated Trade cooldown, many-tab overflow and classic
-color/lifetime parity remain UNVERIFIED. Peer UI is a real production widget
-fixture, not a second rendered world. Native mouse hit testing and full world/
-art/gameplay coverage are not claimed. This run used ordinary placeholder art.
-No blocking defect within requested scope. No main merge or cert push performed.
+An isolated centred modal, **registered in `FReal33DPanelRegistry`** under
+`Real33D::PanelIds::TextEditor`. A book is transient and there is exactly
+one, so it is not a side-column panel; but the registry manages visibility
+and nothing else, so routing it through there keeps the HUD with one way to
+show and hide a surface.
+
+## Tests and results
+
+| Check | Result |
+| --- | --- |
+| `clientcore-tests` | PASS 13/13 |
+| `real33d-native-tests` | PASS 5/5 |
+| Unreal automation | PASS **7/7**, errors 0, warnings 0 |
+| `build-sanity-msvc` | PASS |
+| `unreal-module-build` | PASS |
+| harness selftest | PASS 10/10 |
+| harness overall | PASS, 9 checks, 0 FAIL, 0 SKIP |
+| `secret-check` | PASS 6/6 |
+
+Live: two operator-driven sessions, 0 undecoded commands and 0 decode
+failures throughout. Full account in
+`evidence/clientcore/UNREAL-EDITORS-UI-001.md`.
+
+## Two defects found live, both mine, both fixed
+
+1. **The window never appeared.** Session 1: fifteen `SV_CMD_EDIT_TEXT`
+   decoded, zero windows shown. Slate does not tick a widget whose
+   visibility is `Collapsed`, and the window drove itself from its own
+   `Tick` — so it could never un-collapse itself. It is now driven by
+   `SReal33DHUD::Refresh`, which is also this HUD's own stated rule. Session
+   2 on the fixed build: **9 opened, 9 shown.**
+2. **An oversized submission was dropped in silence** while the window had
+   already said "Handed to Fusion32" — a fake-success path. `DrainEdits` now
+   publishes a ClientNotice naming the length. The defect was observed live
+   (four submissions of 4515-7515 characters vanished); **the fix is
+   UNVERIFIED live**, having been written after the operator ended the run.
+
+A third issue was caught by inspection before it could ship: the modal fills
+its overlay slot so its box can be centred, and a plain `Visible` would have
+swallowed every click on the panels behind it. It uses
+`SelfHitTestInvisible`; the session-2 capture shows the Channels panel
+tooltip rendering with the window open.
+
+## Remaining UNVERIFIED
+
+- **`EDIT_LIST` entirely, live.** Three independent gates: `owners.dat` is
+  zero bytes so nobody owns a house; the three spells require
+  `GetHouseID(...) != 0`; and both test characters are on Rookgaard, which
+  has no houses. The operator was asked and chose not to author server test
+  data. Decoder, builders, window rules and the `enums.hh` values are all
+  unit-covered.
+- The new "not sent" notice; the spellbook path; a WRITEONCE object already
+  written (the other NOTACCESSIBLE route); texts between ~2041 and 4095
+  characters; and window art.
 
 ## Exact next task
 
-No further implementation work required for this bounded milestone. Preserve
-this certification branch. If the user authorizes integration, fetch first and
-verify current origin/main ->239f89f->this certification HEAD is linear, then
-follow that explicit integration instruction. Do not merge main on this task.
-To inspect evidence: run powershell.exe -NoProfile -ExecutionPolicy Bypass -File
-evidence/clientcore/unreal-chat-channels-independent-20261018/verify-evidence.ps1.
-Full rerun commands and driver installation/removal are in the report.
+Either certify this milestone independently from a fresh worktree, or make
+`EDIT_LIST` reachable. For the latter the operator must first authorize test
+data: assign a house in `game/reference/dat/owners.dat` and move a character
+inside it. The files to read first are `reference/game/src/houses.cc`
+(`ShowGuestList`, `ChangeGuests`), `reference/game/src/magic.cc`
+(`EditGuests`, spells 71/72/74) and
+`clientcore/include/fusion32/protocol772/editors.h`.
+
+## Environment notes
+
+Unchanged from the previous handoff and still true: build with **VS2022
+BuildTools MSVC 14.44.35207**; the harness selftest needs `cl.exe` on PATH to
+report 10/10; `--objects-srv` must be a local path, not a `\\wsl.localhost`
+UNC path. The server was restarted cleanly at the start of this task; no
+stale pid and no runtime edits this time.

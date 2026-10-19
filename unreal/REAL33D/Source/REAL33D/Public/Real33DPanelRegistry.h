@@ -22,6 +22,15 @@ namespace PanelIds
 	REAL33D_API extern const FName Battle;
 	REAL33D_API extern const FName Containers;
 	REAL33D_API extern const FName Channels;
+	/**
+	 * The book, sign and house-list window.
+	 *
+	 * Registered like any other panel even though it is a centred modal
+	 * rather than a side-column mini window: the registry only manages
+	 * visibility, and routing this one through it keeps the HUD with exactly
+	 * one way to show and hide something.
+	 */
+	REAL33D_API extern const FName TextEditor;
 }
 }
 

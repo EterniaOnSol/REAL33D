@@ -19,6 +19,7 @@
 THIRD_PARTY_INCLUDES_START
 #include "fusion32/protocol772/channels.h"
 #include "fusion32/protocol772/chat_log.h"
+#include "fusion32/protocol772/editors.h"
 #include "fusion32/protocol772/gamelogin.h"
 #include "fusion32/protocol772/initial_world.h"
 #include "fusion32/protocol772/login.h"
@@ -140,6 +141,17 @@ struct FReal33DChatTranscript
 	bool bChannelListKnown = false;
 	uint64 ChannelListRevision = 0;
 
+	/**
+	 * The one editor window Fusion32 has open, if any.
+	 *
+	 * One, not a stack: the server sends a fresh SV_CMD_EDIT_TEXT whenever
+	 * another object is used and expects the previous window to be gone, so
+	 * keeping several would leave a window on screen the server has already
+	 * forgotten about.
+	 */
+	FReal33DEditor Editor;
+	uint64 EditorRevision = 0;
+
 	FReal33DChatTranscript()
 	{
 		// Local Chat exists before the first connection, because a failure
@@ -175,6 +187,10 @@ struct FReal33DChatTranscript
 		// rights, and a list from the previous session must not look current.
 		bChannelListKnown = false;
 		++ChannelListRevision;
+		// A window belongs to the connection that opened it: the object id it
+		// submits against means nothing to a new session.
+		Editor = FReal33DEditor();
+		++EditorRevision;
 		++Revision;
 	}
 };
@@ -193,6 +209,16 @@ static_assert(static_cast<uint8>(EReal33DChatViewKind::Private)
 // number is Fusion32's own, from operate.hh::CHANNEL_RULEVIOLATIONS.
 static_assert(UReal33DBridge::kRuleViolationsChannel
 	== static_cast<int32>(p772::kChannelRuleViolations), "rule violations channel drift");
+
+// The list types are enums.hh's own values. Pinned here, the one file that can
+// see Unreal's mirror and ClientCore's definition at once, because submitting a
+// guest list under the subowner byte would edit the wrong list entirely.
+static_assert(static_cast<uint8>(EReal33DEditListType::Guest)
+	== static_cast<uint8>(p772::EditListType::GuestList), "edit list type drift");
+static_assert(static_cast<uint8>(EReal33DEditListType::Subowner)
+	== static_cast<uint8>(p772::EditListType::SubownerList), "edit list type drift");
+static_assert(static_cast<uint8>(EReal33DEditListType::Door)
+	== static_cast<uint8>(p772::EditListType::DoorList), "edit list type drift");
 
 namespace
 {
@@ -424,6 +450,27 @@ public:
 	void PostChannel(const FChannelIntent& Intent)
 	{
 		ChannelIntents.Enqueue(Intent);
+	}
+
+	/**
+	 * An edited text or list the player submitted.
+	 *
+	 * `ListType` is Unknown for the text form, which is what distinguishes
+	 * the two: CL_CMD_EDIT_TEXT carries an object id and a string, and
+	 * CL_CMD_EDIT_LIST carries a type byte as well.
+	 */
+	struct FEditIntent
+	{
+		uint32 ActionId = 0;
+		bool bIsText = true;
+		uint32 Id = 0;
+		EReal33DEditListType ListType = EReal33DEditListType::Unknown;
+		FString Text;
+	};
+
+	void PostEdit(const FEditIntent& Intent)
+	{
+		EditIntents.Enqueue(Intent);
 	}
 
 	bool Dequeue(FReal33DEvent& OutEvent) { return Events.Dequeue(OutEvent); }
@@ -816,6 +863,59 @@ private:
 				}
 			}
 
+			if (Decoded.update.kind == p772::ServerUpdateKind::Editor)
+			{
+				// Decoded by ClientCore, stored nowhere by WorldState --
+				// Fusion32 owns the text and resends the whole body every
+				// time the object is used -- so the open window is
+				// presentation state and belongs to the game thread.
+				const p772::EditorUpdate& Edit = Decoded.update.editor;
+				FReal33DEvent Event;
+				Event.Direction = kNoDirection;
+				Event.Editor.bOpen = true;
+
+				if (Edit.kind == p772::EditorUpdateKind::Text)
+				{
+					Event.Kind = EReal33DEventKind::EditTextOpened;
+					Event.Editor.bIsText = true;
+					Event.Editor.ObjectId = Edit.text.object_id;
+					Event.Editor.TypeId = Edit.text.type_id;
+					Event.Editor.MaxLength = Edit.text.max_length;
+					Event.Editor.Text = UTF8_TO_TCHAR(Edit.text.text.c_str());
+					Event.Editor.Editor = UTF8_TO_TCHAR(Edit.text.editor.c_str());
+					UE_LOG(LogReal33D, Log,
+						TEXT("edit text: object %u type %u, %d char(s), max %u, editor \"%s\""),
+						Edit.text.object_id, Edit.text.type_id,
+						Event.Editor.Text.Len(), Edit.text.max_length,
+						*Event.Editor.Editor);
+				}
+				else
+				{
+					Event.Kind = EReal33DEventKind::EditListOpened;
+					Event.Editor.bIsText = false;
+					Event.Editor.ListId = Edit.list.id;
+					// Unknown rather than a guess when the byte is not one of
+					// the three. ClientCore already reports that; carrying it
+					// as a fourth value keeps the window from submitting a
+					// list under a type Fusion32 never named.
+					Event.Editor.ListType = Edit.list.known_type
+						? static_cast<EReal33DEditListType>(Edit.list.type)
+						: EReal33DEditListType::Unknown;
+					Event.Editor.Text = UTF8_TO_TCHAR(Edit.list.text.c_str());
+					UE_LOG(LogReal33D, Log,
+						TEXT("edit list: %s, id %u, %d char(s)"),
+						Real33DEditListTypeLabel(Event.Editor.ListType),
+						Edit.list.id, Event.Editor.Text.Len());
+				}
+
+				const bool bWasText = Event.Editor.bIsText;
+				Publish(MoveTemp(Event));
+
+				FScopeLock Lock(&StatsMutex);
+				if (bWasText) { ++Stats.EditTextsOpened; }
+				else          { ++Stats.EditListsOpened; }
+			}
+
 			if (Decoded.update.kind == p772::ServerUpdateKind::Snapback)
 			{
 				// Fusion32 refused a step. The ledger says which one, so the
@@ -1139,6 +1239,7 @@ private:
 		DrainUses();
 		DrainCombat();
 		DrainChannels();
+		DrainEdits();
 
 		// A reply that never comes must not be allowed to claim a later move.
 		// Three seconds is far longer than a local round trip; the server's own
@@ -1466,6 +1567,83 @@ private:
 		}
 	}
 
+	void DrainEdits()
+	{
+		FEditIntent Intent;
+		while (EditIntents.Dequeue(Intent))
+		{
+			// Built by ClientCore in both shapes. Nothing is enforced here:
+			// CEditText re-reads the object and re-checks WRITE and
+			// WRITEONCE, and CEditList re-checks NAMEDOOR and TEXT for a
+			// door, so refusing locally would be this client inventing a rule
+			// Fusion32 applies itself.
+			std::vector<std::uint8_t> Command;
+			if (Intent.bIsText)
+			{
+				Command = p772::BuildEditTextCommand(
+					Intent.Id, TCHAR_TO_UTF8(*Intent.Text));
+			}
+			else if (Intent.ListType != EReal33DEditListType::Unknown)
+			{
+				Command = p772::BuildEditListCommand(
+					static_cast<p772::EditListType>(Intent.ListType),
+					Intent.Id, TCHAR_TO_UTF8(*Intent.Text));
+			}
+			else
+			{
+				// A list whose type Fusion32 never named. CEditList logs
+				// "Unbekannter Typ" and drops it, so sending one would be
+				// traffic with no possible effect.
+				UE_LOG(LogReal33D, Warning,
+					TEXT("edit list %u not submitted: the server did not name its type"),
+					Intent.Id);
+				continue;
+			}
+
+			if (!Session.SendCommand(Command).ok())
+			{
+				// Told to the player, not dropped. `kGameClientFrameLimits`
+				// caps a sent payload at 2048 bytes, so a text beyond about
+				// 2041 characters cannot be encoded at all -- and the window
+				// has already said the text was handed over. Staying silent
+				// here would make that a false claim, which is the one thing
+				// this milestone must not do. Observed live: four
+				// submissions of 4515 to 7515 characters vanished with no
+				// line in the log and no word to the player.
+				//
+				// Not a ServerMessage: Fusion32 never saw this command.
+				FReal33DEvent Refused;
+				Refused.Kind = EReal33DEventKind::ClientNotice;
+				Refused.Detail = FString::Printf(
+					TEXT("Your text was not sent: %d characters is more than "
+						 "this client can transmit in one command."),
+					Intent.Text.Len());
+				Refused.Direction = kNoDirection;
+				Publish(MoveTemp(Refused));
+
+				UE_LOG(LogReal33D, Warning,
+					TEXT("edit %u for id %u NOT sent: %d char(s) exceeds the frame limit"),
+					Intent.ActionId, Intent.Id, Intent.Text.Len());
+				continue;
+			}
+
+			// Named on the way out, because success is silent. Nothing else
+			// in the log will say this went anywhere: operate.cc::EditText
+			// writes the text and answers nothing, and only a refusal comes
+			// back, as an ordinary server message.
+			UE_LOG(LogReal33D, Log,
+				TEXT("%s %u submitted to Fusion32 as %u, %d char(s); "
+					 "acceptance is silent and only a refusal answers"),
+				Intent.bIsText ? TEXT("edit text for object")
+					: TEXT("edit list for id"),
+				Intent.Id, Intent.ActionId, Intent.Text.Len());
+
+			FScopeLock Lock(&StatsMutex);
+			if (Intent.bIsText) { ++Stats.EditTextsSubmitted; }
+			else                { ++Stats.EditListsSubmitted; }
+		}
+	}
+
 	/** Looks up and forgets the key press a request came from. */
 	uint32 TakeInputFor(std::uint32_t RequestId)
 	{
@@ -1547,6 +1725,7 @@ private:
 	TQueue<FUse, EQueueMode::Spsc> Uses;
 	TQueue<FCombatIntent, EQueueMode::Spsc> CombatIntents;
 	TQueue<FChannelIntent, EQueueMode::Spsc> ChannelIntents;
+	TQueue<FEditIntent, EQueueMode::Spsc> EditIntents;
 
 	TQueue<FReal33DEvent, EQueueMode::Spsc> Events;
 	TQueue<FIntent, EQueueMode::Spsc> Intents;
@@ -1556,6 +1735,19 @@ private:
 };
 
 // ---------------------------------------------------------------- subsystem
+
+const TCHAR* Real33DEditListTypeLabel(EReal33DEditListType Type)
+{
+	// The three names the 2D client gives these windows. Presentation only;
+	// the byte each becomes is ClientCore's business.
+	switch (Type)
+	{
+	case EReal33DEditListType::Guest:    return TEXT("Guest list");
+	case EReal33DEditListType::Subowner: return TEXT("Subowner list");
+	case EReal33DEditListType::Door:     return TEXT("Door list");
+	default:                             return TEXT("Unnamed list");
+	}
+}
 
 const TCHAR* Real33DTalkModeLabel(EReal33DTalkMode Mode)
 {
@@ -1694,6 +1886,7 @@ void UReal33DBridge::DrainEvents(TArray<FReal33DEvent>& OutEvents)
 		// Channels first: an open and the first line spoken in it can arrive in
 		// the same drain, and the line has to find the tab already there.
 		NoteChannel(Event);
+		NoteEditor(Event);
 		NoteChat(Event);
 		NoteMinimap(Event);
 		OutEvents.Add(MoveTemp(Event));
@@ -1946,6 +2139,85 @@ void UReal33DBridge::NoteChannel(const FReal33DEvent& Event)
 	default:
 		break;
 	}
+}
+
+void UReal33DBridge::NoteEditor(const FReal33DEvent& Event)
+{
+	if (Transcript == nullptr)
+	{
+		return;
+	}
+	if (Event.Kind != EReal33DEventKind::EditTextOpened
+		&& Event.Kind != EReal33DEventKind::EditListOpened)
+	{
+		return;
+	}
+	// Replaced wholesale. A second use while the first window is open is the
+	// ordinary case, and the server has already moved on from the first.
+	Transcript->Editor = Event.Editor;
+	++Transcript->EditorRevision;
+}
+
+const FReal33DEditor& UReal33DBridge::GetEditor() const
+{
+	check(IsInGameThread());
+	// A function-local default rather than a member, so the "nothing is open"
+	// answer cannot be written to by accident.
+	static const FReal33DEditor Closed;
+	return Transcript != nullptr ? Transcript->Editor : Closed;
+}
+
+uint64 UReal33DBridge::GetEditorRevision() const
+{
+	return Transcript != nullptr ? Transcript->EditorRevision : 0;
+}
+
+bool UReal33DBridge::CloseEditor()
+{
+	check(IsInGameThread());
+	if (Transcript == nullptr || !Transcript->Editor.bOpen)
+	{
+		return false;
+	}
+	Transcript->Editor = FReal33DEditor();
+	++Transcript->EditorRevision;
+	return true;
+}
+
+uint32 UReal33DBridge::RequestEditText(uint32 ObjectId, const FString& Text)
+{
+	if (Worker == nullptr || ObjectId == 0)
+	{
+		// CEditText answers NOTACCESSIBLE for an object that does not exist,
+		// and zero is never a real object id.
+		return 0;
+	}
+	const uint32 ActionId = ++NextInputId;
+	FReal33DWorker::FEditIntent Intent;
+	Intent.ActionId = ActionId;
+	Intent.bIsText = true;
+	Intent.Id = ObjectId;
+	Intent.Text = Text;
+	Worker->PostEdit(Intent);
+	return ActionId;
+}
+
+uint32 UReal33DBridge::RequestEditList(EReal33DEditListType Type, uint32 Id,
+	const FString& Text)
+{
+	if (Worker == nullptr || Type == EReal33DEditListType::Unknown)
+	{
+		return 0;
+	}
+	const uint32 ActionId = ++NextInputId;
+	FReal33DWorker::FEditIntent Intent;
+	Intent.ActionId = ActionId;
+	Intent.bIsText = false;
+	Intent.Id = Id;
+	Intent.ListType = Type;
+	Intent.Text = Text;
+	Worker->PostEdit(Intent);
+	return ActionId;
 }
 
 void UReal33DBridge::GetChannelList(TArray<FReal33DChannelEntry>& OutChannels) const

@@ -1,0 +1,22 @@
+EDIT_LIST could not be exercised live. Three independent gates, each
+sufficient on its own, verified against this server's own data and source.
+
+1. NOBODY OWNS A HOUSE.
+   game/reference/dat/owners.dat is 0 bytes.
+   houses.cc::ShowGuestList throws NOTACCESSIBLE unless
+     IsOwner(HouseID, Player)
+     || (IsSubowner(HouseID, Player, INT_MAX) && CheckRight(PREMIUM_ACCOUNT))
+
+2. THE PLAYER MUST STAND INSIDE A HOUSE.
+   magic.cc::EditGuests / EditSubowners / EditNameDoor each begin with
+     uint16 HouseID = GetHouseID(Actor->posx, Actor->posy, Actor->posz);
+     if(HouseID == 0){ throw NOTACCESSIBLE; }
+
+3. THE TEST CHARACTERS ARE ON ROOKGAARD, WHICH HAS NO HOUSES.
+   Every house in houses.dat lies on the mainland, around
+   x 32258-32272, y 32308-32320. Test Player B stands near 32095, 32200.
+
+Making it reachable requires assigning a house in owners.dat and moving the
+character there, which is authoring server test data. The operator was asked
+on 2026-10-19 and chose to leave EDIT_LIST UNVERIFIED rather than edit server
+data. No server file was modified.

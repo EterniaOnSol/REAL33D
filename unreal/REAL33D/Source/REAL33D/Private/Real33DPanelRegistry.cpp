@@ -13,6 +13,7 @@ namespace PanelIds
 	const FName Battle(TEXT("Battle"));
 	const FName Containers(TEXT("Containers"));
 	const FName Channels(TEXT("Channels"));
+	const FName TextEditor(TEXT("TextEditor"));
 }
 }
 

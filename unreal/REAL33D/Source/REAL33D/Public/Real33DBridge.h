@@ -173,8 +173,48 @@ enum class EReal33DEventKind : uint8
 	 * SV_CMD_PRIVATE_CHANNEL. Carries `ChannelName` and no number, because
 	 * SendPrivateChannel writes no number.
 	 */
-	PrivateChannelOpened
+	PrivateChannelOpened,
+
+	// -------------------------------------------------------------- editors
+	//
+	// Fusion32 opens both of these; this client never opens one by itself.
+	// SV_CMD_EDIT_TEXT answers a use of a TEXT object -- `moveuse.cc`'s
+	// `UseTextObject` and the spellbook branch of `UseAnnouncer` are its only
+	// two callers -- and SV_CMD_EDIT_LIST answers one of the three house
+	// spells in `magic.cc`.
+
+	/**
+	 * A book, sign, scroll, tombstone or spellbook to read, from
+	 * SV_CMD_EDIT_TEXT. Carries the object id to submit against, the type id,
+	 * the server's own length limit, the text and who last wrote it.
+	 */
+	EditTextOpened,
+
+	/**
+	 * A house guest list, subowner list or door list, from SV_CMD_EDIT_LIST.
+	 * Carries which list it is, the id it is submitted against and the body.
+	 */
+	EditListOpened
 };
+
+/**
+ * Which of the three lists an SV_CMD_EDIT_LIST carries.
+ *
+ * Mirrors `fusion32::protocol772::EditListType`, which mirrors `enums.hh`.
+ * The two are pinned together in the bridge, the one file that sees both.
+ */
+UENUM()
+enum class EReal33DEditListType : uint8
+{
+	Guest = 1,
+	Subowner = 2,
+	Door = 3,
+	/** The byte was not one of the three. Reported rather than guessed. */
+	Unknown = 0
+};
+
+/** The list's player-facing name. Presentation only; no protocol meaning. */
+REAL33D_API const TCHAR* Real33DEditListTypeLabel(EReal33DEditListType Type);
 
 /** Which shape of talk this was, mirroring the three forms Fusion32 emits. */
 UENUM()
@@ -502,6 +542,53 @@ struct FReal33DChatView
 	bool bOwnChannel = false;
 };
 
+/**
+ * A text or list editor Fusion32 opened, and everything it sent with it.
+ *
+ * One struct for both commands because one window shows both and only one can
+ * be open at a time: the server sends a fresh one whenever the player uses
+ * another object, and the newer one replaces the older.
+ *
+ * NOTHING HERE SAYS WHETHER THE OBJECT CAN BE WRITTEN. `SendEditText` sets
+ * `MaxLength` to the type's limit minus one for a WRITE or WRITEONCE object
+ * and to `strlen(Text)` for anything else, so `MaxLength == Text.Len()` does
+ * not prove read-only, and no other field marks one either. `CEditText`
+ * re-checks the WRITE and WRITEONCE flags itself and answers NOTACCESSIBLE,
+ * so writability is Fusion32's ruling and this client does not predict it.
+ * Guessing here is exactly the invention this milestone must not make.
+ */
+struct FReal33DEditor
+{
+	bool bOpen = false;
+	/** True for SV_CMD_EDIT_TEXT, false for SV_CMD_EDIT_LIST. */
+	bool bIsText = true;
+
+	// Text form.
+	/**
+	 * The object the edit is submitted against, not a map position, so the
+	 * text can be sent after the window has been open for a while.
+	 */
+	uint32 ObjectId = 0;
+	uint16 TypeId = 0;
+	/**
+	 * The longest text Fusion32 will take back, when the object is writable.
+	 * `CEditText` answers NOROOM for anything at or beyond the type's own
+	 * limit, and `SendEditText` reports that limit minus one, so a text no
+	 * longer than this is exactly the text the server accepts.
+	 */
+	uint16 MaxLength = 0;
+	/** Who last wrote this text. Empty when nobody has, which is a fact. */
+	FString Editor;
+
+	// List form.
+	EReal33DEditListType ListType = EReal33DEditListType::Unknown;
+	/** A house id for Guest and Subowner, an object id for Door. */
+	uint32 ListId = 0;
+
+	/** The body, in both forms. */
+	FString Text;
+};
+
 /** An event crossing the thread boundary. Copied, never shared. */
 struct FReal33DEvent
 {
@@ -557,6 +644,9 @@ struct FReal33DEvent
 	FString ChannelName;
 	/** ChannelOpened arrived as SV_CMD_OPEN_OWN_CHANNEL. */
 	bool bOwnChannel = false;
+
+	/** Populated only for EditTextOpened and EditListOpened. */
+	FReal33DEditor Editor;
 
 	/** 0..100 as the server reports it. Meaningful for creature events. */
 	uint8 HealthPercent = 100;
@@ -657,6 +747,16 @@ struct FReal33DStats
 	int32 ChannelTalkReceived = 0;
 	/** Talk that arrived in TALK_PRIVATE_MESSAGE mode. */
 	int32 PrivateTalkReceived = 0;
+
+	// Editors. Opens are the server's, submissions are this client's.
+	/** SV_CMD_EDIT_TEXT commands received. */
+	int32 EditTextsOpened = 0;
+	/** SV_CMD_EDIT_LIST commands received. */
+	int32 EditListsOpened = 0;
+	/** CL_CMD_EDIT_TEXT commands put on the wire. */
+	int32 EditTextsSubmitted = 0;
+	/** CL_CMD_EDIT_LIST commands put on the wire. */
+	int32 EditListsSubmitted = 0;
 	/** Talk shown above the creature that said it. */
 	int32 TalkShownOnCreature = 0;
 	/** Talk shown on the fallback surface because no speaker could be proven. */
@@ -962,6 +1062,61 @@ public:
 	 */
 	uint64 GetChatRevision() const;
 
+	// ---------------------------------------------------------------- editors
+	//
+	// Fusion32 opens an editor; this client only submits one. There is no
+	// command that asks for a text window, and none that closes one: a book
+	// is read by USING it, which the HUD already does, and a house list by
+	// casting one of the three house spells, which the player already types.
+
+	/**
+	 * The editor Fusion32 last opened, if one is open. Game thread only.
+	 *
+	 * Replaced wholesale when a newer one arrives, because the server treats
+	 * it as one window: using a second book while the first is open sends a
+	 * second SV_CMD_EDIT_TEXT and expects the first to be gone.
+	 */
+	const FReal33DEditor& GetEditor() const;
+
+	/** Changes whenever the open editor does, so a widget rebuilds only then. */
+	uint64 GetEditorRevision() const;
+
+	/**
+	 * Closes the window locally. Returns false when none was open.
+	 *
+	 * Local only, and there is nothing to tell the server: neither CEditText
+	 * nor CEditList has a cancel, and Fusion32 keeps no record that a window
+	 * was ever open. Closing therefore discards an unsent edit and nothing
+	 * else.
+	 */
+	bool CloseEditor();
+
+	/**
+	 * Submits edited text. CL_CMD_EDIT_TEXT against the object id the matching
+	 * SV_CMD_EDIT_TEXT carried.
+	 *
+	 * AN INTENT, AND THE RESULT IS SILENT ON SUCCESS. `operate.cc::EditText`
+	 * writes the text and the editor name and sends nothing back; a refusal
+	 * arrives as an ordinary SV_CMD_MESSAGE through `SendResult`
+	 * ("Sorry, not possible." for NOTACCESSIBLE, "There is not enough room."
+	 * for NOROOM). So this client must never report that an edit was saved.
+	 * The only proof of acceptance is reading the object again and seeing the
+	 * new text and attribution, which is what the live QA does.
+	 *
+	 * Returns the id identifying the request, or 0 when nothing was sent.
+	 */
+	uint32 RequestEditText(uint32 ObjectId, const FString& Text);
+
+	/**
+	 * Submits an edited house or door list. CL_CMD_EDIT_LIST.
+	 *
+	 * `Id` is a house id for Guest and Subowner and an object id for Door,
+	 * exactly as `CEditList` reads it. Silent on success for the same reason;
+	 * `ChangeGuests`, `ChangeSubowners` and `ChangeNameDoor` answer only when
+	 * they refuse.
+	 */
+	uint32 RequestEditList(EReal33DEditListType Type, uint32 Id, const FString& Text);
+
 	/**
 	 * Channel 3, CHANNEL_RULEVIOLATIONS.
 	 *
@@ -1000,6 +1155,9 @@ private:
 	 * arrives in the same drain as the open that created its tab lands in it.
 	 */
 	void NoteChannel(const FReal33DEvent& Event);
+
+	/** Applies one drained editor event: opens the window, or clears it. */
+	void NoteEditor(const FReal33DEvent& Event);
 
 	FReal33DWorker* Worker = nullptr;
 	FRunnableThread* Thread = nullptr;

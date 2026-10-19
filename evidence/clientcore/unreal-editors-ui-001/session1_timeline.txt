@@ -1,0 +1,87 @@
+[2026.10.19-22.40.17:874][790]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.40.18:373][798]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.40.18:759][804]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.40.19:477][816]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.40.21:198][842]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.40.21:609][849]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.40.22:072][857]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.40.22:550][865]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.40.42:094][158]LogReal33D: use 42 from world: object 2015 at 32084,32194,7 stack 2, would open as container 0
+[2026.10.19-22.40.42:782][168]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.19-22.40.44:159][190]LogReal33D: use 43 from world: object 2015 at 32084,32194,7 stack 2, would open as container 0
+[2026.10.19-22.40.44:284][192]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.19-22.40.45:485][211]LogReal33D: use 44 from world: object 2015 at 32084,32194,7 stack 2, would open as container 0
+[2026.10.19-22.40.45:694][214]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.19-22.41.08:027][704]LogReal33D: use 58 from world: object 2109 at 32080,32194,7 stack 2, would open as container 0
+[2026.10.19-22.41.08:900][724]LogReal33D: use 59 from world: object 2108 at 32080,32194,7 stack 2, would open as container 0
+[2026.10.19-22.43.28:663][913]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.43.32:141][980]LogReal33D: use 89 from world: object 2602 at 32094,32197,7 stack 2, would open as container 0
+[2026.10.19-22.43.32:279][983]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.19-22.43.33:231][  5]LogReal33D: use 90 from world: object 2602 at 32094,32197,7 stack 2, would open as container 0
+[2026.10.19-22.43.33:407][  9]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.19-22.43.50:831][292]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.43.50:946][295]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.43.51:396][307]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.43.57:725][459]LogReal33D: use 134 from world: object 2602 at 32094,32196,7 stack 2, would open as container 0
+[2026.10.19-22.44.03:933][544]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.19-22.44.14:493][747]LogReal33D: use 135 from world: object 2602 at 32094,32195,7 stack 2, would open as container 0
+[2026.10.19-22.44.15:109][759]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.19-22.44.20:360][877]LogReal33D: use 136 from world: object 2602 at 32094,32195,7 stack 2, would open as container 0
+[2026.10.19-22.44.20:489][880]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.19-22.44.22:148][919]LogReal33D: use 137 from world: object 2602 at 32094,32196,7 stack 2, would open as container 0
+[2026.10.19-22.44.22:236][921]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.19-22.44.23:496][950]LogReal33D: use 138 from world: object 2602 at 32094,32197,7 stack 2, would open as container 0
+[2026.10.19-22.44.23:590][952]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.19-22.44.24:630][977]LogReal33D: use 139 from world: object 2602 at 32094,32198,7 stack 2, would open as container 0
+[2026.10.19-22.44.25:245][989]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.19-22.44.26:556][ 20]LogReal33D: use 140 from world: object 1286 at 32094,32199,7 stack 1, would open as container 0
+[2026.10.19-22.44.27:090][ 31]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.19-22.44.29:327][ 82]LogReal33D: use 141 from world: object 2602 at 32094,32198,7 stack 2, would open as container 0
+[2026.10.19-22.44.29:462][ 85]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.19-22.48.08:530][697]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.48.08:879][704]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.48.10:148][733]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.48.12:249][774]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.48.12:737][785]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.48.34:982][182]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.48.42:704][335]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.48.43:146][346]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.48.43:654][359]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.48.44:083][371]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.49.59:131][313]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.49.59:288][317]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.49.59:853][331]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.50.27:274][827]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.50.54:908][226]LogReal33D: use 389 from world: object 1948 at 32101,32176,7 stack 1, would open as container 0
+[2026.10.19-22.51.05:280][371]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.51.07:557][404]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.51.36:907][797]LogReal33D: use 467 from world: object 1948 at 32081,32181,7 stack 1, would open as container 0
+[2026.10.19-22.51.59:704][ 83]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.52.00:207][ 89]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.52.00:632][ 94]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.52.08:229][181]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.52.08:234][181]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.52.08:653][187]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.52.14:313][262]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.52.14:606][267]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.52.17:819][317]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.52.24:832][404]LogReal33D: talk [Say] at 32105,32207,6, Dixi: "Hello, Mam. How may I help you, Test Player B."  speaker Resolved creature 1073742106
+[2026.10.19-22.52.29:976][471]LogReal33D: talk [Say] at 32105,32207,6, Dixi: "Do you want to buy a scroll for 5 gold?"  speaker Resolved creature 1073742106
+[2026.10.19-22.52.35:275][540]LogReal33D: talk [Say] at 32105,32207,6, Dixi: "Thank you. Here it is."  speaker Resolved creature 1073742106
+[2026.10.19-22.52.36:472][555]LogReal33D: edit text: object 18974332 type 2815, 0 char(s), max 511, editor ""
+[2026.10.19-22.52.45:027][671]LogReal33D: edit text: object 18974332 type 2815, 0 char(s), max 511, editor ""
+[2026.10.19-22.52.50:673][761]LogReal33D: edit text: object 18974332 type 2815, 0 char(s), max 511, editor ""
+[2026.10.19-22.52.53:728][810]LogReal33D: edit text: object 18974332 type 2815, 0 char(s), max 511, editor ""
+[2026.10.19-22.52.54:223][818]LogReal33D: edit text: object 18974332 type 2815, 0 char(s), max 511, editor ""
+[2026.10.19-22.52.54:571][823]LogReal33D: edit text: object 18974332 type 2815, 0 char(s), max 511, editor ""
+[2026.10.19-22.52.55:829][843]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.52.56:267][850]LogReal33D: server message [FailureMessage]: Sorry, not possible.
+[2026.10.19-22.52.58:973][892]LogReal33D: edit text: object 18974332 type 2815, 0 char(s), max 511, editor ""
+[2026.10.19-22.52.59:622][903]LogReal33D: edit text: object 18974332 type 2815, 0 char(s), max 511, editor ""
+[2026.10.19-22.53.00:022][909]LogReal33D: edit text: object 18974332 type 2815, 0 char(s), max 511, editor ""
+[2026.10.19-22.53.00:371][914]LogReal33D: edit text: object 18974332 type 2815, 0 char(s), max 511, editor ""
+[2026.10.19-22.53.00:721][920]LogReal33D: edit text: object 18974332 type 2815, 0 char(s), max 511, editor ""
+[2026.10.19-22.53.50:422][608]LogReal33D: edit text: object 18974332 type 2815, 0 char(s), max 511, editor ""
+[2026.10.19-22.53.56:422][700]LogReal33D: edit text: object 18974332 type 2815, 0 char(s), max 511, editor ""
+[2026.10.19-22.54.01:582][782]LogReal33D: edit text: object 18974332 type 2815, 0 char(s), max 511, editor ""
+[2026.10.19-22.54.02:826][802]LogReal33D: edit text: object 18974332 type 2815, 0 char(s), max 511, editor ""

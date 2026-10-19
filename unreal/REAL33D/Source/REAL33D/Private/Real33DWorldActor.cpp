@@ -1341,6 +1341,13 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		TEXT("    \"channel_talk_received\": %d,\n")
 		TEXT("    \"private_says_requested\": %d,\n")
 		TEXT("    \"private_talk_received\": %d,\n")
+		// Editors. Opens are Fusion32's; submissions are this client's. They
+		// are counted apart because an accepted edit is silent, so a reader
+		// must be able to see what was sent and what came back separately.
+		TEXT("    \"edit_texts_opened\": %d,\n")
+		TEXT("    \"edit_lists_opened\": %d,\n")
+		TEXT("    \"edit_texts_submitted\": %d,\n")
+		TEXT("    \"edit_lists_submitted\": %d,\n")
 		TEXT("    \"worldstate_tiles\": %d,\n")
 		TEXT("    \"worldstate_visible_creatures\": %d,\n")
 		TEXT("    \"viewport_synchronised\": %s\n")
@@ -1408,6 +1415,10 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		Stats.ChannelTalkReceived,
 		Stats.PrivateSaysRequested,
 		Stats.PrivateTalkReceived,
+		Stats.EditTextsOpened,
+		Stats.EditListsOpened,
+		Stats.EditTextsSubmitted,
+		Stats.EditListsSubmitted,
 		Stats.Tiles,
 		Stats.VisibleCreatures, Stats.bViewportSynchronised ? TEXT("true") : TEXT("false"),
 		CameraPitch, CameraYaw, CameraDistance, DrawnCameraDistance, bCameraObstructed ? TEXT("true") : TEXT("false"), CameraCutaways, bHideUpperFloors ? TEXT("true") : TEXT("false"),

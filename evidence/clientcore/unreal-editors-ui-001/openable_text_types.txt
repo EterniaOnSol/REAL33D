@@ -1,0 +1,57 @@
+2445 information a pendulum clock
+2446 information a pendulum clock
+2447 information a pendulum clock
+2448 information a pendulum clock
+2598 writable a blackboard
+2605 writable a blackboard
+2660 information a cuckoo clock
+2661 information a cuckoo clock
+2662 information a cuckoo clock
+2663 information a cuckoo clock
+2664 information a cuckoo clock
+2668 information a cuckoo clock
+2771 information a sundial
+2813 writable a blank paper
+2814 writable a parchment
+2815 writable a scroll
+2816 read-only openable a book
+2817 writable a blank parchment
+2818 writable a document
+2819 read-only openable a parchment
+2820 read-only openable a paper
+2821 read-only openable a book
+2822 read-only openable a map
+2823 read-only openable a map
+2824 read-only openable a book
+2825 read-only openable a book
+2826 read-only openable a book
+2827 read-only openable a book
+2828 read-only openable a book
+2829 read-only openable a book
+2830 read-only openable a book
+2831 read-only openable a book
+2832 read-only openable a book
+2833 writable a parchment
+2834 writable a document
+2835 writable a parchment
+2836 read-only openable the holy Tible
+2837 writable a book
+2838 writable a book
+2839 writable a book
+2840 writable a book
+2841 writable a book
+2842 writable a book
+2843 writable a book
+2844 writable a book
+2845 writable a book
+2846 writable a book
+2847 writable a book
+2906 information a watch
+3059 information a spellbook
+3101 read-only openable a spellbook
+3212 read-only openable a monks diary
+3395 information a ceremonial mask
+3505 writable a letter
+3506 read-only openable a stamped letter
+3507 writable a label
+5090 read-only openable a treasure map

@@ -7,6 +7,7 @@
 #include "Real33DContainersPanel.h"
 #include "Real33DControlPanel.h"
 #include "Real33DCreatureActor.h"
+#include "Real33DEditorWindow.h"
 #include "Real33DInventoryPanel.h"
 #include "Real33DMinimapPanel.h"
 #include "Real33DPanelChrome.h"
@@ -354,7 +355,19 @@ void SReal33DHUD::Construct(const FArguments& InArgs)
 		[
 			Banner
 		]
+
+		// The book/sign/house-list window, centred over everything. An
+		// isolated modal rather than a column panel, because that is what
+		// the 2D puts on screen for a book and because it is transient: the
+		// server opens it and replaces it, and only one exists at a time.
+		// It is still registered below, so visibility has one owner.
+		+ SOverlay::Slot()
+		[
+			SAssignNew(TextEditor, SReal33DEditorWindow).Bridge(Bridge)
+		]
 	];
+
+	Panels.Register(Real33D::PanelIds::TextEditor, TextEditor.ToSharedRef());
 }
 
 void SReal33DHUD::HandleItemDropped(FReal33DSlotRef From, FReal33DSlotRef To)
@@ -698,6 +711,9 @@ void SReal33DHUD::HandlePanelToggled(FName Panel)
 void SReal33DHUD::Refresh(const AReal33DWorld* World)
 {
 	if (WorldOverlay.IsValid()) WorldOverlay->Refresh(World, Pending.bActive);
+	// Driven from here rather than from its own Tick: Slate does not tick a
+	// collapsed widget, and that window is collapsed until Fusion32 opens one.
+	if (TextEditor.IsValid()) TextEditor->Refresh();
 	// Everything below is a server-owned value or an explicit "not known yet".
 	// A null world is the second of those, not a reason to keep the last frame:
 	// the panels must empty out when the session ends.

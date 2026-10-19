@@ -2,6 +2,7 @@
 #include "Real33DChannelsPanel.h"
 #include "Real33DChatPanel.h"
 #include "Real33DChatViews.h"
+#include "Real33DEditorWindow.h"
 #include "Real33DPanelRegistry.h"
 #include "Real33DSkillsPanel.h"
 #if WITH_DEV_AUTOMATION_TESTS
@@ -133,6 +134,23 @@ bool FReal33DPanelRegistryTest::RunTest(const FString& Parameters)
 		Registry.Close(Real33D::PanelIds::Channels) && Registry.IsOpen(Real33D::PanelIds::Battle));
 	TestTrue(TEXT("channels unregisters"), Registry.Unregister(Real33D::PanelIds::Channels));
 	TestEqual(TEXT("back to two"), Registry.Num(), 2);
+
+	// The editor window is a centred modal, not a column panel, and the
+	// registry handles it exactly the same way: it only manages visibility.
+	const TSharedRef<SWidget> Modal = SNew(SBox);
+	TestTrue(TEXT("the editor window registers"),
+		Registry.Register(Real33D::PanelIds::TextEditor, Modal));
+	TestTrue(TEXT("a modal closes through the registry"),
+		Registry.Close(Real33D::PanelIds::TextEditor));
+	TestEqual(TEXT("a closed modal collapses like any other panel"),
+		Modal->GetVisibility(), EVisibility::Collapsed);
+	TestTrue(TEXT("and opens again"), Registry.Open(Real33D::PanelIds::TextEditor));
+	TestTrue(TEXT("reading as open"), Registry.IsOpen(Real33D::PanelIds::TextEditor));
+	TestTrue(TEXT("the editor id is distinct from the channels id"),
+		Real33D::PanelIds::TextEditor != Real33D::PanelIds::Channels);
+	TestTrue(TEXT("the editor window unregisters"),
+		Registry.Unregister(Real33D::PanelIds::TextEditor));
+	TestEqual(TEXT("two again"), Registry.Num(), 2);
 
 	TestTrue(TEXT("unregister"), Registry.Unregister(Real33D::PanelIds::Skills));
 	TestFalse(TEXT("unregistering twice reports failure"), Registry.Unregister(Real33D::PanelIds::Skills));
@@ -380,6 +398,165 @@ bool FReal33DChatTabsTest::RunTest(const FString& Parameters)
 	TestTrue(TEXT("leaving removes it"), Views.CloseChannel(7));
 	TestEqual(TEXT("and its traffic falls back to Local Chat"),
 		static_cast<int32>(Views.RouteChannel(7)), static_cast<int32>(Views.LocalId()));
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FReal33DEditorWindowTest,
+	"REAL33D.Presentation.EditorWindow",
+	EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FReal33DEditorWindowTest::RunTest(const FString& Parameters)
+{
+	(void)Parameters;
+
+	// Nothing is drawn until Fusion32 opens a window. A default editor is a
+	// closed one, and a closed one says nothing at all.
+	const FReal33DEditor Closed;
+	TestFalse(TEXT("a default editor is closed"), Closed.bOpen);
+	TestTrue(TEXT("a closed window has no title"),
+		SReal33DEditorWindow::Title(Closed).IsEmpty());
+	TestTrue(TEXT("a closed window attributes nothing"),
+		SReal33DEditorWindow::Attribution(Closed).IsEmpty());
+	TestTrue(TEXT("a closed window states no limit"),
+		SReal33DEditorWindow::LengthNote(Closed).IsEmpty());
+	TestFalse(TEXT("a closed window cannot submit"),
+		SReal33DEditorWindow::CanSubmit(Closed));
+
+	// ---------------------------------------------------------------- text
+	FReal33DEditor Sign;
+	Sign.bOpen = true;
+	Sign.bIsText = true;
+	Sign.ObjectId = 4242;
+	Sign.TypeId = 2602;
+	Sign.MaxLength = 71;
+	Sign.Text = TEXT("Be polite and respectful to other people you meet.");
+
+	// The wire carries no name for a text object, so the heading is generic
+	// rather than an item name this client would have had to invent.
+	TestEqual(TEXT("a text window is headed generically"),
+		SReal33DEditorWindow::Title(Sign).ToString(), FString(TEXT("Text")));
+
+	// The attribution has three states and the empty one is a fact, not a
+	// missing value: EDITOR is unset until somebody writes.
+	TestEqual(TEXT("an unwritten object says so explicitly"),
+		SReal33DEditorWindow::Attribution(Sign).ToString(),
+		FString(TEXT("Nobody has written on this.")));
+	Sign.Editor = TEXT("Test Player B");
+	TestEqual(TEXT("a written object names its editor"),
+		SReal33DEditorWindow::Attribution(Sign).ToString(),
+		FString(TEXT("Written by Test Player B.")));
+	// The name is the server's, carried through untouched.
+	Sign.Editor = TEXT("A Name With Spaces");
+	TestTrue(TEXT("the editor's name is carried verbatim"),
+		SReal33DEditorWindow::Attribution(Sign).ToString()
+			.Contains(TEXT("A Name With Spaces")));
+
+	// The length note is phrased as the server's report, never as proof the
+	// object can be written.
+	const FString Note = SReal33DEditorWindow::LengthNote(Sign).ToString();
+	TestTrue(TEXT("the limit is attributed to Fusion32"),
+		Note.Contains(TEXT("Fusion32")) && Note.Contains(TEXT("71")));
+
+	// THE RULE THIS WINDOW EXISTS TO KEEP. A read-only object is reported by
+	// SendEditText with max_length == strlen(text); a writable one is
+	// reported with the type's limit minus one. Neither is distinguishable
+	// here, so Submit is offered in both cases and Fusion32 rules.
+	FReal33DEditor ReadOnly = Sign;
+	ReadOnly.Text = TEXT("hello");
+	ReadOnly.MaxLength = 5;              // exactly strlen, the read-only shape
+	TestTrue(TEXT("a read-only-shaped object still offers Submit"),
+		SReal33DEditorWindow::CanSubmit(ReadOnly));
+	FReal33DEditor Writable = Sign;
+	Writable.Text = TEXT("hello");
+	Writable.MaxLength = 199;            // a WRITE type's limit minus one
+	TestTrue(TEXT("a writable-shaped object offers Submit"),
+		SReal33DEditorWindow::CanSubmit(Writable));
+	TestEqual(TEXT("and the two are treated identically"),
+		SReal33DEditorWindow::CanSubmit(ReadOnly),
+		SReal33DEditorWindow::CanSubmit(Writable));
+
+	// An empty text is a legitimate book, and a zero limit is what the server
+	// reports for one. Neither closes the window or blocks a submission.
+	FReal33DEditor Empty = Sign;
+	Empty.Text = FString();
+	Empty.MaxLength = 0;
+	TestTrue(TEXT("an empty object still submits"),
+		SReal33DEditorWindow::CanSubmit(Empty));
+
+	// Submit is refused only when there is nothing to submit against.
+	FReal33DEditor NoObject = Sign;
+	NoObject.ObjectId = 0;
+	TestFalse(TEXT("no object id means nothing to submit against"),
+		SReal33DEditorWindow::CanSubmit(NoObject));
+
+	// ---------------------------------------------------------------- lists
+	FReal33DEditor Guests;
+	Guests.bOpen = true;
+	Guests.bIsText = false;
+	Guests.ListType = EReal33DEditListType::Guest;
+	Guests.ListId = 10001;
+	Guests.Text = TEXT("# Guests of Spiritkeep\n");
+
+	// A list IS named by the wire: the type byte says which one.
+	TestEqual(TEXT("a guest list is named"),
+		SReal33DEditorWindow::Title(Guests).ToString(), FString(TEXT("Guest list")));
+	Guests.ListType = EReal33DEditListType::Subowner;
+	TestEqual(TEXT("a subowner list is named"),
+		SReal33DEditorWindow::Title(Guests).ToString(), FString(TEXT("Subowner list")));
+	Guests.ListType = EReal33DEditListType::Door;
+	TestEqual(TEXT("a door list is named"),
+		SReal33DEditorWindow::Title(Guests).ToString(), FString(TEXT("Door list")));
+	TestTrue(TEXT("a named list submits"), SReal33DEditorWindow::CanSubmit(Guests));
+
+	// SendEditList writes no editor field, so a list attributes nothing
+	// rather than claiming nobody wrote it.
+	TestTrue(TEXT("a list attributes nothing"),
+		SReal33DEditorWindow::Attribution(Guests).IsEmpty());
+	TestTrue(TEXT("a list states no character limit"),
+		SReal33DEditorWindow::LengthNote(Guests).IsEmpty());
+
+	// A type byte the server never named has nowhere to go: CEditList logs
+	// "Unbekannter Typ" and drops it, so submitting would be traffic with no
+	// possible effect.
+	FReal33DEditor Unnamed = Guests;
+	Unnamed.ListType = EReal33DEditListType::Unknown;
+	TestFalse(TEXT("an unnamed list cannot submit"),
+		SReal33DEditorWindow::CanSubmit(Unnamed));
+	TestFalse(TEXT("and is still headed, not blank"),
+		SReal33DEditorWindow::Title(Unnamed).IsEmpty());
+
+	// The three list values are enums.hh's own. The bridge pins them with
+	// static_asserts; checked here too, because submitting a guest list under
+	// the subowner byte would edit a different list entirely.
+	TestEqual(TEXT("GUESTLIST is 1"), static_cast<int32>(EReal33DEditListType::Guest), 1);
+	TestEqual(TEXT("SUBOWNERLIST is 2"), static_cast<int32>(EReal33DEditListType::Subowner), 2);
+	TestEqual(TEXT("DOORLIST is 3"), static_cast<int32>(EReal33DEditListType::Door), 3);
+
+	// The real widget, not just its rules. It must be built collapsed, so the
+	// registry reports it closed and it takes no space before Fusion32 opens
+	// anything -- and it must be driven from outside.
+	//
+	// A live run showed why that second half matters: the window drove itself
+	// from Tick, Slate does not tick a collapsed widget, and fifteen decoded
+	// SV_CMD_EDIT_TEXT commands produced no window at all. `Refresh` is now
+	// called by SReal33DHUD::Refresh once a frame.
+	const TSharedRef<SReal33DEditorWindow> Window = SNew(SReal33DEditorWindow);
+	TestEqual(TEXT("the window is built collapsed"),
+		Window->GetVisibility(), EVisibility::Collapsed);
+	TestFalse(TEXT("and shows nothing"), Window->IsShowing());
+	// Driven with no bridge: harmless, and still closed. This is the path a
+	// gallery or headless session takes every frame.
+	Window->Refresh();
+	TestEqual(TEXT("a refresh without a bridge leaves it collapsed"),
+		Window->GetVisibility(), EVisibility::Collapsed);
+	TestFalse(TEXT("and still showing nothing"), Window->IsShowing());
+
+	// Each list type is labelled distinctly, so a window cannot be mistaken
+	// for the list next to it.
+	TestTrue(TEXT("the three list labels differ"),
+		FString(Real33DEditListTypeLabel(EReal33DEditListType::Guest))
+			!= FString(Real33DEditListTypeLabel(EReal33DEditListType::Subowner))
+		&& FString(Real33DEditListTypeLabel(EReal33DEditListType::Subowner))
+			!= FString(Real33DEditListTypeLabel(EReal33DEditListType::Door)));
 	return true;
 }
 #endif

@@ -195,6 +195,12 @@ private:
 	 * state rather than world state and `Refresh` carries the world actor.
 	 */
 	TSharedPtr<class SReal33DChannelsPanel> Channels;
+	/**
+	 * The book, sign and house-list window. Centred over the map rather than
+	 * docked, and registered in `Panels` like everything else, so the HUD
+	 * keeps one way to show and hide a surface.
+	 */
+	TSharedPtr<class SReal33DEditorWindow> TextEditor;
 	TSharedPtr<SReal33DConditionStrip> Conditions;
 	TSharedPtr<SReal33DMinimapPanel> Minimap;
 	TSharedPtr<SReal33DControlPanel> Controls;
