@@ -1,0 +1,14 @@
+{"t":73.781,"phase":"sent","input_id":6,"request_id":1,"direction":"west","from":{"x":32095,"y":32203,"z":7},"to":{"x":32095,"y":32203,"z":7}}
+{"t":73.939,"phase":"accepted","input_id":6,"request_id":1,"direction":"west","from":{"x":32095,"y":32203,"z":7},"to":{"x":32094,"y":32203,"z":7}}
+{"t":74.227,"phase":"sent","input_id":7,"request_id":2,"direction":"west","from":{"x":32094,"y":32203,"z":7},"to":{"x":32094,"y":32203,"z":7}}
+{"t":74.377,"phase":"accepted","input_id":7,"request_id":2,"direction":"west","from":{"x":32094,"y":32203,"z":7},"to":{"x":32093,"y":32203,"z":7}}
+{"t":74.695,"phase":"sent","input_id":8,"request_id":3,"direction":"west","from":{"x":32093,"y":32203,"z":7},"to":{"x":32093,"y":32203,"z":7}}
+{"t":74.832,"phase":"accepted","input_id":8,"request_id":3,"direction":"west","from":{"x":32093,"y":32203,"z":7},"to":{"x":32092,"y":32203,"z":7}}
+{"t":75.181,"phase":"sent","input_id":10,"request_id":4,"direction":"west","from":{"x":32092,"y":32203,"z":7},"to":{"x":32092,"y":32203,"z":7}}
+{"t":75.311,"phase":"accepted","input_id":10,"request_id":4,"direction":"west","from":{"x":32092,"y":32203,"z":7},"to":{"x":32091,"y":32203,"z":7}}
+{"t":75.625,"phase":"sent","input_id":11,"request_id":5,"direction":"south","from":{"x":32091,"y":32203,"z":7},"to":{"x":32091,"y":32203,"z":7}}
+{"t":75.746,"phase":"accepted","input_id":11,"request_id":5,"direction":"south","from":{"x":32091,"y":32203,"z":7},"to":{"x":32091,"y":32204,"z":7}}
+{"t":76.094,"phase":"sent","input_id":12,"request_id":6,"direction":"east","from":{"x":32091,"y":32204,"z":7},"to":{"x":32091,"y":32204,"z":7}}
+{"t":76.225,"phase":"accepted","input_id":12,"request_id":6,"direction":"east","from":{"x":32091,"y":32204,"z":7},"to":{"x":32092,"y":32204,"z":7}}
+{"t":76.854,"phase":"sent","input_id":13,"request_id":7,"direction":"east","from":{"x":32092,"y":32204,"z":7},"to":{"x":32092,"y":32204,"z":7}}
+{"t":76.958,"phase":"accepted","input_id":13,"request_id":7,"direction":"east","from":{"x":32092,"y":32204,"z":7},"to":{"x":32093,"y":32204,"z":7}}

@@ -1,0 +1,119 @@
+﻿{
+	"devices": [
+		{
+			"deviceName": "DESKTOP-9SKKIUM",
+			"instance": "B6640EFA4BD25AD075165EB258DC3890",
+			"instanceName": "DESKTOP-9SKKIUM-11372",
+			"platform": "WindowsEditor",
+			"oSVersion": "Windows 11 (23H2) [10.0.22631.6199] ",
+			"model": "Default",
+			"gPU": "Intel(R) UHD Graphics 630",
+			"cPUModel": "Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz",
+			"rAMInGB": 12,
+			"renderMode": "SM6",
+			"rHI": "",
+			"appInstanceLog": ""
+		}
+	],
+	"reportCreatedOn": "2026.10.19-21.47.51",
+	"succeeded": 6,
+	"succeededWithWarnings": 0,
+	"failed": 0,
+	"notRun": 0,
+	"inProcess": 0,
+	"totalDuration": 0.10129790008068085,
+	"comparisonExported": false,
+	"comparisonExportDirectory": "",
+	"tests": [
+		{
+			"testDisplayName": "CameraAndFloors",
+			"fullTestPath": "REAL33D.Presentation.CameraAndFloors",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"B6640EFA4BD25AD075165EB258DC3890"
+			],
+			"duration": 0.014986801892518997,
+			"dateTime": "2026.10.19-21.47.50",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "ChannelsPanel",
+			"fullTestPath": "REAL33D.Presentation.ChannelsPanel",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"B6640EFA4BD25AD075165EB258DC3890"
+			],
+			"duration": 0.015815798193216324,
+			"dateTime": "2026.10.19-21.47.50",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "ChatTabs",
+			"fullTestPath": "REAL33D.Presentation.ChatTabs",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"B6640EFA4BD25AD075165EB258DC3890"
+			],
+			"duration": 0.016543999314308167,
+			"dateTime": "2026.10.19-21.47.50",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "PanelRegistry",
+			"fullTestPath": "REAL33D.Presentation.PanelRegistry",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"B6640EFA4BD25AD075165EB258DC3890"
+			],
+			"duration": 0.015361901372671127,
+			"dateTime": "2026.10.19-21.47.50",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "SkillsPanel",
+			"fullTestPath": "REAL33D.Presentation.SkillsPanel",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"B6640EFA4BD25AD075165EB258DC3890"
+			],
+			"duration": 0.015465103089809418,
+			"dateTime": "2026.10.19-21.47.51",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "AuthoritativeWindow",
+			"fullTestPath": "REAL33D.WideWorld.AuthoritativeWindow",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"B6640EFA4BD25AD075165EB258DC3890"
+			],
+			"duration": 0.023124299943447113,
+			"dateTime": "2026.10.19-21.47.51",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		}
+	]
+}

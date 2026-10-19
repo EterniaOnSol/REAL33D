@@ -1,0 +1,4 @@
+ M handoffs/CURRENT.md
+?? evidence/clientcore/UNREAL-CHAT-CHANNELS-001-INDEPENDENT-20261018.md
+?? evidence/clientcore/unreal-chat-channels-independent-20261018/
+?? handoffs/archive/BEFORE-UNREAL-CHAT-CHANNELS-INDEPENDENT-20261018.md

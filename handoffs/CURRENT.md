@@ -1,162 +1,80 @@
-# HANDOFF - UNREAL-CHAT-CHANNELS-001
+# UNREAL-CHAT-CHANNELS-001 independent certification
 
-Date/time: 2026-10-18, America/Guatemala
-Task ID: `UNREAL-CHAT-CHANNELS-001`
-Agent / role: Claude; implementation and operator-assisted live QA
-Starting commit: `ca3121c42e8db7902bd155572bcb42c3c852bb8f` (origin/main)
-Ending commit: the commit carrying this handoff on
-`milestone/unreal-chat-channels-001`
-Worktree: `C:/Users/dell/Desktop/fusion32`
+2026-10-19 15:49 America/Guatemala. Codex independent reviewer. CERTIFIED for
+requested bounded scope. Live run: 2026-10-18; final gates/review: October 19.
+Branch: certification/unreal-chat-channels-001-20261018
+Worktree: C:/Users/dell/Desktop/fusion32/build/cert-chat-channels-20261018
+Starting/candidate: 239f89f07430ecd4d4348d69f183a9935e4bd992
+Base/current main: ca3121c42e8db7902bd155572bcb42c3c852bb8f
+Ending commit: the certification commit containing this handoff; resolve with
+`git log -1 --format=%H -- handoffs/CURRENT.md`. Its parent is the exact candidate.
 
-CHAT_CHANNELS_001_STATUS = PASS LOCAL
-MAIN_MERGE = NONE. Branched from origin/main; main untouched.
-PUSH = NONE. No remote operation was performed or authorized.
+## Objective and preservation
 
-## Objective and allowed scope
+User requested preserve first, independently certify chat/channels, no main
+merge. Fetched origin, found remote milestone absent, passed Git Bash secrets,
+normally pushed exact239f89f (including LFS) and verified the remote. Only then
+created fresh certification worktree. October19 remote recheck matched main
+ca3121c and milestone239f89f. No branch deletion, rewrite or force operation.
+Root untracked work and prior preservation stash were left untouched.
 
-Add the real 7.72 channel UI to the Unreal client through the existing
-`FReal33DPanelRegistry`: request the channel list, show it, join, leave, one
-view per joined channel, send and receive channel messages, and the
-private-message flow. Preserve Local Chat. Fusion32 authoritative. No protocol
-or server change; use ClientCore's existing channel builders and decoder.
-Minimal HUD edits. No invented channels or messages.
+## Inspection, discoveries and changes
 
-## Inspection
+Read AGENTS, status, architecture, roadmap, parity, prior handoff, source truth,
+Git state and exact authoritative channel/talk functions. Detailed file/symbol/
+version-guard citations are in the independent report. Server owns list names,
+Join response and message recipients. Leave has no acknowledgement; private
+sender receives a server message rather than an echo. No implementation defect
+found, so no implementation edits in the final commit.
 
-Read `AGENTS.md`, `PROJECT_STATUS.md`, `ARCHITECTURE.md`, `ROADMAP.md`,
-`PARITY_MATRIX.md` and the prior `handoffs/CURRENT.md` (the agent-project
-closure, archived intact at
-`handoffs/archive/2026-10-18_REAL33D-AGENT-PROJECT-CLOSURE-001-before-chat-channels.md`).
-Git state recorded: the checkout was on
-`milestone/real33d-agent-veteran-play-002` at `b9ed335` with four modified
-`evidence/clientcore/unreal-slice/` files.
+Independent temporary opt-in driver invoked actual production Slate controls
+through SButton::SimulateClick. Primary B used actual live HUD; peer A used an
+independent real Bridge connection and production widgets. No fabricated
+packets/events/state, server restart, runtime/save edits or legacy executable.
+Driver now resides only under evidence; final Unreal build and tests excluded
+it, and clientcore/unreal/tests/scripts diff against candidate is empty.
 
-## Discoveries worth keeping
+Only evidence, PROJECT_STATUS, PARITY_MATRIX and this handoff changed. Original
+author handoff archived intact at
+handoffs/archive/BEFORE-UNREAL-CHAT-CHANNELS-INDEPENDENT-20261018.md.
 
-- **ClientCore already had the whole protocol layer.** `channels.cpp` carries
-  the four builders and the five-command decoder with its own CTest suite,
-  `DecodeServerUpdate` already yields `ServerUpdateKind::Channel`, and
-  `ApplyServerUpdate` deliberately stores nothing for it. Channel membership
-  is therefore presentation state and belongs on the game thread beside the
-  transcripts. No ClientCore file was changed; the suite count stays 13.
-- **A channel's name is not derivable from its number.**
-  `operate.cc::GetChannelName` returns the player's own guild for channel 0,
-  and `ChannelAvailable` filters the list per player. Every name on screen is
-  the server's.
-- **Two client-side refusals, both reported as this client's own:** channel 3
-  (`CHANNEL_RULEVIOLATIONS`) is answered with the undecoded
-  `SV_CMD_OPEN_REQUEST_QUEUE` (174), which would stop the payload walk; and
-  the own-channel offer row needs `CL_CMD_OPEN_CHANNEL`, for which ClientCore
-  has no builder.
-- **Leaving is the one effect not waited for.** `CLeaveChannel` answers with
-  nothing at all, so the client's own command is the only signal.
-- **The sender of a private message gets no echo.** `operate.cc` sends the
-  addressee the talk and the sender `"Message sent to X."` via
-  `SV_CMD_MESSAGE`. Channel calls, by contrast, are broadcast to every
-  subscriber including the speaker, so a channel tab fills from the server.
-- **Speaking into a channel needs level 2** and an unsubscribed channel call
-  is silently rewritten to `TALK_SAY`. Trade (5) carries a two-minute
-  per-offer cooldown.
+## Tests and evidence
 
-## Changes
+Report: evidence/clientcore/UNREAL-CHAT-CHANNELS-001-INDEPENDENT-20261018.md
+Artifacts: evidence/clientcore/unreal-chat-channels-independent-20261018/
 
-New: `Public/Real33DChatViews.h` (Slate-free `Real33D::ChatViewSet`),
-`Public/Real33DChannelsPanel.h` + `Private/Real33DChannelsPanel.cpp`,
-`tests/real33d_chat_views_tests.cpp`.
+PASS: 58 live assertion evaluations, 15 completed stages, actual list four rows;
+server-confirmed Join on channels4/6; Leave button and tab-close both stop server
+delivery (peer counter and transcripts checked after distinct later messages);
+Game/RL/Local transcript isolation; channel send4/receive4 on B and receive2 on A;
+private send1/receive1 each direction; seven actual PanelRegistry panels tested.
+Five criterion screenshots visually reviewed. Nine snapshots all protocol0.
+B EndPlay69frames/89commands; A final driver31frames/42commands, protocol0.
+Existing minimap QA drove seven legitimate walks, all accepted, journal retained.
 
-Changed: `Real33DBridge.h/.cpp` (four channel event kinds, four channel
-commands and two addressed talk forms as intents, per-surface transcripts
-keyed by view id, twelve counters), `Real33DChatPanel.h/.cpp` (a real tab
-strip), `Real33DPanelRegistry.h/.cpp` (the `Channels` id),
-`Real33DWorldActor.cpp` (the twelve counters in the evidence snapshot),
-`Real33DPresentationTests.cpp` (two new suites, registry suite extended),
-`Real33DHUD.h/.cpp` (**15 lines total**: one `AddPanel` call, one include, one
-member), `tests/regression_harness.sh` (the new native stem),
-`PARITY_MATRIX.md`, `PROJECT_STATUS.md`.
+ClientCore13/13; native5/5 including204 runtime MultiUse types; MSVC C++17/C++20;
+Unreal build PASS after removed-source detection; Unreal automation6/6, zero
+errors/warnings; selftest10/10; corrected strict harness9PASS/0FAIL/0SKIP over38
+logs; Git Bash secret_check6/6. Raw outputs retained. Restricted initial build
+retry and network retry are documented as environment limitations, not silently
+claimed passes. verify-evidence.ps1 independently validates retained totals.
 
-## Tests and results
+## Remaining UNVERIFIED and risks
 
-| Check | Result |
-| --- | --- |
-| `clientcore-tests` | PASS 13/13, GCC via WSL `Ubuntu-26.04` |
-| `real33d-native-tests` | PASS 5/5 |
-| Unreal automation | PASS 6/6 Success, errors 0, warnings 0 |
-| `build-sanity-msvc` | PASS |
-| `unreal-module-build` | PASS |
-| harness selftest | PASS 10/10 |
-| harness overall | PASS, 9 checks, 0 FAIL, 0 SKIP |
-| `secret-check` | PASS 6/6 from Git Bash |
-
-Live: two operator-driven sessions, both with 0 unsupported opcodes, 0
-protocol anomalies and 0 residual bytes. Full account in
-`evidence/clientcore/UNREAL-CHAT-CHANNELS-001.md`.
-
-## The one real defect found, and how
-
-Session 1 ended with two joins and one logged leave. The operator confirmed
-they had closed the second tab themselves, so nothing was broken on screen —
-but the log could not say whether the close box had put
-`CL_CMD_LEAVE_CHANNEL` on the wire or dropped it, because the log line lived
-at the Channels panel's Leave button and the tab's close box reaches
-`RequestLeaveChannel` by a different route. The line was moved into the
-bridge, where both routes pass, and session 2 proved the close-box path:
-three joins, three tab-close leaves, 3 = 3. Two further blind spots were
-closed at the same time — the channel list now names every row it received,
-and the evidence snapshot carries the channel counters.
-
-## Environment facts the next agent will need
-
-- The build toolchain on this host is **VS2022 BuildTools MSVC 14.44.35207**.
-  The VS 18 Community install is missing `cl.exe` from its 14.51 toolset and
-  `vswhere.exe` and cannot build; `vcvarsall.bat x64` succeeds there but
-  leaves no compiler. Source the VS2022 `vcvars64.bat` before the harness.
-- **The harness selftest reports 10/10 only with `cl.exe` on PATH.** Without
-  it the Unreal and MSVC checks SKIP and four selftest cases fail, because
-  they assert on those checks' behaviour. Six passes in a bare shell is not a
-  regression.
-- **`--objects-srv` must not be a `\\wsl.localhost\...` UNC path** when the
-  harness runs its native tests through WSL: `to_wsl_path` passes it through
-  unchanged and `real33d_item_use_policy_tests` then fails on `file.good()`.
-  Use a local copy.
-- **A worktree's `build/clientcore-windows/protocol772core.lib` is its own.**
-  The one here was from 23 September and predated channels, minimap and
-  look-at-point; the first Unreal link failed with ten unresolved symbols.
-  Run `tests\build_clientcore_windows.cmd` after any ClientCore-facing change.
-- The game service would not start: a stale `game.pid` for dead PID 21676 sat
-  in `state/save/`. Preserved as `game.pid.stale-channels-20261018T005027Z`
-  following the convention already in that directory, not deleted.
-
-## Preserved work
-
-`git stash` entry `preserve unrelated unreal-slice evidence edits
-(pre-CHANNELS-001)` holds four `evidence/clientcore/unreal-slice/` files
-modified on `milestone/real33d-agent-veteran-play-002` before this task began.
-It was not dropped and does not belong to this milestone. The untracked
-`agent/`, `evidence/agent/`, `evidence/clientcore/unreal-action-bars/` and
-`tools/` trees belong to that branch and were not staged.
-
-## Remaining UNVERIFIED
-
-- **Own private channels.** `CL_CMD_OPEN_CHANNEL`, invite and exclude have no
-  ClientCore builder, so the offer row Fusion32 sends is shown and refused.
-- **Channel 3 and the request queue.** `SV_CMD_OPEN_REQUEST_QUEUE` (174),
-  `DELETE_REQUEST` (175), `FINISH_REQUEST` (176) and `CLOSE_REQUEST` (177)
-  remain undecoded; joining 3 is refused client-side.
-- **A guild channel (0) has never been observed live** — neither test
-  character has a guild, so the "name comes from the server" rule is proven by
-  source and by unit test, not by a live guild row.
-- **`SV_CMD_CLOSE_CHANNEL` (179) has never been observed live.** The decoder
-  and the view removal are unit-tested, but no live run has seen Fusion32
-  close a channel on its own; that needs a moderator excluding a player.
-- **Anonymous and gamemaster channel modes** (10, 12, 14) are decoded but
-  unreachable with an ordinary character.
-- Tab-strip overflow with many channels open is unstyled; three tabs fit, and
-  nothing caps or scrolls the strip beyond that.
+Own-channel create/invite/exclude, guild0, GM/anonymous modes, request queue
+174-177/channel3 are explicitly out of this certification gate per user.
+Server-forced close179, repeated Trade cooldown, many-tab overflow and classic
+color/lifetime parity remain UNVERIFIED. Peer UI is a real production widget
+fixture, not a second rendered world. Native mouse hit testing and full world/
+art/gameplay coverage are not claimed. This run used ordinary placeholder art.
+No blocking defect within requested scope. No main merge or cert push performed.
 
 ## Exact next task
 
-Either certify this milestone independently from a fresh worktree, or take the
-request queue (174-177) in ClientCore so channel 3 stops being refused. The
-files for the latter are `clientcore/include/fusion32/protocol772/channels.h`,
-`clientcore/src/channels.cpp` and `reference/game/src/sending.cc`
-(`SendOpenRequestQueue`, `SendExistingRequests`).
+No further implementation work required for this bounded milestone. Preserve
+this certification branch. If the user authorizes integration, fetch first and
+verify current origin/main ->239f89f->this certification HEAD is linear, then
+follow that explicit integration instruction. Do not merge main on this task.
+To inspect evidence: run powershell.exe -NoProfile -ExecutionPolicy Bypass -File
+evidence/clientcore/unreal-chat-channels-independent-20261018/verify-evidence.ps1.
+Full rerun commands and driver installation/removal are in the report.

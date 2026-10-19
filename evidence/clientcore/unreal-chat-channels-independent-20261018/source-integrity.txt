@@ -1,0 +1,6 @@
+Candidate=239f89f07430ecd4d4348d69f183a9935e4bd992
+Production diff (clientcore unreal tests scripts)=empty, exit0
+Untracked production files=0
+Temporary driver exists only in evidence
+Final build log: removed-source makefile invalidation; no diagnostic in source list
+Remote recheck 2026-10-19: main=ca3121c42e8db7902bd155572bcb42c3c852bb8f; milestone/unreal-chat-channels-001=239f89f07430ecd4d4348d69f183a9935e4bd992

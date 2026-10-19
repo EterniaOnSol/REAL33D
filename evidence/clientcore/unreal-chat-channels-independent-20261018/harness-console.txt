@@ -1,0 +1,12 @@
+provenance             PASS  branch certification/unreal-chat-channels-001-20261018 at 239f89f0, 1 ahead / 0 behind origin/main, 4 uncommitted path(s)
+branch-isolation       PASS  on certification/unreal-chat-channels-001-20261018, not on main
+clientcore-tests       PASS  13 CTest suite(s) passed via wsl
+real33d-native-tests   PASS  5 passed, 0 failed via wsl
+secret-check           PASS  6 sub-check(s) ok
+build-sanity-msvc      PASS  C++17 suites and the C++20 archive Unreal links both built
+unreal-module-build    PASS  REAL33DEditor Win64 Development built
+protocol-log-check     PASS  38 log(s) scanned, no unsupported opcodes or residual bytes
+output-secret-scan     PASS  logs carry no key material (pattern self-tested)
+
+OVERALL                PASS
+report: build/certification/harness/REGRESSION-HARNESS-20261019T214118Z.md

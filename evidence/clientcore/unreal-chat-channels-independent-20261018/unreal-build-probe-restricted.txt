@@ -1,0 +1,2 @@
+Using bundled DotNet SDK version: 10.0 win-x64
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" REAL33DEditor Win64 Development -Project="C:\Users\dell\Desktop\fusion32\build\cert-chat-channels-20261018\unreal\REAL33D\REAL33D.uproject" -WaitMutex -NoUBA -MaxParallelActions=1
