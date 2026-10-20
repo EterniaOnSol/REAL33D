@@ -608,7 +608,7 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 		Creature->SetHealthPercent(Event.HealthPercent);
 		Creature->Configure(Event.CreatureId, Event.bIsLocalPlayer, Event.CreatureName,
 			Registry);
-		Creature->ApplyOutfit(Event.OutfitId, Event.bDisguisedAsObject, Registry);
+		Creature->ApplyOutfit(Event.Outfit, Registry);
 		Creature->SetCombatFeedback(
 			Combat.TargetCreatureId == Event.CreatureId && !Combat.bFollowing,
 			Combat.TargetCreatureId == Event.CreatureId && Combat.bFollowing);
@@ -646,8 +646,11 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 
 	case EReal33DEventKind::CreatureAppearance:
 	{
+		// The authoritative appearance, for any creature including this
+		// player's own. This is where a submitted outfit becomes visible, when
+		// Fusion32 chooses to broadcast it at all.
 		if (auto* Found = Creatures.Find(Event.CreatureId); Found && Found->Get())
-			(*Found)->ApplyOutfit(Event.OutfitId, Event.bDisguisedAsObject, Registry);
+			(*Found)->ApplyOutfit(Event.Outfit, Registry);
 		break;
 	}
 
@@ -1358,6 +1361,17 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		TEXT("    \"trade_inspects_requested\": %d,\n")
 		TEXT("    \"trade_accepts_requested\": %d,\n")
 		TEXT("    \"trade_rejects_requested\": %d,\n")
+		// Outfit. `requested` and `received` are not expected to match: one
+		// chooser arrives unprompted on a first login, and a request from a
+		// character holding GAMEMASTER_OUTFIT is answered with a message and
+		// no chooser at all. `submitted` counts commands that reached the
+		// wire and never outfits that were applied -- CSetOutfit acknowledges
+		// nothing, so no counter here can mean "it worked".
+		TEXT("    \"outfit_dialogs_requested\": %d,\n")
+		TEXT("    \"outfit_dialogs_received\": %d,\n")
+		TEXT("    \"outfits_submitted\": %d,\n")
+		TEXT("    \"outfit_selections_refused\": %d,\n")
+		TEXT("    \"outfit_appearance_updates\": %d,\n")
 		TEXT("    \"worldstate_tiles\": %d,\n")
 		TEXT("    \"worldstate_visible_creatures\": %d,\n")
 		TEXT("    \"viewport_synchronised\": %s\n")
@@ -1436,6 +1450,11 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		Stats.TradeInspectsRequested,
 		Stats.TradeAcceptsRequested,
 		Stats.TradeRejectsRequested,
+		Stats.OutfitDialogsRequested,
+		Stats.OutfitDialogsReceived,
+		Stats.OutfitsSubmitted,
+		Stats.OutfitSelectionsRefused,
+		Stats.OutfitAppearanceUpdates,
 		Stats.Tiles,
 		Stats.VisibleCreatures, Stats.bViewportSynchronised ? TEXT("true") : TEXT("false"),
 		CameraPitch, CameraYaw, CameraDistance, DrawnCameraDistance, bCameraObstructed ? TEXT("true") : TEXT("false"), CameraCutaways, bHideUpperFloors ? TEXT("true") : TEXT("false"),

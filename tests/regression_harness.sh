@@ -163,6 +163,33 @@ UNREAL_SUCCESS_MARKER='Result: Succeeded'
 
 log_has() { grep -qF -- "$2" "$1" 2>/dev/null; }
 
+# The first python on PATH that actually runs, or empty.
+#
+# Probed by running it, never by `command -v` alone. On Windows `python3` is an
+# App Execution Alias that EXISTS on PATH, prints "Python was not found" and
+# exits 49, so a name test selects an interpreter that cannot execute anything
+# -- which is the same class of silent false result as the three Windows
+# hazards documented above, and it turned a passing check into a FAIL on a host
+# that had a working `python` all along.
+#
+# Resolved once and memoised, because each probe spawns a process.
+_WORKING_PYTHON=""
+_WORKING_PYTHON_RESOLVED=0
+working_python() {
+  if [ "$_WORKING_PYTHON_RESOLVED" -eq 0 ]; then
+    _WORKING_PYTHON_RESOLVED=1
+    local c
+    for c in "${PYTHON:-}" python3 python py; do
+      [ -n "$c" ] || continue
+      command -v "$c" >/dev/null 2>&1 || continue
+      "$c" -c "import sys" >/dev/null 2>&1 || continue
+      _WORKING_PYTHON="$c"
+      break
+    done
+  fi
+  printf '%s' "$_WORKING_PYTHON"
+}
+
 # Resolved once, and printed in the report, so a reader of a PASS knows which
 # compiler produced it.
 TOOLCHAIN="none"; TOOLCHAIN_NOTE="no C++ compiler and no usable WSL distro found"
@@ -320,7 +347,11 @@ run_one_wsl() { # stem
 if [ "$TOOLCHAIN" = "none" ]; then
   record real33d-native-tests SKIP "$TOOLCHAIN_NOTE" real33d-native-tests
 else
-  for stem in real33d_mouse_input_tests real33d_minimap_view_tests real33d_item_use_policy_tests real33d_stackable_sprite_tests real33d_chat_views_tests; do
+  # Named explicitly rather than globbed, so a suite that is deleted or
+  # renamed fails this check instead of quietly dropping out of it. The cost is
+  # that a new suite must be added here; that is the correction this milestone
+  # made when real33d_outfit_selection_tests appeared.
+  for stem in real33d_mouse_input_tests real33d_minimap_view_tests real33d_item_use_policy_tests real33d_stackable_sprite_tests real33d_chat_views_tests real33d_outfit_selection_tests; do
     if [ ! -f "$REPO/tests/$stem.cpp" ]; then
       printf '=== %s === SOURCE MISSING\n' "$stem" >>"$r33_log"
       r33_fail=$((r33_fail + 1)); continue
@@ -335,6 +366,42 @@ else
     record real33d-native-tests PASS "$note" real33d-native-tests
   else
     record real33d-native-tests FAIL "$note" real33d-native-tests
+  fi
+fi
+
+# -------------------------------------------- check: outfit colour mapping ---
+# The one claim in this client that rests on the classic 7.72 client rather
+# than on Fusion32: which body part each of the four outfit colour bytes tints.
+# The server cannot answer it -- cr.hh declares `uint8 Colors[4]` and names
+# nothing -- so the proof is a static walk of the local Tibia.exe, and it is
+# re-run here rather than trusted once.
+#
+# SKIP, never PASS, when the client artifact is absent: it is deliberately
+# ignored by Git and is not present on a clean checkout, so a CI host has
+# nothing to check and must not pretend otherwise.
+ocm_log="$(logfile outfit-color-mapping)"
+ocm_script="$REPO/tests/verify_outfit_color_mapping.py"
+ocm_image="$REPO/build/classic-client-772/app/Tibia.exe"
+if [ ! -f "$ocm_script" ]; then
+  record outfit-color-mapping SKIP "tests/verify_outfit_color_mapping.py not present"
+elif [ ! -f "$ocm_image" ]; then
+  record outfit-color-mapping SKIP \
+    "build/classic-client-772/app/Tibia.exe not present; the client artifact is ignored by Git"
+elif [ -z "$(working_python)" ]; then
+  record outfit-color-mapping SKIP "no working python interpreter on PATH"
+else
+  "$(working_python)" "$ocm_script" "$ocm_image" >"$ocm_log" 2>&1
+  rc=$?
+  if [ "$rc" -eq 0 ] && log_has "$ocm_log" "COLOUR SLOT MAPPING: VERIFIED"; then
+    record outfit-color-mapping PASS \
+      "$(grep -c '^  PASS  ' "$ocm_log") byte assertion(s) hold; Colors[0..3] = Head, Body, Legs, Feet" \
+      outfit-color-mapping
+  elif [ "$rc" -eq 2 ]; then
+    record outfit-color-mapping FAIL \
+      "the client image does not match the hash these offsets were derived from" outfit-color-mapping
+  else
+    record outfit-color-mapping FAIL \
+      "verify_outfit_color_mapping.py exited $rc; the slot names are not established" outfit-color-mapping
   fi
 fi
 

@@ -169,6 +169,30 @@ private:
 	/** Arms the trade half of the same pick-then-aim gesture. */
 	void BeginTradeTarget(const UReal33DBridge::FMoveSlot& Source, uint16 TypeId, uint8 StackIndex);
 
+public:
+	/**
+	 * The right-click menu for the player's own character.
+	 *
+	 * THE GESTURE THE CLASSIC CLIENT ITSELF DOCUMENTS. Its help text, at
+	 * `0x00565734` in the image `docs/CLASSIC_CLIENT_772.md` records, reads
+	 * *"To change your outfit, right-click on your character and select 'Set
+	 * outfit' from the context menu."* So the entry point is not a guess and
+	 * not a button invented for this client; the wording of the entry below is
+	 * the client's own.
+	 *
+	 * Right-clicking your own character did nothing before this:
+	 * `InteractUnderCursor` returns early for the local player, because
+	 * attacking yourself is not a thing Fusion32 offers. That no-op is what
+	 * this fills.
+	 *
+	 * Opening the menu sends nothing, and choosing the entry sends only
+	 * CL_CMD_GET_OUTFIT. The chooser appears if, and only if, Fusion32 answers
+	 * with SV_CMD_OUTFIT.
+	 */
+	void ShowSelfContextMenu();
+
+private:
+
 	/**
 	 * The lowest open-container number the server is not already using.
 	 *
@@ -225,6 +249,8 @@ private:
 	TSharedPtr<class SReal33DEditorWindow> TextEditor;
 	/** The player-to-player trade window. Centred modal, registry-managed. */
 	TSharedPtr<class SReal33DTradePanel> Trade;
+	/** The outfit chooser. Centred modal, registry-managed, server-opened. */
+	TSharedPtr<class SReal33DOutfitPanel> Outfit;
 	TSharedPtr<SReal33DConditionStrip> Conditions;
 	TSharedPtr<SReal33DMinimapPanel> Minimap;
 	TSharedPtr<SReal33DControlPanel> Controls;

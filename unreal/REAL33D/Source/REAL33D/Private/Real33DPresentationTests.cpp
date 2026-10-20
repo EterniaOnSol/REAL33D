@@ -3,6 +3,7 @@
 #include "Real33DChatPanel.h"
 #include "Real33DChatViews.h"
 #include "Real33DEditorWindow.h"
+#include "Real33DOutfitPanel.h"
 #include "Real33DPanelRegistry.h"
 #include "Real33DSkillsPanel.h"
 #include "Real33DTradePanel.h"
@@ -657,6 +658,152 @@ bool FReal33DTradePanelTest::RunTest(const FString& Parameters)
 		Hint.Contains(TEXT("right-click")));
 	TestTrue(TEXT("and names the entry that starts a trade"),
 		Hint.Contains(TEXT("Trade with")));
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FReal33DOutfitPanelTest,
+	"REAL33D.Presentation.OutfitPanel",
+	EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FReal33DOutfitPanelTest::RunTest(const FString& Parameters)
+{
+	(void)Parameters;
+	using Real33D::OutfitDraft;
+	using Real33D::OutfitSlot;
+
+	// Nothing is on screen and nothing is submittable before the server has
+	// offered a chooser. This is the state the window is BUILT in, because the
+	// band depends on facts the game protocol never carries.
+	const FReal33DOutfitDialog Closed;
+	const OutfitDraft Fresh;
+	TestTrue(TEXT("a closed chooser has no range text"),
+		SReal33DOutfitPanel::RangeText(Closed).IsEmpty());
+	TestTrue(TEXT("a closed chooser has no status"),
+		SReal33DOutfitPanel::StatusText(Closed, Fresh).IsEmpty());
+	TestFalse(TEXT("a closed chooser cannot submit"),
+		SReal33DOutfitPanel::CanSubmit(Closed, Fresh));
+	TestTrue(TEXT("the heading is the classic client's own title"),
+		SReal33DOutfitPanel::Title().ToString() == TEXT("Select Outfit"));
+
+	// An ordinary male non-premium chooser: SendOutfit's 128..131.
+	FReal33DOutfitDialog Dialog;
+	Dialog.bOpen = true;
+	Dialog.First = 128;
+	Dialog.Last = 131;
+	Dialog.Current.OutfitId = 129;
+	Dialog.Current.Colors[0] = 78;
+	Dialog.Current.Colors[1] = 69;
+	Dialog.Current.Colors[2] = 58;
+	Dialog.Current.Colors[3] = 76;
+	TestEqual(TEXT("the band's count is the server's"), Dialog.Count(), 4);
+
+	OutfitDraft Draft;
+	Draft.Open(Dialog.First, Dialog.Last, Dialog.Current.OutfitId, Dialog.Current.Colors);
+	TestTrue(TEXT("an open chooser over a real band can submit"),
+		SReal33DOutfitPanel::CanSubmit(Dialog, Draft));
+
+	// The range is stated in the server's own ids, because that is what the
+	// evidence for a live run has to match against SV_CMD_OUTFIT.
+	const FString Range = SReal33DOutfitPanel::RangeText(Dialog).ToString();
+	TestTrue(TEXT("the range names the first id"), Range.Contains(TEXT("128")));
+	TestTrue(TEXT("the range names the last id"), Range.Contains(TEXT("131")));
+	TestTrue(TEXT("the range credits Fusion32 for it"), Range.Contains(TEXT("Fusion32")));
+
+	const FString Outfit = SReal33DOutfitPanel::OutfitText(Draft).ToString();
+	TestTrue(TEXT("the selection names the chosen id"), Outfit.Contains(TEXT("129")));
+	TestTrue(TEXT("and its position within the band"), Outfit.Contains(TEXT("2 of 4")));
+
+	// The four slot names are the proven ones, and each row shows its own byte.
+	TestEqual(TEXT("slot 0 is Head with its own colour"),
+		SReal33DOutfitPanel::SlotText(Draft, OutfitSlot::Head).ToString(),
+		FString(TEXT("Head  78")));
+	TestEqual(TEXT("slot 1 is Body with its own colour"),
+		SReal33DOutfitPanel::SlotText(Draft, OutfitSlot::Body).ToString(),
+		FString(TEXT("Body  69")));
+	TestEqual(TEXT("slot 2 is Legs with its own colour"),
+		SReal33DOutfitPanel::SlotText(Draft, OutfitSlot::Legs).ToString(),
+		FString(TEXT("Legs  58")));
+	TestEqual(TEXT("slot 3 is Feet with its own colour"),
+		SReal33DOutfitPanel::SlotText(Draft, OutfitSlot::Feet).ToString(),
+		FString(TEXT("Feet  76")));
+
+	// The status may report the bound and what will not happen, and may never
+	// report success: there is no success signal on this wire to report.
+	const FString Status = SReal33DOutfitPanel::StatusText(Dialog, Draft).ToString();
+	TestTrue(TEXT("the status names the colour bound"), Status.Contains(TEXT("132")));
+	TestTrue(TEXT("the status says the server does not acknowledge"),
+		Status.Contains(TEXT("does not acknowledge")));
+	TestFalse(TEXT("the status never claims the outfit was applied"),
+		Status.Contains(TEXT("applied")) || Status.Contains(TEXT("saved"))
+			|| Status.Contains(TEXT("success")));
+
+	// Stepping cannot leave the band, so Submit stays available throughout.
+	for (int32 Step = 0; Step < 12; ++Step)
+	{
+		Draft.StepOutfit(1);
+		TestTrue(TEXT("stepping stays inside the server's band"),
+			Dialog.Contains(Draft.OutfitId()));
+		TestTrue(TEXT("and submit stays available"),
+			SReal33DOutfitPanel::CanSubmit(Dialog, Draft));
+	}
+
+	// A selection outside the band is refused by the gate even if a draft
+	// somehow held one -- which is what a newer, narrower SV_CMD_OUTFIT does.
+	FReal33DOutfitDialog Narrowed = Dialog;
+	Narrowed.First = 130;
+	Narrowed.Last = 130;
+	OutfitDraft Wide;
+	Wide.Open(128, 131, 128, Dialog.Current.Colors);
+	TestFalse(TEXT("a narrowed band refuses a selection it no longer names"),
+		SReal33DOutfitPanel::CanSubmit(Narrowed, Wide));
+	TestTrue(TEXT("and the status says so"),
+		SReal33DOutfitPanel::StatusText(Narrowed, Wide).ToString()
+			.Contains(TEXT("outside")));
+
+	// An empty band cannot happen against a healthy server, so it is reported
+	// rather than repaired, and nothing may be sent under it.
+	FReal33DOutfitDialog Inverted;
+	Inverted.bOpen = true;
+	Inverted.First = 139;
+	Inverted.Last = 136;
+	OutfitDraft NoBand;
+	NoBand.Open(Inverted.First, Inverted.Last, 137, Dialog.Current.Colors);
+	TestEqual(TEXT("an inverted band names no outfit"), Inverted.Count(), 0);
+	TestFalse(TEXT("and cannot submit"),
+		SReal33DOutfitPanel::CanSubmit(Inverted, NoBand));
+	TestTrue(TEXT("the range reports it granted nothing"),
+		SReal33DOutfitPanel::RangeText(Inverted).ToString().Contains(TEXT("no selectable")));
+	TestTrue(TEXT("the status reports it granted nothing"),
+		SReal33DOutfitPanel::StatusText(Inverted, NoBand).ToString()
+			.Contains(TEXT("empty range")));
+	TestTrue(TEXT("the inverted band is reported as sent, not reordered"),
+		SReal33DOutfitPanel::RangeText(Inverted).ToString().Contains(TEXT("139..136")));
+
+	// A disguise is explained rather than silently rewritten into an outfit.
+	// CL_CMD_SET_OUTFIT is seven fixed bytes and cannot carry an object type.
+	TestTrue(TEXT("an ordinary outfit has no disguise note"),
+		SReal33DOutfitPanel::DisguiseNote(Dialog).IsEmpty());
+	FReal33DOutfitDialog Disguised = Dialog;
+	Disguised.Current.bDisguisedAsObject = true;
+	Disguised.Current.ObjectType = 2969;
+	Disguised.Current.OutfitId = 0;
+	const FString Note = SReal33DOutfitPanel::DisguiseNote(Disguised).ToString();
+	TestTrue(TEXT("a disguise names the object type the server sent"),
+		Note.Contains(TEXT("2969")));
+	TestTrue(TEXT("and says it cannot be submitted"),
+		Note.Contains(TEXT("cannot be submitted")));
+
+	// The chooser is registered like every other surface, so visibility keeps
+	// one owner -- but it is not a control-strip panel and nothing local may
+	// open it.
+	FReal33DPanelRegistry Registry;
+	const TSharedRef<SWidget> Window = SNew(SBox);
+	TestTrue(TEXT("the chooser registers under its own id"),
+		Registry.Register(Real33D::PanelIds::Outfit, Window));
+	TestFalse(TEXT("and cannot be registered twice"),
+		Registry.Register(Real33D::PanelIds::Outfit, Window));
+	TestTrue(TEXT("the id is distinct from the other two modals"),
+		Real33D::PanelIds::Outfit != Real33D::PanelIds::Trade
+			&& Real33D::PanelIds::Outfit != Real33D::PanelIds::TextEditor);
 	return true;
 }
 #endif

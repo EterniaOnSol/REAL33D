@@ -25,6 +25,7 @@ THIRD_PARTY_INCLUDES_START
 #include "fusion32/protocol772/login.h"
 #include "fusion32/protocol772/movement.h"
 #include "fusion32/protocol772/movement_ledger.h"
+#include "fusion32/protocol772/outfit.h"
 #include "fusion32/protocol772/talk_command.h"
 #include "fusion32/protocol772/trade.h"
 #include "fusion32/protocol772/talk_speaker.h"
@@ -79,6 +80,19 @@ static_assert(FReal33DInventory::LastSlot == p772::kInventoryLastSlot,
 static_assert(FReal33DInventory::SlotCount > p772::kInventoryLastSlot,
 	"inventory array too small for INVENTORY_LAST");
 
+// The outfit colour array must be exactly as wide as the one on the wire, and
+// the client-side bound must be the server's own. Both are restated above this
+// boundary for layers that cannot include ClientCore, and both are pinned here,
+// in the one file that can see each pair at once. A narrower array would drop a
+// colour; a looser bound would let this client send a selection CSetOutfit
+// silently discards.
+static_assert(FReal33DOutfit::ColorCount == int32(p772::kOutfitColorCount),
+	"outfit colour count drift");
+static_assert(Real33D::kOutfitSlotCount == int(p772::kOutfitColorCount),
+	"outfit slot count drift");
+static_assert(Real33D::kMaxOutfitColor == p772::kMaxOutfitColor,
+	"outfit colour bound drift");
+
 /** One object, copied field by field across the boundary rather than memcpy'd. */
 static FReal33DItem ToUnrealItem(const p772::ItemThing& From)
 {
@@ -88,6 +102,43 @@ static FReal33DItem ToUnrealItem(const p772::ItemThing& From)
 	To.Amount = From.amount;
 	To.bHasLiquidColour = From.has_liquid_color;
 	To.LiquidColour = From.liquid_color;
+	return To;
+}
+
+/**
+ * One creature's whole appearance, across the boundary.
+ *
+ * THE ONLY PLACE AN OutfitDescriptor IS CONVERTED, and the reason it exists is
+ * that there used to be two and both were incomplete: each copied the id and
+ * the disguise flag and dropped the four colours and the object type. One
+ * function means a field added to `OutfitDescriptor` is either carried or
+ * caught by the compiler, instead of being forgotten in whichever site the
+ * next reader does not look at.
+ *
+ * The two branches are exclusive on the wire -- `cr.hh::TOutfit` is a union and
+ * `SendOutfit` writes the id and then *either* an object type *or* the colours
+ * -- so each is copied only under its own flag and the other is left at zero
+ * rather than filled with something plausible.
+ */
+static FReal33DOutfit ToUnrealOutfit(const p772::OutfitDescriptor& From)
+{
+	FReal33DOutfit To;
+	To.OutfitId = From.outfit_id;
+	To.bDisguisedAsObject = From.disguised_as_object;
+	if (From.disguised_as_object)
+	{
+		// OutfitID == 0, so the server sent an object type where the colours
+		// would be. Dropping it left a disguised creature with no appearance
+		// at all: id zero, no type, and four colours it never had.
+		To.ObjectType = From.object_type;
+	}
+	else
+	{
+		for (int32 Index = 0; Index < FReal33DOutfit::ColorCount; ++Index)
+		{
+			To.Colors[Index] = From.colors[Index];
+		}
+	}
 	return To;
 }
 
@@ -160,6 +211,15 @@ struct FReal33DChatTranscript
 	FReal33DTrade Trade;
 	uint64 TradeRevision = 0;
 
+	/**
+	 * The one outfit chooser Fusion32 has offered, if any.
+	 *
+	 * One, and replaced wholesale by a newer SV_CMD_OUTFIT: the server treats
+	 * it as a single window and a second request answers into the same one.
+	 */
+	FReal33DOutfitDialog OutfitDialog;
+	uint64 OutfitDialogRevision = 0;
+
 	FReal33DChatTranscript()
 	{
 		// Local Chat exists before the first connection, because a failure
@@ -203,6 +263,11 @@ struct FReal33DChatTranscript
 		// creature id means nothing in a new session.
 		Trade = FReal33DTrade();
 		++TradeRevision;
+		// A chooser belongs to the connection that offered it. The band was
+		// computed from that character's sex and premium right, so showing it
+		// to a new session could offer outfits this character may not have.
+		OutfitDialog = FReal33DOutfitDialog();
+		++OutfitDialogRevision;
 		++Revision;
 	}
 };
@@ -506,6 +571,32 @@ public:
 		TradeIntents.Enqueue(Intent);
 	}
 
+	/**
+	 * Something the player asked of the outfit chooser.
+	 *
+	 * `Band` travels with a Set rather than being looked up when it is sent,
+	 * because it is the band of the SV_CMD_OUTFIT the player was answering.
+	 * Re-deriving it on the worker could validate a selection against a band
+	 * from a chooser the player never saw -- a second SV_CMD_OUTFIT can arrive
+	 * between the click and the drain -- which would let a selection through
+	 * that the server then drops in silence.
+	 */
+	struct FOutfitIntent
+	{
+		enum class EKind : uint8 { Get, Set };
+		uint32 ActionId = 0;
+		EKind Kind = EKind::Get;
+		/** Set only. */
+		uint16 OutfitId = 0;
+		std::uint8_t Colors[p772::kOutfitColorCount] = {};
+		p772::OutfitSelectionRange Band;
+	};
+
+	void PostOutfit(const FOutfitIntent& Intent)
+	{
+		OutfitIntents.Enqueue(Intent);
+	}
+
 	bool Dequeue(FReal33DEvent& OutEvent) { return Events.Dequeue(OutEvent); }
 
 	FReal33DStats Snapshot() const
@@ -755,13 +846,21 @@ private:
 			if (Decoded.update.kind == p772::ServerUpdateKind::CreatureAttribute
 				&& Decoded.update.creature_attribute.attribute == p772::CreatureAttribute::Outfit)
 			{
+				// The authoritative appearance, for any creature including this
+				// player. This is the only confirmation a submitted outfit ever
+				// gets, and it is conditional: CSetOutfit broadcasts only when
+				// the player is wearing their own outfit, so its absence proves
+				// nothing and the chooser never waits for it.
 				const auto& Source = Decoded.update.creature_attribute;
 				FReal33DEvent Appearance;
 				Appearance.Kind = EReal33DEventKind::CreatureAppearance;
 				Appearance.CreatureId = Source.creature_id;
-				Appearance.OutfitId = Source.outfit.outfit_id;
-				Appearance.bDisguisedAsObject = Source.outfit.disguised_as_object;
+				Appearance.Outfit = ToUnrealOutfit(Source.outfit);
+				Appearance.Direction = kNoDirection;
 				Publish(MoveTemp(Appearance));
+
+				FScopeLock Lock(&StatsMutex);
+				++Stats.OutfitAppearanceUpdates;
 			}
 
 			if (Decoded.update.kind == p772::ServerUpdateKind::Talk)
@@ -1004,6 +1103,48 @@ private:
 				}
 			}
 
+			if (Decoded.update.kind == p772::ServerUpdateKind::OutfitDialog)
+			{
+				// Decoded by ClientCore and stored nowhere by WorldState, like
+				// the trade: the chooser is a question the server asked, not a
+				// fact about the world. It lives on the game thread with the
+				// other surfaces.
+				const p772::OutfitDialogUpdate& Dialog = Decoded.update.outfit_dialog;
+				const p772::OutfitSelectionRange Range =
+					p772::DialogSelectionRange(Dialog);
+
+				FReal33DEvent Event;
+				Event.Kind = EReal33DEventKind::OutfitDialogOpened;
+				Event.Direction = kNoDirection;
+				Event.OutfitDialog.bOpen = true;
+				Event.OutfitDialog.Current = ToUnrealOutfit(Dialog.current);
+				// The server's band, verbatim. Never recomputed here: the game
+				// protocol does not carry this player's sex or premium right,
+				// so the only honest source is the two words that arrived.
+				Event.OutfitDialog.First = Range.first;
+				Event.OutfitDialog.Last = Range.last;
+				Publish(MoveTemp(Event));
+
+				UE_LOG(LogReal33D, Log,
+					TEXT("outfit chooser offered: current=%u%s band=%u..%u (%d outfit(s))"),
+					Dialog.current.outfit_id,
+					Dialog.current.disguised_as_object
+						? TEXT(" [disguised as an object]") : TEXT(""),
+					Range.first, Range.last, int32(Range.count()));
+				if (Range.count() == 0)
+				{
+					// Cannot happen against a healthy server -- SendOutfit
+					// computes both words from one expression -- so it is
+					// reported rather than repaired.
+					UE_LOG(LogReal33D, Warning,
+						TEXT("outfit band %u..%u names no outfit; nothing is selectable"),
+						Range.first, Range.last);
+				}
+
+				FScopeLock Lock(&StatsMutex);
+				++Stats.OutfitDialogsReceived;
+			}
+
 			if (Decoded.update.kind == p772::ServerUpdateKind::Snapback)
 			{
 				// Fusion32 refused a step. The ledger says which one, so the
@@ -1167,8 +1308,7 @@ private:
 				if (Known != State.known_creatures.end())
 				{
 					Out.HealthPercent = Known->second.health_percent;
-					Out.OutfitId = Known->second.outfit.outfit_id;
-					Out.bDisguisedAsObject = Known->second.outfit.disguised_as_object;
+					Out.Outfit = ToUnrealOutfit(Known->second.outfit);
 				}
 			}
 			switch (Event.kind)
@@ -1329,6 +1469,7 @@ private:
 		DrainChannels();
 		DrainEdits();
 		DrainTrades();
+		DrainOutfits();
 
 		// A reply that never comes must not be allowed to claim a later move.
 		// Three seconds is far longer than a local round trip; the server's own
@@ -1782,6 +1923,85 @@ private:
 		}
 	}
 
+	void DrainOutfits()
+	{
+		FOutfitIntent Intent;
+		while (OutfitIntents.Dequeue(Intent))
+		{
+			std::vector<std::uint8_t> Command;
+			if (Intent.Kind == FOutfitIntent::EKind::Get)
+			{
+				Command = p772::BuildGetOutfitCommand();
+			}
+			else
+			{
+				// The one place this client refuses a command the server would
+				// take, and the one place it is right to. CSetOutfit answers a
+				// selection it drops with silence -- no error, no second
+				// SV_CMD_OUTFIT, nothing -- so a refused command on the wire
+				// would be indistinguishable here from an accepted one. The
+				// tests are ClientCore's, in CSetOutfit's own order, against
+				// the band the player was actually answering.
+				const p772::OutfitColors Colors{ { Intent.Colors[0], Intent.Colors[1],
+					Intent.Colors[2], Intent.Colors[3] } };
+				const p772::OutfitSelectionError Refusal =
+					p772::ValidateOutfitSelection(Intent.Band, Intent.OutfitId, Colors);
+				if (Refusal != p772::OutfitSelectionError::None)
+				{
+					// The player caused it and can fix it, and the server never
+					// saw it, so it is a notice and not a server message.
+					FReal33DEvent Notice;
+					Notice.Kind = EReal33DEventKind::ClientNotice;
+					Notice.Direction = kNoDirection;
+					Notice.Detail = FString::Printf(
+						TEXT("Outfit %u was not sent: %s. Fusion32 allows %u..%u, "
+							 "and each colour up to %u."),
+						Intent.OutfitId,
+						UTF8_TO_TCHAR(p772::OutfitSelectionErrorName(Refusal)),
+						Intent.Band.first, Intent.Band.last,
+						uint32(p772::kMaxOutfitColor));
+					Publish(MoveTemp(Notice));
+
+					UE_LOG(LogReal33D, Warning,
+						TEXT("outfit selection %u refused locally: %s (band %u..%u)"),
+						Intent.ActionId,
+						UTF8_TO_TCHAR(p772::OutfitSelectionErrorName(Refusal)),
+						Intent.Band.first, Intent.Band.last);
+
+					FScopeLock Lock(&StatsMutex);
+					++Stats.OutfitSelectionsRefused;
+					continue;
+				}
+				Command = p772::BuildSetOutfitCommand(Intent.OutfitId, Colors);
+			}
+
+			if (Command.empty() || !Session.SendCommand(Command).ok())
+			{
+				UE_LOG(LogReal33D, Warning,
+					TEXT("outfit command %u was not sent"), Intent.ActionId);
+				continue;
+			}
+
+			if (Intent.Kind == FOutfitIntent::EKind::Set)
+			{
+				// Logged as sent, never as applied. Nothing will confirm it:
+				// the CREATURE_OUTFIT_CHANGED broadcast is conditional on the
+				// player already wearing their own outfit.
+				UE_LOG(LogReal33D, Log,
+					TEXT("outfit %u sent: id=%u colours=%u,%u,%u,%u (no reply is expected)"),
+					Intent.ActionId, Intent.OutfitId, Intent.Colors[0],
+					Intent.Colors[1], Intent.Colors[2], Intent.Colors[3]);
+			}
+
+			FScopeLock Lock(&StatsMutex);
+			switch (Intent.Kind)
+			{
+			case FOutfitIntent::EKind::Get: ++Stats.OutfitDialogsRequested; break;
+			case FOutfitIntent::EKind::Set: ++Stats.OutfitsSubmitted; break;
+			}
+		}
+	}
+
 	/** Looks up and forgets the key press a request came from. */
 	uint32 TakeInputFor(std::uint32_t RequestId)
 	{
@@ -1865,6 +2085,7 @@ private:
 	TQueue<FChannelIntent, EQueueMode::Spsc> ChannelIntents;
 	TQueue<FEditIntent, EQueueMode::Spsc> EditIntents;
 	TQueue<FTradeIntent, EQueueMode::Spsc> TradeIntents;
+	TQueue<FOutfitIntent, EQueueMode::Spsc> OutfitIntents;
 
 	TQueue<FReal33DEvent, EQueueMode::Spsc> Events;
 	TQueue<FIntent, EQueueMode::Spsc> Intents;
@@ -2027,6 +2248,7 @@ void UReal33DBridge::DrainEvents(TArray<FReal33DEvent>& OutEvents)
 		NoteChannel(Event);
 		NoteEditor(Event);
 		NoteTrade(Event);
+		NoteOutfit(Event);
 		NoteChat(Event);
 		NoteMinimap(Event);
 		OutEvents.Add(MoveTemp(Event));
@@ -2437,6 +2659,115 @@ uint32 UReal33DBridge::RequestTradeReject()
 	}
 	UE_LOG(LogReal33D, Log,
 		TEXT("trade reject %u sent; Fusion32 answers the partner, not us"), ActionId);
+	return ActionId;
+}
+
+void UReal33DBridge::NoteOutfit(const FReal33DEvent& Event)
+{
+	if (Transcript == nullptr)
+	{
+		return;
+	}
+	switch (Event.Kind)
+	{
+	case EReal33DEventKind::OutfitDialogOpened:
+		// Replaced wholesale. A second SV_CMD_OUTFIT is the server answering
+		// again, and the band it carries is the only one that may be obeyed
+		// from now on -- merging it with the previous one could leave an
+		// outfit selectable that the newer answer withdrew.
+		Transcript->OutfitDialog = Event.OutfitDialog;
+		++Transcript->OutfitDialogRevision;
+		break;
+
+	case EReal33DEventKind::Disconnected:
+	case EReal33DEventKind::Failed:
+		Transcript->OutfitDialog = FReal33DOutfitDialog();
+		++Transcript->OutfitDialogRevision;
+		break;
+
+	default:
+		break;
+	}
+}
+
+const FReal33DOutfitDialog& UReal33DBridge::GetOutfitDialog() const
+{
+	check(IsInGameThread());
+	static const FReal33DOutfitDialog Closed;
+	return Transcript != nullptr ? Transcript->OutfitDialog : Closed;
+}
+
+uint64 UReal33DBridge::GetOutfitDialogRevision() const
+{
+	return Transcript != nullptr ? Transcript->OutfitDialogRevision : 0;
+}
+
+bool UReal33DBridge::CloseOutfitDialog()
+{
+	check(IsInGameThread());
+	if (Transcript == nullptr || !Transcript->OutfitDialog.bOpen)
+	{
+		return false;
+	}
+	// Local only. 7.72 has no command that cancels a chooser and Fusion32 keeps
+	// no record that one was offered, so there is nothing to tell the server.
+	Transcript->OutfitDialog = FReal33DOutfitDialog();
+	++Transcript->OutfitDialogRevision;
+	return true;
+}
+
+uint32 UReal33DBridge::RequestOutfitDialog()
+{
+	if (Worker == nullptr)
+	{
+		return 0;
+	}
+	const uint32 ActionId = ++NextInputId;
+	FReal33DWorker::FOutfitIntent Intent;
+	Intent.ActionId = ActionId;
+	Intent.Kind = FReal33DWorker::FOutfitIntent::EKind::Get;
+	Worker->PostOutfit(Intent);
+	// NOTHING IS OPENED HERE. The answer may be SV_CMD_OUTFIT or it may be a
+	// refusal message for a gamemaster outfit, and only the former is a chooser.
+	UE_LOG(LogReal33D, Log,
+		TEXT("outfit chooser %u requested; Fusion32 answers with a chooser or a message"),
+		ActionId);
+	return ActionId;
+}
+
+uint32 UReal33DBridge::RequestSetOutfit(uint16 OutfitId,
+	const uint8 (&Colors)[FReal33DOutfit::ColorCount])
+{
+	check(IsInGameThread());
+	if (Worker == nullptr)
+	{
+		return 0;
+	}
+	// A selection only means something against the chooser it answers. With no
+	// chooser open there is no band, and validating against a guessed one would
+	// be the invention this whole feature is built to avoid.
+	const FReal33DOutfitDialog& Dialog = GetOutfitDialog();
+	if (!Dialog.bOpen)
+	{
+		UE_LOG(LogReal33D, Warning,
+			TEXT("outfit %u not sent: Fusion32 has not offered a chooser"), OutfitId);
+		return 0;
+	}
+
+	const uint32 ActionId = ++NextInputId;
+	FReal33DWorker::FOutfitIntent Intent;
+	Intent.ActionId = ActionId;
+	Intent.Kind = FReal33DWorker::FOutfitIntent::EKind::Set;
+	Intent.OutfitId = OutfitId;
+	for (int32 Index = 0; Index < FReal33DOutfit::ColorCount; ++Index)
+	{
+		Intent.Colors[Index] = Colors[Index];
+	}
+	// The band travels with the intent: it is the one the player was answering,
+	// not whichever one is current by the time the worker drains this.
+	Intent.Band.first = Dialog.First;
+	Intent.Band.last = Dialog.Last;
+	Worker->PostOutfit(Intent);
 	return ActionId;
 }
 

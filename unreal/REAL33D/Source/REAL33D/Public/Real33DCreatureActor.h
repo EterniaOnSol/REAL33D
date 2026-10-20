@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Real33DAssetRegistry.h"
+#include "Real33DBridge.h"
 #include "Real33DCoords.h"
 #include "Real33DCreatureActor.generated.h"
 
@@ -46,9 +47,19 @@ public:
 
 	void SetFacing(uint8 Direction);
 
-	/** Presentation selected only from the server's already decoded outfit. */
-	void ApplyOutfit(uint16 OutfitId, bool bDisguisedAsObject,
+	/**
+	 * Presentation selected only from the server's already decoded outfit.
+	 *
+	 * Takes the whole descriptor rather than an id and a flag. The four colour
+	 * bytes and a disguise's object type are part of what Fusion32 said about
+	 * this creature, and an earlier signature that named only two of the four
+	 * fields was the reason the other two were dropped at the bridge.
+	 */
+	void ApplyOutfit(const FReal33DOutfit& InOutfit,
 		const UReal33DAssetRegistry* Registry);
+
+	/** The appearance Fusion32 last described, whole. Never locally invented. */
+	const FReal33DOutfit& GetOutfit() const { return Outfit; }
 
 	/**
 	 * Shows a line of speech above this creature for a while.
@@ -104,6 +115,14 @@ private:
 	UPROPERTY()
 	TObjectPtr<UAnimSequence> CurrentClip = nullptr;
 	void PlayOutfitClip(UAnimSequence* Clip);
+
+	/**
+	 * The whole appearance the server last described.
+	 *
+	 * Not a UPROPERTY: it is a plain value with no UObject in it, and nothing
+	 * about it needs reflection or garbage collection.
+	 */
+	FReal33DOutfit Outfit;
 
 	UPROPERTY()
 	TObjectPtr<UTextRenderComponent> NameTag = nullptr;

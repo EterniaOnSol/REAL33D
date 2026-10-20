@@ -36,6 +36,15 @@ namespace PanelIds
 	 * editor, registered here for the same reason: visibility gets one owner.
 	 */
 	REAL33D_API extern const FName Trade;
+	/**
+	 * The outfit chooser. A centred modal like the two above.
+	 *
+	 * Registered so visibility keeps one owner, but unlike the side-column
+	 * panels it is never opened from the control strip: only an SV_CMD_OUTFIT
+	 * from Fusion32 may open it, because only the server knows which outfits
+	 * this character may wear.
+	 */
+	REAL33D_API extern const FName Outfit;
 }
 }
 

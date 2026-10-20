@@ -932,8 +932,17 @@ void AReal33DPlayerController::InteractUnderCursor(bool bLook)
 		UGameInstance* GameInstance = GetGameInstance();
 		UReal33DBridge* Bridge = GameInstance != nullptr
 			? GameInstance->GetSubsystem<UReal33DBridge>() : nullptr;
-		if (Bridge == nullptr || !Bridge->IsRunning() || Creature->IsLocalPlayer())
+		if (Bridge == nullptr || !Bridge->IsRunning())
 		{
+			return;
+		}
+		if (Creature->IsLocalPlayer())
+		{
+			// Your own character. There is nothing to attack, which is why this
+			// used to be a plain no-op; the classic client's own help text puts
+			// the outfit menu exactly here -- "right-click on your character
+			// and select 'Set outfit'". Opening the menu sends nothing.
+			HudRoot->ShowSelfContextMenu();
 			return;
 		}
 		const uint32 ActionId = Bridge->RequestAttack(CreatureId);

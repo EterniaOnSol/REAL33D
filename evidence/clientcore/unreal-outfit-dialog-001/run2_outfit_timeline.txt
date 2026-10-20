@@ -1,0 +1,82 @@
+# UNREAL-OUTFIT-DIALOG-001 live timeline -- run 2 -- the complete chain
+#
+# Extracted from the engine log with:
+#   grep -E "LogReal33D: (self context menu|outfit |creature [0-9]+ outfit)"
+# Timestamps are the log's own. Nothing else from that log is reproduced:
+# it carries a runtime path and the server MOTD and neither is needed here.
+
+[2026.10.20-21.11.05:418][  1]LogReal33D: creature 1002 outfit 137: delivered visual unavailable; placeholder
+[2026.10.20-21.11.05:418][  1]LogReal33D: creature 1073742106 outfit 136: delivered visual unavailable; placeholder
+[2026.10.20-21.11.43:329][683]LogReal33D: self context menu opened
+[2026.10.20-21.11.43:991][703]LogReal33D: outfit chooser 1 requested; Fusion32 answers with a chooser or a message
+[2026.10.20-21.11.43:991][703]LogReal33D: outfit chooser 1 requested from the self context menu
+[2026.10.20-21.11.44:036][704]LogReal33D: outfit chooser offered: current=137 band=136..139 (4 outfit(s))
+[2026.10.20-21.11.44:091][706]LogReal33D: outfit chooser shown: band=136..139 current=137 colours=78,69,58,76
+[2026.10.20-21.11.46:542][779]LogReal33D: outfit preview: id 137 -> 136 (band 136..139)
+[2026.10.20-21.11.47:008][793]LogReal33D: outfit preview: id 136 -> 139 (band 136..139)
+[2026.10.20-21.11.48:347][833]LogReal33D: outfit preview: Head colour 78 -> 77 (max 132); now 77,69,58,76
+[2026.10.20-21.11.48:984][852]LogReal33D: outfit preview: Head colour 77 -> 76 (max 132); now 76,69,58,76
+[2026.10.20-21.11.50:019][883]LogReal33D: outfit preview: Body colour 69 -> 68 (max 132); now 76,68,58,76
+[2026.10.20-21.11.50:253][890]LogReal33D: outfit preview: Body colour 68 -> 67 (max 132); now 76,67,58,76
+[2026.10.20-21.11.50:653][902]LogReal33D: outfit preview: Body colour 67 -> 66 (max 132); now 76,66,58,76
+[2026.10.20-21.11.51:326][922]LogReal33D: outfit preview: Legs colour 58 -> 57 (max 132); now 76,66,57,76
+[2026.10.20-21.11.51:525][928]LogReal33D: outfit preview: Legs colour 57 -> 56 (max 132); now 76,66,56,76
+[2026.10.20-21.11.51:693][933]LogReal33D: outfit preview: Legs colour 56 -> 55 (max 132); now 76,66,55,76
+[2026.10.20-21.11.52:059][944]LogReal33D: outfit preview: Feet colour 76 -> 75 (max 132); now 76,66,55,75
+[2026.10.20-21.11.52:260][950]LogReal33D: outfit preview: Feet colour 75 -> 74 (max 132); now 76,66,55,74
+[2026.10.20-21.11.52:427][955]LogReal33D: outfit preview: Feet colour 74 -> 73 (max 132); now 76,66,55,73
+[2026.10.20-21.11.52:560][959]LogReal33D: outfit preview: Feet colour 73 -> 72 (max 132); now 76,66,55,72
+[2026.10.20-21.11.53:260][980]LogReal33D: outfit preview: Feet colour 72 -> 73 (max 132); now 76,66,55,73
+[2026.10.20-21.11.53:999][  2]LogReal33D: outfit preview: Legs colour 55 -> 56 (max 132); now 76,66,56,73
+[2026.10.20-21.11.54:434][ 15]LogReal33D: outfit preview: Body colour 66 -> 67 (max 132); now 76,67,56,73
+[2026.10.20-21.11.54:801][ 26]LogReal33D: outfit preview: Head colour 76 -> 77 (max 132); now 77,67,56,73
+[2026.10.20-21.11.57:070][ 94]LogReal33D: outfit submit 2: id=139 colours=77,67,56,73
+[2026.10.20-21.11.57:106][ 95]LogReal33D: outfit 2 sent: id=139 colours=77,67,56,73 (no reply is expected)
+[2026.10.20-21.11.57:139][ 96]LogReal33D: creature 1002 outfit 139: delivered visual unavailable; placeholder
+[2026.10.20-21.11.57:943][120]LogReal33D: self context menu opened
+[2026.10.20-21.11.58:740][144]LogReal33D: outfit chooser 3 requested; Fusion32 answers with a chooser or a message
+[2026.10.20-21.11.58:740][144]LogReal33D: outfit chooser 3 requested from the self context menu
+[2026.10.20-21.11.58:784][145]LogReal33D: outfit chooser offered: current=139 band=136..139 (4 outfit(s))
+[2026.10.20-21.11.58:840][147]LogReal33D: outfit chooser shown: band=136..139 current=139 colours=77,67,56,73
+[2026.10.20-21.12.00:313][191]LogReal33D: outfit preview: Feet colour 73 -> 72 (max 132); now 77,67,56,72
+[2026.10.20-21.12.00:617][200]LogReal33D: outfit preview: Legs colour 56 -> 55 (max 132); now 77,67,55,72
+[2026.10.20-21.12.00:918][209]LogReal33D: outfit preview: Body colour 67 -> 66 (max 132); now 77,66,55,72
+[2026.10.20-21.12.01:188][217]LogReal33D: outfit preview: Head colour 77 -> 76 (max 132); now 76,66,55,72
+[2026.10.20-21.12.01:820][236]LogReal33D: outfit submit 4: id=139 colours=76,66,55,72
+[2026.10.20-21.12.01:823][236]LogReal33D: outfit 4 sent: id=139 colours=76,66,55,72 (no reply is expected)
+[2026.10.20-21.12.01:854][237]LogReal33D: creature 1002 outfit 139: delivered visual unavailable; placeholder
+[2026.10.20-21.12.29:508][998]LogReal33D: self context menu opened
+[2026.10.20-21.12.30:111][ 13]LogReal33D: outfit chooser 5 requested; Fusion32 answers with a chooser or a message
+[2026.10.20-21.12.30:112][ 13]LogReal33D: outfit chooser 5 requested from the self context menu
+[2026.10.20-21.12.30:142][ 14]LogReal33D: outfit chooser offered: current=139 band=136..139 (4 outfit(s))
+[2026.10.20-21.12.30:189][ 15]LogReal33D: outfit chooser shown: band=136..139 current=139 colours=76,66,55,72
+[2026.10.20-21.12.31:655][ 51]LogReal33D: outfit preview: Head colour 76 -> 75 (max 132); now 75,66,55,72
+[2026.10.20-21.12.31:826][ 55]LogReal33D: outfit preview: Head colour 75 -> 74 (max 132); now 74,66,55,72
+[2026.10.20-21.12.31:981][ 59]LogReal33D: outfit preview: Head colour 74 -> 73 (max 132); now 73,66,55,72
+[2026.10.20-21.12.32:140][ 63]LogReal33D: outfit preview: Head colour 73 -> 72 (max 132); now 72,66,55,72
+[2026.10.20-21.12.32:466][ 71]LogReal33D: outfit preview: Head colour 72 -> 71 (max 132); now 71,66,55,72
+[2026.10.20-21.12.32:650][ 75]LogReal33D: outfit preview: Head colour 71 -> 70 (max 132); now 70,66,55,72
+[2026.10.20-21.12.32:819][ 79]LogReal33D: outfit preview: Head colour 70 -> 69 (max 132); now 69,66,55,72
+[2026.10.20-21.12.32:991][ 83]LogReal33D: outfit preview: Head colour 69 -> 68 (max 132); now 68,66,55,72
+[2026.10.20-21.12.33:698][101]LogReal33D: outfit preview: Body colour 66 -> 65 (max 132); now 68,65,55,72
+[2026.10.20-21.12.33:900][107]LogReal33D: outfit preview: Body colour 65 -> 64 (max 132); now 68,64,55,72
+[2026.10.20-21.12.34:039][111]LogReal33D: outfit preview: Body colour 64 -> 63 (max 132); now 68,63,55,72
+[2026.10.20-21.12.34:372][121]LogReal33D: outfit preview: Body colour 63 -> 62 (max 132); now 68,62,55,72
+[2026.10.20-21.12.34:540][126]LogReal33D: outfit preview: Body colour 62 -> 61 (max 132); now 68,61,55,72
+[2026.10.20-21.12.34:717][131]LogReal33D: outfit preview: Body colour 61 -> 60 (max 132); now 68,60,55,72
+[2026.10.20-21.12.34:856][135]LogReal33D: outfit preview: Body colour 60 -> 59 (max 132); now 68,59,55,72
+[2026.10.20-21.12.35:159][144]LogReal33D: outfit preview: Legs colour 55 -> 54 (max 132); now 68,59,54,72
+[2026.10.20-21.12.35:327][149]LogReal33D: outfit preview: Legs colour 54 -> 53 (max 132); now 68,59,53,72
+[2026.10.20-21.12.35:496][154]LogReal33D: outfit preview: Legs colour 53 -> 52 (max 132); now 68,59,52,72
+[2026.10.20-21.12.35:699][160]LogReal33D: outfit preview: Legs colour 52 -> 51 (max 132); now 68,59,51,72
+[2026.10.20-21.12.35:849][164]LogReal33D: outfit preview: Legs colour 51 -> 50 (max 132); now 68,59,50,72
+[2026.10.20-21.12.36:039][169]LogReal33D: outfit preview: Legs colour 50 -> 49 (max 132); now 68,59,49,72
+[2026.10.20-21.12.36:686][188]LogReal33D: outfit preview: Feet colour 72 -> 71 (max 132); now 68,59,49,71
+[2026.10.20-21.12.36:886][194]LogReal33D: outfit preview: Feet colour 71 -> 70 (max 132); now 68,59,49,70
+[2026.10.20-21.12.37:057][199]LogReal33D: outfit preview: Feet colour 70 -> 69 (max 132); now 68,59,49,69
+[2026.10.20-21.12.37:227][204]LogReal33D: outfit preview: Feet colour 69 -> 68 (max 132); now 68,59,49,68
+[2026.10.20-21.12.37:396][209]LogReal33D: outfit preview: Feet colour 68 -> 67 (max 132); now 68,59,49,67
+[2026.10.20-21.12.37:528][213]LogReal33D: outfit preview: Feet colour 67 -> 66 (max 132); now 68,59,49,66
+[2026.10.20-21.12.38:129][231]LogReal33D: outfit submit 6: id=139 colours=68,59,49,66
+[2026.10.20-21.12.38:172][232]LogReal33D: outfit 6 sent: id=139 colours=68,59,49,66 (no reply is expected)
+[2026.10.20-21.12.38:198][233]LogReal33D: creature 1002 outfit 139: delivered visual unavailable; placeholder

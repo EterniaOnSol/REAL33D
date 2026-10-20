@@ -15,6 +15,7 @@ namespace PanelIds
 	const FName Channels(TEXT("Channels"));
 	const FName TextEditor(TEXT("TextEditor"));
 	const FName Trade(TEXT("Trade"));
+	const FName Outfit(TEXT("Outfit"));
 }
 }
 

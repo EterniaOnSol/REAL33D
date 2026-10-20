@@ -211,17 +211,39 @@ void AReal33DCreature::SetFacing(uint8 Direction)
 	SetActorRotation(Real33D::ToRotation(Direction));
 }
 
-void AReal33DCreature::ApplyOutfit(uint16 OutfitId, bool bDisguisedAsObject,
+void AReal33DCreature::ApplyOutfit(const FReal33DOutfit& InOutfit,
 	const UReal33DAssetRegistry* Registry)
 {
 	check(IsInGameThread());
+	// Kept whole, including the four colour bytes and the disguise's object
+	// type. The renderer below still selects a mesh from the id alone, so the
+	// colours change nothing on screen yet -- but they are the server's
+	// description of this creature, they arrive with every appearance update,
+	// and the actor is where a tinting pass will read them from. Storing them
+	// is not the same as claiming they are drawn; see UNVERIFIED in the
+	// milestone evidence.
+	Outfit = InOutfit;
+	const uint16 OutfitId = InOutfit.OutfitId;
 	for (auto& Part : OutfitParts) if (Part) Part->DestroyComponent();
 	OutfitParts.Reset();
 	IdleClip = WalkClip = CurrentClip = nullptr;
 	Body->SetVisibility(true);
 	NameTag->SetRelativeLocation(FVector(0, 0, 110));
 	SpeechTag->SetRelativeLocation(FVector(0, 0, 140));
-	if (!Registry || bDisguisedAsObject) return;
+	if (!Registry || InOutfit.bDisguisedAsObject)
+	{
+		// A disguised creature wears an object type instead of an outfit, and
+		// this client has no object presentation for a creature slot. Logged as
+		// what it is rather than drawn as outfit zero, which is what dropping
+		// the type used to make it look like.
+		if (InOutfit.bDisguisedAsObject)
+		{
+			UE_LOG(LogReal33D, Log,
+				TEXT("creature %u is disguised as object type %u; placeholder body"),
+				CreatureId, InOutfit.ObjectType);
+		}
+		return;
+	}
 	const FReal33DCreatureVisual Visual = Registry->ResolveOutfit(OutfitId);
 	if (Visual.Meshes.IsEmpty() || !Visual.Idle || !Visual.Walk)
 	{

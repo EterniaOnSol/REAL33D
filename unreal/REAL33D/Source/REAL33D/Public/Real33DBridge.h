@@ -5,6 +5,7 @@
 #include "HAL/ThreadSafeBool.h"
 #include "Containers/Queue.h"
 #include "Real33DCoords.h"
+#include "Real33DOutfitSelection.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "Real33DBridge.generated.h"
 
@@ -228,7 +229,30 @@ enum class EReal33DEventKind : uint8
 	 * reach check fails. So this event may never be read as "the trade
 	 * succeeded".
 	 */
-	TradeClosed
+	TradeClosed,
+
+	// --------------------------------------------------------------- outfit
+	//
+	// One command out that asks, one command out that answers, and one
+	// command in between. There is no fourth: CSetOutfit returns void.
+
+	/**
+	 * Fusion32 offered the outfit chooser, from SV_CMD_OUTFIT (200).
+	 *
+	 * THE ONLY THING THAT MAY OPEN THE WINDOW. The band of selectable ids is
+	 * computed by the server from the character's sex and premium right, and
+	 * the 7.72 game protocol never tells a client its own sex -- that byte
+	 * lives in the querymanager's character record and never reaches this
+	 * connection. So a client cannot work out the band for itself, and one
+	 * that opened a chooser before this arrived would be guessing it.
+	 *
+	 * Arrives unprompted on a character's very first login as well as in
+	 * answer to CL_CMD_GET_OUTFIT. Both are the same event; nothing here
+	 * distinguishes them, because the server does not.
+	 *
+	 * Carries `OutfitDialog`.
+	 */
+	OutfitDialogOpened
 };
 
 /**
@@ -671,6 +695,82 @@ struct FReal33DTrade
 	bool bAcceptSent = false;
 };
 
+/**
+ * A creature's whole appearance, as Fusion32 decoded it.
+ *
+ * ALL OF IT, which is the point of the struct. The bridge used to carry the
+ * outfit as two loose fields -- an id and the disguise flag -- and silently
+ * dropped the other two things `OutfitDescriptor` holds: the four colour bytes,
+ * and the object type a disguised creature wears. Both are on the wire of every
+ * SV_CMD_CREATURE_OUTFIT and every creature in a FULLSCREEN, both are already
+ * in WorldState, and both were lost at this boundary and nowhere else. Keeping
+ * them in one struct means the next field `OutfitDescriptor` gains is added in
+ * one place rather than forgotten in two.
+ *
+ * `ObjectType` is meaningful only while `bDisguisedAsObject`, and the two are
+ * exclusive by construction: `cr.hh::TOutfit` is a union, and
+ * `sending.cc::SendOutfit` writes the id and then *either* an object type *or*
+ * the four colours. A disguised creature therefore has no colours of its own,
+ * and an undisguised one has no object type; neither is invented to fill the
+ * gap, and a reader must check the flag before trusting either.
+ */
+struct FReal33DOutfit
+{
+	/** Four, and the protocol cannot carry a fifth. */
+	static constexpr int32 ColorCount = Real33D::kOutfitSlotCount;
+
+	uint16 OutfitId = 0;
+	bool bDisguisedAsObject = false;
+	/** The type worn instead of an outfit. Only when `bDisguisedAsObject`. */
+	uint16 ObjectType = 0;
+	/**
+	 * The four colour bytes in wire order.
+	 *
+	 * Addressed through `Real33D::OutfitSlot`, whose names were proven against
+	 * the classic client rather than assumed; see `Real33DOutfitSelection.h`.
+	 * Only meaningful when `bDisguisedAsObject` is false.
+	 */
+	uint8 Colors[ColorCount] = {};
+
+	uint8 Color(Real33D::OutfitSlot Slot) const
+	{
+		return Colors[Real33D::OutfitSlotIndex(Slot)];
+	}
+};
+
+/**
+ * The outfit chooser Fusion32 opened, and the band it granted.
+ *
+ * `First`/`Last` are the two trailing words of SV_CMD_OUTFIT, and they are the
+ * authority on what this player may select -- not a band this client worked
+ * out. A BAND, NOT A LIST: 7.72 sends only the first and last id and implies
+ * everything between, which is why there is no array here. Later protocol
+ * versions replaced this with a counted list of individual outfits; nothing in
+ * this client may be shaped for that.
+ *
+ * `bOpen` is false until the first SV_CMD_OUTFIT of the session arrives and
+ * returns to false when the chooser closes. Closing is entirely local, because
+ * there is no command for it and the server keeps no record that a chooser was
+ * ever offered.
+ */
+struct FReal33DOutfitDialog
+{
+	bool bOpen = false;
+	/** What the character is wearing, as the server reported it. */
+	FReal33DOutfit Current;
+	uint16 First = 0;
+	uint16 Last = 0;
+
+	/** How many ids the band names. Zero if it is inverted or empty. */
+	int32 Count() const { return Last < First ? 0 : int32(Last) - int32(First) + 1; }
+
+	/** Exactly CSetOutfit's test: `id < First || id > Last` is a refusal. */
+	bool Contains(uint16 OutfitId) const
+	{
+		return Count() > 0 && OutfitId >= First && OutfitId <= Last;
+	}
+};
+
 /** An event crossing the thread boundary. Copied, never shared. */
 struct FReal33DEvent
 {
@@ -679,9 +779,15 @@ struct FReal33DEvent
 	Real33D::FMapPosition PreviousPosition;
 	uint32 CreatureId = 0;
 	FString CreatureName;
-	/** Appearance already decoded into WorldState, never inferred from name/id. */
-	uint16 OutfitId = 0;
-	bool bDisguisedAsObject = false;
+	/**
+	 * Appearance already decoded into WorldState, never inferred from name/id.
+	 *
+	 * The whole descriptor, colours and disguise included. Carried on every
+	 * creature event, because WorldState already knows it and a presentation
+	 * that had the id but not the colours could not draw the creature the
+	 * server described.
+	 */
+	FReal33DOutfit Outfit;
 	/** enums.hh direction, or kNoDirection when the event has none. */
 	uint8 Direction = 0;
 	bool bIsLocalPlayer = false;
@@ -732,6 +838,9 @@ struct FReal33DEvent
 
 	/** Populated for TradeOwnOffer and TradePartnerOffer. */
 	FReal33DTradeOffer TradeOffer;
+
+	/** Populated only for OutfitDialogOpened. */
+	FReal33DOutfitDialog OutfitDialog;
 
 	/** 0..100 as the server reports it. Meaningful for creature events. */
 	uint8 HealthPercent = 100;
@@ -858,6 +967,31 @@ struct FReal33DStats
 	int32 TradeAcceptsRequested = 0;
 	/** CL_CMD_REJECT_TRADE commands put on the wire. */
 	int32 TradeRejectsRequested = 0;
+	// Outfit. The chooser is the server's; the two commands are this client's.
+	/** CL_CMD_GET_OUTFIT commands put on the wire. */
+	int32 OutfitDialogsRequested = 0;
+	/**
+	 * SV_CMD_OUTFIT commands received.
+	 *
+	 * Counted apart from the requests, as channel joins are, and for the same
+	 * reason: these two numbers are not expected to match. One arrives
+	 * unprompted on a first login, and a request from a character holding
+	 * GAMEMASTER_OUTFIT is answered with a message instead of a chooser.
+	 */
+	int32 OutfitDialogsReceived = 0;
+	/** CL_CMD_SET_OUTFIT commands put on the wire. */
+	int32 OutfitsSubmitted = 0;
+	/**
+	 * Selections this client refused to send, by ClientCore's own rules.
+	 *
+	 * Not a server refusal. CSetOutfit answers a bad selection with total
+	 * silence, so one that reached the wire would be indistinguishable from
+	 * one that was accepted; these were stopped before that could happen and
+	 * the player was told why.
+	 */
+	int32 OutfitSelectionsRefused = 0;
+	/** SV_CMD_CREATURE_OUTFIT commands received, for any creature. */
+	int32 OutfitAppearanceUpdates = 0;
 	/** Talk shown above the creature that said it. */
 	int32 TalkShownOnCreature = 0;
 	/** Talk shown on the fallback surface because no speaker could be proven. */
@@ -1279,6 +1413,80 @@ public:
 	/** Changes whenever the trade does, so a widget rebuilds only then. */
 	uint64 GetTradeRevision() const;
 
+	// ----------------------------------------------------------------- outfit
+	//
+	// Two commands out, one in, and nothing acknowledges anything. The whole
+	// shape of this feature follows from `receiving.cc::CSetOutfit` returning
+	// void, so it is worth stating once here rather than at each use.
+
+	/**
+	 * Asks Fusion32 to open the outfit chooser. CL_CMD_GET_OUTFIT (210).
+	 *
+	 * A bare opcode: `CGetOutfit` reads nothing from the buffer.
+	 *
+	 * TWO DIFFERENT ANSWERS ARE BOTH CORRECT and a caller must expect either.
+	 * Normally the server replies with SV_CMD_OUTFIT, which arrives as
+	 * `OutfitDialogOpened`. But a character holding GAMEMASTER_OUTFIT is
+	 * refused outright: `CGetOutfit` sends a TALK_FAILURE_MESSAGE reading
+	 * "You may not change your outfit." and returns **without sending 200 at
+	 * all**. That arrives as `ServerMessage`, so nothing is lost -- but a
+	 * surface that waited for the chooser before showing anything would wait
+	 * for ever, which is why the request is not allowed to open a window.
+	 *
+	 * Returns the id identifying the request, or 0 when nothing was sent.
+	 */
+	uint32 RequestOutfitDialog();
+
+	/**
+	 * Answers the chooser. CL_CMD_SET_OUTFIT (211), seven bytes.
+	 *
+	 * REFUSED LOCALLY WHEN FUSION32 WOULD DROP IT. `ValidateOutfitSelection`
+	 * applies CSetOutfit's own two tests in CSetOutfit's own order -- the band
+	 * from the matching SV_CMD_OUTFIT, then the colour bound per slot -- and a
+	 * refusal is reported to the player as a `ClientNotice` and counted. This
+	 * is one of the few places where refusing locally is right rather than an
+	 * invented rule: the server answers a selection it drops with silence, so
+	 * a command sent and discarded would be indistinguishable on this end from
+	 * one that was applied.
+	 *
+	 * AN OBJECT DISGUISE CANNOT BE SENT, and that is the command's shape, not
+	 * a policy: `CSetOutfit` reads a word and then four bytes unconditionally,
+	 * with no `OutfitID == 0` branch, so there is nowhere to put an object
+	 * type. A disguised creature's appearance is therefore never submittable.
+	 *
+	 * NOTHING ACKNOWLEDGES THIS. `CSetOutfit` returns void and sends no reply
+	 * of any kind -- no confirmation, no second SV_CMD_OUTFIT, and no error
+	 * when it drops the selection. The one observable effect is indirect and
+	 * **conditional**: `AnnounceChangedCreature(CREATURE_OUTFIT_CHANGED)`
+	 * reaches every connection that can see the creature as
+	 * SV_CMD_CREATURE_OUTFIT, but only `if(Player->Outfit ==
+	 * Player->OrgOutfit)` -- only when the player is wearing their own outfit
+	 * at that moment. A player who is invisible or under an illusion keeps the
+	 * appearance they have, and the selection surfaces later when the effect
+	 * ends. So the chooser must close on its own and must never wait for a 142
+	 * that may never arrive.
+	 *
+	 * Returns the id identifying the request, or 0 when nothing was sent --
+	 * including when this client refused it.
+	 */
+	uint32 RequestSetOutfit(uint16 OutfitId, const uint8 (&Colors)[FReal33DOutfit::ColorCount]);
+
+	/** The chooser Fusion32 opened, if one is open. Game thread only. */
+	const FReal33DOutfitDialog& GetOutfitDialog() const;
+
+	/** Changes whenever the chooser does, so a widget rebuilds only then. */
+	uint64 GetOutfitDialogRevision() const;
+
+	/**
+	 * Closes the chooser locally. Returns false when none was open.
+	 *
+	 * Local only, and there is nothing to tell the server: 7.72 has no command
+	 * that cancels a chooser, and Fusion32 keeps no record that one was ever
+	 * offered. This is also how a chooser closes after a successful submit,
+	 * because a submit is never acknowledged.
+	 */
+	bool CloseOutfitDialog();
+
 	/**
 	 * Channel 3, CHANNEL_RULEVIOLATIONS.
 	 *
@@ -1323,6 +1531,9 @@ private:
 
 	/** Applies one drained trade event: an offer, or the close. */
 	void NoteTrade(const FReal33DEvent& Event);
+
+	/** Applies one drained outfit event: the chooser Fusion32 opened. */
+	void NoteOutfit(const FReal33DEvent& Event);
 
 	FReal33DWorker* Worker = nullptr;
 	FRunnableThread* Thread = nullptr;

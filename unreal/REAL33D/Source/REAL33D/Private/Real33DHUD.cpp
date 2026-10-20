@@ -12,6 +12,7 @@
 #include "Real33DMinimapPanel.h"
 #include "Real33DPanelChrome.h"
 #include "Real33DSkillsPanel.h"
+#include "Real33DOutfitPanel.h"
 #include "Real33DTradePanel.h"
 #include "Real33DUIStyle.h"
 #include "Real33DVitalsPanel.h"
@@ -375,9 +376,18 @@ void SReal33DHUD::Construct(const FArguments& InArgs)
 		[
 			SAssignNew(TextEditor, SReal33DEditorWindow).Bridge(Bridge)
 		]
+
+		// The outfit chooser, centred over everything for the same reasons.
+		// Only Fusion32 opens it: the control strip has no entry for it,
+		// because only the server knows which outfits this character may wear.
+		+ SOverlay::Slot()
+		[
+			SAssignNew(Outfit, SReal33DOutfitPanel).Bridge(Bridge)
+		]
 	];
 
 	Panels.Register(Real33D::PanelIds::TextEditor, TextEditor.ToSharedRef());
+	Panels.Register(Real33D::PanelIds::Outfit, Outfit.ToSharedRef());
 }
 
 void SReal33DHUD::HandleItemDropped(FReal33DSlotRef From, FReal33DSlotRef To)
@@ -696,6 +706,49 @@ void SReal33DHUD::ShowSlotContextMenu(FReal33DSlotRef Slot)
 	UE_LOG(LogReal33D, Log, TEXT("context menu opened for object %u"), Slot.TypeId);
 }
 
+void SReal33DHUD::ShowSelfContextMenu()
+{
+	// Nothing is sent by opening this, and the one entry asks a question rather
+	// than making a change: CL_CMD_GET_OUTFIT carries no payload at all.
+	FMenuBuilder Menu(/*bShouldCloseWindowAfterMenuSelection*/ true, nullptr);
+
+	Menu.AddMenuEntry(
+		// The classic client's own wording, from its help text.
+		NSLOCTEXT("Real33D", "SelfMenuSetOutfit", "Set outfit"),
+		NSLOCTEXT("Real33D", "SelfMenuSetOutfitTip",
+			"Asks Fusion32 which outfits and colours this character may wear. "
+			"The chooser opens only if the server answers; a gamemaster outfit "
+			"is refused with a message instead."),
+		FSlateIcon(),
+		FUIAction(FExecuteAction::CreateLambda([this]()
+		{
+			UReal33DBridge* Live = Bridge.Get();
+			if (Live == nullptr || !Live->IsRunning())
+			{
+				return;
+			}
+			const uint32 ActionId = Live->RequestOutfitDialog();
+			if (ActionId != 0 && WorldOverlay.IsValid())
+			{
+				// "Requested", not "opened". Whether a chooser appears is the
+				// server's to decide and this client cannot know yet.
+				WorldOverlay->ShowRequest(TEXT("Outfit chooser requested"));
+			}
+			UE_LOG(LogReal33D, Log,
+				TEXT("outfit chooser %u requested from the self context menu"),
+				ActionId);
+		})));
+
+	FSlateApplication::Get().PushMenu(
+		SharedThis(this),
+		FWidgetPath(),
+		Menu.MakeWidget(),
+		FSlateApplication::Get().GetCursorPos(),
+		FPopupTransitionEffect(FPopupTransitionEffect::ContextMenu));
+
+	UE_LOG(LogReal33D, Log, TEXT("self context menu opened"));
+}
+
 void SReal33DHUD::BeginTradeTarget(const UReal33DBridge::FMoveSlot& Source,
 	uint16 TypeId, uint8 StackIndex)
 {
@@ -808,6 +861,7 @@ void SReal33DHUD::Refresh(const AReal33DWorld* World)
 	// collapsed widget, and that window is collapsed until Fusion32 opens one.
 	if (TextEditor.IsValid()) TextEditor->Refresh();
 	if (Trade.IsValid()) Trade->Refresh();
+	if (Outfit.IsValid()) Outfit->Refresh();
 	// Everything below is a server-owned value or an explicit "not known yet".
 	// A null world is the second of those, not a reason to keep the last frame:
 	// the panels must empty out when the session ends.

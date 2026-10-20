@@ -1,0 +1,25 @@
+# UNREAL-OUTFIT-DIALOG-001 live timeline -- run 1 -- the run that found the defect
+#
+# Extracted from the engine log with:
+#   grep -E "LogReal33D: (self context menu|outfit |creature [0-9]+ outfit)"
+# Timestamps are the log's own. Nothing else from that log is reproduced:
+# it carries a runtime path and the server MOTD and neither is needed here.
+
+[2026.10.20-20.58.24:236][  1]LogReal33D: creature 1002 outfit 136: delivered visual unavailable; placeholder
+[2026.10.20-20.58.24:239][  1]LogReal33D: creature 1073742106 outfit 136: delivered visual unavailable; placeholder
+[2026.10.20-20.59.35:962][950]LogReal33D: self context menu opened
+[2026.10.20-20.59.37:030][982]LogReal33D: outfit chooser 1 requested; Fusion32 answers with a chooser or a message
+[2026.10.20-20.59.37:030][982]LogReal33D: outfit chooser 1 requested from the self context menu
+[2026.10.20-20.59.37:083][984]LogReal33D: outfit chooser offered: current=136 band=136..139 (4 outfit(s))
+[2026.10.20-20.59.37:129][985]LogReal33D: outfit chooser shown: band=136..139 current=136 colours=78,69,58,76
+[2026.10.20-20.59.45:898][248]LogReal33D: outfit submit 2: id=138 colours=78,69,58,76
+[2026.10.20-20.59.45:904][248]LogReal33D: outfit 2 sent: id=138 colours=78,69,58,76 (no reply is expected)
+[2026.10.20-20.59.45:932][249]LogReal33D: creature 1002 outfit 138: delivered visual unavailable; placeholder
+[2026.10.20-20.59.57:932][603]LogReal33D: self context menu opened
+[2026.10.20-20.59.58:962][634]LogReal33D: outfit chooser 4 requested; Fusion32 answers with a chooser or a message
+[2026.10.20-20.59.58:962][634]LogReal33D: outfit chooser 4 requested from the self context menu
+[2026.10.20-20.59.59:032][636]LogReal33D: outfit chooser offered: current=138 band=136..139 (4 outfit(s))
+[2026.10.20-20.59.59:095][638]LogReal33D: outfit chooser shown: band=136..139 current=138 colours=78,69,58,76
+[2026.10.20-21.00.08:535][913]LogReal33D: outfit submit 9: id=137 colours=78,69,58,76
+[2026.10.20-21.00.08:643][916]LogReal33D: outfit 9 sent: id=137 colours=78,69,58,76 (no reply is expected)
+[2026.10.20-21.00.08:703][918]LogReal33D: creature 1002 outfit 137: delivered visual unavailable; placeholder
