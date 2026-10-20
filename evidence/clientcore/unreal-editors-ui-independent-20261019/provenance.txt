@@ -1,0 +1,7 @@
+candidate      a4f2cb5a300c4bd3440d4c824200d7134618d24d
+base main      18b587df92c51be60e734b4f2ece2f39f2065d29
+cert branch    certification/unreal-editors-ui-001-20261019
+worktree       build/cert-editors-ui-20261019
+remote main    18b587df92c51be60e734b4f2ece2f39f2065d29
+remote milestone a4f2cb5a300c4bd3440d4c824200d7134618d24d
+toolchain      MSVC 14.50.35717 (VS2022 BuildTools), UE 5.8, GCC via WSL Ubuntu-26.04

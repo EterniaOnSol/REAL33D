@@ -1,0 +1,112 @@
+[2026.10.20-03.19.38:145][ 68]LogTemp: Display: CERT_ASSERT PASS one live editor window widget
+[2026.10.20-03.19.38:148][ 69]LogTemp: Display: CERT_ASSERT PASS one live Channels widget
+[2026.10.20-03.19.38:175][ 72]LogTemp: Display: CERT_PANEL Minimap
+[2026.10.20-03.19.38:177][ 72]LogTemp: Display: CERT_PANEL Health
+[2026.10.20-03.19.38:196][ 73]LogTemp: Display: CERT_PANEL Inventory
+[2026.10.20-03.19.38:200][ 74]LogTemp: Display: CERT_PANEL Skills
+[2026.10.20-03.19.38:215][ 75]LogTemp: Display: CERT_PANEL Battle
+[2026.10.20-03.19.38:228][ 76]LogTemp: Display: CERT_PANEL Channels
+[2026.10.20-03.19.38:231][ 77]LogTemp: Display: CERT_PANEL Containers
+[2026.10.20-03.19.38:245][ 77]LogTemp: Display: CERT_PANEL TextEditor
+[2026.10.20-03.19.38:250][ 78]LogTemp: Display: CERT_ASSERT PASS registry holds eight real HUD surfaces
+[2026.10.20-03.19.38:263][ 79]LogTemp: Display: CERT_ASSERT PASS registry still carries Minimap
+[2026.10.20-03.19.38:292][ 82]LogTemp: Display: CERT_ASSERT PASS registry still carries Health
+[2026.10.20-03.19.38:297][ 82]LogTemp: Display: CERT_ASSERT PASS registry still carries Inventory
+[2026.10.20-03.19.38:299][ 83]LogTemp: Display: CERT_ASSERT PASS registry still carries Skills
+[2026.10.20-03.19.38:312][ 84]LogTemp: Display: CERT_ASSERT PASS registry still carries Battle
+[2026.10.20-03.19.38:348][ 88]LogTemp: Display: CERT_ASSERT PASS registry still carries Containers
+[2026.10.20-03.19.38:349][ 88]LogTemp: Display: CERT_ASSERT PASS registry still carries Channels
+[2026.10.20-03.19.38:361][ 89]LogTemp: Display: CERT_ASSERT PASS registry still carries TextEditor
+[2026.10.20-03.19.38:366][ 89]LogTemp: Display: CERT_ASSERT PASS editor window is registered as TextEditor
+[2026.10.20-03.19.38:379][ 91]LogTemp: Display: CERT_ASSERT PASS the registered widget is the live editor window
+[2026.10.20-03.19.38:382][ 91]LogTemp: Display: CERT_ASSERT PASS editor window starts closed
+[2026.10.20-03.19.38:384][ 91]LogTemp: Display: CERT_COUNTERS B frames=3 commands=17 residual=0 unsupported=0 anomalies=0 text_open=0 text_submit=0 list_open=0 list_submit=0 notices=0
+[2026.10.20-03.19.38:397][ 93]LogTemp: Display: CERT_EDITOR B open=0 text=1 object=0 type=0 max=0 editor='' len=0
+[2026.10.20-03.19.38:407][ 93]LogTemp: Display: CERT_STAGE_COMPLETE 0
+[2026.10.20-03.19.41:152][357]LogTemp: Display: CERT_ASSERT PASS container regression: backpack opened with contents
+[2026.10.20-03.19.41:179][360]LogTemp: Display: CERT_ASSERT PASS a writable scroll (type 2815) is held or carried
+[2026.10.20-03.19.41:185][360]LogTemp: Display: CERT_SCROLL in_container=0 container=0 slot=6
+[2026.10.20-03.19.41:202][362]LogTemp: Display: CERT_COUNTERS B frames=5 commands=20 residual=0 unsupported=0 anomalies=0 text_open=0 text_submit=0 list_open=0 list_submit=0 notices=0
+[2026.10.20-03.19.41:216][363]LogTemp: Display: CERT_EDITOR B open=0 text=1 object=0 type=0 max=0 editor='' len=0
+[2026.10.20-03.19.41:234][365]LogTemp: Display: CERT_STAGE_COMPLETE 1
+[2026.10.20-03.19.44:165][629]LogTemp: Display: CERT_ASSERT PASS SV_CMD_EDIT_TEXT opened for the scroll
+[2026.10.20-03.19.44:168][629]LogTemp: Display: CERT_ASSERT PASS the production window is showing and the registry agrees
+[2026.10.20-03.19.44:170][629]LogTemp: Display: CERT_PAINTED Text | object 19866777, type 2815 | Written by Test Player B. | Fusion32 reported a limit of 511 character(s) for this object. |  | Submit | Close
+[2026.10.20-03.19.44:182][630]LogTemp: Display: CERT_ASSERT PASS painted window shows the server's object id
+[2026.10.20-03.19.44:185][630]LogTemp: Display: CERT_ASSERT PASS painted window shows the server's type id
+[2026.10.20-03.19.44:187][631]LogTemp: Display: CERT_ASSERT PASS painted window shows the server's reported max length
+[2026.10.20-03.19.44:195][631]LogTemp: Display: CERT_ASSERT PASS max length is the type limit minus one
+[2026.10.20-03.19.44:206][632]LogTemp: Display: CERT_ASSERT PASS server reports a previous editor
+[2026.10.20-03.19.44:214][633]LogTemp: Display: CERT_ASSERT PASS painted window attributes the text to the server's editor
+[2026.10.20-03.19.44:216][633]LogTemp: Display: CERT_ASSERT PASS painted body equals the server's text exactly
+[2026.10.20-03.19.44:220][633]LogTemp: Display: CERT_COUNTERS B frames=8 commands=24 residual=0 unsupported=0 anomalies=0 text_open=1 text_submit=0 list_open=0 list_submit=0 notices=0
+[2026.10.20-03.19.44:221][633]LogTemp: Display: CERT_EDITOR B open=1 text=1 object=19866777 type=2815 max=511 editor='Test Player B' len=315
+[2026.10.20-03.19.44:231][634]LogTemp: Display: CERT_STAGE_COMPLETE 2
+[2026.10.20-03.19.45:673][763]LogTemp: Display: CERT_ASSERT PASS open modal is self-hit-test-invisible, not blocking
+[2026.10.20-03.19.45:686][764]LogTemp: Display: CERT_ASSERT PASS Channels button is clickable while the modal is open
+[2026.10.20-03.19.45:688][765]LogTemp: Display: CERT_COUNTERS B frames=9 commands=26 residual=0 unsupported=0 anomalies=0 text_open=1 text_submit=0 list_open=0 list_submit=0 notices=0
+[2026.10.20-03.19.45:701][766]LogTemp: Display: CERT_EDITOR B open=1 text=1 object=19866777 type=2815 max=511 editor='Test Player B' len=315
+[2026.10.20-03.19.45:705][766]LogTemp: Display: CERT_STAGE_COMPLETE 3
+[2026.10.20-03.19.47:184][902]LogTemp: Display: CERT_ASSERT PASS modal stayed open while unrelated HUD was used
+[2026.10.20-03.19.47:305][914]LogTemp: Display: CERT_ASSERT PASS Channels regression: Fusion32 returned real rows behind the modal
+[2026.10.20-03.19.47:403][922]LogTemp: Display: CERT_CHANNEL 4 Game-Chat
+[2026.10.20-03.19.47:404][922]LogTemp: Display: CERT_CHANNEL 5 Trade
+[2026.10.20-03.19.47:406][923]LogTemp: Display: CERT_CHANNEL 6 RL-Chat
+[2026.10.20-03.19.47:407][923]LogTemp: Display: CERT_CHANNEL 7 Help
+[2026.10.20-03.19.47:423][924]LogTemp: Display: CERT_COUNTERS B frames=10 commands=27 residual=0 unsupported=0 anomalies=0 text_open=1 text_submit=0 list_open=0 list_submit=0 notices=0
+[2026.10.20-03.19.47:438][925]LogTemp: Display: CERT_EDITOR B open=1 text=1 object=19866777 type=2815 max=511 editor='Test Player B' len=315
+[2026.10.20-03.19.47:439][925]LogTemp: Display: CERT_STAGE_COMPLETE 4
+[2026.10.20-03.19.48:685][ 38]LogTemp: Display: CERT_ASSERT PASS registry closes the modal and it collapses
+[2026.10.20-03.19.48:722][ 41]LogTemp: Display: CERT_ASSERT PASS registry toggles the modal back open
+[2026.10.20-03.19.48:739][ 43]LogTemp: Display: CERT_ASSERT PASS other registry panels unaffected
+[2026.10.20-03.19.48:752][ 44]LogTemp: Display: CERT_ASSERT PASS duplicate registration refused
+[2026.10.20-03.19.48:758][ 44]LogTemp: Display: CERT_COUNTERS B frames=11 commands=29 residual=0 unsupported=0 anomalies=0 text_open=1 text_submit=0 list_open=0 list_submit=0 notices=0
+[2026.10.20-03.19.48:770][ 45]LogTemp: Display: CERT_EDITOR B open=1 text=1 object=19866777 type=2815 max=511 editor='Test Player B' len=315
+[2026.10.20-03.19.48:771][ 45]LogTemp: Display: CERT_STAGE_COMPLETE 5
+[2026.10.20-03.19.50:187][170]LogTemp: Display: CERT_ASSERT PASS body box present for submit
+[2026.10.20-03.19.50:193][171]LogTemp: Display: CERT_ASSERT PASS production Submit button clicked
+[2026.10.20-03.19.50:200][171]LogTemp: Display: CERT_COUNTERS B frames=12 commands=31 residual=0 unsupported=0 anomalies=0 text_open=1 text_submit=0 list_open=0 list_submit=0 notices=0
+[2026.10.20-03.19.50:206][172]LogTemp: Display: CERT_EDITOR B open=1 text=1 object=19866777 type=2815 max=511 editor='Test Player B' len=315
+[2026.10.20-03.19.50:209][172]LogTemp: Display: CERT_STAGE_COMPLETE 6
+[2026.10.20-03.19.51:691][306]LogTemp: Display: CERT_ASSERT PASS exactly one CL_CMD_EDIT_TEXT reached the wire
+[2026.10.20-03.19.51:692][307]LogTemp: Display: CERT_ASSERT PASS window closes locally, server told nothing
+[2026.10.20-03.19.51:694][307]LogTemp: Display: CERT_COUNTERS B frames=14 commands=35 residual=0 unsupported=0 anomalies=0 text_open=1 text_submit=1 list_open=0 list_submit=0 notices=0
+[2026.10.20-03.19.51:706][308]LogTemp: Display: CERT_EDITOR B open=0 text=1 object=0 type=0 max=0 editor='' len=0
+[2026.10.20-03.19.51:709][308]LogTemp: Display: CERT_STAGE_COMPLETE 7
+[2026.10.20-03.19.54:704][580]LogTemp: Display: CERT_ASSERT PASS re-read is the same object
+[2026.10.20-03.19.54:743][584]LogTemp: Display: CERT_ASSERT PASS Fusion32 persisted the submitted text
+[2026.10.20-03.19.54:759][585]LogTemp: Display: CERT_ASSERT PASS Fusion32 set the editor to this character
+[2026.10.20-03.19.54:763][585]LogTemp: Display: CERT_ASSERT PASS painted attribution updated to this character
+[2026.10.20-03.19.54:768][586]LogTemp: Display: CERT_ASSERT PASS painted body shows the persisted text
+[2026.10.20-03.19.54:774][586]LogTemp: Display: CERT_PERSISTED before='heresthe first test.... i love you
+[2026.10.20-03.19.54:780][587]LogTemp: Display: CERT_COUNTERS B frames=16 commands=38 residual=0 unsupported=0 anomalies=0 text_open=2 text_submit=1 list_open=0 list_submit=0 notices=0
+[2026.10.20-03.19.54:781][587]LogTemp: Display: CERT_EDITOR B open=1 text=1 object=19866777 type=2815 max=511 editor='Test Player B' len=27
+[2026.10.20-03.19.54:789][588]LogTemp: Display: CERT_STAGE_COMPLETE 8
+[2026.10.20-03.19.56:212][715]LogTemp: Display: CERT_ASSERT PASS oversized text is over the server limit and inside the frame limit
+[2026.10.20-03.19.56:219][716]LogTemp: Display: CERT_ASSERT PASS body box present for oversized submit
+[2026.10.20-03.19.56:231][717]LogTemp: Display: CERT_ASSERT PASS production Submit clicked with an oversized text
+[2026.10.20-03.19.56:239][717]LogTemp: Display: CERT_COUNTERS B frames=17 commands=40 residual=0 unsupported=0 anomalies=0 text_open=2 text_submit=1 list_open=0 list_submit=0 notices=0
+[2026.10.20-03.19.56:245][718]LogTemp: Display: CERT_EDITOR B open=1 text=1 object=19866777 type=2815 max=511 editor='Test Player B' len=27
+[2026.10.20-03.19.56:261][719]LogTemp: Display: CERT_STAGE_COMPLETE 9
+[2026.10.20-03.19.57:712][851]LogTemp: Display: CERT_ASSERT PASS the oversized command reached the wire, it was not dropped
+[2026.10.20-03.19.57:716][851]LogTemp: Display: CERT_ASSERT PASS Fusion32 answered NOROOM for the oversized text
+[2026.10.20-03.19.57:725][852]LogTemp: Display: CERT_ASSERT PASS close before the refusal re-read
+[2026.10.20-03.19.57:731][852]LogTemp: Display: CERT_COUNTERS B frames=19 commands=42 residual=0 unsupported=0 anomalies=0 text_open=2 text_submit=2 list_open=0 list_submit=0 notices=0
+[2026.10.20-03.19.57:732][852]LogTemp: Display: CERT_EDITOR B open=0 text=1 object=0 type=0 max=0 editor='' len=0
+[2026.10.20-03.19.57:739][853]LogTemp: Display: CERT_STAGE_COMPLETE 10
+[2026.10.20-03.20.00:716][121]LogTemp: Display: CERT_ASSERT PASS the refused text was not persisted; the object kept the accepted one
+[2026.10.20-03.20.00:731][122]LogTemp: Display: CERT_COUNTERS B frames=21 commands=45 residual=0 unsupported=0 anomalies=0 text_open=3 text_submit=2 list_open=0 list_submit=0 notices=0
+[2026.10.20-03.20.00:734][123]LogTemp: Display: CERT_EDITOR B open=1 text=1 object=19866777 type=2815 max=511 editor='Test Player B' len=27
+[2026.10.20-03.20.00:761][125]LogTemp: Display: CERT_STAGE_COMPLETE 11
+[2026.10.20-03.20.02:224][257]LogTemp: Display: CERT_COUNTERS B frames=22 commands=47 residual=0 unsupported=0 anomalies=0 text_open=3 text_submit=2 list_open=0 list_submit=0 notices=0
+[2026.10.20-03.20.02:295][262]LogTemp: Display: CERT_EDITOR B open=1 text=1 object=19866777 type=2815 max=511 editor='Test Player B' len=27
+[2026.10.20-03.20.02:296][262]LogTemp: Display: CERT_STAGE_COMPLETE 12
+[2026.10.20-03.20.03:731][392]LogTemp: Display: CERT_ASSERT PASS Local Chat regression: Fusion32 echoed the say
+[2026.10.20-03.20.03:750][393]LogTemp: Display: CERT_ASSERT PASS protocol residual, unsupported and anomalies all zero
+[2026.10.20-03.20.03:752][393]LogTemp: Display: CERT_ASSERT PASS no EDIT_LIST traffic occurred, as expected on this server
+[2026.10.20-03.20.03:756][394]LogTemp: Display: CERT_COUNTERS FINAL frames=24 commands=50 residual=0 unsupported=0 anomalies=0 text_open=3 text_submit=2 list_open=0 list_submit=0 notices=0
+[2026.10.20-03.20.03:767][394]LogTemp: Display: CERT_EDITOR FINAL open=1 text=1 object=19866777 type=2815 max=511 editor='Test Player B' len=27
+[2026.10.20-03.20.03:769][395]LogTemp: Display: CERT_COUNTERS B frames=24 commands=50 residual=0 unsupported=0 anomalies=0 text_open=3 text_submit=2 list_open=0 list_submit=0 notices=0
+[2026.10.20-03.20.03:777][395]LogTemp: Display: CERT_EDITOR B open=1 text=1 object=19866777 type=2815 max=511 editor='Test Player B' len=27
+[2026.10.20-03.20.03:787][396]LogTemp: Display: CERT_STAGE_COMPLETE 13
+[2026.10.20-03.20.06:749][664]LogTemp: Display: EDITORS_CERT_RESULT=PASS step=14
