@@ -1,3 +1,36 @@
+## UNREAL-EDITORS-UI-001 — integrated status (authoritative)
+
+Integrated into main on 2026-10-20 with partial certification. These are the
+statuses that travel with the code; prose elsewhere elaborates but does not
+override them.
+
+    EDIT_TEXT                = CERTIFIED
+    EDIT_LIST_DISPLAY        = IMPLEMENTED_UNVERIFIED
+    EDIT_LIST_SUBMIT         = IMPLEMENTED_UNVERIFIED
+    OVERALL_EDITORS_STATUS   = PARTIALLY CERTIFIED
+
+`PARTIALLY CERTIFIED` is a composite label for the milestone and is not one of
+the seven states in `AGENTS.md`; the two components above are, and they are
+what each half of the feature actually holds.
+
+**EDIT_LIST has never run against a live server.** Three gates on this server,
+each sufficient on its own, re-verified during independent certification:
+
+1. `game/reference/dat/owners.dat` is **0 bytes** — no character owns a house,
+   and `houses.cc::ShowGuestList` throws NOTACCESSIBLE unless `IsOwner` or a
+   premium subowner.
+2. `magic.cc::EditGuests`, `EditSubowners` and `EditNameDoor` each require
+   `GetHouseID(posx, posy, posz) != 0`, so the player must stand in a house.
+3. Every house in `houses.dat` is mainland (x 32258-32272, y 32308-32320);
+   both test characters are on Rookgaard, which has none.
+
+No house ownership, character or server test data was fabricated to close
+this, and none may be without explicit operator authorization. What is covered
+offline: the ClientCore decoder and both builders, the window's naming,
+empty-attribution and submit rules including the refusal of a list whose type
+the server never named, and the three `enums.hh` values pinned by
+`static_assert`.
+
 UPDATE 2026-10-20 UNREAL-EDITORS-UI-001 independent certification: TEXT EDITOR scope CERTIFIED, milestone overall PARTIALLY CERTIFIED because EDIT_LIST stays IMPLEMENTED_UNVERIFIED. Candidate a4f2cb5a300c4bd3440d4c824200d7134618d24d preserved by a normal push to origin/milestone/unreal-editors-ui-001 after Git Bash secret_check, remote had not diverged; isolated worktree build/cert-editors-ui-20261019 created from exactly the candidate on certification/unreal-editors-ui-001-20261019. Main remains 18b587df, no merge. Candidate touches no clientcore, reference, scripts or tests; editors.cpp/.h are still at their own milestone commit 20c22cd. Source review confirmed the three load-bearing claims first-hand: no writability inference anywhere in the window, Submit never claims an edit was kept, and three static_asserts pin the list bytes to enums.hh. Independent live run with a temporary opt-in driver against the PRODUCTION Slate widgets (SimulateClick on real buttons, values read off painted STextBlocks and the real text box): 52 assertions, 0 failures, EDITORS_CERT_RESULT=PASS. Verified the window is registered and collapsed until Fusion32 opens it; painted object id 19866777, type 2815 and the 511 limit all match the decoded command and 511 is MAXLENGTH 512-1; attribution correct before and after; one CL_CMD_EDIT_TEXT on the wire per Submit; persistence proven by re-reading the object and finding the new text with EDITOR set to this character, which is the only possible proof since EditText answers success with silence; an oversized text reached the wire and was answered 'There is not enough room.' with the object keeping the accepted text; the modal is SelfHitTestInvisible and the Channels button was clicked THROUGH it for a real four-row server round trip; eight registry surfaces all asserted by name. Container, Channels and Local Chat regressions PASS. Protocol residual/unsupported/anomalies 0. ClientCore 13/13, native 5/5, Unreal automation 7/7 errors0 warnings0, MSVC, exact-candidate build with the driver removed (UBT logged the removal; diff against the candidate over Source/scripts/clientcore/tests is empty), selftest 10/10, harness 9PASS/0FAIL/0SKIP, secret_check 6/6. Two reviewer-side harness failures are recorded, not hidden: a C:/ --objects-srv path WSL could not translate, and a mis-copied 2026-09-22 evidence file already in the repo whose SV_CMD_LOGIN_ERROR diagnostic predates this milestone. EDIT_LIST live blocker re-verified independently and NOT worked around: owners.dat is 0 bytes, the three house spells need GetHouseID()!=0, and all houses are mainland while the test characters are on Rookgaard; EditListsOpened and EditListsSubmitted were 0 in the live run. No house ownership or test data was fabricated. No implementation defect found and no implementation line changed. See evidence/clientcore/UNREAL-EDITORS-UI-001-INDEPENDENT-20261019.md and CURRENT.
 
 UPDATE 2026-10-19 UNREAL-EDITORS-UI-001 PASS LOCAL for text; EDIT_LIST UNVERIFIED. Branch milestone/unreal-editors-ui-001 from origin/main 18b587df; no main merge, no push. Books, signs and house lists through an isolated centred modal registered in the panel registry as TextEditor; HUD edits 17 lines. No ClientCore or server change; editors.cpp builders and DecodeEditor used as they stand. Live on Fusion32 baseline-772-0 with Test Player B, two operator-driven sessions, 0 undecoded commands and 0 decode failures. A writable object was reached by ordinary play, not by editing server data: Dixi sells a scroll (type 2815, WRITE, MaxLength 512) for 5 gold. EDIT_TEXT_DISPLAY, EDITOR_ATTRIBUTION in both states (empty "Nobody has written on this." then "Written by Test Player B."), EDIT_TEXT_SUBMIT accepted at 34/111/315 chars each proven by re-reading the object because operate.cc::EditText answers success with silence, and SERVER_REJECTION live as NOROOM "There is not enough room." for a 600-char text against the server's 511 limit. Two defects found live and fixed, both mine: the window never appeared at all in session 1 (15 SV_CMD_EDIT_TEXT decoded, 0 shown) because Slate does not tick a Collapsed widget and it drove itself from Tick, now driven by SReal33DHUD::Refresh which is this HUD's own rule, and session 2 showed 9 opened/9 shown; and an oversized submission was dropped in silence while the window claimed it was handed over, now reported as a ClientNotice, defect observed live but fix UNVERIFIED. A third was caught before shipping: the modal would have swallowed every click on the panels behind it, fixed with SelfHitTestInvisible and shown working in the capture. Key authority finding: the TEXT flag alone does not open a window, operate.cc::Use needs WRITE/WRITEONCE, INFORMATION, or TEXT with FONTSIZE==1, so only 57 of 135 TEXT types are openable and the Rookgaard signs and blackboards are Look-only. EDIT_LIST live is UNVERIFIED with three independent reasons: owners.dat is 0 bytes so nobody owns a house, the spells require GetHouseID()!=0, and the test characters are on Rookgaard which has no houses; the operator declined to author server test data. ClientCore 13/13, native 5/5, Unreal automation 7/7 errors0 warnings0, MSVC, REAL33DEditor build, selftest 10/10, harness 9PASS/0FAIL/0SKIP, Git Bash secret_check 6/6. See evidence/clientcore/UNREAL-EDITORS-UI-001.md and CURRENT.
