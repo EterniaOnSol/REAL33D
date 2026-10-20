@@ -334,6 +334,20 @@ FReply SReal33DSlot::OnMouseButtonDown(const FGeometry& Geometry,
 	if (!bRight && !bLeft) return FReply::Unhandled();
 	// UI owns even an empty slot: it must never click through to the map.
 	if (!Location.IsValid()) return FReply::Handled();
+
+	// Ctrl+right-click is the 2D client's per-object menu. Taken before the
+	// gesture machine rather than added to it, so the existing Look/Use/
+	// UseWith state and its native suite are untouched: a menu is a question
+	// the player asks the client, and nothing reaches Fusion32 until they
+	// choose an entry.
+	if (bRight && Event.IsControlDown())
+	{
+		if (Location.TypeId)
+		{
+			OnSlotUsed.ExecuteIfBound(Location, EReal33DSlotAction::ContextMenu);
+		}
+		return FReply::Handled();
+	}
 	MouseGesture.DiscardReleasedButtons(Event.IsMouseButtonDown(EKeys::LeftMouseButton),
 		Event.IsMouseButtonDown(EKeys::RightMouseButton));
 	const auto Action = MouseGesture.Press(bRight ? Real33D::MouseButton::Right

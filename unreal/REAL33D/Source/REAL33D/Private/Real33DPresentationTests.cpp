@@ -5,6 +5,7 @@
 #include "Real33DEditorWindow.h"
 #include "Real33DPanelRegistry.h"
 #include "Real33DSkillsPanel.h"
+#include "Real33DTradePanel.h"
 #if WITH_DEV_AUTOMATION_TESTS
 #include "Misc/AutomationTest.h"
 #include "Widgets/Layout/SBox.h"
@@ -151,6 +152,20 @@ bool FReal33DPanelRegistryTest::RunTest(const FString& Parameters)
 	TestTrue(TEXT("the editor window unregisters"),
 		Registry.Unregister(Real33D::PanelIds::TextEditor));
 	TestEqual(TEXT("two again"), Registry.Num(), 2);
+
+	// The trade window is a distinct surface with its own id.
+	const TSharedRef<SWidget> TradeModal = SNew(SBox);
+	TestTrue(TEXT("the trade window registers"),
+		Registry.Register(Real33D::PanelIds::Trade, TradeModal));
+	TestTrue(TEXT("trade id differs from the editor id"),
+		Real33D::PanelIds::Trade != Real33D::PanelIds::TextEditor);
+	TestTrue(TEXT("the trade window closes through the registry"),
+		Registry.Close(Real33D::PanelIds::Trade));
+	TestEqual(TEXT("and collapses"), TradeModal->GetVisibility(), EVisibility::Collapsed);
+	TestTrue(TEXT("and reopens"), Registry.Toggle(Real33D::PanelIds::Trade));
+	TestTrue(TEXT("the trade window unregisters"),
+		Registry.Unregister(Real33D::PanelIds::Trade));
+	TestEqual(TEXT("two once more"), Registry.Num(), 2);
 
 	TestTrue(TEXT("unregister"), Registry.Unregister(Real33D::PanelIds::Skills));
 	TestFalse(TEXT("unregistering twice reports failure"), Registry.Unregister(Real33D::PanelIds::Skills));
@@ -524,6 +539,8 @@ bool FReal33DEditorWindowTest::RunTest(const FString& Parameters)
 	TestFalse(TEXT("and is still headed, not blank"),
 		SReal33DEditorWindow::Title(Unnamed).IsEmpty());
 
+	// (trade rules live in their own suite below)
+
 	// The three list values are enums.hh's own. The bridge pins them with
 	// static_asserts; checked here too, because submitting a guest list under
 	// the subowner byte would edit a different list entirely.
@@ -550,6 +567,17 @@ bool FReal33DEditorWindowTest::RunTest(const FString& Parameters)
 		Window->GetVisibility(), EVisibility::Collapsed);
 	TestFalse(TEXT("and still showing nothing"), Window->IsShowing());
 
+	// The trade panel is DOCKED, not a modal: its Offer control is what
+	// starts a trade, so it must be reachable before one exists. It is drawn
+	// from the start, shows no trade, and is not armed.
+	const TSharedRef<SReal33DTradePanel> TradePanel = SNew(SReal33DTradePanel);
+	TestFalse(TEXT("a fresh trade panel shows no trade"), TradePanel->IsShowing());
+	TestNotEqual(TEXT("and is not hidden, unlike the editor modal"),
+		TradePanel->GetVisibility(), EVisibility::Collapsed);
+	TradePanel->Refresh();
+	TestFalse(TEXT("a refresh without a bridge still shows no trade"),
+		TradePanel->IsShowing());
+
 	// Each list type is labelled distinctly, so a window cannot be mistaken
 	// for the list next to it.
 	TestTrue(TEXT("the three list labels differ"),
@@ -557,6 +585,78 @@ bool FReal33DEditorWindowTest::RunTest(const FString& Parameters)
 			!= FString(Real33DEditListTypeLabel(EReal33DEditListType::Subowner))
 		&& FString(Real33DEditListTypeLabel(EReal33DEditListType::Subowner))
 			!= FString(Real33DEditListTypeLabel(EReal33DEditListType::Door)));
+	return true;
+}
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FReal33DTradePanelTest,
+	"REAL33D.Presentation.TradePanel",
+	EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FReal33DTradePanelTest::RunTest(const FString& Parameters)
+{
+	(void)Parameters;
+
+	// Nothing is shown until Fusion32 sends an offer. A default trade is
+	// closed, and a closed trade says nothing about where anything stands.
+	const FReal33DTrade Closed;
+	TestFalse(TEXT("a default trade is closed"), Closed.bOpen);
+	TestTrue(TEXT("a closed trade has no status line"),
+		SReal33DTradePanel::StatusText(Closed).IsEmpty());
+	TestFalse(TEXT("a closed trade cannot be accepted"),
+		SReal33DTradePanel::CanAccept(Closed));
+
+	// THE RULE THIS WINDOW EXISTS TO KEEP. Accepting is not completing:
+	// TPlayer::AcceptTrade records the flag and returns while the other side
+	// has not accepted. The status line may never say the trade is done.
+	FReal33DTrade Both;
+	Both.bOpen = true;
+	Both.Own.bKnown = true;  Both.Own.Name = TEXT("Test Player B");
+	Both.Partner.bKnown = true; Both.Partner.Name = TEXT("Test Player A");
+	TestTrue(TEXT("both offers present means accept is offered"),
+		SReal33DTradePanel::CanAccept(Both));
+	const FString BothText = SReal33DTradePanel::StatusText(Both).ToString();
+	TestFalse(TEXT("the status never claims completion"),
+		BothText.Contains(TEXT("complete")) && !BothText.Contains(TEXT("not")));
+	Both.bAcceptSent = true;
+	const FString SentText = SReal33DTradePanel::StatusText(Both).ToString();
+	TestTrue(TEXT("an accept that was sent is reported as sent, not as done"),
+		SentText.Contains(TEXT("Accept sent")));
+	TestTrue(TEXT("and says the server needs both sides"),
+		SentText.Contains(TEXT("both")));
+
+	// Half-open is the ordinary 7.72 state: Fusion32 tells the other player
+	// only "X wants to trade with you" until they offer an object, so there
+	// is no partner offer to show and accepting cannot mean anything yet.
+	FReal33DTrade Half;
+	Half.bOpen = true;
+	Half.Own.bKnown = true; Half.Own.Name = TEXT("Test Player B");
+	TestFalse(TEXT("accept is withheld until both sides have offered"),
+		SReal33DTradePanel::CanAccept(Half));
+	TestTrue(TEXT("and the status says what is being waited for"),
+		SReal33DTradePanel::StatusText(Half).ToString().Contains(TEXT("Waiting")));
+
+	// An offer that has not arrived is named as absent on both sides, and is
+	// never confused with an offer that arrived carrying no objects.
+	const FReal33DTradeOffer Absent;
+	FReal33DTradeOffer Empty;  Empty.bKnown = true;  Empty.Name = TEXT("Test Player A");
+	TestTrue(TEXT("an absent own offer says so"),
+		SReal33DTradePanel::OfferTitle(Absent, true).ToString().Contains(TEXT("nothing")));
+	TestTrue(TEXT("an absent partner offer says so"),
+		SReal33DTradePanel::OfferTitle(Absent, false).ToString().Contains(TEXT("No offer")));
+	TestTrue(TEXT("a present offer is titled with the server's name"),
+		SReal33DTradePanel::OfferTitle(Empty, false).ToString().Contains(TEXT("Test Player A")));
+	TestTrue(TEXT("absent and empty read differently"),
+		SReal33DTradePanel::EmptyOfferText(Absent, false).ToString()
+			!= SReal33DTradePanel::EmptyOfferText(Empty, false).ToString());
+	TestTrue(TEXT("only the arrived-and-empty case attributes it to Fusion32"),
+		SReal33DTradePanel::EmptyOfferText(Empty, false).ToString().Contains(TEXT("Fusion32")));
+
+	// The own side's absent text tells the player how to START a trade,
+	// because this client never opens one by itself and the entry point is
+	// the object's own ctrl+right-click menu rather than anything in here.
+	const FString Hint = SReal33DTradePanel::EmptyOfferText(Absent, true).ToString();
+	TestTrue(TEXT("the own absent text names the menu gesture"),
+		Hint.Contains(TEXT("right-click")));
+	TestTrue(TEXT("and names the entry that starts a trade"),
+		Hint.Contains(TEXT("Trade with")));
 	return true;
 }
 #endif

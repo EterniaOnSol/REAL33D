@@ -1348,6 +1348,16 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		TEXT("    \"edit_lists_opened\": %d,\n")
 		TEXT("    \"edit_texts_submitted\": %d,\n")
 		TEXT("    \"edit_lists_submitted\": %d,\n")
+		// Trade. Offers received are counted apart from commands sent,
+		// because an accept this client sent is not proof that anything
+		// changed hands -- only the inventory that follows is.
+		TEXT("    \"trade_own_offers_received\": %d,\n")
+		TEXT("    \"trade_partner_offers_received\": %d,\n")
+		TEXT("    \"trade_closes_received\": %d,\n")
+		TEXT("    \"trade_offers_requested\": %d,\n")
+		TEXT("    \"trade_inspects_requested\": %d,\n")
+		TEXT("    \"trade_accepts_requested\": %d,\n")
+		TEXT("    \"trade_rejects_requested\": %d,\n")
 		TEXT("    \"worldstate_tiles\": %d,\n")
 		TEXT("    \"worldstate_visible_creatures\": %d,\n")
 		TEXT("    \"viewport_synchronised\": %s\n")
@@ -1419,6 +1429,13 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		Stats.EditListsOpened,
 		Stats.EditTextsSubmitted,
 		Stats.EditListsSubmitted,
+		Stats.TradeOwnOffersReceived,
+		Stats.TradePartnerOffersReceived,
+		Stats.TradeClosesReceived,
+		Stats.TradeOffersRequested,
+		Stats.TradeInspectsRequested,
+		Stats.TradeAcceptsRequested,
+		Stats.TradeRejectsRequested,
 		Stats.Tiles,
 		Stats.VisibleCreatures, Stats.bViewportSynchronised ? TEXT("true") : TEXT("false"),
 		CameraPitch, CameraYaw, CameraDistance, DrawnCameraDistance, bCameraObstructed ? TEXT("true") : TEXT("false"), CameraCutaways, bHideUpperFloors ? TEXT("true") : TEXT("false"),

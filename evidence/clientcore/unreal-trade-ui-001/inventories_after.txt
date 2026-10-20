@@ -1,0 +1,15 @@
+--- 01/1001 ---
+Inventory   = {3 Content={2854 Content={2853}},
+               4 Content={3379},
+               5 Content={3561},
+               6 Content={3272}}
+
+Depots      = {}
+--- 02/1002 ---
+Inventory   = {3 Content={2854 Content={3607, 3031 Amount=20, 3492 Amount=12, 3457, 3003}},
+               4 Content={3379},
+               5 Content={3294},
+               6 Content={2815 String="ECERT20261019 ACCEPTED EDIT" Editor="Test Player B"},
+               10 Content={2920}}
+
+Depots      = {}

@@ -194,7 +194,41 @@ enum class EReal33DEventKind : uint8
 	 * A house guest list, subowner list or door list, from SV_CMD_EDIT_LIST.
 	 * Carries which list it is, the id it is submitted against and the body.
 	 */
-	EditListOpened
+	EditListOpened,
+
+	// ---------------------------------------------------------------- trade
+	//
+	// Player-to-player trade. NPC shops reach the same three server commands,
+	// but they are driven entirely by TALK and are not this milestone's
+	// business; nothing here is shop-specific.
+
+	/**
+	 * What this player is offering, from SV_CMD_TRADE_OFFER_OWN.
+	 *
+	 * Arrives as soon as Fusion32 accepts the offer, whether or not the other
+	 * side has offered anything yet.
+	 */
+	TradeOwnOffer,
+
+	/**
+	 * What the other side is offering, from SV_CMD_TRADE_OFFER_PARTNER.
+	 *
+	 * Only arrives once BOTH sides have put an object up. Until then the
+	 * other player has merely been told "X wants to trade with you" as an
+	 * ordinary server message, which is not an offer and is not shown as one.
+	 */
+	TradePartnerOffer,
+
+	/**
+	 * The trade is over, from SV_CMD_CLOSE_TRADE.
+	 *
+	 * SUCCESS AND FAILURE BOTH END HERE and the command carries nothing to
+	 * tell them apart: `TPlayer::AcceptTrade` sends it to both sides after
+	 * moving the objects, and also sends it to both sides when a capacity or
+	 * reach check fails. So this event may never be read as "the trade
+	 * succeeded".
+	 */
+	TradeClosed
 };
 
 /**
@@ -589,6 +623,54 @@ struct FReal33DEditor
 	FString Text;
 };
 
+/**
+ * One side of a trade, as Fusion32 sent it.
+ *
+ * THE OBJECT LIST IS FLAT AND STAYS FLAT. `SendTradeObjects` walks the
+ * offered object and recurses through any container it finds, emitting one
+ * item per object in pre-order, and `ObjCount` is the total for that walk.
+ * Nothing on the wire marks where a bag ends or which object owns which, so
+ * this client shows the list the server sent and reconstructs no tree.
+ * Guessing one would mean inventing which types are containers and how many
+ * children each took.
+ */
+struct FReal33DTradeOffer
+{
+	bool bKnown = false;
+	/** The offering character's name, as the server gave it. */
+	FString Name;
+	TArray<FReal33DItem> Items;
+};
+
+/**
+ * The trade Fusion32 currently has open for this player.
+ *
+ * `bOpen` becomes true on the first offer of either side and false on
+ * SV_CMD_CLOSE_TRADE. There is exactly one: `TPlayer` holds a single
+ * `TradeObject` and `TradePartner`, so a second trade cannot exist.
+ *
+ * NOTHING HERE RECORDS WHETHER A TRADE SUCCEEDED, because the wire does not
+ * say. `AcceptTrade` closes both sides on success and on failure alike. What
+ * actually moved is the inventory and container state Fusion32 sends
+ * afterwards, which this client already mirrors.
+ */
+struct FReal33DTrade
+{
+	bool bOpen = false;
+	FReal33DTradeOffer Own;
+	FReal33DTradeOffer Partner;
+
+	/**
+	 * True once this client has sent CL_CMD_ACCEPT_TRADE.
+	 *
+	 * A record of what this client asked for, never of what the server
+	 * decided: `AcceptTrade` sets the flag and returns silently when the
+	 * other side has not accepted yet, so an accept that produced no close
+	 * means the partner has not accepted -- not that anything failed.
+	 */
+	bool bAcceptSent = false;
+};
+
 /** An event crossing the thread boundary. Copied, never shared. */
 struct FReal33DEvent
 {
@@ -647,6 +729,9 @@ struct FReal33DEvent
 
 	/** Populated only for EditTextOpened and EditListOpened. */
 	FReal33DEditor Editor;
+
+	/** Populated for TradeOwnOffer and TradePartnerOffer. */
+	FReal33DTradeOffer TradeOffer;
 
 	/** 0..100 as the server reports it. Meaningful for creature events. */
 	uint8 HealthPercent = 100;
@@ -757,6 +842,22 @@ struct FReal33DStats
 	int32 EditTextsSubmitted = 0;
 	/** CL_CMD_EDIT_LIST commands put on the wire. */
 	int32 EditListsSubmitted = 0;
+
+	// Trade. Offers are the server's; the four commands are this client's.
+	/** SV_CMD_TRADE_OFFER_OWN commands received. */
+	int32 TradeOwnOffersReceived = 0;
+	/** SV_CMD_TRADE_OFFER_PARTNER commands received. */
+	int32 TradePartnerOffersReceived = 0;
+	/** SV_CMD_CLOSE_TRADE commands received. */
+	int32 TradeClosesReceived = 0;
+	/** CL_CMD_TRADE_OBJECT commands put on the wire. */
+	int32 TradeOffersRequested = 0;
+	/** CL_CMD_INSPECT_TRADE commands put on the wire. */
+	int32 TradeInspectsRequested = 0;
+	/** CL_CMD_ACCEPT_TRADE commands put on the wire. */
+	int32 TradeAcceptsRequested = 0;
+	/** CL_CMD_REJECT_TRADE commands put on the wire. */
+	int32 TradeRejectsRequested = 0;
 	/** Talk shown above the creature that said it. */
 	int32 TalkShownOnCreature = 0;
 	/** Talk shown on the fallback surface because no speaker could be proven. */
@@ -1117,6 +1218,67 @@ public:
 	 */
 	uint32 RequestEditList(EReal33DEditListType Type, uint32 Id, const FString& Text);
 
+	// ------------------------------------------------------------------ trade
+	//
+	// Four commands out, three in. Every one is an intent. Fusion32 owns the
+	// trade outright: `TPlayer` holds the single TradeObject and TradePartner,
+	// decides every refusal, and is the only thing that can end a trade.
+
+	/**
+	 * Offers an object to another player. CL_CMD_TRADE_OBJECT.
+	 *
+	 * Nothing is enforced here. `TCreature::Trade` applies every rule itself
+	 * and answers each refusal through SendResult: the object must be within
+	 * reach, the partner must be an online player within 2 fields and in line
+	 * of throw, neither side may already be trading with someone else, and an
+	 * offer may not contain or be contained by the partner's.
+	 *
+	 * WHAT THE PARTNER SEES DEPENDS ON WHETHER THEY HAVE OFFERED. If they
+	 * have not, Fusion32 sends them only "X wants to trade with you." as an
+	 * ordinary message -- not an offer -- and sends this client its own offer.
+	 * Both sides see both offers only once both have put an object up. That
+	 * asymmetry is the server's and is not smoothed over here.
+	 */
+	uint32 RequestTradeOffer(const FMoveSlot& Object, uint16 TypeId,
+		uint8 StackIndex, uint32 PartnerCreatureId);
+
+	/**
+	 * Looks at one object inside an offer. CL_CMD_INSPECT_TRADE.
+	 *
+	 * `Index` addresses the flat list the matching offer carried. Fusion32
+	 * answers through the ordinary Look path with a TALK_INFO_MESSAGE, so the
+	 * description appears in Local Chat exactly as a world Look does; an
+	 * index naming nothing is ignored by the server and answered with
+	 * silence.
+	 */
+	uint32 RequestTradeInspect(bool bPartnerOffer, uint8 Index);
+
+	/**
+	 * Accepts. CL_CMD_ACCEPT_TRADE.
+	 *
+	 * ACCEPTING IS NOT COMPLETING. `AcceptTrade` records the flag and returns
+	 * when the other side has not accepted; only when both have does it move
+	 * the objects and close. So this client records that it asked, and waits.
+	 */
+	uint32 RequestTradeAccept();
+
+	/**
+	 * Rejects. CL_CMD_REJECT_TRADE.
+	 *
+	 * The one trade effect not waited for, and the reason is the server's:
+	 * `RejectTrade` clears both sides, sends the PARTNER a close and a
+	 * "Trade cancelled." message, and sends the rejecting player **nothing at
+	 * all**. This client's own command is therefore the only signal it will
+	 * get, so the window closes here -- the same shape as leaving a channel.
+	 */
+	uint32 RequestTradeReject();
+
+	/** The trade Fusion32 has open, if any. Game thread only. */
+	const FReal33DTrade& GetTrade() const;
+
+	/** Changes whenever the trade does, so a widget rebuilds only then. */
+	uint64 GetTradeRevision() const;
+
 	/**
 	 * Channel 3, CHANNEL_RULEVIOLATIONS.
 	 *
@@ -1158,6 +1320,9 @@ private:
 
 	/** Applies one drained editor event: opens the window, or clears it. */
 	void NoteEditor(const FReal33DEvent& Event);
+
+	/** Applies one drained trade event: an offer, or the close. */
+	void NoteTrade(const FReal33DEvent& Event);
 
 	FReal33DWorker* Worker = nullptr;
 	FRunnableThread* Thread = nullptr;

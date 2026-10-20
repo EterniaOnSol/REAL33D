@@ -40,7 +40,15 @@ DECLARE_DELEGATE_TwoParams(FReal33DOnItemDropped, FReal33DSlotRef, FReal33DSlotR
  * Plain right-click uses, Shift+right-click starts use-with, and
  * Alt+right-click asks the server to look at that slot.
  */
-enum class EReal33DSlotAction : uint8 { Use, UseWith, Look };
+/**
+ * What a gesture on a slot asked for.
+ *
+ * `ContextMenu` is ctrl+right-click, which is how the 2D client offers the
+ * per-object choices -- Look, Trade with, and so on. It is a separate action
+ * rather than a modifier on Use because the menu is a question, not a
+ * command: nothing reaches Fusion32 until an entry is chosen.
+ */
+enum class EReal33DSlotAction : uint8 { Use, UseWith, Look, ContextMenu };
 DECLARE_DELEGATE_TwoParams(FReal33DOnSlotUsed, FReal33DSlotRef, EReal33DSlotAction);
 
 /**

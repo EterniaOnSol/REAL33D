@@ -1,0 +1,85 @@
+[2026.10.20-04.37.40:944][  0]LogReal33D: trade window: own=0(0 items) partner=0(0 items) accept_sent=0
+[2026.10.20-04.37.43:352][  1]LogReal33D: trade window: own=0(0 items) partner=0(0 items) accept_sent=0
+[2026.10.20-04.37.43:374][  1]LogReal33D: server message [LoginMessage]: Your last visit in Tibia: 19. Oct 2026 22:10:59 CST.
+[2026.10.20-04.38.04:430][122]LogReal33D: server message [InfoMessage]: Test Player A wants to trade with you.
+[2026.10.20-04.38.12:458][379]LogReal33D: context menu opened for object 3294
+[2026.10.20-04.38.15:015][472]LogReal33D: context menu opened for object 2920
+[2026.10.20-04.38.16:174][515]LogReal33D: trade offer begun with object 2920; waiting for a player
+[2026.10.20-04.38.19:168][624]LogReal33D: trade offer 1: object 2920 to creature 1001
+[2026.10.20-04.38.19:222][626]LogReal33D: trade own offer from "Test Player B": 1 object(s)
+[2026.10.20-04.38.19:240][626]LogReal33D: trade partner offer from "Test Player A": 1 object(s)
+[2026.10.20-04.38.19:248][627]LogReal33D: trade window: own=1(1 items) partner=1(1 items) accept_sent=0
+[2026.10.20-04.38.21:294][702]LogReal33D: trade accept 2 sent; completion needs the other side too
+[2026.10.20-04.38.21:294][702]LogReal33D: trade window: own=1(1 items) partner=1(1 items) accept_sent=1
+[2026.10.20-04.38.30:383][ 25]LogReal33D: trade accept 3 sent; completion needs the other side too
+[2026.10.20-04.38.30:386][ 25]LogReal33D: trade window: own=1(1 items) partner=1(1 items) accept_sent=1
+[2026.10.20-04.38.32:271][ 84]LogReal33D: trade closed by Fusion32; the command does not say whether it completed, only the inventory does
+[2026.10.20-04.38.32:328][ 86]LogReal33D: trade window: own=0(0 items) partner=0(0 items) accept_sent=0
+[2026.10.20-04.39.54:130][414]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.20-04.39.57:882][529]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.20-04.40.01:693][641]LogReal33D: context menu opened for object 3607
+[2026.10.20-04.40.04:480][725]LogReal33D: trade offer begun with object 3607; waiting for a player
+[2026.10.20-04.40.06:019][772]LogReal33D: trade offer 25: object 3607 to creature 1001
+[2026.10.20-04.40.06:121][775]LogReal33D: trade own offer from "Test Player B": 1 object(s)
+[2026.10.20-04.40.06:161][776]LogReal33D: trade window: own=1(1 items) partner=0(0 items) accept_sent=0
+[2026.10.20-04.40.13:187][961]LogReal33D: trade partner offer from "Test Player A": 1 object(s)
+[2026.10.20-04.40.13:250][963]LogReal33D: trade window: own=1(1 items) partner=1(1 items) accept_sent=0
+[2026.10.20-04.40.16:186][ 30]LogReal33D: trade closed by Fusion32; the command does not say whether it completed, only the inventory does
+[2026.10.20-04.40.16:194][ 31]LogReal33D: server message [FailureMessage]: Trade cancelled.
+[2026.10.20-04.40.16:232][ 32]LogReal33D: trade window: own=0(0 items) partner=0(0 items) accept_sent=0
+[2026.10.20-04.40.41:715][661]LogReal33D: context menu opened for object 3607
+[2026.10.20-04.40.42:965][699]LogReal33D: trade offer begun with object 3607; waiting for a player
+[2026.10.20-04.40.44:502][745]LogReal33D: trade offer 31: object 3607 to creature 1001
+[2026.10.20-04.40.44:529][745]LogReal33D: trade own offer from "Test Player B": 1 object(s)
+[2026.10.20-04.40.44:572][747]LogReal33D: trade window: own=1(1 items) partner=0(0 items) accept_sent=0
+[2026.10.20-04.40.49:471][869]LogReal33D: trade partner offer from "Test Player A": 1 object(s)
+[2026.10.20-04.40.49:522][871]LogReal33D: trade window: own=1(1 items) partner=1(1 items) accept_sent=0
+[2026.10.20-04.40.58:946][130]LogReal33D: trade accept 32 sent; completion needs the other side too
+[2026.10.20-04.40.58:948][130]LogReal33D: trade window: own=1(1 items) partner=1(1 items) accept_sent=1
+[2026.10.20-04.40.58:972][130]LogReal33D: trade closed by Fusion32; the command does not say whether it completed, only the inventory does
+[2026.10.20-04.40.59:013][132]LogReal33D: trade window: own=0(0 items) partner=0(0 items) accept_sent=0
+[2026.10.20-04.41.15:791][634]LogReal33D: context menu opened for object 3561
+[2026.10.20-04.41.17:014][671]LogReal33D: trade offer begun with object 3561; waiting for a player
+[2026.10.20-04.41.18:546][717]LogReal33D: trade offer 33: object 3561 to creature 1001
+[2026.10.20-04.41.18:629][719]LogReal33D: trade own offer from "Test Player B": 1 object(s)
+[2026.10.20-04.41.18:684][721]LogReal33D: trade window: own=1(1 items) partner=0(0 items) accept_sent=0
+[2026.10.20-04.41.25:820][906]LogReal33D: trade partner offer from "Test Player A": 1 object(s)
+[2026.10.20-04.41.25:887][908]LogReal33D: trade window: own=1(1 items) partner=1(1 items) accept_sent=0
+[2026.10.20-04.41.31:481][ 52]LogReal33D: trade inspect 34: own offer index 0
+[2026.10.20-04.41.31:723][ 59]LogReal33D: server message [InfoMessage]: You see a jacket (Arm:1).
+[2026.10.20-04.41.36:912][195]LogReal33D: trade inspect 35: partner offer index 0
+[2026.10.20-04.41.36:999][197]LogReal33D: server message [InfoMessage]: You see cheese.
+[2026.10.20-04.41.40:073][271]LogReal33D: trade accept 36 sent; completion needs the other side too
+[2026.10.20-04.41.40:102][271]LogReal33D: trade window: own=1(1 items) partner=1(1 items) accept_sent=1
+[2026.10.20-04.41.40:148][272]LogReal33D: trade closed by Fusion32; the command does not say whether it completed, only the inventory does
+[2026.10.20-04.41.40:201][274]LogReal33D: trade window: own=0(0 items) partner=0(0 items) accept_sent=0
+[2026.10.20-04.41.56:154][619]LogReal33D: context menu opened for object 3607
+[2026.10.20-04.41.57:102][642]LogReal33D: trade offer begun with object 3607; waiting for a player
+[2026.10.20-04.41.58:337][672]LogReal33D: trade offer 37: object 3607 to creature 1001
+[2026.10.20-04.41.58:421][674]LogReal33D: trade own offer from "Test Player B": 1 object(s)
+[2026.10.20-04.41.58:501][676]LogReal33D: trade window: own=1(1 items) partner=0(0 items) accept_sent=0
+[2026.10.20-04.42.03:971][787]LogReal33D: trade partner offer from "Test Player A": 1 object(s)
+[2026.10.20-04.42.04:060][789]LogReal33D: trade window: own=1(1 items) partner=1(1 items) accept_sent=0
+[2026.10.20-04.42.08:233][878]LogReal33D: trade reject 38 sent; Fusion32 answers the partner, not us
+[2026.10.20-04.42.08:234][878]LogReal33D: trade window: own=0(0 items) partner=0(0 items) accept_sent=0
+[2026.10.20-04.42.23:435][246]LogReal33D: context menu opened for object 3607
+[2026.10.20-04.42.24:343][268]LogReal33D: trade offer begun with object 3607; waiting for a player
+[2026.10.20-04.42.25:291][291]LogReal33D: trade offer 39: object 3607 to creature 1001
+[2026.10.20-04.42.25:321][291]LogReal33D: trade own offer from "Test Player B": 1 object(s)
+[2026.10.20-04.42.25:372][293]LogReal33D: trade window: own=1(1 items) partner=0(0 items) accept_sent=0
+[2026.10.20-04.42.28:870][362]LogReal33D: trade partner offer from "Test Player A": 1 object(s)
+[2026.10.20-04.42.28:926][364]LogReal33D: trade window: own=1(1 items) partner=1(1 items) accept_sent=0
+[2026.10.20-04.42.31:522][417]LogReal33D: trade closed by Fusion32; the command does not say whether it completed, only the inventory does
+[2026.10.20-04.42.31:542][418]LogReal33D: server message [FailureMessage]: Trade cancelled.
+[2026.10.20-04.42.31:587][419]LogReal33D: trade window: own=0(0 items) partner=0(0 items) accept_sent=0
+[2026.10.20-04.42.57:252][965]LogReal33D: context menu opened for object 3607
+[2026.10.20-04.42.58:105][986]LogReal33D: trade offer begun with object 3607; waiting for a player
+[2026.10.20-04.43.03:212][100]LogReal33D: server message [InfoMessage]: Test Player A wants to trade with you.
+[2026.10.20-04.43.10:222][225]LogReal33D: context menu opened for object 3607
+[2026.10.20-04.43.11:223][250]LogReal33D: trade offer begun with object 3607; waiting for a player
+[2026.10.20-04.43.12:487][281]LogReal33D: trade offer 72: object 3607 to creature 1001
+[2026.10.20-04.43.12:521][281]LogReal33D: trade own offer from "Test Player B": 1 object(s)
+[2026.10.20-04.43.12:521][281]LogReal33D: trade partner offer from "Test Player A": 1 object(s)
+[2026.10.20-04.43.12:564][283]LogReal33D: trade window: own=1(1 items) partner=1(1 items) accept_sent=0
+[2026.10.20-04.43.18:840][432]LogReal33D: trade reject 73 sent; Fusion32 answers the partner, not us
+[2026.10.20-04.43.18:842][432]LogReal33D: trade window: own=0(0 items) partner=0(0 items) accept_sent=0

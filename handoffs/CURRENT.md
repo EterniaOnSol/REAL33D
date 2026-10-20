@@ -1,94 +1,109 @@
-# HANDOFF - UNREAL-EDITORS-UI-001 independent certification
+# HANDOFF - UNREAL-TRADE-UI-001
 
 Date/time: 2026-10-20, America/Guatemala
-Reviewer: Claude; independent certification of the completed scope
-Candidate: `a4f2cb5a300c4bd3440d4c824200d7134618d24d`
-Base / current main: `18b587df92c51be60e734b4f2ece2f39f2065d29`, unchanged
-Branch: `certification/unreal-editors-ui-001-20261019`
-Worktree: `C:/Users/dell/Desktop/fusion32/build/cert-editors-ui-20261019`
-Ending commit: the certification commit containing this handoff
+Agent / role: Claude; implementation and operator-assisted two-account live QA
+Starting commit: `76a261992c6740ecfc612b5421dd91391a06c4d5` (origin/main)
+Ending commit: the commit carrying this handoff on
+`milestone/unreal-trade-ui-001`
+Worktree: `C:/Users/dell/Desktop/fusion32`
 
-EDIT_TEXT_CERTIFICATION = CERTIFIED
-EDIT_LIST_DISPLAY = IMPLEMENTED_UNVERIFIED
-EDIT_LIST_SUBMIT = IMPLEMENTED_UNVERIFIED
-OVERALL_EDITORS_STATUS = PARTIALLY CERTIFIED
-MAIN_MERGE = NONE
-CERT_PUSH = NONE. Only the implementation branch was pushed.
+TRADE_UI_001_STATUS = PASS LOCAL
+MAIN_MERGE = NONE. PUSH = NONE.
 
-## Preservation, done first
+## Objective
 
-`secret_check` passed, `a4f2cb5` was confirmed a direct descendant of
-`origin/main` (so the remote had not diverged), and the implementation was
-pushed normally to `origin/milestone/unreal-editors-ui-001`. Remote main was
-re-checked afterwards and is still `18b587df`. Only then was the isolated
-certification worktree created, from exactly the candidate. No force, no
-rewrite, no branch deletion. The root worktree and the unrelated preservation
-stash were left untouched.
+Player-to-player trade: start from a legitimate interaction, show both
+offers, inspect, accept, reject, close on SV_CMD_CLOSE_TRADE, server
+authoritative, no fake local success, isolated panel, minimal HUD edits.
+NPC shops explicitly out of scope.
 
-## What was certified
+## Discoveries worth keeping
 
-The text editor, end to end, against the production Slate widgets. 52
-assertions, 0 failures, `EDITORS_CERT_RESULT=PASS`. Opening, the server's own
-id/type/limit and text shown on screen, attribution in both states, a
-legitimate submit, authoritative persistence proven by re-reading the object,
-an oversized submit reaching Fusion32 and being refused with the object
-keeping its previous text, the modal not blocking the HUD (proven
-functionally, by clicking the Channels button through it), eight registry
-surfaces, and container/Channels/Local Chat regressions. Protocol counters
-zero.
+- **ClientCore already had it all.** `trade.cpp` carries the builders and
+  decoder; `ApplyServerUpdate` stores nothing for `ServerUpdateKind::Trade`.
+  No ClientCore file changed; the suite count stays 13.
+- **The first offer is prose, not a command.** `TCreature::Trade` tells a
+  partner who has not yet offered only
+  `"%s wants to trade with you."` through SV_CMD_MESSAGE. Both sides see
+  offers only once both have put an object up.
+- **Success and failure close identically.** `AcceptTrade` sends
+  SV_CMD_CLOSE_TRADE to both sides after moving the objects **and** when a
+  reach/capacity check fails. No client can tell them apart from the close;
+  only the inventory can.
+- **Accepting is not completing.** `AcceptTrade` sets the flag and returns
+  while the other side has not accepted.
+- **Rejecting is one-sided.** `RejectTrade` sends the **partner** a close and
+  "Trade cancelled." and sends the rejecter nothing, so the rejecting client
+  must clear its own window.
+- **The offer list is flat** and is shown exactly as sent; nothing on the
+  wire marks where a bag ends.
 
-Detail, reproduction and the retained driver:
-`evidence/clientcore/UNREAL-EDITORS-UI-001-INDEPENDENT-20261019.md` and
-`evidence/clientcore/unreal-editors-ui-independent-20261019/`.
+## Changes
 
-## What was NOT certified, and why
+New: `Real33DTradePanel.h/.cpp`.
+Changed: `Real33DBridge.h/.cpp` (three event kinds, the single open trade,
+four commands as intents, seven counters), `Real33DPanelChrome.h/.cpp`
+(ctrl+right-click raises `EReal33DSlotAction::ContextMenu`, taken before the
+existing gesture machine so its native suite is untouched),
+`Real33DHUD.h/.cpp` (the context menu, the trade half of the existing
+pick-then-aim target, one AddPanel, one member),
+`Real33DPanelRegistry.h/.cpp`, `Real33DWorldActor.cpp`,
+`Real33DPresentationTests.cpp`, `PARITY_MATRIX.md`, `PROJECT_STATUS.md`.
 
-`EDIT_LIST`, both display and submit. The live blocker was re-verified
-independently rather than accepted from the author: `owners.dat` is 0 bytes
-so no character owns a house; `magic.cc`'s three house spells each require
-`GetHouseID(...) != 0`; and every house in `houses.dat` is mainland while
-both test characters are on Rookgaard. The live run bears this out with
-`EditListsOpened = 0` and `EditListsSubmitted = 0`.
+## The defect the live run found, and the operator's correction
 
-**No house ownership or test data was fabricated**, per the explicit
-instruction. Decoder, builders, window rules and the three `enums.hh` values
-remain covered offline only.
+The first build put the Offer control inside the trade window and showed that
+window only once a trade existed. Live, A offered, Fusion32 told B
+*"Test Player A wants to trade with you."* and nothing else — so B had no
+window and **no way to respond at all**.
 
-## Reviewer-side faults, recorded
+Parsing that English sentence to infer a pending trade was refused: it is the
+same invention this project rejected for the text editors. **The operator
+named the authentic gesture** — in Tibia you ctrl+right-click the item and
+choose *Trade with...* — and that is now the entry point. The invented Offer
+button is gone and the panel is docked so it shows the idle state instead of
+hiding the only way in.
 
-Three, none a candidate defect, all retained in the evidence:
+## Tests
 
-1. A malformed `\\wsl.localhost` path in the launcher — the client never read
-   the secrets and the driver correctly hit its deadline.
-2. The driver assumed the scroll was in the backpack; it is held in inventory
-   slot 6.
-3. The driver asserted seven registry surfaces, carried over from the
-   channels certification. The true number is eight.
+ClientCore 13/13, native 5/5, Unreal automation 8/8 with zero errors and
+warnings, MSVC archive, REAL33DEditor build, harness 9 PASS / 0 FAIL / 0 SKIP,
+Git Bash secret_check 6/6.
 
-And two harness failures from invocation and curation, both corrected and
-documented in the report: a `C:/` `--objects-srv` path WSL cannot translate,
-and a mis-copied 2026-09-22 evidence file already committed in the repository
-whose `SV_CMD_LOGIN_ERROR` diagnostic predates this milestone entirely.
+Live, two real accounts: 9 context menus, 7 offers dispatched -> 7 own offers
+returned, 7 partner offers, 2 inspects, 4 accepts, 2 rejects, 5 server
+closes, **0 trade refusals, 0 undecoded commands, 0 decode failures**.
 
-## Gates
+## Remaining UNVERIFIED
 
-ClientCore 13/13, native 5/5, Unreal automation 7/7 with zero errors and
-warnings, MSVC archive, `REAL33DEditor` built from the exact candidate with
-the driver removed, harness selftest 10/10, harness 9 PASS / 0 FAIL / 0 SKIP
-over 24 logs, Git Bash `secret_check` 6/6. All run from this worktree.
+- **Which close meant success** — unverifiable by design, for any client.
+- The accept-time failure closes (TOOHEAVY, NOROOM, NOTMOVABLE, NOTTAKABLE,
+  CONTAINERFULL) — none occurred.
+- Multi-object offers: every offer carried one object, so the flat container
+  walk was never exercised against a real bag.
+- Offer-time refusals (ALREADYTRADING, PARTNERTRADING, TOOMANYOBJECTS,
+  OUTOFRANGE, CANNOTTHROW) — none occurred.
+- B's saved inventory returned to its baseline type composition; the
+  per-trade ledger was not reconstructed and is not claimed. A's file shows
+  the transfer.
+- NPC shops: out of scope, untouched.
 
-## Exact next task
+## Operator request parked for the next milestone
 
-`READY_TO_MERGE_MAIN = NO` for the milestone as a whole while `EDIT_LIST` is
-unverified. Two ways forward, the operator's choice:
+The operator asked for the same ctrl+right-click menu **on their own
+character**, to change outfit and colours. That is the outfit dialog and it
+is NOT in this milestone: `SV_CMD_OUTFIT` (200) is decoded in ClientCore
+(`DecodeOutfitDialog`), but there are **no builders** for
+`CL_CMD_GET_OUTFIT` / `CL_CMD_SET_OUTFIT`, so it needs ClientCore work first
+plus its own tests. Suggested next task: `CLIENTCORE-OUTFIT-772-001` for the
+two builders, then `UNREAL-OUTFIT-UI-001` for the dialog, reusing the context
+menu this milestone added. Read `receiving.cc::CGetOutfit`/`CSetOutfit` and
+`sending.cc::SendOutfit` first.
 
-1. Merge only on the understanding that `EDIT_LIST` ships
-   `IMPLEMENTED_UNVERIFIED` and is recorded as such in `PARITY_MATRIX.md`.
-2. Close `EDIT_LIST` first. That needs operator authorization to author test
-   data: assign a house in `game/reference/dat/owners.dat` and move a
-   character inside it. Read `reference/game/src/houses.cc`
-   (`ShowGuestList`, `ChangeGuests`), `reference/game/src/magic.cc`
-   (`EditGuests`, spells 71/72/74) and
-   `clientcore/include/fusion32/protocol772/editors.h` first.
+## Environment
 
-Do not merge main into either branch on this task.
+Unchanged: build with VS2022 BuildTools MSVC 14.44.35207; the harness
+selftest needs `cl.exe` on PATH; `--objects-srv` must be a local path, not a
+UNC path. The server was stopped once, with operator authorization, purely to
+force `Alle Spielerdaten gespeichert` for the inventory diff, and restarted
+immediately. No server data was edited.

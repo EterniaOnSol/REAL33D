@@ -157,6 +157,19 @@ private:
 	void BeginUseTarget(const UReal33DBridge::FMoveSlot& Source, uint16 TypeId, uint8 StackIndex);
 
 	/**
+	 * The ctrl+right-click menu for one object, as the 2D client offers it.
+	 *
+	 * Built from what Fusion32 can actually be asked about this object, and
+	 * nothing else: Look always, and Trade with when a trade could be
+	 * started. Choosing an entry is what sends a command; opening the menu
+	 * sends nothing.
+	 */
+	void ShowSlotContextMenu(FReal33DSlotRef Slot);
+
+	/** Arms the trade half of the same pick-then-aim gesture. */
+	void BeginTradeTarget(const UReal33DBridge::FMoveSlot& Source, uint16 TypeId, uint8 StackIndex);
+
+	/**
 	 * The lowest open-container number the server is not already using.
 	 *
 	 * CL_CMD_USE_OBJECT carries the slot a container should be shown in, and
@@ -166,9 +179,18 @@ private:
 	 */
 	uint8 FirstFreeContainerNumber() const;
 
-	/** A use-with the player has begun but not yet aimed. */
+	/**
+	 * Something the player has picked but not yet aimed.
+	 *
+	 * Two kinds share this one slot because they share the whole gesture:
+	 * pick an object, then click a target. A trade offer is aimed at a
+	 * creature just as a use-with is, and keeping one pending target means
+	 * there is one banner, one Escape and one place that can be stale.
+	 */
 	struct FPendingUse
 	{
+		enum class EKind : uint8 { UseWith, TradeOffer };
+		EKind Kind = EKind::UseWith;
 		bool bActive = false;
 		UReal33DBridge::FMoveSlot Source;
 		uint16 TypeId = 0;
@@ -201,6 +223,8 @@ private:
 	 * keeps one way to show and hide a surface.
 	 */
 	TSharedPtr<class SReal33DEditorWindow> TextEditor;
+	/** The player-to-player trade window. Centred modal, registry-managed. */
+	TSharedPtr<class SReal33DTradePanel> Trade;
 	TSharedPtr<SReal33DConditionStrip> Conditions;
 	TSharedPtr<SReal33DMinimapPanel> Minimap;
 	TSharedPtr<SReal33DControlPanel> Controls;

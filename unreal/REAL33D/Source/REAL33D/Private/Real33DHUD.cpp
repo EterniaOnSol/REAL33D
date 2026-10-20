@@ -12,6 +12,7 @@
 #include "Real33DMinimapPanel.h"
 #include "Real33DPanelChrome.h"
 #include "Real33DSkillsPanel.h"
+#include "Real33DTradePanel.h"
 #include "Real33DUIStyle.h"
 #include "Real33DVitalsPanel.h"
 #include "Real33DWorldActor.h"
@@ -19,6 +20,7 @@
 #include "Styling/CoreStyle.h"
 #include "Styling/ISlateStyle.h"
 #include "Framework/Application/SlateApplication.h"
+#include "Framework/MultiBox/MultiBoxBuilder.h"
 #include "Layout/WidgetPath.h"
 #include "Widgets/Images/SImage.h"
 #include "Widgets/Layout/SBox.h"
@@ -245,6 +247,14 @@ void SReal33DHUD::Construct(const FArguments& InArgs)
 		.OnCreatureTargeted(FReal33DOnCreatureTargeted::CreateSP(
 			this, &SReal33DHUD::HandleCreatureTargeted)));
 
+	// Docked, not a centred modal. A live run proved why: Fusion32 answers
+	// the first offer by telling the other player "X wants to trade with you"
+	// in prose and nothing else, so a window that appeared only once a trade
+	// existed left that player unable to respond at all.
+	AddPanel(Inner, Real33D::PanelIds::Trade,
+		FText::FromString(TEXT("Trade")), NAME_None, 190.0f,
+		SAssignNew(Trade, SReal33DTradePanel).Bridge(Bridge));
+
 	// The one call this panel needs, which is what the registry exists for.
 	// It goes above the containers because a stack of open bags is the tallest
 	// thing in this column and would push it off the fold.
@@ -426,6 +436,12 @@ void SReal33DHUD::HandleSlotUsed(FReal33DSlotRef Slot, EReal33DSlotAction Action
 		return;
 	}
 
+	if (Action == EReal33DSlotAction::ContextMenu)
+	{
+		ShowSlotContextMenu(Slot);
+		return;
+	}
+
 	if (Action == EReal33DSlotAction::Look)
 	{
 		const auto Point = Slot.Kind == FReal33DSlotRef::EKind::Container
@@ -544,11 +560,26 @@ bool SReal33DHUD::CompleteUseOnCreature(uint32 CreatureId)
 	UReal33DBridge* Live = Bridge.Get();
 	if (Live != nullptr && Live->IsRunning())
 	{
-		const uint32 UseId = Live->RequestUseOnCreature(
-			Pending.Source, Pending.TypeId, Pending.StackIndex, CreatureId);
-		if (UseId != 0 && WorldOverlay.IsValid()) WorldOverlay->ShowRequest(TEXT("Use With requested"));
-		UE_LOG(LogReal33D, Log, TEXT("use-with %u: object %u on creature %u"),
-			UseId, Pending.TypeId, CreatureId);
+		if (Pending.Kind == FPendingUse::EKind::TradeOffer)
+		{
+			// The creature click is the partner. Fusion32 rules on distance,
+			// line of throw and both sides' trade state; nothing is checked
+			// here beyond having something to name.
+			const uint32 TradeId = Live->RequestTradeOffer(
+				Pending.Source, Pending.TypeId, Pending.StackIndex, CreatureId);
+			if (TradeId != 0 && WorldOverlay.IsValid())
+				WorldOverlay->ShowRequest(TEXT("Trade offered"));
+			UE_LOG(LogReal33D, Log, TEXT("trade offer %u: object %u to creature %u"),
+				TradeId, Pending.TypeId, CreatureId);
+		}
+		else
+		{
+			const uint32 UseId = Live->RequestUseOnCreature(
+				Pending.Source, Pending.TypeId, Pending.StackIndex, CreatureId);
+			if (UseId != 0 && WorldOverlay.IsValid()) WorldOverlay->ShowRequest(TEXT("Use With requested"));
+			UE_LOG(LogReal33D, Log, TEXT("use-with %u: object %u on creature %u"),
+				UseId, Pending.TypeId, CreatureId);
+		}
 	}
 	CancelTargeting();
 	return true;
@@ -617,10 +648,72 @@ bool SReal33DHUD::LookAtWorldPoint(const Real33D::FMapPosition& Position)
 	return LookId != 0;
 }
 
+void SReal33DHUD::ShowSlotContextMenu(FReal33DSlotRef Slot)
+{
+	const auto ToSlot = [](const FReal33DSlotRef& Ref)
+	{
+		return Ref.Kind == FReal33DSlotRef::EKind::Container
+			? UReal33DBridge::FMoveSlot::InContainer(Ref.Container, Ref.Slot)
+			: UReal33DBridge::FMoveSlot::InInventory(Ref.Slot);
+	};
+
+	// Nothing is sent by opening this. Each entry is a question Fusion32 can
+	// be asked about this object; the server still rules on every one of them.
+	FMenuBuilder Menu(/*bShouldCloseWindowAfterMenuSelection*/ true, nullptr);
+
+	Menu.AddMenuEntry(
+		NSLOCTEXT("Real33D", "SlotMenuLook", "Look"),
+		NSLOCTEXT("Real33D", "SlotMenuLookTip", "Asks Fusion32 to describe this object."),
+		FSlateIcon(),
+		FUIAction(FExecuteAction::CreateLambda([this, Slot, ToSlot]()
+		{
+			if (UReal33DBridge* Live = Bridge.Get(); Live != nullptr && Live->IsRunning())
+			{
+				Live->RequestLookAtPoint(ToSlot(Slot));
+			}
+		})));
+
+	Menu.AddMenuEntry(
+		NSLOCTEXT("Real33D", "SlotMenuTrade", "Trade with..."),
+		NSLOCTEXT("Real33D", "SlotMenuTradeTip",
+			"Offers this object. Click the other player next; Fusion32 requires "
+			"them within two fields and in line of throw."),
+		FSlateIcon(),
+		FUIAction(FExecuteAction::CreateLambda([this, Slot, ToSlot]()
+		{
+			// Arms the second half of the gesture. The command goes out when
+			// the player names a partner, not now.
+			BeginTradeTarget(ToSlot(Slot), Slot.TypeId, Slot.Slot);
+		})));
+
+	FSlateApplication::Get().PushMenu(
+		SharedThis(this),
+		FWidgetPath(),
+		Menu.MakeWidget(),
+		FSlateApplication::Get().GetCursorPos(),
+		FPopupTransitionEffect(FPopupTransitionEffect::ContextMenu));
+
+	UE_LOG(LogReal33D, Log, TEXT("context menu opened for object %u"), Slot.TypeId);
+}
+
+void SReal33DHUD::BeginTradeTarget(const UReal33DBridge::FMoveSlot& Source,
+	uint16 TypeId, uint8 StackIndex)
+{
+	Pending.bActive = true;
+	Pending.Kind = FPendingUse::EKind::TradeOffer;
+	Pending.Source = Source;
+	Pending.TypeId = TypeId;
+	Pending.StackIndex = StackIndex;
+	UpdateTargetingBanner();
+	UE_LOG(LogReal33D, Log,
+		TEXT("trade offer begun with object %u; waiting for a player"), TypeId);
+}
+
 void SReal33DHUD::BeginUseTarget(const UReal33DBridge::FMoveSlot& Source,
 	uint16 TypeId, uint8 StackIndex)
 {
 	Pending.bActive = true;
+	Pending.Kind = FPendingUse::EKind::UseWith;
 	Pending.Source = Source;
 	Pending.TypeId = TypeId;
 	Pending.StackIndex = StackIndex;
@@ -714,6 +807,7 @@ void SReal33DHUD::Refresh(const AReal33DWorld* World)
 	// Driven from here rather than from its own Tick: Slate does not tick a
 	// collapsed widget, and that window is collapsed until Fusion32 opens one.
 	if (TextEditor.IsValid()) TextEditor->Refresh();
+	if (Trade.IsValid()) Trade->Refresh();
 	// Everything below is a server-owned value or an explicit "not known yet".
 	// A null world is the second of those, not a reason to keep the last frame:
 	// the panels must empty out when the session ends.

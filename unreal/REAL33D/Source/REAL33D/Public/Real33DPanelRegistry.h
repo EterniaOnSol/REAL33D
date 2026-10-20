@@ -31,6 +31,11 @@ namespace PanelIds
 	 * one way to show and hide something.
 	 */
 	REAL33D_API extern const FName TextEditor;
+	/**
+	 * The player-to-player trade window. A centred modal like the text
+	 * editor, registered here for the same reason: visibility gets one owner.
+	 */
+	REAL33D_API extern const FName Trade;
 }
 }
 

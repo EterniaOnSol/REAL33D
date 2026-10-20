@@ -26,6 +26,7 @@ THIRD_PARTY_INCLUDES_START
 #include "fusion32/protocol772/movement.h"
 #include "fusion32/protocol772/movement_ledger.h"
 #include "fusion32/protocol772/talk_command.h"
+#include "fusion32/protocol772/trade.h"
 #include "fusion32/protocol772/talk_speaker.h"
 #include "fusion32/protocol772/player_state.h"
 #include "fusion32/protocol772/worldview.h"
@@ -152,6 +153,13 @@ struct FReal33DChatTranscript
 	FReal33DEditor Editor;
 	uint64 EditorRevision = 0;
 
+	/**
+	 * The one trade Fusion32 has open. One, because TPlayer holds a single
+	 * TradeObject and TradePartner, so a second cannot exist.
+	 */
+	FReal33DTrade Trade;
+	uint64 TradeRevision = 0;
+
 	FReal33DChatTranscript()
 	{
 		// Local Chat exists before the first connection, because a failure
@@ -191,6 +199,10 @@ struct FReal33DChatTranscript
 		// submits against means nothing to a new session.
 		Editor = FReal33DEditor();
 		++EditorRevision;
+		// A trade belongs to the connection that opened it; the partner's
+		// creature id means nothing in a new session.
+		Trade = FReal33DTrade();
+		++TradeRevision;
 		++Revision;
 	}
 };
@@ -471,6 +483,27 @@ public:
 	void PostEdit(const FEditIntent& Intent)
 	{
 		EditIntents.Enqueue(Intent);
+	}
+
+	/** Something the player asked of a trade. Semantic until DrainTrades. */
+	struct FTradeIntent
+	{
+		enum class EKind : uint8 { Offer, Inspect, Accept, Reject };
+		uint32 ActionId = 0;
+		EKind Kind = EKind::Offer;
+		/** Offer only. */
+		UReal33DBridge::FMoveSlot Object;
+		uint16 TypeId = 0;
+		uint8 StackIndex = 0;
+		uint32 PartnerCreatureId = 0;
+		/** Inspect only. */
+		bool bPartnerOffer = false;
+		uint8 Index = 0;
+	};
+
+	void PostTrade(const FTradeIntent& Intent)
+	{
+		TradeIntents.Enqueue(Intent);
 	}
 
 	bool Dequeue(FReal33DEvent& OutEvent) { return Events.Dequeue(OutEvent); }
@@ -916,6 +949,61 @@ private:
 				else          { ++Stats.EditListsOpened; }
 			}
 
+			if (Decoded.update.kind == p772::ServerUpdateKind::Trade)
+			{
+				// Decoded by ClientCore and stored nowhere by WorldState:
+				// Fusion32 owns the trade and resends each offer whenever it
+				// changes, so the open trade is presentation state and lives
+				// on the game thread with the other surfaces.
+				const p772::TradeUpdate& T = Decoded.update.trade;
+				FReal33DEvent Event;
+				Event.Direction = kNoDirection;
+				switch (T.kind)
+				{
+				case p772::TradeUpdateKind::OwnOffer:
+				case p772::TradeUpdateKind::PartnerOffer:
+				{
+					const bool bOwn = T.kind == p772::TradeUpdateKind::OwnOffer;
+					Event.Kind = bOwn ? EReal33DEventKind::TradeOwnOffer
+									  : EReal33DEventKind::TradePartnerOffer;
+					Event.TradeOffer.bKnown = true;
+					Event.TradeOffer.Name = UTF8_TO_TCHAR(T.name.c_str());
+					Event.TradeOffer.Items.Reserve(static_cast<int32>(T.items.size()));
+					for (const p772::ItemThing& Each : T.items)
+					{
+						Event.TradeOffer.Items.Add(ToUnrealItem(Each));
+					}
+					UE_LOG(LogReal33D, Log, TEXT("trade %s offer from \"%s\": %d object(s)"),
+						bOwn ? TEXT("own") : TEXT("partner"),
+						*Event.TradeOffer.Name, Event.TradeOffer.Items.Num());
+					break;
+				}
+				case p772::TradeUpdateKind::Closed:
+					Event.Kind = EReal33DEventKind::TradeClosed;
+					// Named exactly, because the command cannot say which:
+					// AcceptTrade closes both sides after moving the objects
+					// and also closes both sides when a check fails.
+					UE_LOG(LogReal33D, Log,
+						TEXT("trade closed by Fusion32; the command does not say "
+							 "whether it completed, only the inventory does"));
+					break;
+				}
+				const EReal33DEventKind Published = Event.Kind;
+				Publish(MoveTemp(Event));
+
+				FScopeLock Lock(&StatsMutex);
+				switch (Published)
+				{
+				case EReal33DEventKind::TradeOwnOffer:
+					++Stats.TradeOwnOffersReceived; break;
+				case EReal33DEventKind::TradePartnerOffer:
+					++Stats.TradePartnerOffersReceived; break;
+				case EReal33DEventKind::TradeClosed:
+					++Stats.TradeClosesReceived; break;
+				default: break;
+				}
+			}
+
 			if (Decoded.update.kind == p772::ServerUpdateKind::Snapback)
 			{
 				// Fusion32 refused a step. The ledger says which one, so the
@@ -1240,6 +1328,7 @@ private:
 		DrainCombat();
 		DrainChannels();
 		DrainEdits();
+		DrainTrades();
 
 		// A reply that never comes must not be allowed to claim a later move.
 		// Three seconds is far longer than a local round trip; the server's own
@@ -1644,6 +1733,55 @@ private:
 		}
 	}
 
+	void DrainTrades()
+	{
+		FTradeIntent Intent;
+		while (TradeIntents.Dequeue(Intent))
+		{
+			// Built by ClientCore in every case. Nothing is enforced here:
+			// TCreature::Trade re-checks reach, distance, line of throw and
+			// both sides' trade state itself and answers each refusal through
+			// SendResult, so refusing locally would invent a rule Fusion32
+			// already applies.
+			std::vector<std::uint8_t> Command;
+			switch (Intent.Kind)
+			{
+			case FTradeIntent::EKind::Offer:
+				Command = p772::BuildTradeObjectCommand(ToEndpoint(Intent.Object),
+					Intent.TypeId, Intent.StackIndex, Intent.PartnerCreatureId);
+				break;
+			case FTradeIntent::EKind::Inspect:
+				Command = p772::BuildInspectTradeCommand(
+					Intent.bPartnerOffer ? p772::TradeOfferSide::Partner
+										 : p772::TradeOfferSide::Own,
+					Intent.Index);
+				break;
+			case FTradeIntent::EKind::Accept:
+				Command = p772::BuildAcceptTradeCommand();
+				break;
+			case FTradeIntent::EKind::Reject:
+				Command = p772::BuildRejectTradeCommand();
+				break;
+			}
+
+			if (Command.empty() || !Session.SendCommand(Command).ok())
+			{
+				UE_LOG(LogReal33D, Warning,
+					TEXT("trade command %u was not sent"), Intent.ActionId);
+				continue;
+			}
+
+			FScopeLock Lock(&StatsMutex);
+			switch (Intent.Kind)
+			{
+			case FTradeIntent::EKind::Offer:   ++Stats.TradeOffersRequested; break;
+			case FTradeIntent::EKind::Inspect: ++Stats.TradeInspectsRequested; break;
+			case FTradeIntent::EKind::Accept:  ++Stats.TradeAcceptsRequested; break;
+			case FTradeIntent::EKind::Reject:  ++Stats.TradeRejectsRequested; break;
+			}
+		}
+	}
+
 	/** Looks up and forgets the key press a request came from. */
 	uint32 TakeInputFor(std::uint32_t RequestId)
 	{
@@ -1726,6 +1864,7 @@ private:
 	TQueue<FCombatIntent, EQueueMode::Spsc> CombatIntents;
 	TQueue<FChannelIntent, EQueueMode::Spsc> ChannelIntents;
 	TQueue<FEditIntent, EQueueMode::Spsc> EditIntents;
+	TQueue<FTradeIntent, EQueueMode::Spsc> TradeIntents;
 
 	TQueue<FReal33DEvent, EQueueMode::Spsc> Events;
 	TQueue<FIntent, EQueueMode::Spsc> Intents;
@@ -1887,6 +2026,7 @@ void UReal33DBridge::DrainEvents(TArray<FReal33DEvent>& OutEvents)
 		// the same drain, and the line has to find the tab already there.
 		NoteChannel(Event);
 		NoteEditor(Event);
+		NoteTrade(Event);
 		NoteChat(Event);
 		NoteMinimap(Event);
 		OutEvents.Add(MoveTemp(Event));
@@ -2156,6 +2296,148 @@ void UReal33DBridge::NoteEditor(const FReal33DEvent& Event)
 	// ordinary case, and the server has already moved on from the first.
 	Transcript->Editor = Event.Editor;
 	++Transcript->EditorRevision;
+}
+
+void UReal33DBridge::NoteTrade(const FReal33DEvent& Event)
+{
+	if (Transcript == nullptr)
+	{
+		return;
+	}
+	switch (Event.Kind)
+	{
+	case EReal33DEventKind::TradeOwnOffer:
+		// The first offer of either side is what opens the window. An accept
+		// already sent belongs to the previous shape of the trade: Fusion32
+		// resends an offer when it changes, and a changed offer is a thing
+		// the player must look at again before accepting.
+		Transcript->Trade.bOpen = true;
+		Transcript->Trade.Own = Event.TradeOffer;
+		Transcript->Trade.bAcceptSent = false;
+		++Transcript->TradeRevision;
+		break;
+
+	case EReal33DEventKind::TradePartnerOffer:
+		Transcript->Trade.bOpen = true;
+		Transcript->Trade.Partner = Event.TradeOffer;
+		Transcript->Trade.bAcceptSent = false;
+		++Transcript->TradeRevision;
+		break;
+
+	case EReal33DEventKind::TradeClosed:
+		// Cleared wholesale. The command says the trade is over and nothing
+		// else; whether anything changed hands is the inventory's business,
+		// and the inventory is mirrored separately from Fusion32's own
+		// SV_CMD_SET_INVENTORY and container commands.
+		Transcript->Trade = FReal33DTrade();
+		++Transcript->TradeRevision;
+		break;
+
+	case EReal33DEventKind::Disconnected:
+	case EReal33DEventKind::Failed:
+		Transcript->Trade = FReal33DTrade();
+		++Transcript->TradeRevision;
+		break;
+
+	default:
+		break;
+	}
+}
+
+const FReal33DTrade& UReal33DBridge::GetTrade() const
+{
+	check(IsInGameThread());
+	static const FReal33DTrade Closed;
+	return Transcript != nullptr ? Transcript->Trade : Closed;
+}
+
+uint64 UReal33DBridge::GetTradeRevision() const
+{
+	return Transcript != nullptr ? Transcript->TradeRevision : 0;
+}
+
+uint32 UReal33DBridge::RequestTradeOffer(const FMoveSlot& Object, uint16 TypeId,
+	uint8 StackIndex, uint32 PartnerCreatureId)
+{
+	if (Worker == nullptr || PartnerCreatureId == 0)
+	{
+		// CTradeObject reads a partner id and TCreature::Trade answers
+		// PLAYERNOTONLINE for one that names nobody; zero never names anyone.
+		return 0;
+	}
+	const uint32 ActionId = ++NextInputId;
+	FReal33DWorker::FTradeIntent Intent;
+	Intent.ActionId = ActionId;
+	Intent.Kind = FReal33DWorker::FTradeIntent::EKind::Offer;
+	Intent.Object = Object;
+	Intent.TypeId = TypeId;
+	Intent.StackIndex = StackIndex;
+	Intent.PartnerCreatureId = PartnerCreatureId;
+	Worker->PostTrade(Intent);
+	return ActionId;
+}
+
+uint32 UReal33DBridge::RequestTradeInspect(bool bPartnerOffer, uint8 Index)
+{
+	if (Worker == nullptr)
+	{
+		return 0;
+	}
+	const uint32 ActionId = ++NextInputId;
+	FReal33DWorker::FTradeIntent Intent;
+	Intent.ActionId = ActionId;
+	Intent.Kind = FReal33DWorker::FTradeIntent::EKind::Inspect;
+	Intent.bPartnerOffer = bPartnerOffer;
+	Intent.Index = Index;
+	Worker->PostTrade(Intent);
+	return ActionId;
+}
+
+uint32 UReal33DBridge::RequestTradeAccept()
+{
+	if (Worker == nullptr)
+	{
+		return 0;
+	}
+	const uint32 ActionId = ++NextInputId;
+	FReal33DWorker::FTradeIntent Intent;
+	Intent.ActionId = ActionId;
+	Intent.Kind = FReal33DWorker::FTradeIntent::EKind::Accept;
+	Worker->PostTrade(Intent);
+
+	// Recorded as "this client asked", never as "the trade is done".
+	// AcceptTrade returns silently while the other side has not accepted.
+	if (Transcript != nullptr && Transcript->Trade.bOpen)
+	{
+		Transcript->Trade.bAcceptSent = true;
+		++Transcript->TradeRevision;
+	}
+	return ActionId;
+}
+
+uint32 UReal33DBridge::RequestTradeReject()
+{
+	if (Worker == nullptr)
+	{
+		return 0;
+	}
+	const uint32 ActionId = ++NextInputId;
+	FReal33DWorker::FTradeIntent Intent;
+	Intent.ActionId = ActionId;
+	Intent.Kind = FReal33DWorker::FTradeIntent::EKind::Reject;
+	Worker->PostTrade(Intent);
+
+	// Applied here, because TPlayer::RejectTrade sends the PARTNER a close
+	// and a "Trade cancelled." message and sends the rejecting player
+	// nothing at all. This client's own command is the only signal it gets.
+	if (Transcript != nullptr)
+	{
+		Transcript->Trade = FReal33DTrade();
+		++Transcript->TradeRevision;
+	}
+	UE_LOG(LogReal33D, Log,
+		TEXT("trade reject %u sent; Fusion32 answers the partner, not us"), ActionId);
+	return ActionId;
 }
 
 const FReal33DEditor& UReal33DBridge::GetEditor() const
