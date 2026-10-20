@@ -1,0 +1,58 @@
+Using bundled DotNet SDK version: 10.0 win-x64
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" REAL33DEditor Win64 Development -Project="C:\Users\dell\Desktop\fusion32\build\cert-trade-ui-20261020\unreal\REAL33D\REAL33D.uproject" -WaitMutex -CompilerVersion=14.44.35207 -NoUBA -MaxParallelActions=1
+Log file: C:\Users\dell\AppData\Local\UnrealBuildTool\Log.txt
+Executing up to 1 actions based on MaxProcessorCount override
+UbaSessionServer - Disable remote execution (remote sessions will finish current processes)
+Building REAL33DEditor...
+===== Toolchain Information =====
+Using ISPC compiler (C:\Program Files\Epic Games\UE_5.8\Engine\Source\ThirdParty\Intel\ISPC\bin\Windows\ispc.exe)
+  Intel(r) Implicit SPMD Program Compiler (Intel(r) ISPC), 1.24.0 (build commit  @ 20250404, LLVM 18.1.2) 
+Using Visual Studio 14.44.35228 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207) and Windows 10.0.26100.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[Adaptive Build] Excluded from REAL33D unity file: REAL33D.cpp, Real33DActionBarPanel.cpp, Real33DAssetRegistry.cpp, Real33DBattlePanel.cpp, Real33DBridge.cpp, Real33DChannelsPanel.cpp, Real33DChatPanel.cpp, Real33DContainersPanel.cpp, Real33DControlPanel.cpp, Real33DCreatureActor.cpp, Real33DEditorWindow.cpp, Real33DGalleryActor.cpp, Real33DGalleryPanel.cpp, Real33DGameMode.cpp, Real33DHUD.cpp, Real33DInventoryPanel.cpp, Real33DMinimapPanel.cpp, Real33DPanelChrome.cpp, Real33DPanelRegistry.cpp, Real33DPlayerController.cpp, Real33DPresentationTests.cpp, Real33DSkillsPanel.cpp, Real33DStaticSectorActor.cpp, Real33DTileActor.cpp, Real33DTradePanel.cpp, Real33DUIStyle.cpp, Real33DVitalsPanel.cpp, Real33DWorldActor.cpp, Real33DWorldOverlay.cpp
+=================================
+Using Unreal Build Accelerator local executor to run 34 action(s)
+  CPU 4 physical cores, 8 logical cores
+  Memory 11.83 GB physical, 17.43 GB/20.58 GB committed
+  UBA Storage capacity 40 GB
+[1/34] Compile [x64] SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.cpp [NoUba]
+[2/34] Compile [x64] Module.REAL33D.cpp [NoUba]
+[3/34] Compile [x64] REAL33D.cpp [NoUba]
+[4/34] Compile [x64] Real33DActionBarPanel.cpp [NoUba]
+[5/34] Compile [x64] Real33DAssetRegistry.cpp [NoUba]
+[6/34] Compile [x64] Real33DBattlePanel.cpp [NoUba]
+[7/34] Compile [x64] Real33DBridge.cpp [NoUba]
+[8/34] Compile [x64] Real33DChannelsPanel.cpp [NoUba]
+[9/34] Compile [x64] Real33DChatPanel.cpp [NoUba]
+[10/34] Compile [x64] Real33DContainersPanel.cpp [NoUba]
+[11/34] Compile [x64] Real33DControlPanel.cpp [NoUba]
+[12/34] Compile [x64] Real33DCreatureActor.cpp [NoUba]
+[13/34] Compile [x64] Real33DEditorWindow.cpp [NoUba]
+[14/34] Compile [x64] Real33DGalleryActor.cpp [NoUba]
+[15/34] Compile [x64] Real33DGalleryPanel.cpp [NoUba]
+[16/34] Compile [x64] Real33DGameMode.cpp [NoUba]
+[17/34] Compile [x64] Real33DHUD.cpp [NoUba]
+[18/34] Compile [x64] Real33DInventoryPanel.cpp [NoUba]
+[19/34] Compile [x64] Real33DMinimapPanel.cpp [NoUba]
+[20/34] Compile [x64] Real33DPanelChrome.cpp [NoUba]
+[21/34] Compile [x64] Real33DPanelRegistry.cpp [NoUba]
+[22/34] Compile [x64] Real33DPlayerController.cpp [NoUba]
+[23/34] Compile [x64] Real33DPresentationTests.cpp [NoUba]
+[24/34] Compile [x64] Real33DSkillsPanel.cpp [NoUba]
+[25/34] Compile [x64] Real33DStaticSectorActor.cpp [NoUba]
+[26/34] Compile [x64] Real33DTileActor.cpp [NoUba]
+[27/34] Compile [x64] Real33DTradePanel.cpp [NoUba]
+[28/34] Compile [x64] Real33DUIStyle.cpp [NoUba]
+[29/34] Compile [x64] Real33DVitalsPanel.cpp [NoUba]
+[30/34] Compile [x64] Real33DWorldActor.cpp [NoUba]
+[31/34] Compile [x64] Real33DWorldOverlay.cpp [NoUba]
+[32/34] Link [x64] UnrealEditor-REAL33D.dll [NoUba]
+[33/34] Link [x64] UnrealEditor-REAL33D.lib [NoUba]
+   Creando biblioteca C:/Users/dell/Desktop/fusion32/build/cert-trade-ui-20261020/unreal/REAL33D/Intermediate/Build/Win64/x64/UnrealEditor/Development/REAL33D/UnrealEditor-REAL33D.lib y objeto C:/Users/dell/Desktop/fusion32/build/cert-trade-ui-20261020/unreal/REAL33D/Intermediate/Build/Win64/x64/UnrealEditor/Development/REAL33D/UnrealEditor-REAL33D.exp
+[34/34] WriteMetadata REAL33DEditor.target [NoUba]
+
+Total time in Unreal Build Accelerator local executor: 323.84 seconds
+Output binary: C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\Win64\UnrealEditor.exe
+
+Result: Succeeded
+Total execution time: 331.04 seconds
+Trace written to file C:\Users\dell\AppData\Local\UnrealBuildTool\Trace.uba with size 30.2kb

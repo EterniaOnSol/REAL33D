@@ -1,0 +1,47 @@
+﻿{
+  "audit": "PASS",
+  "named_live_assertions": 23,
+  "snapshot_count": 28,
+  "final_counters": [
+    {
+      "session": "trade",
+      "account": "A",
+      "frames": 40,
+      "commands": 65,
+      "residual": 0,
+      "unsupported": 0,
+      "anomalies": 0
+    },
+    {
+      "session": "trade",
+      "account": "B",
+      "frames": 53,
+      "commands": 76,
+      "residual": 0,
+      "unsupported": 0,
+      "anomalies": 0
+    },
+    {
+      "session": "resume",
+      "account": "A",
+      "frames": 27,
+      "commands": 49,
+      "residual": 0,
+      "unsupported": 0,
+      "anomalies": 0
+    },
+    {
+      "session": "resume",
+      "account": "B",
+      "frames": 49,
+      "commands": 71,
+      "residual": 0,
+      "unsupported": 0,
+      "anomalies": 0
+    }
+  ],
+  "b_original_inventory_and_backpack_restored": true,
+  "a_received_transfer_and_return_confirmed": true,
+  "interrupted_trade_run_retained_as_failed": true,
+  "resume_run_result": "PASS"
+}

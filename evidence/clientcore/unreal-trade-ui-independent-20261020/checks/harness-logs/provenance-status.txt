@@ -1,0 +1,2 @@
+?? evidence/clientcore/unreal-trade-ui-independent-20261020/
+?? handoffs/20261020-before-trade-independent-certification.md

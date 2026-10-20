@@ -1,0 +1,41 @@
+Using bundled DotNet SDK version: 10.0 win-x64
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" REAL33DEditor Win64 Development -Project="C:\Users\dell\Desktop\fusion32\build\cert-trade-ui-20261020\unreal\REAL33D\REAL33D.uproject" -WaitMutex -NoUBA -MaxParallelActions=1
+Log file: C:\Users\dell\AppData\Local\UnrealBuildTool\Log.txt
+Executing up to 1 actions based on MaxProcessorCount override
+Creating makefile for REAL33DEditor (no existing makefile)
+UbaSessionServer - Disable remote execution (remote sessions will finish current processes)
+UHT compiled-in object format Default
+UHT processed REAL33DEditor in 10.2524169 seconds (20 generated files written)
+Building REAL33DEditor...
+===== Toolchain Information =====
+Using ISPC compiler (C:\Program Files\Epic Games\UE_5.8\Engine\Source\ThirdParty\Intel\ISPC\bin\Windows\ispc.exe)
+  Intel(r) Implicit SPMD Program Compiler (Intel(r) ISPC), 1.24.0 (build commit  @ 20250404, LLVM 18.1.2) 
+Using Visual Studio 14.50.35738 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.50.35717) and Windows 10.0.26100.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[Adaptive Build] Excluded from REAL33D unity file: REAL33D.cpp, Real33DActionBarPanel.cpp, Real33DAssetRegistry.cpp, Real33DBattlePanel.cpp, Real33DBridge.cpp, Real33DChannelsPanel.cpp, Real33DChatPanel.cpp, Real33DContainersPanel.cpp, Real33DControlPanel.cpp, Real33DCreatureActor.cpp, Real33DEditorWindow.cpp, Real33DGalleryActor.cpp, Real33DGalleryPanel.cpp, Real33DGameMode.cpp, Real33DHUD.cpp, Real33DInventoryPanel.cpp, Real33DMinimapPanel.cpp, Real33DPanelChrome.cpp, Real33DPanelRegistry.cpp, Real33DPlayerController.cpp, Real33DPresentationTests.cpp, Real33DSkillsPanel.cpp, Real33DStaticSectorActor.cpp, Real33DTileActor.cpp, Real33DTradePanel.cpp, Real33DUIStyle.cpp, Real33DVitalsPanel.cpp, Real33DWorldActor.cpp, Real33DWorldOverlay.cpp
+=================================
+Using Unreal Build Accelerator local executor to run 35 action(s)
+  CPU 4 physical cores, 8 logical cores
+  Memory 11.83 GB physical, 17.94 GB/20.58 GB committed
+  UBA Storage capacity 40 GB
+[1/35] Compile [x64] SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-trade-ui-20261020\unreal\REAL33D\Intermediate\Build\Win64\x64\REAL33DEditor\Development\UnrealEd\SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.cpp(3,2): fatal error C1085: No se puede escribir en el archivo encabezado precompilado: 'C:/Users/dell/Desktop/fusion32/build/cert-trade-ui-20261020/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch': Espacio en disco insuficiente.
+
+#include "SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h"
+ ^
+[2/35] Compile Resource [x64] Default.rc2 [NoUba]
+Total time in Unreal Build Accelerator local executor: 72.79 seconds
+Unhandled 1 aggregate exceptions
+Unhandled exception: IOException: Espacio en disco insuficiente. : 'C:\Users\dell\Desktop\fusion32\build\cert-trade-ui-20261020\unreal\REAL33D\Intermediate\Build\SourceFileCache.bin'.
+   at System.IO.RandomAccess.WriteAtOffset(SafeFileHandle handle, ReadOnlySpan`1 buffer, Int64 fileOffset)
+   at System.IO.Strategies.OSFileStreamStrategy.Write(ReadOnlySpan`1 buffer)
+   at System.IO.Strategies.BufferedFileStreamStrategy.Flush(Boolean flushToDisk)
+   at System.IO.Strategies.BufferedFileStreamStrategy.Dispose(Boolean disposing)
+   at UnrealBuildTool.SourceFileMetadataCache.Write()
+   at System.Threading.Tasks.Parallel.<>c__DisplayClass19_0`2.<ForWorker>b__1(RangeWorker& currentWorker, Int64 timeout, Boolean& replicationDelegateYieldedBeforeCompletion)
+--- End of stack trace from previous location ---
+   at System.Threading.Tasks.Parallel.<>c__DisplayClass19_0`2.<ForWorker>b__1(RangeWorker& currentWorker, Int64 timeout, Boolean& replicationDelegateYieldedBeforeCompletion)
+   at System.Threading.Tasks.TaskReplicator.Replica.Execute()
+
+Result: Failed (OtherCompilationError)
+Total execution time: 171.13 seconds
+Trace written to file C:\Users\dell\AppData\Local\UnrealBuildTool\Trace.uba with size 16.2kb
