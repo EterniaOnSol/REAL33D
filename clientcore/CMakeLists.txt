@@ -107,6 +107,7 @@ add_library(protocol772_initial_world
     src/talk_command.cpp
     src/talk_speaker.cpp
     src/object_types.cpp
+    src/outfit.cpp
     src/player_state.cpp
     src/trade.cpp
     src/channels.cpp
@@ -343,6 +344,23 @@ if(BUILD_TESTING)
 
     add_test(NAME protocol772_editors_tests COMMAND protocol772_editors_tests)
     set_tests_properties(protocol772_editors_tests PROPERTIES TIMEOUT 120)
+
+    add_executable(protocol772_outfit_tests
+        tests/outfit_tests.cpp
+    )
+    target_link_libraries(protocol772_outfit_tests
+        PRIVATE
+            protocol772_initial_world
+    )
+
+    if(MSVC)
+        target_compile_options(protocol772_outfit_tests PRIVATE /W4 /WX /permissive-)
+    else()
+        target_compile_options(protocol772_outfit_tests PRIVATE -Wall -Wextra -Wpedantic -Werror)
+    endif()
+
+    add_test(NAME protocol772_outfit_tests COMMAND protocol772_outfit_tests)
+    set_tests_properties(protocol772_outfit_tests PROPERTIES TIMEOUT 120)
 
     add_executable(protocol772_minimap_tests tests/minimap_tests.cpp)
     target_link_libraries(protocol772_minimap_tests PRIVATE protocol772_initial_world)
