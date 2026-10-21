@@ -32,6 +32,7 @@ namespace
 	constexpr float kWindowWidth = 380.0f;
 	constexpr int32 kTextSize = 9;
 	/** Wide enough to be an obvious target; the first live run never found them. */
+	// UE 5.8's default button padding consumes all 32 px; steppers override it.
 	constexpr float kStepWidth = 32.0f;
 }
 
@@ -199,6 +200,8 @@ void SReal33DOutfitPanel::Construct(const FArguments& InArgs)
 							.WidthOverride(kStepWidth)
 							[
 								SAssignNew(PreviousOutfitButton, SButton)
+								.NormalPaddingOverride(FMargin(2.0f, 1.5f))
+								.PressedPaddingOverride(FMargin(2.0f, 2.5f, 2.0f, 0.5f))
 								.Text(NSLOCTEXT("Real33D", "OutfitPrev", "<"))
 								.ToolTipText(NSLOCTEXT("Real33D", "OutfitPrevTip",
 									"The previous outfit Fusion32 allows. Wraps "
@@ -223,6 +226,8 @@ void SReal33DOutfitPanel::Construct(const FArguments& InArgs)
 							.WidthOverride(kStepWidth)
 							[
 								SAssignNew(NextOutfitButton, SButton)
+								.NormalPaddingOverride(FMargin(2.0f, 1.5f))
+								.PressedPaddingOverride(FMargin(2.0f, 2.5f, 2.0f, 0.5f))
 								.Text(NSLOCTEXT("Real33D", "OutfitNext", ">"))
 								.ToolTipText(NSLOCTEXT("Real33D", "OutfitNextTip",
 									"The next outfit Fusion32 allows. Wraps "
@@ -341,6 +346,8 @@ TSharedRef<SWidget> SReal33DOutfitPanel::BuildColorRow(OutfitSlot Slot)
 			[
 				SNew(SButton)
 				.Text(NSLOCTEXT("Real33D", "OutfitColourPrev", "<"))
+				.NormalPaddingOverride(FMargin(2.0f, 1.5f))
+				.PressedPaddingOverride(FMargin(2.0f, 2.5f, 2.0f, 0.5f))
 				.ToolTipText(NSLOCTEXT("Real33D", "OutfitColourPrevTip",
 					"The previous colour. Wraps over the whole range Fusion32 "
 					"accepts and can never land outside it."))
@@ -356,6 +363,8 @@ TSharedRef<SWidget> SReal33DOutfitPanel::BuildColorRow(OutfitSlot Slot)
 			[
 				SNew(SButton)
 				.Text(NSLOCTEXT("Real33D", "OutfitColourNext", ">"))
+				.NormalPaddingOverride(FMargin(2.0f, 1.5f))
+				.PressedPaddingOverride(FMargin(2.0f, 2.5f, 2.0f, 0.5f))
 				.ToolTipText(NSLOCTEXT("Real33D", "OutfitColourNextTip",
 					"The next colour. Wraps over the whole range Fusion32 "
 					"accepts and can never land outside it."))
