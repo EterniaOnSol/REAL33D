@@ -1,0 +1,25 @@
+diff --git a/unreal/REAL33D/Source/REAL33D/Private/Real33DBridge.cpp b/unreal/REAL33D/Source/REAL33D/Private/Real33DBridge.cpp
+index 9cf2bd5..4602658 100644
+--- a/unreal/REAL33D/Source/REAL33D/Private/Real33DBridge.cpp
++++ b/unreal/REAL33D/Source/REAL33D/Private/Real33DBridge.cpp
+@@ -1975,6 +1975,15 @@ private:
+ 				Command = p772::BuildSetOutfitCommand(Intent.OutfitId, Colors);
+ 			}
+ 
++			// Temporary certification evidence: outfit payloads contain no credentials.
++			if (FParse::Param(FCommandLine::Get(), TEXT("real33d-cert-outfit")))
++			{
++				FString Hex;
++				for (const auto Byte : Command) Hex += FString::Printf(TEXT("%02x"), Byte);
++				UE_LOG(LogReal33D, Log, TEXT("OUTFIT_CERT_WIRE opcode=%u bytes=%d hex=%s"),
++					Command.empty() ? 0U : uint32(Command[0]), int32(Command.size()), *Hex);
++			}
++
+ 			if (Command.empty() || !Session.SendCommand(Command).ok())
+ 			{
+ 				UE_LOG(LogReal33D, Warning,
+@@ -3351,3 +3360,4 @@ FReal33DConnectionConfig UReal33DBridge::ConfigFromCommandLine()
+ 	}
+ 	return Config;
+ }
++#include "Real33DOutfitBridgeCertification.inl"

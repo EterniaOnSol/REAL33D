@@ -1,0 +1,56 @@
+[
+    {
+        "fullTestPath":  "REAL33D.Presentation.CameraAndFloors",
+        "state":  "Success",
+        "errors":  0,
+        "warnings":  0
+    },
+    {
+        "fullTestPath":  "REAL33D.Presentation.ChannelsPanel",
+        "state":  "Success",
+        "errors":  0,
+        "warnings":  0
+    },
+    {
+        "fullTestPath":  "REAL33D.Presentation.ChatTabs",
+        "state":  "Success",
+        "errors":  0,
+        "warnings":  0
+    },
+    {
+        "fullTestPath":  "REAL33D.Presentation.EditorWindow",
+        "state":  "Success",
+        "errors":  0,
+        "warnings":  0
+    },
+    {
+        "fullTestPath":  "REAL33D.Presentation.OutfitPanel",
+        "state":  "Success",
+        "errors":  0,
+        "warnings":  0
+    },
+    {
+        "fullTestPath":  "REAL33D.Presentation.PanelRegistry",
+        "state":  "Success",
+        "errors":  0,
+        "warnings":  0
+    },
+    {
+        "fullTestPath":  "REAL33D.Presentation.SkillsPanel",
+        "state":  "Success",
+        "errors":  0,
+        "warnings":  0
+    },
+    {
+        "fullTestPath":  "REAL33D.Presentation.TradePanel",
+        "state":  "Success",
+        "errors":  0,
+        "warnings":  0
+    },
+    {
+        "fullTestPath":  "REAL33D.WideWorld.AuthoritativeWindow",
+        "state":  "Success",
+        "errors":  0,
+        "warnings":  0
+    }
+]

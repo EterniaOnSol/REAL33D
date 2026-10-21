@@ -1,0 +1,18 @@
+**********************************************************************
+** Visual Studio 2022 Developer Command Prompt v17.14.40
+** Copyright (c) 2025 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+provenance             PASS  branch certification/unreal-outfit-dialog-001-20261020 at 61ceaa95, 2 ahead / 0 behind origin/main, 91 uncommitted path(s)
+branch-isolation       PASS  on certification/unreal-outfit-dialog-001-20261020, not on main
+clientcore-tests       PASS  14 CTest suite(s) passed via wsl
+real33d-native-tests   PASS  6 passed, 0 failed via wsl; no --objects-srv, so the runtime MultiUse assertions were not exercised
+outfit-color-mapping   PASS  43 byte assertion(s) hold; Colors[0..3] = Head, Body, Legs, Feet
+secret-check           PASS  6 sub-check(s) ok
+build-sanity-msvc      PASS  C++17 suites and the C++20 archive Unreal links both built
+unreal-module-build    SKIP  engine present but --unreal not passed; a full module build is not a CI default
+protocol-log-check     PASS  17 log(s) scanned, no unsupported opcodes or residual bytes
+output-secret-scan     PASS  logs carry no key material (pattern self-tested)
+
+OVERALL                PASS_WITH_SKIPS
+report: build/certification/harness-final/REGRESSION-HARNESS-20261021T042050Z.md

@@ -1,3 +1,35 @@
+## 2026-10-20 independent UNREAL-OUTFIT-DIALOG-001 certification
+
+CERTIFIED for dialog/byte transport at corrected revision
+`61ceaa955933672c526864b5ed24dca0e4c8de84`, isolated branch
+`certification/unreal-outfit-dialog-001-20261020`. Requested `56bf5085` was
+pushed normally and independently tested. It passed the functional flow but
+had ten blank arrow buttons: UE 5.8 padding consumed their entire width.
+The nine-line padding correction is local on the certification branch;
+the published milestone is preserved at `56bf5085`. No main merge;
+main/origin/main remain `b8e7433baeddc2875943f519d33a5cb9380f3eaa`.
+
+Corrected live run: 90 executed assertions PASS, four GET/200 exchanges,
+two SET/142 updates, exact 136..139 band, all four colour bytes changed and
+restored, server reopening reproduces them, Cancel sends nothing, ten registry
+surfaces, channel hit testing and backpack/Look regression PASS. Original
+server outfit restored. All protocol counters zero. Closed colour verifier
+43/43 proves Head/Body/Legs/Feet. ClientCore14/14, native6/6, production Unreal
+automation9/9, separate converter fixture PASS, MSVC/build PASS, final harness
+9PASS/0FAIL/1 optional-build SKIP (separate Unreal build PASS), secret_check6/6.
+
+COLOR_VISUAL_RENDERING = NOT_IMPLEMENTED. Object disguise bridge fixture PASS;
+live disguise unverified and object disguise rendering NOT_IMPLEMENTED.
+Other live bands, refusal/GM paths and OS input injection remain unverified.
+The centred dialog preserves background hit testing; no globally blocking
+modal claim. Full outfit visual parity is not certified. The original
+ClientCore integration markers remain CLIENTCORE_OUTFIT_772 = PASS_LAYER and
+LIVE_CERTIFICATION = NOT_DONE.
+
+Evidence: `evidence/clientcore/unreal-outfit-dialog-independent-20261020/README.md`.
+
+---
+
 UPDATE 2026-10-20 UNREAL-OUTFIT-DIALOG-001 PASS LOCAL on branch milestone/unreal-outfit-dialog-001 from origin/main b8e7433b; no main merge, no push. The real 7.72 outfit chooser on the ClientCore outfit protocol: request, server-opened dialog, server band obeyed, outfit preview, four colour bytes, submit, and close without the acknowledgement CSetOutfit never sends. No ClientCore, protocol or server change; suite count stays 14. THE FOUR COLOUR SLOTS ARE NOW NAMED AND THE NAMES ARE PROVEN, not assumed: Fusion32 declares uint8 Colors[4] and names nothing, so the mapping was taken from the classic 7.72 client statically, never executing it. tests/verify_outfit_color_mapping.py asserts 43 byte patterns in the hashed Tibia.exe across six links -- the four-entry jump table at 0x0047D648 whose cases are literally Head/Body/Legs/Feet in index order, row i taking control id 1000+i and storing i as the selected slot, the swatch store colours[slot]=id-2000, SV_CMD_OUTFIT loading colours[0..3] in wire order, OK passing &colours[0], and the sender writing opcode 211 then colours[0..3] ascending. So Colors[0..3] = Head, Body, Legs, Feet. It is also a harness check that SKIPs rather than passes when the ignored client artifact is absent. TWO BRIDGE GAPS FIXED STRUCTURALLY: both places that copied an OutfitDescriptor across the engine boundary copied two of its four fields and silently dropped the four colour bytes and a disguise's object_type on every SV_CMD_CREATURE_OUTFIT and every FULLSCREEN creature. ClientCore had them all along. FReal33DOutfit now carries the whole descriptor, one ToUnrealOutfit converts, and three static_asserts pin the colour count, slot count and the 132 bound. Entry point is the classic client's own documented gesture, from its help text at 0x00565734: right-click your character and select 'Set outfit'. That right-click was a no-op before. Panel registered as PanelIds::Outfit, a centred modal; HUD edits are +80 lines across two files with no deletions. LIVE, one real account on REAL33D, operator-driven, nothing clicked by software. TWO RUNS, because the first found a defect in this milestone's own UI: it obeyed the band and got both authoritative updates, but both submits carried 78,69,58,76, the server's own CheckOutfit defaults, because each colour row's LABEL was a button that only highlighted the row -- copied from the 2D window where the rows select which one a shared palette edits, while this window gives every row its own arrows. Nothing logged a colour step either, so 'not pressed' and 'broken' were indistinguishable in evidence. Label is now plain text, arrows are wider, and every preview step logs its before/after value and the whole tuple. RUN 2 COMPLETE: 3 requests -> 3 server-opened choosers, band=136..139 (4 outfits) every time, outfit previewed 137->136->139 wrapping at First and staying in band, 47 colour steps across all four slots (12/12/11/12), 3 submits, 3 authoritative SV_CMD_CREATURE_OUTFIT updates for creature 1002, 0 selections refused, and residual_bytes/unsupported_opcodes/protocol_anomalies all 0. THE REOPEN LINES ARE THE STRONGEST EVIDENCE: submit 77,67,56,73 reopened as current=139 colours=77,67,56,73 and submit 76,66,55,72 reopened as 76,66,55,72 -- exact, twice -- which proves in one line that 211 encoded the colours, Fusion32 stored all four, 200's decode carries them back, and the colour bridge fix works, since before it those bytes would have returned 0,0,0,0. ClientCore 14/14, native 6/6, Unreal automation 8/8 errors0 warnings0, MSVC, REAL33DEditor build 0 warnings, harness 10PASS/0FAIL/0SKIP, harness selftest 10/10, secret_check 6/6. Harness corrected twice: the explicitly-named native suite list had to gain the new suite, and the new python check selected its interpreter with command -v python3, which on Windows resolves to an App Execution Alias that exists, prints 'Python was not found' and exits 49 -- it now probes by running the interpreter. UNVERIFIED: no outfit refusal occurred live, locally or server-side, because the controls cannot produce one, so the 0 refusals is not a handled refusal; the GAMEMASTER_OUTFIT path that answers with a message and no chooser was unreachable without editing server data; the colours change nothing on screen because the palette's byte-to-RGB mapping lives in the client .dat/.spr and is NOT derived here, so the chooser shows numeric indices and no fabricated swatch; the palette's true size is unestablished (132 is the server bound, the client's swatch guard spans 216 control ids and is not a count); no object disguise was seen live; only the 136 band on one character, so the 128 series and the premium +3 were not seen live. One server recovery recorded: a stale game.pid naming dead PID 562 blocked startup and was MOVED ASIDE, not deleted, with no server data edited. See evidence/clientcore/UNREAL-OUTFIT-DIALOG-001.md and CURRENT.
 
 ## 2026-10-20 independent UNREAL-TRADE-UI-001 certification

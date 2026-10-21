@@ -1,0 +1,76 @@
+Using bundled DotNet SDK version: 10.0 win-x64
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" REAL33DEditor Win64 Development -Project="C:\Users\dell\Desktop\fusion32\build\cert-outfit-dialog-20261020\unreal\REAL33D\REAL33D.uproject" -WaitMutex -CompilerVersion=14.44.35207 -NoUBA -MaxParallelActions=1
+Log file: C:\Users\dell\AppData\Local\UnrealBuildTool\Log.txt
+Executing up to 1 actions based on MaxProcessorCount override
+Creating makefile for REAL33DEditor (no existing makefile)
+UbaSessionServer - Disable remote execution (remote sessions will finish current processes)
+UHT compiled-in object format Default
+UHT processed REAL33DEditor in 10.6943644 seconds (20 generated files written)
+Building REAL33DEditor...
+===== Toolchain Information =====
+Using ISPC compiler (C:\Program Files\Epic Games\UE_5.8\Engine\Source\ThirdParty\Intel\ISPC\bin\Windows\ispc.exe)
+  Intel(r) Implicit SPMD Program Compiler (Intel(r) ISPC), 1.24.0 (build commit  @ 20250404, LLVM 18.1.2) 
+Using Visual Studio 14.44.35228 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.44.35207) and Windows 10.0.26100.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[Adaptive Build] Excluded from REAL33D unity file: REAL33D.cpp, Real33DActionBarPanel.cpp, Real33DAssetRegistry.cpp, Real33DBattlePanel.cpp, Real33DBridge.cpp, Real33DChannelsPanel.cpp, Real33DChatPanel.cpp, Real33DContainersPanel.cpp, Real33DControlPanel.cpp, Real33DCreatureActor.cpp, Real33DEditorWindow.cpp, Real33DGalleryActor.cpp, Real33DGalleryPanel.cpp, Real33DGameMode.cpp, Real33DHUD.cpp, Real33DInventoryPanel.cpp, Real33DMinimapPanel.cpp, Real33DOutfitCertification.cpp, Real33DOutfitPanel.cpp, Real33DPanelChrome.cpp, Real33DPanelRegistry.cpp, Real33DPlayerController.cpp, Real33DPresentationTests.cpp, Real33DSkillsPanel.cpp, Real33DStaticSectorActor.cpp, Real33DTileActor.cpp, Real33DTradePanel.cpp, Real33DUIStyle.cpp, Real33DVitalsPanel.cpp, Real33DWorldActor.cpp, Real33DWorldOverlay.cpp
+=================================
+Using Unreal Build Accelerator local executor to run 37 action(s)
+  CPU 4 physical cores, 8 logical cores
+  Memory 11.83 GB physical, 18.41 GB/21.6 GB committed
+  UBA Storage capacity 40 GB
+[1/37] Compile [x64] SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.cpp [NoUba]
+[2/37] Compile [x64] Module.REAL33D.cpp [NoUba]
+[3/37] Compile [x64] REAL33D.cpp [NoUba]
+[4/37] Compile [x64] Real33DActionBarPanel.cpp [NoUba]
+[5/37] Compile [x64] Real33DAssetRegistry.cpp [NoUba]
+[6/37] Compile [x64] Real33DBattlePanel.cpp [NoUba]
+[7/37] Compile [x64] Real33DBridge.cpp [NoUba]
+[8/37] Compile [x64] Real33DChannelsPanel.cpp [NoUba]
+[9/37] Compile [x64] Real33DChatPanel.cpp [NoUba]
+[10/37] Compile [x64] Real33DContainersPanel.cpp [NoUba]
+[11/37] Compile [x64] Real33DControlPanel.cpp [NoUba]
+[12/37] Compile [x64] Real33DCreatureActor.cpp [NoUba]
+[13/37] Compile [x64] Real33DEditorWindow.cpp [NoUba]
+[14/37] Compile [x64] Real33DGalleryActor.cpp [NoUba]
+[15/37] Compile [x64] Real33DGalleryPanel.cpp [NoUba]
+[16/37] Compile [x64] Real33DGameMode.cpp [NoUba]
+[17/37] Compile [x64] Real33DHUD.cpp [NoUba]
+[18/37] Compile [x64] Real33DInventoryPanel.cpp [NoUba]
+[19/37] Compile [x64] Real33DMinimapPanel.cpp [NoUba]
+[20/37] Compile [x64] Real33DOutfitCertification.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-outfit-dialog-20261020\unreal\REAL33D\Source\REAL33D\Private\Real33DOutfitCertification.cpp(59,31): error C3312: no se encontrﾢ ninguna funciﾢn 'begin' invocable para el tipo 'const FArrangedChildren'
+        for(const auto& A:Path.Widgets)if(A.Widget==N){StaticCastSharedRef<SButton>(N)->SimulateClick();return true;}
+                              ^
+C:\Users\dell\Desktop\fusion32\build\cert-outfit-dialog-20261020\unreal\REAL33D\Source\REAL33D\Private\Real33DOutfitCertification.cpp(59,31): error C3312: no se encontrﾢ ninguna funciﾢn 'end' invocable para el tipo 'const FArrangedChildren'
+C:\Users\dell\Desktop\fusion32\build\cert-outfit-dialog-20261020\unreal\REAL33D\Source\REAL33D\Private\Real33DOutfitCertification.cpp(59,25): error C2530: 'A': se deben inicializar las referencias
+        for(const auto& A:Path.Widgets)if(A.Widget==N){StaticCastSharedRef<SButton>(N)->SimulateClick();return true;}
+                        ^
+C:\Users\dell\Desktop\fusion32\build\cert-outfit-dialog-20261020\unreal\REAL33D\Source\REAL33D\Private\Real33DOutfitCertification.cpp(59,25): error C3531: 'A': un sﾡmbolo cuyo tipo contiene 'auto' debe tener un inicializador
+C:\Users\dell\Desktop\fusion32\build\cert-outfit-dialog-20261020\unreal\REAL33D\Source\REAL33D\Private\Real33DOutfitCertification.cpp(59,26): error C2143: error de sintaxis: falta ';' delante de ':'
+        for(const auto& A:Path.Widgets)if(A.Widget==N){StaticCastSharedRef<SButton>(N)->SimulateClick();return true;}
+                         ^
+C:\Users\dell\Desktop\fusion32\build\cert-outfit-dialog-20261020\unreal\REAL33D\Source\REAL33D\Private\Real33DOutfitCertification.cpp(59,39): error C2143: error de sintaxis: falta ';' delante de ')'
+        for(const auto& A:Path.Widgets)if(A.Widget==N){StaticCastSharedRef<SButton>(N)->SimulateClick();return true;}
+                                      ^
+C:\Users\dell\Desktop\fusion32\build\cert-outfit-dialog-20261020\unreal\REAL33D\Source\REAL33D\Private\Real33DOutfitCertification.cpp(59,31): error C2451: una expresiﾢn condicional de tipo "const FArrangedChildren" no es vﾠlida
+        for(const auto& A:Path.Widgets)if(A.Widget==N){StaticCastSharedRef<SButton>(N)->SimulateClick();return true;}
+                              ^
+C:\Users\dell\Desktop\fusion32\build\cert-outfit-dialog-20261020\unreal\REAL33D\Source\REAL33D\Private\Real33DOutfitCertification.cpp(59,31): note: No hay disponible ningﾣn operador de conversiﾢn definido por el usuario que pueda realizar esta conversiﾢn, o bien no se puede llamar al operador
+[21/37] Compile [x64] Real33DOutfitPanel.cpp [NoUba]
+[22/37] Compile [x64] Real33DPanelChrome.cpp [NoUba]
+[23/37] Compile [x64] Real33DPanelRegistry.cpp [NoUba]
+[24/37] Compile [x64] Real33DPlayerController.cpp [NoUba]
+[25/37] Compile [x64] Real33DPresentationTests.cpp [NoUba]
+[26/37] Compile [x64] Real33DSkillsPanel.cpp [NoUba]
+[27/37] Compile [x64] Real33DStaticSectorActor.cpp [NoUba]
+[28/37] Compile [x64] Real33DTileActor.cpp [NoUba]
+[29/37] Compile [x64] Real33DTradePanel.cpp [NoUba]
+[30/37] Compile [x64] Real33DUIStyle.cpp [NoUba]
+[31/37] Compile [x64] Real33DVitalsPanel.cpp [NoUba]
+[32/37] Compile [x64] Real33DWorldActor.cpp [NoUba]
+[33/37] Compile [x64] Real33DWorldOverlay.cpp [NoUba]
+[34/37] Compile Resource [x64] Default.rc2 [NoUba]
+Total time in Unreal Build Accelerator local executor: 403.70 seconds
+
+Result: Failed (OtherCompilationError)
+Total execution time: 529.60 seconds
+Trace written to file C:\Users\dell\AppData\Local\UnrealBuildTool\Trace.uba with size 46.8kb

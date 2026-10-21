@@ -1,172 +1,86 @@
-# HANDOFF - UNREAL-OUTFIT-DIALOG-001
+# HANDOFF - independent UNREAL-OUTFIT-DIALOG-001
 
-Date/time: 2026-10-20, America/Guatemala
-Agent / role: Claude; implementation and operator-assisted live QA
-Starting commit: `b8e7433baeddc2875943f519d33a5cb9380f3eaa` (origin/main)
-Ending commit: the commit carrying this handoff on
-`milestone/unreal-outfit-dialog-001`
-Worktree: `C:/Users/dell/Desktop/fusion32`
-Prior handoff: `handoffs/archive/20261020-trade-ui-independent-certification.md`
+Date/time: 2026-10-20T23:41:17, America/Guatemala. Agent: Codex, independent reviewer.
+Branch: certification/unreal-outfit-dialog-001-20261020.
+Worktree: C:/Users/dell/Desktop/fusion32/build/cert-outfit-dialog-20261020.
+Starting commit: 56bf508537ba9123edf09dcf81653b5218f8ee6e.
+Ending production commit: 61ceaa955933672c526864b5ed24dca0e4c8de84.
+Ending evidence commit: the commit carrying this handoff (production unchanged).
+Prior handoff: archive/20261020-outfit-dialog-before-independent-certification.md.
 
-OUTFIT_DIALOG_001_STATUS = PASS LOCAL
-MAIN_MERGE = NONE. PUSH = NONE.
+## Objective, inspection and changes
 
-## Objective
+Independently certify the requested exact candidate in a fresh worktree; push
+the implementation normally first; no main merge; change implementation only
+for a real defect. Read startup docs and source authority. Inspected Fusion32
+CGetOutfit/CSetOutfit, SendOutfit/SendCreatureOutfit, the closed classic verifier,
+ClientCore command/decode/state, actual Unreal converter/actor, player input,
+HUD menu, outfit widget, PanelRegistry and UE 5.8 button layout.
 
-The real 7.72 outfit chooser on the ClientCore outfit protocol
-`CLIENTCORE-OUTFIT-772-001` built: send GET_OUTFIT, open only from the server's
-answer, obey the server's band, preview and select an outfit, edit the four
-colour bytes, send SET_OUTFIT, close without the acknowledgement that does not
-exist, and report a failure honestly. Plus the two existing bridge gaps.
-Isolated modal, minimal HUD edits, no protocol or server change.
+One real defect: the 32-unit arrows had 32 units of horizontal padding, leaving
+zero glyph width. Original live flow passed but screenshots failed readability.
+Fixed only nine lines in Real33DOutfitPanel.cpp at 61ceaa9. Corrected live run
+checks actual ten label geometries and screenshots; all labels now visible.
+Temporary diagnostics archived under evidence, removed from the module;
+production source rebuilt and tested at the corrected commit. No reference,
+server, runtime-data, protocol, or unrelated workspace changes.
 
-## Discoveries worth keeping
+## Results and evidence
 
-- **The colour slot mapping is provable, and now proven.** This was the one open
-  question in the task. Fusion32 cannot answer it — `cr.hh` line 21 is
-  `uint8 Colors[4]` and every use is by index — but the classic 7.72 client can,
-  statically. Its chooser builds four rows in one loop and selects each caption
-  through a **four-entry jump table at `0x0047D648`** whose cases are literally
-  `"Head"`, `"Body"`, `"Legs"`, `"Feet"` in index order; row `i` takes control id
-  `1000 + i` and stores `i` as the selected slot; a swatch writes
-  `colours[slot] = id - 2000`; and the sender writes opcode 211 then
-  `colours[0..3]` from ascending offsets. **`Colors[0..3]` = Head, Body, Legs,
-  Feet.** `tests/verify_outfit_color_mapping.py` asserts 43 byte patterns and
-  fails closed; it is also a harness check. The binary is read, never executed.
-- **The band cannot be computed client-side.** The 7.72 *game* protocol never
-  carries this player's sex — it lives in the querymanager's character record
-  and never reaches this connection. So `SV_CMD_OUTFIT`'s two trailing words are
-  the only honest source, and nothing but that command may open a chooser.
-- **Both bridge outfit copies were incomplete, and the fix is structural.** Each
-  copied `outfit_id` and `disguised_as_object` and dropped the four colour bytes
-  and a disguise's `object_type`, on every SV_CMD_CREATURE_OUTFIT and every
-  FULLSCREEN creature. ClientCore stored the whole descriptor all along
-  (`movement.cpp` line 1148). `FReal33DOutfit` plus one `ToUnrealOutfit` makes
-  the gap impossible to reintroduce; three `static_assert`s pin the restated
-  constants to ClientCore's.
-- **The entry point is documented by the client itself.** Its help text at
-  `0x00565734`: *"To change your outfit, right-click on your character and select
-  'Set outfit' from the context menu."* That right-click was previously a no-op —
-  `InteractUnderCursor` returns early for the local player.
-- **A submit can never be confirmed.** `CSetOutfit` returns void and its
-  `CREATURE_OUTFIT_CHANGED` broadcast is conditional on the player wearing their
-  own outfit, so an invisible or illusioned player gets no 142 at all. The window
-  closes on submit, which is also what the classic client does at `0x0047138B`.
+## 2026-10-20 independent UNREAL-OUTFIT-DIALOG-001 certification
 
-## Changes
+CERTIFIED for dialog/byte transport at corrected revision
+`61ceaa955933672c526864b5ed24dca0e4c8de84`, isolated branch
+`certification/unreal-outfit-dialog-001-20261020`. Requested `56bf5085` was
+pushed normally and independently tested. It passed the functional flow but
+had ten blank arrow buttons: UE 5.8 padding consumed their entire width.
+The nine-line padding correction is local on the certification branch;
+the published milestone is preserved at `56bf5085`. No main merge;
+main/origin/main remain `b8e7433baeddc2875943f519d33a5cb9380f3eaa`.
 
-New: `Real33DOutfitSelection.h` (Slate-free rules), `Real33DOutfitPanel.h/.cpp`,
-`tests/real33d_outfit_selection_tests.cpp`,
-`tests/verify_outfit_color_mapping.py`,
-`evidence/clientcore/UNREAL-OUTFIT-DIALOG-001.md` and its
-`unreal-outfit-dialog-001/` directory.
-Changed: `Real33DBridge.h/.cpp` (the outfit struct pair, one event kind, the 200
-decode, two commands as intents with local validation, `NoteOutfit`, five
-counters, three `static_assert`s, both gap fixes), `Real33DCreatureActor.h/.cpp`,
-`Real33DWorldActor.cpp` (whole descriptor + five snapshot counters),
-`Real33DHUD.h/.cpp` (+80 lines, no deletions), `Real33DPlayerController.cpp`,
-`Real33DPanelRegistry.h/.cpp`, `Real33DPresentationTests.cpp`,
-`tests/regression_harness.sh`, `tests/README.md`, `PARITY_MATRIX.md`,
-`PROJECT_STATUS.md`.
+Corrected live run: 90 executed assertions PASS, four GET/200 exchanges,
+two SET/142 updates, exact 136..139 band, all four colour bytes changed and
+restored, server reopening reproduces them, Cancel sends nothing, ten registry
+surfaces, channel hit testing and backpack/Look regression PASS. Original
+server outfit restored. All protocol counters zero. Closed colour verifier
+43/43 proves Head/Body/Legs/Feet. ClientCore14/14, native6/6, production Unreal
+automation9/9, separate converter fixture PASS, MSVC/build PASS, final harness
+9PASS/0FAIL/1 optional-build SKIP (separate Unreal build PASS), secret_check6/6.
 
-No ClientCore file changed; the suite count stays 14.
+COLOR_VISUAL_RENDERING = NOT_IMPLEMENTED. Object disguise bridge fixture PASS;
+live disguise unverified and object disguise rendering NOT_IMPLEMENTED.
+Other live bands, refusal/GM paths and OS input injection remain unverified.
+The centred dialog preserves background hit testing; no globally blocking
+modal claim. Full outfit visual parity is not certified. The original
+ClientCore integration markers remain CLIENTCORE_OUTFIT_772 = PASS_LAYER and
+LIVE_CERTIFICATION = NOT_DONE.
 
-## The defect the first live run found
+Evidence: `evidence/clientcore/unreal-outfit-dialog-independent-20261020/README.md`.
 
-Run 1 opened the chooser twice, obeyed the band, selected two outfits and got
-both authoritative updates — but **both submits carried `78,69,58,76`, the
-server's own `CheckOutfit` defaults.** No colour was ever changed.
 
-Not a protocol or model bug: the outfit id *did* change across both submits, so
-the draft and the bindings worked. The cause was this milestone's own UI. Each
-colour row's **label was a button** whose only effect was to highlight the row —
-copied from the 2D window, where the four rows select which one a *shared
-palette* edits. This window gives every row its own arrows, so the label was a
-control that looked live and was not, and the arrows went untouched.
 
-And **nothing logged a colour step**, so "the operator did not press the arrows"
-and "the arrows are broken" were indistinguishable in the evidence. Both fixed:
-the label is plain text, the arrows are wider, and every preview step logs its
-before/after value and the whole four-tuple.
+Full method, preconditions, byte values, assertions, failed attempts, scripts,
+screenshots, source citations, exact build logs, test reports and limitations:
+evidence/clientcore/unreal-outfit-dialog-independent-20261020/README.md.
+live-original: functional PASS, visual arrow defect. live-fixed: 90 assertions
+PASS, protocol counters zero, server outfit and all four colours restored.
+Actual controller/Slate paths run against real Fusion32; Windows helper failed
+to initialize, so no claim of OS-level pointer injection. Rendering remains a
+separate incomplete layer. Initial compiler/cursor/menu diagnostic failures,
+sandbox startup failure and final Live Coding shutdown race are retained.
 
-## Tests
+## Next action and risks
 
-ClientCore 14/14, native 6/6, Unreal automation 8/8 with zero errors and
-warnings, MSVC archive, REAL33DEditor build with zero warnings, colour-mapping
-verifier 43/43, harness 10 PASS / 0 FAIL / 0 SKIP, harness selftest 10/10,
-Git Bash secret_check 6/6.
+Review the nine-line source fix and this evidence. Do not merge original
+56bf5085 alone; use the corrected certification branch if integrating. No main
+merge has been requested or performed. Published milestone remains at original
+56bf5085; correction/evidence are local. To reproduce, follow the README and
+archived diagnostic scripts, restoring source before production build/tests.
+Run Git Bash tests/secret_check.sh before publishing further work.
 
-Live run 2, one real account on REAL33D, operator-driven, nothing clicked by
-software: 3 requests -> 3 server-opened choosers, `band=136..139` every time,
-outfit previewed `137 -> 136 -> 139` wrapping at `First`, **47 colour steps
-across all four slots (12/12/11/12)**, 3 submits, 3 authoritative updates for
-creature 1002, **0 refusals, 0 residual bytes, 0 unsupported opcodes, 0
-anomalies**.
-
-**The reopen lines are the strongest evidence.** Submit `77,67,56,73` reopened as
-`current=139 colours=77,67,56,73`; submit `76,66,55,72` reopened as
-`76,66,55,72`. Exact, twice. That proves in one line that 211 encoded the
-colours, Fusion32 stored all four, 200's decode carries them back, and the
-colour bridge fix works — before it those bytes would have returned `0,0,0,0`.
-
-Evidence: `evidence/clientcore/UNREAL-OUTFIT-DIALOG-001.md`, timelines in
-`evidence/clientcore/unreal-outfit-dialog-001/`.
-
-## Harness corrections
-
-Two, and the second was a real defect. `real33d-native-tests` names its suites
-explicitly rather than globbing — deliberate, so a deleted suite fails instead of
-vanishing — which means a new suite must be added, and this was the first one to
-prove the list can be forgotten. And the new `outfit-color-mapping` check
-selected its interpreter with `command -v python3`, which on Windows resolves to
-an **App Execution Alias** that exists on PATH, prints "Python was not found" and
-exits 49; the check reported FAIL on a host with a working `python`.
-`working_python()` now probes by running the interpreter. The harness runs 10
-checks.
-
-## Remaining UNVERIFIED
-
-- **No outfit refusal occurred live**, locally or server-side: the controls
-  cannot produce an out-of-band outfit or a colour above 132. So the 0 refusals
-  is the absence of a refusal, not a handled one. The local-refusal path is wired
-  to a `ClientNotice` and a counter and is covered by tests only.
-- **The GAMEMASTER_OUTFIT path** — `CGetOutfit` answering *"You may not change
-  your outfit."* with no SV_CMD_OUTFIT — was unreachable without editing server
-  data, which was out of scope.
-- **The colours change nothing on screen.** They are decoded, carried, stored on
-  the actor, submitted and proven to round-trip, but `ResolveOutfit` selects a
-  mesh from the outfit id alone and the palette's **byte-to-RGB mapping is not
-  derived here**; it lives in the client's `.dat`/`.spr`. The chooser shows each
-  slot's numeric index and no swatch rather than a fabricated colour.
-- **The palette's true size.** 132 is the server's bound; the client's swatch
-  guard spans 216 control ids but is a range test, not a count.
-- No object disguise was seen live. Only the 136 band on one character, so the
-  128 series and the premium `+3` were not seen live.
-
-## Exact next task
-
-`UNREAL-OUTFIT-PALETTE-001`, if the colours are wanted on screen: derive the
-7.72 palette's byte-to-RGB table from `Tibia.dat`/`Tibia.spr` or the swatch
-drawing code near `0x004712xx`, prove it the way the slot mapping was proven,
-then tint in `UReal33DAssetRegistry` — never in an Actor and never in
-Protocol772Core. Read `sending.cc::SendOutfit` and `Real33DOutfitSelection.h`
-first. Until that table is proven, `SlotText` must keep showing the index.
-
-Alternatively `UNREAL-OUTFIT-REFUSAL-QA-001`: reach a real refusal by driving
-`UReal33DBridge::RequestSetOutfit` from an automation test rather than from the
-panel, whose controls deliberately cannot produce one.
-
-## Environment
-
-Unchanged: VS2022 BuildTools MSVC 14.44.35207, UE 5.8; the harness selftest needs
-`cl.exe` on PATH. `--objects-srv` must be a Git-Bash-style path (`/c/...`), not
-`C:\...` — a Windows path reaches the WSL compiler unconverted and
-`real33d_item_use_policy_tests` fails on `file.good()`.
-
-**One server-side recovery, recorded in full.** Fusion32 would not start:
-`Initialisierungsfehler: Game-Server is already running, PID file exists`. The
-lock at `game/state/save/game.pid` named PID 562, which was not alive, with
-nothing listening on 7171-7173 and no game process at all. It was **moved aside,
-not deleted** — kept at `build/unreal-outfit-dialog-001/stale-game.pid.bak` — and
-the server then started cleanly. No server data was edited and no gameplay state
-was touched. The server was left running.
+Full RGB outfit rendering and disguise rendering remain NOT_IMPLEMENTED;
+live disguise, other sex/premium bands, GM no-dialog and refusal paths are
+UNVERIFIED. Optional native runtime MultiUse catalogue was not exercised.
+Unreal startup can take minutes; check logs before assuming a stall. The runtime
+account B's original outfit is restored and the diagnostic clients have exited.
+Original workspace's unrelated untracked work is preserved.
