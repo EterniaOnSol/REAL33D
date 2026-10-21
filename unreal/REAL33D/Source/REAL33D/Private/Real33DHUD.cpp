@@ -2,6 +2,7 @@
 
 #include "REAL33D.h"
 #include "Real33DActionBarPanel.h"
+#include "Real33DAmountPanel.h"
 #include "Real33DBattlePanel.h"
 #include "Real33DChannelsPanel.h"
 #include "Real33DContainersPanel.h"
@@ -384,22 +385,28 @@ void SReal33DHUD::Construct(const FArguments& InArgs)
 		[
 			SAssignNew(Outfit, SReal33DOutfitPanel).Bridge(Bridge)
 		]
+
+		// The "how many?" question, above the other three because it is the
+		// most recent thing the player did: a drag they have already aimed and
+		// not yet sized. Nothing has been sent while it is on screen.
+		+ SOverlay::Slot()
+		[
+			SAssignNew(AmountQuestion, SReal33DAmountPanel)
+			.OnChosen(FReal33DOnAmountChosen::CreateSP(
+				this, &SReal33DHUD::HandleAmountChosen))
+			.OnAbandoned(FReal33DOnAmountAbandoned::CreateSP(
+				this, &SReal33DHUD::HandleAmountAbandoned))
+		]
 	];
 
 	Panels.Register(Real33D::PanelIds::TextEditor, TextEditor.ToSharedRef());
 	Panels.Register(Real33D::PanelIds::Outfit, Outfit.ToSharedRef());
+	Panels.Register(Real33D::PanelIds::MoveAmount, AmountQuestion.ToSharedRef());
 }
 
-void SReal33DHUD::HandleItemDropped(FReal33DSlotRef From, FReal33DSlotRef To)
+void SReal33DHUD::HandleItemDropped(FReal33DSlotRef From, FReal33DSlotRef To,
+	FReal33DDragModifiers Modifiers)
 {
-	UReal33DBridge* Live = Bridge.Get();
-	if (Live == nullptr || !Live->IsRunning())
-	{
-		UE_LOG(LogReal33D, Warning,
-			TEXT("not connected; move of object %u not sent"), From.TypeId);
-		return;
-	}
-
 	const auto ToSlot = [](const FReal33DSlotRef& Ref)
 	{
 		return Ref.Kind == FReal33DSlotRef::EKind::Container
@@ -407,20 +414,170 @@ void SReal33DHUD::HandleItemDropped(FReal33DSlotRef From, FReal33DSlotRef To)
 			: UReal33DBridge::FMoveSlot::InInventory(Ref.Slot);
 	};
 
+	// The whole gesture, decided in one place for all four routes. Count used
+	// to be `From.Count` unconditionally, which meant a plain drag of a pile
+	// always moved the whole pile and there was no way to ask for fewer.
+	const FReal33DStackMoveResult Result = RequestStackMove(ToSlot(From), From.TypeId,
+		From.Slot, ToSlot(To), From.bStackable, From.Count, Modifiers);
+
+	const FString Outcome = Result.bAsked
+		? FString(TEXT("asking how many"))
+		: (Result.MoveId != 0
+			? FString::Printf(TEXT("move %u count %u"), Result.MoveId, Result.Count)
+			: FString(TEXT("nothing sent")));
+	UE_LOG(LogReal33D, Log,
+		TEXT("slot drag: object %u from %s%u slot %u to %s%u slot %u, stack %u%s -> %s"),
+		From.TypeId,
+		From.Kind == FReal33DSlotRef::EKind::Container ? TEXT("container ") : TEXT("body "),
+		From.Container, From.Slot,
+		To.Kind == FReal33DSlotRef::EKind::Container ? TEXT("container ") : TEXT("body "),
+		To.Container, To.Slot, From.Count,
+		From.bStackable ? TEXT(" (stackable)") : TEXT(""), *Outcome);
+}
+
+FString SReal33DHUD::DescribeMoveSlot(const UReal33DBridge::FMoveSlot& Slot)
+{
+	switch (Slot.Kind)
+	{
+		case UReal33DBridge::FMoveSlot::EKind::Container:
+			return FString::Printf(TEXT("container %u slot %u"), Slot.Container, Slot.Slot);
+		case UReal33DBridge::FMoveSlot::EKind::Map:
+			return FString::Printf(TEXT("the ground at %d,%d,%d"),
+				Slot.Position.X, Slot.Position.Y, Slot.Position.Z);
+		default:
+			return FString::Printf(TEXT("body slot %u"), Slot.Slot);
+	}
+}
+
+FReal33DStackMoveResult SReal33DHUD::RequestStackMove(const UReal33DBridge::FMoveSlot& From,
+	uint16 TypeId, uint8 StackIndex, const UReal33DBridge::FMoveSlot& To,
+	bool bStackable, uint32 StackCount, FReal33DDragModifiers Modifiers)
+{
+	FReal33DStackMoveResult Result;
+	const UReal33DBridge* Live = Bridge.Get();
+	if (Live == nullptr || !Live->IsRunning())
+	{
+		UE_LOG(LogReal33D, Warning,
+			TEXT("not connected; move of object %u not sent"), TypeId);
+		return Result;
+	}
+
+	const Real33D::StackMoveDecision Decision = Real33D::DecideStackMove(
+		bStackable, StackCount, Modifiers.bShift, Modifiers.bCtrl);
+
+	if (Decision.Kind == Real33D::StackMoveKind::Ask)
+	{
+		AskMoveAmount(From, TypeId, StackIndex, To, Decision.Count);
+		// Only report that a question is up if one actually opened; otherwise
+		// the caller would log "asking" with nothing on screen to answer.
+		Result.bAsked = PendingAmount.bActive;
+		return Result;
+	}
+
+	Result.Count = Decision.Count;
+	Result.MoveId = SendMove(From, TypeId, StackIndex, To, Decision.Count);
+	return Result;
+}
+
+uint32 SReal33DHUD::SendMove(const UReal33DBridge::FMoveSlot& From, uint16 TypeId,
+	uint8 StackIndex, const UReal33DBridge::FMoveSlot& To, uint32 Count)
+{
+	UReal33DBridge* Live = Bridge.Get();
+	if (Live == nullptr || !Live->IsRunning())
+	{
+		UE_LOG(LogReal33D, Warning,
+			TEXT("not connected; move of object %u not sent"), TypeId);
+		return 0;
+	}
+	// Clamped at the point it leaves, not only where it was decided: this is
+	// the one function that narrows the count to the byte CMoveObject reads,
+	// so nothing upstream can widen it by accident.
+	const uint32 Safe = Real33D::ClampStackAmount(static_cast<int64>(Count),
+		Real33D::kMaxWireStackCount);
+
 	// An intent, exactly like a walk or a say. Nothing on screen changes here:
 	// the object stays drawn where the server last said it was, and moves only
 	// when the container or inventory commands that follow say it did. A move
 	// Fusion32 refuses produces none of those, which is correct.
-	const uint32 MoveId = Live->RequestMoveObject(
-		ToSlot(From), From.TypeId, From.Slot, ToSlot(To), From.Count);
+	const uint32 MoveId = Live->RequestMoveObject(From, TypeId, StackIndex, To,
+		static_cast<uint8>(Safe));
+	if (MoveId != 0)
+	{
+		ShowInteractionRequest(TEXT("Move requested"));
+	}
+	UE_LOG(LogReal33D, Log, TEXT("move %u: object %u from %s to %s, count %u"),
+		MoveId, TypeId, *DescribeMoveSlot(From), *DescribeMoveSlot(To), Safe);
+	return MoveId;
+}
 
+void SReal33DHUD::AskMoveAmount(const UReal33DBridge::FMoveSlot& From, uint16 TypeId,
+	uint8 StackIndex, const UReal33DBridge::FMoveSlot& To, uint32 Max)
+{
+	if (!AmountQuestion.IsValid())
+	{
+		// Cannot happen in a built HUD. Said rather than silently dropping the
+		// gesture, because the alternative is a drag that does nothing at all
+		// and gives the player no reason why.
+		UE_LOG(LogReal33D, Warning,
+			TEXT("no amount window; move of object %u was not asked about and not sent"),
+			TypeId);
+		return;
+	}
+	if (PendingAmount.bActive)
+	{
+		// One window describes one move. A second question replaces the first
+		// and the first is dropped -- unsent, which is what it always was.
+		UE_LOG(LogReal33D, Log,
+			TEXT("an earlier move amount question was replaced; nothing was sent for it"));
+	}
+	PendingAmount.bActive = true;
+	PendingAmount.From = From;
+	PendingAmount.TypeId = TypeId;
+	PendingAmount.StackIndex = StackIndex;
+	PendingAmount.To = To;
+	PendingAmount.Max = Real33D::ClampStackAmount(static_cast<int64>(Max), Max);
+
+	AmountQuestion->Ask(PendingAmount.Max, FText::FromString(FString::Printf(
+		TEXT("Object %u from %s to %s."), TypeId,
+		*DescribeMoveSlot(From), *DescribeMoveSlot(To))));
+}
+
+void SReal33DHUD::HandleAmountChosen(uint32 Amount)
+{
+	if (!PendingAmount.bActive)
+	{
+		return;
+	}
+	// Taken and cleared before anything is sent, so no path can send twice.
+	const FPendingAmountMove Move = PendingAmount;
+	PendingAmount = FPendingAmountMove{};
+	const uint32 Count = Real33D::ClampStackAmount(static_cast<int64>(Amount), Move.Max);
+	SendMove(Move.From, Move.TypeId, Move.StackIndex, Move.To, Count);
+}
+
+void SReal33DHUD::HandleAmountAbandoned()
+{
+	if (!PendingAmount.bActive)
+	{
+		return;
+	}
 	UE_LOG(LogReal33D, Log,
-		TEXT("move %u: object %u from %s%u slot %u to %s%u slot %u, count %u"),
-		MoveId, From.TypeId,
-		From.Kind == FReal33DSlotRef::EKind::Container ? TEXT("container ") : TEXT("body "),
-		From.Container, From.Slot,
-		To.Kind == FReal33DSlotRef::EKind::Container ? TEXT("container ") : TEXT("body "),
-		To.Container, To.Slot, From.Count);
+		TEXT("move of object %u from %s to %s abandoned at the amount question; "
+			 "nothing reached Fusion32"),
+		PendingAmount.TypeId, *DescribeMoveSlot(PendingAmount.From),
+		*DescribeMoveSlot(PendingAmount.To));
+	PendingAmount = FPendingAmountMove{};
+}
+
+void SReal33DHUD::AbandonMoveAmount()
+{
+	// Through the window, so the one that closes it is the one that reports it.
+	if (AmountQuestion.IsValid())
+	{
+		AmountQuestion->Abandon();
+	}
+	// And defensively, for the case where there is no window to close.
+	HandleAmountAbandoned();
 }
 
 uint8 SReal33DHUD::FirstFreeContainerNumber() const
@@ -812,8 +969,13 @@ FReply SReal33DHUD::OnDragOver(const FGeometry& Geometry, const FDragDropEvent& 
 FReply SReal33DHUD::OnDrop(const FGeometry& Geometry, const FDragDropEvent& Event)
 {
 	if (!IsWorldItemDrop(Event)) return FReply::Unhandled();
+	// The keys as they are now, forwarded with the drop, so the world route
+	// reads the gesture at the same instant a slot-to-slot drop does.
+	FReal33DDragModifiers Modifiers;
+	Modifiers.bShift = Event.IsShiftDown();
+	Modifiers.bCtrl = Event.IsControlDown();
 	OnWorldItemDropped.Execute(Event.GetOperationAs<FReal33DItemDrag>()->Origin(),
-		Event.GetScreenSpacePosition());
+		Event.GetScreenSpacePosition(), Modifiers);
 	return FReply::Handled();
 }
 
@@ -908,6 +1070,12 @@ void SReal33DHUD::Refresh(const AReal33DWorld* World)
 	if (Pending.bActive && World == nullptr)
 	{
 		CancelTargeting();
+	}
+	// Nor can an unanswered "how many?". The stack it was opened for is gone
+	// with the session, so the question has nothing left to be about.
+	if (PendingAmount.bActive && World == nullptr)
+	{
+		AbandonMoveAmount();
 	}
 	if (Conditions.IsValid())
 	{

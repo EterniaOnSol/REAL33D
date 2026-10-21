@@ -351,7 +351,7 @@ else
   # renamed fails this check instead of quietly dropping out of it. The cost is
   # that a new suite must be added here; that is the correction this milestone
   # made when real33d_outfit_selection_tests appeared.
-  for stem in real33d_mouse_input_tests real33d_minimap_view_tests real33d_item_use_policy_tests real33d_stackable_sprite_tests real33d_chat_views_tests real33d_outfit_selection_tests; do
+  for stem in real33d_mouse_input_tests real33d_minimap_view_tests real33d_item_use_policy_tests real33d_stackable_sprite_tests real33d_chat_views_tests real33d_outfit_selection_tests real33d_stack_move_tests; do
     if [ ! -f "$REPO/tests/$stem.cpp" ]; then
       printf '=== %s === SOURCE MISSING\n' "$stem" >>"$r33_log"
       r33_fail=$((r33_fail + 1)); continue
@@ -656,7 +656,7 @@ overall="PASS"
   printf -- '- `provenance` — branch, HEAD, origin/main, merge base, ahead/behind, dirty paths and the full worktree list, captured before anything else runs.\n'
   printf -- '- `branch-isolation` — refuses to certify a run sitting on `main`.\n'
   printf -- '- `clientcore-tests` — the Protocol772Core CTest suites: transport, crypto, login, gamelogin, initial_world, movement, player_state, worldview, minimap.\n'
-  printf -- '- `real33d-native-tests` — the header-only 3D unit tests under `tests/real33d_*.cpp`: mouse gestures, minimap view, item-use/MultiUse classification.\n'
+  printf -- '- `real33d-native-tests` — the header-only 3D unit tests under `tests/real33d_*.cpp`: mouse gestures, minimap view, item-use/MultiUse classification, stackable sprites, chat views, outfit selection, stack-move controls.\n'
   printf -- '- `secret-check` — `tests/secret_check.sh` over the tracked tree and the whole reachable history.\n'
   printf -- '- `build-sanity-msvc` — `tests/build_clientcore_windows.cmd`: the C++17 suites plus the C++20 archive the Unreal module links.\n'
   printf -- '- `unreal-module-build` — UnrealBuildTool on REAL33DEditor. Opt-in with `--unreal`.\n'

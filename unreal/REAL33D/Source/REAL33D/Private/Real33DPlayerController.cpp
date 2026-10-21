@@ -243,6 +243,14 @@ void AReal33DPlayerController::FocusChatInput()
 void AReal33DPlayerController::CloseChatInput()
 {
 	ClickWalkPath.Reset();
+	// The most recent thing first. An unanswered "how many?" is the newest
+	// modal on screen, and Escape there means "never mind this move" -- which
+	// sends nothing, because nothing was ever offered to Fusion32.
+	if (HudRoot.IsValid() && HudRoot->IsAskingMoveAmount())
+	{
+		HudRoot->AbandonMoveAmount();
+		return;
+	}
 	if (HudRoot.IsValid() && HudRoot->IsTargeting())
 	{
 		HudRoot->CancelTargeting();
@@ -603,6 +611,9 @@ void AReal33DPlayerController::BeginWorldDrag()
 		// uses the same existing move command for creatures and map objects.
 		WorldDragTypeId = Creature ? 99 : Thing.TypeId;
 		WorldDragStack = static_cast<uint8>(Index);
+		// A creature is never a stack, whatever happens to be on the field.
+		bWorldDragStackable = !Creature && Thing.bHasAmount;
+		WorldDragCount = bWorldDragStackable && Thing.Amount > 0 ? Thing.Amount : 1;
 		WorldDragStart = FVector2D(X, Y);
 		bWorldDragCandidate = true;
 		return;
@@ -623,6 +634,14 @@ void AReal33DPlayerController::CompleteWorldDrag()
 		: (Thing.bIsCreature || Thing.TypeId != WorldDragTypeId)) return;
 	auto* Bridge = GetGameInstance()->GetSubsystem<UReal33DBridge>();
 	if (!Bridge || !Bridge->IsRunning() || !HudRoot.IsValid()) return;
+	// A world drag is not a Slate drag-and-drop operation, so there is no drop
+	// event carrying the keys: they are read from Slate at the moment of the
+	// release, which is the same instant the slot routes read theirs from the
+	// event. The mouse-up handler calls straight into here.
+	const auto Keys = FSlateApplication::Get().GetModifierKeys();
+	FReal33DDragModifiers Modifiers;
+	Modifiers.bShift = Keys.IsShiftDown();
+	Modifiers.bCtrl = Keys.IsControlDown();
 	const FVector2D DesktopPosition = FSlateApplication::Get().GetCursorPos();
 	const auto Slot = HudRoot->FindItemSlotAt(DesktopPosition);
 	if (Slot.IsValid())
@@ -631,12 +650,16 @@ void AReal33DPlayerController::CompleteWorldDrag()
 		const auto To = Slot.Kind == FReal33DSlotRef::EKind::Container
 			? UReal33DBridge::FMoveSlot::InContainer(Slot.Container, Slot.Slot)
 			: UReal33DBridge::FMoveSlot::InInventory(Slot.Slot);
-		const uint32 Id = Bridge->RequestMoveObject(UReal33DBridge::FMoveSlot::OnMap(WorldDragFrom),
-			WorldDragTypeId, WorldDragStack, To, 1);
-		if (Id) HudRoot->ShowInteractionRequest(TEXT("Move requested"));
-		UE_LOG(LogReal33D, Log, TEXT("world-to-slot drag %u: object=%u from=%d,%d,%d stack=%u to=%s%u slot=%u count=1"),
-			Id, WorldDragTypeId, WorldDragFrom.X, WorldDragFrom.Y, WorldDragFrom.Z, WorldDragStack,
-			Slot.Kind == FReal33DSlotRef::EKind::Container ? TEXT("container ") : TEXT("body "), Slot.Container, Slot.Slot);
+		const auto Result = HudRoot->RequestStackMove(
+			UReal33DBridge::FMoveSlot::OnMap(WorldDragFrom), WorldDragTypeId,
+			WorldDragStack, To, bWorldDragStackable, WorldDragCount, Modifiers);
+		UE_LOG(LogReal33D, Log, TEXT("world-to-slot drag: object=%u from=%d,%d,%d stack=%u to=%s%u slot=%u pile=%u%s -> %s"),
+			WorldDragTypeId, WorldDragFrom.X, WorldDragFrom.Y, WorldDragFrom.Z, WorldDragStack,
+			Slot.Kind == FReal33DSlotRef::EKind::Container ? TEXT("container ") : TEXT("body "),
+			Slot.Container, Slot.Slot, WorldDragCount,
+			bWorldDragStackable ? TEXT(" (stackable)") : TEXT(""),
+			Result.bAsked ? TEXT("asking how many")
+				: (Result.MoveId != 0 ? TEXT("sent") : TEXT("nothing sent")));
 		return;
 	}
 	// Panel backgrounds and chat must never turn a pickup into a map move behind the UI.
@@ -652,15 +675,19 @@ void AReal33DPlayerController::CompleteWorldDrag()
 		|| Target->GetMapPosition().Z != Self->GetLogicalPosition().Z
 		|| WorldDragFrom.Z != Self->GetLogicalPosition().Z) return;
 	const auto To = Target->GetMapPosition();
-	const uint32 Id = Bridge->RequestMoveObject(UReal33DBridge::FMoveSlot::OnMap(WorldDragFrom),
-		WorldDragTypeId, WorldDragStack, UReal33DBridge::FMoveSlot::OnMap(To), 1);
-	if (Id && HudRoot.IsValid()) HudRoot->ShowInteractionRequest(TEXT("Move requested"));
-	UE_LOG(LogReal33D, Log, TEXT("world drag %u: type=%u creature=%u from=%d,%d,%d stack=%u to=%d,%d,%d count=1"),
-		Id, WorldDragTypeId, WorldDragCreatureId, WorldDragFrom.X, WorldDragFrom.Y, WorldDragFrom.Z,
-		WorldDragStack, To.X, To.Y, To.Z);
+	const auto Result = HudRoot->RequestStackMove(
+		UReal33DBridge::FMoveSlot::OnMap(WorldDragFrom), WorldDragTypeId, WorldDragStack,
+		UReal33DBridge::FMoveSlot::OnMap(To), bWorldDragStackable, WorldDragCount, Modifiers);
+	UE_LOG(LogReal33D, Log, TEXT("world drag: type=%u creature=%u from=%d,%d,%d stack=%u to=%d,%d,%d pile=%u%s -> %s"),
+		WorldDragTypeId, WorldDragCreatureId, WorldDragFrom.X, WorldDragFrom.Y, WorldDragFrom.Z,
+		WorldDragStack, To.X, To.Y, To.Z, WorldDragCount,
+		bWorldDragStackable ? TEXT(" (stackable)") : TEXT(""),
+		Result.bAsked ? TEXT("asking how many")
+			: (Result.MoveId != 0 ? TEXT("sent") : TEXT("nothing sent")));
 }
 
-void AReal33DPlayerController::DropInventoryOnWorld(FReal33DSlotRef From, FVector2D DesktopPosition)
+void AReal33DPlayerController::DropInventoryOnWorld(FReal33DSlotRef From,
+	FVector2D DesktopPosition, FReal33DDragModifiers Modifiers)
 {
 	AReal33DWorld* World = GetWorldActor();
 	if (!World || !From.IsValid() || From.TypeId == 0 || From.Count == 0
@@ -709,12 +736,15 @@ void AReal33DPlayerController::DropInventoryOnWorld(FReal33DSlotRef From, FVecto
 		? UReal33DBridge::FMoveSlot::InContainer(From.Container, From.Slot)
 		: UReal33DBridge::FMoveSlot::InInventory(From.Slot);
 	const auto To = Target->GetMapPosition();
-	const uint32 Id = Bridge->RequestMoveObject(Source, From.TypeId, From.Slot,
-		UReal33DBridge::FMoveSlot::OnMap(To), From.Count);
-	if (Id && HudRoot.IsValid()) HudRoot->ShowInteractionRequest(TEXT("Move requested"));
-	UE_LOG(LogReal33D, Log, TEXT("slot-to-world drag %u: object=%u from=%s%u slot=%u to=%d,%d,%d count=%u"),
-		Id, From.TypeId, From.Kind == FReal33DSlotRef::EKind::Container ? TEXT("container ") : TEXT("body "),
-		From.Container, From.Slot, To.X, To.Y, To.Z, From.Count);
+	if (!HudRoot.IsValid()) return;
+	const auto Result = HudRoot->RequestStackMove(Source, From.TypeId, From.Slot,
+		UReal33DBridge::FMoveSlot::OnMap(To), From.bStackable, From.Count, Modifiers);
+	UE_LOG(LogReal33D, Log, TEXT("slot-to-world drag: object=%u from=%s%u slot=%u to=%d,%d,%d stack=%u%s -> %s"),
+		From.TypeId, From.Kind == FReal33DSlotRef::EKind::Container ? TEXT("container ") : TEXT("body "),
+		From.Container, From.Slot, To.X, To.Y, To.Z, From.Count,
+		From.bStackable ? TEXT(" (stackable)") : TEXT(""),
+		Result.bAsked ? TEXT("asking how many")
+			: (Result.MoveId != 0 ? TEXT("sent") : TEXT("nothing sent")));
 }
 
 void AReal33DPlayerController::WalkUnderCursor()

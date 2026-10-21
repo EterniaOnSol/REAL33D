@@ -235,6 +235,9 @@ void SReal33DSlot::Construct(const FArguments& InArgs)
 	// A non-cumulative object has no amount byte on the wire, and CMoveObject
 	// refuses a cumulative one with a count of zero, so one is the floor.
 	Location.Count = InArgs._Count > 0 ? InArgs._Count : 1;
+	// Kept beside the floored count rather than derived from it: after the
+	// floor, a single coin and a sword both read as one.
+	Location.bStackable = InArgs._Stackable;
 	OnItemDropped = InArgs._OnItemDropped;
 	OnSlotUsed = InArgs._OnSlotUsed;
 	OnSlotPicked = InArgs._OnSlotPicked;
@@ -429,6 +432,12 @@ FReply SReal33DSlot::OnDrop(const FGeometry& Geometry, const FDragDropEvent& Eve
 	{
 		return FReply::Handled();
 	}
-	OnItemDropped.ExecuteIfBound(From, Location);
+	// The keys as they are NOW, which is when the player let go. Slate carries
+	// them on the drop event itself, so this is the same instant the drop
+	// happened rather than whatever is held by the time a handler runs.
+	FReal33DDragModifiers Modifiers;
+	Modifiers.bShift = Event.IsShiftDown();
+	Modifiers.bCtrl = Event.IsControlDown();
+	OnItemDropped.ExecuteIfBound(From, Location, Modifiers);
 	return FReply::Handled();
 }

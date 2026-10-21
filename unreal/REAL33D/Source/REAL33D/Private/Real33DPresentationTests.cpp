@@ -1,4 +1,5 @@
 #include "Real33DPresentationPolicy.h"
+#include "Real33DAmountPanel.h"
 #include "Real33DChannelsPanel.h"
 #include "Real33DChatPanel.h"
 #include "Real33DChatViews.h"
@@ -804,6 +805,137 @@ bool FReal33DOutfitPanelTest::RunTest(const FString& Parameters)
 	TestTrue(TEXT("the id is distinct from the other two modals"),
 		Real33D::PanelIds::Outfit != Real33D::PanelIds::Trade
 			&& Real33D::PanelIds::Outfit != Real33D::PanelIds::TextEditor);
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FReal33DStackMoveTest,
+	"REAL33D.Presentation.StackMoveControls",
+	EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FReal33DStackMoveTest::RunTest(const FString& Parameters)
+{
+	(void)Parameters;
+	using Real33D::ClampStackAmount;
+	using Real33D::DecideStackMove;
+	using Real33D::kMaxWireStackCount;
+	using Real33D::StackMoveKind;
+
+	// ------------------------------------------------------------ the gesture
+	//
+	// The same three rules tests/real33d_stack_move_tests.cpp fixes without an
+	// engine, re-asserted here so a build that compiles the header into the
+	// module cannot have changed them.
+	TestTrue(TEXT("a plain drag moves the whole stack"),
+		DecideStackMove(true, 47, false, false).Kind == StackMoveKind::Send
+			&& DecideStackMove(true, 47, false, false).Count == 47);
+	TestTrue(TEXT("shift+drag moves exactly one"),
+		DecideStackMove(true, 47, true, false).Kind == StackMoveKind::Send
+			&& DecideStackMove(true, 47, true, false).Count == 1);
+	TestTrue(TEXT("ctrl+drag asks, opening on the whole stack"),
+		DecideStackMove(true, 47, false, true).Kind == StackMoveKind::Ask
+			&& DecideStackMove(true, 47, false, true).Count == 47);
+	TestTrue(TEXT("ctrl wins when both are held, because a question can be cancelled"),
+		DecideStackMove(true, 47, true, true).Kind == StackMoveKind::Ask);
+
+	// The behaviour this client already had, preserved: a sword carries no
+	// amount byte, so no modifier may produce a partial move of one.
+	for (int32 Mask = 0; Mask < 4; ++Mask)
+	{
+		const Real33D::StackMoveDecision Plain =
+			DecideStackMove(false, 9, (Mask & 1) != 0, (Mask & 2) != 0);
+		TestTrue(TEXT("a non-stackable object always moves whole, whatever is held"),
+			Plain.Kind == StackMoveKind::Send && Plain.Count == 1);
+	}
+
+	// The two bounds are the protocol's: CMoveObject refuses a count of zero
+	// and reads exactly one byte.
+	TestEqual(TEXT("the answer cannot fall below one"),
+		static_cast<int32>(ClampStackAmount(0, 10)), 1);
+	TestEqual(TEXT("nor rise above the stack"),
+		static_cast<int32>(ClampStackAmount(11, 10)), 10);
+	TestEqual(TEXT("nor above the one count byte on the wire"),
+		static_cast<int32>(ClampStackAmount(999, 999)),
+		static_cast<int32>(kMaxWireStackCount));
+	TestEqual(TEXT("a stack of one admits exactly one answer"),
+		static_cast<int32>(ClampStackAmount(7, 1)), 1);
+
+	// ------------------------------------------------------- the window rules
+	TestEqual(TEXT("the heading is the classic client's own title"),
+		SReal33DAmountPanel::Title().ToString(), FString(TEXT("Move Objects")));
+	TestEqual(TEXT("the answer is shown with the bound it sits in"),
+		SReal33DAmountPanel::AmountText(3, 12).ToString(), FString(TEXT("3  of 12")));
+	TestEqual(TEXT("and an out-of-range answer is shown clamped, not raw"),
+		SReal33DAmountPanel::AmountText(99, 12).ToString(), FString(TEXT("12  of 12")));
+	const FString Note = SReal33DAmountPanel::NoteText().ToString();
+	TestTrue(TEXT("the note says nothing has been sent yet"),
+		Note.Contains(TEXT("Nothing has been sent")));
+	TestTrue(TEXT("the note says cancel sends nothing"),
+		Note.Contains(TEXT("Cancel sends nothing")));
+	TestFalse(TEXT("the note never claims the objects were moved"),
+		Note.Contains(TEXT("moved")) || Note.Contains(TEXT("success")));
+
+	// ----------------------------------------------------- the window's life
+	int32 Chosen = 0;
+	int32 ChosenCalls = 0;
+	int32 AbandonCalls = 0;
+	const TSharedRef<SReal33DAmountPanel> Window = SNew(SReal33DAmountPanel)
+		.OnChosen(FReal33DOnAmountChosen::CreateLambda(
+			[&Chosen, &ChosenCalls](uint32 Amount)
+			{
+				Chosen = static_cast<int32>(Amount);
+				++ChosenCalls;
+			}))
+		.OnAbandoned(FReal33DOnAmountAbandoned::CreateLambda(
+			[&AbandonCalls]() { ++AbandonCalls; }));
+
+	// Built closed: a drag opens this window, never the client on its own.
+	TestFalse(TEXT("the question is not on screen before a drag"), Window->IsShowing());
+	TestTrue(TEXT("and takes no space"),
+		Window->GetVisibility() == EVisibility::Collapsed);
+
+	// Abandoning nothing reports nothing, so Escape is always safe to press.
+	Window->Abandon();
+	TestEqual(TEXT("abandoning a question that was never asked reports nothing"),
+		AbandonCalls, 0);
+
+	Window->Ask(12, FText::FromString(TEXT("Object 3031 from body slot 10 to container 0 slot 2.")));
+	TestTrue(TEXT("asking puts the question on screen"), Window->IsShowing());
+	TestEqual(TEXT("bounded by the stack the server reported"),
+		static_cast<int32>(Window->GetMax()), 12);
+	TestEqual(TEXT("and opening on it, so Ok alone equals a plain drag"),
+		static_cast<int32>(Window->GetAmount()), 12);
+	TestTrue(TEXT("the question does not swallow clicks on the panels behind it"),
+		Window->GetVisibility() == EVisibility::SelfHitTestInvisible);
+
+	// Cancel: the window closes, the caller is told, and NOTHING was chosen.
+	Window->Abandon();
+	TestFalse(TEXT("cancelling closes the question"), Window->IsShowing());
+	TestTrue(TEXT("and gives its space back"),
+		Window->GetVisibility() == EVisibility::Collapsed);
+	TestEqual(TEXT("the caller is told exactly once"), AbandonCalls, 1);
+	TestEqual(TEXT("and no amount was ever chosen, so nothing can have been sent"),
+		ChosenCalls, 0);
+	TestEqual(TEXT("no amount reached the caller"), Chosen, 0);
+
+	// A stack the server described as empty is still one object, and the
+	// question opens on an answer CMoveObject would accept rather than on zero.
+	Window->Ask(0, FText::GetEmpty());
+	TestEqual(TEXT("a zero stack still bounds the question at one"),
+		static_cast<int32>(Window->GetMax()), 1);
+	TestEqual(TEXT("and opens on one"), static_cast<int32>(Window->GetAmount()), 1);
+	Window->Abandon();
+
+	// Registered like every other surface, and distinct from all three of the
+	// modals that existed before it.
+	FReal33DPanelRegistry Registry;
+	const TSharedRef<SWidget> Entry = SNew(SBox);
+	TestTrue(TEXT("the question registers under its own id"),
+		Registry.Register(Real33D::PanelIds::MoveAmount, Entry));
+	TestFalse(TEXT("and cannot be registered twice"),
+		Registry.Register(Real33D::PanelIds::MoveAmount, Entry));
+	TestTrue(TEXT("the id is distinct from the three earlier modals"),
+		Real33D::PanelIds::MoveAmount != Real33D::PanelIds::Outfit
+			&& Real33D::PanelIds::MoveAmount != Real33D::PanelIds::Trade
+			&& Real33D::PanelIds::MoveAmount != Real33D::PanelIds::TextEditor);
 	return true;
 }
 #endif

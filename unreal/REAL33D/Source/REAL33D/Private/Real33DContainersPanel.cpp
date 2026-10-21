@@ -85,6 +85,7 @@ TSharedRef<SWidget> SReal33DContainersPanel::MakeContainer(
 					.SlotBrush("Real33D.Chrome.ItemSlot")
 					.TypeId(Item.TypeId)
 					.Count(Item.bHasAmount ? Item.Amount : 0)
+					.Stackable(Item.bHasAmount)
 					.Location(Where)
 					.OnItemDropped(OnItemDropped)
 		.OnSlotUsed(OnSlotUsed)

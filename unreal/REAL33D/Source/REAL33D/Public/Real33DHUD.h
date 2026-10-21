@@ -6,10 +6,12 @@
 #include "Real33DPanelChrome.h"
 #include "Real33DPanelRegistry.h"
 #include "Real33DMinimapPanel.h"
+#include "Real33DStackMove.h"
 #include "Widgets/DeclarativeSyntaxSupport.h"
 #include "Widgets/SCompoundWidget.h"
 
 class AReal33DWorld;
+class SReal33DAmountPanel;
 class SReal33DBattlePanel;
 class SReal33DConditionStrip;
 class SReal33DContainersPanel;
@@ -22,7 +24,32 @@ class SReal33DSkillsPanel;
 class SReal33DVitalsPanel;
 class SBorder;
 
-DECLARE_DELEGATE_TwoParams(FReal33DOnWorldItemDropped, FReal33DSlotRef, FVector2D);
+/**
+ * An object released over the 3D scene, with the keys that were down then.
+ *
+ * The modifiers travel with the drop rather than being re-asked downstream, so
+ * the world route reads the gesture at the same instant the slot route does.
+ */
+DECLARE_DELEGATE_ThreeParams(FReal33DOnWorldItemDropped, FReal33DSlotRef, FVector2D,
+	FReal33DDragModifiers);
+
+/**
+ * What one completed drag turned into.
+ *
+ * Three outcomes, not two, and the caller needs to be able to tell them apart
+ * for its own log: one move reached the bridge, a question was opened and
+ * nothing was sent yet, or nothing happened at all because there was no live
+ * bridge to ask.
+ */
+struct FReal33DStackMoveResult
+{
+	/** True when a "how many?" question is now on screen. Nothing was sent. */
+	bool bAsked = false;
+	/** Non-zero when exactly one move request reached the bridge. */
+	uint32 MoveId = 0;
+	/** The count that was put on the wire, when one was. */
+	uint32 Count = 0;
+};
 
 /**
  * The whole in-game UI, laid out as `game_interface/gameinterface.otui` lays it.
@@ -108,6 +135,43 @@ public:
 	bool LookAtWorldPoint(const Real33D::FMapPosition& Position);
 	void ShowInteractionRequest(const FString& Text);
 
+	// ------------------------------------------------------- stack movement
+	//
+	// THE ONE ROUTE EVERY DRAG ENDS IN. Slot to slot, slot to ground, ground
+	// to slot and ground to ground all call RequestStackMove, so the gesture
+	// -- plain drag moves the whole stack, Shift moves one, Ctrl asks -- cannot
+	// mean different things in different panels, and the clamp cannot be
+	// applied in three places and forgotten in a fourth. The rule itself is in
+	// `Real33DStackMove.h` and is tested without Slate.
+	//
+	// Nothing here mutates inventory, container or world state. A move is a
+	// request; the counts the player ends up with are the ones Fusion32 reports
+	// afterwards through the ordinary inventory and container commands.
+
+	/**
+	 * Turns one completed drag into either one move request or one question.
+	 *
+	 * @param bStackable  whether the server sent an amount for this object. A
+	 *                    non-stackable object moves whole whatever is held
+	 *                    down, which is what this client already did.
+	 * @param StackCount  the authoritative amount, as last reported. Ignored
+	 *                    when `bStackable` is false.
+	 */
+	FReal33DStackMoveResult RequestStackMove(const UReal33DBridge::FMoveSlot& From,
+		uint16 TypeId, uint8 StackIndex, const UReal33DBridge::FMoveSlot& To,
+		bool bStackable, uint32 StackCount, FReal33DDragModifiers Modifiers);
+
+	/** True while a "how many?" question is waiting for an answer. */
+	bool IsAskingMoveAmount() const { return PendingAmount.bActive; }
+
+	/**
+	 * Drops a pending "how many?" question, sending nothing.
+	 *
+	 * Safe to call when there is none. Bound to the same Escape the other
+	 * modals use.
+	 */
+	void AbandonMoveAmount();
+
 private:
 	// The HUD receives bubbled Slate drops, but only its map rectangle is a world target.
 	TSharedPtr<SBorder> ViewportFrame;
@@ -139,7 +203,25 @@ private:
 		FName IconBrush, float ContentHeight, const TSharedRef<SWidget>& Content);
 
 	/** Turns a drop between two slots into a move request on the bridge. */
-	void HandleItemDropped(FReal33DSlotRef From, FReal33DSlotRef To);
+	void HandleItemDropped(FReal33DSlotRef From, FReal33DSlotRef To,
+		FReal33DDragModifiers Modifiers);
+
+	/** Puts exactly one CL_CMD_MOVE_OBJECT on the bridge, and says so. */
+	uint32 SendMove(const UReal33DBridge::FMoveSlot& From, uint16 TypeId,
+		uint8 StackIndex, const UReal33DBridge::FMoveSlot& To, uint32 Count);
+
+	/** Opens the "how many?" question and remembers the move it is about. */
+	void AskMoveAmount(const UReal33DBridge::FMoveSlot& From, uint16 TypeId,
+		uint8 StackIndex, const UReal33DBridge::FMoveSlot& To, uint32 Max);
+
+	/** The question was answered. Sends exactly one move, clamped again. */
+	void HandleAmountChosen(uint32 Amount);
+
+	/** The question was abandoned. Sends nothing and forgets the move. */
+	void HandleAmountAbandoned();
+
+	/** One end of a move, in words, for the question and for the log. */
+	static FString DescribeMoveSlot(const UReal33DBridge::FMoveSlot& Slot);
 
 	/** Right-click on a slot: use it, or begin a use-with. */
 	void HandleSlotUsed(FReal33DSlotRef Slot, EReal33DSlotAction Action);
@@ -222,6 +304,33 @@ private:
 	};
 	FPendingUse Pending;
 
+	/**
+	 * A move the player has aimed but not yet sized.
+	 *
+	 * Held here rather than in the question window because this is the layer
+	 * that may speak to the bridge, and because the window must be able to be
+	 * replaced or torn down without a half-described move surviving it. While
+	 * this is active NOTHING has been sent: the drag produced a question, and
+	 * only an answer produces a command.
+	 *
+	 * `Max` is the stack count as the server last reported it, captured when
+	 * the drag was released. It bounds the answer. It is deliberately not
+	 * re-read when the answer arrives: re-reading would make the bound depend
+	 * on when the player happened to click, and Fusion32 rules on the count
+	 * either way -- a stack that shrank meanwhile simply yields a refused
+	 * move, which is the correct outcome and changes nothing on screen.
+	 */
+	struct FPendingAmountMove
+	{
+		bool bActive = false;
+		UReal33DBridge::FMoveSlot From;
+		uint16 TypeId = 0;
+		uint8 StackIndex = 0;
+		UReal33DBridge::FMoveSlot To;
+		uint32 Max = Real33D::kMinStackCount;
+	};
+	FPendingAmountMove PendingAmount;
+
 	/** The container numbers currently open, refreshed each frame. */
 	TArray<uint8> OpenContainerNumbers;
 
@@ -251,6 +360,14 @@ private:
 	TSharedPtr<class SReal33DTradePanel> Trade;
 	/** The outfit chooser. Centred modal, registry-managed, server-opened. */
 	TSharedPtr<class SReal33DOutfitPanel> Outfit;
+	/**
+	 * The "how many?" question. Centred modal, registry-managed, drag-opened.
+	 *
+	 * The only one of the four modals this client opens itself, because it is
+	 * the only one that describes something the player has already done rather
+	 * than something the server offered.
+	 */
+	TSharedPtr<SReal33DAmountPanel> AmountQuestion;
 	TSharedPtr<SReal33DConditionStrip> Conditions;
 	TSharedPtr<SReal33DMinimapPanel> Minimap;
 	TSharedPtr<SReal33DControlPanel> Controls;

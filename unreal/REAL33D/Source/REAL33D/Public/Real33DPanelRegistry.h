@@ -45,6 +45,16 @@ namespace PanelIds
 	 * this character may wear.
 	 */
 	REAL33D_API extern const FName Outfit;
+	/**
+	 * The "how many?" question a Ctrl+drag of a stack opens. A centred modal
+	 * like the three above, registered for the same reason.
+	 *
+	 * Never opened from the control strip either, but for a different reason
+	 * from the outfit chooser's: this one describes a move the player has
+	 * already aimed, so there is nothing to ask about until a drag has been
+	 * released somewhere.
+	 */
+	REAL33D_API extern const FName MoveAmount;
 }
 }
 

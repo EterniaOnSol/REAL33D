@@ -27,12 +27,38 @@ struct FReal33DSlotRef
 	uint16 TypeId = 0;
 	/** Stack size for a cumulative object; 1 for anything else. */
 	uint8 Count = 1;
+	/**
+	 * True when Fusion32 sent an amount for this object, which is what makes
+	 * it a stack.
+	 *
+	 * Read from the wire (`FReal33DItem::bHasAmount`), never inferred from the
+	 * count or from a type id: the amount byte is present only for a type
+	 * carrying the CUMULATIVE flag. It is what keeps the stack-move modifiers
+	 * off a sword -- see `Real33DStackMove.h`.
+	 */
+	bool bStackable = false;
 
 	bool IsValid() const { return Kind != EKind::None; }
 };
 
+/**
+ * The modifier keys held at the moment a drag was released.
+ *
+ * Read at the DROP, not at the pick-up, because that is the moment the player
+ * commits: a drag begun over a pile and released somewhere else is one
+ * gesture, and the keys that were down when it ended are the ones they meant.
+ * Carried explicitly rather than re-asked of Slate downstream, so every route
+ * answers the question once and at the same instant.
+ */
+struct FReal33DDragModifiers
+{
+	bool bShift = false;
+	bool bCtrl = false;
+};
+
 /** Fired when an object is dropped on a slot. Both ends are server addresses. */
-DECLARE_DELEGATE_TwoParams(FReal33DOnItemDropped, FReal33DSlotRef, FReal33DSlotRef);
+DECLARE_DELEGATE_ThreeParams(FReal33DOnItemDropped, FReal33DSlotRef, FReal33DSlotRef,
+	FReal33DDragModifiers);
 
 /**
  * Fired when a slot is used.
@@ -158,6 +184,7 @@ public:
 		, _Tooltip()
 		, _TypeId(0)
 		, _Count(0)
+		, _Stackable(false)
 	{}
 		SLATE_ARGUMENT(FName, SlotBrush)
 		/** The 32x32 art naming which body part this slot is, if it is one. */
@@ -167,6 +194,14 @@ public:
 		SLATE_ARGUMENT(uint16, TypeId)
 		/** Stack size, drawn only when the object's type is cumulative. */
 		SLATE_ARGUMENT(uint8, Count)
+		/**
+		 * `FReal33DItem::bHasAmount` straight off the wire.
+		 *
+		 * Separate from Count on purpose. Count is already floored at one for
+		 * the move command, so it cannot tell a single coin from a sword, and
+		 * the stack-move modifiers must only ever reach the coin.
+		 */
+		SLATE_ARGUMENT(bool, Stackable)
 		/** Where this slot is, in the terms a move request needs. */
 		SLATE_ARGUMENT(FReal33DSlotRef, Location)
 		/** Fired when something is dropped here. */

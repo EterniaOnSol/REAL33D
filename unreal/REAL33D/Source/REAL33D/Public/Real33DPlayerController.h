@@ -12,6 +12,7 @@ class SReal33DHUD;
 class STextBlock;
 class SEditableTextBox;
 struct FReal33DSlotRef;
+struct FReal33DDragModifiers;
 
 /**
  * Turns key presses into intents and nothing else.
@@ -57,13 +58,26 @@ private:
 	void EndLeftClick();
 	void BeginWorldDrag();
 	void CompleteWorldDrag();
-	void DropInventoryOnWorld(FReal33DSlotRef From, FVector2D DesktopPosition);
+	void DropInventoryOnWorld(FReal33DSlotRef From, FVector2D DesktopPosition,
+		FReal33DDragModifiers Modifiers);
 	bool bWorldDragCandidate = false;
 	FVector2D WorldDragStart = FVector2D::ZeroVector;
 	Real33D::FMapPosition WorldDragFrom;
 	uint16 WorldDragTypeId = 0;
 	uint8 WorldDragStack = 0;
 	uint32 WorldDragCreatureId = 0;
+	/**
+	 * The stack the dragged map object is, as the server last reported it.
+	 *
+	 * Before this, a drag off the ground always sent a count of one, so a pile
+	 * of fifty coins picked up off a field moved one coin and left forty-nine
+	 * behind. `bWorldDragStackable` is `FReal33DThing::bHasAmount` -- the
+	 * amount byte's presence, which is what makes an object a stack -- and is
+	 * kept beside the count because the count alone cannot tell a single coin
+	 * from a sword.
+	 */
+	uint8 WorldDragCount = 1;
+	bool bWorldDragStackable = false;
 	void WalkUnderCursor();
 	void RequestKnownWalk(Real33D::FMapPosition Target);
 	void TickClickWalk();

@@ -91,6 +91,7 @@ void SReal33DInventoryPanel::FillSlot(int32 Slot, const FName& Placeholder,
 		.PlaceholderBrush(Placeholder)
 		.TypeId(bOccupied ? Item.TypeId : 0)
 		.Count(bOccupied && Item.bHasAmount ? Item.Amount : 0)
+		.Stackable(bOccupied && Item.bHasAmount)
 		.Location(Where)
 		.OnItemDropped(OnItemDropped)
 		.OnSlotUsed(OnSlotUsed)
