@@ -1,0 +1,209 @@
+image   build/classic-client-772/app/Tibia.exe
+sha256  1A82FE97A39E536C29327D6D5DDE316775F537DCC01506831429B1A0433B76F8
+
+-- the palette loop --
+  PASS  133 swatches, i = 0..132
+  PASS  control id is 2000 + i
+  PASS  each colour comes from 0x00509280
+
+-- index -> hue, saturation, value --
+  PASS  the grid is 19 wide
+  PASS  index is divided by it
+  PASS  column 0 branches to greyscale
+  PASS  greyscale value is 1 - row/7
+  PASS  chromatic hue is column/18
+  PASS  the row selects (s, v) through a 7-entry table
+
+-- the constants, read from the image --
+  PASS  0x00573F50 is 1/7 grey step
+  PASS  0x00573F48 is 1/18 hue step
+  PASS  0x00573F28 is 255 channel scale
+  PASS  0x00573F18 is 6.0 sector span
+  PASS  0x00573F20 is 1/6 sector 1 bound
+  PASS  0x00573F10 is 2/6 sector 2 bound
+  PASS  0x0056F478 is 0.5 sector 3 bound
+  PASS  0x00573F08 is 4/6 sector 4 bound
+  PASS  0x00573F00 is 5/6 sector 5 bound
+  PASS  0x00573F40 is 0.25 row saturation
+  PASS  0x00573F38 is 0.75 row value
+  PASS  0x00573F30 is 0.667 row saturation
+  PASS  0x0056F110 is 1.0
+  PASS  0x0055D8C8 is 0.0
+
+-- the row (s, v) table --
+  PASS  row 0 dispatches to 0x0050930F
+  PASS  row 0 loads (s, v) = (0.25, 1.0)
+  PASS  row 1 dispatches to 0x00509321
+  PASS  row 1 loads (s, v) = (0.25, 0.75)
+  PASS  row 2 dispatches to 0x00509333
+  PASS  row 2 loads (s, v) = (0.5, 0.75)
+  PASS  row 3 dispatches to 0x00509345
+  PASS  row 3 loads (s, v) = (0.667, 0.75)
+  PASS  row 4 dispatches to 0x00509357
+  PASS  row 4 loads (s, v) = (1.0, 1.0)
+  PASS  row 5 dispatches to 0x00509369
+  PASS  row 5 loads (s, v) = (1.0, 0.75)
+  PASS  row 6 dispatches to 0x0050937B
+  PASS  row 6 loads (s, v) = (1.0, 0.5)
+
+-- the conversion's two early exits --
+  PASS  v == 0 returns black
+  PASS  s == 0 returns v on all three channels
+
+-- invariants the generated palette must satisfy --
+  PASS  the palette has 133 entries
+  PASS  index 0 is white
+  PASS  column 0 is greyscale on every row
+  PASS  the greyscale column descends
+  PASS  every channel stays in 0..255
+  PASS  row 4 contains pure red
+  PASS  row 4 contains pure yellow
+  PASS  row 4 contains pure green
+  PASS  row 4 contains pure cyan
+  PASS  row 4 contains pure blue
+  PASS  row 4 contains pure magenta
+  PASS  an out-of-range index folds to index 0
+
+====================================================================
+OUTFIT PALETTE: VERIFIED -- 133 colours, 7 rows x 19 columns, derived not tabulated
+
+index  r    g    b     hex       row col
+    0  255  255  255   #FFFFFF   0   0
+    1  255  212  191   #FFD4BF   0   1
+    2  255  234  191   #FFEABF   0   2
+    3  255  255  191   #FFFFBF   0   3
+    4  234  255  191   #EAFFBF   0   4
+    5  212  255  191   #D4FFBF   0   5
+    6  191  255  191   #BFFFBF   0   6
+    7  191  255  212   #BFFFD4   0   7
+    8  191  255  234   #BFFFEA   0   8
+    9  191  255  255   #BFFFFF   0   9
+   10  191  234  255   #BFEAFF   0   10
+   11  191  213  255   #BFD5FF   0   11
+   12  191  191  255   #BFBFFF   0   12
+   13  212  191  255   #D4BFFF   0   13
+   14  234  191  255   #EABFFF   0   14
+   15  255  191  255   #FFBFFF   0   15
+   16  255  191  234   #FFBFEA   0   16
+   17  255  191  213   #FFBFD5   0   17
+   18  255  191  191   #FFBFBF   0   18
+   19  219  219  219   #DBDBDB   1   0
+   20  191  159  143   #BF9F8F   1   1
+   21  191  175  143   #BFAF8F   1   2
+   22  191  191  143   #BFBF8F   1   3
+   23  175  191  143   #AFBF8F   1   4
+   24  159  191  143   #9FBF8F   1   5
+   25  143  191  143   #8FBF8F   1   6
+   26  143  191  159   #8FBF9F   1   7
+   27  143  191  175   #8FBFAF   1   8
+   28  143  191  191   #8FBFBF   1   9
+   29  143  175  191   #8FAFBF   1   10
+   30  143  159  191   #8F9FBF   1   11
+   31  143  143  191   #8F8FBF   1   12
+   32  159  143  191   #9F8FBF   1   13
+   33  175  143  191   #AF8FBF   1   14
+   34  191  143  191   #BF8FBF   1   15
+   35  191  143  175   #BF8FAF   1   16
+   36  191  143  159   #BF8F9F   1   17
+   37  191  143  143   #BF8F8F   1   18
+   38  182  182  182   #B6B6B6   2   0
+   39  191  128   96   #BF8060   2   1
+   40  191  159   96   #BF9F60   2   2
+   41  191  191   96   #BFBF60   2   3
+   42  159  191   96   #9FBF60   2   4
+   43  127  191   96   #7FBF60   2   5
+   44   96  191   96   #60BF60   2   6
+   45   96  191  127   #60BF7F   2   7
+   46   96  191  159   #60BF9F   2   8
+   47   96  191  191   #60BFBF   2   9
+   48   96  159  191   #609FBF   2   10
+   49   96  128  191   #6080BF   2   11
+   50   96   96  191   #6060BF   2   12
+   51  128   96  191   #8060BF   2   13
+   52  159   96  191   #9F60BF   2   14
+   53  191   96  191   #BF60BF   2   15
+   54  191   96  159   #BF609F   2   16
+   55  191   96  128   #BF6080   2   17
+   56  191   96   96   #BF6060   2   18
+   57  146  146  146   #929292   3   0
+   58  191  106   64   #BF6A40   3   1
+   59  191  149   64   #BF9540   3   2
+   60  191  191   64   #BFBF40   3   3
+   61  149  191   64   #95BF40   3   4
+   62  106  191   64   #6ABF40   3   5
+   63   64  191   64   #40BF40   3   6
+   64   64  191  106   #40BF6A   3   7
+   65   64  191  149   #40BF95   3   8
+   66   64  191  191   #40BFBF   3   9
+   67   64  149  191   #4095BF   3   10
+   68   64  106  191   #406ABF   3   11
+   69   64   64  191   #4040BF   3   12
+   70  106   64  191   #6A40BF   3   13
+   71  149   64  191   #9540BF   3   14
+   72  191   64  191   #BF40BF   3   15
+   73  191   64  149   #BF4095   3   16
+   74  191   64  106   #BF406A   3   17
+   75  191   64   64   #BF4040   3   18
+   76  109  109  109   #6D6D6D   4   0
+   77  255   85    0   #FF5500   4   1
+   78  255  170    0   #FFAA00   4   2
+   79  255  255    0   #FFFF00   4   3
+   80  170  255    0   #AAFF00   4   4
+   81   85  255    0   #55FF00   4   5
+   82    0  255    0   #00FF00   4   6
+   83    0  255   85   #00FF55   4   7
+   84    0  255  170   #00FFAA   4   8
+   85    0  255  255   #00FFFF   4   9
+   86    0  170  255   #00AAFF   4   10
+   87    0   85  255   #0055FF   4   11
+   88    0    0  255   #0000FF   4   12
+   89   85    0  255   #5500FF   4   13
+   90  170    0  255   #AA00FF   4   14
+   91  255    0  255   #FF00FF   4   15
+   92  255    0  170   #FF00AA   4   16
+   93  255    0   85   #FF0055   4   17
+   94  255    0    0   #FF0000   4   18
+   95   73   73   73   #494949   5   0
+   96  191   64    0   #BF4000   5   1
+   97  191  128    0   #BF8000   5   2
+   98  191  191    0   #BFBF00   5   3
+   99  128  191    0   #80BF00   5   4
+  100   64  191    0   #40BF00   5   5
+  101    0  191    0   #00BF00   5   6
+  102    0  191   64   #00BF40   5   7
+  103    0  191  128   #00BF80   5   8
+  104    0  191  191   #00BFBF   5   9
+  105    0  127  191   #007FBF   5   10
+  106    0   64  191   #0040BF   5   11
+  107    0    0  191   #0000BF   5   12
+  108   64    0  191   #4000BF   5   13
+  109  127    0  191   #7F00BF   5   14
+  110  191    0  191   #BF00BF   5   15
+  111  191    0  128   #BF0080   5   16
+  112  191    0   64   #BF0040   5   17
+  113  191    0    0   #BF0000   5   18
+  114   36   36   36   #242424   6   0
+  115  128   42    0   #802A00   6   1
+  116  128   85    0   #805500   6   2
+  117  128  128    0   #808000   6   3
+  118   85  128    0   #558000   6   4
+  119   42  128    0   #2A8000   6   5
+  120    0  128    0   #008000   6   6
+  121    0  128   42   #00802A   6   7
+  122    0  128   85   #008055   6   8
+  123    0  128  128   #008080   6   9
+  124    0   85  128   #005580   6   10
+  125    0   43  128   #002B80   6   11
+  126    0    0  128   #000080   6   12
+  127   43    0  128   #2B0080   6   13
+  128   85    0  128   #550080   6   14
+  129  127    0  128   #7F0080   6   15
+  130  128    0   85   #800055   6   16
+  131  128    0   43   #80002B   6   17
+  132  128    0    0   #800000   6   18
+
+The four colours CheckOutfit gives a fresh character:
+  Head   78 -> #FFAA00  (255,170,0)
+  Body   69 -> #4040BF  (64,64,191)
+  Legs   58 -> #BF6A40  (191,106,64)
+  Feet   76 -> #6D6D6D  (109,109,109)

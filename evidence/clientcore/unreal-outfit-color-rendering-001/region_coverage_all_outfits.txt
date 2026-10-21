@@ -1,0 +1,28 @@
+# UNREAL-OUTFIT-COLOR-RENDERING-001 -- region coverage of every delivered outfit
+#
+# Produced by tests/audit_outfit_asset_regions.py over every .glb in the
+# brother delivery at 3DTIBIA_para_hermano/arte/criaturas. Read-only.
+# "mask" is whether the asset carries COLOR_0, TEXCOORD_1 or TEXCOORD_2,
+# which are the only ways a region could be defined inside a single mesh.
+
+outfit asset                   Head  Body  Legs  Feet  mask  verdict
+------------------------------------------------------------------------------
+128_rookie.glb                 YES   YES   YES   no    NONE  INSUFFICIENT
+15_troll.glb                   YES   YES   YES   no    NONE  INSUFFICIENT
+16_bear.glb                    YES   YES   YES   no    NONE  INSUFFICIENT
+21_rat.glb                     YES   YES   YES   no    NONE  INSUFFICIENT
+25_minotaur.glb                YES   YES   YES   no    NONE  INSUFFICIENT
+26_rotworm.glb                 YES   no    no    no    NONE  INSUFFICIENT
+27_wolf.glb                    YES   YES   YES   no    NONE  INSUFFICIENT
+28_snake.glb                   YES   no    no    no    NONE  INSUFFICIENT
+30_spider.glb                  YES   no    YES   no    NONE  INSUFFICIENT
+31_deer.glb                    YES   YES   YES   no    NONE  INSUFFICIENT
+33_skeleton.glb                YES   YES   YES   no    NONE  INSUFFICIENT
+36_poison_spider.glb           YES   no    YES   no    NONE  INSUFFICIENT
+45_bug.glb                     YES   no    YES   no    NONE  INSUFFICIENT
+50_orc_spearman.glb            YES   YES   YES   no    NONE  INSUFFICIENT
+56_cave_rat.glb                YES   YES   YES   no    NONE  INSUFFICIENT
+5_orc.glb                      YES   YES   YES   no    NONE  INSUFFICIENT
+------------------------------------------------------------------------------
+delivered outfits with ANY feet geometry: 0 of 16
+delivered outfits with ANY region mask:   0 of 16

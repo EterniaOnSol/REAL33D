@@ -1,0 +1,36 @@
+
+========================================================================
+asset  C:/Users/dell/3DTIBIA_hermano_pkg/3DTIBIA_para_hermano/arte/criaturas/128_rookie.glb
+
+  node         mesh             material       base colour
+  ------------ ---------------- -------------- ----------------------
+  arm.L        Cylinder         128_shadow     [0.436, 0.395, 0.365]  greyscale
+  arm.R        Cylinder.002     128_shadow     [0.436, 0.395, 0.365]  greyscale
+  head         Icosphere.001    128_light      [0.732, 0.722, 0.715]  greyscale
+  leg.L        Cylinder.001     128_dark       [0.067, 0.020, 0.009]  greyscale
+  leg.R        Cylinder.003     128_dark       [0.067, 0.020, 0.009]  greyscale
+  pelvis       Icosphere.002    128_dark       [0.067, 0.020, 0.009]  greyscale
+  torso        Icosphere        128_mid        [0.625, 0.618, 0.614]  greyscale
+  tunic        Cube             128_accent     [0.848, 0.837, 0.821]  greyscale
+
+  materials: 5   nodes with geometry: 8
+  materials shared across body parts (so a slot is not a region):
+    128_dark       ['leg.L', 'leg.R', 'pelvis']
+    128_shadow     ['arm.L', 'arm.R']
+
+  textures: 0   images: 0   extensions: none
+  possible region masks present: NONE
+
+  region coverage:
+    Head  YES  ['head']
+    Body  YES  ['arm.L', 'arm.R', 'torso', 'tunic']
+    Legs  YES  ['leg.L', 'leg.R', 'pelvis']
+    Feet  NO   -- no node names this region
+
+  VERDICT: INSUFFICIENT. No geometry for: Feet.
+  A colour byte for a region with no geometry has nothing to tint,
+  and no mask attribute is present that could define one inside
+  another part. This asset cannot represent all four regions.
+
+========================================================================
+ASSET COLOUR CAPABILITY: INSUFFICIENT for the four 7.72 regions

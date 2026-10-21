@@ -405,6 +405,39 @@ else
   fi
 fi
 
+# -------------------------------------------------- check: outfit palette ---
+# The sibling of the check above. That one proves WHICH body part each of the
+# four outfit colour bytes tints; this one proves WHAT COLOUR each byte value
+# is. Fusion32 has no palette at all -- it validates `> 132` and stores the
+# byte -- so the authority is again the classic client, read statically.
+#
+# Re-derived on every run rather than trusted once, because the alternative is
+# a hardcoded table that nothing would notice drifting.
+op_log="$(logfile outfit-palette)"
+op_script="$REPO/tests/verify_outfit_palette.py"
+if [ ! -f "$op_script" ]; then
+  record outfit-palette SKIP "tests/verify_outfit_palette.py not present"
+elif [ ! -f "$ocm_image" ]; then
+  record outfit-palette SKIP \
+    "build/classic-client-772/app/Tibia.exe not present; the client artifact is ignored by Git"
+elif [ -z "$(working_python)" ]; then
+  record outfit-palette SKIP "no working python interpreter on PATH"
+else
+  "$(working_python)" "$op_script" "$ocm_image" >"$op_log" 2>&1
+  rc=$?
+  if [ "$rc" -eq 0 ] && log_has "$op_log" "OUTFIT PALETTE: VERIFIED"; then
+    record outfit-palette PASS \
+      "$(grep -c '^  PASS  ' "$op_log") assertion(s) hold; 133 colours, 7x19, derived not tabulated" \
+      outfit-palette
+  elif [ "$rc" -eq 2 ]; then
+    record outfit-palette FAIL \
+      "the client image does not match the hash these offsets were derived from" outfit-palette
+  else
+    record outfit-palette FAIL \
+      "verify_outfit_palette.py exited $rc; the palette is not established" outfit-palette
+  fi
+fi
+
 # ----------------------------------------------------- check: secret check ---
 sc_log="$(logfile secret-check)"
 if [ ! -f "$REPO/tests/secret_check.sh" ]; then
