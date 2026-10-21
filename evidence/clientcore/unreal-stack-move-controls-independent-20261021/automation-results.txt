@@ -1,0 +1,67 @@
+[2026.10.21-23.20.51:490][585]LogAutomationController: Received FindWorkersResponseMessage from B0B77EE94DEB809671C9CF86E30EDA84
+[2026.10.21-23.20.51:490][585]LogAutomationController: Requesting test list from B0B77EE94DEB809671C9CF86E30EDA84
+[2026.10.21-23.20.51:567][586]LogAutomationController: Received RequestTestsReplyCompleteMessage from B0B77EE94DEB809671C9CF86E30EDA84
+[2026.10.21-23.20.51:571][586]LogAutomationController: 6366 tests available on B0B77EE94DEB809671C9CF86E30EDA84
+[2026.10.21-23.20.51:619][586]LogAutomationController: Sending StopTests to B0B77EE94DEB809671C9CF86E30EDA84
+[2026.10.21-23.20.51:625][586]LogAutomationController: Display: Loading results html template...
+[2026.10.21-23.20.51:709][586]LogAutomationController: Display: Successfully wrote html results file!
+[2026.10.21-23.20.51:709][586]LogAutomationController: Sending StartTestSession to B0B77EE94DEB809671C9CF86E30EDA84
+[2026.10.21-23.20.51:709][586]LogAutomationController: Display: Clearing ../../../../../../Users/dell/Desktop/fusion32/build/cert-stack-move-controls-20261021/unreal/REAL33D/Saved/Automation/Logs/ and ../../../../../../Users/dell/Desktop/fusion32/build/cert-stack-move-controls-20261021/unreal/REAL33D/Saved/Automation/Tmp/
+[2026.10.21-23.20.51:711][586]LogAutomationController: Sending RunTest CameraAndFloors to B0B77EE94DEB809671C9CF86E30EDA84
+[2026.10.21-23.20.51:711][587]LogAutomationController: Display: Test Started. Name={CameraAndFloors} Path={REAL33D.Presentation.CameraAndFloors}
+[2026.10.21-23.20.51:745][589]LogAutomationController: Display: Test Completed. Result={Success} Name={CameraAndFloors} Path={REAL33D.Presentation.CameraAndFloors}
+[2026.10.21-23.20.51:745][589]LogAutomationController: BeginEvents: REAL33D.Presentation.CameraAndFloors
+[2026.10.21-23.20.51:745][589]LogAutomationController: EndEvents: REAL33D.Presentation.CameraAndFloors
+[2026.10.21-23.20.51:746][589]LogAutomationController: Sending RunTest ChannelsPanel to B0B77EE94DEB809671C9CF86E30EDA84
+[2026.10.21-23.20.51:746][589]LogAutomationController: Display: Test Started. Name={ChannelsPanel} Path={REAL33D.Presentation.ChannelsPanel}
+[2026.10.21-23.20.51:795][592]LogAutomationController: Display: Test Completed. Result={Success} Name={ChannelsPanel} Path={REAL33D.Presentation.ChannelsPanel}
+[2026.10.21-23.20.51:796][592]LogAutomationController: BeginEvents: REAL33D.Presentation.ChannelsPanel
+[2026.10.21-23.20.51:796][592]LogAutomationController: EndEvents: REAL33D.Presentation.ChannelsPanel
+[2026.10.21-23.20.51:798][592]LogAutomationController: Sending RunTest ChatTabs to B0B77EE94DEB809671C9CF86E30EDA84
+[2026.10.21-23.20.51:798][592]LogAutomationController: Display: Test Started. Name={ChatTabs} Path={REAL33D.Presentation.ChatTabs}
+[2026.10.21-23.20.51:844][595]LogAutomationController: Display: Test Completed. Result={Success} Name={ChatTabs} Path={REAL33D.Presentation.ChatTabs}
+[2026.10.21-23.20.51:844][595]LogAutomationController: BeginEvents: REAL33D.Presentation.ChatTabs
+[2026.10.21-23.20.51:845][595]LogAutomationController: EndEvents: REAL33D.Presentation.ChatTabs
+[2026.10.21-23.20.51:845][595]LogAutomationController: Sending RunTest EditorWindow to B0B77EE94DEB809671C9CF86E30EDA84
+[2026.10.21-23.20.51:846][595]LogAutomationController: Display: Test Started. Name={EditorWindow} Path={REAL33D.Presentation.EditorWindow}
+[2026.10.21-23.20.51:898][598]LogAutomationController: Display: Test Completed. Result={Success} Name={EditorWindow} Path={REAL33D.Presentation.EditorWindow}
+[2026.10.21-23.20.51:898][598]LogAutomationController: BeginEvents: REAL33D.Presentation.EditorWindow
+[2026.10.21-23.20.51:898][598]LogAutomationController: EndEvents: REAL33D.Presentation.EditorWindow
+[2026.10.21-23.20.51:898][599]LogAutomationController: Sending RunTest OutfitPanel to B0B77EE94DEB809671C9CF86E30EDA84
+[2026.10.21-23.20.51:898][599]LogAutomationController: Display: Test Started. Name={OutfitPanel} Path={REAL33D.Presentation.OutfitPanel}
+[2026.10.21-23.20.51:945][601]LogAutomationController: Display: Test Completed. Result={Success} Name={OutfitPanel} Path={REAL33D.Presentation.OutfitPanel}
+[2026.10.21-23.20.51:945][601]LogAutomationController: BeginEvents: REAL33D.Presentation.OutfitPanel
+[2026.10.21-23.20.51:945][601]LogAutomationController: EndEvents: REAL33D.Presentation.OutfitPanel
+[2026.10.21-23.20.51:946][601]LogAutomationController: Sending RunTest PanelRegistry to B0B77EE94DEB809671C9CF86E30EDA84
+[2026.10.21-23.20.51:946][601]LogAutomationController: Display: Test Started. Name={PanelRegistry} Path={REAL33D.Presentation.PanelRegistry}
+[2026.10.21-23.20.51:995][604]LogAutomationController: Display: Test Completed. Result={Success} Name={PanelRegistry} Path={REAL33D.Presentation.PanelRegistry}
+[2026.10.21-23.20.51:995][604]LogAutomationController: BeginEvents: REAL33D.Presentation.PanelRegistry
+[2026.10.21-23.20.51:995][604]LogAutomationController: EndEvents: REAL33D.Presentation.PanelRegistry
+[2026.10.21-23.20.51:998][604]LogAutomationController: Sending RunTest SkillsPanel to B0B77EE94DEB809671C9CF86E30EDA84
+[2026.10.21-23.20.51:998][604]LogAutomationController: Display: Test Started. Name={SkillsPanel} Path={REAL33D.Presentation.SkillsPanel}
+[2026.10.21-23.20.52:044][607]LogAutomationController: Display: Test Completed. Result={Success} Name={SkillsPanel} Path={REAL33D.Presentation.SkillsPanel}
+[2026.10.21-23.20.52:044][607]LogAutomationController: BeginEvents: REAL33D.Presentation.SkillsPanel
+[2026.10.21-23.20.52:044][607]LogAutomationController: EndEvents: REAL33D.Presentation.SkillsPanel
+[2026.10.21-23.20.52:046][607]LogAutomationController: Sending RunTest StackMoveControls to B0B77EE94DEB809671C9CF86E30EDA84
+[2026.10.21-23.20.52:046][607]LogAutomationController: Display: Test Started. Name={StackMoveControls} Path={REAL33D.Presentation.StackMoveControls}
+[2026.10.21-23.20.52:095][610]LogAutomationController: Display: Test Completed. Result={Success} Name={StackMoveControls} Path={REAL33D.Presentation.StackMoveControls}
+[2026.10.21-23.20.52:095][610]LogAutomationController: BeginEvents: REAL33D.Presentation.StackMoveControls
+[2026.10.21-23.20.52:095][610]LogAutomationController: EndEvents: REAL33D.Presentation.StackMoveControls
+[2026.10.21-23.20.52:097][610]LogAutomationController: Sending RunTest TradePanel to B0B77EE94DEB809671C9CF86E30EDA84
+[2026.10.21-23.20.52:097][610]LogAutomationController: Display: Test Started. Name={TradePanel} Path={REAL33D.Presentation.TradePanel}
+[2026.10.21-23.20.52:145][613]LogAutomationController: Display: Test Completed. Result={Success} Name={TradePanel} Path={REAL33D.Presentation.TradePanel}
+[2026.10.21-23.20.52:145][613]LogAutomationController: BeginEvents: REAL33D.Presentation.TradePanel
+[2026.10.21-23.20.52:145][613]LogAutomationController: EndEvents: REAL33D.Presentation.TradePanel
+[2026.10.21-23.20.52:147][613]LogAutomationController: Sending RunTest AuthoritativeWindow to B0B77EE94DEB809671C9CF86E30EDA84
+[2026.10.21-23.20.52:147][613]LogAutomationController: Display: Test Started. Name={AuthoritativeWindow} Path={REAL33D.WideWorld.AuthoritativeWindow}
+[2026.10.21-23.20.52:200][616]LogAutomationController: Display: Test Completed. Result={Success} Name={AuthoritativeWindow} Path={REAL33D.WideWorld.AuthoritativeWindow}
+[2026.10.21-23.20.52:200][616]LogAutomationController: BeginEvents: REAL33D.WideWorld.AuthoritativeWindow
+[2026.10.21-23.20.52:200][616]LogAutomationController: EndEvents: REAL33D.WideWorld.AuthoritativeWindow
+[2026.10.21-23.20.52:203][616]LogAutomationController: Display: Exporting Automation Report.
+[2026.10.21-23.20.52:203][616]LogAutomationController: Display: Converting results to json object...
+[2026.10.21-23.20.52:203][616]LogAutomationController: Writing reports to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\certification\automation\automation-report...
+[2026.10.21-23.20.52:204][616]LogAutomationController: Display: Successfully wrote json results file!
+[2026.10.21-23.20.52:204][616]LogAutomationController: Exported report to 'C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\certification\automation\automation-report' in 0.00 Seconds
+[2026.10.21-23.20.52:204][616]LogAutomationController: Display: Report can be opened in the editor at 'C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\certification\automation\automation-report'
+[2026.10.21-23.20.52:204][616]LogAutomationController: Sending StopTestSession to B0B77EE94DEB809671C9CF86E30EDA84
+[2026.10.21-23.20.52:204][617]LogAutomationCommandLine: Display: ...Automation Test Queue Empty 10 tests performed.
