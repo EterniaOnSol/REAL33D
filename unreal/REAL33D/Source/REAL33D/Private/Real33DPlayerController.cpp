@@ -557,18 +557,32 @@ void AReal33DPlayerController::BeginLeftClick()
 	const auto Modifiers = FSlateApplication::Get().GetModifierKeys();
 	const auto Action = MouseGesture.Press(Real33D::MouseButton::Left,
 		Modifiers.IsShiftDown(), Modifiers.IsAltDown());
+	// Shift+press looks and ctrl+press inspects, both unchanged and both done
+	// first. Neither may go on to swallow the drag, which is what returning
+	// here used to do: a player holding the modifier before pressing -- the
+	// natural way to ask for one item, or to be asked how many -- got a look or
+	// an inspection and no drag at all, so from the ground those two gestures
+	// were unreachable and the pile moved whole.
+	//
+	// Arming the candidate costs nothing when they did mean a look: it becomes
+	// a move only if the pointer really travels, which EndLeftClick decides.
 	if (Action == Real33D::MouseAction::Look)
 	{
 		bOrbiting = false;
 		ClickWalkPath.Reset();
 		InteractUnderCursor(true);
+		if (!bTypingActive) BeginWorldDrag();
 		return;
 	}
-	if (Modifiers.IsControlDown() || (HudRoot.IsValid() && HudRoot->IsTargeting()))
+	const bool bTargeting = HudRoot.IsValid() && HudRoot->IsTargeting();
+	if (Modifiers.IsControlDown() || bTargeting)
 	{
 		MouseGesture.LeftConsumed();
 		ClickWalkPath.Reset();
 		InspectUnderCursor();
+		// A use-with waiting for a target keeps the whole click, as it always
+		// has: starting a drag instead would silently drop the pending use.
+		if (!bTypingActive && !bTargeting) BeginWorldDrag();
 		return;
 	}
 	if (!bTypingActive && !MouseGesture.IsChord()) BeginWorldDrag();
@@ -576,13 +590,20 @@ void AReal33DPlayerController::BeginLeftClick()
 
 void AReal33DPlayerController::EndLeftClick()
 {
-	if (MouseGesture.Release(Real33D::MouseButton::Left) == Real33D::MouseAction::Walk)
+	const auto Action = MouseGesture.Release(Real33D::MouseButton::Left);
+	float X = 0, Y = 0;
+	// A real pointer journey is a drag whichever modifier began it. Only a
+	// press that stayed put can still be a walk, which is why the walk is the
+	// branch that keeps the gesture test rather than the drag.
+	const bool bTravelled = bWorldDragCandidate && GetMousePosition(X, Y)
+		&& FVector2D::DistSquared(WorldDragStart, FVector2D(X, Y)) > 25.0;
+	if (bTravelled)
 	{
-		float X = 0, Y = 0;
-		if (bWorldDragCandidate && GetMousePosition(X, Y)
-			&& FVector2D::DistSquared(WorldDragStart, FVector2D(X, Y)) > 25.0)
-			CompleteWorldDrag();
-		else WalkUnderCursor();
+		CompleteWorldDrag();
+	}
+	else if (Action == Real33D::MouseAction::Walk)
+	{
+		WalkUnderCursor();
 	}
 	bWorldDragCandidate = false;
 }

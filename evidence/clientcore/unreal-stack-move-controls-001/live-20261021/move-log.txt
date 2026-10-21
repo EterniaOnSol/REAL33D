@@ -1,0 +1,32 @@
+[2026.10.21-22.43.18:998][  1]LogReal33D: connected: Test Player B
+[2026.10.21-22.43.18:998][  1]LogReal33D: local player is creature 1002
+[2026.10.21-22.44.27:714][640]LogReal33D: use 1: object 2854 at body 0 slot 3, would open as container 0
+[2026.10.21-22.45.04:731][121]LogReal33D: move 2: object 3031 from container 0 slot 0 to the ground at 32097,32209,7, count 20
+[2026.10.21-22.45.04:731][121]LogReal33D: slot-to-world drag: object=3031 from=container 0 slot=0 to=32097,32209,7 stack=20 (stackable) -> sent
+[2026.10.21-22.46.05:055][379]LogReal33D: look 3 at world point 32097,32209,7
+[2026.10.21-22.46.40:246][648]LogReal33D: look 4 at world point 32097,32209,7
+[2026.10.21-22.46.41:163][681]LogReal33D: move 5: object 3031 from the ground at 32097,32209,7 to container 0 slot 0, count 1
+[2026.10.21-22.46.41:163][681]LogReal33D: world-to-slot drag: object=3031 from=32097,32209,7 stack=1 to=container 0 slot=0 pile=20 (stackable) -> sent
+[2026.10.21-22.47.19:351][ 26]LogReal33D: move amount asked: 1..19, opening on 19
+[2026.10.21-22.47.19:351][ 26]LogReal33D: world-to-slot drag: object=3031 from=32097,32209,7 stack=1 to=container 0 slot=5 pile=19 (stackable) -> asking how many
+[2026.10.21-22.48.52:756][297]LogReal33D: move amount chosen: 2 of 19
+[2026.10.21-22.48.52:757][297]LogReal33D: move 6: object 3031 from the ground at 32097,32209,7 to container 0 slot 5, count 2
+[2026.10.21-22.49.49:662][277]LogReal33D: move amount asked: 1..2, opening on 2
+[2026.10.21-22.49.49:662][277]LogReal33D: slot-to-world drag: object=3031 from=container 0 slot=0 to=32097,32209,7 stack=2 (stackable) -> asking how many
+[2026.10.21-22.49.52:297][369]LogReal33D: move amount abandoned; nothing was sent
+[2026.10.21-22.49.52:297][369]LogReal33D: move of object 3031 from container 0 slot 0 to the ground at 32097,32209,7 abandoned at the amount question; nothing reached Fusion32
+[2026.10.21-22.50.38:228][957]LogReal33D: move amount asked: 1..1, opening on 1
+[2026.10.21-22.50.38:228][957]LogReal33D: slot drag: object 3031 from container 0 slot 1 to container 0 slot 6, stack 1 (stackable) -> asking how many
+[2026.10.21-22.51.27:519][680]LogReal33D: move amount chosen: 1 of 1
+[2026.10.21-22.51.27:519][680]LogReal33D: move 7: object 3031 from container 0 slot 1 to container 0 slot 6, count 1
+[2026.10.21-22.52.05:774][  8]LogReal33D: move 8: object 3492 from container 0 slot 3 to the ground at 32098,32208,7, count 12
+[2026.10.21-22.52.05:774][  8]LogReal33D: slot-to-world drag: object=3492 from=container 0 slot=3 to=32098,32208,7 stack=12 (stackable) -> sent
+[2026.10.21-22.52.31:231][884]LogReal33D: move 9: object 3294 from body slot 5 to the ground at 32096,32210,7, count 1
+[2026.10.21-22.52.31:231][884]LogReal33D: slot-to-world drag: object=3294 from=body 0 slot=5 to=32096,32210,7 stack=1 -> sent
+[2026.10.21-22.52.34:762][998]LogReal33D: look 10 at world point 32096,32210,7
+[2026.10.21-22.52.35:582][ 27]LogReal33D: move 11: object 3294 from the ground at 32096,32210,7 to body slot 5, count 1
+[2026.10.21-22.52.35:583][ 27]LogReal33D: world-to-slot drag: object=3294 from=32096,32210,7 stack=1 to=body 0 slot=5 pile=1 -> sent
+[2026.10.21-22.53.06:981][ 82]LogReal33D: move 12: object 3294 from body slot 5 to container 0 slot 5, count 1
+[2026.10.21-22.53.06:981][ 82]LogReal33D: slot drag: object 3294 from body 0 slot 5 to container 0 slot 5, stack 1 -> move 12 count 1
+[2026.10.21-22.53.38:685][152]LogReal33D: move 13: object 3003 from container 0 slot 5 to body slot 5, count 1
+[2026.10.21-22.53.38:685][152]LogReal33D: slot drag: object 3003 from container 0 slot 5 to body 0 slot 5, stack 1 -> move 13 count 1

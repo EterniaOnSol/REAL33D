@@ -365,7 +365,23 @@ FReply SReal33DSlot::OnMouseButtonDown(const FGeometry& Geometry,
 		// Wait for release so pressing the other button can turn this into Look.
 		return FReply::Handled().CaptureMouse(SharedThis(this));
 	}
-	if (Action == Real33D::MouseAction::Look || MouseGesture.IsChord()) return FReply::Handled();
+	if (MouseGesture.IsChord()) return FReply::Handled();
+	if (Action == Real33D::MouseAction::Look)
+	{
+		// Shift+press is this client's look and has just been sent, unchanged.
+		// It must not ALSO make the shift+drag unreachable, which is what
+		// returning here used to do: a player holding shift before pressing --
+		// the natural way to ask for one item of a pile -- got a look and no
+		// drag at all, and the one-item move could only be reached by pressing
+		// shift after the drag had already started.
+		//
+		// Arming the detector costs nothing when they did mean a look: Slate
+		// raises OnDragDetected only once the pointer really travels, so a
+		// shift+click that stays put behaves exactly as it did before.
+		return Location.TypeId == 0
+			? FReply::Handled()
+			: FReply::Handled().DetectDrag(SharedThis(this), EKeys::LeftMouseButton);
+	}
 
 	// A use-with waiting for a target takes the click first, even on an empty
 	// square: "use the key on that slot" is a thing to ask, and starting a drag

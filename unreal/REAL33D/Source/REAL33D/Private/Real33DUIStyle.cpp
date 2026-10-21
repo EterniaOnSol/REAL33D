@@ -108,14 +108,53 @@ int32 FReal33DUIStyle::ItemFrameCount(uint16 TypeId)
 		// Frames are contiguous from 1, so the first gap is the end. Bounded by
 		// the tier table: no amount can address a picture beyond it.
 		while (Count < Real33D::kStackSpriteTierCount
-			&& FPaths::FileExists(Instance->RootToContentDir(
-				*FString::Printf(TEXT("Items/%u_%d"), TypeId, Count), TEXT(".png"))))
+			&& !ItemFramePath(TypeId, Count).IsEmpty())
 		{
 			++Count;
 		}
 	}
 	ItemFrameCounts.Add(TypeId, Count);
 	return Count;
+}
+
+FString FReal33DUIStyle::ItemFramePath(uint16 TypeId, int32 Frame)
+{
+	if (!Instance.IsValid())
+	{
+		return FString();
+	}
+	// Frame 0 keeps the bare name; see extract_item_sprites.py.
+	if (Frame <= 0)
+	{
+		const FString Base = Instance->RootToContentDir(
+			*FString::Printf(TEXT("Items/%u"), TypeId), TEXT(".png"));
+		return FPaths::FileExists(Base) ? Base : FString();
+	}
+	// TWO SPELLINGS, AND THE REASON IS A LIVE DEFECT RATHER THAN TIDINESS.
+	//
+	// `extract_item_sprites.py` documents and writes `<id>_<n>.png`, and that
+	// is what this looked for. The art actually delivered under
+	// `Resources/UI/Items/` is named `<id>_p<n>.png` -- 343 files, and not one
+	// `<id>_<n>.png` among them. So the frame scan above always stopped at one,
+	// `StackSpriteFrame` was always handed a frame count of 1 and always
+	// answered 0, and every cumulative object drew its single-item picture at
+	// every amount. Gold coin 3031 ships all eight pictures -- one coin, two,
+	// three, four, a short stack beside a loose coin, then three mounds -- and
+	// a pile of fifty was drawn as one coin, which is the exact defect
+	// `Real33DStackSprite.h` was written to fix and which was still live.
+	//
+	// Both spellings are accepted rather than one being declared right: the
+	// delivered art is what has to be read today, and a future run of the
+	// extractor must keep working without re-breaking this.
+	const FString Pattern = Instance->RootToContentDir(
+		*FString::Printf(TEXT("Items/%u_p%d"), TypeId, Frame), TEXT(".png"));
+	if (FPaths::FileExists(Pattern))
+	{
+		return Pattern;
+	}
+	const FString Plain = Instance->RootToContentDir(
+		*FString::Printf(TEXT("Items/%u_%d"), TypeId, Frame), TEXT(".png"));
+	return FPaths::FileExists(Plain) ? Plain : FString();
 }
 
 const FSlateBrush* FReal33DUIStyle::ItemBrush(uint16 TypeId, uint32 Amount)
@@ -135,12 +174,8 @@ const FSlateBrush* FReal33DUIStyle::ItemBrush(uint16 TypeId, uint32 Amount)
 		return Found->Get();
 	}
 
-	// Frame 0 keeps the bare name; see extract_item_sprites.py.
-	const FString Leaf = Frame == 0
-		? FString::Printf(TEXT("Items/%u"), TypeId)
-		: FString::Printf(TEXT("Items/%u_%d"), TypeId, Frame);
-	const FString Path = Instance->RootToContentDir(*Leaf, TEXT(".png"));
-	if (!FPaths::FileExists(Path))
+	const FString Path = ItemFramePath(TypeId, Frame);
+	if (Path.IsEmpty())
 	{
 		// Remembered as absent so a missing picture is one file check per id
 		// per session rather than one per frame.

@@ -1,162 +1,142 @@
-# HANDOFF - UNREAL-OUTFIT-COLOR-RENDERING-001
+# HANDOFF - UNREAL-STACK-MOVE-CONTROLS-001
 
 Date/time: 2026-10-21, America/Guatemala
-Agent / role: Claude; audit only
-Starting commit: `25c4448b7bd36a5a75ae4e2efd679f0ea500e9d1` (origin/main)
+Agent / role: Claude; implementation and live QA
+Starting commit: `fbc0de992142e26cab0a80f813d2c09b10dc191a` (origin/main)
 Ending commit: the commit carrying this handoff on
-`milestone/unreal-outfit-color-rendering-001`
+`milestone/unreal-stack-move-controls-001`
 Worktree: `C:/Users/dell/Desktop/fusion32`
-Prior handoff: `handoffs/archive/20261020-outfit-dialog-independent-certification.md`
+Prior handoff: `handoffs/archive/20261021-unreal-outfit-color-rendering-001.md`
 
-COLOR_RENDERING_001_STATUS = **BLOCKED_VISUAL_ASSET**
-MAIN_MERGE = NONE. PUSH = NONE.
-PRODUCTION SOURCE CHANGED = **NONE**.
+STACK_MOVE_CONTROLS_001_STATUS = **PASS**
+MAIN_MERGE = NONE. PUSH = NONE. PROTOCOL/SERVER CHANGE = **NONE**.
 
 ## Objective and outcome
 
-Make the certified outfit colour bytes visibly affect the 3D outfits, after an
-audit of the meshes/materials, of whether the four regions can be tinted
-independently, and of the exact colour-index to RGB mapping.
-
-The audit's third item **succeeded completely** and is delivered. Its second
-item **failed**, and the task's own rule then applied: *"If assets cannot
-represent the 4 regions faithfully: STOP implementation and return
-BLOCKED_VISUAL_ASSET with exact missing capability."* So no rendering was
-written and no production file was touched.
-
-## The palette is derived and verified
-
-Fusion32 has no palette: it validates `Colors[n] > 132` and stores the byte.
-The authority is the classic 7.72 client, read statically — opened, never
-executed.
-
-**It holds no colour table. It computes every swatch.**
-`tests/verify_outfit_palette.py` reproduces that computation and asserts the
-structure producing it, 51 checks against the hashed image:
+Match the classic stack-movement UX on every drag route. Delivered and proven
+live against Fusion32:
 
 ```
-0x0047D380  133 swatches, i = 0..132, control id 2000 + i,
-            each colour from a call to 0x00509280
-0x00509280  row = index / 19 ;  col = index % 19
-            col == 0  ->  h = 0, s = 0, v = 1 - row/7
-            else      ->  h = col/18, (s,v) = per-row pair
-0x00509080  HSV -> RGB, six 1/6 sectors, low channel (1-s)*v,
-            round(x * 255) per channel
+plain drag   the whole stack
+Shift+drag   one item
+Ctrl+drag    ask how many, clamped to 1..the stack count
+Cancel       sends nothing
 ```
 
-Per-row `(s, v)`, each read from its own case at `0x0050930F..7B`:
-`(0.25,1.0) (0.25,0.75) (0.5,0.75) (0.667,0.75) (1.0,1.0) (1.0,0.75) (1.0,0.5)`.
+Before this, a drag of a pile always moved the whole pile with no way to ask
+for fewer, and a drag off the **ground** always sent a count of 1 — so a pile
+of fifty coins on a tile moved one coin and left forty-nine behind.
 
-**All six sectors were decoded instruction by instruction, not inferred from
-the constants.** They are textbook HSV, but that was the conclusion: the
-sectors differ in which value stays on the FPU stack, and two of them enter the
-shared tail one instruction later to skip an `fstp`.
+## The rule has one home
 
-`19 * 7 = 133` agrees independently with `receiving.cc`'s `0..132`. And
-`CheckOutfit`'s defaults decode to `78 -> #FFAA00` orange hair,
-`69 -> #4040BF` blue shirt, `58 -> #BF6A40` brown trousers,
-`76 -> #6D6D6D` grey boots — a sensible rookie, which a wrong palette would not
-produce. Index 0 is pure white, column 0 descends as greyscale, and row 4
-contains all six primaries and secondaries exactly.
+`unreal/REAL33D/Source/REAL33D/Public/Real33DStackMove.h` holds the decision
+and the clamp, free of Unreal types so `tests/real33d_stack_move_tests.cpp`
+proves it with a plain compiler. All four routes — slot→slot, slot→ground,
+ground→slot, ground→ground — end in `SReal33DHUD::RequestStackMove`.
 
-## Why rendering stopped — the exact missing capability
+Both bounds are the protocol's, not taste: `receiving.cc::CMoveObject` reads
+one count byte and refuses a cumulative object whose count is zero, so every
+answer folds into `1..min(stack, 255)`.
 
-`tests/audit_outfit_asset_regions.py` audits any delivered creature `.glb`.
-Across **all 16** in the brother delivery:
+`FReal33DSlotRef` and the world drag carry `bHasAmount` from the wire beside
+the count, because after the count is floored at one a single gold coin and a
+sword read alike. That is what keeps the modifiers off a non-stackable
+structurally.
 
-1. **No feet geometry anywhere. 0 of 16.** No node, mesh or material for feet,
-   boots or ankles. The `Feet` byte — stored, validated and broadcast by
-   Fusion32, and already round-tripping correctly in this client — has nothing
-   to tint. This alone is decisive.
-2. **No region mask anywhere. 0 of 16.** Every asset carries `POSITION`,
-   `NORMAL`, `TEXCOORD_0`, `JOINTS_0`, `WEIGHTS_0` and nothing else: no
-   `COLOR_0`, no `TEXCOORD_1`, zero textures, zero images, no extensions. So a
-   region can only be a whole node, never an area inside one — which is how the
-   classic client does it, with a template sprite marking the four areas.
-3. **Material slots are not regions.** Outfit 128's five materials are named by
-   tonal value and are shared across body parts: `128_dark` spans `leg.L`,
-   `leg.R` *and* `pelvis`; `128_shadow` spans both arms.
-4. **`head` is one sphere including the face**, while 7.72's Head byte tints
-   hair only. No hair node, no mask to separate one.
-5. **Body is ambiguous** between `tunic` (garment) and `torso`/`arm.L`/`arm.R`
-   (skin), and the asset does not record which way. Deciding would be a guess.
-6. **Only outfit 128 of either player band has art.** 129, 130, 131 and the
-   whole 136-139 series resolve to an empty visual and keep a **single
-   cylinder** — one component, one `Color` parameter — which is precisely the
-   "global whole-character tint pretending to be correct" the task forbids. The
-   QA account's own band is 136-139, the one with no art.
-7. The catalog is opt-in (`-real33d-creature-catalog=`) and was not loaded in
-   the certified runs; `visual/qa/brother_creatures` marks the delivery
-   `APPROVED_PILOT_REFERENCE`, which is not artistic approval.
+The question is `SReal33DAmountPanel`, a centred modal registered like the
+other three. Title is the classic client's own `Move Objects` at `0x00563C00`,
+same table as `Select Outfit`'s `0x00563C78`, same hashed image.
 
-### To unblock
+## Two defects found while proving it, both fixed
 
-In the delivered art, not in this client: a `feet`/`boots` node per outfit,
-`hair` split from `head`, and an explicit garment/skin split — **or** a
-documented four-value region mask (`COLOR_0`, a second UV set, or a mask
-texture). Either way, plus mesh coverage for 129, 130, 131, 136, 137, 138, 139,
-since an outfit with no mesh cannot show a colour at all.
+1. **A modifier held before the press never reached the drag.**
+   `MouseGesture::Press` returns `Look` for Shift and both
+   `SReal33DSlot::OnMouseButtonDown` and `BeginLeftClick` returned there before
+   arming the drag; Ctrl over the world hit the inspector branch and returned
+   too; `EndLeftClick` completed a world drag only on a walk gesture. Holding
+   Shift the natural way gave a look and **no drag at all**. Observed live as a
+   20-pile Shift+drag that sent `count 20`. Look and inspect still fire first,
+   unchanged; both now also arm the drag, and `EndLeftClick` completes whenever
+   the pointer really travelled.
+
+2. **Stack sprite tiers had never loaded.** The delivered art is
+   `<id>_p<n>.png` (343 files); `ItemBrush` looked for `<id>_<n>.png` (zero
+   files). `ItemFrameCount` therefore always returned 1 and every cumulative
+   object drew its single-item picture at every amount — the exact defect
+   `Real33DStackSprite.h` exists to fix, still live. `ItemFramePath` now
+   accepts both spellings.
 
 ## Live QA
 
-**Not attempted, and not claimed.** Every step — four visibly distinct colours,
-all four regions independently, a second client observing them — presupposes
-rendering that does not exist. Running it could only have photographed an
-untinted placeholder, and reporting that as a result would be worse than
-reporting nothing.
+Account B, *Test Player B*, creature 1002. Gestures synthesised as real
+OS-level input with hardware scan codes, so each went through the same Slate
+path a hand would. Every required row PASS; see the table in
+`evidence/clientcore/UNREAL-STACK-MOVE-CONTROLS-001.md`.
+
+`moves_requested` rose by exactly one per intended gesture across every
+snapshot (0, 2, 3, 3, 4, 5, 6, 7, 8, 9) — no stray or duplicated moves, and the
+cancel produced none. EndPlay: 688 commands decoded, `residual_bytes` 0,
+`unsupported_opcodes` 0, `protocol_anomalies` 0, `walks_unanswered` 0.
 
 ## Changes
 
-New: `tests/verify_outfit_palette.py`, `tests/audit_outfit_asset_regions.py`,
-`evidence/clientcore/UNREAL-OUTFIT-COLOR-RENDERING-001.md` and its
-`unreal-outfit-color-rendering-001/` directory (palette derivation with all 133
-colours, the outfit 128 audit, the region coverage table for all 16).
-Changed: `tests/regression_harness.sh` (an `outfit-palette` check, so the
-harness runs 11), `tests/README.md`, `PROJECT_STATUS.md`, `PARITY_MATRIX.md`.
+New: `Real33DStackMove.h`, `Real33DAmountPanel.h/.cpp`,
+`tests/real33d_stack_move_tests.cpp`,
+`evidence/clientcore/UNREAL-STACK-MOVE-CONTROLS-001.md` and its
+`unreal-stack-move-controls-001/` directory.
+Changed: `Real33DHUD.h/.cpp`, `Real33DPanelChrome.h/.cpp`,
+`Real33DPlayerController.h/.cpp`, `Real33DPanelRegistry.h/.cpp`,
+`Real33DUIStyle.h/.cpp`, `Real33DInventoryPanel.cpp`,
+`Real33DContainersPanel.cpp`, `Real33DPresentationTests.cpp`,
+`tests/regression_harness.sh` (7th native suite), `tests/README.md`,
+`PROJECT_STATUS.md`, `PARITY_MATRIX.md`.
 
-**No file under `unreal/` or `clientcore/` was modified.**
+**Nothing under `clientcore/` was modified. The suite count stays 14.**
 
 ## Tests
 
-ClientCore 14/14, native 6/6, Unreal automation 8/8 with zero errors and
-warnings, MSVC archive, REAL33DEditor build, colour-mapping 43/43, palette
-51/51, asset audit exit 3 (INSUFFICIENT, which is the expected result), harness
-11 PASS / 0 FAIL / 0 SKIP, secret_check 6/6.
-
-These confirm the tree is unbroken. They do not show that anything new renders,
-because nothing new renders.
+ClientCore 14/14 · native 7/7 · Unreal automation 10/10, 0 errors, 0 warnings ·
+REAL33DEditor Win64 Development built · MSVC C++17 suites and C++20 archive ·
+colour mapping 43/43 · palette 51/51 · harness **11 PASS / 0 FAIL / 0 SKIP**
+over 103 scanned logs · secret_check 6/6.
 
 ## Remaining UNVERIFIED
 
-- The palette is verified against the client's **own computation**, not against
-  pixels it actually drew: that needs the binary executed and `AGENTS.md`
-  forbids it. The corroborations above are strong but are not a screenshot
-  diff.
-- How the 2D client combines a palette colour with its template's four marked
-  areas was not investigated, because nothing here renders.
-- Whether a 7.72-faithful four-region split is achievable in this art style at
-  all is an art question and is not answered here.
-- Everything the dialog milestone listed stays as it was; nothing here touches
-  the dialog or the transport.
+- **A 3D pile on the ground is one mesh whatever the amount.** The asset
+  registry resolves a mesh by type id with no amount tier, so twenty coins look
+  like one. The 2D slot art now tiers; the world does not. This is the same
+  world-mesh amount-invariance boundary the 2026-10-15 stackable certification
+  already accepted, and it is an asset/registry question, not an input one.
+- `kStackSpriteTiers` 10, 25, 50 stay UNVERIFIED against the client binary, as
+  that header already says. The fix makes the tiers reachable; it does not
+  prove those thresholds.
+- Container↔container was proven between two slots of **one** open bag — both
+  endpoints genuine container coordinates, but not two distinct container
+  numbers. No second bag existed on the account and none was invented.
+- No second client observed the same pile, so "authoritative counts both sides"
+  is evidenced as source and destination counts from the server's own `F9`
+  dumps, not as two observers.
+- The amount question's bound is captured at the drop and not re-read when
+  answered; a stack that shrank meanwhile yields a refused move. Not provoked.
+- A shift+drag sends one look and one move, because the look is this client's
+  existing press-time gesture. Accepted, not hidden.
 
 ## Exact next task
 
-Not an engineering task — an **art** one. `VISUAL-OUTFIT-REGIONS-001`: commission
-or author, in the brother delivery, either the four-region node split (with
-feet and hair) or a documented region mask, for outfits 128-131 and 136-139.
-`tests/audit_outfit_asset_regions.py` is the acceptance gate: it must exit 0.
+`UNREAL-STACK-MOVE-CONTROLS-002`, if wanted: a second open container, to prove
+a move between two distinct container numbers rather than two slots of one bag.
+Right-clicking the worn backpack a second time opens it under the next free
+number, which is the cheapest route; a real second bag is better.
 
-Only once it does should `UNREAL-OUTFIT-COLOR-RENDERING-002` apply the palette,
-and then: per-component dynamic material instances (never a shared material —
-`AReal33DCreature::ApplyOutfit` builds one component per mesh, so isolation is
-natural there), the colour applied in `UReal33DAssetRegistry` or the actor and
-never in Protocol772Core, updated on the authoritative SV_CMD_CREATURE_OUTFIT
-that `FReal33DEvent::Outfit` already carries whole. Read
-`evidence/clientcore/UNREAL-OUTFIT-COLOR-RENDERING-001.md` first; the palette
-is already derived and need not be re-derived, only ported.
+Separately and larger: `VISUAL-ITEM-STACK-MESH-001` — tier the **world** mesh
+by amount in `UReal33DAssetRegistry`, so a pile on the ground reads as a pile.
+`Real33DStackSprite.h` already holds the tier table and is the natural input.
 
 ## Environment
 
-Unchanged. Fusion32 was left running on 7171/7172/7173 from the previous
-milestone and was not needed: this milestone ran no live session. The stale
-`game.pid` note in the prior handoff still applies.
+Fusion32 was started with `scripts/server/start_wsl.sh` and **stopped cleanly**
+at the end of this milestone; all three services reported `All services stopped
+cleanly`. One note worth carrying: mid-session the game service shut **itself**
+down cleanly — full sector save (`8533464 Objekte gespeichert`),
+`LogoutAllPlayers`, then `Reboot-Skript existiert nicht.` It was not caused by
+any gesture here, and a restart recovered it with no data edited.

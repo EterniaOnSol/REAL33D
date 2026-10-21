@@ -64,12 +64,23 @@ public:
 	/**
 	 * How many pictures an object actually has on disk.
 	 *
-	 * Probed once per id and kept. The extractor writes `<id>.png` plus
-	 * `<id>_1.png`.. for a cumulative object, so counting the files is how the
-	 * runtime learns the frame count without shipping a second metadata file
-	 * that could disagree with the pictures beside it.
+	 * Probed once per id and kept. A cumulative object ships `<id>.png` plus
+	 * one file per further tier, so counting the files is how the runtime
+	 * learns the frame count without shipping a second metadata file that
+	 * could disagree with the pictures beside it.
 	 */
 	static int32 ItemFrameCount(uint16 TypeId);
+
+	/**
+	 * Where one picture of an object lives, or empty when it has none.
+	 *
+	 * Accepts both spellings a tier file has been delivered under -- the
+	 * `<id>_p<n>.png` the art in `Resources/UI/Items/` actually uses and the
+	 * `<id>_<n>.png` `extract_item_sprites.py` documents and writes. Only the
+	 * first of those exists today, and looking for the second alone is what
+	 * kept every stack drawing its single-item picture. See the implementation.
+	 */
+	static FString ItemFramePath(uint16 TypeId, int32 Frame);
 
 	// Native pixel geometry of the health/mana art, shared with the widgets so
 	// a layout cannot drift from the images it is laying out.
