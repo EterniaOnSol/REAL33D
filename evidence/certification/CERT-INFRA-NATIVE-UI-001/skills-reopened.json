@@ -1,0 +1,64 @@
+{
+  "probe_pid": 9600,
+  "probe_session": 1,
+  "target_pid": 15684,
+  "target_session": 1,
+  "window_station": "WinSta0",
+  "thread_desktop": "Default",
+  "input_desktop": "Default",
+  "foreground": 1180672,
+  "windows": [
+    {
+      "hwnd": 1180672,
+      "pid": 15684,
+      "title": "REAL33D (64-bit Development PCD3D_SM5) ",
+      "klass": "UnrealWindow",
+      "visible": true,
+      "origin": [
+        320,
+        216
+      ],
+      "size": [
+        1280,
+        720
+      ]
+    },
+    {
+      "hwnd": 4261454,
+      "pid": 15684,
+      "title": "MSCTFIME UI",
+      "klass": "MSCTFIME UI",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    },
+    {
+      "hwnd": 1247102,
+      "pid": 15684,
+      "title": "Default IME",
+      "klass": "IME",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    }
+  ],
+  "activation_result": true,
+  "real_mouse_click": [
+    1174,
+    11
+  ],
+  "capture": "C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-stack-move-controls-20261021\\build\\cert-infra-native-ui-001\\skills-reopened.png",
+  "foreground_after": 1180672
+}

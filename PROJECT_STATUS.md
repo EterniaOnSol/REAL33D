@@ -1,3 +1,7 @@
+## 2026-10-21 CERT-INFRA-NATIVE-UI-001
+
+Native UI infrastructure probe PASS. Prior Trade/Outfit/Editors certifications used temporary in-process Slate drivers, intentionally removed; they did not establish a working Computer Use native pipe. A new certification-only external Win32 helper drove real mouse clicks in the unchanged production binary: Skills closed and reopened, screenshots verified. Same session/desktop and foreground HWND confirmed. The sky pipe itself remains unavailable; the external path restores UI-driving readiness. READY_TO_RESUME_STACK_CERT=YES; stack certification itself remains pending and was not rerun. No production/server data change or main merge. Evidence: evidence/certification/CERT-INFRA-NATIVE-UI-001/README.md.
+
 ## 2026-10-21 live connection resume
 
 REAL33D independently reconnected to the normal Fusion32 runtime at implementation 1abb013. EndPlay: 46.6 seconds, 57 server commands, residual/unsupported/anomalies=0; moves/uses/looks=0. Computer Use native pipe still unavailable after retry/reset, so all requested gesture rows remain UNVERIFIED. No implementation changes, deterministic reruns, main merge or fabricated data. Evidence: evidence/clientcore/unreal-stack-move-controls-independent-20261021/README.md (resume section). Certification remains BLOCKED; READY_TO_MERGE_MAIN=NO.

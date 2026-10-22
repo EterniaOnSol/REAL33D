@@ -1,0 +1,17 @@
+﻿{
+    "args":  [
+                 "\"C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-stack-move-controls-20261021\\unreal\\REAL33D\\REAL33D.uproject\"",
+                 "-game",
+                 "-windowed",
+                 "-ResX=1280",
+                 "-ResY=720",
+                 "-nosound",
+                 "-nosplash",
+                 "-seconds=600",
+                 "-ExecCmds=\"t.MaxFPS 30\"",
+                 "-real33d-evidence=\"C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-stack-move-controls-20261021\\build\\cert-infra-native-ui-001\"",
+                 "-abslog=\"C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-stack-move-controls-20261021\\build\\cert-infra-native-ui-001\\REAL33D.log\""
+             ],
+    "pid":  15684,
+    "project":  "C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-stack-move-controls-20261021\\unreal\\REAL33D\\REAL33D.uproject"
+}

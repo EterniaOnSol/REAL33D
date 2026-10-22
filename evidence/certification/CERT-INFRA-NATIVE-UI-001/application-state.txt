@@ -1,0 +1,15 @@
+﻿LogInit: Command Line: -windowed -ResX=1280 -ResY=720 -nosound -nosplash -seconds=600 -ExecCmds="t.MaxFPS 30" -real33d-evidence=C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\cert-infra-native-ui-001 -abslog=C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\cert-infra-native-ui-001\REAL33D.log -game
+[2026.10.22-00.12.13:202][  0]LogReal33D: scene built from code
+[2026.10.22-00.12.13:210][  0]LogReal33D: trade window: own=0(0 items) partner=0(0 items) accept_sent=0
+[2026.10.22-00.12.13:217][  0]LogReal33D: Use With target cursor: existing asset loaded
+[2026.10.22-00.12.13:525][  0]LogReal33D: loaded approved visual for obj:3501
+[2026.10.22-00.12.13:526][  0]LogReal33D: wide world disabled: radius=64 sector=32 cache=C:/Users/dell/Desktop/fusion32/build/cert-stack-move-controls-20261021/unreal/REAL33D/Saved/WideWorldCache fallback=C:/Users/dell/Desktop/fusion32/build/cert-stack-move-controls-20261021/visual/reference_pack/previews/item
+[2026.10.22-00.12.13:526][  0]LogReal33D: Error: no runtime directory: pass -real33d-runtime=<dir> on the command line
+[2026.10.22-00.12.14:851][  1]LogReal33D: trade window: own=0(0 items) partner=0(0 items) accept_sent=0
+[2026.10.22-00.12.14:851][  1]LogReal33D: HUD vitals: HP --/--   Mana --/--   Level --
+[2026.10.22-00.13.28:785][218]LogWindows: FPlatformMisc::RequestExit(0, UGameEngine::Tick.ViewportClosed)
+[2026.10.22-00.13.28:785][218]LogWindows: FPlatformMisc::RequestExitWithStatus(0, 0, UGameEngine::Tick.ViewportClosed)
+[2026.10.22-00.13.28:785][218]LogCore: Engine exit requested (reason: Win RequestExit)
+[2026.10.22-00.13.28:786][219]LogCore: Engine exit requested (reason: EngineExit() was called; note: exit was already requested)
+[2026.10.22-00.13.28:793][219]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\cert-infra-native-ui-001/unreal_slice_evidence.json
+[2026.10.22-00.13.29:854][219]LogExit: Exiting.

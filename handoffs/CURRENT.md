@@ -1,49 +1,9 @@
-Resume environment closure: REAL33D exited normally via its engine time limit. The three Fusion32 services, initially stopped, were stopped cleanly after the connection check. The user requested autonomous native-connection recovery; official documentation and Plugin Management exposed no usable restart API. No gestures were executed. The earlier 'No live session was started' statement below belongs to the first certification attempt and is superseded by this resume.
+## 2026-10-21 CERT-INFRA-NATIVE-UI-001
 
-## 2026-10-21 live connection resume
+Native UI infrastructure probe PASS. Prior Trade/Outfit/Editors certifications used temporary in-process Slate drivers, intentionally removed; they did not establish a working Computer Use native pipe. A new certification-only external Win32 helper drove real mouse clicks in the unchanged production binary: Skills closed and reopened, screenshots verified. Same session/desktop and foreground HWND confirmed. The sky pipe itself remains unavailable; the external path restores UI-driving readiness. READY_TO_RESUME_STACK_CERT=YES; stack certification itself remains pending and was not rerun. No production/server data change or main merge. Evidence: evidence/certification/CERT-INFRA-NATIVE-UI-001/README.md.
 
-REAL33D independently reconnected to the normal Fusion32 runtime at implementation 1abb013. EndPlay: 46.6 seconds, 57 server commands, residual/unsupported/anomalies=0; moves/uses/looks=0. Computer Use native pipe still unavailable after retry/reset, so all requested gesture rows remain UNVERIFIED. No implementation changes, deterministic reruns, main merge or fabricated data. Evidence: evidence/clientcore/unreal-stack-move-controls-independent-20261021/README.md (resume section). Certification remains BLOCKED; READY_TO_MERGE_MAIN=NO.
+Branch: certification/cert-infra-native-ui-001-20261021. Starting HEAD b7d8e29dee7663de9b4360c031eb4255b279ff66. Ending HEAD is this evidence-only commit. Worktree: C:/Users/dell/Desktop/fusion32/build/cert-stack-move-controls-20261021.
 
-# Handoff: independent UNREAL-STACK-MOVE-CONTROLS-001 review
+Production 1abb013bf711978b9439b6abe836672b5f4148ac is unchanged and its existing compiled DLL was reused without a rebuild. Probe ran offline to avoid server/game data effects. Unreal PID 15684 was closed normally after restoring Skills visible; Fusion32 was not started. The prior handoff is archived at handoffs/archive/20261021-stack-controls-connection-resume.md.
 
-Date: 2026-10-21, America/Guatemala. Reviewer: Codex.
-Branch: certification/unreal-stack-move-controls-001-20261021.
-Worktree: C:/Users/dell/Desktop/fusion32/build/cert-stack-move-controls-20261021.
-Starting/tested implementation: 1abb013bf711978b9439b6abe836672b5f4148ac.
-Ending revision: the evidence-only commit carrying this handoff.
-
-Independent live certification: BLOCKED. READY_TO_MERGE_MAIN=NO.
-
-The milestone branch was normally pushed first, and its remote HEAD verified.
-The exact sole-parent chain is main fbc0de992142e26cab0a80f813d2c09b10dc191a
--> 0cbc057b9d0054040b2f7a210993008340cb5526
--> 1abb013bf711978b9439b6abe836672b5f4148ac.
-This fresh worktree was created from the exact final implementation SHA.
-No merge to main, no implementation change, no server data change.
-
-The native Windows Computer Use pipe was unavailable on the initial attempt,
-retry, and session-reset retry (Windows error 2). No new live gestures were
-performed. Historical implementation evidence is not a repeated live run.
-
-Independent ClientCore 14/14, native 7/7, Git Bash secret_check 6/6 and MSVC
-C++17 tests/C++20 archive PASS. Harness 9 PASS / 0 FAIL / 2 SKIP; MSVC and
-Unreal are executed separately because the harness shell did not detect cl.
-The separate Unreal build PASS; automation 10/10 PASS with zero test errors
-and warnings, including REAL33D.Presentation.StackMoveControls.
-The report carries final build/automation outcomes and retained evidence:
-evidence/clientcore/unreal-stack-move-controls-independent-20261021/README.md.
-
-All requested live criteria remain UNVERIFIED, including absence of duplicate
-or stray moves, Look/Use/UseWith, actual stack tier loading, authoritative
-counts and fresh protocol counters. The four explicit limitations remain:
-two distinct containers; concurrent shrink with the amount dialog open;
-world 3D amount-dependent appearance; classic 10/25/50 tier thresholds.
-
-Next task: restore the native UI automation connection, then independently
-exercise the user's full live matrix from this implementation revision,
-recording requested move deltas and authoritative source/destination counts.
-Do not promote fixture PASS or the implementer's prior logs to live PASS.
-No live session was started and no gameplay state requires restoration.
-
-Previous implementation handoff is preserved verbatim at
-handoffs/archive/20261021-stack-move-controls-implementation.md.
+Next: only when instructed to resume stack certification, launch the normal runtime and use fresh PID/window discovery with the external Win32 driver. Its current scope is click/capture; add modifier/drag support as certification tooling when required, without production changes. This infra run proved real mouse input, not the full stack gesture matrix. Do not claim sky native pipe repaired, desktop isolation as the cause, or previous OS-level input success for the three in-process certifications.
