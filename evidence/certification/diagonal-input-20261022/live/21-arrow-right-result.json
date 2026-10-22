@@ -1,0 +1,73 @@
+{
+  "label": "21-arrow-right",
+  "gesture": [
+    "--key",
+    "0x27"
+  ],
+  "before": {
+    "x": 32086,
+    "y": 32226,
+    "z": 7
+  },
+  "after": {
+    "x": 32087,
+    "y": 32226,
+    "z": 7
+  },
+  "camera_before": {
+    "pitch": -50.0,
+    "yaw": 270.57,
+    "requested_distance": 1173.5,
+    "actual_distance": 1173.5,
+    "obstructed": false,
+    "cutaway_meshes": 0,
+    "hide_upper_floors": false
+  },
+  "camera_after": {
+    "pitch": -50.0,
+    "yaw": 270.57,
+    "requested_distance": 1173.5,
+    "actual_distance": 1173.5,
+    "obstructed": false,
+    "cutaway_meshes": 0,
+    "hide_upper_floors": false
+  },
+  "journal": [
+    {
+      "t": 223.184,
+      "phase": "sent",
+      "input_id": 17,
+      "request_id": 17,
+      "direction": "east",
+      "from": {
+        "x": 32086,
+        "y": 32226,
+        "z": 7
+      },
+      "to": {
+        "x": 32086,
+        "y": 32226,
+        "z": 7
+      }
+    },
+    {
+      "t": 223.268,
+      "phase": "accepted",
+      "input_id": 17,
+      "request_id": 17,
+      "direction": "east",
+      "from": {
+        "x": 32086,
+        "y": 32226,
+        "z": 7
+      },
+      "to": {
+        "x": 32087,
+        "y": 32226,
+        "z": 7
+      }
+    }
+  ],
+  "requested_before": 16,
+  "requested_after": 17
+}

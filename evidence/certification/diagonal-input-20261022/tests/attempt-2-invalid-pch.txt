@@ -1,0 +1,89 @@
+Using bundled DotNet SDK version: 10.0 win-x64
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" REAL33DEditor Win64 Development -Project="C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\REAL33D.uproject" -WaitMutex
+Log file: C:\Users\dell\AppData\Local\UnrealBuildTool\Log.txt
+Determining max actions to execute in parallel (4 physical cores, 8 logical cores)
+  Executing up to 4 processes, one per physical core
+  Requested 1.5 GB memory per action, 3.31 GB available: limiting max parallel actions to 2
+Unable to read C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Intermediate\Build\SourceFileCache.bin. See log for additional information.
+UbaServer - Listening on 0.0.0.0:1345
+Unable to read C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Intermediate\Build\Win64\x64\UnrealEditor\Development\FileHashCache.bin - Unable to read beyond the end of the stream.
+Building REAL33DEditor...
+===== Toolchain Information =====
+Using ISPC compiler (C:\Program Files\Epic Games\UE_5.8\Engine\Source\ThirdParty\Intel\ISPC\bin\Windows\ispc.exe)
+  Intel(r) Implicit SPMD Program Compiler (Intel(r) ISPC), 1.24.0 (build commit  @ 20250404, LLVM 18.1.2)
+Using Visual Studio 14.50.35738 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.50.35717) and Windows 10.0.26100.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[Adaptive Build] Excluded from REAL33D unity file: REAL33D.cpp, Real33DActionBarPanel.cpp, Real33DAmountPanel.cpp, Real33DAssetRegistry.cpp, Real33DBattlePanel.cpp, Real33DBridge.cpp, Real33DChannelsPanel.cpp, Real33DChatPanel.cpp, Real33DContainersPanel.cpp, Real33DControlPanel.cpp, Real33DCreatureActor.cpp, Real33DEditorWindow.cpp, Real33DGalleryActor.cpp, Real33DGalleryPanel.cpp, Real33DGameMode.cpp, Real33DHUD.cpp, Real33DInventoryPanel.cpp, Real33DMinimapPanel.cpp, Real33DOutfitPanel.cpp, Real33DPanelChrome.cpp, Real33DPanelRegistry.cpp, Real33DPlayerController.cpp, Real33DPresentationTests.cpp, Real33DSkillsPanel.cpp, Real33DStaticSectorActor.cpp, Real33DTileActor.cpp, Real33DTradePanel.cpp, Real33DUIStyle.cpp, Real33DVitalsPanel.cpp, Real33DWorldActor.cpp, Real33DWorldOverlay.cpp
+=================================
+Using Unreal Build Accelerator local executor to run 35 action(s)
+  CPU 4 physical cores, 8 logical cores
+  Memory 11.83 GB physical, 15.65 GB/18.17 GB committed
+  UBA Storage capacity 40 GB
+[1/35] Compile [x64] Module.REAL33D.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Intermediate\Build\Win64\x64\UnrealEditor\Development\REAL33D\Module.REAL33D.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[2/35] Compile [x64] REAL33D.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\REAL33D.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[3/35] Compile [x64] Real33DActionBarPanel.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DActionBarPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[4/35] Compile [x64] Real33DAmountPanel.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DAmountPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[5/35] Compile [x64] Real33DAssetRegistry.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DAssetRegistry.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[6/35] Compile [x64] Real33DBattlePanel.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DBattlePanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[7/35] Compile [x64] Real33DBridge.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DBridge.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[8/35] Compile [x64] Real33DChannelsPanel.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DChannelsPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[9/35] Compile [x64] Real33DChatPanel.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DChatPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[10/35] Compile [x64] Real33DContainersPanel.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DContainersPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[11/35] Compile [x64] Real33DControlPanel.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DControlPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[12/35] Compile [x64] Real33DCreatureActor.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DCreatureActor.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[13/35] Compile [x64] Real33DEditorWindow.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DEditorWindow.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[14/35] Compile [x64] Real33DGalleryActor.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DGalleryActor.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[15/35] Compile [x64] Real33DGalleryPanel.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DGalleryPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[16/35] Compile [x64] Real33DGameMode.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DGameMode.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[17/35] Compile [x64] Real33DHUD.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DHUD.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[18/35] Compile [x64] Real33DInventoryPanel.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DInventoryPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[19/35] Compile [x64] Real33DMinimapPanel.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DMinimapPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[20/35] Compile [x64] Real33DOutfitPanel.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DOutfitPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[21/35] Compile [x64] Real33DPanelChrome.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DPanelChrome.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[22/35] Compile [x64] Real33DPanelRegistry.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DPanelRegistry.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[23/35] Compile [x64] Real33DPlayerController.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DPlayerController.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[24/35] Compile [x64] Real33DPresentationTests.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DPresentationTests.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[25/35] Compile [x64] Real33DSkillsPanel.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DSkillsPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[26/35] Compile [x64] Real33DStaticSectorActor.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DStaticSectorActor.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[27/35] Compile [x64] Real33DTileActor.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DTileActor.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[28/35] Compile [x64] Real33DTradePanel.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DTradePanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[29/35] Compile [x64] Real33DUIStyle.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DUIStyle.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[30/35] Compile [x64] Real33DVitalsPanel.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DVitalsPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[31/35] Compile [x64] Real33DWorldActor.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DWorldActor.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+[32/35] Compile [x64] Real33DWorldOverlay.cpp
+C:\Users\dell\Desktop\fusion32\build\cert-diagonal-input-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DWorldOverlay.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado válido
+Total time in Unreal Build Accelerator local executor: 2.18 seconds
+
+Result: Failed (OtherCompilationError)
+Total execution time: 6.67 seconds
+Trace written to file C:\Users\dell\AppData\Local\UnrealBuildTool\Trace.uba with size 25.6kb

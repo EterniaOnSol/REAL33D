@@ -1,0 +1,43 @@
+{
+  "label": "30-world-look",
+  "gesture": [
+    "--drag",
+    "740",
+    "474",
+    "740",
+    "474",
+    "--modifier",
+    "shift"
+  ],
+  "before": {
+    "x": 32086,
+    "y": 32225,
+    "z": 7
+  },
+  "after": {
+    "x": 32086,
+    "y": 32225,
+    "z": 7
+  },
+  "camera_before": {
+    "pitch": -50.0,
+    "yaw": 270.57,
+    "requested_distance": 1173.5,
+    "actual_distance": 1173.5,
+    "obstructed": false,
+    "cutaway_meshes": 0,
+    "hide_upper_floors": false
+  },
+  "camera_after": {
+    "pitch": -50.0,
+    "yaw": 270.57,
+    "requested_distance": 1173.5,
+    "actual_distance": 1173.5,
+    "obstructed": false,
+    "cutaway_meshes": 0,
+    "hide_upper_floors": false
+  },
+  "journal": [],
+  "requested_before": 21,
+  "requested_after": 21
+}

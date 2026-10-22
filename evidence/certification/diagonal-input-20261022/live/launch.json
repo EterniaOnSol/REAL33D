@@ -1,0 +1,23 @@
+{
+    "implementation":  "eb17e26ed79f63bf60e6ec709b9c1540ab008694",
+    "dll_sha256":  "95D66CC98F7B24CBB01F735D7EE3C60C1AA152C9CC3A5D3B9797EDA3C6880C61",
+    "pid":  17996,
+    "arguments":  [
+                      "\"C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-diagonal-input-20261022\\unreal\\REAL33D\\REAL33D.uproject\"",
+                      "-game",
+                      "-windowed",
+                      "-ResX=1600",
+                      "-ResY=900",
+                      "-nosound",
+                      "-nosplash",
+                      "-real33d-runtime=\"\\\\wsl.localhost\\Ubuntu-26.04\\var\\lib\\fusion32-server-baseline-772-0\"",
+                      "-real33d-account=B",
+                      "-real33d-host=127.0.0.1",
+                      "-real33d-loginport=7171",
+                      "-ExecCmds=\"t.MaxFPS 30\"",
+                      "-real33d-evidence=\"C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-diagonal-input-20261022\\build\\certification\\live\"",
+                      "-abslog=\"C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-diagonal-input-20261022\\build\\certification\\live\\REAL33D.log\""
+                  ],
+    "utc":  "2026-10-22T06:19:08.7137876Z",
+    "project":  "C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-diagonal-input-20261022"
+}

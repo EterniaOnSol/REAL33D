@@ -1,0 +1,639 @@
+{
+  "status": "PASS",
+  "scope": "25 controlled walk requests; setup request 1 excluded from gesture attribution",
+  "controlled_requests": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    22,
+    23,
+    24,
+    25,
+    26,
+    20,
+    21
+  ],
+  "controlled_key_probes": [
+    {
+      "probe": "06-north-W",
+      "direction": "north",
+      "outcome": "accepted",
+      "request_id": 2,
+      "input_id": 2,
+      "before": {
+        "x": 32087,
+        "y": 32228,
+        "z": 7
+      },
+      "after": {
+        "x": 32087,
+        "y": 32227,
+        "z": 7
+      },
+      "delta": [
+        0,
+        -1,
+        0
+      ]
+    },
+    {
+      "probe": "07-Q-north",
+      "direction": "northwest",
+      "outcome": "accepted",
+      "request_id": 3,
+      "input_id": 3,
+      "before": {
+        "x": 32087,
+        "y": 32227,
+        "z": 7
+      },
+      "after": {
+        "x": 32086,
+        "y": 32226,
+        "z": 7
+      },
+      "delta": [
+        -1,
+        -1,
+        0
+      ]
+    },
+    {
+      "probe": "08-E-north",
+      "direction": "northeast",
+      "outcome": "accepted",
+      "request_id": 4,
+      "input_id": 4,
+      "before": {
+        "x": 32086,
+        "y": 32226,
+        "z": 7
+      },
+      "after": {
+        "x": 32087,
+        "y": 32225,
+        "z": 7
+      },
+      "delta": [
+        1,
+        -1,
+        0
+      ]
+    },
+    {
+      "probe": "09-Z-north",
+      "direction": "southwest",
+      "outcome": "accepted",
+      "request_id": 5,
+      "input_id": 5,
+      "before": {
+        "x": 32087,
+        "y": 32225,
+        "z": 7
+      },
+      "after": {
+        "x": 32086,
+        "y": 32226,
+        "z": 7
+      },
+      "delta": [
+        -1,
+        1,
+        0
+      ]
+    },
+    {
+      "probe": "10-C-north",
+      "direction": "southeast",
+      "outcome": "accepted",
+      "request_id": 6,
+      "input_id": 6,
+      "before": {
+        "x": 32086,
+        "y": 32226,
+        "z": 7
+      },
+      "after": {
+        "x": 32087,
+        "y": 32227,
+        "z": 7
+      },
+      "delta": [
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "probe": "11-repeat-Q",
+      "direction": "northwest",
+      "outcome": "accepted",
+      "request_id": 7,
+      "input_id": 7,
+      "before": {
+        "x": 32087,
+        "y": 32227,
+        "z": 7
+      },
+      "after": {
+        "x": 32086,
+        "y": 32226,
+        "z": 7
+      },
+      "delta": [
+        -1,
+        -1,
+        0
+      ]
+    },
+    {
+      "probe": "12-repeat-Q",
+      "direction": "northwest",
+      "outcome": "accepted",
+      "request_id": 8,
+      "input_id": 8,
+      "before": {
+        "x": 32086,
+        "y": 32226,
+        "z": 7
+      },
+      "after": {
+        "x": 32085,
+        "y": 32225,
+        "z": 7
+      },
+      "delta": [
+        -1,
+        -1,
+        0
+      ]
+    },
+    {
+      "probe": "13-repeat-Q",
+      "direction": "northwest",
+      "outcome": "rejected",
+      "request_id": 9,
+      "input_id": 9,
+      "before": {
+        "x": 32085,
+        "y": 32225,
+        "z": 7
+      },
+      "after": {
+        "x": 32085,
+        "y": 32225,
+        "z": 7
+      },
+      "delta": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "probe": "14-cardinal-D",
+      "direction": "east",
+      "outcome": "accepted",
+      "request_id": 10,
+      "input_id": 10,
+      "before": {
+        "x": 32085,
+        "y": 32225,
+        "z": 7
+      },
+      "after": {
+        "x": 32086,
+        "y": 32225,
+        "z": 7
+      },
+      "delta": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "probe": "15-diagonal-C",
+      "direction": "southeast",
+      "outcome": "accepted",
+      "request_id": 11,
+      "input_id": 11,
+      "before": {
+        "x": 32086,
+        "y": 32225,
+        "z": 7
+      },
+      "after": {
+        "x": 32087,
+        "y": 32226,
+        "z": 7
+      },
+      "delta": [
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "probe": "16-cardinal-S",
+      "direction": "south",
+      "outcome": "accepted",
+      "request_id": 12,
+      "input_id": 12,
+      "before": {
+        "x": 32087,
+        "y": 32226,
+        "z": 7
+      },
+      "after": {
+        "x": 32087,
+        "y": 32227,
+        "z": 7
+      },
+      "delta": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "probe": "17-diagonal-Q",
+      "direction": "northwest",
+      "outcome": "accepted",
+      "request_id": 13,
+      "input_id": 13,
+      "before": {
+        "x": 32087,
+        "y": 32227,
+        "z": 7
+      },
+      "after": {
+        "x": 32086,
+        "y": 32226,
+        "z": 7
+      },
+      "delta": [
+        -1,
+        -1,
+        0
+      ]
+    },
+    {
+      "probe": "18-cardinal-A",
+      "direction": "west",
+      "outcome": "accepted",
+      "request_id": 14,
+      "input_id": 14,
+      "before": {
+        "x": 32086,
+        "y": 32226,
+        "z": 7
+      },
+      "after": {
+        "x": 32085,
+        "y": 32226,
+        "z": 7
+      },
+      "delta": [
+        -1,
+        0,
+        0
+      ]
+    },
+    {
+      "probe": "19-diagonal-C",
+      "direction": "southeast",
+      "outcome": "accepted",
+      "request_id": 15,
+      "input_id": 15,
+      "before": {
+        "x": 32085,
+        "y": 32226,
+        "z": 7
+      },
+      "after": {
+        "x": 32086,
+        "y": 32227,
+        "z": 7
+      },
+      "delta": [
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "probe": "20-arrow-up",
+      "direction": "north",
+      "outcome": "accepted",
+      "request_id": 16,
+      "input_id": 16,
+      "before": {
+        "x": 32086,
+        "y": 32227,
+        "z": 7
+      },
+      "after": {
+        "x": 32086,
+        "y": 32226,
+        "z": 7
+      },
+      "delta": [
+        0,
+        -1,
+        0
+      ]
+    },
+    {
+      "probe": "21-arrow-right",
+      "direction": "east",
+      "outcome": "accepted",
+      "request_id": 17,
+      "input_id": 17,
+      "before": {
+        "x": 32086,
+        "y": 32226,
+        "z": 7
+      },
+      "after": {
+        "x": 32087,
+        "y": 32226,
+        "z": 7
+      },
+      "delta": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "probe": "22-arrow-down",
+      "direction": "south",
+      "outcome": "accepted",
+      "request_id": 18,
+      "input_id": 18,
+      "before": {
+        "x": 32087,
+        "y": 32226,
+        "z": 7
+      },
+      "after": {
+        "x": 32087,
+        "y": 32227,
+        "z": 7
+      },
+      "delta": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "probe": "23-arrow-left",
+      "direction": "west",
+      "outcome": "accepted",
+      "request_id": 19,
+      "input_id": 19,
+      "before": {
+        "x": 32087,
+        "y": 32227,
+        "z": 7
+      },
+      "after": {
+        "x": 32086,
+        "y": 32227,
+        "z": 7
+      },
+      "delta": [
+        -1,
+        0,
+        0
+      ]
+    },
+    {
+      "probe": "37-south-W",
+      "direction": "south",
+      "outcome": "accepted",
+      "request_id": 22,
+      "input_id": 23,
+      "before": {
+        "x": 32086,
+        "y": 32225,
+        "z": 7
+      },
+      "after": {
+        "x": 32086,
+        "y": 32226,
+        "z": 7
+      },
+      "delta": [
+        0,
+        1,
+        0
+      ]
+    },
+    {
+      "probe": "38-Q-south",
+      "direction": "southeast",
+      "outcome": "accepted",
+      "request_id": 23,
+      "input_id": 24,
+      "before": {
+        "x": 32086,
+        "y": 32226,
+        "z": 7
+      },
+      "after": {
+        "x": 32087,
+        "y": 32227,
+        "z": 7
+      },
+      "delta": [
+        1,
+        1,
+        0
+      ]
+    },
+    {
+      "probe": "39-E-south",
+      "direction": "southwest",
+      "outcome": "accepted",
+      "request_id": 24,
+      "input_id": 25,
+      "before": {
+        "x": 32087,
+        "y": 32227,
+        "z": 7
+      },
+      "after": {
+        "x": 32086,
+        "y": 32228,
+        "z": 7
+      },
+      "delta": [
+        -1,
+        1,
+        0
+      ]
+    },
+    {
+      "probe": "40-return-east",
+      "direction": "east",
+      "outcome": "accepted",
+      "request_id": 25,
+      "input_id": 26,
+      "before": {
+        "x": 32086,
+        "y": 32228,
+        "z": 7
+      },
+      "after": {
+        "x": 32087,
+        "y": 32228,
+        "z": 7
+      },
+      "delta": [
+        1,
+        0,
+        0
+      ]
+    },
+    {
+      "probe": "41-return-origin",
+      "direction": "southeast",
+      "outcome": "accepted",
+      "request_id": 26,
+      "input_id": 27,
+      "before": {
+        "x": 32087,
+        "y": 32228,
+        "z": 7
+      },
+      "after": {
+        "x": 32088,
+        "y": 32229,
+        "z": 7
+      },
+      "delta": [
+        1,
+        1,
+        0
+      ]
+    }
+  ],
+  "north_yaw": 270.57,
+  "south_yaw": 91.3,
+  "camera_rotation_degrees": 179.26999999999998,
+  "chat_no_walk": true,
+  "chat_text": "qezc visually inspected in 27-chat-C.png",
+  "mouse_walk_requests": 2,
+  "look_response": "You see grass.",
+  "end_counters": {
+    "frames": 448,
+    "commands": 580,
+    "residual_bytes": 0,
+    "unsupported_opcodes": 0,
+    "protocol_anomalies": 0,
+    "walks_requested_from_unreal": 26,
+    "walks_accepted": 25,
+    "walks_rejected": 1,
+    "walks_unanswered": 0,
+    "external_relocations": 0,
+    "local_player_moves_total": 25,
+    "says_requested": 0,
+    "moves_requested": 0,
+    "uses_requested": 0,
+    "looks_requested": 1,
+    "attacks_requested": 0,
+    "follows_requested": 0,
+    "combat_cancels_requested": 0,
+    "tactics_requested": 0,
+    "target_clears_received": 0,
+    "channel_lists_requested": 0,
+    "channel_lists_received": 0,
+    "channel_joins_requested": 0,
+    "channels_opened": 0,
+    "channel_leaves_requested": 0,
+    "channels_closed": 0,
+    "private_channels_requested": 0,
+    "private_channels_opened": 0,
+    "channel_says_requested": 0,
+    "channel_talk_received": 0,
+    "private_says_requested": 0,
+    "private_talk_received": 0,
+    "edit_texts_opened": 0,
+    "edit_lists_opened": 0,
+    "edit_texts_submitted": 0,
+    "edit_lists_submitted": 0,
+    "trade_own_offers_received": 0,
+    "trade_partner_offers_received": 0,
+    "trade_closes_received": 0,
+    "trade_offers_requested": 0,
+    "trade_inspects_requested": 0,
+    "trade_accepts_requested": 0,
+    "trade_rejects_requested": 0,
+    "outfit_dialogs_requested": 0,
+    "outfit_dialogs_received": 0,
+    "outfits_submitted": 0,
+    "outfit_selections_refused": 0,
+    "outfit_appearance_updates": 0,
+    "worldstate_tiles": 336,
+    "worldstate_visible_creatures": 2,
+    "viewport_synchronised": true
+  },
+  "snapshots_checked": 84,
+  "duplicate_sends": 0,
+  "duplicate_terminal_responses": 0,
+  "excluded_setup_request": [
+    {
+      "t": 85.891,
+      "phase": "sent",
+      "input_id": 1,
+      "request_id": 1,
+      "direction": "northwest",
+      "from": {
+        "x": 32088,
+        "y": 32229,
+        "z": 7
+      },
+      "to": {
+        "x": 32088,
+        "y": 32229,
+        "z": 7
+      }
+    },
+    {
+      "t": 86.015,
+      "phase": "accepted",
+      "input_id": 1,
+      "request_id": 1,
+      "direction": "northwest",
+      "from": {
+        "x": 32088,
+        "y": 32229,
+        "z": 7
+      },
+      "to": {
+        "x": 32087,
+        "y": 32228,
+        "z": 7
+      }
+    }
+  ],
+  "limitation": "Origin of setup input 1 UNVERIFIED; aborted orbit 33 lost foreground and is not a passing probe."
+}

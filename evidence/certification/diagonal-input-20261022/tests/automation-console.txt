@@ -1,0 +1,14 @@
+
+fullTestPath                           state   errors
+------------                           -----   ------
+REAL33D.Presentation.CameraAndFloors   Success      0
+REAL33D.Presentation.ChannelsPanel     Success      0
+REAL33D.Presentation.ChatTabs          Success      0
+REAL33D.Presentation.EditorWindow      Success      0
+REAL33D.Presentation.OutfitPanel       Success      0
+REAL33D.Presentation.PanelRegistry     Success      0
+REAL33D.Presentation.SkillsPanel       Success      0
+REAL33D.Presentation.StackMoveControls Success      0
+REAL33D.Presentation.TradePanel        Success      0
+REAL33D.WideWorld.AuthoritativeWindow  Success      0
+PASS 10 tests

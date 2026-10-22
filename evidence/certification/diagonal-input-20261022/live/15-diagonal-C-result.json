@@ -1,0 +1,73 @@
+{
+  "label": "15-diagonal-C",
+  "gesture": [
+    "--key",
+    "0x43"
+  ],
+  "before": {
+    "x": 32086,
+    "y": 32225,
+    "z": 7
+  },
+  "after": {
+    "x": 32087,
+    "y": 32226,
+    "z": 7
+  },
+  "camera_before": {
+    "pitch": -50.0,
+    "yaw": 270.57,
+    "requested_distance": 1173.5,
+    "actual_distance": 1173.5,
+    "obstructed": false,
+    "cutaway_meshes": 0,
+    "hide_upper_floors": false
+  },
+  "camera_after": {
+    "pitch": -50.0,
+    "yaw": 270.57,
+    "requested_distance": 1173.5,
+    "actual_distance": 1173.5,
+    "obstructed": false,
+    "cutaway_meshes": 0,
+    "hide_upper_floors": false
+  },
+  "journal": [
+    {
+      "t": 172.353,
+      "phase": "sent",
+      "input_id": 11,
+      "request_id": 11,
+      "direction": "southeast",
+      "from": {
+        "x": 32086,
+        "y": 32225,
+        "z": 7
+      },
+      "to": {
+        "x": 32086,
+        "y": 32225,
+        "z": 7
+      }
+    },
+    {
+      "t": 172.478,
+      "phase": "accepted",
+      "input_id": 11,
+      "request_id": 11,
+      "direction": "southeast",
+      "from": {
+        "x": 32086,
+        "y": 32225,
+        "z": 7
+      },
+      "to": {
+        "x": 32087,
+        "y": 32226,
+        "z": 7
+      }
+    }
+  ],
+  "requested_before": 10,
+  "requested_after": 11
+}
