@@ -3,6 +3,7 @@
 #include "Real33DChatViews.h"
 #include "Real33DItemUsePolicy.h"
 #include "Real33DMinimapPalette.h"
+#include "Real33DWalkDirection.h"
 
 #include "HAL/PlatformProcess.h"
 #include "HAL/RunnableThread.h"
@@ -305,6 +306,23 @@ namespace
 	}
 
 	/**
+	 * A ledger step as the one direction number this client's events carry.
+	 *
+	 * The two shapes share one `uint8` on FReal33DEvent, so the diagonals sit
+	 * past the cardinals rather than overlapping them: a reader that only
+	 * knows 0..3 still gets 0..3 for a cardinal and gets something it can see
+	 * is not one for a diagonal. The numbering lives in Real33DWalkDirection.h
+	 * and is asserted there.
+	 */
+	uint8 WalkDirectionOf(const p772::WalkStep& Step)
+	{
+		return Step.diagonal
+			? Real33D::WalkDirectionFromDiagonal(
+				static_cast<uint8>(Step.diagonal_direction))
+			: static_cast<uint8>(Step.cardinal);
+	}
+
+	/**
 	 * The one place a chosen mode becomes a protocol value.
 	 *
 	 * Nothing above the bridge may do this, which is why the enum above carries
@@ -441,7 +459,13 @@ public:
 
 	void PostIntent(uint32 InputId, uint8 Direction)
 	{
-		Intents.Enqueue(FIntent{ InputId, Direction });
+		Intents.Enqueue(FIntent{ InputId, Direction, false });
+	}
+
+	/** `Diagonal` is a DiagonalDirection value, 0..3. See RequestDiagonalWalk. */
+	void PostDiagonalIntent(uint32 InputId, uint8 Diagonal)
+	{
+		Intents.Enqueue(FIntent{ InputId, Diagonal, true });
 	}
 
 	void PostSay(uint32 SayId, EReal33DTalkMode Mode, const FString& Text)
@@ -1158,8 +1182,11 @@ private:
 				// player is still standing on. Saying so beats leaving a zero.
 				Refused.Position = ToBridge(State.viewport_anchor);
 				Refused.PreviousPosition = Refused.Position;
+				// The step that was actually asked for, in whichever shape it
+				// was. A refused diagonal has to be reported against its own
+				// direction rather than against a cardinal nobody requested.
 				Refused.Direction = Match.matched
-					? static_cast<uint8>(Match.direction) : kNoDirection;
+					? WalkDirectionOf(Match.step) : kNoDirection;
 				Publish(MoveTemp(Refused));
 
 				FScopeLock Lock(&StatsMutex);
@@ -1406,7 +1433,7 @@ private:
 			Out.Kind = EReal33DEventKind::WalkAccepted;
 			Out.RequestId = Outcome.request_id;
 			Out.InputId = TakeInputFor(Outcome.request_id);
-			Out.Direction = static_cast<uint8>(Outcome.direction);
+			Out.Direction = WalkDirectionOf(Outcome.step);
 		}
 		else
 		{
@@ -1427,29 +1454,56 @@ private:
 		FIntent Intent;
 		while (Intents.Dequeue(Intent))
 		{
-			p772::CardinalDirection Cardinal = p772::CardinalDirection::North;
-			switch (Intent.Direction)
-			{
-			case 1: Cardinal = p772::CardinalDirection::East; break;
-			case 2: Cardinal = p772::CardinalDirection::South; break;
-			case 3: Cardinal = p772::CardinalDirection::West; break;
-			default: break;
-			}
 			// An intent, not a movement. Fusion32 decides, so all that happens
 			// here is that the question is asked and recorded. The answer is
 			// matched to it by the ledger when it arrives.
-			if (!Session.SendCommand(p772::BuildWalkCommand(Cardinal)).ok())
+			//
+			// The two shapes are separate commands on the wire and are kept
+			// apart all the way down: one builder each, one ledger overload
+			// each. Nothing here invents an opcode -- 101..104 and 106..109 are
+			// both ClientCore's, from receiving.cc::ReceiveData.
+			std::uint32_t RequestId = 0;
+			uint8 EventDirection = Real33D::kNoWalkDirection;
+			if (Intent.bDiagonal)
 			{
-				continue;
+				p772::DiagonalDirection Diagonal = p772::DiagonalDirection::Northeast;
+				switch (Intent.Direction)
+				{
+				case 1: Diagonal = p772::DiagonalDirection::Southeast; break;
+				case 2: Diagonal = p772::DiagonalDirection::Southwest; break;
+				case 3: Diagonal = p772::DiagonalDirection::Northwest; break;
+				default: break;
+				}
+				if (!Session.SendCommand(p772::BuildDiagonalWalkCommand(Diagonal)).ok())
+				{
+					continue;
+				}
+				RequestId = Ledger.NoteRequestSent(Diagonal, FPlatformTime::Seconds());
+				EventDirection = Real33D::WalkDirectionFromDiagonal(Intent.Direction);
 			}
-			const std::uint32_t RequestId =
-				Ledger.NoteRequestSent(Cardinal, FPlatformTime::Seconds());
+			else
+			{
+				p772::CardinalDirection Cardinal = p772::CardinalDirection::North;
+				switch (Intent.Direction)
+				{
+				case 1: Cardinal = p772::CardinalDirection::East; break;
+				case 2: Cardinal = p772::CardinalDirection::South; break;
+				case 3: Cardinal = p772::CardinalDirection::West; break;
+				default: break;
+				}
+				if (!Session.SendCommand(p772::BuildWalkCommand(Cardinal)).ok())
+				{
+					continue;
+				}
+				RequestId = Ledger.NoteRequestSent(Cardinal, FPlatformTime::Seconds());
+				EventDirection = Intent.Direction;
+			}
 
 			FReal33DEvent Sent;
 			Sent.Kind = EReal33DEventKind::WalkSent;
 			Sent.InputId = Intent.InputId;
 			Sent.RequestId = RequestId;
-			Sent.Direction = Intent.Direction;
+			Sent.Direction = EventDirection;
 			// Where the player stood when the question was asked, so the
 			// journal shows what the request was relative to rather than zeros.
 			Sent.PreviousPosition = ToBridge(State.viewport_anchor);
@@ -2056,7 +2110,9 @@ private:
 	struct FIntent
 	{
 		uint32 InputId = 0;
+		/** A CardinalDirection value, or a DiagonalDirection one when bDiagonal. */
 		uint8 Direction = 0;
+		bool bDiagonal = false;
 	};
 
 	struct FSay
@@ -3120,6 +3176,27 @@ uint32 UReal33DBridge::RequestWalk(uint8 Direction)
 	// identity of a press exists before anything else in the chain happens.
 	const uint32 InputId = ++NextInputId;
 	Worker->PostIntent(InputId, Direction);
+	return InputId;
+}
+
+uint32 UReal33DBridge::RequestDiagonalWalk(uint8 Diagonal)
+{
+	if (Worker == nullptr)
+	{
+		return 0;
+	}
+	// Refused rather than folded: a diagonal outside 0..3 names no command,
+	// and silently walking northeast because a caller passed 9 would be a step
+	// the player never asked for.
+	if (Diagonal >= 4)
+	{
+		return 0;
+	}
+	// Numbered on the game thread at the moment the key was pressed, exactly
+	// as a cardinal walk is, so the identity of a press exists before anything
+	// else in the chain happens.
+	const uint32 InputId = ++NextInputId;
+	Worker->PostDiagonalIntent(InputId, Diagonal);
 	return InputId;
 }
 

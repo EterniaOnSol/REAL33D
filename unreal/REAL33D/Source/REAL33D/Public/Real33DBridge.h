@@ -1053,6 +1053,25 @@ public:
 	uint32 RequestWalk(uint8 Direction);
 
 	/**
+	 * Posts a diagonal walk intent. CL_CMD_GO_NORTHEAST..NORTHWEST, 106..109.
+	 *
+	 * `Diagonal` is a `DiagonalDirection` value: 0 northeast, 1 southeast,
+	 * 2 southwest, 3 northwest. A SEPARATE ENTRY POINT rather than four more
+	 * values on RequestWalk, because the two are different commands on the
+	 * wire and a caller that passed 4 to the cardinal path would otherwise get
+	 * a silent north. The worker turns it into a `DiagonalDirection` and lets
+	 * `BuildDiagonalWalkCommand` build the command; nothing new is invented
+	 * about the protocol here.
+	 *
+	 * Exactly like a cardinal walk in every other respect: it does not move
+	 * anything, Fusion32 rules on it, and the returned input id joins this key
+	 * press to whatever the server does next. The movement ledger records the
+	 * request as diagonal so an accepted step is recognised as the answer to
+	 * it rather than counted as somebody pushing us.
+	 */
+	uint32 RequestDiagonalWalk(uint8 Diagonal);
+
+	/**
 	 * Asks Fusion32 to speak, in the mode the player chose.
 	 *
 	 * An intent, exactly like a walk. Pressing Send is not proof the server

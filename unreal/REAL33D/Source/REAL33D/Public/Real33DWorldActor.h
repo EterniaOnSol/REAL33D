@@ -85,7 +85,30 @@ public:
 	/** Maps W/D/S/A to the nearest server cardinal direction at the current camera yaw. */
 	uint8 CameraRelativeDirection(uint8 RelativeDirection) const;
 
+	/**
+	 * Maps the four diagonal keys to a `DiagonalDirection` at the current yaw.
+	 *
+	 * `RelativeDiagonal` is clockwise from the forward-right corner:
+	 * 0 forward-right (E), 1 back-right (C), 2 back-left (Z), 3 forward-left (Q).
+	 *
+	 * Camera-relative for the same reason W/A/S/D are: the diagonal keys sit
+	 * around them, and a Q that walked absolute northwest while W walked
+	 * forward would have the keys beside each other disagreeing about where
+	 * the player is looking. Walking south while facing south, Q and E carry
+	 * on southwards.
+	 */
+	uint8 CameraRelativeDiagonal(uint8 RelativeDiagonal) const;
+
 private:
+	/**
+	 * Which server cardinal the camera is looking along. 0 north .. 3 west.
+	 *
+	 * Factored out so the cardinal and diagonal mappings above cannot drift
+	 * apart about where "forward" is; they used to be one expression inside
+	 * the cardinal one.
+	 */
+	uint8 FacingCardinal() const;
+
 	/** Rebuilds the camera's relative transform from yaw, pitch and distance. */
 	void ApplyCameraTransform();
 

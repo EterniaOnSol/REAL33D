@@ -2,10 +2,34 @@
 
 namespace fusion32::protocol772 {
 
+MapPosition WalkStep::Apply(const MapPosition& from) const noexcept {
+    return diagonal ? DiagonalStepPosition(from, diagonal_direction)
+                    : StepPosition(from, cardinal);
+}
+
+const char* WalkStep::Name() const noexcept {
+    return diagonal ? DiagonalDirectionName(diagonal_direction)
+                    : CardinalDirectionName(cardinal);
+}
+
 std::uint32_t MovementLedger::NoteRequestSent(CardinalDirection direction,
                                              double sent_at) noexcept {
+    WalkStep step;
+    step.diagonal = false;
+    step.cardinal = direction;
     ++next_id_;
-    pending_.push_back(Pending{next_id_, direction, sent_at});
+    pending_.push_back(Pending{next_id_, step, sent_at});
+    ++counts_.requested;
+    return next_id_;
+}
+
+std::uint32_t MovementLedger::NoteRequestSent(DiagonalDirection direction,
+                                              double sent_at) noexcept {
+    WalkStep step;
+    step.diagonal = true;
+    step.diagonal_direction = direction;
+    ++next_id_;
+    pending_.push_back(Pending{next_id_, step, sent_at});
     ++counts_.requested;
     return next_id_;
 }
@@ -34,7 +58,9 @@ LocalMoveOutcome MovementLedger::NoteLocalMove(const MapPosition& from,
     // Only the oldest outstanding request can be the one being answered: the
     // server handles a connection's commands in order.
     const Pending& oldest = pending_.front();
-    const MapPosition expected = StepPosition(from, oldest.direction);
+    // Whichever shape the step was. A diagonal changes both axes, so asking
+    // StepPosition about one would compare against a field nobody asked for.
+    const MapPosition expected = oldest.step.Apply(from);
     if (!(expected.x == to.x && expected.y == to.y && expected.z == to.z)) {
         // We asked to go somewhere and ended up somewhere else. That is not our
         // step, and the request stays outstanding: a push does not consume it.
@@ -44,7 +70,8 @@ LocalMoveOutcome MovementLedger::NoteLocalMove(const MapPosition& from,
 
     outcome.cause = LocalMoveCause::SelfWalkAccepted;
     outcome.request_id = oldest.id;
-    outcome.direction = oldest.direction;
+    outcome.direction = oldest.step.cardinal;
+    outcome.step = oldest.step;
     pending_.pop_front();
     ++counts_.accepted;
     return outcome;
@@ -57,7 +84,8 @@ MovementLedger::SnapbackMatch MovementLedger::NoteSnapback(double at) noexcept {
     if (pending_.empty()) return match;
     match.matched = true;
     match.request_id = pending_.front().id;
-    match.direction = pending_.front().direction;
+    match.direction = pending_.front().step.cardinal;
+    match.step = pending_.front().step;
     pending_.pop_front();
     return match;
 }

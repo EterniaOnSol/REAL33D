@@ -1843,6 +1843,156 @@ void TestLedgerMatchesRequestsInOrder() {
     CHECK(ledger.counts().external == 0);
 }
 
+// ------------------------------------------------- diagonal walks, UNREAL-DIAGONAL-INPUT-001
+//
+// A diagonal is a walk like any other and is answered the same way, by an
+// ordinary SV_CMD_MOVE_CREATURE naming this client's creature. The ledger has
+// to know which shape it asked for, because a diagonal moves both axes and
+// StepPosition cannot describe one. Without that, an accepted diagonal is
+// indistinguishable from a push.
+
+void TestLedgerAcceptsEachOfTheFourDiagonals() {
+    const DiagonalDirection all[] = {
+        DiagonalDirection::Northeast, DiagonalDirection::Southeast,
+        DiagonalDirection::Southwest, DiagonalDirection::Northwest,
+    };
+    for (const DiagonalDirection direction : all) {
+        MovementLedger ledger;
+        const MapPosition start{32100, 32200, 7};
+        const std::uint32_t id = ledger.NoteRequestSent(direction, 1.0);
+        CHECK(ledger.counts().requested == 1);
+
+        const MapPosition landed = DiagonalStepPosition(start, direction);
+        // Both axes really do change; otherwise this test would pass against
+        // a cardinal implementation by accident.
+        CHECK(landed.x != start.x);
+        CHECK(landed.y != start.y);
+        CHECK(landed.z == start.z);
+
+        const auto accepted = ledger.NoteLocalMove(start, landed, 1.2);
+        CHECK(accepted.cause == LocalMoveCause::SelfWalkAccepted);
+        CHECK(accepted.request_id == id);
+        CHECK(accepted.step.diagonal);
+        CHECK(accepted.step.diagonal_direction == direction);
+        CHECK(ledger.counts().accepted == 1);
+        CHECK(ledger.counts().external == 0);
+        CHECK(ledger.outstanding() == 0);
+    }
+}
+
+void TestLedgerDoesNotCountADiagonalAsExternal() {
+    // The whole reason the ledger learned about diagonals. Before it did, the
+    // destination never equalled StepPosition(from, cardinal), so a perfectly
+    // accepted diagonal was counted external AND left outstanding until it
+    // expired unanswered -- one correct step reported as two defects.
+    MovementLedger ledger;
+    const MapPosition start{32100, 32200, 7};
+    ledger.NoteRequestSent(DiagonalDirection::Northwest, 1.0);
+    const auto accepted = ledger.NoteLocalMove(
+        start, DiagonalStepPosition(start, DiagonalDirection::Northwest), 1.1);
+    CHECK(accepted.cause == LocalMoveCause::SelfWalkAccepted);
+    CHECK(ledger.counts().external == 0);
+    CHECK(ledger.ExpireBefore(100.0) == 0);
+    CHECK(ledger.counts().unanswered == 0);
+}
+
+void TestLedgerStillRefusesTheWrongFieldForADiagonal() {
+    // The rule stays as narrow as it is for a cardinal: a diagonal request is
+    // satisfied by exactly one field and by nothing else. A push that happens
+    // to move us one field diagonally-ish is still a push.
+    MovementLedger ledger;
+    const MapPosition start{32100, 32200, 7};
+    ledger.NoteRequestSent(DiagonalDirection::Northeast, 1.0);
+
+    // Northeast is (+1, -1); this is the opposite corner.
+    const MapPosition elsewhere{start.x - 1, start.y + 1, start.z};
+    const auto pushed = ledger.NoteLocalMove(start, elsewhere, 1.1);
+    CHECK(pushed.cause == LocalMoveCause::ExternalRelocation);
+    CHECK(ledger.counts().external == 1);
+    // And the request is still outstanding, so the real answer can still land.
+    CHECK(ledger.outstanding() == 1);
+    const auto accepted = ledger.NoteLocalMove(
+        elsewhere, DiagonalStepPosition(elsewhere, DiagonalDirection::Northeast), 1.2);
+    CHECK(accepted.cause == LocalMoveCause::SelfWalkAccepted);
+}
+
+void TestLedgerMixesCardinalAndDiagonalInOrder() {
+    // Alternating the two shapes is the live case this milestone has to pass,
+    // and the server answers a connection's commands in order whichever they
+    // were.
+    MovementLedger ledger;
+    MapPosition at{32100, 32200, 7};
+
+    const std::uint32_t north = ledger.NoteRequestSent(CardinalDirection::North, 1.0);
+    const std::uint32_t northeast =
+        ledger.NoteRequestSent(DiagonalDirection::Northeast, 1.1);
+    const std::uint32_t west = ledger.NoteRequestSent(CardinalDirection::West, 1.2);
+
+    const MapPosition after_north = StepPosition(at, CardinalDirection::North);
+    auto outcome = ledger.NoteLocalMove(at, after_north, 1.3);
+    CHECK(outcome.cause == LocalMoveCause::SelfWalkAccepted);
+    CHECK(outcome.request_id == north);
+    CHECK(!outcome.step.diagonal);
+    CHECK(outcome.direction == CardinalDirection::North);
+    at = after_north;
+
+    const MapPosition after_ne = DiagonalStepPosition(at, DiagonalDirection::Northeast);
+    outcome = ledger.NoteLocalMove(at, after_ne, 1.4);
+    CHECK(outcome.cause == LocalMoveCause::SelfWalkAccepted);
+    CHECK(outcome.request_id == northeast);
+    CHECK(outcome.step.diagonal);
+    at = after_ne;
+
+    const MapPosition after_west = StepPosition(at, CardinalDirection::West);
+    outcome = ledger.NoteLocalMove(at, after_west, 1.5);
+    CHECK(outcome.cause == LocalMoveCause::SelfWalkAccepted);
+    CHECK(outcome.request_id == west);
+    CHECK(!outcome.step.diagonal);
+
+    CHECK(ledger.counts().accepted == 3);
+    CHECK(ledger.counts().external == 0);
+    CHECK(ledger.counts().unanswered == 0);
+}
+
+void TestLedgerReportsARefusedDiagonalAgainstItsOwnDirection() {
+    // A blocked diagonal is a snapback, and the refusal has to name the step
+    // that was actually asked for rather than a cardinal nobody requested.
+    MovementLedger ledger;
+    const std::uint32_t id =
+        ledger.NoteRequestSent(DiagonalDirection::Southwest, 1.0);
+    const auto refused = ledger.NoteSnapback(1.1);
+    CHECK(refused.matched);
+    CHECK(refused.request_id == id);
+    CHECK(refused.step.diagonal);
+    CHECK(refused.step.diagonal_direction == DiagonalDirection::Southwest);
+    CHECK(ledger.counts().rejected == 1);
+    CHECK(ledger.outstanding() == 0);
+}
+
+void TestWalkStepAgreesWithTheStandaloneStepFunctions() {
+    const MapPosition at{32100, 32200, 7};
+    for (const CardinalDirection direction : {CardinalDirection::North,
+            CardinalDirection::East, CardinalDirection::South, CardinalDirection::West}) {
+        WalkStep step;
+        step.cardinal = direction;
+        const MapPosition expected = StepPosition(at, direction);
+        const MapPosition actual = step.Apply(at);
+        CHECK(actual.x == expected.x && actual.y == expected.y && actual.z == expected.z);
+        CHECK(std::string(step.Name()) == CardinalDirectionName(direction));
+    }
+    for (const DiagonalDirection direction : {DiagonalDirection::Northeast,
+            DiagonalDirection::Southeast, DiagonalDirection::Southwest,
+            DiagonalDirection::Northwest}) {
+        WalkStep step;
+        step.diagonal = true;
+        step.diagonal_direction = direction;
+        const MapPosition expected = DiagonalStepPosition(at, direction);
+        const MapPosition actual = step.Apply(at);
+        CHECK(actual.x == expected.x && actual.y == expected.y && actual.z == expected.z);
+        CHECK(std::string(step.Name()) == DiagonalDirectionName(direction));
+    }
+}
+
 }  // namespace
 
 int main() {
@@ -1893,6 +2043,13 @@ int main() {
         TestLedgerIgnoresAMoveThatDoesNotMove();
         TestLedgerRejectionAndExpiry();
         TestLedgerMatchesRequestsInOrder();
+
+        TestLedgerAcceptsEachOfTheFourDiagonals();
+        TestLedgerDoesNotCountADiagonalAsExternal();
+        TestLedgerStillRefusesTheWrongFieldForADiagonal();
+        TestLedgerMixesCardinalAndDiagonalInOrder();
+        TestLedgerReportsARefusedDiagonalAgainstItsOwnDirection();
+        TestWalkStepAgreesWithTheStandaloneStepFunctions();
         std::cout << "protocol772_movement_tests: PASS\n";
         return 0;
     } catch (const std::exception& error) {

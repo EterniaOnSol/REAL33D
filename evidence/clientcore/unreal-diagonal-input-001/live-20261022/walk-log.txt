@@ -1,0 +1,250 @@
+[2026.10.22-04.56.39:470][  1]LogReal33D: connected: Test Player B
+[2026.10.22-04.56.39:470][  1]LogReal33D: local player is creature 1002
+[2026.10.22-04.58.25:804][824]LogReal33D: input 1: walk northwest requested from Unreal
+[2026.10.22-04.58.26:000][829]LogReal33D: input 1: Fusion32 accepted request 1, 32097,32210,7 -> 32096,32209,7
+[2026.10.22-04.58.28:467][905]LogReal33D: input 2: walk northeast requested from Unreal
+[2026.10.22-04.58.28:712][911]LogReal33D: input 2: Fusion32 accepted request 2, 32096,32209,7 -> 32097,32208,7
+[2026.10.22-04.58.31:153][985]LogReal33D: input 3: walk southwest requested from Unreal
+[2026.10.22-04.58.31:346][989]LogReal33D: input 3: Fusion32 accepted request 3, 32097,32208,7 -> 32096,32209,7
+[2026.10.22-04.58.33:838][ 66]LogReal33D: input 4: walk southeast requested from Unreal
+[2026.10.22-04.58.34:050][ 71]LogReal33D: input 4: Fusion32 accepted request 4, 32096,32209,7 -> 32097,32210,7
+[2026.10.22-04.58.39:698][258]LogReal33D: input 5: walk northeast requested from Unreal
+[2026.10.22-04.58.39:926][263]LogReal33D: input 5: Fusion32 accepted request 5, 32097,32210,7 -> 32098,32209,7
+[2026.10.22-04.58.49:266][504]LogReal33D: input 6: walk west requested from Unreal
+[2026.10.22-04.58.49:456][508]LogReal33D: input 6: Fusion32 accepted request 6, 32098,32209,7 -> 32097,32209,7
+[2026.10.22-04.58.50:308][529]LogReal33D: input 7: walk north requested from Unreal
+[2026.10.22-04.58.50:471][532]LogReal33D: input 7: Fusion32 accepted request 7, 32097,32209,7 -> 32097,32208,7
+[2026.10.22-04.58.51:024][546]LogReal33D: input 8: walk northwest requested from Unreal
+[2026.10.22-04.58.51:194][549]LogReal33D: input 8: Fusion32 accepted request 8, 32097,32208,7 -> 32096,32207,7
+[2026.10.22-04.58.52:218][574]LogReal33D: input 9: walk northeast requested from Unreal
+[2026.10.22-04.58.52:541][580]LogReal33D: input 9: Fusion32 accepted request 9, 32096,32207,7 -> 32097,32206,7
+[2026.10.22-04.58.53:373][600]LogReal33D: input 10: walk southeast requested from Unreal
+[2026.10.22-04.58.53:919][611]LogReal33D: input 10: Fusion32 accepted request 10, 32097,32206,7 -> 32098,32207,7
+[2026.10.22-04.58.54:857][634]LogReal33D: input 11: walk southwest requested from Unreal
+[2026.10.22-04.58.55:236][641]LogReal33D: input 11: Fusion32 accepted request 11, 32098,32207,7 -> 32097,32208,7
+[2026.10.22-04.58.58:063][705]LogReal33D: input 12: walk west requested from Unreal
+[2026.10.22-04.58.58:195][707]LogReal33D: input 12: Fusion32 accepted request 12, 32097,32208,7 -> 32096,32208,7
+[2026.10.22-04.58.58:528][714]LogReal33D: input 14: walk west requested from Unreal
+[2026.10.22-04.58.58:719][717]LogReal33D: input 14: Fusion32 accepted request 13, 32096,32208,7 -> 32095,32208,7
+[2026.10.22-04.59.00:113][718]LogReal33D: input 15: walk north requested from Unreal
+[2026.10.22-04.59.00:267][722]LogReal33D: input 15: Fusion32 accepted request 14, 32095,32208,7 -> 32095,32207,7
+[2026.10.22-04.59.00:831][734]LogReal33D: input 16: walk north requested from Unreal
+[2026.10.22-04.59.00:966][736]LogReal33D: input 16: Fusion32 accepted request 15, 32095,32207,7 -> 32095,32206,7
+[2026.10.22-04.59.01:309][743]LogReal33D: input 17: walk north requested from Unreal
+[2026.10.22-04.59.01:450][745]LogReal33D: input 17: Fusion32 accepted request 16, 32095,32206,7 -> 32095,32205,7
+[2026.10.22-04.59.01:790][752]LogReal33D: input 18: walk north requested from Unreal
+[2026.10.22-04.59.02:000][755]LogReal33D: input 18: Fusion32 accepted request 17, 32095,32205,7 -> 32095,32204,7
+[2026.10.22-04.59.02:276][761]LogReal33D: input 19: walk west requested from Unreal
+[2026.10.22-04.59.02:466][764]LogReal33D: input 19: Fusion32 accepted request 18, 32095,32204,7 -> 32094,32204,7
+[2026.10.22-04.59.04:708][810]LogReal33D: input 20: walk east requested from Unreal
+[2026.10.22-04.59.04:866][813]LogReal33D: input 20: Fusion32 accepted request 19, 32094,32204,7 -> 32095,32204,7
+[2026.10.22-04.59.05:712][832]LogReal33D: input 21: walk northwest requested from Unreal
+[2026.10.22-04.59.05:928][835]LogReal33D: input 21: Fusion32 accepted request 20, 32095,32204,7 -> 32094,32203,7
+[2026.10.22-04.59.07:063][861]LogReal33D: input 22: walk east requested from Unreal
+[2026.10.22-04.59.07:250][864]LogReal33D: input 22: Fusion32 accepted request 21, 32094,32203,7 -> 32095,32203,7
+[2026.10.22-04.59.07:537][871]LogReal33D: input 23: walk east requested from Unreal
+[2026.10.22-04.59.07:737][873]LogReal33D: input 23: Fusion32 accepted request 22, 32095,32203,7 -> 32096,32203,7
+[2026.10.22-04.59.08:009][880]LogReal33D: input 24: walk east requested from Unreal
+[2026.10.22-04.59.08:215][883]LogReal33D: input 24: Fusion32 accepted request 23, 32096,32203,7 -> 32097,32203,7
+[2026.10.22-04.59.09:081][901]LogReal33D: input 25: walk northwest requested from Unreal
+[2026.10.22-04.59.09:249][903]LogReal33D: input 25: Fusion32 accepted request 24, 32097,32203,7 -> 32096,32202,7
+[2026.10.22-04.59.38:425][477]LogReal33D: input 26: walk east requested from Unreal
+[2026.10.22-04.59.38:560][479]LogReal33D: input 26: Fusion32 accepted request 25, 32096,32202,7 -> 32097,32202,7
+[2026.10.22-04.59.38:883][486]LogReal33D: input 27: walk east requested from Unreal
+[2026.10.22-04.59.39:085][489]LogReal33D: input 27: Fusion32 accepted request 26, 32097,32202,7 -> 32098,32202,7
+[2026.10.22-04.59.39:141][491]LogReal33D: input 28: walk northeast requested from Unreal
+[2026.10.22-04.59.39:624][499]LogReal33D: input 28: Fusion32 accepted request 27, 32098,32202,7 -> 32099,32201,7
+[2026.10.22-04.59.40:860][521]LogReal33D: input 29: walk northeast requested from Unreal
+[2026.10.22-04.59.41:131][525]LogReal33D: input 29: Fusion32 accepted request 28, 32099,32201,7 -> 32100,32200,7
+[2026.10.22-04.59.41:404][532]LogReal33D: input 30: walk west requested from Unreal
+[2026.10.22-04.59.41:894][542]LogReal33D: input 31: walk west requested from Unreal
+[2026.10.22-04.59.41:990][544]LogReal33D: Warning: input 30: Fusion32 refused request 29; position unchanged
+[2026.10.22-04.59.42:325][551]LogReal33D: input 32: walk northeast requested from Unreal
+[2026.10.22-04.59.42:427][553]LogReal33D: input 33: walk south requested from Unreal
+[2026.10.22-04.59.42:428][553]LogReal33D: Warning: input 31: Fusion32 refused request 30; position unchanged
+[2026.10.22-04.59.42:518][555]LogReal33D: Warning: input 32: Fusion32 refused request 31; position unchanged
+[2026.10.22-04.59.43:070][566]LogReal33D: input 33: Fusion32 accepted request 32, 32100,32200,7 -> 32100,32201,7
+[2026.10.22-04.59.43:667][579]LogReal33D: Warning: input 34: Fusion32 refused request 33; position unchanged
+[2026.10.22-04.59.43:824][582]LogReal33D: input 35: walk northeast requested from Unreal
+[2026.10.22-04.59.44:044][585]LogReal33D: input 35: Fusion32 accepted request 34, 32100,32201,7 -> 32101,32200,7
+[2026.10.22-04.59.45:310][609]LogReal33D: input 36: walk northeast requested from Unreal
+[2026.10.22-04.59.45:907][618]LogReal33D: Warning: input 36: Fusion32 refused request 35; position unchanged
+[2026.10.22-04.59.46:121][621]LogReal33D: input 37: walk west requested from Unreal
+[2026.10.22-04.59.46:287][623]LogReal33D: input 37: Fusion32 accepted request 36, 32101,32200,7 -> 32100,32200,7
+[2026.10.22-04.59.46:607][628]LogReal33D: input 38: walk west requested from Unreal
+[2026.10.22-04.59.46:745][630]LogReal33D: input 39: walk northeast requested from Unreal
+[2026.10.22-04.59.46:815][631]LogReal33D: Warning: input 38: Fusion32 refused request 37; position unchanged
+[2026.10.22-04.59.46:890][632]LogReal33D: Warning: input 39: Fusion32 refused request 38; position unchanged
+[2026.10.22-04.59.47:026][634]LogReal33D: input 40: walk west requested from Unreal
+[2026.10.22-04.59.47:093][635]LogReal33D: Warning: input 40: Fusion32 refused request 39; position unchanged
+[2026.10.22-04.59.47:507][641]LogReal33D: input 41: walk south requested from Unreal
+[2026.10.22-04.59.47:758][644]LogReal33D: input 41: Fusion32 accepted request 40, 32100,32200,7 -> 32100,32201,7
+[2026.10.22-04.59.47:992][648]LogReal33D: input 42: walk south requested from Unreal
+[2026.10.22-04.59.48:724][653]LogReal33D: input 43: walk west requested from Unreal
+[2026.10.22-04.59.48:726][653]LogReal33D: Warning: input 42: Fusion32 refused request 41; position unchanged
+[2026.10.22-04.59.48:927][658]LogReal33D: input 43: Fusion32 accepted request 42, 32100,32201,7 -> 32099,32201,7
+[2026.10.22-04.59.49:224][663]LogReal33D: input 44: walk west requested from Unreal
+[2026.10.22-04.59.49:405][665]LogReal33D: input 44: Fusion32 accepted request 43, 32099,32201,7 -> 32098,32201,7
+[2026.10.22-04.59.49:710][670]LogReal33D: input 45: walk west requested from Unreal
+[2026.10.22-04.59.49:887][672]LogReal33D: input 45: Fusion32 accepted request 44, 32098,32201,7 -> 32097,32201,7
+[2026.10.22-04.59.50:209][677]LogReal33D: input 46: walk south requested from Unreal
+[2026.10.22-04.59.50:384][679]LogReal33D: input 46: Fusion32 accepted request 45, 32097,32201,7 -> 32097,32202,7
+[2026.10.22-04.59.50:696][684]LogReal33D: input 47: walk south requested from Unreal
+[2026.10.22-04.59.50:872][686]LogReal33D: input 47: Fusion32 accepted request 46, 32097,32202,7 -> 32097,32203,7
+[2026.10.22-04.59.51:181][691]LogReal33D: input 48: walk south requested from Unreal
+[2026.10.22-04.59.51:431][694]LogReal33D: input 48: Fusion32 accepted request 47, 32097,32203,7 -> 32097,32204,7
+[2026.10.22-04.59.51:669][698]LogReal33D: input 49: walk south requested from Unreal
+[2026.10.22-04.59.51:900][701]LogReal33D: input 49: Fusion32 accepted request 48, 32097,32204,7 -> 32097,32205,7
+[2026.10.22-04.59.53:172][720]LogReal33D: input 50: walk northwest requested from Unreal
+[2026.10.22-04.59.53:435][723]LogReal33D: input 50: Fusion32 accepted request 49, 32097,32205,7 -> 32096,32204,7
+[2026.10.22-04.59.55:939][761]LogReal33D: input 51: walk southwest requested from Unreal
+[2026.10.22-04.59.56:410][764]LogReal33D: input 51: Fusion32 accepted request 50, 32096,32204,7 -> 32095,32205,7
+[2026.10.22-04.59.57:542][783]LogReal33D: input 52: walk northwest requested from Unreal
+[2026.10.22-04.59.57:734][785]LogReal33D: input 52: Fusion32 accepted request 51, 32095,32205,7 -> 32094,32204,7
+[2026.10.22-04.59.58:855][803]LogReal33D: input 53: walk east requested from Unreal
+[2026.10.22-04.59.59:017][805]LogReal33D: input 53: Fusion32 accepted request 52, 32094,32204,7 -> 32095,32204,7
+[2026.10.22-04.59.59:312][810]LogReal33D: input 54: walk east requested from Unreal
+[2026.10.22-04.59.59:551][812]LogReal33D: input 54: Fusion32 accepted request 53, 32095,32204,7 -> 32096,32204,7
+[2026.10.22-04.59.59:641][815]LogReal33D: input 55: walk east requested from Unreal
+[2026.10.22-04.59.59:936][819]LogReal33D: input 55: Fusion32 accepted request 54, 32096,32204,7 -> 32097,32204,7
+[2026.10.22-05.00.00:099][822]LogReal33D: input 56: walk east requested from Unreal
+[2026.10.22-05.00.00:230][824]LogReal33D: input 57: walk northeast requested from Unreal
+[2026.10.22-05.00.00:365][826]LogReal33D: input 58: walk east requested from Unreal
+[2026.10.22-05.00.00:399][826]LogReal33D: input 56: Fusion32 accepted request 55, 32097,32204,7 -> 32098,32204,7
+[2026.10.22-05.00.00:434][827]LogReal33D: Warning: input 57: Fusion32 refused request 56; position unchanged
+[2026.10.22-05.00.00:863][833]LogReal33D: input 58: Fusion32 accepted request 57, 32098,32204,7 -> 32099,32204,7
+[2026.10.22-05.00.01:829][848]LogReal33D: input 59: walk northeast requested from Unreal
+[2026.10.22-05.00.01:897][849]LogReal33D: Warning: input 59: Fusion32 refused request 58; position unchanged
+[2026.10.22-05.00.02:818][863]LogReal33D: input 60: walk south requested from Unreal
+[2026.10.22-05.00.02:972][865]LogReal33D: input 60: Fusion32 accepted request 59, 32099,32204,7 -> 32099,32205,7
+[2026.10.22-05.00.03:869][879]LogReal33D: input 61: walk northeast requested from Unreal
+[2026.10.22-05.00.04:078][881]LogReal33D: input 61: Fusion32 accepted request 60, 32099,32205,7 -> 32100,32204,7
+[2026.10.22-05.00.05:334][901]LogReal33D: input 62: walk southeast requested from Unreal
+[2026.10.22-05.00.05:513][903]LogReal33D: input 62: Fusion32 accepted request 61, 32100,32204,7 -> 32101,32205,7
+[2026.10.22-05.01.02:284][751]LogReal33D: input 63: walk northwest requested from Unreal
+[2026.10.22-05.01.02:487][753]LogReal33D: input 63: Fusion32 accepted request 62, 32101,32205,7 -> 32100,32204,7
+[2026.10.22-05.01.04:229][779]LogReal33D: input 64: walk northeast requested from Unreal
+[2026.10.22-05.01.04:519][782]LogReal33D: input 64: Fusion32 accepted request 63, 32100,32204,7 -> 32101,32203,7
+[2026.10.22-05.01.06:175][807]LogReal33D: input 65: walk southwest requested from Unreal
+[2026.10.22-05.01.06:362][809]LogReal33D: input 65: Fusion32 accepted request 64, 32101,32203,7 -> 32100,32204,7
+[2026.10.22-05.01.08:117][835]LogReal33D: input 66: walk southeast requested from Unreal
+[2026.10.22-05.01.08:317][837]LogReal33D: input 66: Fusion32 accepted request 65, 32100,32204,7 -> 32101,32205,7
+[2026.10.22-05.01.34:246][219]LogReal33D: input 67: walk northwest requested from Unreal
+[2026.10.22-05.01.34:447][221]LogReal33D: input 67: Fusion32 accepted request 66, 32101,32205,7 -> 32100,32204,7
+[2026.10.22-05.01.36:205][248]LogReal33D: input 68: walk northwest requested from Unreal
+[2026.10.22-05.01.36:423][250]LogReal33D: input 68: Fusion32 accepted request 67, 32100,32204,7 -> 32099,32203,7
+[2026.10.22-05.01.38:163][277]LogReal33D: input 69: walk northwest requested from Unreal
+[2026.10.22-05.01.38:341][279]LogReal33D: input 69: Fusion32 accepted request 68, 32099,32203,7 -> 32098,32202,7
+[2026.10.22-05.01.40:080][305]LogReal33D: input 70: walk northwest requested from Unreal
+[2026.10.22-05.01.40:255][307]LogReal33D: input 70: Fusion32 accepted request 69, 32098,32202,7 -> 32097,32201,7
+[2026.10.22-05.01.46:825][404]LogReal33D: input 71: walk south requested from Unreal
+[2026.10.22-05.01.47:053][407]LogReal33D: input 71: Fusion32 accepted request 70, 32097,32201,7 -> 32097,32202,7
+[2026.10.22-05.01.49:549][444]LogReal33D: input 72: walk northeast requested from Unreal
+[2026.10.22-05.01.49:801][447]LogReal33D: input 72: Fusion32 accepted request 71, 32097,32202,7 -> 32098,32201,7
+[2026.10.22-05.01.51:940][479]LogReal33D: input 73: walk south requested from Unreal
+[2026.10.22-05.01.52:118][481]LogReal33D: input 73: Fusion32 accepted request 72, 32098,32201,7 -> 32098,32202,7
+[2026.10.22-05.01.52:561][488]LogReal33D: input 74: walk south requested from Unreal
+[2026.10.22-05.01.52:728][490]LogReal33D: input 74: Fusion32 accepted request 73, 32098,32202,7 -> 32098,32203,7
+[2026.10.22-05.01.53:036][495]LogReal33D: input 75: walk south requested from Unreal
+[2026.10.22-05.01.53:203][497]LogReal33D: input 75: Fusion32 accepted request 74, 32098,32203,7 -> 32098,32204,7
+[2026.10.22-05.01.53:457][501]LogReal33D: input 76: walk south requested from Unreal
+[2026.10.22-05.01.53:692][504]LogReal33D: input 76: Fusion32 accepted request 75, 32098,32204,7 -> 32098,32205,7
+[2026.10.22-05.01.53:792][506]LogReal33D: input 77: walk southeast requested from Unreal
+[2026.10.22-05.01.54:193][511]LogReal33D: input 77: Fusion32 accepted request 76, 32098,32205,7 -> 32099,32206,7
+[2026.10.22-05.02.00:372][602]LogReal33D: input 78: walk south requested from Unreal
+[2026.10.22-05.02.00:547][604]LogReal33D: input 78: Fusion32 accepted request 77, 32099,32206,7 -> 32099,32207,7
+[2026.10.22-05.02.03:200][643]LogReal33D: input 79: walk southeast requested from Unreal
+[2026.10.22-05.02.03:336][645]LogReal33D: Warning: input 79: Fusion32 refused request 78; position unchanged
+[2026.10.22-05.02.05:122][671]LogReal33D: input 80: walk east requested from Unreal
+[2026.10.22-05.02.05:362][674]LogReal33D: input 80: Fusion32 accepted request 79, 32099,32207,7 -> 32100,32207,7
+[2026.10.22-05.02.07:047][699]LogReal33D: input 81: walk northwest requested from Unreal
+[2026.10.22-05.02.07:230][701]LogReal33D: input 81: Fusion32 accepted request 80, 32100,32207,7 -> 32099,32206,7
+[2026.10.22-05.02.09:047][728]LogReal33D: input 82: walk north requested from Unreal
+[2026.10.22-05.02.09:218][730]LogReal33D: input 82: Fusion32 accepted request 81, 32099,32206,7 -> 32099,32205,7
+[2026.10.22-05.02.10:993][756]LogReal33D: input 83: walk southwest requested from Unreal
+[2026.10.22-05.02.11:173][758]LogReal33D: input 83: Fusion32 accepted request 82, 32099,32205,7 -> 32098,32206,7
+[2026.10.22-05.03.09:579][613]LogReal33D: input 84: walk north requested from Unreal
+[2026.10.22-05.03.09:834][616]LogReal33D: input 84: Fusion32 accepted request 83, 32098,32206,7 -> 32098,32205,7
+[2026.10.22-05.03.14:430][721]LogReal33D: input 85: walk west requested from Unreal
+[2026.10.22-05.03.14:636][726]LogReal33D: input 85: Fusion32 accepted request 84, 32098,32205,7 -> 32097,32205,7
+[2026.10.22-05.03.14:902][736]LogReal33D: input 86: walk west requested from Unreal
+[2026.10.22-05.03.15:074][740]LogReal33D: input 86: Fusion32 accepted request 85, 32097,32205,7 -> 32096,32205,7
+[2026.10.22-05.03.15:224][746]LogReal33D: input 87: walk south requested from Unreal
+[2026.10.22-05.03.15:527][754]LogReal33D: input 87: Fusion32 accepted request 86, 32096,32205,7 -> 32096,32206,7
+[2026.10.22-05.03.15:941][768]LogReal33D: input 88: walk east requested from Unreal
+[2026.10.22-05.03.16:082][771]LogReal33D: input 88: Fusion32 accepted request 87, 32096,32206,7 -> 32097,32206,7
+[2026.10.22-05.03.18:606][850]LogReal33D: input 89: walk south requested from Unreal
+[2026.10.22-05.03.18:777][854]LogReal33D: input 89: Fusion32 accepted request 88, 32097,32206,7 -> 32097,32207,7
+[2026.10.22-05.03.19:378][873]LogReal33D: input 90: walk south requested from Unreal
+[2026.10.22-05.03.19:577][878]LogReal33D: input 90: Fusion32 accepted request 89, 32097,32207,7 -> 32097,32208,7
+[2026.10.22-05.03.20:335][902]LogReal33D: input 91: walk northeast requested from Unreal
+[2026.10.22-05.03.20:531][906]LogReal33D: input 91: Fusion32 accepted request 90, 32097,32208,7 -> 32098,32207,7
+[2026.10.22-05.03.23:965][ 13]LogReal33D: input 92: walk west requested from Unreal
+[2026.10.22-05.03.24:132][ 17]LogReal33D: input 92: Fusion32 accepted request 91, 32098,32207,7 -> 32097,32207,7
+[2026.10.22-05.03.24:449][ 28]LogReal33D: input 93: walk south requested from Unreal
+[2026.10.22-05.03.24:628][ 32]LogReal33D: input 93: Fusion32 accepted request 92, 32097,32207,7 -> 32097,32208,7
+[2026.10.22-05.03.24:911][ 42]LogReal33D: input 94: walk south requested from Unreal
+[2026.10.22-05.03.25:082][ 46]LogReal33D: input 94: Fusion32 accepted request 93, 32097,32208,7 -> 32097,32209,7
+[2026.10.22-05.03.25:371][ 56]LogReal33D: input 95: walk south requested from Unreal
+[2026.10.22-05.03.25:539][ 60]LogReal33D: input 95: Fusion32 accepted request 94, 32097,32209,7 -> 32097,32210,7
+[2026.10.22-05.03.25:824][ 70]LogReal33D: input 96: walk south requested from Unreal
+[2026.10.22-05.03.25:988][ 74]LogReal33D: input 96: Fusion32 accepted request 95, 32097,32210,7 -> 32097,32211,7
+[2026.10.22-05.03.26:817][102]LogReal33D: input 97: walk northeast requested from Unreal
+[2026.10.22-05.03.27:003][106]LogReal33D: input 97: Fusion32 accepted request 96, 32097,32211,7 -> 32098,32210,7
+[2026.10.22-05.03.28:759][165]LogReal33D: input 98: walk northwest requested from Unreal
+[2026.10.22-05.03.29:007][171]LogReal33D: input 98: Fusion32 accepted request 97, 32098,32210,7 -> 32097,32209,7
+[2026.10.22-05.03.31:016][236]LogReal33D: input 99: walk south requested from Unreal
+[2026.10.22-05.03.31:177][240]LogReal33D: input 99: Fusion32 accepted request 98, 32097,32209,7 -> 32097,32210,7
+[2026.10.22-05.03.31:652][256]LogReal33D: input 100: walk south requested from Unreal
+[2026.10.22-05.03.31:808][260]LogReal33D: input 100: Fusion32 accepted request 99, 32097,32210,7 -> 32097,32211,7
+[2026.10.22-05.03.32:183][273]LogReal33D: input 101: walk south requested from Unreal
+[2026.10.22-05.03.32:316][276]LogReal33D: input 101: Fusion32 accepted request 100, 32097,32211,7 -> 32097,32212,7
+[2026.10.22-05.03.32:615][287]LogReal33D: input 102: walk south requested from Unreal
+[2026.10.22-05.03.32:793][291]LogReal33D: input 102: Fusion32 accepted request 101, 32097,32212,7 -> 32097,32213,7
+[2026.10.22-05.03.33:006][299]LogReal33D: input 103: walk northeast requested from Unreal
+[2026.10.22-05.03.33:275][305]LogReal33D: input 103: Fusion32 accepted request 102, 32097,32213,7 -> 32098,32212,7
+[2026.10.22-05.03.34:159][336]LogReal33D: input 104: walk west requested from Unreal
+[2026.10.22-05.03.34:559][348]LogReal33D: input 104: Fusion32 accepted request 103, 32098,32212,7 -> 32097,32212,7
+[2026.10.22-05.03.36:837][426]LogReal33D: input 105: walk north requested from Unreal
+[2026.10.22-05.03.37:038][431]LogReal33D: input 105: Fusion32 accepted request 104, 32097,32212,7 -> 32097,32211,7
+[2026.10.22-05.03.37:295][441]LogReal33D: input 106: walk north requested from Unreal
+[2026.10.22-05.03.37:474][445]LogReal33D: input 106: Fusion32 accepted request 105, 32097,32211,7 -> 32097,32210,7
+[2026.10.22-05.03.37:766][456]LogReal33D: input 107: walk north requested from Unreal
+[2026.10.22-05.03.37:947][460]LogReal33D: input 107: Fusion32 accepted request 106, 32097,32210,7 -> 32097,32209,7
+[2026.10.22-05.03.38:256][471]LogReal33D: input 108: walk north requested from Unreal
+[2026.10.22-05.03.38:419][475]LogReal33D: input 108: Fusion32 accepted request 107, 32097,32209,7 -> 32097,32208,7
+[2026.10.22-05.03.38:732][486]LogReal33D: input 109: walk north requested from Unreal
+[2026.10.22-05.03.38:939][491]LogReal33D: input 109: Fusion32 accepted request 108, 32097,32208,7 -> 32097,32207,7
+[2026.10.22-05.03.39:194][500]LogReal33D: input 110: walk north requested from Unreal
+[2026.10.22-05.03.39:458][506]LogReal33D: input 110: Fusion32 accepted request 109, 32097,32207,7 -> 32097,32206,7
+[2026.10.22-05.03.39:642][513]LogReal33D: input 111: walk south requested from Unreal
+[2026.10.22-05.03.39:919][519]LogReal33D: input 111: Fusion32 accepted request 110, 32097,32206,7 -> 32097,32207,7
+[2026.10.22-05.03.40:117][526]LogReal33D: input 112: walk south requested from Unreal
+[2026.10.22-05.03.40:218][529]LogReal33D: Warning: input 112: Fusion32 refused request 111; position unchanged
+[2026.10.22-05.03.40:840][548]LogReal33D: input 114: walk south requested from Unreal
+[2026.10.22-05.03.40:840][548]LogReal33D: chat input active; movement keys are inert
+[2026.10.22-05.03.41:016][552]LogReal33D: input 114: Fusion32 accepted request 112, 32097,32207,7 -> 32097,32208,7
+[2026.10.22-05.03.46:817][733]LogReal33D: chat input released; movement keys are live
+[2026.10.22-05.03.49:777][824]LogReal33D: input 115: Fusion32 accepted request 113, 32097,32208,7 -> 32097,32209,7
+[2026.10.22-05.03.50:283][840]LogReal33D: input 116: Fusion32 accepted request 114, 32097,32209,7 -> 32097,32210,7
+[2026.10.22-05.03.50:692][854]LogReal33D: input 118: walk south requested from Unreal
+[2026.10.22-05.03.50:739][854]LogReal33D: input 117: Fusion32 accepted request 115, 32097,32210,7 -> 32097,32211,7
+[2026.10.22-05.03.51:184][868]LogReal33D: input 118: Fusion32 accepted request 116, 32097,32211,7 -> 32097,32212,7
+[2026.10.22-05.03.51:208][869]LogReal33D: input 119: walk south requested from Unreal
+[2026.10.22-05.03.51:637][883]LogReal33D: input 119: Fusion32 accepted request 117, 32097,32212,7 -> 32097,32213,7
+[2026.10.22-05.03.52:700][921]LogReal33D: input 120: walk northwest requested from Unreal
+[2026.10.22-05.03.52:904][926]LogReal33D: input 120: Fusion32 accepted request 118, 32097,32213,7 -> 32096,32212,7
+[2026.10.22-05.03.54:187][970]LogReal33D: input 121: walk east requested from Unreal
+[2026.10.22-05.03.54:310][973]LogReal33D: input 121: Fusion32 accepted request 119, 32096,32212,7 -> 32097,32212,7
+[2026.10.22-05.03.54:746][989]LogReal33D: input 122: walk south requested from Unreal
+[2026.10.22-05.03.54:884][992]LogReal33D: input 122: Fusion32 accepted request 120, 32097,32212,7 -> 32097,32213,7
+[2026.10.22-05.03.55:345][  9]LogReal33D: input 123: walk northeast requested from Unreal
+[2026.10.22-05.03.55:567][ 14]LogReal33D: input 123: Fusion32 accepted request 121, 32097,32213,7 -> 32098,32212,7
+[2026.10.22-05.03.56:914][ 61]LogReal33D: input 124: walk south requested from Unreal
+[2026.10.22-05.03.57:067][ 65]LogReal33D: input 124: Fusion32 accepted request 122, 32098,32212,7 -> 32098,32213,7
+[2026.10.22-05.03.57:526][ 82]LogReal33D: input 125: walk northeast requested from Unreal
+[2026.10.22-05.03.57:700][ 86]LogReal33D: input 125: Fusion32 accepted request 123, 32098,32213,7 -> 32099,32212,7
+[2026.10.22-05.03.58:524][115]LogReal33D: input 126: walk west requested from Unreal
+[2026.10.22-05.03.59:025][131]LogReal33D: input 126: Fusion32 accepted request 124, 32099,32212,7 -> 32098,32212,7
+[2026.10.22-05.04.46:037][725]LogReal33D: chat input active; movement keys are inert
+[2026.10.22-05.04.51:107][898]LogReal33D: chat input released; movement keys are live

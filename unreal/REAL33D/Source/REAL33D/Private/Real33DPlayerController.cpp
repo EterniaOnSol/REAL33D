@@ -18,6 +18,7 @@
 #include "Real33DAssetRegistry.h"
 #include "Real33DHUD.h"
 #include "Real33DTileActor.h"
+#include "Real33DWalkDirection.h"
 #include "Real33DWorldActor.h"
 #include "Widgets/Layout/SBox.h"
 #include "Widgets/Layout/SBorder.h"
@@ -186,6 +187,26 @@ void AReal33DPlayerController::SetupInputComponent()
 	InputComponent->BindKey(EKeys::Down, IE_Pressed, this, &AReal33DPlayerController::WalkSouth);
 	InputComponent->BindKey(EKeys::Left, IE_Pressed, this, &AReal33DPlayerController::WalkWest);
 
+	// The four diagonals, on the keys that surround W/A/S/D. CAMERA-RELATIVE,
+	// exactly as those four are: Q and E are the forward corners, Z and C the
+	// back ones. At the default north-facing camera that is northwest,
+	// northeast, southwest and southeast -- the table this milestone names,
+	// and the same orientation in which W means north.
+	//
+	// Absolute compass directions were tried first and were wrong in the hand:
+	// walking south while facing south, Q and E sent the player back north,
+	// because W had turned with the camera and the keys beside it had not.
+	//
+	// IE_Pressed only, exactly as the arrows are bound. There is no held-key
+	// auto-repeat for them, so one press is one CL_CMD_GO_* and the duplicate
+	// packet a repeat would produce cannot happen. Q, E, Z and C were unbound
+	// before this -- audited across BindKey, BindAxisKey and every Slate
+	// OnKeyDown in the module -- so nothing is being taken away from them.
+	InputComponent->BindKey(EKeys::Q, IE_Pressed, this, &AReal33DPlayerController::WalkNorthwest);
+	InputComponent->BindKey(EKeys::E, IE_Pressed, this, &AReal33DPlayerController::WalkNortheast);
+	InputComponent->BindKey(EKeys::Z, IE_Pressed, this, &AReal33DPlayerController::WalkSouthwest);
+	InputComponent->BindKey(EKeys::C, IE_Pressed, this, &AReal33DPlayerController::WalkSoutheast);
+
 	InputComponent->BindKey(EKeys::LeftMouseButton, IE_Pressed, this,
 		&AReal33DPlayerController::BeginLeftClick);
 	InputComponent->BindKey(EKeys::LeftMouseButton, IE_Released, this,
@@ -312,17 +333,73 @@ void AReal33DPlayerController::Request(uint8 Direction)
 	// account for is a defect, not noise; and a position change with no
 	// request behind it is not this client's doing, which is exactly the
 	// distinction a previous run failed to make.
-	static const TCHAR* const Names[] = { TEXT("north"), TEXT("east"),
-		TEXT("south"), TEXT("west") };
 	const uint32 InputId = Bridge->RequestWalk(Direction);
 	UE_LOG(LogReal33D, Log, TEXT("input %u: walk %s requested from Unreal"),
-		InputId, Direction < 4 ? Names[Direction] : TEXT("?"));
+		InputId, ANSI_TO_TCHAR(Real33D::WalkDirectionName(Direction)));
+}
+
+void AReal33DPlayerController::RequestDiagonal(uint8 Diagonal)
+{
+	// THE SAME GATE AS A CARDINAL WALK, and deliberately the same code shape:
+	// a diagonal is a walk, so every rule that governs one governs the other.
+	// Manual movement replaces remaining click-walk intents, typing turns the
+	// keys back into letters, and nothing goes out without a live bridge.
+	ClickWalkPath.Reset();
+	if (bTypingActive || (InspectorNote.IsValid() && InspectorNote->HasKeyboardFocus()))
+	{
+		return;
+	}
+
+	UGameInstance* GameInstance = GetGameInstance();
+	UReal33DBridge* Bridge = GameInstance != nullptr
+		? GameInstance->GetSubsystem<UReal33DBridge>() : nullptr;
+	if (Bridge == nullptr || !Bridge->IsRunning())
+	{
+		return;
+	}
+	const uint32 InputId = Bridge->RequestDiagonalWalk(Diagonal);
+	UE_LOG(LogReal33D, Log, TEXT("input %u: walk %s requested from Unreal"),
+		InputId, ANSI_TO_TCHAR(Real33D::WalkDirectionName(
+			Real33D::WalkDirectionFromDiagonal(Diagonal))));
 }
 
 void AReal33DPlayerController::WalkNorth() { Request(0); }
 void AReal33DPlayerController::WalkEast()  { Request(1); }
 void AReal33DPlayerController::WalkSouth() { Request(2); }
 void AReal33DPlayerController::WalkWest()  { Request(3); }
+
+// The four corners around W/A/S/D, camera-relative exactly as those are. At
+// the default north-facing camera these are northwest, northeast, southwest
+// and southeast, which is the table the milestone names; turn the camera and
+// they turn with it, so walking south while facing south keeps Q and E going
+// southwards instead of doubling back north.
+void AReal33DPlayerController::WalkNortheast()
+{
+	RequestRelativeDiagonal(Real33D::kRelativeDiagonalForwardRight);   // E
+}
+void AReal33DPlayerController::WalkSoutheast()
+{
+	RequestRelativeDiagonal(Real33D::kRelativeDiagonalBackRight);      // C
+}
+void AReal33DPlayerController::WalkSouthwest()
+{
+	RequestRelativeDiagonal(Real33D::kRelativeDiagonalBackLeft);       // Z
+}
+void AReal33DPlayerController::WalkNorthwest()
+{
+	RequestRelativeDiagonal(Real33D::kRelativeDiagonalForwardLeft);    // Q
+}
+
+void AReal33DPlayerController::RequestRelativeDiagonal(uint8 RelativeDiagonal)
+{
+	// Mirrors RequestRelative exactly: the world actor owns the camera, so it
+	// is the one that turns a corner key into a compass direction. With no
+	// world actor there is nothing to be relative to and nothing is sent.
+	if (AReal33DWorld* World = GetWorldActor())
+	{
+		RequestDiagonal(World->CameraRelativeDiagonal(RelativeDiagonal));
+	}
+}
 void AReal33DPlayerController::WalkForward() { SetMovementHeld(0, true); }
 void AReal33DPlayerController::WalkRight() { SetMovementHeld(1, true); }
 void AReal33DPlayerController::WalkBackward() { SetMovementHeld(2, true); }

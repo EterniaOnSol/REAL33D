@@ -40,11 +40,38 @@ enum class LocalMoveCause : std::uint8_t {
     NoMovement,
 };
 
+// Which of 7.72's two step shapes a request was.
+//
+// Both are walks and both are answered the same way -- an ordinary
+// SV_CMD_MOVE_CREATURE naming this client's creature -- so the ledger has to
+// know which it asked for to work out where it asked to land. A diagonal step
+// changes both axes, and `StepPosition` cannot describe one.
+//
+// `cardinal` is meaningful only when `diagonal` is false, and `diagonal_direction`
+// only when it is true. Readers that predate diagonals keep reading `cardinal`
+// and keep getting what they always got, because a cardinal request still
+// fills it exactly as before.
+struct WalkStep {
+    bool diagonal = false;
+    CardinalDirection cardinal = CardinalDirection::North;
+    DiagonalDirection diagonal_direction = DiagonalDirection::Northeast;
+
+    // The field this step asked for, by whichever rule applies.
+    MapPosition Apply(const MapPosition& from) const noexcept;
+
+    // "north", "northeast", and so on. Never null.
+    const char* Name() const noexcept;
+};
+
 struct LocalMoveOutcome {
     LocalMoveCause cause = LocalMoveCause::ExternalRelocation;
     // Non-zero only for SelfWalkAccepted.
     std::uint32_t request_id = 0;
     CardinalDirection direction = CardinalDirection::North;
+    // The whole step, for a caller that has to tell a diagonal from a cardinal.
+    // `direction` above stays the cardinal, unchanged, for every caller that
+    // only ever asks about one.
+    WalkStep step;
 };
 
 struct MovementLedgerCounts {
@@ -66,6 +93,17 @@ public:
     // that identifies this request in evidence.
     std::uint32_t NoteRequestSent(CardinalDirection direction, double sent_at) noexcept;
 
+    // The same, for one of the four diagonal walks (CL_CMD_GO_* 106..109).
+    //
+    // Bookkeeping only: nothing about the wire changes here, and the command
+    // itself is still built by BuildDiagonalWalkCommand. This exists because
+    // without it an accepted diagonal would be counted as an external
+    // relocation -- the destination never equals StepPosition(from, cardinal)
+    // -- and the request would then expire unanswered. Both counters are read
+    // as evidence of a defect, so a diagonal that worked perfectly would have
+    // reported as two.
+    std::uint32_t NoteRequestSent(DiagonalDirection direction, double sent_at) noexcept;
+
     // Records a server-reported move of the local player, and says whose it was.
     LocalMoveOutcome NoteLocalMove(const MapPosition& from,
                                    const MapPosition& to,
@@ -79,6 +117,9 @@ public:
         bool matched = false;
         std::uint32_t request_id = 0;
         CardinalDirection direction = CardinalDirection::North;
+        // As in LocalMoveOutcome: `direction` stays the cardinal and this
+        // carries the whole step for a caller that needs to tell them apart.
+        WalkStep step;
     };
     SnapbackMatch NoteSnapback(double at) noexcept;
 
@@ -94,7 +135,7 @@ public:
 private:
     struct Pending {
         std::uint32_t id = 0;
-        CardinalDirection direction = CardinalDirection::North;
+        WalkStep step;
         double sent_at = 0.0;
     };
 

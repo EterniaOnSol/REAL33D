@@ -23,6 +23,7 @@
 #include "Real33DCreatureActor.h"
 #include "Real33DTileActor.h"
 #include "Real33DStaticSectorActor.h"
+#include "Real33DWalkDirection.h"
 #if WITH_EDITOR
 #include "AssetCompilingManager.h"
 #endif
@@ -724,13 +725,26 @@ void AReal33DWorld::UpdateFloorVisibility()
 		Position.Z, bCovered ? TEXT("true") : TEXT("false"), HiddenTiles);
 }
 
-uint8 AReal33DWorld::CameraRelativeDirection(uint8 RelativeDirection) const
+uint8 AReal33DWorld::FacingCardinal() const
 {
 	const FVector Forward = FRotator(0.0f, CameraYaw, 0.0f).Vector();
-	const uint8 Cardinal = FMath::Abs(Forward.X) >= FMath::Abs(Forward.Y)
+	return FMath::Abs(Forward.X) >= FMath::Abs(Forward.Y)
 		? (Forward.X >= 0.0 ? 1 : 3)
 		: (Forward.Y >= 0.0 ? 2 : 0);
-	return static_cast<uint8>((Cardinal + RelativeDirection) % 4);
+}
+
+uint8 AReal33DWorld::CameraRelativeDirection(uint8 RelativeDirection) const
+{
+	return static_cast<uint8>((FacingCardinal() + RelativeDirection) % 4);
+}
+
+uint8 AReal33DWorld::CameraRelativeDiagonal(uint8 RelativeDiagonal) const
+{
+	// The same rule as the cardinals above, off the same facing. Both
+	// enumerations turn clockwise, so the corner between cardinal C and C+1 is
+	// diagonal C and the mapping is one addition; the arithmetic and every
+	// orientation of it are asserted in tests/real33d_walk_direction_tests.cpp.
+	return Real33D::CameraRelativeDiagonal(FacingCardinal(), RelativeDiagonal);
 }
 
 void AReal33DWorld::UpdateCamera(float DeltaSeconds)
@@ -1151,10 +1165,11 @@ void AReal33DWorld::JournalMovement(const FReal33DEvent& Event)
 	default: return;
 	}
 
-	static const TCHAR* const Names[] = { TEXT("north"), TEXT("east"),
-		TEXT("south"), TEXT("west") };
-	const TCHAR* DirectionText =
-		Event.Direction < 4 ? Names[Event.Direction] : TEXT("none");
+	// The shared table, not a second copy of it. This file used to keep its own
+	// four names and print "none" for anything else, which would have filed
+	// every diagonal in the walk journal as a step with no direction.
+	const FString DirectionText =
+		ANSI_TO_TCHAR(Real33D::WalkDirectionName(Event.Direction));
 
 	// One JSON object per line, appended as it happens, so the order in the
 	// file is the order it occurred and a truncated run still says what it got
@@ -1164,7 +1179,7 @@ void AReal33DWorld::JournalMovement(const FReal33DEvent& Event)
 		TEXT("\"direction\":\"%s\",\"from\":{\"x\":%d,\"y\":%d,\"z\":%d},")
 		TEXT("\"to\":{\"x\":%d,\"y\":%d,\"z\":%d}}\n"),
 		FirstFrameTime > 0.0 ? FPlatformTime::Seconds() - FirstFrameTime : 0.0,
-		Phase, Event.InputId, Event.RequestId, DirectionText,
+		Phase, Event.InputId, Event.RequestId, *DirectionText,
 		Event.PreviousPosition.X, Event.PreviousPosition.Y, Event.PreviousPosition.Z,
 		Event.Position.X, Event.Position.Y, Event.Position.Z);
 

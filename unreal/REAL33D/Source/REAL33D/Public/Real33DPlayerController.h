@@ -44,6 +44,10 @@ private:
 	void WalkEast();
 	void WalkSouth();
 	void WalkWest();
+	void WalkNortheast();
+	void WalkSoutheast();
+	void WalkSouthwest();
+	void WalkNorthwest();
 	void WalkForward();
 	void WalkRight();
 	void WalkBackward();
@@ -86,6 +90,28 @@ private:
 	void SaveInspectorNote(const FString& Verdict);
 
 	void Request(uint8 Direction);
+
+	/**
+	 * Asks for one of the four diagonal walks. `Diagonal` is a
+	 * `DiagonalDirection` value: 0 northeast, 1 southeast, 2 southwest,
+	 * 3 northwest.
+	 *
+	 * The same gate as `Request` and for the same reasons: a diagonal is a
+	 * walk, so typing must turn the key back into a letter, a manual step must
+	 * replace a click-walk route, and nothing may reach the wire without a
+	 * live bridge. It is a separate function rather than four more values on
+	 * `Request` because the two are different commands on the wire.
+	 */
+	void RequestDiagonal(uint8 Diagonal);
+
+	/**
+	 * Asks for a diagonal by its corner relative to the camera, which is what
+	 * the four bound keys actually send. 0 forward-right, 1 back-right,
+	 * 2 back-left, 3 forward-left. The world actor resolves it against the
+	 * current yaw, exactly as it does for W/A/S/D.
+	 */
+	void RequestRelativeDiagonal(uint8 RelativeDiagonal);
+
 	void RequestRelative(uint8 RelativeDirection);
 
 	// ----------------------------------------------------------- camera orbit
