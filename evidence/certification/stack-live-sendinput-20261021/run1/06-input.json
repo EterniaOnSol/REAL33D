@@ -1,0 +1,68 @@
+{
+  "probe_pid": 19972,
+  "probe_session": 1,
+  "target_pid": 7324,
+  "target_session": 1,
+  "window_station": "WinSta0",
+  "thread_desktop": "Default",
+  "input_desktop": "Default",
+  "foreground": 1181144,
+  "windows": [
+    {
+      "hwnd": 1181144,
+      "pid": 7324,
+      "title": "REAL33D (64-bit Development PCD3D_SM5) ",
+      "klass": "UnrealWindow",
+      "visible": true,
+      "origin": [
+        160,
+        126
+      ],
+      "size": [
+        1600,
+        900
+      ]
+    },
+    {
+      "hwnd": 590990,
+      "pid": 7324,
+      "title": "MSCTFIME UI",
+      "klass": "MSCTFIME UI",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    },
+    {
+      "hwnd": 4785458,
+      "pid": 7324,
+      "title": "Default IME",
+      "klass": "IME",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    }
+  ],
+  "activation_result": true,
+  "real_drag": [
+    1538,
+    309,
+    1359,
+    827
+  ],
+  "modifier": "shift",
+  "real_key": 120,
+  "capture": "C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-stack-move-controls-20261021\\build\\stack-live-sendinput\\06-shift-body-bag.png",
+  "foreground_after": 1181144
+}

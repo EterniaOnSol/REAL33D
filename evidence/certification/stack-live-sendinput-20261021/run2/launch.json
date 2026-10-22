@@ -1,0 +1,19 @@
+{
+    "args":  [
+                 "\"C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-stack-move-controls-20261021\\unreal\\REAL33D\\REAL33D.uproject\"",
+                 "-game",
+                 "-windowed",
+                 "-ResX=1600",
+                 "-ResY=900",
+                 "-nosound",
+                 "-nosplash",
+                 "-real33d-runtime=\"\\\\wsl.localhost\\Ubuntu-26.04\\var\\lib\\fusion32-server-baseline-772-0\"",
+                 "-real33d-account=B",
+                 "-real33d-host=127.0.0.1",
+                 "-real33d-loginport=7171",
+                 "-ExecCmds=\"t.MaxFPS 30\"",
+                 "-real33d-evidence=\"C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-stack-move-controls-20261021\\build\\stack-live-sendinput-run2\"",
+                 "-abslog=\"C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-stack-move-controls-20261021\\build\\stack-live-sendinput-run2\\REAL33D.log\""
+             ],
+    "pid":  6812
+}

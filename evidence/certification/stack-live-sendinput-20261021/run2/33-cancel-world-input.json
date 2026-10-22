@@ -1,0 +1,65 @@
+{
+  "probe_pid": 20884,
+  "probe_session": 1,
+  "target_pid": 6812,
+  "target_session": 1,
+  "window_station": "WinSta0",
+  "thread_desktop": "Default",
+  "input_desktop": "Default",
+  "foreground": 1901482,
+  "windows": [
+    {
+      "hwnd": 1901482,
+      "pid": 6812,
+      "title": "REAL33D (64-bit Development PCD3D_SM5) ",
+      "klass": "UnrealWindow",
+      "visible": true,
+      "origin": [
+        160,
+        126
+      ],
+      "size": [
+        1600,
+        900
+      ]
+    },
+    {
+      "hwnd": 4850994,
+      "pid": 6812,
+      "title": "MSCTFIME UI",
+      "klass": "MSCTFIME UI",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    },
+    {
+      "hwnd": 4261692,
+      "pid": 6812,
+      "title": "Default IME",
+      "klass": "IME",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    }
+  ],
+  "activation_result": true,
+  "real_mouse_click": [
+    896,
+    512
+  ],
+  "real_key": 120,
+  "capture": "C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-stack-move-controls-20261021\\build\\stack-live-sendinput-run2\\33-cancel-world.png",
+  "foreground_after": 1901482
+}

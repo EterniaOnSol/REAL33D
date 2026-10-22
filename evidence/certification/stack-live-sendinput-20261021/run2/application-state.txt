@@ -1,0 +1,639 @@
+[2026.10.22-04.10.47:724][  0]LogReal33D: scene built from code
+[2026.10.22-04.10.47:731][  0]LogReal33D: trade window: own=0(0 items) partner=0(0 items) accept_sent=0
+[2026.10.22-04.10.47:736][  0]LogReal33D: Use With target cursor: existing asset loaded
+[2026.10.22-04.10.47:825][  0]LogReal33D: loaded approved visual for obj:3501
+[2026.10.22-04.10.47:825][  0]LogReal33D: wide world disabled: radius=64 sector=32 cache=C:/Users/dell/Desktop/fusion32/build/cert-stack-move-controls-20261021/unreal/REAL33D/Saved/WideWorldCache fallback=C:/Users/dell/Desktop/fusion32/build/cert-stack-move-controls-20261021/visual/reference_pack/previews/item
+[2026.10.22-04.10.47:825][  0]LogReal33D: connecting to 127.0.0.1:7171 as account B
+[2026.10.22-04.10.47:827][  0]LogReal33D: minimap cache load: accepted cells=252
+[2026.10.22-04.10.47:829][  0]LogReal33D: speech display lifetime 6.0s (NOT a proven 7.72 value)
+[2026.10.22-04.10.47:901][  0]LogReal33D: Use target metadata: 204 runtime MultiUse types
+[2026.10.22-04.10.48:741][  1]LogReal33D: trade window: own=0(0 items) partner=0(0 items) accept_sent=0
+[2026.10.22-04.10.48:741][  1]LogReal33D: HUD vitals: HP --/--   Mana --/--   Level --
+[2026.10.22-04.10.48:742][  1]LogReal33D: minimap observation: player=32097,32210,7 known=252 live=252 viewport=18x14
+[2026.10.22-04.10.48:744][  1]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.10.48:744][  1]LogReal33D: connected: Test Player B
+[2026.10.22-04.10.48:744][  1]LogReal33D: server message [LoginMessage]: Your last visit in Tibia: 21. Oct 2026 19:08:33 CST.
+[2026.10.22-04.10.48:744][  1]LogReal33D: local player is creature 1002
+[2026.10.22-04.10.48:933][  1]LogReal33D: creature 1002 outfit 139: delivered visual unavailable; placeholder
+[2026.10.22-04.10.48:933][  1]LogReal33D: creature 1002 "Test Player B" appeared at 32097,32210,7 health 38%
+[2026.10.22-04.10.48:933][  1]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.10.48:933][  1]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32216,7 health 100%
+[2026.10.22-04.10.48:934][  1]LogReal33D: creature 1073742106 outfit 136: delivered visual unavailable; placeholder
+[2026.10.22-04.10.48:934][  1]LogReal33D: creature 1073742106 "Dixi" appeared at 32105,32207,6 health 100%
+[2026.10.22-04.10.48:934][  1]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.10.48:987][  2]LogReal33D: HUD vitals: HP 64/165   Mana 15/15   Level 4
+[2026.10.22-04.10.50:136][ 35]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.10.52:135][ 95]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.10.54:135][155]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.10.56:135][215]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.10.56:672][231]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.10.56:672][231]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.10.58:135][248]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.00:135][308]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.02:135][368]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.11.02:135][368]LogReal33D: creature 1073741889 "Cipfried" appeared at 32096,32217,7 health 100%
+[2026.10.22-04.11.02:136][368]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.04:136][428]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.06:135][488]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.08:136][548]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.10:135][608]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.14:169][729]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.16:135][788]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.18:135][848]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.18:770][867]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.11.20:136][908]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.11.20:136][908]LogReal33D: creature 1073741889 "Cipfried" appeared at 32097,32217,7 health 100%
+[2026.10.22-04.11.20:136][908]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.22:135][968]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.24:135][ 28]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.26:136][ 88]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.11.26:136][ 88]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.22-04.11.26:136][ 88]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.27:368][125]LogReal33D: use 1: object 2854 at body 0 slot 3, would open as container 0
+[2026.10.22-04.11.28:068][146]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.11.28:069][146]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.11.28:267][147]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.30:166][204]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.32:167][264]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.34:167][324]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.38:167][444]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.11.38:167][444]LogReal33D: creature 1073741889 "Cipfried" appeared at 32096,32217,7 health 100%
+[2026.10.22-04.11.38:167][444]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.40:167][504]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.42:167][564]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.44:166][624]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.46:166][684]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.11.46:166][684]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.22-04.11.46:166][684]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.48:165][744]LogReal33D: slot drag detected: object 3031
+[2026.10.22-04.11.48:166][744]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.48:801][763]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.11.49:132][773]LogReal33D: slot drop: valid=1 onto kind=1 slot=5
+[2026.10.22-04.11.49:132][773]LogReal33D: move amount asked: 1..2, opening on 2
+[2026.10.22-04.11.49:132][773]LogReal33D: slot drag: object 3031 from container 0 slot 0 to body 0 slot 5, stack 2 (stackable) -> asking how many
+[2026.10.22-04.11.49:933][797]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.11.49:933][797]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.11.50:165][799]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.11.50:165][799]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.22-04.11.50:165][799]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.52:164][859]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.54:164][919]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.56:164][979]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.11.58:164][ 39]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.00:165][ 99]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.02:165][159]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.04:165][219]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.06:165][279]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.08:164][339]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.10:164][399]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.12.10:164][399]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.22-04.12.10:164][399]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.12:164][459]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.13:965][513]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.12.13:965][513]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.12.14:194][514]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.16:158][573]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.17:257][606]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.12.17:257][606]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.12.18:161][628]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.18:829][648]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.12.20:161][688]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.12.20:161][688]LogReal33D: creature 1073741889 "Cipfried" appeared at 32097,32217,7 health 100%
+[2026.10.22-04.12.20:161][688]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.20:494][698]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.12.20:494][698]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.12.22:165][743]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.22:930][766]LogReal33D: move amount abandoned; nothing was sent
+[2026.10.22-04.12.22:930][766]LogReal33D: move of object 3031 from container 0 slot 0 to body slot 5 abandoned at the amount question; nothing reached Fusion32
+[2026.10.22-04.12.23:765][791]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.12.23:765][791]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.12.24:142][797]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.26:144][857]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.28:142][917]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.12.28:142][917]LogReal33D: creature 1073741889 "Cipfried" appeared at 32097,32217,7 health 100%
+[2026.10.22-04.12.28:142][917]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.30:142][977]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.32:143][ 37]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.34:142][ 97]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.36:142][157]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.38:142][217]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.12.38:142][217]LogReal33D: creature 1073741889 "Cipfried" appeared at 32096,32217,7 health 100%
+[2026.10.22-04.12.38:142][217]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.40:142][277]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.42:143][337]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.44:143][397]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.45:608][441]LogReal33D: slot drag detected: object 3031
+[2026.10.22-04.12.46:142][457]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.46:575][470]LogReal33D: slot drop: valid=1 onto kind=1 slot=5
+[2026.10.22-04.12.46:575][470]LogReal33D: move amount asked: 1..2, opening on 2
+[2026.10.22-04.12.46:575][470]LogReal33D: slot drag: object 3031 from container 0 slot 0 to body 0 slot 5, stack 2 (stackable) -> asking how many
+[2026.10.22-04.12.47:375][494]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.12.47:375][494]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.12.48:147][512]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.48:848][533]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.12.50:147][572]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.12.50:147][572]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.22-04.12.50:147][572]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.50:613][586]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.12.50:613][586]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.12.52:150][627]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.53:016][653]LogReal33D: move amount chosen: 1 of 2
+[2026.10.22-04.12.53:016][653]LogReal33D: move 2: object 3031 from container 0 slot 0 to body slot 5, count 1
+[2026.10.22-04.12.53:849][678]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.12.53:850][678]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.12.54:151][682]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.56:151][742]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.12.58:152][802]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.00:153][862]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.02:153][922]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.13.02:154][922]LogReal33D: creature 1073741889 "Cipfried" appeared at 32096,32217,7 health 100%
+[2026.10.22-04.13.02:154][922]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.04:154][982]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.06:154][ 42]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.08:153][102]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.10:153][162]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.12:153][222]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.14:154][282]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.14:385][289]LogReal33D: slot drag detected: object 3031
+[2026.10.22-04.13.15:319][317]LogReal33D: move 3: object 3031 from body slot 5 to the ground at 32096,32211,7, count 1
+[2026.10.22-04.13.15:319][317]LogReal33D: slot-to-world drag: object=3031 from=body 0 slot=5 to=32096,32211,7 stack=1 (stackable) -> sent
+[2026.10.22-04.13.15:453][321]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.16:119][341]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.13.16:119][341]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.13.16:327][342]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.18:159][397]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.18:860][418]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.13.20:159][457]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.13.20:159][457]LogReal33D: creature 1073741889 "Cipfried" appeared at 32097,32217,7 health 100%
+[2026.10.22-04.13.20:159][457]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.22:160][517]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.24:160][577]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.26:161][637]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.28:160][697]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.30:160][757]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.32:160][817]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.34:160][877]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.36:160][937]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.38:025][993]LogReal33D: look 4 at world point 32096,32211,7
+[2026.10.22-04.13.38:091][995]LogReal33D: server message [InfoMessage]: You see a gold coin.
+[2026.10.22-04.13.38:161][997]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.39:192][ 28]LogReal33D: move 5: object 3031 from the ground at 32096,32211,7 to body slot 5, count 1
+[2026.10.22-04.13.39:192][ 28]LogReal33D: world-to-slot drag: object=3031 from=32096,32211,7 stack=1 to=body 0 slot=5 pile=1 (stackable) -> sent
+[2026.10.22-04.13.39:393][ 34]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.39:992][ 52]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.13.39:992][ 52]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.13.40:202][ 53]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.42:167][112]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.44:167][172]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.46:166][232]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.48:167][292]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.48:868][313]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.13.50:167][352]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.52:166][412]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.54:166][472]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.13.54:166][472]LogReal33D: creature 1073741889 "Cipfried" appeared at 32096,32217,7 health 100%
+[2026.10.22-04.13.54:167][472]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.56:167][532]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.13.58:167][592]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.00:168][652]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.02:167][712]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.04:167][772]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.05:999][827]LogReal33D: slot drag detected: object 3031
+[2026.10.22-04.14.06:167][832]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.06:965][856]LogReal33D: slot drop: valid=1 onto kind=1 slot=5
+[2026.10.22-04.14.06:965][856]LogReal33D: move 6: object 3031 from container 0 slot 0 to body slot 5, count 1
+[2026.10.22-04.14.06:965][856]LogReal33D: slot drag: object 3031 from container 0 slot 0 to body 0 slot 5, stack 1 (stackable) -> move 6 count 1
+[2026.10.22-04.14.07:767][880]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.14.07:767][880]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.14.08:138][886]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.10:141][946]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.10:305][951]LogReal33D: slot drag detected: object 3031
+[2026.10.22-04.14.11:273][980]LogReal33D: move 7: object 3031 from body slot 5 to the ground at 32096,32211,7, count 2
+[2026.10.22-04.14.11:273][980]LogReal33D: slot-to-world drag: object=3031 from=body 0 slot=5 to=32096,32211,7 stack=2 (stackable) -> sent
+[2026.10.22-04.14.11:441][985]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.12:074][  4]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.14.12:074][  4]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.14.12:282][  5]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.14:148][ 61]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.15:580][104]LogReal33D: move 8: object 3031 from the ground at 32096,32211,7 to container 0 slot 5, count 2
+[2026.10.22-04.14.15:580][104]LogReal33D: world-to-slot drag: object=3031 from=32096,32211,7 stack=1 to=container 0 slot=5 pile=2 (stackable) -> sent
+[2026.10.22-04.14.15:747][109]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.16:148][121]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.16:380][128]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.14.16:380][128]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.14.18:154][176]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.18:888][198]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.14.20:154][236]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.22:154][296]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.24:154][356]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.26:154][416]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.28:153][476]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.30:154][536]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.32:153][596]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.34:154][656]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.36:154][716]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.38:154][776]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.40:154][836]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.14.40:154][836]LogReal33D: creature 1073741889 "Cipfried" appeared at 32097,32217,7 health 100%
+[2026.10.22-04.14.40:154][836]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.42:154][896]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.44:154][956]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.46:154][ 16]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.48:154][ 76]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.48:922][ 99]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.14.50:154][136]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.52:155][196]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.52:653][211]LogReal33D: slot drag detected: object 3031
+[2026.10.22-04.14.53:619][240]LogReal33D: move 9: object 3031 from container 0 slot 0 to the ground at 32096,32211,7, count 2
+[2026.10.22-04.14.53:619][240]LogReal33D: slot-to-world drag: object=3031 from=container 0 slot=0 to=32096,32211,7 stack=2 (stackable) -> sent
+[2026.10.22-04.14.53:854][247]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.54:154][256]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.54:721][273]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.14.54:721][273]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.14.56:168][311]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.58:167][371]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.14.58:233][373]LogReal33D: move amount asked: 1..2, opening on 2
+[2026.10.22-04.14.58:233][373]LogReal33D: world-to-slot drag: object=3031 from=32096,32211,7 stack=1 to=container 0 slot=5 pile=2 (stackable) -> asking how many
+[2026.10.22-04.14.59:333][406]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.14.59:333][406]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.15.00:142][425]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.02:142][485]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.04:142][545]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.15.04:142][545]LogReal33D: creature 1073741889 "Cipfried" appeared at 32097,32217,7 health 100%
+[2026.10.22-04.15.04:142][545]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.06:142][605]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.08:142][665]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.10:143][725]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.15.10:143][725]LogReal33D: creature 1073741889 "Cipfried" appeared at 32096,32217,7 health 100%
+[2026.10.22-04.15.10:143][725]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.12:143][785]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.14:142][845]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.15.14:142][845]LogReal33D: creature 1073741889 "Cipfried" appeared at 32096,32217,7 health 100%
+[2026.10.22-04.15.14:143][845]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.16:147][905]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.18:149][965]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.18:949][989]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.15.20:148][ 25]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.22:148][ 85]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.24:148][145]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.26:149][205]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.15.26:149][205]LogReal33D: creature 1073741889 "Cipfried" appeared at 32096,32217,7 health 100%
+[2026.10.22-04.15.26:149][205]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.27:314][240]LogReal33D: move amount abandoned; nothing was sent
+[2026.10.22-04.15.27:314][240]LogReal33D: move of object 3031 from the ground at 32096,32211,7 to container 0 slot 5 abandoned at the amount question; nothing reached Fusion32
+[2026.10.22-04.15.28:148][265]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.29:648][310]LogReal33D: look 10 at world point 32096,32211,7
+[2026.10.22-04.15.29:714][312]LogReal33D: server message [InfoMessage]: You see 2 gold coins.
+[2026.10.22-04.15.30:149][325]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.30:814][345]LogReal33D: move 11: object 3031 from the ground at 32096,32211,7 to container 0 slot 5, count 1
+[2026.10.22-04.15.30:814][345]LogReal33D: world-to-slot drag: object=3031 from=32096,32211,7 stack=1 to=container 0 slot=5 pile=2 (stackable) -> sent
+[2026.10.22-04.15.31:015][351]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.31:915][378]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.15.31:915][378]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.15.32:163][380]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.34:163][440]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.35:395][477]LogReal33D: move 12: object 3031 from the ground at 32096,32211,7 to body slot 5, count 1
+[2026.10.22-04.15.35:395][477]LogReal33D: world-to-slot drag: object=3031 from=32096,32211,7 stack=1 to=body 0 slot=5 pile=1 (stackable) -> sent
+[2026.10.22-04.15.35:562][482]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.36:163][500]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.36:496][510]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.15.36:496][510]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.15.38:138][554]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.15.38:138][554]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.22-04.15.38:138][554]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.40:138][614]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.42:138][674]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.44:138][734]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.46:137][794]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.48:137][854]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.48:972][879]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.15.50:138][914]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.52:138][974]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.54:137][ 34]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.56:138][ 94]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.15.58:139][154]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.00:138][214]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.01:771][263]LogReal33D: slot drag detected: object 3031
+[2026.10.22-04.16.02:138][274]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.16.02:138][274]LogReal33D: creature 1073741889 "Cipfried" appeared at 32096,32217,7 health 100%
+[2026.10.22-04.16.02:139][274]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.02:738][292]LogReal33D: slot drop: valid=1 onto kind=2 slot=0
+[2026.10.22-04.16.02:738][292]LogReal33D: move 13: object 3031 from body slot 5 to container 0 slot 0, count 1
+[2026.10.22-04.16.02:738][292]LogReal33D: slot drag: object 3031 from body 0 slot 5 to container 0 slot 0, stack 1 (stackable) -> move 13 count 1
+[2026.10.22-04.16.03:838][325]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.16.03:839][325]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.16.04:145][329]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.06:145][389]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.06:211][391]LogReal33D: look 14 at container 0 slot 0
+[2026.10.22-04.16.06:277][393]LogReal33D: server message [InfoMessage]: You see 2 gold coins.
+[2026.10.22-04.16.06:477][399]LogReal33D: slot drag detected: object 3031
+[2026.10.22-04.16.07:378][426]LogReal33D: slot drop: valid=1 onto kind=2 slot=5
+[2026.10.22-04.16.07:378][426]LogReal33D: move 15: object 3031 from container 0 slot 0 to container 0 slot 5, count 1
+[2026.10.22-04.16.07:378][426]LogReal33D: slot drag: object 3031 from container 0 slot 0 to container 0 slot 5, stack 2 (stackable) -> move 15 count 1
+[2026.10.22-04.16.08:145][449]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.08:478][459]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.16.08:478][459]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.16.10:156][504]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.12:156][564]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.14:156][624]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.16:156][684]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.18:156][744]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.18:991][769]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.16.20:156][804]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.22:156][864]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.24:156][924]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.26:156][984]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.16.26:157][984]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.22-04.16.26:157][984]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.28:156][ 44]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.30:156][104]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.32:156][164]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.34:156][224]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.36:159][284]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.16.36:159][284]LogReal33D: creature 1073741889 "Cipfried" appeared at 32097,32217,7 health 100%
+[2026.10.22-04.16.36:159][284]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.38:160][344]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.39:258][377]LogReal33D: slot drag detected: object 3031
+[2026.10.22-04.16.40:091][402]LogReal33D: slot drop: valid=1 onto kind=2 slot=0
+[2026.10.22-04.16.40:091][402]LogReal33D: move 16: object 3031 from container 0 slot 1 to container 0 slot 0, count 1
+[2026.10.22-04.16.40:092][402]LogReal33D: slot drag: object 3031 from container 0 slot 1 to container 0 slot 0, stack 1 (stackable) -> move 16 count 1
+[2026.10.22-04.16.40:160][404]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.41:193][435]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.16.41:193][435]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.16.42:166][458]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.16.42:166][458]LogReal33D: creature 1073741889 "Cipfried" appeared at 32096,32217,7 health 100%
+[2026.10.22-04.16.42:167][458]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.44:168][518]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.46:169][578]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.48:168][638]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.49:002][663]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.16.50:168][698]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.16.50:168][698]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.22-04.16.50:168][698]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.52:168][758]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.54:135][817]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.16.54:135][817]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.22-04.16.54:135][817]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.56:168][878]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.16.58:168][938]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.00:167][998]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.02:168][ 58]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.17.02:168][ 58]LogReal33D: creature 1073741889 "Cipfried" appeared at 32096,32217,7 health 100%
+[2026.10.22-04.17.02:169][ 58]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.04:169][118]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.06:168][178]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.08:168][238]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.10:168][298]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.10:467][307]LogReal33D: use-with begun with object 3003; waiting for a target
+[2026.10.22-04.17.11:168][328]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.17.11:168][328]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.17.12:150][352]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.14:150][412]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.16:150][472]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.17.16:150][472]LogReal33D: creature 1073741889 "Cipfried" appeared at 32097,32217,7 health 100%
+[2026.10.22-04.17.16:150][472]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.18:150][532]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.19:019][558]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.17.20:151][592]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.22:150][652]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.24:151][712]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.28:151][832]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.30:150][892]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.32:151][952]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.17.32:151][952]LogReal33D: creature 1073741889 "Cipfried" appeared at 32097,32217,7 health 100%
+[2026.10.22-04.17.32:151][952]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.34:152][ 12]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.36:152][ 72]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.38:152][132]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.40:152][192]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.40:517][203]LogReal33D: use-with 17: object 3003 on object 3294 in a slot
+[2026.10.22-04.17.40:650][207]LogReal33D: server message [FailureMessage]: You cannot use this object.
+[2026.10.22-04.17.41:451][231]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.17.41:451][231]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.17.42:161][247]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.17.42:161][247]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.22-04.17.42:161][247]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.43:894][299]LogReal33D: look 18 at container 0 slot 1
+[2026.10.22-04.17.43:926][300]LogReal33D: server message [InfoMessage]: You see a rope.
+[2026.10.22-04.17.44:093][305]LogReal33D: slot drag detected: object 3003
+[2026.10.22-04.17.44:161][307]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.45:060][334]LogReal33D: slot drop: valid=1 onto kind=1 slot=5
+[2026.10.22-04.17.45:060][334]LogReal33D: move 19: object 3003 from container 0 slot 1 to body slot 5, count 1
+[2026.10.22-04.17.45:060][334]LogReal33D: slot drag: object 3003 from container 0 slot 1 to body 0 slot 5, stack 1 -> move 19 count 1
+[2026.10.22-04.17.46:161][367]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.17.46:161][367]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.17.46:163][367]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.17.46:163][367]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.22-04.17.46:163][367]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.48:141][421]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.48:707][438]LogReal33D: slot drag detected: object 3003
+[2026.10.22-04.17.49:042][448]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.17.49:673][467]LogReal33D: move 20: object 3003 from body slot 5 to the ground at 32096,32211,7, count 1
+[2026.10.22-04.17.49:674][467]LogReal33D: slot-to-world drag: object=3003 from=body 0 slot=5 to=32096,32211,7 stack=1 -> sent
+[2026.10.22-04.17.49:841][472]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.50:141][481]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.50:774][500]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.17.50:774][500]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.17.52:156][536]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.54:156][596]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.17.54:157][596]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.22-04.17.54:157][596]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.56:156][656]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.17.58:156][716]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.00:156][776]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.02:156][836]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.04:156][896]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.06:156][956]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.08:156][ 16]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.10:156][ 76]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.12:156][136]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.14:156][196]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.16:156][256]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.18:157][316]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.18.18:157][316]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.22-04.18.18:157][316]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.19:057][343]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.18.20:157][376]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.22:156][436]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.24:156][496]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.26:156][556]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.26:322][561]LogReal33D: move 21: object 3003 from the ground at 32096,32211,7 to container 0 slot 5, count 1
+[2026.10.22-04.18.26:322][561]LogReal33D: world-to-slot drag: object=3003 from=32096,32211,7 stack=1 to=container 0 slot=5 pile=1 -> sent
+[2026.10.22-04.18.26:490][566]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.27:422][594]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.18.27:423][594]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.18.28:165][611]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.29:764][659]LogReal33D: look 22 at container 0 slot 0
+[2026.10.22-04.18.29:832][661]LogReal33D: server message [InfoMessage]: You see a rope.
+[2026.10.22-04.18.30:166][671]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.18.30:166][671]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.22-04.18.30:166][671]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.32:032][727]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.18.32:032][727]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.18.32:242][728]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.34:140][785]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.34:739][803]LogReal33D: slot drag detected: object 3031
+[2026.10.22-04.18.35:573][828]LogReal33D: slot drop: valid=1 onto kind=2 slot=5
+[2026.10.22-04.18.35:573][828]LogReal33D: move 23: object 3031 from container 0 slot 1 to container 0 slot 5, count 2
+[2026.10.22-04.18.35:573][828]LogReal33D: slot drag: object 3031 from container 0 slot 1 to container 0 slot 5, stack 2 (stackable) -> move 23 count 2
+[2026.10.22-04.18.36:140][845]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.36:673][861]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.18.36:673][861]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.18.38:148][900]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.39:315][935]LogReal33D: slot drag detected: object 3031
+[2026.10.22-04.18.40:148][960]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.40:181][961]LogReal33D: slot drop: valid=1 onto kind=2 slot=5
+[2026.10.22-04.18.40:181][961]LogReal33D: move 24: object 3031 from container 0 slot 0 to container 0 slot 5, count 2
+[2026.10.22-04.18.40:181][961]LogReal33D: slot drag: object 3031 from container 0 slot 0 to container 0 slot 5, stack 2 (stackable) -> move 24 count 2
+[2026.10.22-04.18.41:283][994]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.18.41:283][994]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.18.42:154][ 15]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.18.42:154][ 15]LogReal33D: creature 1073741889 "Cipfried" appeared at 32096,32217,7 health 100%
+[2026.10.22-04.18.42:154][ 15]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.44:154][ 75]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.46:154][135]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.48:155][195]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.49:089][223]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.18.50:155][255]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.52:154][315]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.54:154][375]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.56:154][435]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.18.58:154][495]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.18.58:154][495]LogReal33D: creature 1073741889 "Cipfried" appeared at 32096,32217,7 health 100%
+[2026.10.22-04.18.58:154][495]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.00:155][555]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.02:155][615]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.04:155][675]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.06:154][735]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.08:154][795]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.10:155][855]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.12:155][915]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.14:155][975]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.16:156][ 35]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.18:156][ 95]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.19.18:156][ 95]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.22-04.19.18:156][ 95]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.19:123][124]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.19.20:155][155]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.22:155][215]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.22:654][230]LogReal33D: slot drag detected: object 3031
+[2026.10.22-04.19.23:588][258]LogReal33D: move amount asked: 1..2, opening on 2
+[2026.10.22-04.19.23:588][258]LogReal33D: slot-to-world drag: object=3031 from=container 0 slot=0 to=32096,32211,7 stack=2 (stackable) -> asking how many
+[2026.10.22-04.19.24:156][275]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.24:689][291]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.19.24:689][291]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.19.26:167][330]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.28:167][390]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.30:167][450]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.32:167][510]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.34:168][570]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.36:134][629]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.38:135][689]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.19.38:135][689]LogReal33D: creature 1073741889 "Cipfried" appeared at 32096,32217,7 health 100%
+[2026.10.22-04.19.38:135][689]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.40:169][750]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.42:134][809]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.44:168][870]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.46:168][930]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.19.46:168][930]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.22-04.19.46:168][930]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.48:135][989]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.49:136][ 19]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.19.50:168][ 50]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.52:169][110]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.19.52:169][110]LogReal33D: creature 1073741889 "Cipfried" appeared at 32097,32217,7 health 100%
+[2026.10.22-04.19.52:169][110]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.54:135][169]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.55:801][219]LogReal33D: move amount abandoned; nothing was sent
+[2026.10.22-04.19.55:801][219]LogReal33D: move of object 3031 from container 0 slot 0 to the ground at 32096,32211,7 abandoned at the amount question; nothing reached Fusion32
+[2026.10.22-04.19.56:136][229]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.56:634][244]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.19.56:634][244]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.19.58:149][284]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.19.59:214][316]LogReal33D: slot drag detected: object 3031
+[2026.10.22-04.20.00:148][344]LogReal33D: move 25: object 3031 from container 0 slot 0 to the ground at 32096,32211,7, count 2
+[2026.10.22-04.20.00:148][344]LogReal33D: slot-to-world drag: object=3031 from=container 0 slot=0 to=32096,32211,7 stack=2 (stackable) -> sent
+[2026.10.22-04.20.00:149][344]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.00:348][350]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.01:249][377]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.20.01:249][377]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.20.02:140][398]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.04:140][458]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.04:806][478]LogReal33D: move 26: object 3031 from the ground at 32096,32211,7 to container 0 slot 5, count 2
+[2026.10.22-04.20.04:806][478]LogReal33D: world-to-slot drag: object=3031 from=32096,32211,7 stack=1 to=container 0 slot=5 pile=2 (stackable) -> sent
+[2026.10.22-04.20.05:006][484]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.05:912][511]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence_Manual.json
+[2026.10.22-04.20.05:913][511]LogReal33D: manual evidence snapshot requested
+[2026.10.22-04.20.06:173][512]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.20.06:174][512]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.22-04.20.06:174][512]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.08:138][571]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.10:138][631]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.12:139][691]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.14:139][751]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.16:138][811]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.18:138][871]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.19:139][901]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.20.20:145][931]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.22:147][991]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.24:147][ 51]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.26:148][111]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.28:148][171]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.30:148][231]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.20.30:148][231]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.22-04.20.30:148][231]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.32:148][291]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.34:147][351]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.36:147][411]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.38:148][471]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.20.38:148][471]LogReal33D: creature 1073741889 "Cipfried" appeared at 32096,32217,7 health 100%
+[2026.10.22-04.20.38:148][471]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.40:148][531]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.42:148][591]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.44:148][651]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.46:148][711]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.20.46:148][711]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.22-04.20.46:149][711]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.48:151][771]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.49:153][801]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.20.50:151][831]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.52:150][891]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.54:151][951]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.56:151][ 11]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.20.56:151][ 11]LogReal33D: creature 1073741889 "Cipfried" appeared at 32097,32217,7 health 100%
+[2026.10.22-04.20.56:151][ 11]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.20.58:151][ 71]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.00:150][131]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.02:151][191]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.04:150][251]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.06:151][311]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.21.06:151][311]LogReal33D: creature 1073741889 "Cipfried" appeared at 32098,32217,7 health 100%
+[2026.10.22-04.21.06:151][311]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.08:151][371]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.10:151][431]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.12:151][491]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.14:151][551]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.16:151][611]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.18:152][671]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.19:187][702]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.21.20:153][731]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.22:152][791]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.24:153][851]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.26:153][911]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.28:153][971]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.30:153][ 31]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.32:152][ 91]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.34:152][151]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.36:153][211]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.38:152][271]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.40:152][331]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.42:153][391]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.44:152][451]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.46:153][511]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.22-04.21.46:153][511]LogReal33D: creature 1073741889 "Cipfried" appeared at 32096,32217,7 health 100%
+[2026.10.22-04.21.46:153][511]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.48:153][571]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.49:220][603]LogReal33D: minimap cache saved: cells=252
+[2026.10.22-04.21.50:153][631]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.22-04.21.51:798][680]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\stack-live-sendinput-run2/unreal_slice_evidence.json
+[2026.10.22-04.21.51:827][680]LogReal33D: minimap cache saved: cells=252

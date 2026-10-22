@@ -1,0 +1,9 @@
+## 2026-10-21 CERT-INFRA-NATIVE-UI-001
+
+Native UI infrastructure probe PASS. Prior Trade/Outfit/Editors certifications used temporary in-process Slate drivers, intentionally removed; they did not establish a working Computer Use native pipe. A new certification-only external Win32 helper drove real mouse clicks in the unchanged production binary: Skills closed and reopened, screenshots verified. Same session/desktop and foreground HWND confirmed. The sky pipe itself remains unavailable; the external path restores UI-driving readiness. READY_TO_RESUME_STACK_CERT=YES; stack certification itself remains pending and was not rerun. No production/server data change or main merge. Evidence: evidence/certification/CERT-INFRA-NATIVE-UI-001/README.md.
+
+Branch: certification/cert-infra-native-ui-001-20261021. Starting HEAD b7d8e29dee7663de9b4360c031eb4255b279ff66. Ending HEAD is this evidence-only commit. Worktree: C:/Users/dell/Desktop/fusion32/build/cert-stack-move-controls-20261021.
+
+Production 1abb013bf711978b9439b6abe836672b5f4148ac is unchanged and its existing compiled DLL was reused without a rebuild. Probe ran offline to avoid server/game data effects. Unreal PID 15684 was closed normally after restoring Skills visible; Fusion32 was not started. The prior handoff is archived at handoffs/archive/20261021-stack-controls-connection-resume.md.
+
+Next: only when instructed to resume stack certification, launch the normal runtime and use fresh PID/window discovery with the external Win32 driver. Its current scope is click/capture; add modifier/drag support as certification tooling when required, without production changes. This infra run proved real mouse input, not the full stack gesture matrix. Do not claim sky native pipe repaired, desktop isolation as the cause, or previous OS-level input success for the three in-process certifications.
