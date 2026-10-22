@@ -23,6 +23,7 @@
 #include "Real33DCreatureActor.h"
 #include "Real33DTileActor.h"
 #include "Real33DStaticSectorActor.h"
+#include "Real33DReconnectPolicy.h"
 #include "Real33DWalkDirection.h"
 #if WITH_EDITOR
 #include "AssetCompilingManager.h"
@@ -348,13 +349,26 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 	case EReal33DEventKind::Connected:
 		bConnected = true;
 		DisconnectedAt = 0.0;
+		// A connection that succeeded is the only thing that clears the
+		// deliberate-close latch: this client owns the character again, so a
+		// future LOST link is once more worth retrying.
+		bSessionEndedDeliberately = false;
 		UE_LOG(LogReal33D, Log, TEXT("connected: %s"), *Event.Detail);
 		break;
 
 	case EReal33DEventKind::Disconnected:
 	case EReal33DEventKind::Failed:
 		bConnected = false;
+		// Remembered here because the retry runs in Tick, long after the event
+		// has been drained. A deliberate close is latched and never cleared by
+		// a later drop: only a fresh successful connection clears it.
+		bSessionEndedDeliberately = Event.bOrderlyClose;
 		UE_LOG(LogReal33D, Warning, TEXT("session ended: %s"), *Event.Detail);
+		if (Event.bOrderlyClose)
+		{
+			UE_LOG(LogReal33D, Log,
+				TEXT("ownership released: this client will not reconnect by itself"));
+		}
 		// Snapshot first: the acceptance criterion about ghosts is about what
 		// the scene held at the moment the session ended, and about what it
 		// holds afterwards. Clearing first would erase the first half.
@@ -1086,13 +1100,27 @@ void AReal33DWorld::Tick(float DeltaSeconds)
 		}
 	}
 
-	// A dropped session is retried rather than left dead. The scene was already
-	// torn down when the drop arrived, so a retry starts from nothing and
-	// rebuilds from whatever WorldState the server sends next: there is no
+	// A session that was LOST is retried rather than left dead. The scene was
+	// already torn down when the drop arrived, so a retry starts from nothing
+	// and rebuilds from whatever WorldState the server sends next: there is no
 	// state carried across the gap that could survive as a ghost.
+	//
+	// A session that was ENDED is not retried, and that distinction is the
+	// whole of this fix. Fusion32 hands a character to a second client by
+	// closing the first one's socket; retrying there made the displaced client
+	// log straight back in and take the character away again, which displaced
+	// the new owner, which retried in turn. Two clients produced six handovers
+	// and three reconnects each before the attempt cap stopped it, and the
+	// character belonged to whoever had retried most recently.
+	//
+	// This is not reconnect being disabled: a refused or unreachable connect
+	// and a transport error are still losses and are still retried. Only a
+	// close that the other end performed on purpose is left alone.
 	if (Bridge != nullptr && !bConnected && DisconnectedAt > 0.0
-		&& ReconnectAttempts < 3
-		&& FPlatformTime::Seconds() - DisconnectedAt > 5.0)
+		&& Real33D::ShouldReconnect(
+			Real33D::SessionEndFromOrderlyClose(bSessionEndedDeliberately),
+			ReconnectAttempts,
+			FPlatformTime::Seconds() - DisconnectedAt))
 	{
 		++ReconnectAttempts;
 		DisconnectedAt = FPlatformTime::Seconds();

@@ -1,0 +1,4 @@
+[2026.10.22-10.15.15:911][132]LogReal33D: Warning: session ended: could not reach the login service
+[2026.10.22-10.15.20:925][737]LogReal33D: reconnecting, attempt 1
+[2026.10.22-10.15.21:657][808]LogReal33D: connected: Test Player B
+[2026.10.22-10.15.22:026][843]LogReal33D: local player is creature 1002

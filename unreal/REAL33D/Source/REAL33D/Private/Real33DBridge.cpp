@@ -424,8 +424,28 @@ public:
 					{
 						break;
 					}
-					Publish(MakeFailure(EReal33DEventKind::Disconnected,
-						TEXT("the session ended")));
+					// WHY it ended, not just that it did.
+					//
+					// Fusion32 displaces a client by closing its socket and
+					// sending nothing: `connections.cc` zeroes CharacterID
+					// before `TConnection::Logout`, so there is no notice on
+					// the wire and the latched transport state is the only
+					// evidence there is. It is read from the transport rather
+					// than from this read's status because the state is sticky
+					// and the status is not -- the read that surfaces the
+					// failure is usually the one AFTER the close, which
+					// reports NotConnected.
+					const bool bOrderly =
+						Session.connection_state() == p772::ConnectionState::RemoteClosed
+						|| Read.transport.io_status == p772::IoStatus::RemoteClosed;
+					FReal33DEvent Ended = MakeFailure(EReal33DEventKind::Disconnected,
+						bOrderly
+							? FString(TEXT("Fusion32 closed this connection; "
+								"not reconnecting automatically"))
+							: FString::Printf(TEXT("the link was lost (%hs)"),
+								p772::IoStatusName(Read.transport.io_status)));
+					Ended.bOrderlyClose = bOrderly;
+					Publish(MoveTemp(Ended));
 					return 0;
 				}
 				bReceivedAnything = true;
@@ -452,7 +472,12 @@ public:
 
 		Session.SendCommand(p772::BuildLogoutCommand());
 		Session.Disconnect();
-		Publish(MakeSimple(EReal33DEventKind::Disconnected));
+		// This client asked to leave, so the session was ended rather than
+		// lost and there is nothing to reconnect to.
+		FReal33DEvent Quit = MakeSimple(EReal33DEventKind::Disconnected);
+		Quit.bOrderlyClose = true;
+		Quit.Detail = TEXT("this client logged out");
+		Publish(MoveTemp(Quit));
 		return 0;
 	}
 

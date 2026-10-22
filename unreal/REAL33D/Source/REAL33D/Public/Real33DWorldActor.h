@@ -222,6 +222,18 @@ private:
 	double DisconnectedAt = 0.0;
 	int32 ReconnectAttempts = 0;
 
+	/**
+	 * The last session was ended on purpose rather than lost, so this client
+	 * must not reconnect by itself.
+	 *
+	 * Set from `FReal33DEvent::bOrderlyClose`. It is what stops a client that
+	 * Fusion32 displaced -- because the same character logged in somewhere
+	 * else -- from logging straight back in and taking the character off
+	 * whoever just claimed it. Cleared only by a connection that succeeds, so
+	 * a deliberate close cannot be forgotten by a later unrelated drop.
+	 */
+	bool bSessionEndedDeliberately = false;
+
 	/** Counters over the whole session, for the evidence file. */
 	int32 TilesSpawned = 0;
 	int32 TilesRemoved = 0;

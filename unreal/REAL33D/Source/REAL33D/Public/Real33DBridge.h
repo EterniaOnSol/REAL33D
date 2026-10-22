@@ -794,6 +794,20 @@ struct FReal33DEvent
 	TArray<FReal33DThing> Things;
 	TArray<FReal33DMinimapCell> MinimapCells;
 	FString Detail;
+	/**
+	 * On a Disconnected or Failed event: the session was ENDED, not lost.
+	 *
+	 * True when one end closed the connection deliberately -- Fusion32
+	 * displacing this client because the same character logged in elsewhere,
+	 * the server going down, or this client's own logout. False when the link
+	 * failed: a refused or unreachable connect, or a transport error.
+	 *
+	 * The distinction exists because the two want opposite responses. A lost
+	 * link may be worth retrying; a close that the other end performed on
+	 * purpose must not be, and retrying one is how a displaced client used to
+	 * take the character back from whoever had just claimed it.
+	 */
+	bool bOrderlyClose = false;
 	/** Identifies the key press this event belongs to, 0 when it belongs to none. */
 	uint32 InputId = 0;
 	/** Identifies the walk command on the wire, assigned by the ledger. */

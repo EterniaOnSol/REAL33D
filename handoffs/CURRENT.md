@@ -1,99 +1,105 @@
-# HANDOFF - UNREAL-LOGIN-HANDOVER-001
+# HANDOFF - UNREAL-LOGIN-RECONNECT-OWNERSHIP-001
 
 Date/time: 2026-10-22, America/Guatemala
 Agent / role: Claude; diagnosis, fix and live QA
-Starting commit: `73c01e330ef35cb3ba8b1fa65bec75596a8f183c` (origin/main)
+Starting commit: `41e9225ce47ed7dd4148bac065c56db12411a54c`
+Certification that raised the blocker: `16cfa3d`
 Ending commit: the commit carrying this handoff on
-`milestone/unreal-login-handover-001`
+`milestone/unreal-login-reconnect-ownership-001`
 Worktree: `C:/Users/dell/Desktop/fusion32`
-Prior handoff: `handoffs/archive/20261022-unreal-diagonal-input-001.md`
+Prior handoff: `handoffs/archive/20261022-unreal-login-handover-001.md`
 
-LOGIN_HANDOVER_001_STATUS = **PASS**
+OWNERSHIP_001_STATUS = **PASS**
 MAIN_MERGE = NONE. PUSH = NONE.
-SERVER CHANGE = **NONE**. PROTOCOL LAYOUT CHANGE = **NONE**.
+SERVER CHANGE = **NONE**. PROTOCOL CHANGE = **NONE**.
+The handshake fix of `41e9225` is preserved untouched.
 
-## Reproducing it was the first result
+## Reproduced first
 
-A plain kill-and-relaunch **does not** reproduce this. Killing the process
-closes the socket, Fusion32 logs the character out within a second, and the
-~45s engine boot means the next login is an ordinary cold one. Two such
-attempts gave clean sessions and clean `loggt ein` / `loggt aus` server pairs.
+Two clients on one character, both left open, on the base commit:
 
-It needs a **second login for a character still online**, which
-`connections.cc` routes to `TPlayer::TakeOver` — confirmed by the server's own
-`übernimmt Verbindung`. Reproduced by launching a second REAL33D on the same
-account while the first was in game.
+```
+R_A  connects=4  inits=4  reconnects=3
+R_B  connects=4  inits=4  reconnects=3
+```
+
+Eight logins for two clients. Protocol diagnostics zero throughout, so this
+was an ownership defect, never a decoding one.
 
 ## Root cause
 
-`TakeOver` assigns the new connection first and only then tidies up.
-`Combat.StopAttack(0)` emits `SV_CMD_CLEAR_TARGET` (163, zero body) onto that
-new connection **before** `SendInitGame` is reached, so a handover's first game
-payload is `[CLEAR_TARGET][INIT_GAME][FULLSCREEN]` — INIT_GAME at **offset 1**.
-A cold login has no such prologue, which is why this was invisible until now.
+`connections.cc` zeroes the old connection's `CharacterID` **before** calling
+`TConnection::Logout`, so Logout does not even reach `StartLogout`:
+**Fusion32 sends the displaced client nothing**. The socket just closes.
 
-`ProcessPayload` recognised the handshake commands **by position** (`At == 0`
-for INIT_GAME, `At == 8` for RIGHTS). Those offsets are where a cold login puts
-them and are not a protocol rule. The test missed, the opcode fell through to
-`DecodeServerUpdate`, and the walker stopped — discarding the remaining 1920
-bytes, the whole `SV_CMD_FULLSCREEN`. Hence no map and every walk refused.
-
-Captured verbatim:
-`head=A3 0A EA 03 00 00 32 00 00 64 58 7D` — 163, INIT_GAME, creature 1002,
-FULLSCREEN.
+There is no protocol message to key on — but there is a distinguishable
+*transport* ending, and ClientCore already had it
+(`ConnectionState::RemoteClosed` vs `Failed`). The client discarded it: the
+bridge collapsed every non-timeout failure into one generic `Disconnected`,
+and `Real33DWorldActor::Tick` retried any dead session with no idea why it
+died. So a displaced client logged back in and took the character off whoever
+had just been given it, which displaced them, which retried in turn. That
+retry is pre-existing on main.
 
 ## Fix
 
-Opcodes 10 and 11 are recognised **by identity at a command boundary**,
-wherever they appear. Unambiguous: `connections.hh` gives no in-game command a
-value below 100 apart from login errors 20..22 and ping 30.
+The reason now survives from the transport to the retry:
+`GameLoginSession::connection_state()` (read-only accessor; the state is
+sticky, the failing read's status is not), carried on
+`FReal33DEvent::bOrderlyClose`, decided by `Real33DReconnectPolicy.h` — which
+the shipped code calls, so there is no second copy of the rule.
 
-The rule is in `Real33DHandshakeFrame.h`, free of Unreal types, proven by
-`tests/real33d_handshake_frame_tests.cpp` on a plain toolchain with the real
-observed bytes. No sleep, no retry, nothing dropped, no server or layout
-change. ClientCore's decoder was deliberately left alone.
+```
+Closed -> never reconnect, at any attempt count, after any delay
+Lost   -> reconnect, unchanged: 3 attempts, 5 seconds apart
+```
 
-The `not decoded` diagnostic now reports the **offset** too — without it,
-"the server sent something new" and "this client lost its place earlier in the
-same frame" are indistinguishable, and that distinction was the diagnosis.
+Reconnect is not disabled and nothing is timed differently.
 
 ## Live QA
 
-Cold launch: in game, 0 diagnostics, 336 tiles, 47 commands.
-Handover: in game, 0 diagnostics, 336 tiles, 51 commands.
-Four chained handovers: all in game, **0 diagnostics in all four**.
-Movement immediately after login on both the cold and the handover client:
-four cardinals, **sent 4, accepted 4**.
-Server log: one `loggt ein` per client, one `übernimmt Verbindung` per handover.
-All protocol counters 0, `last_diagnostic` `none`.
+Cold login, then four intentional chained handovers: every client
+`connects=1 inits=1 reconnects=0`, movement 4 sent / 4 accepted in every
+round, 336 tiles on the final owner, all protocol counters 0. In the
+two-client hold the new owner logged **0** session ends across 75 s.
+
+Legitimate reconnect proven twice — it still tries (full 3-attempt budget
+against a down server, each classified as a loss) and it still **works**
+(login service restarted inside the window: `reconnecting, attempt 1` ->
+`connected` -> `local player is creature 1002`).
 
 ## Tests
 
-ClientCore 14/14 · native 9/9 · Unreal automation 10/10, 0 errors, 0 warnings ·
-REAL33DEditor built · MSVC archive · harness **11 PASS / 0 FAIL / 0 SKIP** over
-97 logs · secret_check 6/6.
+ClientCore 14/14 · native 10/10 · Unreal automation 10/10, 0 errors,
+0 warnings · REAL33DEditor built · MSVC archive · harness **11 PASS / 0 FAIL /
+0 SKIP** over 102 logs · secret_check 6/6.
 
 ## Remaining UNVERIFIED
 
-- `ParseGameInitialMessage` in ClientCore holds the **same** positional
-  assumption. It is not reached on this path, so it was left alone rather than
-  changed speculatively; a future caller driving login through it needs the
-  same correction.
-- Only the `StopAttack` prologue was seen. `TakeOver` also calls
-  `ClearRequest`, `LeaveAllChannels`, `CloseAllContainers` and `RejectTrade`
-  before `SendInitGame`; under the right state any could prepend more commands.
-  The fix is indifferent to how many, but only CLEAR_TARGET was observed.
-- A genuine network-drop-then-reconnect was not staged; every handover was
-  driven by a second client on the same account.
-- Movement was verified with the four cardinals only.
+- **A server that dies is now treated as a deliberate close.** A process death
+  closes its sockets and latches `RemoteClosed` exactly as a displacement
+  does; the two are not distinguishable from the client. A client will no
+  longer retry across a server restart. Small in practice — this Fusion32
+  needs about a minute to reload sectors, far beyond the unchanged 3x5s
+  budget, so those retries failed anyway — but it is a real change, stated
+  rather than hidden.
+- A silent network loss was not staged; it surfaces as reads timing out, which
+  the bridge treats as "nothing to read", so no reconnect happens today either
+  way. Unchanged and unexamined.
+- Displacement was always by a second REAL33D client; the classic 2D client
+  was not used to take over.
+- Displaced clients were held for about forty-five seconds each, not for hours.
+- `ParseGameInitialMessage`'s positional assumption is unchanged and still not
+  reached on this path.
 
 ## Exact next task
 
-`CLIENTCORE-LOGIN-HANDOVER-002` if wanted: give `ParseGameInitialMessage` the
-same identity-based recognition, so a caller that drives login through
-ClientCore rather than walking `message_bytes` cannot hit this.
+Independent certification of this branch against the same two-client
+condition. If a server-restart retry is wanted back, that needs a signal the
+client can actually distinguish, which does not exist today on this protocol.
 
 ## Environment
 
-Fusion32 started with `scripts/server/start_wsl.sh` and **stopped cleanly**
-(`All services stopped cleanly`). No server data was edited.
+Fusion32 started and **stopped cleanly**; all three ports confirmed clear
+afterwards. One login service was started by hand for the recovery test and
+was stopped again. No server data edited.

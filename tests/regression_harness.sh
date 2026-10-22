@@ -351,7 +351,7 @@ else
   # renamed fails this check instead of quietly dropping out of it. The cost is
   # that a new suite must be added here; that is the correction this milestone
   # made when real33d_outfit_selection_tests appeared.
-  for stem in real33d_mouse_input_tests real33d_minimap_view_tests real33d_item_use_policy_tests real33d_stackable_sprite_tests real33d_chat_views_tests real33d_outfit_selection_tests real33d_stack_move_tests real33d_walk_direction_tests real33d_handshake_frame_tests; do
+  for stem in real33d_mouse_input_tests real33d_minimap_view_tests real33d_item_use_policy_tests real33d_stackable_sprite_tests real33d_chat_views_tests real33d_outfit_selection_tests real33d_stack_move_tests real33d_walk_direction_tests real33d_handshake_frame_tests real33d_reconnect_policy_tests; do
     if [ ! -f "$REPO/tests/$stem.cpp" ]; then
       printf '=== %s === SOURCE MISSING\n' "$stem" >>"$r33_log"
       r33_fail=$((r33_fail + 1)); continue

@@ -130,6 +130,26 @@ public:
     ReadResult ReadNextMessage();
 
     bool connected() const noexcept { return connection_.transport().connected(); }
+
+    /**
+     * How this connection ended, once it has.
+     *
+     * Read-only, and it exists because the difference between
+     * `ConnectionState::RemoteClosed` and `ConnectionState::Failed` is the
+     * only thing on the wire that tells a deliberate close from a lost link.
+     * Fusion32 displaces a client by closing its socket and sending nothing at
+     * all -- `connections.cc` zeroes `CharacterID` before calling
+     * `TConnection::Logout`, so not even a logout notice is emitted -- and the
+     * state the transport latched at that moment is therefore the whole of the
+     * available evidence.
+     *
+     * The state is sticky: reads after the close report `NotConnected` rather
+     * than `RemoteClosed`, so the status of the read that happens to surface
+     * the failure cannot be relied on and this can.
+     */
+    ConnectionState connection_state() const noexcept {
+        return connection_.transport().state();
+    }
     bool authenticated() const noexcept { return authenticated_; }
     const XteaKey& xtea_key() const noexcept { return xtea_key_; }
 

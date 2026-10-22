@@ -1,0 +1,4 @@
+[2026.10.22-10.05.26:354][  1]LogReal33D: connected: Test Player B
+[2026.10.22-10.05.26:354][  1]LogReal33D: local player is creature 1002
+[2026.10.22-10.06.17:044][581]LogReal33D: Warning: session ended: Fusion32 closed this connection; not reconnecting automatically
+[2026.10.22-10.06.17:044][581]LogReal33D: ownership released: this client will not reconnect by itself
