@@ -1,0 +1,66 @@
+{
+  "utc": "2026-10-22T21:08:33.693540+00:00",
+  "probe_pid": 15016,
+  "probe_session": 1,
+  "target_pid": 19172,
+  "target_session": 1,
+  "window_station": "WinSta0",
+  "thread_desktop": "Default",
+  "input_desktop": "Default",
+  "foreground": 15599276,
+  "windows": [
+    {
+      "hwnd": 15599276,
+      "pid": 19172,
+      "title": "REAL33D (64-bit Development PCD3D_SM5) ",
+      "klass": "UnrealWindow",
+      "visible": true,
+      "origin": [
+        320,
+        126
+      ],
+      "size": [
+        1280,
+        900
+      ]
+    },
+    {
+      "hwnd": 264104,
+      "pid": 19172,
+      "title": "MSCTFIME UI",
+      "klass": "MSCTFIME UI",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    },
+    {
+      "hwnd": 722942,
+      "pid": 19172,
+      "title": "Default IME",
+      "klass": "IME",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    }
+  ],
+  "activation_result": true,
+  "real_mouse_click": [
+    916,
+    810
+  ],
+  "snapshot_F9": true,
+  "capture": "C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-container-independent-20261022\\build\\certification\\live\\B\\25-leave-channel.png",
+  "foreground_after": 15599276
+}

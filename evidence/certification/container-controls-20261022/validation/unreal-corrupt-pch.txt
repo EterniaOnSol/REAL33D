@@ -1,0 +1,89 @@
+Using bundled DotNet SDK version: 10.0 win-x64
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" REAL33DEditor Win64 Development -Project="C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\REAL33D.uproject" -WaitMutex
+Deprecated setting found in "C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Saved\UnrealBuildTool\BuildConfiguration.xml":
+The setting "bAllowUBALocalExecutor" is deprecated. Support for this setting will be removed in a future version of Unreal Engine.
+Log file: C:\Users\dell\AppData\Local\UnrealBuildTool\Log.txt
+Deprecated setting found in "C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Saved\UnrealBuildTool\BuildConfiguration.xml":
+The setting "bAllowUBALocalExecutor" is deprecated. Support for this setting will be removed in a future version of Unreal Engine.
+Executing up to 2 actions based on MaxProcessorCount override
+UbaSessionServer - Disable remote execution (remote sessions will finish current processes)
+Building REAL33DEditor...
+===== Toolchain Information =====
+Using ISPC compiler (C:\Program Files\Epic Games\UE_5.8\Engine\Source\ThirdParty\Intel\ISPC\bin\Windows\ispc.exe)
+  Intel(r) Implicit SPMD Program Compiler (Intel(r) ISPC), 1.24.0 (build commit  @ 20250404, LLVM 18.1.2) 
+Using Visual Studio 14.50.35738 toolchain (C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Tools\MSVC\14.50.35717) and Windows 10.0.26100.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[Adaptive Build] Excluded from REAL33D unity file: REAL33D.cpp, Real33DActionBarPanel.cpp, Real33DAmountPanel.cpp, Real33DAssetRegistry.cpp, Real33DBattlePanel.cpp, Real33DBridge.cpp, Real33DChannelsPanel.cpp, Real33DChatPanel.cpp, Real33DContainersPanel.cpp, Real33DControlPanel.cpp, Real33DCreatureActor.cpp, Real33DEditorWindow.cpp, Real33DGalleryActor.cpp, Real33DGalleryPanel.cpp, Real33DGameMode.cpp, Real33DHUD.cpp, Real33DInventoryPanel.cpp, Real33DMinimapPanel.cpp, Real33DOutfitPanel.cpp, Real33DPanelChrome.cpp, Real33DPanelRegistry.cpp, Real33DPlayerController.cpp, Real33DPresentationTests.cpp, Real33DSkillsPanel.cpp, Real33DStaticSectorActor.cpp, Real33DTileActor.cpp, Real33DTradePanel.cpp, Real33DUIStyle.cpp, Real33DVitalsPanel.cpp, Real33DWorldActor.cpp, Real33DWorldOverlay.cpp
+=================================
+Using Unreal Build Accelerator local executor to run 35 action(s)
+  CPU 4 physical cores, 8 logical cores
+  Memory 11.83 GB physical, 13.98 GB/18.55 GB committed
+  UBA Storage capacity 40 GB
+[1/35] Compile [x64] Module.REAL33D.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Intermediate\Build\Win64\x64\UnrealEditor\Development\REAL33D\Module.REAL33D.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[2/35] Compile [x64] REAL33D.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\REAL33D.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[3/35] Compile [x64] Real33DActionBarPanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DActionBarPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[4/35] Compile [x64] Real33DAmountPanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DAmountPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[5/35] Compile [x64] Real33DAssetRegistry.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DAssetRegistry.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[6/35] Compile [x64] Real33DBattlePanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DBattlePanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[7/35] Compile [x64] Real33DBridge.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DBridge.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[8/35] Compile [x64] Real33DChannelsPanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DChannelsPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[9/35] Compile [x64] Real33DChatPanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DChatPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[10/35] Compile [x64] Real33DContainersPanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DContainersPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[11/35] Compile [x64] Real33DControlPanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DControlPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[12/35] Compile [x64] Real33DCreatureActor.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DCreatureActor.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[13/35] Compile [x64] Real33DEditorWindow.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DEditorWindow.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[14/35] Compile [x64] Real33DGalleryActor.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DGalleryActor.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[15/35] Compile [x64] Real33DGalleryPanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DGalleryPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[16/35] Compile [x64] Real33DGameMode.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DGameMode.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[17/35] Compile [x64] Real33DHUD.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DHUD.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[18/35] Compile [x64] Real33DInventoryPanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DInventoryPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[19/35] Compile [x64] Real33DMinimapPanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DMinimapPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[20/35] Compile [x64] Real33DOutfitPanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DOutfitPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[21/35] Compile [x64] Real33DPanelChrome.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DPanelChrome.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[22/35] Compile [x64] Real33DPanelRegistry.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DPanelRegistry.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[23/35] Compile [x64] Real33DPlayerController.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DPlayerController.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[24/35] Compile [x64] Real33DPresentationTests.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DPresentationTests.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[25/35] Compile [x64] Real33DSkillsPanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DSkillsPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[26/35] Compile [x64] Real33DStaticSectorActor.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DStaticSectorActor.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[27/35] Compile [x64] Real33DTileActor.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DTileActor.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[28/35] Compile [x64] Real33DTradePanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DTradePanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[29/35] Compile [x64] Real33DUIStyle.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DUIStyle.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[30/35] Compile [x64] Real33DVitalsPanel.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DVitalsPanel.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[31/35] Compile [x64] Real33DWorldActor.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DWorldActor.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+[32/35] Compile [x64] Real33DWorldOverlay.cpp [NoUba]
+C:\Users\dell\Desktop\fusion32\build\cert-container-independent-20261022\unreal\REAL33D\Source\REAL33D\Private\Real33DWorldOverlay.cpp: fatal error C1852: 'C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022/unreal/REAL33D/Intermediate/Build/Win64/x64/REAL33DEditor/Development/UnrealEd/SharedPCH.UnrealEd.Project.ValApi.ValExpApi.Cpp20.h.pch' no es un archivo de encabezado precompilado vﾠlido
+Total time in Unreal Build Accelerator local executor: 2.23 seconds
+
+Result: Failed (OtherCompilationError)
+Total execution time: 3.74 seconds
+Trace written to file C:\Users\dell\AppData\Local\UnrealBuildTool\Trace.uba with size 21.6kb

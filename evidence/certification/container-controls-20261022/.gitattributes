@@ -1,0 +1,6 @@
+# Machine evidence is preserved verbatim, including failed/incomplete artifacts.
+# Do not normalize newlines or report whitespace inside original tool output.
+live/** -text -whitespace
+validation/** -text -whitespace
+*.json -text -whitespace
+.gitattributes text eol=lf

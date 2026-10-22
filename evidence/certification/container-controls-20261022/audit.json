@@ -1,0 +1,40 @@
+{
+  "checks": [
+    "real container opens",
+    "Close intent preserves window",
+    "server Close removes window",
+    "reopen succeeds",
+    "window persists during independently held server response",
+    "minimized container remains open in server table",
+    "05-minimize changes no gameplay state or request counters",
+    "07-minimize changes no gameplay state or request counters",
+    "08-expand changes no gameplay state or request counters",
+    "drag receives authoritative content reorder",
+    "Ctrl amount and Cancel send no move",
+    "Ctrl amount confirmation sends exactly one move",
+    "server splits two coins into one plus one",
+    "server merges stack back",
+    "three legitimate containers and nested parent flags",
+    "closing middle preserves IDs 0 and 2",
+    "closing middle preserves other contents",
+    "Up navigates bag to parent at ID 2",
+    "shifted window Close routes to ID 2",
+    "04-close-middle independently observed opcode and ID",
+    "05-up-id2 independently observed opcode and ID",
+    "06-close-id2 independently observed opcode and ID",
+    "Up reaches root and clears parent flag",
+    "Channels opens server-authorized chat tab",
+    "A inventory restored by normal Trade",
+    "B inventory and container contents restored",
+    "all valid snapshots have zero protocol diagnostics"
+  ],
+  "passed": 27,
+  "valid_protocol_snapshots": 168,
+  "protocol_errors": [],
+  "incomplete_artifacts": [
+    "A\\13-focus-escape-before.json",
+    "A\\14-return-w-before.json",
+    "A\\unreal_slice_evidence.json",
+    "A\\unreal_slice_evidence_Manual.json"
+  ]
+}

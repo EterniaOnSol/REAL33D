@@ -1,71 +1,90 @@
-# HANDOFF - UNREAL-CONTAINER-CONTROLS-001
+# HANDOFF - independent UNREAL-CONTAINER-CONTROLS-001 certification
 
-Date/time: 2026-10-22, America/Guatemala
-Agent / role: Claude; implementation and live QA
-Starting commit: `af251c9b2de0372c97ecbd128af0ada0c92bc166` (origin/main)
-Ending commit: the commit carrying this handoff on
-`milestone/unreal-container-controls-001`
-Worktree: `C:/Users/dell/Desktop/fusion32`
-Prior handoff: `handoffs/archive/20261022-unreal-login-reconnect-ownership-001.md`
+Date/time: 2026-10-22, final validation after 21:13 UTC.
+Agent/role: Codex, independent certifier.
+Branch: `certification/unreal-container-controls-independent-20261022`.
+Worktree: `C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022`.
+Starting commit: `2136e6f63dd12f73c2575a87d7b44af22aa0c66a`.
+Ending commit: the certification commit carrying this handoff; resolve with
+`git rev-parse certification/unreal-container-controls-independent-20261022`.
+Prior handoff: `archive/20261022-container-controls-implementation-before-independent-cert.md`.
 
-CONTAINER_CONTROLS_001_STATUS = **PASS** for Close and everything reachable.
-Up / nesting / multiple windows **UNVERIFIED LIVE**, for one concrete reason.
-MAIN_MERGE = NONE. PUSH = NONE. PROTOCOL/SERVER CHANGE = **NONE**.
+Objective completed: independently certify the requested live controls matrix,
+normal milestone push, linear ancestry, fresh worktree, no main merge.
 
-## Done
+## 2026-10-22 independent UNREAL-CONTAINER-CONTROLS-001 certification
 
-`CL_CMD_CLOSE_CONTAINER` (135) and `CL_CMD_UP_CONTAINER` (136) existed in
-ClientCore and were used nowhere; the parent arrow was drawn dithered and
-inert. Both are now wired through `RequestCloseContainer` /
-`RequestUpContainer`, with counters so a live run can count what went out.
+**CERTIFIED** for the requested matrix on implementation
+`2136e6f63dd12f73c2575a87d7b44af22aa0c66a`, sole child of main
+`af251c9b2de0372c97ecbd128af0ada0c92bc166`. Milestone normally pushed; fresh
+worktree `build/cert-container-independent-20261022`; no main merge or production,
+test, server/data/inventory edits. This supersedes the historical implementation
+limitations below for Up, nested containers and multiple windows.
 
-**Routing is by container number, never by window position.** Closing a
-container out of the middle moves every window below it, and a button bound to
-a position would close the wrong container.
+Live Close 135 held before server response for 12 seconds: window remained until
+Close 111; reopen PASS. Minimize/expand local only, same open object independently
+observed in server table. Second backpack with nested bag obtained by normal Trade;
+Up 136 returned the authoritative parent. Three windows [0,1,2], middle Close left
+[0,2]; shifted second window correctly sent Up and Close for ID 2. Trade idle,
+invitation, offer, single acceptance, completion/rejection visibility PASS.
+Channels beside Local Chat and server-authorized tab PASS. Drag/drop and Ctrl
+amount Cancel/confirm/split/merge PASS. Borrowed items and original inventory/order
+restored by normal Trade. All 168 valid snapshots: protocol residual/unsupported/
+anomalies 0; independent recorded-live audit 27/27.
 
-## UI corrections asked for mid-task, and done
+ClientCore 14/14, native 10/10, Unreal automation 10/10 (errors/warnings 0), build
+PASS, final strict harness 11 PASS / 0 FAIL / 0 SKIP over 277 logs, secret_check
+6/6. Disk-full failed attempts and four incomplete cleanup JSON files retained;
+all requested live checks and inventory restoration predate those incomplete
+cleanup captures. A's optional final position restoration is unverified. Remaining
+IMPLEMENTED_UNVERIFIED outside scope: invalid IDs, Up-to-body/map Close response,
+collapse across reconnect, sixteen simultaneous slots. Existing server services
+left running; certification clients closed and debugger detached.
 
-- The **"Containers" frame is gone**: each bag is its own window, as 7.72 has
-  it. Still registered under the same id so the control strip toggle works.
-- Bags are **minimizable**, per container, purely local — a collapsed bag is
-  still open on the server. Keyed by number, survives rebuilds, forgotten when
-  the container really closes.
-- **Trade** shows only while `FReal33DTrade::bOpen`. Still docked (the prose-
-  only first request is why), but `bOpen` is set on the first offer of either
-  side, so the recipient still gets a window.
-- **Channels** moved beside the console, out of the side column.
+See [independent certification and evidence](evidence/certification/container-controls-20261022/README.md).
 
-## Live QA
+## Inspection, changes and evidence
 
-Open a real backpack, Close (`close container 0: request 2`,
-`open_containers` 1 -> 0), reopen, minimise/expand (`closes 0, ups 0` — nothing
-sent), drag/drop (`move 4 ... count 1`), stack controls (`move amount asked:
-1..2`, Cancel sent nothing). Protocol counters 0 throughout.
+Reviewed selected game revision 386fa9b8 CCloseContainer/CUpContainer and
+SendContainer/SendCloseContainer, the matching runtime disassembly, ClientCore
+builders, bridge intent queue and HUD routing/collapse/Trade/Channels behavior.
+Native foreground input and F9 snapshots captured real windows. Read-only GDB
+hardware breakpoints recorded actual decoded opcodes/IDs and server container
+table; one response delayed 12 seconds. No server memory/data edits.
 
-## The one gap, and why
+Changed PROJECT_STATUS.md, PARITY_MATRIX.md and this handoff; added archived
+handoff and evidence/certification/container-controls-20261022. No production or
+test changes. README has matrix, exact action labels, reproduction commands,
+failure history and limits. provenance.json records remote refs and both DLL
+hashes (final harness relinked unchanged source); raw-manifest.json preserves raw
+artifact hashes. audit.py passes 27 assertions against the published evidence.
 
-Up / nesting / multiple windows need a second container object. This character
-has exactly one. `sending.cc::SendContainer` sets the parent flag only when a
-container sits inside another **non-body** container, so the body-slot backpack
-correctly has no parent and correctly shows no arrow. The server's own
-`dat/objects.srv` says 2854 is the **only** Container-flagged object the
-character holds, and the 7.72 use toggle means re-using the same object closes
-it instead of opening a second window (observed: `use 4 ... would open as
-container 1` then `open_containers 0`).
+## Critical context and next action
 
-## Tests
+Milestone remote is implementation 2136e6f; main remote remains af251c9.
+Certification branch remains local. No further certification work is required for
+the requested matrix. Ready for review/integration only when separately authorized;
+do not merge or push this certification merely because it is ready.
 
-ClientCore 14/14 · native 10/10 · Unreal automation 10/10, 0 errors,
-0 warnings · REAL33DEditor built · MSVC archive · harness **11 PASS / 0 FAIL /
-0 SKIP** over 98 logs · secret_check 6/6.
+Both players' inventories and B's backpack content/order are restored. B last at
+(32096,32218,7). A's optional return walk stopped at last complete observation
+(32098,32216,7), followed by Escape/W during disk-full screenshot failures; exact
+final position unverified. Four incomplete JSON and absent B shutdown snapshot
+are disclosed, not counted as passes. All requested behavior had already been
+captured before cleanup. The first wrong restoration offer (jacket) was rejected
+without transfer; the corrected normal rope/backpack trade succeeded.
 
-## Exact next task
+Pre-existing WSL query 754, game 763 and login 1504 remain alive with executable,
+cwd and start identity verified; debugger 8873 detached and both Unreal clients
+closed. Original worktree and other agents' work untouched. Generated build files
+in this worktree were NTFS-compressed to recover space; final free space about
+4 GB. Do not start two memory-heavy clients without checking disk/pagefile space.
 
-`UNREAL-CONTAINER-CONTROLS-002`: get one more container into the character's
-hands — a bag from an NPC, or nest the backpack into a corpse or chest on the
-ground — and exercise Up, nested navigation and two open windows. The code
-path is in place and routes by number; only a live case is missing.
+Useful review commands:
 
-## Environment
-
-Fusion32 started and **stopped cleanly**. No server data edited.
+```powershell
+python evidence/certification/container-controls-20261022/audit.py
+git diff 2136e6f -- clientcore tests unreal/REAL33D/Source scripts
+git status --porcelain
+git ls-remote origin refs/heads/main refs/heads/milestone/unreal-container-controls-001
+```

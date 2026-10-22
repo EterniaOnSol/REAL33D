@@ -1,0 +1,11 @@
+{
+  "main": "af251c9b2de0372c97ecbd128af0ada0c92bc166",
+  "implementation": "2136e6f63dd12f73c2575a87d7b44af22aa0c66a",
+  "branch": "certification/unreal-container-controls-independent-20261022",
+  "remote_refs": "af251c9b2de0372c97ecbd128af0ada0c92bc166\trefs/heads/main\n2136e6f63dd12f73c2575a87d7b44af22aa0c66a\trefs/heads/milestone/unreal-container-controls-001",
+  "linear_parent_verified": true,
+  "no_main_merge": true,
+  "production_diff": "",
+  "live_dll_sha256": "45abbc22ca045f0dd9d7d0fe383c5af870f4d58bce54709941a9c7cf3a51b881",
+  "final_harness_dll_sha256": "46d0b30c916d98b4b222043a45119ae60818227b27321fef4e6109042dcfdca5"
+}

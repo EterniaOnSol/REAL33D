@@ -1,0 +1,66 @@
+{
+  "utc": "2026-10-22T15:52:39.169263+00:00",
+  "probe_pid": 18212,
+  "probe_session": 1,
+  "target_pid": 19860,
+  "target_session": 1,
+  "window_station": "WinSta0",
+  "thread_desktop": "Default",
+  "input_desktop": "Default",
+  "foreground": 328938,
+  "windows": [
+    {
+      "hwnd": 328938,
+      "pid": 19860,
+      "title": "REAL33D (64-bit Development PCD3D_SM5) ",
+      "klass": "UnrealWindow",
+      "visible": true,
+      "origin": [
+        320,
+        126
+      ],
+      "size": [
+        1280,
+        900
+      ]
+    },
+    {
+      "hwnd": 3540674,
+      "pid": 19860,
+      "title": "MSCTFIME UI",
+      "klass": "MSCTFIME UI",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    },
+    {
+      "hwnd": 197828,
+      "pid": 19860,
+      "title": "Default IME",
+      "klass": "IME",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    }
+  ],
+  "activation_result": true,
+  "real_mouse_click": [
+    1063,
+    500
+  ],
+  "snapshot_F9": true,
+  "capture": "C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-container-independent-20261022\\build\\certification\\live\\B\\13-trade-arm.png",
+  "foreground_after": 328938
+}

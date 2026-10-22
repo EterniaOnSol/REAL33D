@@ -1,0 +1,38 @@
+{"event": "TRACE_READY", "debugger_pid": 8640, "server_pid": 763, "utc": "2026-10-22T14:35:26.018553+00:00"}
+{"event": "TRACE_READY", "debugger_pid": 8817, "server_pid": 763, "utc": "2026-10-22T15:44:05.751574+00:00"}
+{"event": "TRACE_READY", "debugger_pid": 8873, "server_pid": 763, "utc": "2026-10-22T15:46:15.868803+00:00"}
+{"event": "CLOSE_135", "server_pid": 763, "container_id": 0, "connection": "0x5a30d4c93260", "server_open_containers": [19280191, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "utc": "2026-10-22T15:46:28.256902+00:00"}
+{"event": "RESPONSE_HELD", "seconds": 12, "utc": "2026-10-22T15:46:28.267333+00:00"}
+{"event": "RESPONSE_RELEASED", "utc": "2026-10-22T15:46:40.273662+00:00"}
+{"event": "CLOSE_111", "server_pid": 763, "container_id": 0, "connection": "0x5a30d4c93260", "utc": "2026-10-22T15:46:40.280557+00:00"}
+{"event": "CONTAINER_110", "server_pid": 763, "container_id": 0, "connection": "0x5a30d4c93260", "utc": "2026-10-22T15:46:53.132773+00:00"}
+{"event": "CLOSE_135", "server_pid": 763, "container_id": 0, "connection": "0x5a30d4c93260", "server_open_containers": [19280191, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "utc": "2026-10-22T15:47:25.012495+00:00"}
+{"event": "CLOSE_111", "server_pid": 763, "container_id": 0, "connection": "0x5a30d4c93260", "utc": "2026-10-22T15:47:25.020833+00:00"}
+{"event": "CONTAINER_110", "server_pid": 763, "container_id": 0, "connection": "0x5a30d4c93260", "utc": "2026-10-22T15:47:43.532655+00:00"}
+{"event": "CONTAINER_110", "server_pid": 763, "container_id": 1, "connection": "0x5a30d4c93260", "utc": "2026-10-22T15:54:04.886554+00:00"}
+{"event": "UP_136", "server_pid": 763, "container_id": 1, "connection": "0x5a30d4c93260", "server_open_containers": [19280191, 19283260, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "utc": "2026-10-22T15:54:24.588665+00:00"}
+{"event": "CONTAINER_110", "server_pid": 763, "container_id": 1, "connection": "0x5a30d4c93260", "utc": "2026-10-22T15:54:24.598643+00:00"}
+{"event": "CLOSE_135", "server_pid": 763, "container_id": 1, "connection": "0x5a30d4c93260", "server_open_containers": [19280191, 19280191, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "utc": "2026-10-22T15:54:39.503878+00:00"}
+{"event": "CLOSE_111", "server_pid": 763, "container_id": 1, "connection": "0x5a30d4c93260", "utc": "2026-10-22T15:54:39.515697+00:00"}
+{"event": "CONTAINER_110", "server_pid": 763, "container_id": 1, "connection": "0x5a30d4c93260", "utc": "2026-10-22T15:54:51.982553+00:00"}
+{"event": "UP_136", "server_pid": 763, "container_id": 1, "connection": "0x5a30d4c93260", "server_open_containers": [19280191, 19283260, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "utc": "2026-10-22T15:55:16.880507+00:00"}
+{"event": "CONTAINER_110", "server_pid": 763, "container_id": 1, "connection": "0x5a30d4c93260", "utc": "2026-10-22T15:55:16.889166+00:00"}
+{"event": "CONTAINER_110", "server_pid": 763, "container_id": 2, "connection": "0x5a30d4c93260", "utc": "2026-10-22T15:55:18.232646+00:00"}
+{"event": "CONTAINER_110", "server_pid": 763, "container_id": 3, "connection": "0x5a30d4c93260", "utc": "2026-10-22T15:55:20.332504+00:00"}
+{"event": "CLOSE_135", "server_pid": 763, "container_id": 3, "connection": "0x5a30d4c93260", "server_open_containers": [19280191, 19280191, 19283260, 19283261, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "utc": "2026-10-22T15:55:34.375240+00:00"}
+{"event": "CLOSE_111", "server_pid": 763, "container_id": 3, "connection": "0x5a30d4c93260", "utc": "2026-10-22T15:55:34.389479+00:00"}
+{"event": "CLOSE_135", "server_pid": 763, "container_id": 2, "connection": "0x5a30d4c93260", "server_open_containers": [19280191, 19280191, 19283260, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "utc": "2026-10-22T15:55:36.245523+00:00"}
+{"event": "CLOSE_111", "server_pid": 763, "container_id": 2, "connection": "0x5a30d4c93260", "utc": "2026-10-22T15:55:36.254122+00:00"}
+{"event": "CLOSE_135", "server_pid": 763, "container_id": 0, "connection": "0x5a30d4c93260", "server_open_containers": [19280191, 19280191, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "utc": "2026-10-22T15:55:40.443828+00:00"}
+{"event": "CLOSE_111", "server_pid": 763, "container_id": 0, "connection": "0x5a30d4c93260", "utc": "2026-10-22T15:55:40.452555+00:00"}
+{"event": "CLOSE_135", "server_pid": 763, "container_id": 1, "connection": "0x5a30d4c93260", "server_open_containers": [0, 19280191, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "utc": "2026-10-22T15:55:41.096470+00:00"}
+{"event": "CLOSE_111", "server_pid": 763, "container_id": 1, "connection": "0x5a30d4c93260", "utc": "2026-10-22T15:55:41.104625+00:00"}
+{"event": "CONTAINER_110", "server_pid": 763, "container_id": 0, "connection": "0x5a30d4c93260", "utc": "2026-10-22T20:55:04.794832+00:00"}
+{"event": "CONTAINER_110", "server_pid": 763, "container_id": 1, "connection": "0x5a30d4c93260", "utc": "2026-10-22T20:55:16.883382+00:00"}
+{"event": "CONTAINER_110", "server_pid": 763, "container_id": 2, "connection": "0x5a30d4c93260", "utc": "2026-10-22T20:55:31.082533+00:00"}
+{"event": "CLOSE_135", "server_pid": 763, "container_id": 1, "connection": "0x5a30d4c93260", "server_open_containers": [20245399, 20245400, 20245401, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "utc": "2026-10-22T20:55:44.815985+00:00"}
+{"event": "CLOSE_111", "server_pid": 763, "container_id": 1, "connection": "0x5a30d4c93260", "utc": "2026-10-22T20:55:44.827661+00:00"}
+{"event": "UP_136", "server_pid": 763, "container_id": 2, "connection": "0x5a30d4c93260", "server_open_containers": [20245399, 0, 20245401, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "utc": "2026-10-22T20:56:00.957688+00:00"}
+{"event": "CONTAINER_110", "server_pid": 763, "container_id": 2, "connection": "0x5a30d4c93260", "utc": "2026-10-22T20:56:00.967619+00:00"}
+{"event": "CLOSE_135", "server_pid": 763, "container_id": 2, "connection": "0x5a30d4c93260", "server_open_containers": [20245399, 0, 20245400, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "utc": "2026-10-22T20:56:17.754904+00:00"}
+{"event": "CLOSE_111", "server_pid": 763, "container_id": 2, "connection": "0x5a30d4c93260", "utc": "2026-10-22T20:56:17.761888+00:00"}
