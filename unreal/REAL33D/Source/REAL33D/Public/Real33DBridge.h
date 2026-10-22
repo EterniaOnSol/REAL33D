@@ -937,6 +937,10 @@ struct FReal33DStats
 	int32 ChannelJoinsRequested = 0;
 	/** CL_CMD_LEAVE_CHANNEL commands put on the wire. */
 	int32 ChannelLeavesRequested = 0;
+	/** CL_CMD_CLOSE_CONTAINER commands put on the wire. */
+	int32 ContainerClosesRequested = 0;
+	/** CL_CMD_UP_CONTAINER commands put on the wire. */
+	int32 ContainerUpsRequested = 0;
 	/** CL_CMD_PRIVATE_CHANNEL commands put on the wire. */
 	int32 PrivateChannelsRequested = 0;
 	/** CL_CMD_TALK commands sent in TALK_CHANNEL_CALL mode. */
@@ -1164,6 +1168,37 @@ public:
 
 	/** Asks Fusion32 to describe the object at this point via SV_CMD_MESSAGE. */
 	uint32 RequestLookAtPoint(const FMoveSlot& Point);
+
+	// ------------------------------------------------------------ containers
+	//
+	// The two dedicated 7.72 container commands. Both carry one byte, the
+	// server's own 0-based open-container number -- the same `Number` that
+	// arrives on FReal33DContainer, never a panel index and never the
+	// `64 + number` that only exists inside a move's coordinate.
+	//
+	// Both are intents. Neither closes or changes anything here: Fusion32
+	// answers CL_CMD_CLOSE_CONTAINER with SV_CMD_CLOSE_CONTAINER, and
+	// CL_CMD_UP_CONTAINER with either SV_CMD_CONTAINER carrying the parent or
+	// SV_CMD_CLOSE_CONTAINER when there is no window left to show, and it is
+	// those answers that move the panel.
+
+	/**
+	 * Closes one open container. CL_CMD_CLOSE_CONTAINER.
+	 *
+	 * Until now this client closed a container by using its source object
+	 * again, which works because 7.72's use is a toggle, but needs the object
+	 * to still be reachable. This asks directly.
+	 */
+	uint32 RequestCloseContainer(uint8 Container);
+
+	/**
+	 * Reopens an open container slot showing its parent. CL_CMD_UP_CONTAINER.
+	 *
+	 * Only meaningful for a container the server said has a parent; asking
+	 * about one that does not is Fusion32's to ignore, and this client does
+	 * not offer the control in that case.
+	 */
+	uint32 RequestUpContainer(uint8 Container);
 
 	/**
 	 * Attacks a creature, or cancels when that exact attack is already active.

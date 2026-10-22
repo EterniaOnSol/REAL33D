@@ -5,6 +5,7 @@
 #include "Styling/CoreStyle.h"
 #include "Styling/ISlateStyle.h"
 #include "Widgets/Images/SImage.h"
+#include "Widgets/Input/SButton.h"
 #include "Widgets/Layout/SBox.h"
 #include "Widgets/Layout/SBorder.h"
 #include "Widgets/SBoxPanel.h"
@@ -21,10 +22,73 @@ namespace
 	constexpr int32 TextSize = 8;
 }
 
+TSharedRef<SWidget> SReal33DContainersPanel::MakeHeaderButton(
+	FName Brush, const FText& Tip, uint8 Number, bool bUp)
+{
+	const ISlateStyle& Style = FReal33DUIStyle::Get();
+	const float Size = FReal33DUIStyle::MiniWindowButtonSize;
+
+	// The NUMBER is captured, not the window's position. Closing a container
+	// out of the middle renumbers nothing on the server but does move every
+	// window below it, and a button bound to a position would then close the
+	// wrong container -- which is the one way this control can be silently and
+	// expensively wrong.
+	return SNew(SBox)
+		.WidthOverride(Size)
+		.HeightOverride(Size)
+		[
+			SNew(SButton)
+			.ButtonStyle(FCoreStyle::Get(), "NoBorder")
+			.ContentPadding(FMargin(0.0f))
+			.ToolTipText(Tip)
+			.OnClicked(bUp
+				? FOnClicked::CreateSP(this, &SReal33DContainersPanel::HandleUp, Number)
+				: FOnClicked::CreateSP(this, &SReal33DContainersPanel::HandleClose, Number))
+			[
+				SNew(SImage).Image(Style.GetBrush(Brush))
+			]
+		];
+}
+
+FReply SReal33DContainersPanel::HandleClose(uint8 Number)
+{
+	// Nothing closes here. The request goes out and this panel keeps drawing
+	// the container until Fusion32's own SV_CMD_CLOSE_CONTAINER removes it,
+	// exactly as a move keeps drawing an object where the server last put it.
+	OnContainerClosed.ExecuteIfBound(Number);
+	return FReply::Handled();
+}
+
+FReply SReal33DContainersPanel::HandleUp(uint8 Number)
+{
+	OnContainerUp.ExecuteIfBound(Number);
+	return FReply::Handled();
+}
+
+FReply SReal33DContainersPanel::HandleToggleCollapsed(uint8 Number)
+{
+	// Local only. The container stays open on the server, so nothing is sent
+	// and the next SV_CMD_CONTAINER still lands in the same window.
+	if (Collapsed.Contains(Number))
+	{
+		Collapsed.Remove(Number);
+	}
+	else
+	{
+		Collapsed.Add(Number);
+	}
+	// Drawn is cleared so SetContainers cannot decide nothing changed: the
+	// server state really has not, and only this panel's own view of it has.
+	Drawn.Reset();
+	SetContainers(Live);
+	return FReply::Handled();
+}
+
 TSharedRef<SWidget> SReal33DContainersPanel::MakeContainer(
 	const FReal33DContainer& Container)
 {
 	const ISlateStyle& Style = FReal33DUIStyle::Get();
+	const bool bCollapsed = Collapsed.Contains(Container.Number);
 
 	// The grid is the container's whole capacity, which is what a 7.72 client
 	// draws: a bag is eight squares whether or not anything is in them. The
@@ -132,45 +196,89 @@ TSharedRef<SWidget> SReal33DContainersPanel::MakeContainer(
 						.Font(FCoreStyle::GetDefaultFontStyle("Regular", TextSize + 1))
 						.Clipping(EWidgetClipping::ClipToBounds)
 					]
+					// The up arrow, only where the server says there is a parent.
+					// CUpContainer has nothing to answer for a container
+					// without one, so offering it would be a control that can
+					// only be refused.
+					+ SHorizontalBox::Slot()
+					.AutoWidth()
+					.VAlign(VAlign_Center)
+					.Padding(FMargin(0.0f, 0.0f, 2.0f, 0.0f))
+					[
+						Container.bHasParent
+							? MakeHeaderButton("Real33D.Chrome.ContainerUp",
+								NSLOCTEXT("Real33D", "ContainerUpTip",
+									"Show the container this one is inside. "
+									"Fusion32 answers with the parent, or by "
+									"closing this window when the parent is a "
+									"map or body container and there is nothing "
+									"left to show."),
+								Container.Number, true)
+							: SNullWidget::NullWidget
+					]
+
+					// Minimise. Local only: a rolled-away bag is still open on
+					// the server and is a drop target again the instant it is
+					// rolled back out.
+					+ SHorizontalBox::Slot()
+					.AutoWidth()
+					.VAlign(VAlign_Center)
+					.Padding(FMargin(0.0f, 0.0f, 2.0f, 0.0f))
+					[
+						SNew(SBox)
+						.WidthOverride(FReal33DUIStyle::MiniWindowButtonSize)
+						.HeightOverride(FReal33DUIStyle::MiniWindowButtonSize)
+						[
+							SNew(SButton)
+							.ButtonStyle(FCoreStyle::Get(), "NoBorder")
+							.ContentPadding(FMargin(0.0f))
+							.ToolTipText(bCollapsed
+								? NSLOCTEXT("Real33D", "ContainerExpandTip",
+									"Roll this container back out. It never "
+									"closed: nothing was sent and Fusion32 still "
+									"has it open.")
+								: NSLOCTEXT("Real33D", "ContainerCollapseTip",
+									"Roll this container away, keeping it open. "
+									"Local only; nothing is sent."))
+							.OnClicked(FOnClicked::CreateSP(this,
+								&SReal33DContainersPanel::HandleToggleCollapsed,
+								Container.Number))
+							[
+								SNew(SImage).Image(Style.GetBrush(
+									"Real33D.Chrome.Minimize"))
+							]
+						]
+					]
+
+					// Close is always offered: every open container can be
+					// closed, and CCloseContainer simply clears the slot.
 					+ SHorizontalBox::Slot()
 					.AutoWidth()
 					.VAlign(VAlign_Center)
 					[
-						Container.bHasParent
-							? StaticCastSharedRef<SWidget>(SNew(SBox)
-								.WidthOverride(FReal33DUIStyle::MiniWindowButtonSize)
-								.HeightOverride(FReal33DUIStyle::MiniWindowButtonSize)
-								.ToolTipText(FText::FromString(
-									TEXT("Go to parent container (not available)")))
-								[
-									SNew(SOverlay)
-									+ SOverlay::Slot()
-									[
-										SNew(SImage).Image(
-											Style.GetBrush("Real33D.Chrome.ContainerUp"))
-									]
-									+ SOverlay::Slot()
-									[
-										// CL_CMD_UP_CONTAINER is not built yet.
-										SNew(SImage)
-										.Image(Style.GetBrush("Real33D.Chrome.Dither"))
-										.ColorAndOpacity(FReal33DUIStyle::DitherTint())
-										.Visibility(EVisibility::HitTestInvisible)
-									]
-								])
-							: SNullWidget::NullWidget
+						MakeHeaderButton("Real33D.Chrome.Close",
+							NSLOCTEXT("Real33D", "ContainerCloseTip",
+								"Close this container. Asks Fusion32 to clear "
+								"the slot; the window goes when the server says "
+								"it did, not before."),
+							Container.Number, false)
 					]
 				]
 			]
 
+			// Collapsed to nothing rather than hidden, so the bags below slide
+			// up -- the same thing SReal33DMiniWindow does for a side panel.
 			+ SVerticalBox::Slot()
 			.AutoHeight()
 			[
-				Grid
+				bCollapsed ? SNullWidget::NullWidget
+					: StaticCastSharedRef<SWidget>(Grid)
 			]
 
 			// The footer states how full it is, from the server's own capacity
-			// attribute and its own object count.
+			// attribute and its own object count. It stays while collapsed:
+			// "4 of 20" is exactly what a rolled-away bag is still worth
+			// saying, and it keeps the header from reading as an empty strip.
 			+ SVerticalBox::Slot()
 			.AutoHeight()
 			.Padding(FMargin(0.0f, 2.0f, 0.0f, 0.0f))
@@ -190,6 +298,8 @@ void SReal33DContainersPanel::Construct(const FArguments& InArgs)
 	OnItemDropped = InArgs._OnItemDropped;
 	OnSlotUsed = InArgs._OnSlotUsed;
 	OnSlotPicked = InArgs._OnSlotPicked;
+	OnContainerClosed = InArgs._OnContainerClosed;
+	OnContainerUp = InArgs._OnContainerUp;
 
 	ChildSlot
 	[
@@ -223,6 +333,24 @@ void SReal33DContainersPanel::SetContainers(const TArray<FReal33DContainer>& Con
 		return;
 	}
 	Drawn = Containers;
+	Live = Containers;
+
+	// A collapse only means anything while the container is open. Forgetting
+	// the ones that have closed is what makes reopening a bag give it back
+	// expanded, instead of resurrecting a state the player set minutes ago for
+	// a window that has been and gone.
+	if (Collapsed.Num() > 0)
+	{
+		TSet<uint8> StillOpen;
+		for (const FReal33DContainer& Each : Containers)
+		{
+			if (Collapsed.Contains(Each.Number))
+			{
+				StillOpen.Add(Each.Number);
+			}
+		}
+		Collapsed = MoveTemp(StillOpen);
+	}
 
 	if (!Windows.IsValid())
 	{

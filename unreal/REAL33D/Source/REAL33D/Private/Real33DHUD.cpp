@@ -155,10 +155,34 @@ TSharedRef<SWidget> SReal33DHUD::MakeBottomPanel(const FReal33DOnTypingChanged& 
 				.BorderBackgroundColor(FReal33DUIStyle::PanelTint())
 				.Padding(FMargin(0.0f))
 				[
-					SAssignNew(ChatPanel, SReal33DChatPanel)
-						.Bridge(Bridge)
-						.OnTypingChanged(OnTypingChanged)
-						.Embedded(true)
+					SNew(SHorizontalBox)
+
+					// The console, with its own channel tabs along the top.
+					+ SHorizontalBox::Slot()
+					.FillWidth(1.0f)
+					[
+						SAssignNew(ChatPanel, SReal33DChatPanel)
+							.Bridge(Bridge)
+							.OnTypingChanged(OnTypingChanged)
+							.Embedded(true)
+					]
+
+					// The channel list, BESIDE THE CONSOLE rather than in a
+					// side column. Joining a channel opens a tab in the box
+					// immediately to its left, so the control that opens a
+					// channel and the place the channel appears are the same
+					// part of the screen. In a side column they were a whole
+					// HUD apart, and the column space it held is better spent
+					// on the bags.
+					+ SHorizontalBox::Slot()
+					.AutoWidth()
+					[
+						SNew(SBox)
+						.WidthOverride(SReal33DChannelsPanel::PanelWidth)
+						[
+							SAssignNew(Channels, SReal33DChannelsPanel).Bridge(Bridge)
+						]
+					]
 				]
 			]
 		];
@@ -249,32 +273,52 @@ void SReal33DHUD::Construct(const FArguments& InArgs)
 		.OnCreatureTargeted(FReal33DOnCreatureTargeted::CreateSP(
 			this, &SReal33DHUD::HandleCreatureTargeted)));
 
-	// Docked, not a centred modal. A live run proved why: Fusion32 answers
-	// the first offer by telling the other player "X wants to trade with you"
-	// in prose and nothing else, so a window that appeared only once a trade
-	// existed left that player unable to respond at all.
+	// Docked, but SHOWN ONLY WHILE A TRADE EXISTS.
+	//
+	// It is docked rather than a centred modal for a reason a live run
+	// established: Fusion32 answers the first *request* by telling the other
+	// player "X wants to trade with you" in prose and nothing else, so a
+	// window keyed to that message would leave them unable to respond.
+	//
+	// Permanently occupying a column slot was the wrong answer to that. The
+	// right key is `FReal33DTrade::bOpen`, which the bridge sets on the first
+	// OFFER of *either* side and clears on SV_CMD_CLOSE_TRADE -- so the
+	// recipient still gets a window the moment anything is actually offered,
+	// and the column gets its space back the rest of the time. Refresh drives
+	// the visibility; nothing here guesses.
 	AddPanel(Inner, Real33D::PanelIds::Trade,
 		FText::FromString(TEXT("Trade")), NAME_None, 190.0f,
 		SAssignNew(Trade, SReal33DTradePanel).Bridge(Bridge));
+	Panels.Close(Real33D::PanelIds::Trade);
 
-	// The one call this panel needs, which is what the registry exists for.
-	// It goes above the containers because a stack of open bags is the tallest
-	// thing in this column and would push it off the fold.
-	AddPanel(Inner, Real33D::PanelIds::Channels,
-		FText::FromString(TEXT("Channels")), NAME_None,
-		SReal33DChannelsPanel::PanelHeight,
-		SAssignNew(Channels, SReal33DChannelsPanel).Bridge(Bridge));
-
-	AddPanel(Inner, Real33D::PanelIds::Containers,
-		FText::FromString(TEXT("Containers")), NAME_None, ContainersHeight,
-		SAssignNew(Containers, SReal33DContainersPanel)
-		.Columns(4)
+	// NO "Containers" FRAME AROUND THE BAGS.
+	//
+	// A 7.72 client has no such window: each bag IS its own window, with its
+	// own name and its own buttons. Wrapping them in a second titled frame
+	// gave every bag two headers and two sets of header buttons, and spent a
+	// title bar plus a fixed 420px of column on a word that names a category
+	// rather than a thing. The stack now sizes itself and the column scrolls,
+	// so a single bag costs a single bag's worth of space.
+	//
+	// Still registered under the same id, so the control strip's toggle keeps
+	// working -- it now shows and hides the whole stack of bags.
+	Inner->AddSlot()
+		.AutoHeight()
+		[
+			SAssignNew(Containers, SReal33DContainersPanel)
+			.Columns(4)
 		.OnItemDropped(FReal33DOnItemDropped::CreateSP(
 			this, &SReal33DHUD::HandleItemDropped))
 		.OnSlotUsed(FReal33DOnSlotUsed::CreateSP(
 			this, &SReal33DHUD::HandleSlotUsed))
 		.OnSlotPicked(FReal33DOnSlotPicked::CreateSP(
-			this, &SReal33DHUD::HandleSlotPicked)));
+			this, &SReal33DHUD::HandleSlotPicked))
+		.OnContainerClosed(FReal33DOnContainerClosed::CreateSP(
+			this, &SReal33DHUD::HandleContainerClosed))
+		.OnContainerUp(FReal33DOnContainerUp::CreateSP(
+			this, &SReal33DHUD::HandleContainerUp))
+		];
+	Panels.Register(Real33D::PanelIds::Containers, Containers.ToSharedRef());
 
 	// ------------------------------------------------------------- assembly
 	//
@@ -578,6 +622,41 @@ void SReal33DHUD::AbandonMoveAmount()
 	}
 	// And defensively, for the case where there is no window to close.
 	HandleAmountAbandoned();
+}
+
+void SReal33DHUD::HandleContainerClosed(uint8 Number)
+{
+	UReal33DBridge* Live = Bridge.Get();
+	if (Live == nullptr || !Live->IsRunning())
+	{
+		UE_LOG(LogReal33D, Warning,
+			TEXT("not connected; close of container %u not sent"), Number);
+		return;
+	}
+	// An intent. Nothing is removed here: the window stays until Fusion32's
+	// SV_CMD_CLOSE_CONTAINER says the slot is clear, which is also what makes
+	// a refused close visible as nothing happening rather than as a window
+	// that vanished and came back.
+	const uint32 ActionId = Live->RequestCloseContainer(Number);
+	if (ActionId != 0) ShowInteractionRequest(TEXT("Close requested"));
+	UE_LOG(LogReal33D, Log, TEXT("close container %u: request %u"), Number, ActionId);
+}
+
+void SReal33DHUD::HandleContainerUp(uint8 Number)
+{
+	UReal33DBridge* Live = Bridge.Get();
+	if (Live == nullptr || !Live->IsRunning())
+	{
+		UE_LOG(LogReal33D, Warning,
+			TEXT("not connected; up of container %u not sent"), Number);
+		return;
+	}
+	// CUpContainer answers in one of two ways and both are already decoded:
+	// SV_CMD_CONTAINER carrying the parent, or SV_CMD_CLOSE_CONTAINER when the
+	// parent is a map or body container and there is nothing left to show.
+	const uint32 ActionId = Live->RequestUpContainer(Number);
+	if (ActionId != 0) ShowInteractionRequest(TEXT("Parent requested"));
+	UE_LOG(LogReal33D, Log, TEXT("up container %u: request %u"), Number, ActionId);
 }
 
 uint8 SReal33DHUD::FirstFreeContainerNumber() const
@@ -1023,6 +1102,19 @@ void SReal33DHUD::Refresh(const AReal33DWorld* World)
 	// collapsed widget, and that window is collapsed until Fusion32 opens one.
 	if (TextEditor.IsValid()) TextEditor->Refresh();
 	if (Trade.IsValid()) Trade->Refresh();
+	// The trade window takes column space only while Fusion32 has a trade
+	// open. `bOpen` is set on the first offer of EITHER side, so the player
+	// being offered to still gets a window to answer with, and it is cleared
+	// by SV_CMD_CLOSE_TRADE. The panel is never opened or closed on a guess
+	// made here.
+	if (const UReal33DBridge* Live = Bridge.Get())
+	{
+		const bool bTrading = Live->GetTrade().bOpen;
+		if (Panels.IsOpen(Real33D::PanelIds::Trade) != bTrading)
+		{
+			Panels.SetOpen(Real33D::PanelIds::Trade, bTrading);
+		}
+	}
 	if (Outfit.IsValid()) Outfit->Refresh();
 	// Everything below is a server-owned value or an explicit "not known yet".
 	// A null world is the second of those, not a reason to keep the last frame:

@@ -1,0 +1,10 @@
+[2026.10.22-11.31.48:291][120]LogReal33D: use 1: object 2854 at body 0 slot 3, would open as container 0
+[2026.10.22-11.34.10:767][763]LogReal33D: close container 0: request 2
+[2026.10.22-11.34.14:383][892]LogReal33D: use 3: object 2854 at body 0 slot 3, would open as container 0
+[2026.10.22-11.34.48:044][167]LogReal33D: move 4: object 3003 from container 0 slot 1 to container 0 slot 5, count 1
+[2026.10.22-11.34.48:044][167]LogReal33D: slot drag: object 3003 from container 0 slot 1 to container 0 slot 5, stack 1 -> move 4 count 1
+[2026.10.22-11.34.51:312][291]LogReal33D: move 5: object 3003 from container 0 slot 0 to container 0 slot 6, count 1
+[2026.10.22-11.34.51:312][291]LogReal33D: slot drag: object 3003 from container 0 slot 0 to container 0 slot 6, stack 1 -> move 5 count 1
+[2026.10.22-11.35.39:637][143]LogReal33D: move amount asked: 1..2, opening on 2
+[2026.10.22-11.35.39:637][143]LogReal33D: slot drag: object 3031 from container 0 slot 1 to container 0 slot 6, stack 2 (stackable) -> asking how many
+[2026.10.22-11.36.29:198][ 76]LogReal33D: move amount abandoned; nothing was sent

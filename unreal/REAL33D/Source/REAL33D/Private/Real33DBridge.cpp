@@ -579,6 +579,21 @@ public:
 		ChannelIntents.Enqueue(Intent);
 	}
 
+	/** One of the two dedicated container commands. `Container` is the
+	 *  server's own 0-based open-container number. */
+	struct FContainerIntent
+	{
+		enum class EKind : uint8 { Close, Up };
+		uint32 ActionId = 0;
+		EKind Kind = EKind::Close;
+		uint8 Container = 0;
+	};
+
+	void PostContainer(const FContainerIntent& Intent)
+	{
+		ContainerIntents.Enqueue(Intent);
+	}
+
 	/**
 	 * An edited text or list the player submitted.
 	 *
@@ -1568,6 +1583,7 @@ private:
 		DrainMoves();
 		DrainUses();
 		DrainCombat();
+		DrainContainers();
 		DrainChannels();
 		DrainEdits();
 		DrainTrades();
@@ -1826,6 +1842,37 @@ private:
 
 		FScopeLock Lock(&StatsMutex);
 		++Stats.SaysRefusedLocally;
+	}
+
+	void DrainContainers()
+	{
+		FContainerIntent Intent;
+		while (ContainerIntents.Dequeue(Intent))
+		{
+			// Built by ClientCore, as every command here is. The number goes on
+			// the wire exactly as the server gave it: CCloseContainer and
+			// CUpContainer both index the player's own sixteen-entry open
+			// container table with it, and the `64 + number` spelling belongs
+			// only to a move's coordinate.
+			const bool bClose = Intent.Kind == FContainerIntent::EKind::Close;
+			const std::vector<std::uint8_t> Command = bClose
+				? p772::BuildCloseContainerCommand(Intent.Container)
+				: p772::BuildUpContainerCommand(Intent.Container);
+			if (!Session.SendCommand(Command).ok())
+			{
+				continue;
+			}
+
+			FScopeLock Lock(&StatsMutex);
+			if (bClose)
+			{
+				++Stats.ContainerClosesRequested;
+			}
+			else
+			{
+				++Stats.ContainerUpsRequested;
+			}
+		}
 	}
 
 	void DrainChannels()
@@ -2187,6 +2234,7 @@ private:
 	TQueue<FUse, EQueueMode::Spsc> Uses;
 	TQueue<FCombatIntent, EQueueMode::Spsc> CombatIntents;
 	TQueue<FChannelIntent, EQueueMode::Spsc> ChannelIntents;
+	TQueue<FContainerIntent, EQueueMode::Spsc> ContainerIntents;
 	TQueue<FEditIntent, EQueueMode::Spsc> EditIntents;
 	TQueue<FTradeIntent, EQueueMode::Spsc> TradeIntents;
 	TQueue<FOutfitIntent, EQueueMode::Spsc> OutfitIntents;
@@ -3355,6 +3403,28 @@ uint32 UReal33DBridge::RequestLookAtPoint(const FMoveSlot& Point)
 	Look.Object = Point;
 	Worker->PostUse(Look);
 	return Look.UseId;
+}
+
+uint32 UReal33DBridge::RequestCloseContainer(uint8 Container)
+{
+	if (Worker == nullptr) return 0;
+	FReal33DWorker::FContainerIntent Intent;
+	Intent.ActionId = ++NextInputId;
+	Intent.Kind = FReal33DWorker::FContainerIntent::EKind::Close;
+	Intent.Container = Container;
+	Worker->PostContainer(Intent);
+	return Intent.ActionId;
+}
+
+uint32 UReal33DBridge::RequestUpContainer(uint8 Container)
+{
+	if (Worker == nullptr) return 0;
+	FReal33DWorker::FContainerIntent Intent;
+	Intent.ActionId = ++NextInputId;
+	Intent.Kind = FReal33DWorker::FContainerIntent::EKind::Up;
+	Intent.Container = Container;
+	Worker->PostContainer(Intent);
+	return Intent.ActionId;
 }
 
 uint32 UReal33DBridge::RequestAttack(uint32 CreatureId)

@@ -226,6 +226,16 @@ private:
 	/** Right-click on a slot: use it, or begin a use-with. */
 	void HandleSlotUsed(FReal33DSlotRef Slot, EReal33DSlotAction Action);
 
+	/**
+	 * A container header button. Both send one command and change nothing
+	 * here; the panel follows the server's answer.
+	 *
+	 * `Number` is the server's own open-container number, taken from the
+	 * container being drawn, so it stays correct when windows move.
+	 */
+	void HandleContainerClosed(uint8 Number);
+	void HandleContainerUp(uint8 Number);
+
 	/** Left-click on a slot, offered to a pending use-with. */
 	bool HandleSlotPicked(FReal33DSlotRef Slot);
 

@@ -41,6 +41,15 @@ public:
 	/** Tall enough for the request row, a few channels and the private box. */
 	static constexpr float PanelHeight = 186.0f;
 
+	/**
+	 * Width when the panel sits beside the console rather than in a column.
+	 *
+	 * The side columns are 176px and this kept to them. Next to the chat box
+	 * it only has to carry the list button and the channel names, and the
+	 * console is the thing that wants the width.
+	 */
+	static constexpr float PanelWidth = 150.0f;
+
 	// ------------------------------------------------------- display rules
 	//
 	// Static and free of Slate so each can be tested without a renderer and

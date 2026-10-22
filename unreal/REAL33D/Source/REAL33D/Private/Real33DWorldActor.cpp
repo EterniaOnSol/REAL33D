@@ -1380,6 +1380,11 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		TEXT("    \"channel_joins_requested\": %d,\n")
 		TEXT("    \"channels_opened\": %d,\n")
 		TEXT("    \"channel_leaves_requested\": %d,\n")
+		// Containers. The two dedicated 7.72 commands, counted apart from the
+		// use toggle that used to be the only way to close one, so a reader can
+		// tell which route a close actually took.
+		TEXT("    \"container_closes_requested\": %d,\n")
+		TEXT("    \"container_ups_requested\": %d,\n")
 		TEXT("    \"channels_closed\": %d,\n")
 		TEXT("    \"private_channels_requested\": %d,\n")
 		TEXT("    \"private_channels_opened\": %d,\n")
@@ -1475,6 +1480,8 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		Stats.ChannelJoinsRequested,
 		Stats.ChannelsOpened,
 		Stats.ChannelLeavesRequested,
+		Stats.ContainerClosesRequested,
+		Stats.ContainerUpsRequested,
 		Stats.ChannelsClosed,
 		Stats.PrivateChannelsRequested,
 		Stats.PrivateChannelsOpened,
