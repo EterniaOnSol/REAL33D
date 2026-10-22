@@ -1,0 +1,62 @@
+{
+  "utc": "2026-10-22T10:43:06.587525+00:00",
+  "probe_pid": 2160,
+  "probe_session": 1,
+  "target_pid": 16764,
+  "target_session": 1,
+  "window_station": "WinSta0",
+  "thread_desktop": "Default",
+  "input_desktop": "Default",
+  "foreground": 12452588,
+  "windows": [
+    {
+      "hwnd": 5047490,
+      "pid": 16764,
+      "title": "REAL33D (64-bit Development PCD3D_SM5) ",
+      "klass": "UnrealWindow",
+      "visible": true,
+      "origin": [
+        320,
+        176
+      ],
+      "size": [
+        1280,
+        800
+      ]
+    },
+    {
+      "hwnd": 5244660,
+      "pid": 16764,
+      "title": "MSCTFIME UI",
+      "klass": "MSCTFIME UI",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    },
+    {
+      "hwnd": 7472538,
+      "pid": 16764,
+      "title": "Default IME",
+      "klass": "IME",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    }
+  ],
+  "activation_result": true,
+  "snapshot_F9": true,
+  "capture": "C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-login-combined-20261022\\build\\certification\\live\\H1\\displaced-after-hold.png",
+  "foreground_after": 5047490
+}

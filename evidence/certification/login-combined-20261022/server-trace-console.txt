@@ -1,0 +1,20 @@
+[New LWP 572]
+[New LWP 571]
+[New LWP 570]
+[New LWP 569]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/usr/lib/x86_64-linux-gnu/libthread_db.so.1".
+__syscall_cancel_arch () at ../sysdeps/unix/sysv/linux/x86_64/syscall_cancel.S:56
+wsl.exe : 
+En línea: 15 Carácter: 130
++ ... `n","`n")); wsl.exe -d Ubuntu-26.04 -- gdb -q -batch -p 564 -x /mnt/c ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+warning: 56	../sysdeps/unix/sysv/linux/x86_64/syscall_cancel.S: No such file or directory
+Hardware assisted breakpoint 1 at 0x5f09c44342b0
+Hardware assisted breakpoint 2 at 0x5f09c4484c90
+Hardware assisted breakpoint 3 at 0x5f09c4480ee0
+Hardware assisted breakpoint 4 at 0x5f09c4481290
+[Inferior 1 (process 564) detached]

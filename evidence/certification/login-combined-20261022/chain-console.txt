@@ -1,0 +1,56 @@
+Launched H1 16764
+World observed H1 2026-10-22T10:38:42.285119+00:00
+{"label": "01-south", "gesture": ["--key", "0x28"], "before": {"x": 32086, "y": 32228, "z": 7}, "after": {"x": 32086, "y": 32229, "z": 7}, "camera_before": {"pitch": -50.0, "yaw": 45.0, "requested_distance": 1173.5, "actual_distance": 1173.5, "obstructed": false, "cutaway_meshes": 0, "hide_upper_floors": false}, "camera_after": {"pitch": -50.0, "yaw": 45.0, "requested_distance": 1173.5, "actual_distance": 1173.5, "obstructed": false, "cutaway_meshes": 0, "hide_upper_floors": false}, "journal": [{"t": 4.692, "phase": "sent", "input_id": 1, "request_id": 1, "direction": "south", "from": {"x": 32086, "y": 32228, "z": 7}, "to": {"x": 32086, "y": 32228, "z": 7}}, {"t": 4.806, "phase": "accepted", "input_id": 1, "request_id": 1, "direction": "south", "from": {"x": 32086, "y": 32228, "z": 7}, "to": {"x": 32086, "y": 32229, "z": 7}}], "requested_before": 0, "requested_after": 1}
+{"label": "02-north", "gesture": ["--key", "0x26"], "before": {"x": 32086, "y": 32229, "z": 7}, "after": {"x": 32086, "y": 32228, "z": 7}, "camera_before": {"pitch": -50.0, "yaw": 45.0, "requested_distance": 1173.5, "actual_distance": 1173.5, "obstructed": false, "cutaway_meshes": 0, "hide_upper_floors": false}, "camera_after": {"pitch": -50.0, "yaw": 45.0, "requested_distance": 1173.5, "actual_distance": 1173.5, "obstructed": false, "cutaway_meshes": 0, "hide_upper_floors": false}, "journal": [{"t": 9.15, "phase": "sent", "input_id": 2, "request_id": 2, "direction": "north", "from": {"x": 32086, "y": 32229, "z": 7}, "to": {"x": 32086, "y": 32229, "z": 7}}, {"t": 9.265, "phase": "accepted", "input_id": 2, "request_id": 2, "direction": "north", "from": {"x": 32086, "y": 32229, "z": 7}, "to": {"x": 32086, "y": 32228, "z": 7}}], "requested_before": 1, "requested_after": 2}
+Holding ownership for 36 seconds H1
+PASS stable owner and displaced-client checks H1
+Closed displaced client C0 after H1 passed the hold
+Launched H2 1888
+World observed H2 2026-10-22T10:39:55.833169+00:00
+{"label": "01-south", "gesture": ["--key", "0x28"], "before": {"x": 32086, "y": 32228, "z": 7}, "after": {"x": 32086, "y": 32229, "z": 7}, "camera_before": {"pitch": -50.0, "yaw": 45.0, "requested_distance": 1173.5, "actual_distance": 1173.5, "obstructed": false, "cutaway_meshes": 0, "hide_upper_floors": false}, "camera_after": {"pitch": -50.0, "yaw": 45.0, "requested_distance": 1173.5, "actual_distance": 1173.5, "obstructed": false, "cutaway_meshes": 0, "hide_upper_floors": false}, "journal": [{"t": 4.493, "phase": "sent", "input_id": 1, "request_id": 1, "direction": "south", "from": {"x": 32086, "y": 32228, "z": 7}, "to": {"x": 32086, "y": 32228, "z": 7}}, {"t": 4.653, "phase": "accepted", "input_id": 1, "request_id": 1, "direction": "south", "from": {"x": 32086, "y": 32228, "z": 7}, "to": {"x": 32086, "y": 32229, "z": 7}}], "requested_before": 0, "requested_after": 1}
+{"label": "02-north", "gesture": ["--key", "0x26"], "before": {"x": 32086, "y": 32229, "z": 7}, "after": {"x": 32086, "y": 32228, "z": 7}, "camera_before": {"pitch": -50.0, "yaw": 45.0, "requested_distance": 1173.5, "actual_distance": 1173.5, "obstructed": false, "cutaway_meshes": 0, "hide_upper_floors": false}, "camera_after": {"pitch": -50.0, "yaw": 45.0, "requested_distance": 1173.5, "actual_distance": 1173.5, "obstructed": false, "cutaway_meshes": 0, "hide_upper_floors": false}, "journal": [{"t": 8.938, "phase": "sent", "input_id": 2, "request_id": 2, "direction": "north", "from": {"x": 32086, "y": 32229, "z": 7}, "to": {"x": 32086, "y": 32229, "z": 7}}, {"t": 9.053, "phase": "accepted", "input_id": 2, "request_id": 2, "direction": "north", "from": {"x": 32086, "y": 32229, "z": 7}, "to": {"x": 32086, "y": 32228, "z": 7}}], "requested_before": 1, "requested_after": 2}
+Holding ownership for 36 seconds H2
+powershell.exe : Traceback (most recent call last):
+En línea: 2 Carácter: 1
++ powershell.exe -NoProfile -ExecutionPolicy Bypass -File evidence/cert ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "C:\Users\dell\Desktop\fusion32\build\cert-login-combined-20261022\evidence\certification\login-combined-2026102
+2\native_ui_driver.py", line 242, in <module>
+    main()
+  File "C:\Users\dell\Desktop\fusion32\build\cert-login-combined-20261022\evidence\certification\login-combined-2026102
+2\native_ui_driver.py", line 144, in main
+    raise RuntimeError(f'Target not foreground; refusing input/capture: {state}')
+RuntimeError: Target not foreground; refusing input/capture: {'utc': '2026-10-22T10:40:42.934169+00:00', 'probe_pid': 
+19008, 'probe_session': 1, 'target_pid': 16764, 'target_session': 1, 'window_station': 'WinSta0', 'thread_desktop': 
+'Default', 'input_desktop': 'Default', 'foreground': 4261700, 'windows': [{'hwnd': 5047490, 'pid': 16764, 'title': 
+'REAL33D (64-bit Development PCD3D_SM5) ', 'klass': 'UnrealWindow', 'visible': True, 'origin': [320, 176], 'size': 
+[1280, 800]}, {'hwnd': 5244660, 'pid': 16764, 'title': 'MSCTFIME UI', 'klass': 'MSCTFIME UI', 'visible': False, 
+'origin': [0, 0], 'size': [0, 0]}, {'hwnd': 7472538, 'pid': 16764, 'title': 'Default IME', 'klass': 'IME', 'visible': 
+False, 'origin': [0, 0], 'size': [0, 0]}], 'activation_result': False}
+Traceback (most recent call last):
+  File "C:\Users\dell\Desktop\fusion32\build\cert-login-combined-20261022\evidence\certification\login-combined-2026102
+2\live_session.py", line 107, in <module>
+    old = capture(previous, old_meta['pid'], 'displaced-after-hold')
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dell\Desktop\fusion32\build\cert-login-combined-20261022\evidence\certification\login-combined-2026102
+2\live_session.py", line 46, in capture
+    subprocess.run([sys.executable, str(Path(__file__).with_name('native_ui_driver.py')),
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python311\Lib\subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['C:\\Users\\dell\\AppData\\Local\\Programs\\Python\\Python311\\python.exe', 'C
+:\\Users\\dell\\Desktop\\fusion32\\build\\cert-login-combined-20261022\\evidence\\certification\\login-combined-2026102
+2\\native_ui_driver.py', '--pid', '16764', '--activate', '--snapshot', '--capture', 'C:\\Users\\dell\\Desktop\\fusion32
+\\build\\cert-login-combined-20261022\\build\\certification\\live\\H1\\displaced-after-hold.png', '--record', 'C:\\User
+s\\dell\\Desktop\\fusion32\\build\\cert-login-combined-20261022\\build\\certification\\live\\H1\\displaced-after-hold-i
+nput.json']' returned non-zero exit status 1.
+Live checks failed for H2; preserve both clients
+En C:\Users\dell\Desktop\fusion32\build\cert-login-combined-20261022\evidence\certification\login-combined-20261022\run
+_chain.ps1: 8 Carácter: 32
++ ... DE -ne 0) { throw "Live checks failed for $newName; preserve both cli ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Live checks fai...ve both clients:String) [], RuntimeException
+    + FullyQualifiedErrorId : Live checks failed for H2; preserve both clients
+ 

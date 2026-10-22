@@ -1,0 +1,64 @@
+{
+  "utc": "2026-10-22T10:49:22.544821+00:00",
+  "probe_pid": 15780,
+  "probe_session": 1,
+  "target_pid": 15592,
+  "target_session": 1,
+  "window_station": "WinSta0",
+  "thread_desktop": "Default",
+  "input_desktop": "Default",
+  "foreground": 3671512,
+  "windows": [
+    {
+      "hwnd": 3671512,
+      "pid": 15592,
+      "title": "REAL33D (64-bit Development PCD3D_SM5) ",
+      "klass": "UnrealWindow",
+      "visible": true,
+      "origin": [
+        320,
+        176
+      ],
+      "size": [
+        1280,
+        800
+      ]
+    },
+    {
+      "hwnd": 7931290,
+      "pid": 15592,
+      "title": "MSCTFIME UI",
+      "klass": "MSCTFIME UI",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    },
+    {
+      "hwnd": 8652744,
+      "pid": 15592,
+      "title": "Default IME",
+      "klass": "IME",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    }
+  ],
+  "activation_result": true,
+  "real_key": 38,
+  "key_hold_seconds": 0.08,
+  "snapshot_F9": true,
+  "capture": "C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-login-combined-20261022\\build\\certification\\live\\Recovery\\02-north.png",
+  "foreground_after": 3671512
+}

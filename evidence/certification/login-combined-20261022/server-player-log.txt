@@ -1,0 +1,14 @@
+game.log: Spieler Test Player B loggt ein an Socket 15 von 127.0.0.1.
+game.log: Spieler Test Player B loggt ein an Socket 16 von 127.0.0.1.
+game.log: Spieler Test Player B übernimmt Verbindung.
+game.log: Spieler Test Player B loggt ein an Socket 17 von 127.0.0.1.
+game.log: Spieler Test Player B übernimmt Verbindung.
+game.log: Spieler Test Player B loggt ein an Socket 15 von 127.0.0.1.
+game.log: Spieler Test Player B übernimmt Verbindung.
+game.log: Spieler Test Player B loggt ein an Socket 3 von 127.0.0.1.
+game.log: Spieler Test Player B übernimmt Verbindung.
+game.log: Spieler Test Player B loggt aus.
+Lösche Markierungen von Spieler Test Player B.
+game.log: Spieler Test Player B loggt ein an Socket 17 von 127.0.0.1.
+game.log: Spieler Test Player B loggt aus.
+Lösche Markierungen von Spieler Test Player B.

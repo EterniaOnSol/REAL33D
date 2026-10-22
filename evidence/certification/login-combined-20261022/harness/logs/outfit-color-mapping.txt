@@ -1,0 +1,78 @@
+image   C:/Users/dell/Desktop/fusion32/build/cert-login-combined-20261022/build/classic-client-772/app/Tibia.exe
+bytes   1875968
+sha256  1A82FE97A39E536C29327D6D5DDE316775F537DCC01506831429B1A0433B76F8
+
+-- the dialog is the outfit chooser --
+  PASS  'Select Outfit' title present
+  PASS  the window's own description names body parts
+
+-- link 1: four rows, i = 0..3, label chosen from i --
+  PASS  i starts at zero
+  PASS  loop runs while i < 4
+  PASS  table guarded by i <= 3
+  PASS  dispatch is jmp [edi*4 + 0x0047D648]
+  PASS  i is incremented, then control returns to the loop top
+  PASS  case at 0x0047D28C loads a literal
+  PASS    that literal is 'Head'
+  PASS  case at 0x0047D295 loads a literal
+  PASS    that literal is 'Body'
+  PASS  case at 0x0047D29E loads a literal
+  PASS    that literal is 'Legs'
+  PASS  case at 0x0047D2A7 loads a literal
+  PASS    that literal is 'Feet'
+
+-- the jump table itself --
+  index 0 -> 0x0047D28C = 'Head'
+  index 1 -> 0x0047D295 = 'Body'
+  index 2 -> 0x0047D29E = 'Legs'
+  index 3 -> 0x0047D2A7 = 'Feet'
+
+-- link 2: row i becomes the selected slot --
+  PASS  row i gets control id 1000+i
+  PASS  row widget stored at rows[i]
+  PASS  a click stores id-1000 as the slot
+
+-- link 3: a swatch writes colours[slot] --
+  PASS  swatch ids guarded from below (2000)
+  PASS  swatch ids guarded from above (2215)
+  PASS  slot read back before the store
+  PASS  value is id - 2000
+  PASS  store is colours[slot] = value
+
+-- link 4: SV_CMD_OUTFIT loads colours[0..3] in wire order --
+  PASS  inbound colour 0 load
+  PASS  inbound colour 0 -> colours[0]
+  PASS  inbound colour 1 load
+  PASS  inbound colour 1 -> colours[1]
+  PASS  inbound colour 2 load
+  PASS  inbound colour 2 -> colours[2]
+  PASS  inbound colour 3 load
+  PASS  inbound colour 3 -> colours[3]
+
+-- link 5: OK passes the array and the id to the sender --
+  PASS  id loaded from the dialog
+  PASS  &colours[0] taken
+  PASS  pushed as (colours, id)
+  PASS  call targets the sender at 0x00409830
+
+-- link 6: the sender writes 211, the id, then colours[0..3] --
+  PASS  second argument is the colours array
+  PASS  opcode pushed is 211 (0xD3)
+  PASS  the id is the first argument
+  PASS  wire byte 0 reads colours[0]
+  PASS  wire byte 1 reads colours[1]
+  PASS  wire byte 2 reads colours[2]
+  PASS  wire byte 3 reads colours[3]
+
+-- and the request side, for completeness --
+  PASS  GET_OUTFIT pushes 210 (0xD2)
+
+====================================================================
+COLOUR SLOT MAPPING: VERIFIED against the classic 7.72 client
+  Colors[0]  wire byte 0  ->  Head
+  Colors[1]  wire byte 1  ->  Body
+  Colors[2]  wire byte 2  ->  Legs
+  Colors[3]  wire byte 3  ->  Feet
+
+Noted, not claimed:
+  - The swatch guard spans 2000..2215, which is 216 ids, while the server refuses any colour above 132 (receiving.cc lines 1440-1443). The guard is a control-id range test, not a count of populated swatches, so it does not establish how many colours the palette actually offers. Treat 132 as the bound; the palette's true size is UNVERIFIED here.

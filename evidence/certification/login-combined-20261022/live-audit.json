@@ -1,0 +1,117 @@
+{
+  "sessions": {
+    "C0": {
+      "connects": 1,
+      "inits": 1,
+      "worlds": 1,
+      "reconnects": 0,
+      "hold_seconds": 37.699894,
+      "first_cardinal_seconds_after_world": 3.237,
+      "accepted_walks": 2,
+      "authoritative_position": {
+        "x": 32086,
+        "y": 32228,
+        "z": 7
+      },
+      "displaced_no_reconnect": true
+    },
+    "H1": {
+      "connects": 1,
+      "inits": 1,
+      "worlds": 1,
+      "reconnects": 0,
+      "hold_seconds": 39.611136,
+      "first_cardinal_seconds_after_world": 3.091,
+      "accepted_walks": 2,
+      "authoritative_position": {
+        "x": 32086,
+        "y": 32228,
+        "z": 7
+      },
+      "displaced_no_reconnect": true
+    },
+    "H2": {
+      "connects": 1,
+      "inits": 1,
+      "worlds": 1,
+      "reconnects": 0,
+      "hold_seconds": 277.85105,
+      "first_cardinal_seconds_after_world": 2.971,
+      "accepted_walks": 2,
+      "authoritative_position": {
+        "x": 32086,
+        "y": 32228,
+        "z": 7
+      },
+      "displaced_no_reconnect": true
+    },
+    "H3": {
+      "connects": 1,
+      "inits": 1,
+      "worlds": 1,
+      "reconnects": 0,
+      "hold_seconds": 40.621427,
+      "first_cardinal_seconds_after_world": 3.024,
+      "accepted_walks": 2,
+      "authoritative_position": {
+        "x": 32086,
+        "y": 32228,
+        "z": 7
+      },
+      "displaced_no_reconnect": true
+    },
+    "H4": {
+      "connects": 1,
+      "inits": 1,
+      "worlds": 1,
+      "reconnects": 0,
+      "hold_seconds": 40.61093,
+      "first_cardinal_seconds_after_world": 3.951,
+      "accepted_walks": 2,
+      "authoritative_position": {
+        "x": 32086,
+        "y": 32228,
+        "z": 7
+      }
+    },
+    "Recovery": {
+      "connects": 1,
+      "inits": 1,
+      "worlds": 1,
+      "reconnects": 1,
+      "hold_seconds": 37.685899,
+      "first_cardinal_seconds_after_world": 2.733,
+      "accepted_walks": 2,
+      "authoritative_position": {
+        "x": 32086,
+        "y": 32228,
+        "z": 7
+      },
+      "service_restored_seconds_after_observed_failure": 1.396201,
+      "remote_closed_observation_seconds": 37.85
+    }
+  },
+  "login_service_retry": {
+    "initial_failure": 1,
+    "retries": 3,
+    "delays_after_failure_seconds": [
+      5.05,
+      5.049,
+      5.051
+    ]
+  },
+  "dll_sha256": "6152cb9301b5ba46fa2cc17a7a5e2869c03b4fa579feae7e6e822da3e5cba84b",
+  "server_call_counts": {
+    "INIT_GAME": 6,
+    "FULLSCREEN": 6,
+    "TAKEOVER": 4,
+    "CLEAR_TARGET": 4
+  },
+  "protocol_scan": {
+    "files": 125,
+    "residual_bytes": 0,
+    "unsupported_opcodes": 0,
+    "protocol_anomalies": 0
+  },
+  "certification": "CERTIFIED"
+}

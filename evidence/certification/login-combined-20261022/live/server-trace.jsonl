@@ -1,0 +1,22 @@
+{"event": "TRACE_READY", "server_pid": 564, "debugger_pid": 805, "utc": "2026-10-22T10:30:29.197718+00:00"}
+{"event": "INIT_GAME", "server_pid": 564, "connection": "0x5f09c8996260", "thread": [564, 564, 0], "creature_id": 1002, "utc": "2026-10-22T10:36:00.955694+00:00"}
+{"event": "FULLSCREEN", "server_pid": 564, "connection": "0x5f09c8996260", "thread": [564, 564, 0], "utc": "2026-10-22T10:36:01.060442+00:00"}
+{"event": "TAKEOVER", "server_pid": 564, "connection": "0x5f09c899b918", "thread": [564, 564, 0], "utc": "2026-10-22T10:38:40.809538+00:00"}
+{"event": "CLEAR_TARGET", "server_pid": 564, "connection": "0x5f09c899b918", "thread": [564, 564, 0], "utc": "2026-10-22T10:38:40.828453+00:00"}
+{"event": "INIT_GAME", "server_pid": 564, "connection": "0x5f09c899b918", "thread": [564, 564, 0], "creature_id": 1002, "utc": "2026-10-22T10:38:40.854662+00:00"}
+{"event": "FULLSCREEN", "server_pid": 564, "connection": "0x5f09c899b918", "thread": [564, 564, 0], "utc": "2026-10-22T10:38:40.868908+00:00"}
+{"event": "TAKEOVER", "server_pid": 564, "connection": "0x5f09c8996260", "thread": [564, 564, 0], "utc": "2026-10-22T10:39:54.409602+00:00"}
+{"event": "CLEAR_TARGET", "server_pid": 564, "connection": "0x5f09c8996260", "thread": [564, 564, 0], "utc": "2026-10-22T10:39:54.424661+00:00"}
+{"event": "INIT_GAME", "server_pid": 564, "connection": "0x5f09c8996260", "thread": [564, 564, 0], "creature_id": 1002, "utc": "2026-10-22T10:39:54.436218+00:00"}
+{"event": "FULLSCREEN", "server_pid": 564, "connection": "0x5f09c8996260", "thread": [564, 564, 0], "utc": "2026-10-22T10:39:54.460359+00:00"}
+{"event": "TAKEOVER", "server_pid": 564, "connection": "0x5f09c899b918", "thread": [564, 564, 0], "utc": "2026-10-22T10:45:07.942688+00:00"}
+{"event": "CLEAR_TARGET", "server_pid": 564, "connection": "0x5f09c899b918", "thread": [564, 564, 0], "utc": "2026-10-22T10:45:07.948559+00:00"}
+{"event": "INIT_GAME", "server_pid": 564, "connection": "0x5f09c899b918", "thread": [564, 564, 0], "creature_id": 1002, "utc": "2026-10-22T10:45:07.965272+00:00"}
+{"event": "FULLSCREEN", "server_pid": 564, "connection": "0x5f09c899b918", "thread": [564, 564, 0], "utc": "2026-10-22T10:45:07.976813+00:00"}
+{"event": "TAKEOVER", "server_pid": 564, "connection": "0x5f09c8996260", "thread": [564, 564, 0], "utc": "2026-10-22T10:46:21.911251+00:00"}
+{"event": "CLEAR_TARGET", "server_pid": 564, "connection": "0x5f09c8996260", "thread": [564, 564, 0], "utc": "2026-10-22T10:46:21.944132+00:00"}
+{"event": "INIT_GAME", "server_pid": 564, "connection": "0x5f09c8996260", "thread": [564, 564, 0], "creature_id": 1002, "utc": "2026-10-22T10:46:21.977889+00:00"}
+{"event": "FULLSCREEN", "server_pid": 564, "connection": "0x5f09c8996260", "thread": [564, 564, 0], "utc": "2026-10-22T10:46:21.991328+00:00"}
+{"event": "CLEAR_TARGET", "server_pid": 564, "connection": "0x0", "thread": [564, 564, 0], "utc": "2026-10-22T10:47:30.123227+00:00"}
+{"event": "INIT_GAME", "server_pid": 564, "connection": "0x5f09c8996260", "thread": [564, 564, 0], "creature_id": 1002, "utc": "2026-10-22T10:49:15.717005+00:00"}
+{"event": "FULLSCREEN", "server_pid": 564, "connection": "0x5f09c8996260", "thread": [564, 564, 0], "utc": "2026-10-22T10:49:15.720543+00:00"}
