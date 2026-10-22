@@ -1,0 +1,8 @@
+{"t":11.075,"phase":"sent","input_id":1,"request_id":1,"direction":"north","from":{"x":32088,"y":32229,"z":7},"to":{"x":32088,"y":32229,"z":7}}
+{"t":11.222,"phase":"accepted","input_id":1,"request_id":1,"direction":"north","from":{"x":32088,"y":32229,"z":7},"to":{"x":32088,"y":32228,"z":7}}
+{"t":12.027,"phase":"sent","input_id":2,"request_id":2,"direction":"south","from":{"x":32088,"y":32228,"z":7},"to":{"x":32088,"y":32228,"z":7}}
+{"t":12.129,"phase":"accepted","input_id":2,"request_id":2,"direction":"south","from":{"x":32088,"y":32228,"z":7},"to":{"x":32088,"y":32229,"z":7}}
+{"t":13.015,"phase":"sent","input_id":3,"request_id":3,"direction":"west","from":{"x":32088,"y":32229,"z":7},"to":{"x":32088,"y":32229,"z":7}}
+{"t":13.123,"phase":"accepted","input_id":3,"request_id":3,"direction":"west","from":{"x":32088,"y":32229,"z":7},"to":{"x":32087,"y":32229,"z":7}}
+{"t":14.014,"phase":"sent","input_id":4,"request_id":4,"direction":"east","from":{"x":32087,"y":32229,"z":7},"to":{"x":32087,"y":32229,"z":7}}
+{"t":14.118,"phase":"accepted","input_id":4,"request_id":4,"direction":"east","from":{"x":32087,"y":32229,"z":7},"to":{"x":32088,"y":32229,"z":7}}

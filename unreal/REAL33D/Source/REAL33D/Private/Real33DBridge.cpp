@@ -3,6 +3,7 @@
 #include "Real33DChatViews.h"
 #include "Real33DItemUsePolicy.h"
 #include "Real33DMinimapPalette.h"
+#include "Real33DHandshakeFrame.h"
 #include "Real33DWalkDirection.h"
 
 #include "HAL/PlatformProcess.h"
@@ -780,23 +781,39 @@ private:
 		while (At < Bytes.size())
 		{
 			const std::uint8_t Opcode = Bytes[At];
-			if (Opcode == p772::kGameInitOpcode && At == 0)
+
+			// The handshake commands, by identity rather than by offset.
+			//
+			// These used to be accepted only at offset 0 and offset 8, which is
+			// where a cold login puts them and is not a protocol rule. On a
+			// handover -- the same character logging in again while still
+			// online -- `TPlayer::TakeOver` assigns the new connection first and
+			// its `Combat.StopAttack(0)` emits SV_CMD_CLEAR_TARGET onto it
+			// before `SendInitGame`, so INIT_GAME arrives at offset 1 and the
+			// positional test missed it. An unrecognised opcode stops the walk,
+			// so the entire rest of that payload -- the whole initial world --
+			// was dropped, and the session came up with no map and every walk
+			// refused. See Real33DHandshakeFrame.h.
+			const Real33D::HandshakeSpan Handshake =
+				Real33D::HandshakeCommandAt(Opcode, Bytes.size() - At);
+			if (Handshake.Command == Real33D::HandshakeCommand::Truncated)
 			{
-				if (Bytes.size() < 8)
-				{
-					break;
-				}
-				State.local_creature_id = static_cast<std::uint32_t>(Bytes[1])
-					| (static_cast<std::uint32_t>(Bytes[2]) << 8)
-					| (static_cast<std::uint32_t>(Bytes[3]) << 16)
-					| (static_cast<std::uint32_t>(Bytes[4]) << 24);
-				At += 8;
+				break;
+			}
+			if (Handshake.Command == Real33D::HandshakeCommand::InitGame)
+			{
+				// Adopted whenever it arrives. A handover re-states the same
+				// creature id and is followed by a fresh SV_CMD_FULLSCREEN,
+				// which replaces the world wholesale; nothing here re-logs in.
+				State.local_creature_id =
+					Real33D::InitGameCreatureId(Bytes.data() + At);
+				At += Handshake.Length;
 				++LocalCommands;
 				continue;
 			}
-			if (Opcode == p772::kGameRightsOpcode && At == 8 && Bytes.size() - At >= 33)
+			if (Handshake.Command == Real33D::HandshakeCommand::Rights)
 			{
-				At += 33;
+				At += Handshake.Length;
 				++LocalCommands;
 				continue;
 			}
@@ -821,10 +838,16 @@ private:
 				// Name it on the way out. "unsupported_opcodes: 2" is a number
 				// nobody can act on; the command's own name says whether this
 				// is the known chat gap or something new.
+				// The offset and the payload size, not just the remainder. Where
+				// in a payload an undecoded opcode sits is the difference
+				// between "the server sent something new" and "this client lost
+				// its place earlier in the same frame", and the old message
+				// could not tell those apart.
 				Publish(MakeFailure(EReal33DEventKind::Diagnostic,
 					FString::Printf(
-						TEXT("%hs is not decoded; %d bytes of the payload left unwalked"),
+						TEXT("%hs is not decoded at offset %d of %d; %d bytes of the payload left unwalked"),
 						p772::ServerCommandName(Opcode),
+						static_cast<int32>(At), static_cast<int32>(Bytes.size()),
 						static_cast<int32>(Bytes.size() - At))));
 				FScopeLock Lock(&StatsMutex);
 				++Stats.UnsupportedOpcodes;

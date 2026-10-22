@@ -1,75 +1,99 @@
-# HANDOFF - independent UNREAL-DIAGONAL-INPUT-001 certification
+# HANDOFF - UNREAL-LOGIN-HANDOVER-001
 
-Date/time: 2026-10-22, America/Guatemala.
-Agent / role: Codex, independent certification.
-Branch: `certification/unreal-diagonal-input-001-20261022`.
-Worktree: `C:/Users/dell/Desktop/fusion32/build/cert-diagonal-input-20261022`.
-Starting implementation: `eb17e26ed79f63bf60e6ec709b9c1540ab008694`.
-Ending commit: the evidence-only certification commit carrying this handoff.
-Main remains: `a868572864519b8497af30c5054b78d803b81826`.
-Prior handoff: `archive/20261022-diagonal-implementation.md`.
+Date/time: 2026-10-22, America/Guatemala
+Agent / role: Claude; diagnosis, fix and live QA
+Starting commit: `73c01e330ef35cb3ba8b1fa65bec75596a8f183c` (origin/main)
+Ending commit: the commit carrying this handoff on
+`milestone/unreal-login-handover-001`
+Worktree: `C:/Users/dell/Desktop/fusion32`
+Prior handoff: `handoffs/archive/20261022-unreal-diagonal-input-001.md`
 
-## Outcome
+LOGIN_HANDOVER_001_STATUS = **PASS**
+MAIN_MERGE = NONE. PUSH = NONE.
+SERVER CHANGE = **NONE**. PROTOCOL LAYOUT CHANGE = **NONE**.
 
-CERTIFIED for the requested matrix, with explicit attribution limits below.
-Milestone pushed normally, remote exact HEAD resolved, one-parent ancestry
-verified, fresh certification worktree created from that full SHA. No merges,
-rebases, cherry-picks, force pushes or implementation changes. Main is untouched.
+## Reproducing it was the first result
 
-All four north-facing diagonals passed on the final camera-relative source.
-Real camera orbit moved yaw 270.57 -> 91.30 (179.27 degrees); W independently
-confirmed north then south, and Q/E changed to southeast/southwest with exact
-server deltas. Repeat presses, cardinal alternation, a natural blocked diagonal,
-chat focus, WASD/arrows/mouse and Look were exercised with real SendInput.
+A plain kill-and-relaunch **does not** reproduce this. Killing the process
+closes the socket, Fusion32 logs the character out within a second, and the
+~45s engine boot means the next login is an ordinary cold one. Two such
+attempts gave clean sessions and clean `loggt ein` / `loggt aus` server pairs.
 
-25 controlled walk requests have exact gesture/request/response attribution.
-Session totals: 26 requested, 25 accepted, one rejected, 25 local-player moves,
-zero unanswered/external relocations, no duplicate sends/terminal responses.
-All protocol counters zero; 448 frames / 580 commands at EndPlay. The player
-returned to starting (32088,32229,7), the window closed normally, and the normal
-Fusion32 services started for this certification stopped cleanly.
+It needs a **second login for a character still online**, which
+`connections.cc` routes to `TPlayer::TakeOver` — confirmed by the server's own
+`übernimmt Verbindung`. Reproduced by launching a second REAL33D on the same
+account while the first was in game.
 
-## Evidence and tests
+## Root cause
 
-Report: `evidence/certification/diagonal-input-20261022/README.md`.
-Reproduce the read-only audit:
+`TakeOver` assigns the new connection first and only then tidies up.
+`Combat.StopAttack(0)` emits `SV_CMD_CLEAR_TARGET` (163, zero body) onto that
+new connection **before** `SendInitGame` is reached, so a handover's first game
+payload is `[CLEAR_TARGET][INIT_GAME][FULLSCREEN]` — INIT_GAME at **offset 1**.
+A cold login has no such prologue, which is why this was invisible until now.
 
-```
-python evidence/certification/diagonal-input-20261022/audit_live.py evidence/certification/diagonal-input-20261022/live
-```
+`ProcessPayload` recognised the handshake commands **by position** (`At == 0`
+for INIT_GAME, `At == 8` for RIGHTS). Those offsets are where a cold login puts
+them and are not a protocol rule. The test missed, the opcode fell through to
+`DecodeServerUpdate`, and the walker stopped — discarding the remaining 1920
+bytes, the whole `SV_CMD_FULLSCREEN`. Hence no map and every walk refused.
 
-`live/` retains before/after snapshots, every completed probe's input record
-and journal delta, raw movement journal, original REAL33D log, nine selected
-screenshots, launcher provenance, and audit PASS. External driver and wrapper
-are certification-only files outside production Source. No game callbacks,
-synthetic protocol calls or fabricated runtime/server/inventory data.
+Captured verbatim:
+`head=A3 0A EA 03 00 00 32 00 00 64 58 7D` — 163, INIT_GAME, creature 1002,
+FULLSCREEN.
 
-ClientCore 14/14; native 8/8; Unreal automation 10/10, zero errors;
-clean Unreal build; MSVC sanity; final harness 11 PASS / 0 FAIL / 0 SKIP,
-367 logs scanned clean; Git Bash secret_check 6/6.
-The harness explicitly does not exercise the unrelated native runtime MultiUse
-branch without --objects-srv. Full results under the report's `tests/` folder.
+## Fix
 
-Two initial build attempts failed due to full disk and its damaged PCH.
-Only validated untracked Intermediate caches were removed; the clean rebuild
-passed. Both failures remain in evidence. Final harness relinked the same
-source after rebuilding its MSVC library; live and later DLL hashes are both
-recorded accurately in the report.
+Opcodes 10 and 11 are recognised **by identity at a command boundary**,
+wherever they appear. Unambiguous: `connections.hh` gives no in-game command a
+value below 100 apart from login errors 20..22 and ping 30.
 
-## Remaining UNVERIFIED and boundaries
+The rule is in `Real33DHandshakeFrame.h`, free of Unreal types, proven by
+`tests/real33d_handshake_frame_tests.cpp` on a plain toolchain with the real
+observed bytes. No sleep, no retry, nothing dropped, no server or layout
+change. ClientCore's decoder was deliberately left alone.
 
-Setup input/request 1 was an unexpected NW walk during a camera-only probe.
-Its origin is UNVERIFIED, neither blamed on the user nor declared a feature
-defect. It is preserved and excluded from controlled gesture attribution.
-An orbit attempt lost foreground and aborted; retry 33b passed. No whole-session
-claim of zero unexplained input is made. East/west-facing camera quadrants,
-held-key diagonal repetition and modified diagonals were not live-certified.
-Separate login-handover INIT_GAME issue: untouched and not certified here.
+The `not decoded` diagnostic now reports the **offset** too — without it,
+"the server sent something new" and "this client lost its place earlier in the
+same frame" are indistinguishable, and that distinction was the diagnosis.
 
-## Next task
+## Live QA
 
-Ready for separately authorized integration of this certification branch.
-Do not merge automatically. Before integration fetch and re-check exact linear
-ancestry and expected main; preserve the limitations above. No further feature
-change or repeat deterministic tests is needed for these documentation changes.
-Preserve pre-existing untracked files in the implementation workspace.
+Cold launch: in game, 0 diagnostics, 336 tiles, 47 commands.
+Handover: in game, 0 diagnostics, 336 tiles, 51 commands.
+Four chained handovers: all in game, **0 diagnostics in all four**.
+Movement immediately after login on both the cold and the handover client:
+four cardinals, **sent 4, accepted 4**.
+Server log: one `loggt ein` per client, one `übernimmt Verbindung` per handover.
+All protocol counters 0, `last_diagnostic` `none`.
+
+## Tests
+
+ClientCore 14/14 · native 9/9 · Unreal automation 10/10, 0 errors, 0 warnings ·
+REAL33DEditor built · MSVC archive · harness **11 PASS / 0 FAIL / 0 SKIP** over
+97 logs · secret_check 6/6.
+
+## Remaining UNVERIFIED
+
+- `ParseGameInitialMessage` in ClientCore holds the **same** positional
+  assumption. It is not reached on this path, so it was left alone rather than
+  changed speculatively; a future caller driving login through it needs the
+  same correction.
+- Only the `StopAttack` prologue was seen. `TakeOver` also calls
+  `ClearRequest`, `LeaveAllChannels`, `CloseAllContainers` and `RejectTrade`
+  before `SendInitGame`; under the right state any could prepend more commands.
+  The fix is indifferent to how many, but only CLEAR_TARGET was observed.
+- A genuine network-drop-then-reconnect was not staged; every handover was
+  driven by a second client on the same account.
+- Movement was verified with the four cardinals only.
+
+## Exact next task
+
+`CLIENTCORE-LOGIN-HANDOVER-002` if wanted: give `ParseGameInitialMessage` the
+same identity-based recognition, so a caller that drives login through
+ClientCore rather than walking `message_bytes` cannot hit this.
+
+## Environment
+
+Fusion32 started with `scripts/server/start_wsl.sh` and **stopped cleanly**
+(`All services stopped cleanly`). No server data was edited.
