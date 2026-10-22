@@ -1,3 +1,9 @@
+Resume environment closure: REAL33D exited normally via its engine time limit. The three Fusion32 services, initially stopped, were stopped cleanly after the connection check. The user requested autonomous native-connection recovery; official documentation and Plugin Management exposed no usable restart API. No gestures were executed. The earlier 'No live session was started' statement below belongs to the first certification attempt and is superseded by this resume.
+
+## 2026-10-21 live connection resume
+
+REAL33D independently reconnected to the normal Fusion32 runtime at implementation 1abb013. EndPlay: 46.6 seconds, 57 server commands, residual/unsupported/anomalies=0; moves/uses/looks=0. Computer Use native pipe still unavailable after retry/reset, so all requested gesture rows remain UNVERIFIED. No implementation changes, deterministic reruns, main merge or fabricated data. Evidence: evidence/clientcore/unreal-stack-move-controls-independent-20261021/README.md (resume section). Certification remains BLOCKED; READY_TO_MERGE_MAIN=NO.
+
 # Handoff: independent UNREAL-STACK-MOVE-CONTROLS-001 review
 
 Date: 2026-10-21, America/Guatemala. Reviewer: Codex.

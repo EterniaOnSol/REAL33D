@@ -1,0 +1,59 @@
+﻿[2026.10.21-23.27.03:813][  0]LogReal33D: scene built from code
+[2026.10.21-23.27.03:831][  0]LogReal33D: trade window: own=0(0 items) partner=0(0 items) accept_sent=0
+[2026.10.21-23.27.03:852][  0]LogReal33D: Use With target cursor: existing asset loaded
+[2026.10.21-23.27.04:116][  0]LogReal33D: loaded approved visual for obj:3501
+[2026.10.21-23.27.04:116][  0]LogReal33D: wide world disabled: radius=64 sector=32 cache=C:/Users/dell/Desktop/fusion32/build/cert-stack-move-controls-20261021/unreal/REAL33D/Saved/WideWorldCache fallback=C:/Users/dell/Desktop/fusion32/build/cert-stack-move-controls-20261021/visual/reference_pack/previews/item
+[2026.10.21-23.27.04:117][  0]LogReal33D: connecting to 127.0.0.1:7171 as account B
+[2026.10.21-23.27.04:121][  0]LogReal33D: speech display lifetime 6.0s (NOT a proven 7.72 value)
+[2026.10.21-23.27.04:192][  0]LogReal33D: Use target metadata: 204 runtime MultiUse types
+[2026.10.21-23.27.05:305][  1]LogReal33D: trade window: own=0(0 items) partner=0(0 items) accept_sent=0
+[2026.10.21-23.27.05:307][  1]LogReal33D: HUD vitals: HP --/--   Mana --/--   Level --
+[2026.10.21-23.27.05:309][  1]LogReal33D: minimap observation: player=32097,32210,7 known=252 live=252 viewport=18x14
+[2026.10.21-23.27.05:311][  1]LogReal33D: minimap cache saved: cells=252
+[2026.10.21-23.27.05:311][  1]LogReal33D: connected: Test Player B
+[2026.10.21-23.27.05:311][  1]LogReal33D: server message [LoginMessage]: Your last visit in Tibia: 21. Oct 2026 16:43:15 CST.
+[2026.10.21-23.27.05:311][  1]LogReal33D: local player is creature 1002
+[2026.10.21-23.27.05:477][  1]LogReal33D: creature 1002 outfit 139: delivered visual unavailable; placeholder
+[2026.10.21-23.27.05:477][  1]LogReal33D: creature 1002 "Test Player B" appeared at 32097,32210,7 health 38%
+[2026.10.21-23.27.05:477][  1]LogReal33D: creature 1073742106 outfit 136: delivered visual unavailable; placeholder
+[2026.10.21-23.27.05:477][  1]LogReal33D: creature 1073742106 "Dixi" appeared at 32105,32208,6 health 100%
+[2026.10.21-23.27.05:477][  1]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.05:549][  2]LogReal33D: HUD vitals: HP 64/165   Mana 15/15   Level 4
+[2026.10.21-23.27.06:375][ 72]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.08:370][340]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.10:368][607]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.12:370][868]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.21-23.27.12:370][868]LogReal33D: creature 1073741889 "Cipfried" appeared at 32096,32217,7 health 100%
+[2026.10.21-23.27.12:371][868]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.14:374][133]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.16:372][397]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.18:372][661]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.20:370][922]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.22:376][185]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.24:375][448]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.21-23.27.24:375][448]LogReal33D: creature 1073741889 "Cipfried" appeared at 32096,32217,7 health 100%
+[2026.10.21-23.27.24:376][448]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.26:377][711]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.28:371][973]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.21-23.27.28:371][973]LogReal33D: creature 1073741889 "Cipfried" appeared at 32096,32217,7 health 100%
+[2026.10.21-23.27.28:371][973]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.30:370][235]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.32:369][496]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.34:371][758]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.35:319][882]LogReal33D: minimap cache saved: cells=252
+[2026.10.21-23.27.36:369][ 19]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.38:377][279]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.40:366][539]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.42:375][798]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.44:376][ 58]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.46:377][319]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.48:369][578]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.50:374][818]LogReal33D: creature 1073741889 outfit 57: delivered visual unavailable; placeholder
+[2026.10.21-23.27.50:374][818]LogReal33D: creature 1073741889 "Cipfried" appeared at 32097,32217,7 health 100%
+[2026.10.21-23.27.50:375][818]LogReal33D: floor visibility: player floor 7 covered=false hidden upper tiles=0
+[2026.10.21-23.27.50:672][854]LogWindows: FPlatformMisc::RequestExit(0, FEngineLoop::Tick.Benchmarking)
+[2026.10.21-23.27.50:673][854]LogWindows: FPlatformMisc::RequestExitWithStatus(0, 0, FEngineLoop::Tick.Benchmarking)
+[2026.10.21-23.27.50:673][854]LogCore: Engine exit requested (reason: Win RequestExit)
+[2026.10.21-23.27.50:680][855]LogCore: Engine exit requested (reason: EngineExit() was called; note: exit was already requested)
+[2026.10.21-23.27.50:704][855]LogReal33D: evidence written to C:\Users\dell\Desktop\fusion32\build\cert-stack-move-controls-20261021\build\certification\live-resume-20261021/unreal_slice_evidence.json
+[2026.10.21-23.27.50:725][855]LogReal33D: minimap cache saved: cells=252

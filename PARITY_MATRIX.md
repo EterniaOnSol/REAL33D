@@ -1,3 +1,7 @@
+## 2026-10-21 live connection resume
+
+REAL33D independently reconnected to the normal Fusion32 runtime at implementation 1abb013. EndPlay: 46.6 seconds, 57 server commands, residual/unsupported/anomalies=0; moves/uses/looks=0. Computer Use native pipe still unavailable after retry/reset, so all requested gesture rows remain UNVERIFIED. No implementation changes, deterministic reruns, main merge or fabricated data. Evidence: evidence/clientcore/unreal-stack-move-controls-independent-20261021/README.md (resume section). Certification remains BLOCKED; READY_TO_MERGE_MAIN=NO.
+
 ## 2026-10-21 independent UNREAL-STACK-MOVE-CONTROLS-001 review
 
 Independent live certification is BLOCKED: the Windows Computer Use native pipe is unavailable after retry and session reset. No new live gesture was exercised; all requested live rows remain UNVERIFIED. Candidate 1abb013bf711978b9439b6abe836672b5f4148ac was normally pushed and reviewed in a fresh isolated worktree; main was not merged. No implementation change. Independent ClientCore 14/14, native 7/7 and Git Bash secret_check 6/6 PASS. Build/automation details and explicit limits: evidence/clientcore/unreal-stack-move-controls-independent-20261021/README.md. READY_TO_MERGE_MAIN=NO.

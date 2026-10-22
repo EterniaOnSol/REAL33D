@@ -1,5 +1,48 @@
 # Independent review: UNREAL-STACK-MOVE-CONTROLS-001
 
+## Resume: live connection restored, gestures still blocked
+
+Resume starting HEAD: `83fb3ecdd62895e7c901a690119702a0a29597f3`.
+On 2026-10-21 at 23:27 UTC the same production binary, built from implementation
+`1abb013bf711978b9439b6abe836672b5f4148ac`, independently connected to the normal
+Fusion32 runtime as account B, creature 1002. Fusion32 was initially stopped;
+the existing `start_wsl.sh` restored all three services with verified process,
+working-directory, start-time and port ownership. No inventory or server data
+was fabricated or edited. The ignored local Items directory was copied from
+the implementation workspace into this fresh worktree; file availability is
+not proof of actual tier texture loading.
+
+REAL33D ran normally in `-game -windowed` mode with the existing runtime and
+`-seconds=45` for an engine-controlled exit. EndPlay evidence records 46.6
+seconds, connected_at_close=true, 25 frames, 57 decoded server commands,
+residual_bytes=0, unsupported_opcodes=0, protocol_anomalies=0 and
+last_diagnostic=none. Inventory was received and no containers were opened.
+Moves, uses, looks and walks requested were all zero. This independently
+proves connection and idle-session protocol health only. It does not prove
+move counts, cancel behavior, UI regressions, or absence of stray moves after
+gestures that have not been performed.
+
+The Computer Use native pipe still failed with Windows error 2 on the initial
+attempt, retry and retry after session reset. The user was asked to restore
+the application-side Computer Use connection. No alternate injection helper,
+implementation instrumentation or fabricated test inventory was introduced.
+Deterministic tests and builds were not repeated. Main was not merged and
+the implementation diff against 1abb013 remains empty.
+
+Evidence: `live-resume/unreal_slice_evidence.json` and the filtered production
+session log `live-resume/REAL33D-session.txt`. Historical statements below
+describe the earlier run and are superseded only for live connection and the
+bounded idle-session protocol result. Overall certification remains BLOCKED.
+
+Following the user's request to restore the native connection independently,
+official Computer Use setup documentation and Plugin Management were checked.
+No restart/reconnect API was exposed. Plugin Management could not resolve
+`computer-use@openai-bundled` as a public managed plugin. The documented setup
+is app-side; the available native API remained unable to connect. No app
+permissions, security settings, plugin configuration or helper binaries were
+modified. Sources: https://learn.chatgpt.com/docs/computer-use and the bundled
+computer-use SKILL.md/guidance.md recovery procedure.
+
 Reviewer: Codex. Date: 2026-10-21, America/Guatemala.
 
 Candidate: `1abb013bf711978b9439b6abe836672b5f4148ac`.
@@ -114,3 +157,5 @@ No persistent execution-policy setting changed. Engine startup emitted
 unrelated Zen registry-access and Epic SDK network diagnostics in the local
 full log; the ten selected tests completed successfully with zero test
 errors/warnings. No claim is made that every engine startup log line is clean.
+
+Resume cleanup: REAL33D exited normally; all three initially stopped Fusion32 services were stopped cleanly after the fresh connection check.
