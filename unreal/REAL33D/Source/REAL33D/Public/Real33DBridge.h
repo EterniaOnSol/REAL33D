@@ -916,6 +916,8 @@ struct FReal33DStats
 	int32 UsesRequested = 0;
 	/** Look-at-point requests this client put on the wire. */
 	int32 LooksRequested = 0;
+	/** CL_CMD_TURN_OBJECT (rotate) commands put on the wire. */
+	int32 TurnsRequested = 0;
 	/** CL_CMD_ATTACK commands put on the wire, including attack-target toggles. */
 	int32 AttacksRequested = 0;
 	/** CL_CMD_FOLLOW commands put on the wire. */
@@ -1168,6 +1170,27 @@ public:
 
 	/** Asks Fusion32 to describe the object at this point via SV_CMD_MESSAGE. */
 	uint32 RequestLookAtPoint(const FMoveSlot& Point);
+
+	/**
+	 * Rotates an object in place. CL_CMD_TURN_OBJECT (133).
+	 *
+	 * An intent, exactly like a use. Nothing turns on screen here: the object's
+	 * new orientation arrives as the ordinary field or container update Fusion32
+	 * sends afterwards, and a refused rotate produces none, which is correct
+	 * because nothing changed. The server rules on every case this client does
+	 * not pre-judge -- a non-rotatable object, a map container, or one out of
+	 * reach -- so none of those is decided here; see `BuildTurnObjectCommand`.
+	 *
+	 * The object is named the way every other object command names one: the
+	 * same `FMoveSlot`, type id and stack index a use or a look would carry, so
+	 * the field and stack the player pointed at are exactly what the server
+	 * resolves. CTurnObject does not overwrite the stack index for a map object,
+	 * so the index sent is the index that resolves.
+	 *
+	 * Returns the id identifying this request for the rest of its life, or 0
+	 * when there is no live worker to hand it to.
+	 */
+	uint32 RequestTurnObject(const FMoveSlot& Object, uint16 TypeId, uint8 StackIndex);
 
 	// ------------------------------------------------------------ containers
 	//

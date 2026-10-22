@@ -919,6 +919,30 @@ void SReal33DHUD::ShowSlotContextMenu(FReal33DSlotRef Slot)
 			}
 		})));
 
+	// Rotate. CL_CMD_TURN_OBJECT carries the same object reference as Look, so
+	// the field and stack the player right-clicked are exactly what the server
+	// turns. Whether this object is rotatable at all is Fusion32's ruling: a
+	// non-rotatable object is simply answered with no change, which is the
+	// correct outcome and nothing is drawn optimistically.
+	Menu.AddMenuEntry(
+		NSLOCTEXT("Real33D", "SlotMenuRotate", "Rotate"),
+		NSLOCTEXT("Real33D", "SlotMenuRotateTip",
+			"Asks Fusion32 to rotate this object in place. The server decides "
+			"whether it turns; the new orientation arrives as an ordinary update."),
+		FSlateIcon(),
+		FUIAction(FExecuteAction::CreateLambda([this, Slot, ToSlot]()
+		{
+			if (UReal33DBridge* Live = Bridge.Get(); Live != nullptr && Live->IsRunning())
+			{
+				const uint32 TurnId = Live->RequestTurnObject(ToSlot(Slot), Slot.TypeId, Slot.Slot);
+				if (TurnId != 0 && WorldOverlay.IsValid()) WorldOverlay->ShowRequest(TEXT("Rotate requested"));
+				UE_LOG(LogReal33D, Log, TEXT("rotate %u: object %u at %s%u slot %u"),
+					TurnId, Slot.TypeId,
+					Slot.Kind == FReal33DSlotRef::EKind::Container ? TEXT("container ") : TEXT("body "),
+					Slot.Container, Slot.Slot);
+			}
+		})));
+
 	Menu.AddMenuEntry(
 		NSLOCTEXT("Real33D", "SlotMenuTrade", "Trade with..."),
 		NSLOCTEXT("Real33D", "SlotMenuTradeTip",
@@ -983,6 +1007,63 @@ void SReal33DHUD::ShowSelfContextMenu()
 		FPopupTransitionEffect(FPopupTransitionEffect::ContextMenu));
 
 	UE_LOG(LogReal33D, Log, TEXT("self context menu opened"));
+}
+
+void SReal33DHUD::ShowWorldObjectContextMenu(const Real33D::FMapPosition& Position,
+	uint16 TypeId, uint8 StackIndex)
+{
+	// Nothing is sent by opening this. Each entry is a question Fusion32 can be
+	// asked about this one map object; the server still rules on every one.
+	FMenuBuilder Menu(/*bShouldCloseWindowAfterMenuSelection*/ true, nullptr);
+
+	Menu.AddMenuEntry(
+		NSLOCTEXT("Real33D", "WorldMenuLook", "Look"),
+		NSLOCTEXT("Real33D", "WorldMenuLookTip", "Asks Fusion32 to describe this object."),
+		FSlateIcon(),
+		FUIAction(FExecuteAction::CreateLambda([this, Position]()
+		{
+			LookAtWorldPoint(Position);
+		})));
+
+	Menu.AddMenuEntry(
+		NSLOCTEXT("Real33D", "WorldMenuUse", "Use"),
+		NSLOCTEXT("Real33D", "WorldMenuUseTip",
+			"Uses this object where it stands, exactly as a plain right-click does."),
+		FSlateIcon(),
+		FUIAction(FExecuteAction::CreateLambda([this, Position, TypeId, StackIndex]()
+		{
+			UseWorldObject(Position, TypeId, StackIndex);
+		})));
+
+	// Rotate. The same object reference Look and Use carry; whether this map
+	// object turns is Fusion32's ruling, and the new orientation arrives as an
+	// ordinary field update rather than being drawn here.
+	Menu.AddMenuEntry(
+		NSLOCTEXT("Real33D", "WorldMenuRotate", "Rotate"),
+		NSLOCTEXT("Real33D", "WorldMenuRotateTip",
+			"Asks Fusion32 to rotate this object in place. The server decides "
+			"whether it turns; the new orientation arrives as an ordinary update."),
+		FSlateIcon(),
+		FUIAction(FExecuteAction::CreateLambda([this, Position, TypeId, StackIndex]()
+		{
+			UReal33DBridge* Live = Bridge.Get();
+			if (Live == nullptr || !Live->IsRunning()) return;
+			const uint32 TurnId = Live->RequestTurnObject(
+				UReal33DBridge::FMoveSlot::OnMap(Position), TypeId, StackIndex);
+			if (TurnId != 0 && WorldOverlay.IsValid()) WorldOverlay->ShowRequest(TEXT("Rotate requested"));
+			UE_LOG(LogReal33D, Log, TEXT("rotate %u: object %u at %d,%d,%d stack %u"),
+				TurnId, TypeId, Position.X, Position.Y, Position.Z, StackIndex);
+		})));
+
+	FSlateApplication::Get().PushMenu(
+		SharedThis(this),
+		FWidgetPath(),
+		Menu.MakeWidget(),
+		FSlateApplication::Get().GetCursorPos(),
+		FPopupTransitionEffect(FPopupTransitionEffect::ContextMenu));
+
+	UE_LOG(LogReal33D, Log, TEXT("world context menu opened for object %u at %d,%d,%d stack %u"),
+		TypeId, Position.X, Position.Y, Position.Z, StackIndex);
 }
 
 void SReal33DHUD::BeginTradeTarget(const UReal33DBridge::FMoveSlot& Source,

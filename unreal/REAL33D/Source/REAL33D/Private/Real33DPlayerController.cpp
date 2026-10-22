@@ -1091,7 +1091,20 @@ void AReal33DPlayerController::InteractUnderCursor(bool bLook)
 	uint8 StackIndex = 0;
 	if (Tile->GetTopObject(TypeId, StackIndex))
 	{
-		HudRoot->UseWorldObject(Tile->GetMapPosition(), TypeId, StackIndex);
+		// Ctrl+right-click opens this object's context menu (Look / Use /
+		// Rotate), the world counterpart of the slot ctrl+right-click menu. A
+		// plain right-click still uses the object directly, so the Use gesture
+		// does not regress; and a pending use-with must still consume this click
+		// as its target rather than be swallowed by a menu.
+		if (FSlateApplication::Get().GetModifierKeys().IsControlDown()
+			&& !HudRoot->IsTargeting())
+		{
+			HudRoot->ShowWorldObjectContextMenu(Tile->GetMapPosition(), TypeId, StackIndex);
+		}
+		else
+		{
+			HudRoot->UseWorldObject(Tile->GetMapPosition(), TypeId, StackIndex);
+		}
 	}
 }
 

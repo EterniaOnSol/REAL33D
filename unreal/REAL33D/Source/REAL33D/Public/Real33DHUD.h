@@ -135,6 +135,19 @@ public:
 	bool LookAtWorldPoint(const Real33D::FMapPosition& Position);
 	void ShowInteractionRequest(const FString& Text);
 
+	/**
+	 * The ctrl+right-click menu for the top object on a map field.
+	 *
+	 * The world counterpart of `ShowSlotContextMenu`, offered on the same
+	 * gesture and for the same reason: Look, Use and Rotate are the three
+	 * things Fusion32 can be asked about a map object in this client, and a
+	 * right-click without ctrl keeps meaning a plain use so nothing regresses.
+	 * Opening the menu sends nothing; each entry is an intent the server rules
+	 * on. Called only when a top object exists and no use-with is pending.
+	 */
+	void ShowWorldObjectContextMenu(const Real33D::FMapPosition& Position,
+		uint16 TypeId, uint8 StackIndex);
+
 	// ------------------------------------------------------- stack movement
 	//
 	// THE ONE ROUTE EVERY DRAG ENDS IN. Slot to slot, slot to ground, ground

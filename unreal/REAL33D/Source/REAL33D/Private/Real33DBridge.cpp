@@ -514,7 +514,7 @@ public:
 	 */
 	struct FUse
 	{
-		enum class EKind : uint8 { Object, WithObject, OnCreature, Look };
+		enum class EKind : uint8 { Object, WithObject, OnCreature, Look, Turn };
 		uint32 UseId = 0;
 		EKind Kind = EKind::Object;
 		UReal33DBridge::FMoveSlot Object;
@@ -1649,6 +1649,14 @@ private:
 			case FUse::EKind::Look:
 				Session.SendCommand(p772::BuildLookAtPointCommand(ToEndpoint(Use.Object)));
 				break;
+			case FUse::EKind::Turn:
+				// CL_CMD_TURN_OBJECT. The same five-field object reference a use
+				// or a look carries; the server rules on rotatability, reach and
+				// map-container-ness and answers with the field or container
+				// update, so nothing is drawn or mutated here.
+				Session.SendCommand(p772::BuildTurnObjectCommand(
+					ToEndpoint(Use.Object), Use.TypeId, Use.StackIndex));
+				break;
 			case FUse::EKind::WithObject:
 				Session.SendCommand(p772::BuildUseTwoObjectsCommand(
 					ToEndpoint(Use.Object), Use.TypeId, Use.StackIndex,
@@ -1670,6 +1678,10 @@ private:
 				if (Use.Kind == FUse::EKind::Look)
 				{
 					Stats.LooksRequested += 1;
+				}
+				else if (Use.Kind == FUse::EKind::Turn)
+				{
+					Stats.TurnsRequested += 1;
 				}
 				else
 				{
@@ -3403,6 +3415,20 @@ uint32 UReal33DBridge::RequestLookAtPoint(const FMoveSlot& Point)
 	Look.Object = Point;
 	Worker->PostUse(Look);
 	return Look.UseId;
+}
+
+uint32 UReal33DBridge::RequestTurnObject(const FMoveSlot& Object, uint16 TypeId,
+	uint8 StackIndex)
+{
+	if (Worker == nullptr) return 0;
+	FReal33DWorker::FUse Turn;
+	Turn.UseId = ++NextInputId;
+	Turn.Kind = FReal33DWorker::FUse::EKind::Turn;
+	Turn.Object = Object;
+	Turn.TypeId = TypeId;
+	Turn.StackIndex = StackIndex;
+	Worker->PostUse(Turn);
+	return Turn.UseId;
 }
 
 uint32 UReal33DBridge::RequestCloseContainer(uint8 Container)
