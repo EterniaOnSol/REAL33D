@@ -1,0 +1,61 @@
+{
+  "utc": "2026-10-23T03:06:04.258022+00:00",
+  "probe_pid": 14560,
+  "probe_session": 1,
+  "target_pid": 21296,
+  "target_session": 1,
+  "window_station": "WinSta0",
+  "thread_desktop": "Default",
+  "input_desktop": "Default",
+  "foreground": 5506984,
+  "windows": [
+    {
+      "hwnd": 5506984,
+      "pid": 21296,
+      "title": "REAL33D (64-bit Development PCD3D_SM5) ",
+      "klass": "UnrealWindow",
+      "visible": true,
+      "origin": [
+        320,
+        126
+      ],
+      "size": [
+        1280,
+        900
+      ]
+    },
+    {
+      "hwnd": 853034,
+      "pid": 21296,
+      "title": "MSCTFIME UI",
+      "klass": "MSCTFIME UI",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    },
+    {
+      "hwnd": 394342,
+      "pid": 21296,
+      "title": "Default IME",
+      "klass": "IME",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    }
+  ],
+  "snapshot_F9": true,
+  "capture": "C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-turn-object-independent-20261022\\build\\certification\\live\\B\\013-statue-released.png",
+  "foreground_after": 5506984
+}

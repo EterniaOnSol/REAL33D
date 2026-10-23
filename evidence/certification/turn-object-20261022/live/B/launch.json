@@ -1,0 +1,24 @@
+{
+  "pid": 21296,
+  "account": "B",
+  "args": [
+    "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\UnrealEditor.exe",
+    "C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-turn-object-independent-20261022\\unreal\\REAL33D\\REAL33D.uproject",
+    "-game",
+    "-windowed",
+    "-ResX=1280",
+    "-ResY=900",
+    "-nosound",
+    "-nosplash",
+    "-ExecCmds=t.MaxFPS 20",
+    "-real33d-runtime=\\\\wsl.localhost\\Ubuntu-26.04\\var\\lib\\fusion32-server-baseline-772-0",
+    "-real33d-account=B",
+    "-real33d-host=127.0.0.1",
+    "-real33d-loginport=7171",
+    "-real33d-evidence=C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-turn-object-independent-20261022\\build\\certification\\live\\B",
+    "-abslog=C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-turn-object-independent-20261022\\build\\certification\\live\\B\\REAL33D.log"
+  ],
+  "utc": "2026-10-23T02:56:39.558242+00:00",
+  "implementation": "2827c6c82f711ec356f65db213e59c3894b597f2",
+  "dll_sha256": "fcbaad1cd68c6c884fd3f29fca58e6922cda018f53a0c3a0880f8e1a6ccc60d7"
+}

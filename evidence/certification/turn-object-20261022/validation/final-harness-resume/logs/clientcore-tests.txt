@@ -1,0 +1,121 @@
+-- The CXX compiler identification is GNU 15.2.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.5.5") found components: Crypto
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Configuring done (6.4s)
+-- Generating done (0.1s)
+-- Build files have been written to: /tmp/real33d-harness-clientcore-418
+[  1%] Building CXX object CMakeFiles/protocol772_initial_world.dir/src/initial_world.cpp.o
+[  3%] Building CXX object CMakeFiles/protocol772_initial_world.dir/src/map_scan.cpp.o
+[  5%] Building CXX object CMakeFiles/protocol772_transport.dir/src/framed_connection.cpp.o
+[  7%] Building CXX object CMakeFiles/protocol772_crypto.dir/src/crypto.cpp.o
+[  8%] Building CXX object CMakeFiles/protocol772_transport.dir/src/framing.cpp.o
+[ 10%] Building CXX object CMakeFiles/protocol772_initial_world.dir/src/minimap.cpp.o
+[ 12%] Building CXX object CMakeFiles/protocol772_initial_world.dir/src/movement.cpp.o
+[ 14%] Building CXX object CMakeFiles/protocol772_transport.dir/src/tcp_transport.cpp.o
+[ 16%] Building CXX object CMakeFiles/protocol772_initial_world.dir/src/movement_actions.cpp.o
+[ 17%] Building CXX object CMakeFiles/protocol772_initial_world.dir/src/movement_ledger.cpp.o
+[ 19%] Building CXX object CMakeFiles/protocol772_initial_world.dir/src/talk_speaker.cpp.o
+[ 21%] Building CXX object CMakeFiles/protocol772_initial_world.dir/src/object_types.cpp.o
+[ 23%] Building CXX object CMakeFiles/protocol772_initial_world.dir/src/chat_log.cpp.o
+[ 25%] Building CXX object CMakeFiles/protocol772_initial_world.dir/src/outfit.cpp.o
+[ 26%] Building CXX object CMakeFiles/protocol772_initial_world.dir/src/worldstate.cpp.o
+[ 28%] Building CXX object CMakeFiles/protocol772_initial_world.dir/src/channels.cpp.o
+[ 32%] Building CXX object CMakeFiles/protocol772_initial_world.dir/src/editors.cpp.o
+[ 33%] Building CXX object CMakeFiles/protocol772_initial_world.dir/src/talk_command.cpp.o
+[ 33%] Building CXX object CMakeFiles/protocol772_initial_world.dir/src/trade.cpp.o
+[ 35%] Building CXX object CMakeFiles/protocol772_initial_world.dir/src/player_state.cpp.o
+[ 37%] Building CXX object CMakeFiles/protocol772_initial_world.dir/src/worldview.cpp.o
+[ 39%] Linking CXX static library libprotocol772_transport.a
+[ 41%] Linking CXX static library libprotocol772_crypto.a
+[ 41%] Built target protocol772_transport
+[ 41%] Built target protocol772_crypto
+[ 42%] Building CXX object CMakeFiles/protocol772_transport_tests.dir/tests/transport_tests.cpp.o
+[ 44%] Building CXX object CMakeFiles/protocol772_crypto_tests.dir/tests/crypto_tests.cpp.o
+[ 46%] Building CXX object CMakeFiles/protocol772_login.dir/src/login.cpp.o
+[ 48%] Linking CXX static library libprotocol772_login.a
+[ 50%] Linking CXX static library libprotocol772_initial_world.a
+[ 50%] Built target protocol772_login
+[ 51%] Building CXX object CMakeFiles/protocol772_gamelogin.dir/src/gamelogin.cpp.o
+[ 53%] Building CXX object CMakeFiles/protocol772_login_tests.dir/tests/login_tests.cpp.o
+[ 53%] Built target protocol772_initial_world
+[ 55%] Building CXX object CMakeFiles/protocol772_editors_tests.dir/tests/editors_tests.cpp.o
+[ 57%] Building CXX object CMakeFiles/protocol772_outfit_tests.dir/tests/outfit_tests.cpp.o
+[ 58%] Building CXX object CMakeFiles/protocol772_movement_tests.dir/tests/movement_tests.cpp.o
+[ 60%] Building CXX object CMakeFiles/protocol772_player_state_tests.dir/tests/player_state_tests.cpp.o
+[ 64%] Building CXX object CMakeFiles/protocol772_trade_tests.dir/tests/trade_tests.cpp.o
+[ 64%] Building CXX object CMakeFiles/protocol772_worldview_tests.dir/tests/worldview_tests.cpp.o
+[ 66%] Building CXX object CMakeFiles/protocol772_movement_actions_tests.dir/tests/movement_actions_tests.cpp.o
+[ 67%] Building CXX object CMakeFiles/protocol772_channels_tests.dir/tests/channels_tests.cpp.o
+[ 69%] Building CXX object CMakeFiles/protocol772_minimap_tests.dir/tests/minimap_tests.cpp.o
+[ 71%] Linking CXX executable protocol772_crypto_tests
+[ 71%] Built target protocol772_crypto_tests
+[ 73%] Linking CXX executable protocol772_movement_actions_tests
+[ 75%] Linking CXX static library libprotocol772_gamelogin.a
+[ 76%] Linking CXX executable protocol772_login_tests
+[ 76%] Built target protocol772_gamelogin
+[ 78%] Building CXX object CMakeFiles/protocol772_initial_world_tests.dir/tests/initial_world_tests.cpp.o
+[ 80%] Building CXX object CMakeFiles/protocol772_gamelogin_tests.dir/tests/gamelogin_tests.cpp.o
+[ 80%] Built target protocol772_movement_actions_tests
+[ 82%] Linking CXX executable protocol772_transport_tests
+[ 83%] Linking CXX executable protocol772_trade_tests
+[ 85%] Linking CXX executable protocol772_editors_tests
+[ 85%] Built target protocol772_login_tests
+[ 87%] Linking CXX executable protocol772_channels_tests
+[ 87%] Built target protocol772_transport_tests
+[ 89%] Linking CXX executable protocol772_worldview_tests
+[ 89%] Built target protocol772_trade_tests
+[ 89%] Built target protocol772_editors_tests
+[ 89%] Built target protocol772_channels_tests
+[ 91%] Linking CXX executable protocol772_outfit_tests
+[ 92%] Linking CXX executable protocol772_minimap_tests
+[ 92%] Built target protocol772_worldview_tests
+[ 92%] Built target protocol772_outfit_tests
+[ 94%] Linking CXX executable protocol772_player_state_tests
+[ 94%] Built target protocol772_minimap_tests
+[ 96%] Linking CXX executable protocol772_gamelogin_tests
+[ 96%] Built target protocol772_player_state_tests
+[ 96%] Built target protocol772_gamelogin_tests
+[ 98%] Linking CXX executable protocol772_initial_world_tests
+[100%] Linking CXX executable protocol772_movement_tests
+[100%] Built target protocol772_initial_world_tests
+[100%] Built target protocol772_movement_tests
+Test project /tmp/real33d-harness-clientcore-418
+      Start  1: protocol772_transport_tests
+ 1/14 Test  #1: protocol772_transport_tests ..........   Passed    1.52 sec
+      Start  2: protocol772_crypto_tests
+ 2/14 Test  #2: protocol772_crypto_tests .............   Passed    0.01 sec
+      Start  3: protocol772_login_tests
+ 3/14 Test  #3: protocol772_login_tests ..............   Passed    0.01 sec
+      Start  4: protocol772_gamelogin_tests
+ 4/14 Test  #4: protocol772_gamelogin_tests ..........   Passed    0.01 sec
+      Start  5: protocol772_initial_world_tests
+ 5/14 Test  #5: protocol772_initial_world_tests ......   Passed    0.02 sec
+      Start  6: protocol772_movement_tests
+ 6/14 Test  #6: protocol772_movement_tests ...........   Passed    0.17 sec
+      Start  7: protocol772_player_state_tests
+ 7/14 Test  #7: protocol772_player_state_tests .......   Passed    0.02 sec
+      Start  8: protocol772_worldview_tests
+ 8/14 Test  #8: protocol772_worldview_tests ..........   Passed    0.06 sec
+      Start  9: protocol772_movement_actions_tests
+ 9/14 Test  #9: protocol772_movement_actions_tests ...   Passed    0.00 sec
+      Start 10: protocol772_trade_tests
+10/14 Test #10: protocol772_trade_tests ..............   Passed    0.00 sec
+      Start 11: protocol772_channels_tests
+11/14 Test #11: protocol772_channels_tests ...........   Passed    0.01 sec
+      Start 12: protocol772_editors_tests
+12/14 Test #12: protocol772_editors_tests ............   Passed    0.01 sec
+      Start 13: protocol772_outfit_tests
+13/14 Test #13: protocol772_outfit_tests .............   Passed    0.02 sec
+      Start 14: protocol772_minimap_tests
+14/14 Test #14: protocol772_minimap_tests ............   Passed    0.07 sec
+
+100% tests passed, 0 tests failed out of 14
+
+Total Test time (real) =   1.96 sec

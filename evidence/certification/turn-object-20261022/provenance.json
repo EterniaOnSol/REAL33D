@@ -1,0 +1,21 @@
+{
+  "main": "119dc2e19ea3465518075a93dcdc07fb10dabd5b",
+  "implementation": "2827c6c82f711ec356f65db213e59c3894b597f2",
+  "milestone": "milestone/unreal-turn-object-001-rebased",
+  "push": "normal push completed before fresh worktree",
+  "sole_parent_verified": true,
+  "resumed_utc": "2026-10-23T07:50:47.594438+00:00",
+  "completed_utc": "2026-10-23T08:06:24.762288+00:00",
+  "live_dll_sha256": "fcbaad1cd68c6c884fd3f29fca58e6922cda018f53a0c3a0880f8e1a6ccc60d7",
+  "final_relinked_dll_sha256": "dfe53980f6721a9d2a5b4cc49f49d46e158f204484c480d855cd96b7d88d4729",
+  "production_changes": false,
+  "main_merged": false,
+  "certification_branch": "certification/unreal-turn-object-independent-20261022",
+  "services_left_running": {
+    "querymanager": 754,
+    "game": 763,
+    "login": 1504
+  },
+  "resumed_client_closed": 11324,
+  "observer_detached": 17612
+}

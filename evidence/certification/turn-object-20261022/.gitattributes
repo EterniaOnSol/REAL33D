@@ -1,0 +1,3 @@
+# Preserve byte-exact capture hashes across Windows/Linux checkouts.
+live/** -text
+validation/** -text

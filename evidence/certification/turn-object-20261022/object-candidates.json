@@ -1,0 +1,30 @@
+[
+  {
+    "position": [
+      32081,
+      32203,
+      7
+    ],
+    "file_stack": 1,
+    "type_id": 2030,
+    "display": 2030,
+    "name": "a goblin statue",
+    "target": 2048,
+    "flags": "Unpass,Unlay,Rotate,Destroy",
+    "distance": 15
+  },
+  {
+    "position": [
+      32063,
+      32226,
+      7
+    ],
+    "file_stack": 1,
+    "type_id": 2472,
+    "display": 2472,
+    "name": "a chest",
+    "target": 2482,
+    "flags": "Container,Unpass,Take,Rotate,Destroy,Height",
+    "distance": 33
+  }
+]

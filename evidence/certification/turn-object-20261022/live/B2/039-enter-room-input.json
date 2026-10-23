@@ -1,0 +1,65 @@
+{
+  "utc": "2026-10-23T07:07:48.279988+00:00",
+  "probe_pid": 14628,
+  "probe_session": 1,
+  "target_pid": 10228,
+  "target_session": 1,
+  "window_station": "WinSta0",
+  "thread_desktop": "Default",
+  "input_desktop": "Default",
+  "foreground": 13960192,
+  "windows": [
+    {
+      "hwnd": 13960192,
+      "pid": 10228,
+      "title": "REAL33D (64-bit Development PCD3D_SM5) ",
+      "klass": "UnrealWindow",
+      "visible": true,
+      "origin": [
+        320,
+        126
+      ],
+      "size": [
+        1280,
+        900
+      ]
+    },
+    {
+      "hwnd": 7800502,
+      "pid": 10228,
+      "title": "MSCTFIME UI",
+      "klass": "MSCTFIME UI",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    },
+    {
+      "hwnd": 1967794,
+      "pid": 10228,
+      "title": "Default IME",
+      "klass": "IME",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    }
+  ],
+  "real_mouse_click": [
+    1191,
+    96
+  ],
+  "snapshot_F9": true,
+  "capture": "C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-turn-object-independent-20261022\\build\\certification\\live\\B2\\039-enter-room.png",
+  "foreground_after": 13960192
+}

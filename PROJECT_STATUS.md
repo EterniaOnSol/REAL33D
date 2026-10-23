@@ -1,3 +1,35 @@
+## 2026-10-23 resumed independent UNREAL-TURN-OBJECT-001 certification
+
+**CERTIFIED** for the requested logical interaction matrix on implementation
+`2827c6c82f711ec356f65db213e59c3894b597f2`, parent main `119dc2e`.
+Resumed the existing certification worktree and B/B2 evidence; no restart from
+zero, production/test/server edits, push or main merge.
+
+Statue and chest rotations PASS; floors 7/6 and stack 1 route correctly, with
+authoritative CHANGE_FIELD 107. The held statue retains its old client type until
+the server responds. Nonrotatable ground returns NOTTURNABLE 57; server approach
+and NOWAY 44 range behavior PASS. Normal Use, Ctrl Rotate, Look, drag/drop and
+Ctrl amount dialog/Cancel PASS. UseWith arms without sending, then Ctrl world
+target emits one use, bypasses the menu and receives authoritative refusal.
+
+Both objects and the door are restored; inventory and backpack order match the
+saved baseline. Nine independently observed TURN_OBJECT 133 calls correspond to
+nine UI activations, zero duplicates observed. One additional cleanup rotation
+was untraced during a normal-signal debugger detach; its exact send count is not
+claimed. Some F9 copies are stale and explicitly listed; timestamped menu logs,
+server trace and subsequent fresh/close captures support those actions.
+
+Audit 38/38; all 122 retained snapshots have protocol diagnostics 0. ClientCore
+14/14, native 10/10, retained Unreal automation 10/10 without warnings/errors,
+MSVC archive and Unreal build PASS. Final strict harness: 11 PASS / 0 FAIL /
+0 SKIP, 392 logs, zero anomalies; secret_check 6/6. Tooling/disk/cache failures
+are retained. No product defect found. Visual mesh orientation and successful
+rope gameplay are not certified. Certification client closed, debugger detached,
+existing server services remain healthy. Ready for scoped review/integration;
+main was not merged.
+
+See [certification evidence](evidence/certification/turn-object-20261022/README.md).
+
 ## 2026-10-22 independent UNREAL-CONTAINER-CONTROLS-001 certification
 
 **CERTIFIED** for the requested matrix on implementation

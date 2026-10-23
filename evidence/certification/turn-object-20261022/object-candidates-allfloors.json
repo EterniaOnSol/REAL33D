@@ -1,0 +1,450 @@
+[
+  {
+    "position": [
+      32081,
+      32203,
+      7
+    ],
+    "file_stack": 1,
+    "type_id": 2030,
+    "display": 2030,
+    "name": "a goblin statue",
+    "target": 2048,
+    "flags": "Unpass,Unlay,Rotate,Destroy",
+    "distance": 15
+  },
+  {
+    "position": [
+      32103,
+      32205,
+      6
+    ],
+    "file_stack": 1,
+    "type_id": 2472,
+    "display": 2472,
+    "name": "a chest",
+    "target": 2482,
+    "flags": "Container,Unpass,Take,Rotate,Destroy,Height",
+    "distance": 23
+  },
+  {
+    "position": [
+      32083,
+      32204,
+      6
+    ],
+    "file_stack": 1,
+    "type_id": 2472,
+    "display": 2472,
+    "name": "a chest",
+    "target": 2482,
+    "flags": "Container,Unpass,Take,Rotate,Destroy,Height",
+    "distance": 24
+  },
+  {
+    "position": [
+      32110,
+      32203,
+      6
+    ],
+    "file_stack": 1,
+    "type_id": 2472,
+    "display": 2472,
+    "name": "a chest",
+    "target": 2482,
+    "flags": "Container,Unpass,Take,Rotate,Destroy,Height",
+    "distance": 25
+  },
+  {
+    "position": [
+      32103,
+      32200,
+      6
+    ],
+    "file_stack": 1,
+    "type_id": 2434,
+    "display": 2434,
+    "name": "drawers",
+    "target": 2433,
+    "flags": "Container,Unpass,Rotate,Destroy,Height",
+    "distance": 28
+  },
+  {
+    "position": [
+      32105,
+      32200,
+      6
+    ],
+    "file_stack": 1,
+    "type_id": 2359,
+    "display": 2359,
+    "name": "a wooden chair",
+    "target": 2360,
+    "flags": "Avoid,Rotate,Destroy,Height",
+    "distance": 28
+  },
+  {
+    "position": [
+      32107,
+      32200,
+      6
+    ],
+    "file_stack": 1,
+    "type_id": 2361,
+    "display": 2361,
+    "name": "a wooden chair",
+    "target": 2358,
+    "flags": "Avoid,Rotate,Destroy,Height",
+    "distance": 28
+  },
+  {
+    "position": [
+      32063,
+      32226,
+      7
+    ],
+    "file_stack": 1,
+    "type_id": 2472,
+    "display": 2472,
+    "name": "a chest",
+    "target": 2482,
+    "flags": "Container,Unpass,Take,Rotate,Destroy,Height",
+    "distance": 33
+  },
+  {
+    "position": [
+      32059,
+      32181,
+      6
+    ],
+    "file_stack": 1,
+    "type_id": 2472,
+    "display": 2472,
+    "name": "a chest",
+    "target": 2482,
+    "flags": "Container,Unpass,Take,Rotate,Destroy,Height",
+    "distance": 47
+  },
+  {
+    "position": [
+      32059,
+      32182,
+      6
+    ],
+    "file_stack": 1,
+    "type_id": 2434,
+    "display": 2434,
+    "name": "drawers",
+    "target": 2433,
+    "flags": "Container,Unpass,Rotate,Destroy,Height",
+    "distance": 47
+  },
+  {
+    "position": [
+      32059,
+      32183,
+      6
+    ],
+    "file_stack": 1,
+    "type_id": 2434,
+    "display": 2434,
+    "name": "drawers",
+    "target": 2433,
+    "flags": "Container,Unpass,Rotate,Destroy,Height",
+    "distance": 47
+  },
+  {
+    "position": [
+      32059,
+      32176,
+      6
+    ],
+    "file_stack": 1,
+    "type_id": 2358,
+    "display": 2358,
+    "name": "a wooden chair",
+    "target": 2359,
+    "flags": "Avoid,Rotate,Destroy,Height",
+    "distance": 52
+  },
+  {
+    "position": [
+      32059,
+      32174,
+      6
+    ],
+    "file_stack": 1,
+    "type_id": 2360,
+    "display": 2360,
+    "name": "a wooden chair",
+    "target": 2361,
+    "flags": "Avoid,Rotate,Destroy,Height",
+    "distance": 54
+  },
+  {
+    "position": [
+      32060,
+      32173,
+      6
+    ],
+    "file_stack": 1,
+    "type_id": 2433,
+    "display": 2433,
+    "name": "drawers",
+    "target": 2432,
+    "flags": "Container,Unpass,Rotate,Destroy,Height",
+    "distance": 55
+  },
+  {
+    "position": [
+      32047,
+      32202,
+      6
+    ],
+    "file_stack": 1,
+    "type_id": 2360,
+    "display": 2360,
+    "name": "a wooden chair",
+    "target": 2361,
+    "flags": "Avoid,Rotate,Destroy,Height",
+    "distance": 59
+  },
+  {
+    "position": [
+      32047,
+      32204,
+      6
+    ],
+    "file_stack": 1,
+    "type_id": 2358,
+    "display": 2358,
+    "name": "a wooden chair",
+    "target": 2359,
+    "flags": "Avoid,Rotate,Destroy,Height",
+    "distance": 59
+  },
+  {
+    "position": [
+      32045,
+      32207,
+      6
+    ],
+    "file_stack": 1,
+    "type_id": 2434,
+    "display": 2434,
+    "name": "drawers",
+    "target": 2433,
+    "flags": "Container,Unpass,Rotate,Destroy,Height",
+    "distance": 61
+  },
+  {
+    "position": [
+      32043,
+      32207,
+      6
+    ],
+    "file_stack": 1,
+    "type_id": 2472,
+    "display": 2472,
+    "name": "a chest",
+    "target": 2482,
+    "flags": "Container,Unpass,Take,Rotate,Destroy,Height",
+    "distance": 63
+  },
+  {
+    "position": [
+      32039,
+      32202,
+      6
+    ],
+    "file_stack": 1,
+    "type_id": 2434,
+    "display": 2434,
+    "name": "drawers",
+    "target": 2433,
+    "flags": "Container,Unpass,Rotate,Destroy,Height",
+    "distance": 67
+  },
+  {
+    "position": [
+      32137,
+      32170,
+      4
+    ],
+    "file_stack": 1,
+    "type_id": 2472,
+    "display": 2472,
+    "name": "a chest",
+    "target": 2482,
+    "flags": "Container,Unpass,Take,Rotate,Destroy,Height",
+    "distance": 78
+  },
+  {
+    "position": [
+      32024,
+      32195,
+      6
+    ],
+    "file_stack": 1,
+    "type_id": 2434,
+    "display": 2434,
+    "name": "drawers",
+    "target": 2433,
+    "flags": "Container,Unpass,Rotate,Destroy,Height",
+    "distance": 82
+  },
+  {
+    "position": [
+      32082,
+      32120,
+      10
+    ],
+    "file_stack": 1,
+    "type_id": 2472,
+    "display": 2472,
+    "name": "a chest",
+    "target": 2482,
+    "flags": "Container,Unpass,Take,Rotate,Destroy,Height",
+    "distance": 128
+  },
+  {
+    "position": [
+      32073,
+      32103,
+      5
+    ],
+    "file_stack": 1,
+    "type_id": 2472,
+    "display": 2472,
+    "name": "a chest",
+    "target": 2482,
+    "flags": "Container,Unpass,Take,Rotate,Destroy,Height",
+    "distance": 135
+  },
+  {
+    "position": [
+      32224,
+      32278,
+      8
+    ],
+    "file_stack": 1,
+    "type_id": 2434,
+    "display": 2434,
+    "name": "drawers",
+    "target": 2433,
+    "flags": "Container,Unpass,Rotate,Destroy,Height",
+    "distance": 138
+  },
+  {
+    "position": [
+      32071,
+      32107,
+      4
+    ],
+    "file_stack": 1,
+    "type_id": 2359,
+    "display": 2359,
+    "name": "a wooden chair",
+    "target": 2360,
+    "flags": "Avoid,Rotate,Destroy,Height",
+    "distance": 141
+  },
+  {
+    "position": [
+      32227,
+      32275,
+      8
+    ],
+    "file_stack": 1,
+    "type_id": 2358,
+    "display": 2358,
+    "name": "a wooden chair",
+    "target": 2359,
+    "flags": "Avoid,Rotate,Destroy,Height",
+    "distance": 141
+  },
+  {
+    "position": [
+      32074,
+      32104,
+      4
+    ],
+    "file_stack": 1,
+    "type_id": 2360,
+    "display": 2360,
+    "name": "a wooden chair",
+    "target": 2361,
+    "flags": "Avoid,Rotate,Destroy,Height",
+    "distance": 144
+  },
+  {
+    "position": [
+      32148,
+      32107,
+      11
+    ],
+    "file_stack": 1,
+    "type_id": 2360,
+    "display": 2360,
+    "name": "a wooden chair",
+    "target": 2361,
+    "flags": "Avoid,Rotate,Destroy,Height",
+    "distance": 151
+  },
+  {
+    "position": [
+      32148,
+      32105,
+      11
+    ],
+    "file_stack": 1,
+    "type_id": 2472,
+    "display": 2472,
+    "name": "a chest",
+    "target": 2482,
+    "flags": "Container,Unpass,Take,Rotate,Destroy,Height",
+    "distance": 153
+  },
+  {
+    "position": [
+      32138,
+      32103,
+      11
+    ],
+    "file_stack": 1,
+    "type_id": 2472,
+    "display": 2472,
+    "name": "a chest",
+    "target": 2482,
+    "flags": "Container,Unpass,Take,Rotate,Destroy,Height",
+    "distance": 155
+  },
+  {
+    "position": [
+      32038,
+      32121,
+      13
+    ],
+    "file_stack": 1,
+    "type_id": 2472,
+    "display": 2472,
+    "name": "a chest",
+    "target": 2482,
+    "flags": "Container,Unpass,Take,Rotate,Destroy,Height",
+    "distance": 157
+  },
+  {
+    "position": [
+      32143,
+      32096,
+      11
+    ],
+    "file_stack": 1,
+    "type_id": 2472,
+    "display": 2472,
+    "name": "a chest",
+    "target": 2482,
+    "flags": "Container,Unpass,Take,Rotate,Destroy,Height",
+    "distance": 162
+  }
+]

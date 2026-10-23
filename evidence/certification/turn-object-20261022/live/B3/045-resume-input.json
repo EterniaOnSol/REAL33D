@@ -1,0 +1,61 @@
+{
+  "utc": "2026-10-23T07:52:00.227653+00:00",
+  "probe_pid": 5788,
+  "probe_session": 1,
+  "target_pid": 11324,
+  "target_session": 1,
+  "window_station": "WinSta0",
+  "thread_desktop": "Default",
+  "input_desktop": "Default",
+  "foreground": 3868274,
+  "windows": [
+    {
+      "hwnd": 3868274,
+      "pid": 11324,
+      "title": "REAL33D (64-bit Development PCD3D_SM5) ",
+      "klass": "UnrealWindow",
+      "visible": true,
+      "origin": [
+        320,
+        126
+      ],
+      "size": [
+        1280,
+        900
+      ]
+    },
+    {
+      "hwnd": 458828,
+      "pid": 11324,
+      "title": "MSCTFIME UI",
+      "klass": "MSCTFIME UI",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    },
+    {
+      "hwnd": 655800,
+      "pid": 11324,
+      "title": "Default IME",
+      "klass": "IME",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    }
+  ],
+  "snapshot_F9": true,
+  "capture": "C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-turn-object-independent-20261022\\build\\certification\\live\\B3\\045-resume.png",
+  "foreground_after": 3868274
+}

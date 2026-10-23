@@ -1,0 +1,28 @@
+{"event": "TRACE_READY", "debugger_pid": 13999, "server_pid": 763, "utc": "2026-10-23T02:01:42.754511+00:00"}
+{"event": "TRACE_READY", "debugger_pid": 14385, "server_pid": 763, "utc": "2026-10-23T02:52:11.371693+00:00"}
+{"event": "TURN_133", "server_pid": 763, "connection": "0x5a30d4c93260", "x": 32081, "y": 32203, "z": 7, "type_id": 2030, "stack": 1, "utc": "2026-10-23T03:05:38.618282+00:00"}
+{"event": "TURN_HELD", "seconds": 12, "utc": "2026-10-23T03:05:38.701851+00:00"}
+{"event": "TURN_RELEASED", "utc": "2026-10-23T03:05:50.728034+00:00"}
+{"event": "CHANGE_FIELD_107", "connection": "0x5a30d4c93260", "x": 32081, "y": 32203, "z": 7, "stack": 1, "type_id": 2048, "raw_hex": "6b517dcb7d07010008", "utc": "2026-10-23T03:05:51.743774+00:00"}
+{"event": "TURN_133", "server_pid": 763, "connection": "0x5a30d4c93260", "x": 32081, "y": 32203, "z": 7, "type_id": 2048, "stack": 1, "utc": "2026-10-23T03:06:47.618469+00:00"}
+{"event": "CHANGE_FIELD_107", "connection": "0x5a30d4c93260", "x": 32081, "y": 32203, "z": 7, "stack": 1, "type_id": 2046, "raw_hex": "6b517dcb7d0701fe07", "utc": "2026-10-23T03:06:47.692626+00:00"}
+{"event": "TURN_133", "server_pid": 763, "connection": "0x5a30d4c93260", "x": 32081, "y": 32203, "z": 7, "type_id": 2046, "stack": 1, "utc": "2026-10-23T03:07:27.386195+00:00"}
+{"event": "CHANGE_FIELD_107", "connection": "0x5a30d4c93260", "x": 32081, "y": 32203, "z": 7, "stack": 1, "type_id": 2047, "raw_hex": "6b517dcb7d0701ff07", "utc": "2026-10-23T03:07:27.488127+00:00"}
+{"event": "TURN_133", "server_pid": 763, "connection": "0x5a30d4c93260", "x": 32081, "y": 32203, "z": 7, "type_id": 2047, "stack": 1, "utc": "2026-10-23T03:07:56.762937+00:00"}
+{"event": "CHANGE_FIELD_107", "connection": "0x5a30d4c93260", "x": 32081, "y": 32203, "z": 7, "stack": 1, "type_id": 2030, "raw_hex": "6b517dcb7d0701ee07", "utc": "2026-10-23T03:07:56.837283+00:00"}
+{"event": "TURN_133", "server_pid": 763, "connection": "0x5a30d4c93260", "x": 32081, "y": 32205, "z": 7, "type_id": 408, "stack": 0, "utc": "2026-10-23T03:09:23.539273+00:00"}
+{"event": "RESULT", "connection": "0x5a30d4c93260", "result": 57, "utc": "2026-10-23T03:09:23.652586+00:00"}
+{"event": "TRACE_READY", "debugger_pid": 14958, "server_pid": 763, "utc": "2026-10-23T06:57:42.668347+00:00"}
+{"event": "TURN_133", "server_pid": 763, "connection": "0x5a30d4c93260", "x": 32110, "y": 32203, "z": 6, "type_id": 2472, "stack": 1, "utc": "2026-10-23T07:05:15.468108+00:00"}
+{"event": "RESULT", "connection": "0x5a30d4c93260", "result": 44, "utc": "2026-10-23T07:05:15.488294+00:00"}
+{"event": "CHANGE_FIELD_107", "connection": "0x5a30d4c93260", "x": 32108, "y": 32204, "z": 6, "stack": 1, "type_id": 1633, "raw_hex": "6b6c7dcc7d06016106", "utc": "2026-10-23T07:07:19.238312+00:00"}
+{"event": "TURN_133", "server_pid": 763, "connection": "0x5a30d4c93260", "x": 32110, "y": 32203, "z": 6, "type_id": 2472, "stack": 1, "utc": "2026-10-23T07:10:05.891383+00:00"}
+{"event": "CHANGE_FIELD_107", "connection": "0x5a30d4c93260", "x": 32110, "y": 32203, "z": 6, "stack": 1, "type_id": 2482, "raw_hex": "6b6e7dcb7d0601b209", "utc": "2026-10-23T07:10:05.984047+00:00"}
+{"event": "TRACE_READY", "debugger_pid": 17559, "server_pid": 763, "utc": "2026-10-23T07:50:59.087052+00:00"}
+{"event": "TRACE_READY", "debugger_pid": 17612, "server_pid": 763, "utc": "2026-10-23T07:53:03.546735+00:00"}
+{"event": "TURN_133", "server_pid": 763, "connection": "0x5a30d4c93260", "x": 32110, "y": 32203, "z": 6, "type_id": 2480, "stack": 1, "utc": "2026-10-23T07:53:25.390909+00:00"}
+{"event": "CHANGE_FIELD_107", "connection": "0x5a30d4c93260", "x": 32110, "y": 32203, "z": 6, "stack": 1, "type_id": 2481, "raw_hex": "6b6e7dcb7d0601b109", "utc": "2026-10-23T07:53:25.483523+00:00"}
+{"event": "TURN_133", "server_pid": 763, "connection": "0x5a30d4c93260", "x": 32110, "y": 32203, "z": 6, "type_id": 2481, "stack": 1, "utc": "2026-10-23T07:53:49.819350+00:00"}
+{"event": "CHANGE_FIELD_107", "connection": "0x5a30d4c93260", "x": 32110, "y": 32203, "z": 6, "stack": 1, "type_id": 2472, "raw_hex": "6b6e7dcb7d0601a809", "utc": "2026-10-23T07:53:49.883639+00:00"}
+{"event": "RESULT", "connection": "0x5a30d4c93260", "result": 29, "utc": "2026-10-23T07:54:51.340421+00:00"}
+{"event": "CHANGE_FIELD_107", "connection": "0x5a30d4c93260", "x": 32108, "y": 32204, "z": 6, "stack": 1, "type_id": 1632, "raw_hex": "6b6c7dcc7d06016006", "utc": "2026-10-23T07:55:41.834626+00:00"}
