@@ -1,0 +1,558 @@
+{
+  "passed": 136,
+  "failed": 0,
+  "server_commands": 1011,
+  "matched_live_snapshots": 28,
+  "standalone_death_breakpoint_hits": 0,
+  "checks": [
+    {
+      "check": "observer has no errors",
+      "passed": true
+    },
+    {
+      "check": "all observed server commands decode and apply cleanly",
+      "passed": true
+    },
+    {
+      "check": "1073743323 health reaches zero",
+      "passed": true
+    },
+    {
+      "check": "1073743323 corpse on death tile",
+      "passed": true
+    },
+    {
+      "check": "1073743323 authoritative creature removal retains corpse",
+      "passed": true
+    },
+    {
+      "check": "1073743321 health reaches zero",
+      "passed": true
+    },
+    {
+      "check": "1073743321 corpse on death tile",
+      "passed": true
+    },
+    {
+      "check": "1073743321 authoritative creature removal retains corpse",
+      "passed": true
+    },
+    {
+      "check": "A\\001-initial-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A\\001-initial-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\001-initial-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\002-south-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A\\002-south-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\002-south-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\003-rabbit-route-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A\\003-rabbit-route-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\003-rabbit-route-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\004-route-progress-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A\\004-route-progress-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\004-route-progress-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\005-south-rabbits-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A\\005-south-rabbits-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\005-south-rabbits-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\006-chase-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A\\006-chase-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\006-chase-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\007-spawn-route-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A\\007-spawn-route-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\007-spawn-route-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\008-spawn-view-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A\\008-spawn-view-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\008-spawn-view-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\009-attack-rabbit-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A\\009-attack-rabbit-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\009-attack-rabbit-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\010-combat-progress-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A\\010-combat-progress-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\010-combat-progress-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\011-look-corpse-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A2\\012-reconnected-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A2\\012-reconnected-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\012-reconnected-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\013-loot-inventory-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A2\\013-loot-inventory-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\013-loot-inventory-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\014-return-rabbits-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A2\\014-return-rabbits-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\014-return-rabbits-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\015-backpack-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A2\\015-backpack-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\015-backpack-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\016-chase-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A2\\016-chase-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\016-chase-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\017-attack-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A2\\017-attack-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\017-attack-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\018-combat-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A2\\018-combat-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\018-combat-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\019-corpse-use-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A2\\019-corpse-use-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\019-corpse-use-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\020-loot-one-inventory-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A2\\020-loot-one-inventory-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\020-loot-one-inventory-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\021-loot-backpack-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A2\\021-loot-backpack-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\021-loot-backpack-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\022-look-empty-corpse-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A2\\022-look-empty-corpse-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\022-look-empty-corpse-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\023-look-corpse-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A2\\023-look-corpse-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\023-look-corpse-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\024-reopen-empty-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A2\\024-reopen-empty-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\024-reopen-empty-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\025-merge-loot-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A2\\025-merge-loot-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\025-merge-loot-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\026-amount-dialog-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A2\\026-amount-dialog-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\026-amount-dialog-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\027-select-one-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A2\\027-select-one-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\027-select-one-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\028-confirm-one-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A2\\028-confirm-one-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\028-confirm-one-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\029-final-live-after.json protocol counters zero",
+      "passed": true
+    },
+    {
+      "check": "A2\\029-final-live-after.json inventory matches observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A2\\029-final-live-after.json containers match observed server bytes",
+      "passed": true
+    },
+    {
+      "check": "A\\001-initial-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A\\002-south-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A\\003-rabbit-route-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A\\004-route-progress-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A\\005-south-rabbits-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A\\006-chase-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A\\007-spawn-route-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A\\008-spawn-view-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A\\009-attack-rabbit-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A\\010-combat-progress-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A\\011-look-corpse-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A2\\012-reconnected-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A2\\013-loot-inventory-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A2\\014-return-rabbits-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A2\\015-backpack-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A2\\016-chase-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A2\\017-attack-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A2\\018-combat-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A2\\019-corpse-use-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A2\\020-loot-one-inventory-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A2\\021-loot-backpack-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A2\\022-look-empty-corpse-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A2\\023-look-corpse-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A2\\024-reopen-empty-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A2\\025-merge-loot-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A2\\026-amount-dialog-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A2\\027-select-one-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A2\\028-confirm-one-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "A2\\029-final-live-freshness.json snapshots fresh",
+      "passed": true
+    },
+    {
+      "check": "corpse opened with meat x2",
+      "passed": true
+    },
+    {
+      "check": "corpse to inventory: one item",
+      "passed": true
+    },
+    {
+      "check": "corpse to backpack: remaining item",
+      "passed": true
+    },
+    {
+      "check": "empty corpse reopens empty",
+      "passed": true
+    },
+    {
+      "check": "Look corpse description is authoritative",
+      "passed": true
+    },
+    {
+      "check": "026-amount-dialog sends no move",
+      "passed": true
+    },
+    {
+      "check": "027-select-one sends no move",
+      "passed": true
+    },
+    {
+      "check": "amount confirmation sends one move",
+      "passed": true
+    },
+    {
+      "check": "amount confirmed inventory=1 backpack=1",
+      "passed": true
+    },
+    {
+      "check": "natural corpse decay 4173 to 4174",
+      "passed": true
+    },
+    {
+      "check": "decay closes open corpse from server",
+      "passed": true
+    },
+    {
+      "check": "five move commands observed total",
+      "passed": true
+    },
+    {
+      "check": "four successful loot/stack moves plus one documented stale-coordinate refusal",
+      "passed": true
+    },
+    {
+      "check": "one attack per live combat session",
+      "passed": true
+    }
+  ],
+  "limitations": [
+    "Final corpse disappearance after remaining decay stages not observed.",
+    "Only rabbit corpses, floor 7 and meat stacks exercised live.",
+    "Creature-specific visual meshes/animations not certified."
+  ]
+}

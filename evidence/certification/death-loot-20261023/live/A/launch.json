@@ -1,0 +1,24 @@
+{
+  "pid": 10872,
+  "account": "A",
+  "args": [
+    "C:\\Program Files\\Epic Games\\UE_5.8\\Engine\\Binaries\\Win64\\UnrealEditor.exe",
+    "C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-death-loot-20261023\\unreal\\REAL33D\\REAL33D.uproject",
+    "-game",
+    "-windowed",
+    "-ResX=1280",
+    "-ResY=900",
+    "-nosound",
+    "-nosplash",
+    "-ExecCmds=t.MaxFPS 20",
+    "-real33d-runtime=\\\\wsl.localhost\\Ubuntu-26.04\\var\\lib\\fusion32-server-baseline-772-0",
+    "-real33d-account=A",
+    "-real33d-host=127.0.0.1",
+    "-real33d-loginport=7171",
+    "-real33d-evidence=C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-death-loot-20261023\\build\\certification\\live\\A",
+    "-abslog=C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-death-loot-20261023\\build\\certification\\live\\A\\REAL33D.log"
+  ],
+  "utc": "2026-10-23T22:37:36.643852+00:00",
+  "implementation": "a76edadc01c579dde7e6eb726ad228be663130e6",
+  "dll_sha256": "e4622904c1daa1f0932cae43d400794c156766ee16bea5743c08a0a8d1e4901a"
+}

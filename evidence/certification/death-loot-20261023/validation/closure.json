@@ -1,0 +1,11 @@
+{
+  "main": "eda5cc236596911ba6020b57df3f448ff454a379",
+  "origin_main": "eda5cc236596911ba6020b57df3f448ff454a379",
+  "audit": "a76edadc01c579dde7e6eb726ad228be663130e6",
+  "branch": "certification/unreal-death-loot-independent-20261023",
+  "production_diff_empty": true,
+  "server_status": "querymanager ALIVE pid=754 exe=VERIFIED cwd=VERIFIED start=VERIFIED port=7173\ngame ALIVE pid=20261 exe=VERIFIED cwd=VERIFIED start=VERIFIED port=7172\nlogin ALIVE pid=1504 exe=VERIFIED cwd=VERIFIED start=VERIFIED port=7171\n",
+  "final_dll_sha256": "9f3d435830457b694cdf6bc38c1b02f1cd2430b83ba01a12e2ef42b96c73ffab",
+  "client_closed": true,
+  "observer_detached": true
+}

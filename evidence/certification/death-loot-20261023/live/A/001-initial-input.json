@@ -1,0 +1,61 @@
+{
+  "utc": "2026-10-23T22:39:24.050808+00:00",
+  "probe_pid": 20772,
+  "probe_session": 1,
+  "target_pid": 10872,
+  "target_session": 1,
+  "window_station": "WinSta0",
+  "thread_desktop": "Default",
+  "input_desktop": "Default",
+  "foreground": 8718096,
+  "windows": [
+    {
+      "hwnd": 8718096,
+      "pid": 10872,
+      "title": "REAL33D (64-bit Development PCD3D_SM5) ",
+      "klass": "UnrealWindow",
+      "visible": true,
+      "origin": [
+        320,
+        126
+      ],
+      "size": [
+        1280,
+        900
+      ]
+    },
+    {
+      "hwnd": 1508076,
+      "pid": 10872,
+      "title": "MSCTFIME UI",
+      "klass": "MSCTFIME UI",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    },
+    {
+      "hwnd": 8062634,
+      "pid": 10872,
+      "title": "Default IME",
+      "klass": "IME",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    }
+  ],
+  "snapshot_F9": true,
+  "capture": "C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-death-loot-20261023\\build\\certification\\live\\A\\001-initial.png",
+  "foreground_after": 8718096
+}
