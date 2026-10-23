@@ -1,3 +1,27 @@
+## 2026-10-23 UNREAL-DEATH-LOOT-001 audit
+
+**AUDIT-COMPLETE — the creature death → corpse → open → loot flow is already
+supported by composition of landed primitives; no protocol change, no missing
+decoder/builder, and no ClientCore/Unreal code change.** Player death is out of
+scope. A 7.72 corpse is not a protocol concept: `TCreature::~TCreature`/`Death`
+(`crmain.cc:173-259,789,846`) places a container-type corpse on the tile with
+`Create(Con, CorpseType, 0)` and `::Move`s inventory into it, and those ordinary
+map/container operations notify clients through commands the client already
+decodes — there is no `SV_CMD_DEATH`. Creature removal surfaces as
+`CreatureVanished` and the corpse as a `TileUpserted` full stack
+(`worldview.cpp:108-181`); right-click Use opens the corpse as a container
+(`RequestUseObject` with a free slot → `SV_CMD_CONTAINER`), loot and its
+post-removal updates are `CREATE/CHANGE/DELETE_IN_CONTAINER`
+(`player_state.cpp:140-175`), an empty corpse is a zero-object container, and
+decay is `EXPIRE` → `DELETE_FIELD`. Writing corpse-specific client code would
+mean predicting object flags locally, which this architecture forbids. Offline:
+ClientCore 14/14, native 10/10, Unreal build PASS, harness 0 FAIL, secret_check
+6/6. UNVERIFIED LIVE: no Fusion32 server was started and no GUI client driven
+here, so the kill-and-loot run is the outstanding certification step. Only the
+evidence file and this matrix row changed. See
+[audit evidence](evidence/clientcore/UNREAL-DEATH-LOOT-001.md) and
+`PARITY_MATRIX` Death / loot row.
+
 ## 2026-10-23 resumed independent UNREAL-TURN-OBJECT-001 certification
 
 **CERTIFIED** for the requested logical interaction matrix on implementation
@@ -443,7 +467,7 @@ visual Look/chat and a valid fresh Use With still require live validation.
 | Outfit chooser | Source traced: `receiving.cc::CGetOutfit` (1390) and `CSetOutfit` (1410), `sending.cc::SendOutfit` (1661/162) and `SendCreatureOutfit` (1011), `crplayer.cc::CheckOutfit` (1175), `operate.cc::AnnounceChangedCreature` (81), `cr.hh::TOutfit` (17). Four facts shape everything: the selectable set is a **band** (`First`/`Last` only, 128-131 for `Sex == 1` and 136-139 otherwise, each `+3` under `PREMIUM_ACCOUNT`); `CSetOutfit` reads a word and four bytes **unconditionally**, so a set command is seven bytes and cannot carry an object disguise; it **acknowledges nothing**, returning void; and its `CREATURE_OUTFIT_CHANGED` broadcast is conditional on `Player->Outfit == Player->OrgOutfit`, so a 142 may never arrive | `CL_CMD_GET_OUTFIT` (210) and `CL_CMD_SET_OUTFIT` (211) built by `outfit.cpp` with `ValidateOutfitSelection` mirroring CSetOutfit's two tests in its order; `SV_CMD_OUTFIT` (200) and `SV_CMD_CREATURE_OUTFIT` (142) already decoded. 210/211 collide with `SV_CMD_BUDDY_DATA`/`BUDDY_ONLINE`, pinned by two `static_assert`s: direction disambiguates an opcode here, never the number | `UNREAL-OUTFIT-DIALOG-001`. An isolated centred modal under `PanelIds::Outfit`, opened **only** by `SV_CMD_OUTFIT` — the game protocol never carries this player's sex, so a client cannot compute the band and must not invent one. Entry is the classic client's own documented gesture: right-click your character -> *Set outfit*. Outfit and colour steppers cannot leave the band or exceed 132; submit closes the window, because nothing will confirm it. Also fixed the two bridge gaps that dropped `Colors[4]` and `object_type` at the Unreal boundary. **The four slots are named Head/Body/Legs/Feet, proven from the classic client's own jump table at `0x0047D648` and 43 asserted byte patterns, not assumed** | `CLIENTCORE-OUTFIT-772-001` suites PASS (golden vectors for both client commands and both branches of both server commands, 36 truncated prefixes, every band boundary); `real33d_outfit_selection_tests` 20 cases; `REAL33D.Presentation.OutfitPanel` PASS; `verify_outfit_color_mapping.py` 43/43, also a harness check | Not comparable by appearance. The colours round-trip through Fusion32 and are proven stored, but `ResolveOutfit` still selects a mesh from the outfit id alone and the palette's byte-to-RGB mapping is `UNVERIFIED`, so no colour is drawn in 3D | CERTIFIED (dialog/bytes at 61ceaa9; rendering incomplete) |
 | NPC | Located | No | No | No | No | NOT_STARTED |
 | Trade | Located | No | No | No | No | NOT_STARTED |
-| Death / loot | Located, untraced | No | No | No | No | NOT_STARTED |
+| Death / loot | Traced (UNREAL-DEATH-LOOT-001): `TCreature::~TCreature`/`Death` (`crmain.cc:173-259,789,846`) creates the corpse via `Create(Con,CorpseType,0)` and `::Move`s inventory into it; there is **no `SV_CMD_DEATH`** — the flow rides `ADD/CHANGE/DELETE_FIELD` (106-108), `MOVE_CREATURE` (109), `CONTAINER`/`CREATE/CHANGE/DELETE_IN_CONTAINER` (110,112-114), `CREATURE_HEALTH` (140), and `EXPIRE` decay as `DELETE_FIELD` | By composition — every command already decoded (`movement.cpp:645-892`, `player_state.cpp:140-175`); corpse spawn surfaces as `TileUpserted`, creature removal as `CreatureVanished` (`worldview.cpp:108-181`). No new decoder/builder | By composition — tile rebuild / creature destroy / `ContainerChanged` already wired (`Real33DWorldActor.cpp:440,557,672`); corpse is the `GetTopObject`, right-click Use opens it as a container, drag → `RequestMoveObject` loots it. No new code | ClientCore 14/14, native 10/10, Unreal build PASS, harness 0 FAIL, secret_check 6/6 | UNVERIFIED LIVE: no creature was killed or looted on a live server in this environment | AUDITED — SUPPORTED BY COMPOSITION; no protocol/code change; UNVERIFIED LIVE |
 | Social systems | Partial locations | No | No | No | No | NOT_STARTED |
 
 `Located` means a likely authoritative implementation symbol was found. It is not protocol understanding and never means `PASS`.
