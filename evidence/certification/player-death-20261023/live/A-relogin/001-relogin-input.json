@@ -1,0 +1,61 @@
+{
+  "utc": "2026-10-24T09:45:30.622237+00:00",
+  "probe_pid": 9900,
+  "probe_session": 1,
+  "target_pid": 11568,
+  "target_session": 1,
+  "window_station": "WinSta0",
+  "thread_desktop": "Default",
+  "input_desktop": "Default",
+  "foreground": 5964874,
+  "windows": [
+    {
+      "hwnd": 5964874,
+      "pid": 11568,
+      "title": "REAL33D (64-bit Development PCD3D_SM5) ",
+      "klass": "UnrealWindow",
+      "visible": true,
+      "origin": [
+        320,
+        126
+      ],
+      "size": [
+        1280,
+        900
+      ]
+    },
+    {
+      "hwnd": 2819282,
+      "pid": 11568,
+      "title": "MSCTFIME UI",
+      "klass": "MSCTFIME UI",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    },
+    {
+      "hwnd": 6424458,
+      "pid": 11568,
+      "title": "Default IME",
+      "klass": "IME",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    }
+  ],
+  "snapshot_F9": true,
+  "capture": "C:\\Users\\dell\\Desktop\\fusion32\\build\\cert-player-death-20261023\\build\\certification\\live\\A-relogin\\001-relogin.png",
+  "foreground_after": 5964874
+}

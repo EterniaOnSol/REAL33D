@@ -1,50 +1,50 @@
-# HANDOFF - independent UNREAL-DEATH-LOOT-001 certification
+# HANDOFF - UNREAL-PLAYER-DEATH-RESPAWN-001 independent certification
 
-Date: 2026-10-23. Agent: Codex.
-Branch: certification/unreal-death-loot-independent-20261023.
-Worktree: C:/Users/dell/Desktop/fusion32/build/cert-death-loot-20261023.
-Starting audit: a76edadc01c579dde7e6eb726ad228be663130e6.
-Ending commit: resolve the certification branch; evidence/docs only.
-Main/origin/main: eda5cc236596911ba6020b57df3f448ff454a379, unchanged.
-Audit branch normally pushed. Prior handoff archived alongside this file.
+Date: 2026-10-24. Agent: Codex, independent certification.
+Branch: certification/unreal-player-death-respawn-independent-20261023.
+Worktree: C:/Users/dell/Desktop/fusion32/build/cert-player-death-20261023.
+Starting audit: 20db3a62e567e96595cc554a0092ff0bb30103ab.
+Ending commit: resolve this certification branch; evidence/docs only.
+Main/origin/main: 28b5524c17b98a8e279125c4994e528b6430f380, unchanged.
 
-## 2026-10-23 independent UNREAL-DEATH-LOOT-001 certification
+## 2026-10-24 independent UNREAL-PLAYER-DEATH-RESPAWN-001 certification
 
-**CERTIFIED** for observed logical creature death, corpse Use and loot.
-Audit a76edad (sole parent main eda5cc2) pushed normally; fresh branch
-certification/unreal-death-loot-independent-20261023. No production or server
-data changes, certification push, or merge to main.
+**CERTIFIED** for one operator-assisted, independently observed QA death and
+fresh relogin. Audit 20db3a6 normally pushed; sole parent main 28b5524 verified.
+Fresh certification branch; no production changes, main merge or cert push.
 
-Two real rabbits killed through the Unreal battle list; health 0, target clear,
-creature removal and corpse 4173 on each correct floor-7 tile/stack observed in
-server bytes. Right-click Use opens meat x2. One item moved corpse -> inventory,
-the other corpse -> backpack; server updates yield 2 -> 1 -> empty, and reopen
-confirms empty. Look, Use, drag, containers and Shift/Ctrl amount controls PASS.
-First natural decay 4173 -> 4174 plus server container close PASS. Final decay
-disappearance, other creatures/floors/loot variants and visual meshes UNVERIFIED.
+Rats killed QA A on floor 8. Server HP zero and exact EventMessage
+`You are dead.\n` observed; orderly close 29.639780 seconds later. Client
+cleared all actors, local identity, inventory/containers and combat. Automatic
+reconnects zero, including overlap while a fresh client successfully relogged
+and moved. Relogin: exactly one INIT_GAME, temple (32097,32219,7), HP 150/150,
+mana 0/0, level 1, experience 90; equipment matches server after backpack loss.
+First operator step and independent later step accepted. No fabricated state.
 
-Read-only packet observation plus unchanged ClientCore replay: 1,011 commands,
-zero errors/anomalies; 28 connected client snapshots agree with server inventory
-and containers. Evidence assertions 136/136. ClientCore 14/14, native 10/10 and
-Unreal automation 10/10; fresh Unreal build and initial strict harness PASS.
-Final corrected strict harness: 11 PASS / 0 FAIL / 0 SKIP; 298 logs, zero
-anomalies; Git Bash secret_check 6/6. Native runtime metadata assertions PASS.
-All live protocol diagnostics zero. No product defect found.
+Evidence verification 95/95; replay 3,205 commands, zero errors/anomalies.
+ClientCore 14/14, native 10/10, Unreal automation 10/10; initial fresh build and
+final relink succeeded. Final strict harness 11 PASS / 0 FAIL / 0 SKIP;
+70 logs / zero protocol anomalies; Git Bash secret_check 6/6.
 
-Initial game service recovery, normal idle disconnect/reconnect, stale-coordinate
-refusal after natural decay, and a corrected harness metadata-path failure are
-documented without promoting them into product PASS claims. Clients closed;
-debugger detached; existing three server services healthy. QA A retains two
-legitimately looted meat units, one in slot 10 and one in backpack.
+UNVERIFIED: active attack/follow target at death (neutral reset observed),
+additional character/penalty/attacker/floor variants, repeated deaths and
+comprehensive mesh/animation coverage. Brother artwork loaded on request.
+One stale post-movement snapshot is excluded as movement proof; fresh capture,
+wire response and accepted-movement log agree. Slow art loads and stale WSL
+PID-lock recovery are documented. The audit's Die/Logout description is
+corrected: Die sets DEAD; the creature destructor calls Logout(30,true).
 
-See [independent certification](evidence/certification/death-loot-20261023/README.md).
+Both clients closed normally; debugger detached; three QA services healthy.
+The legitimate death penalty remains. See
+[independent evidence](evidence/certification/player-death-20261023/README.md).
 
-Next: review the evidence-only certification commit for the requested scope.
-Do not merge main or push certification without authorization. If expanding
-decay coverage, watch all three natural 1,200-second stages without runtime edits.
-Reproduction: evidence/certification/death-loot-20261023/verify.py and README.md.
-Raw live data, observer disassembly, replay and validation logs are retained there;
-ignored build/certification retains original working artifacts.
-Both Unreal sessions are closed; read-only gdb detached; game PID 20261,
-querymanager 754, login 1504 remain running and verified. No fake corpse logic,
-protocol changes, memory edits or fixture creature spawns were introduced.
+Next: review the evidence-only certification commit for the observed scope.
+Do not merge main or push certification without explicit authorization.
+Reproduction: evidence/certification/player-death-20261023/README.md and verify.py.
+Recorded live data, immutable raw logs, initial/final harness and automation are
+under that directory, with manifest hashes. Original ignored working artifacts
+remain in build/certification. Local art junctions reference the existing
+unreal-world-presentation-polish-001 worktree; no art source was modified.
+At final cleanup querymanager PID 513, game 542 and login 1065 were healthy;
+debugger 1119 detached. If WSL has since restarted, verify identities and stale
+locks before starting services. Never infer runtime state from these old PIDs.

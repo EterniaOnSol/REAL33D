@@ -1,0 +1,21 @@
+=== real33d_mouse_input_tests ===
+PASS: left walk, shift-left look, both chord orders/release orders, UI release isolation, use-with, orbit, reset
+=== real33d_minimap_view_tests ===
+real33d_minimap_view_tests: PASS (palette validation/isolation, north-up, inverse clicks, delta, pan, zoom bounds, floors/recenter/offline)
+=== real33d_item_use_policy_tests ===
+runtime MultiUse metadata PASS: 204 types
+item use policy PASS
+=== real33d_stackable_sprite_tests ===
+real33d_stackable_sprite_tests: PASS
+=== real33d_chat_views_tests ===
+chat views PASS
+=== real33d_outfit_selection_tests ===
+real33d outfit selection tests: 20 cases passed
+=== real33d_stack_move_tests ===
+real33d stack move tests: 16 cases passed
+=== real33d_walk_direction_tests ===
+real33d walk direction tests: 14 cases passed
+=== real33d_handshake_frame_tests ===
+real33d handshake frame tests: 7 cases passed
+=== real33d_reconnect_policy_tests ===
+real33d reconnect policy tests: 7 cases passed

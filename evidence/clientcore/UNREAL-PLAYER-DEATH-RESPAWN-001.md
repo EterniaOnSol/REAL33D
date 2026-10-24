@@ -1,3 +1,9 @@
+> Independent certification follow-up (2026-10-24): observed logical flow
+> CERTIFIED; see [evidence](../certification/player-death-20261023/README.md).
+> Historical source correction: Die only sets DEAD; the creature destructor
+> calls Logout(30,true), then Process performs the delayed close. The audit
+> below is retained as the pre-certification record, not the final live verdict.
+
 # UNREAL-PLAYER-DEATH-RESPAWN-001 — audit
 
 2026-10-23, America/Guatemala. Work branch

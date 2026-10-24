@@ -1,0 +1,742 @@
+[New LWP 550]
+[New LWP 549]
+[New LWP 548]
+[New LWP 547]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/usr/lib/x86_64-linux-gnu/libthread_db.so.1".
+__syscall_cancel_arch () at ../sysdeps/unix/sysv/linux/x86_64/syscall_cancel.S:56
+
+warning: 56	../sysdeps/unix/sysv/linux/x86_64/syscall_cancel.S: No such file or directory
+Dump of assembler code for function _Z13WriteToSocketP11TConnectionPhii:
+   0x000064f8a5d0a8f0 <+0>:	f3 0f 1e fa        	endbr64
+   0x000064f8a5d0a8f4 <+4>:	41 57              	push   %r15
+   0x000064f8a5d0a8f6 <+6>:	41 56              	push   %r14
+   0x000064f8a5d0a8f8 <+8>:	49 89 fe           	mov    %rdi,%r14
+   0x000064f8a5d0a8fb <+11>:	41 55              	push   %r13
+   0x000064f8a5d0a8fd <+13>:	41 54              	push   %r12
+   0x000064f8a5d0a8ff <+15>:	55                 	push   %rbp
+   0x000064f8a5d0a900 <+16>:	48 89 f5           	mov    %rsi,%rbp
+   0x000064f8a5d0a903 <+19>:	53                 	push   %rbx
+   0x000064f8a5d0a904 <+20>:	48 83 ec 38        	sub    $0x38,%rsp
+   0x000064f8a5d0a908 <+24>:	89 54 24 08        	mov    %edx,0x8(%rsp)
+   0x000064f8a5d0a90c <+28>:	64 48 8b 04 25 28 00 00 00	mov    %fs:0x28,%rax
+   0x000064f8a5d0a915 <+37>:	48 89 44 24 28     	mov    %rax,0x28(%rsp)
+   0x000064f8a5d0a91a <+42>:	89 d0              	mov    %edx,%eax
+   0x000064f8a5d0a91c <+44>:	25 07 00 00 80     	and    $0x80000007,%eax
+   0x000064f8a5d0a921 <+49>:	83 f8 02           	cmp    $0x2,%eax
+   0x000064f8a5d0a924 <+52>:	74 72              	je     0x64f8a5d0a998 <_Z13WriteToSocketP11TConnectionPhii+168>
+   0x000064f8a5d0a926 <+54>:	89 d3              	mov    %edx,%ebx
+   0x000064f8a5d0a928 <+56>:	48 63 d2           	movslq %edx,%rdx
+   0x000064f8a5d0a92b <+59>:	41 89 cc           	mov    %ecx,%r12d
+   0x000064f8a5d0a92e <+62>:	4c 8d 3c 16        	lea    (%rsi,%rdx,1),%r15
+   0x000064f8a5d0a932 <+66>:	eb 27              	jmp    0x64f8a5d0a95b <_Z13WriteToSocketP11TConnectionPhii+107>
+   0x000064f8a5d0a934 <+68>:	0f 1f 40 00        	nopl   0x0(%rax)
+   0x000064f8a5d0a938 <+72>:	49 8d be 20 48 00 00	lea    0x4820(%r14),%rdi
+   0x000064f8a5d0a93f <+79>:	83 c3 01           	add    $0x1,%ebx
+   0x000064f8a5d0a942 <+82>:	49 83 c7 01        	add    $0x1,%r15
+   0x000064f8a5d0a946 <+86>:	e8 e5 09 ff ff     	call   0x64f8a5cfb330 <rand_r@plt>
+   0x000064f8a5d0a94b <+91>:	41 88 47 ff        	mov    %al,-0x1(%r15)
+   0x000064f8a5d0a94f <+95>:	89 d8              	mov    %ebx,%eax
+   0x000064f8a5d0a951 <+97>:	25 07 00 00 80     	and    $0x80000007,%eax
+   0x000064f8a5d0a956 <+102>:	83 f8 02           	cmp    $0x2,%eax
+   0x000064f8a5d0a959 <+105>:	74 45              	je     0x64f8a5d0a9a0 <_Z13WriteToSocketP11TConnectionPhii+176>
+   0x000064f8a5d0a95b <+107>:	41 39 dc           	cmp    %ebx,%r12d
+   0x000064f8a5d0a95e <+110>:	7f d8              	jg     0x64f8a5d0a938 <_Z13WriteToSocketP11TConnectionPhii+72>
+   0x000064f8a5d0a960 <+112>:	44 89 e2           	mov    %r12d,%edx
+   0x000064f8a5d0a963 <+115>:	89 de              	mov    %ebx,%esi
+   0x000064f8a5d0a965 <+117>:	48 8d 3d 3c ac 07 00	lea    0x7ac3c(%rip),%rdi        # 0x64f8a5d855a8
+   0x000064f8a5d0a96c <+124>:	31 c0              	xor    %eax,%eax
+   0x000064f8a5d0a96e <+126>:	e8 8d 61 07 00     	call   0x64f8a5d80b00 <_Z5errorPKcz>
+   0x000064f8a5d0a973 <+131>:	31 c0              	xor    %eax,%eax
+   0x000064f8a5d0a975 <+133>:	48 8b 54 24 28     	mov    0x28(%rsp),%rdx
+   0x000064f8a5d0a97a <+138>:	64 48 2b 14 25 28 00 00 00	sub    %fs:0x28,%rdx
+   0x000064f8a5d0a983 <+147>:	0f 85 c4 01 00 00  	jne    0x64f8a5d0ab4d <_Z13WriteToSocketP11TConnectionPhii+605>
+   0x000064f8a5d0a989 <+153>:	48 83 c4 38        	add    $0x38,%rsp
+   0x000064f8a5d0a98d <+157>:	5b                 	pop    %rbx
+   0x000064f8a5d0a98e <+158>:	5d                 	pop    %rbp
+   0x000064f8a5d0a98f <+159>:	41 5c              	pop    %r12
+   0x000064f8a5d0a991 <+161>:	41 5d              	pop    %r13
+   0x000064f8a5d0a993 <+163>:	41 5e              	pop    %r14
+   0x000064f8a5d0a995 <+165>:	41 5f              	pop    %r15
+   0x000064f8a5d0a997 <+167>:	c3                 	ret
+   0x000064f8a5d0a998 <+168>:	8b 5c 24 08        	mov    0x8(%rsp),%ebx
+   0x000064f8a5d0a99c <+172>:	0f 1f 40 00        	nopl   0x0(%rax)
+   0x000064f8a5d0a9a0 <+176>:	ba 04 00 00 00     	mov    $0x4,%edx
+   0x000064f8a5d0a9a5 <+181>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d0a9a8 <+184>:	48 8d 7c 24 10     	lea    0x10(%rsp),%rdi
+   0x000064f8a5d0a9ad <+189>:	e8 0e 6c 07 00     	call   0x64f8a5d815c0 <_ZN12TWriteBufferC2EPhi>
+   0x000064f8a5d0a9b2 <+194>:	8d 73 fe           	lea    -0x2(%rbx),%esi
+   0x000064f8a5d0a9b5 <+197>:	48 8d 7c 24 10     	lea    0x10(%rsp),%rdi
+   0x000064f8a5d0a9ba <+202>:	0f b7 f6           	movzwl %si,%esi
+   0x000064f8a5d0a9bd <+205>:	e8 ce 5b 07 00     	call   0x64f8a5d80590 <_ZN12TWriteBuffer9writeWordEt>
+   0x000064f8a5d0a9c2 <+210>:	8b 74 24 08        	mov    0x8(%rsp),%esi
+   0x000064f8a5d0a9c6 <+214>:	48 8d 7c 24 10     	lea    0x10(%rsp),%rdi
+   0x000064f8a5d0a9cb <+219>:	83 ee 04           	sub    $0x4,%esi
+   0x000064f8a5d0a9ce <+222>:	0f b7 f6           	movzwl %si,%esi
+   0x000064f8a5d0a9d1 <+225>:	e8 ba 5b 07 00     	call   0x64f8a5d80590 <_ZN12TWriteBuffer9writeWordEt>
+   0x000064f8a5d0a9d6 <+230>:	83 fb 02           	cmp    $0x2,%ebx
+   0x000064f8a5d0a9d9 <+233>:	0f 84 e4 00 00 00  	je     0x64f8a5d0aac3 <_Z13WriteToSocketP11TConnectionPhii+467>
+   0x000064f8a5d0a9df <+239>:	8d 43 fd           	lea    -0x3(%rbx),%eax
+   0x000064f8a5d0a9e2 <+242>:	4c 8d 65 02        	lea    0x2(%rbp),%r12
+   0x000064f8a5d0a9e6 <+246>:	c1 e8 03           	shr    $0x3,%eax
+   0x000064f8a5d0a9e9 <+249>:	8d 04 c5 00 00 00 00	lea    0x0(,%rax,8),%eax
+   0x000064f8a5d0a9f0 <+256>:	4c 8d 7c 05 0a     	lea    0xa(%rbp,%rax,1),%r15
+   0x000064f8a5d0a9f5 <+261>:	66 66 2e 0f 1f 84 00 00 00 00 00	data16 cs nopw 0x0(%rax,%rax,1)
+   0x000064f8a5d0aa00 <+272>:	4c 89 e6           	mov    %r12,%rsi
+   0x000064f8a5d0aa03 <+275>:	49 8d be 4c 48 00 00	lea    0x484c(%r14),%rdi
+   0x000064f8a5d0aa0a <+282>:	49 83 c4 08        	add    $0x8,%r12
+   0x000064f8a5d0aa0e <+286>:	e8 7d 8d 02 00     	call   0x64f8a5d33790 <_ZN17TXTEASymmetricKey7encryptEPh>
+   0x000064f8a5d0aa13 <+291>:	4d 39 e7           	cmp    %r12,%r15
+   0x000064f8a5d0aa16 <+294>:	75 e8              	jne    0x64f8a5d0aa00 <_Z13WriteToSocketP11TConnectionPhii+272>
+   0x000064f8a5d0aa18 <+296>:	41 89 dc           	mov    %ebx,%r12d
+   0x000064f8a5d0aa1b <+299>:	41 bf 32 00 00 00  	mov    $0x32,%r15d
+   0x000064f8a5d0aa21 <+305>:	4d 63 ec           	movslq %r12d,%r13
+   0x000064f8a5d0aa24 <+308>:	90                 	nop
+   0x000064f8a5d0aa25 <+309>:	66 66 2e 0f 1f 84 00 00 00 00 00	data16 cs nopw 0x0(%rax,%rax,1)
+   0x000064f8a5d0aa30 <+320>:	4c 89 f7           	mov    %r14,%rdi
+   0x000064f8a5d0aa33 <+323>:	e8 e8 34 00 00     	call   0x64f8a5d0df20 <_ZN11TConnection9GetSocketEv>
+   0x000064f8a5d0aa38 <+328>:	4c 89 ea           	mov    %r13,%rdx
+   0x000064f8a5d0aa3b <+331>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d0aa3e <+334>:	89 c7              	mov    %eax,%edi
+   0x000064f8a5d0aa40 <+336>:	e8 cb 08 ff ff     	call   0x64f8a5cfb310 <write@plt>
+   0x000064f8a5d0aa45 <+341>:	85 c0              	test   %eax,%eax
+   0x000064f8a5d0aa47 <+343>:	7e 17              	jle    0x64f8a5d0aa60 <_Z13WriteToSocketP11TConnectionPhii+368>
+   0x000064f8a5d0aa49 <+345>:	41 29 c4           	sub    %eax,%r12d
+   0x000064f8a5d0aa4c <+348>:	45 85 e4           	test   %r12d,%r12d
+   0x000064f8a5d0aa4f <+351>:	7e 47              	jle    0x64f8a5d0aa98 <_Z13WriteToSocketP11TConnectionPhii+424>
+   0x000064f8a5d0aa51 <+353>:	48 98              	cltq
+   0x000064f8a5d0aa53 <+355>:	4d 63 ec           	movslq %r12d,%r13
+   0x000064f8a5d0aa56 <+358>:	48 01 c5           	add    %rax,%rbp
+   0x000064f8a5d0aa59 <+361>:	eb d5              	jmp    0x64f8a5d0aa30 <_Z13WriteToSocketP11TConnectionPhii+320>
+   0x000064f8a5d0aa5b <+363>:	0f 1f 44 00 00     	nopl   0x0(%rax,%rax,1)
+   0x000064f8a5d0aa60 <+368>:	74 6e              	je     0x64f8a5d0aad0 <_Z13WriteToSocketP11TConnectionPhii+480>
+   0x000064f8a5d0aa62 <+370>:	e8 49 08 ff ff     	call   0x64f8a5cfb2b0 <__errno_location@plt>
+   0x000064f8a5d0aa67 <+375>:	48 89 c2           	mov    %rax,%rdx
+   0x000064f8a5d0aa6a <+378>:	8b 00              	mov    (%rax),%eax
+   0x000064f8a5d0aa6c <+380>:	83 f8 04           	cmp    $0x4,%eax
+   0x000064f8a5d0aa6f <+383>:	74 bf              	je     0x64f8a5d0aa30 <_Z13WriteToSocketP11TConnectionPhii+320>
+   0x000064f8a5d0aa71 <+385>:	83 f8 0b           	cmp    $0xb,%eax
+   0x000064f8a5d0aa74 <+388>:	0f 85 7c 00 00 00  	jne    0x64f8a5d0aaf6 <_Z13WriteToSocketP11TConnectionPhii+518>
+   0x000064f8a5d0aa7a <+394>:	45 85 ff           	test   %r15d,%r15d
+   0x000064f8a5d0aa7d <+397>:	0f 8e 7d 00 00 00  	jle    0x64f8a5d0ab00 <_Z13WriteToSocketP11TConnectionPhii+528>
+   0x000064f8a5d0aa83 <+403>:	be a0 86 01 00     	mov    $0x186a0,%esi
+   0x000064f8a5d0aa88 <+408>:	31 ff              	xor    %edi,%edi
+   0x000064f8a5d0aa8a <+410>:	41 83 ef 01        	sub    $0x1,%r15d
+   0x000064f8a5d0aa8e <+414>:	e8 cd 51 07 00     	call   0x64f8a5d7fc60 <_Z11DelayThreadii>
+   0x000064f8a5d0aa93 <+419>:	eb 9b              	jmp    0x64f8a5d0aa30 <_Z13WriteToSocketP11TConnectionPhii+320>
+   0x000064f8a5d0aa95 <+421>:	0f 1f 00           	nopl   (%rax)
+   0x000064f8a5d0aa98 <+424>:	48 8d 3d c1 88 57 04	lea    0x45788c1(%rip),%rdi        # 0x64f8aa283360 <_ZL24CommunicationThreadMutex>
+   0x000064f8a5d0aa9f <+431>:	83 c3 30           	add    $0x30,%ebx
+   0x000064f8a5d0aaa2 <+434>:	e8 b9 52 07 00     	call   0x64f8a5d7fd60 <_ZN9Semaphore4downEv>
+   0x000064f8a5d0aaa7 <+439>:	48 8d 3d b2 88 57 04	lea    0x45788b2(%rip),%rdi        # 0x64f8aa283360 <_ZL24CommunicationThreadMutex>
+   0x000064f8a5d0aaae <+446>:	01 1d 38 89 57 04  	add    %ebx,0x4578938(%rip)        # 0x64f8aa2833ec <_ZL9TotalSend>
+   0x000064f8a5d0aab4 <+452>:	e8 f7 52 07 00     	call   0x64f8a5d7fdb0 <_ZN9Semaphore2upEv>
+   0x000064f8a5d0aab9 <+457>:	b8 01 00 00 00     	mov    $0x1,%eax
+   0x000064f8a5d0aabe <+462>:	e9 b2 fe ff ff     	jmp    0x64f8a5d0a975 <_Z13WriteToSocketP11TConnectionPhii+133>
+   0x000064f8a5d0aac3 <+467>:	41 bc 02 00 00 00  	mov    $0x2,%r12d
+   0x000064f8a5d0aac9 <+473>:	e9 4d ff ff ff     	jmp    0x64f8a5d0aa1b <_Z13WriteToSocketP11TConnectionPhii+299>
+   0x000064f8a5d0aace <+478>:	66 90              	xchg   %ax,%ax
+   0x000064f8a5d0aad0 <+480>:	4c 89 f7           	mov    %r14,%rdi
+   0x000064f8a5d0aad3 <+483>:	e8 48 34 00 00     	call   0x64f8a5d0df20 <_ZN11TConnection9GetSocketEv>
+   0x000064f8a5d0aad8 <+488>:	89 c3              	mov    %eax,%ebx
+   0x000064f8a5d0aada <+490>:	e8 d1 07 ff ff     	call   0x64f8a5cfb2b0 <__errno_location@plt>
+   0x000064f8a5d0aadf <+495>:	89 da              	mov    %ebx,%edx
+   0x000064f8a5d0aae1 <+497>:	48 8d 3d 58 aa 07 00	lea    0x7aa58(%rip),%rdi        # 0x64f8a5d85540
+   0x000064f8a5d0aae8 <+504>:	8b 30              	mov    (%rax),%esi
+   0x000064f8a5d0aaea <+506>:	31 c0              	xor    %eax,%eax
+   0x000064f8a5d0aaec <+508>:	e8 0f 60 07 00     	call   0x64f8a5d80b00 <_Z5errorPKcz>
+   0x000064f8a5d0aaf1 <+513>:	e9 7d fe ff ff     	jmp    0x64f8a5d0a973 <_Z13WriteToSocketP11TConnectionPhii+131>
+   0x000064f8a5d0aaf6 <+518>:	83 f8 20           	cmp    $0x20,%eax
+   0x000064f8a5d0aaf9 <+521>:	74 05              	je     0x64f8a5d0ab00 <_Z13WriteToSocketP11TConnectionPhii+528>
+   0x000064f8a5d0aafb <+523>:	83 f8 68           	cmp    $0x68,%eax
+   0x000064f8a5d0aafe <+526>:	75 24              	jne    0x64f8a5d0ab24 <_Z13WriteToSocketP11TConnectionPhii+564>
+   0x000064f8a5d0ab00 <+528>:	4c 89 f7           	mov    %r14,%rdi
+   0x000064f8a5d0ab03 <+531>:	e8 18 34 00 00     	call   0x64f8a5d0df20 <_ZN11TConnection9GetSocketEv>
+   0x000064f8a5d0ab08 <+536>:	48 8d 35 69 aa 07 00	lea    0x7aa69(%rip),%rsi        # 0x64f8a5d85578
+   0x000064f8a5d0ab0f <+543>:	48 8d 3d ab 12 09 00	lea    0x912ab(%rip),%rdi        # 0x64f8a5d9bdc1
+   0x000064f8a5d0ab16 <+550>:	89 c2              	mov    %eax,%edx
+   0x000064f8a5d0ab18 <+552>:	31 c0              	xor    %eax,%eax
+   0x000064f8a5d0ab1a <+554>:	e8 51 72 07 00     	call   0x64f8a5d81d70 <_Z3LogPKcS0_z>
+   0x000064f8a5d0ab1f <+559>:	e9 4f fe ff ff     	jmp    0x64f8a5d0a973 <_Z13WriteToSocketP11TConnectionPhii+131>
+   0x000064f8a5d0ab24 <+564>:	4c 89 f7           	mov    %r14,%rdi
+   0x000064f8a5d0ab27 <+567>:	48 89 54 24 08     	mov    %rdx,0x8(%rsp)
+   0x000064f8a5d0ab2c <+572>:	e8 ef 33 00 00     	call   0x64f8a5d0df20 <_ZN11TConnection9GetSocketEv>
+   0x000064f8a5d0ab31 <+577>:	48 8b 54 24 08     	mov    0x8(%rsp),%rdx
+   0x000064f8a5d0ab36 <+582>:	48 8d 3d 03 aa 07 00	lea    0x7aa03(%rip),%rdi        # 0x64f8a5d85540
+   0x000064f8a5d0ab3d <+589>:	8b 32              	mov    (%rdx),%esi
+   0x000064f8a5d0ab3f <+591>:	89 c2              	mov    %eax,%edx
+   0x000064f8a5d0ab41 <+593>:	31 c0              	xor    %eax,%eax
+   0x000064f8a5d0ab43 <+595>:	e8 b8 5f 07 00     	call   0x64f8a5d80b00 <_Z5errorPKcz>
+   0x000064f8a5d0ab48 <+600>:	e9 26 fe ff ff     	jmp    0x64f8a5d0a973 <_Z13WriteToSocketP11TConnectionPhii+131>
+   0x000064f8a5d0ab4d <+605>:	e8 de 00 ff ff     	call   0x64f8a5cfac30 <__stack_chk_fail@plt>
+End of assembler dump.
+Dump of assembler code for function _Z11ReceiveDataP11TConnection:
+   0x000064f8a5d73f20 <+0>:	f3 0f 1e fa        	endbr64
+   0x000064f8a5d73f24 <+4>:	41 56              	push   %r14
+   0x000064f8a5d73f26 <+6>:	55                 	push   %rbp
+   0x000064f8a5d73f27 <+7>:	53                 	push   %rbx
+   0x000064f8a5d73f28 <+8>:	48 83 ec 30        	sub    $0x30,%rsp
+   0x000064f8a5d73f2c <+12>:	64 48 8b 04 25 28 00 00 00	mov    %fs:0x28,%rax
+   0x000064f8a5d73f35 <+21>:	48 89 44 24 28     	mov    %rax,0x28(%rsp)
+   0x000064f8a5d73f3a <+26>:	31 c0              	xor    %eax,%eax
+   0x000064f8a5d73f3c <+28>:	48 85 ff           	test   %rdi,%rdi
+   0x000064f8a5d73f3f <+31>:	0f 84 2b 01 00 00  	je     0x64f8a5d74070 <_Z11ReceiveDataP11TConnection+336>
+   0x000064f8a5d73f45 <+37>:	8b 97 00 08 00 00  	mov    0x800(%rdi),%edx
+   0x000064f8a5d73f4b <+43>:	48 89 fb           	mov    %rdi,%rbx
+   0x000064f8a5d73f4e <+46>:	85 d2              	test   %edx,%edx
+   0x000064f8a5d73f50 <+48>:	0f 8e ea 00 00 00  	jle    0x64f8a5d74040 <_Z11ReceiveDataP11TConnection+288>
+   0x000064f8a5d73f56 <+54>:	81 fa fe 07 00 00  	cmp    $0x7fe,%edx
+   0x000064f8a5d73f5c <+60>:	7f 5a              	jg     0x64f8a5d73fb8 <_Z11ReceiveDataP11TConnection+152>
+   0x000064f8a5d73f5e <+62>:	48 8d 6c 24 10     	lea    0x10(%rsp),%rbp
+   0x000064f8a5d73f63 <+67>:	48 8d 77 02        	lea    0x2(%rdi),%rsi
+   0x000064f8a5d73f67 <+71>:	48 89 ef           	mov    %rbp,%rdi
+   0x000064f8a5d73f6a <+74>:	e8 c1 d5 00 00     	call   0x64f8a5d81530 <_ZN11TReadBufferC2EPKhi>
+   0x000064f8a5d73f6f <+79>:	48 89 ef           	mov    %rbp,%rdi
+   0x000064f8a5d73f72 <+82>:	e8 69 c5 00 00     	call   0x64f8a5d804e0 <_ZN11TReadBuffer8readByteEv>
+   0x000064f8a5d73f77 <+87>:	83 bb 24 48 00 00 03	cmpl   $0x3,0x4824(%rbx)
+   0x000064f8a5d73f7e <+94>:	74 68              	je     0x64f8a5d73fe8 <_Z11ReceiveDataP11TConnection+200>
+   0x000064f8a5d73f80 <+96>:	44 0f b6 f0        	movzbl %al,%r14d
+   0x000064f8a5d73f84 <+100>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d73f87 <+103>:	88 44 24 0f        	mov    %al,0xf(%rsp)
+   0x000064f8a5d73f8b <+107>:	44 89 f6           	mov    %r14d,%esi
+   0x000064f8a5d73f8e <+110>:	e8 ed c4 ff ff     	call   0x64f8a5d70480 <_Z14CommandAllowedP11TConnectioni>
+   0x000064f8a5d73f93 <+115>:	84 c0              	test   %al,%al
+   0x000064f8a5d73f95 <+117>:	75 71              	jne    0x64f8a5d74008 <_Z11ReceiveDataP11TConnection+232>
+   0x000064f8a5d73f97 <+119>:	48 8b 44 24 28     	mov    0x28(%rsp),%rax
+   0x000064f8a5d73f9c <+124>:	64 48 2b 04 25 28 00 00 00	sub    %fs:0x28,%rax
+   0x000064f8a5d73fa5 <+133>:	0f 85 ab 05 00 00  	jne    0x64f8a5d74556 <_Z11ReceiveDataP11TConnection+1590>
+   0x000064f8a5d73fab <+139>:	48 83 c4 30        	add    $0x30,%rsp
+   0x000064f8a5d73faf <+143>:	5b                 	pop    %rbx
+   0x000064f8a5d73fb0 <+144>:	5d                 	pop    %rbp
+   0x000064f8a5d73fb1 <+145>:	41 5e              	pop    %r14
+   0x000064f8a5d73fb3 <+147>:	c3                 	ret
+   0x000064f8a5d73fb4 <+148>:	0f 1f 40 00        	nopl   0x0(%rax)
+   0x000064f8a5d73fb8 <+152>:	48 8b 44 24 28     	mov    0x28(%rsp),%rax
+   0x000064f8a5d73fbd <+157>:	64 48 2b 04 25 28 00 00 00	sub    %fs:0x28,%rax
+   0x000064f8a5d73fc6 <+166>:	0f 85 8a 05 00 00  	jne    0x64f8a5d74556 <_Z11ReceiveDataP11TConnection+1590>
+   0x000064f8a5d73fcc <+172>:	48 83 c4 30        	add    $0x30,%rsp
+   0x000064f8a5d73fd0 <+176>:	89 d6              	mov    %edx,%esi
+   0x000064f8a5d73fd2 <+178>:	48 8d 3d 37 4b 02 00	lea    0x24b37(%rip),%rdi        # 0x64f8a5d98b10
+   0x000064f8a5d73fd9 <+185>:	31 c0              	xor    %eax,%eax
+   0x000064f8a5d73fdb <+187>:	5b                 	pop    %rbx
+   0x000064f8a5d73fdc <+188>:	5d                 	pop    %rbp
+   0x000064f8a5d73fdd <+189>:	41 5e              	pop    %r14
+   0x000064f8a5d73fdf <+191>:	e9 1c cb 00 00     	jmp    0x64f8a5d80b00 <_Z5errorPKcz>
+   0x000064f8a5d73fe4 <+196>:	0f 1f 40 00        	nopl   0x0(%rax)
+   0x000064f8a5d73fe8 <+200>:	3c 0b              	cmp    $0xb,%al
+   0x000064f8a5d73fea <+202>:	0f 84 a0 00 00 00  	je     0x64f8a5d74090 <_Z11ReceiveDataP11TConnection+368>
+   0x000064f8a5d73ff0 <+208>:	0f b6 f0           	movzbl %al,%esi
+   0x000064f8a5d73ff3 <+211>:	48 8d 3d 3e 4b 02 00	lea    0x24b3e(%rip),%rdi        # 0x64f8a5d98b38
+   0x000064f8a5d73ffa <+218>:	31 c0              	xor    %eax,%eax
+   0x000064f8a5d73ffc <+220>:	e8 ff ca 00 00     	call   0x64f8a5d80b00 <_Z5errorPKcz>
+   0x000064f8a5d74001 <+225>:	eb 94              	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74003 <+227>:	0f 1f 44 00 00     	nopl   0x0(%rax,%rax,1)
+   0x000064f8a5d74008 <+232>:	44 89 f6           	mov    %r14d,%esi
+   0x000064f8a5d7400b <+235>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7400e <+238>:	e8 3d 9c f9 ff     	call   0x64f8a5d0dc50 <_ZN11TConnection10ResetTimerEi>
+   0x000064f8a5d74013 <+243>:	0f b6 54 24 0f     	movzbl 0xf(%rsp),%edx
+   0x000064f8a5d74018 <+248>:	83 ea 14           	sub    $0x14,%edx
+   0x000064f8a5d7401b <+251>:	80 fa d4           	cmp    $0xd4,%dl
+   0x000064f8a5d7401e <+254>:	0f 87 cc 00 00 00  	ja     0x64f8a5d740f0 <_Z11ReceiveDataP11TConnection+464>
+   0x000064f8a5d74024 <+260>:	48 8d 0d 5d e9 02 00	lea    0x2e95d(%rip),%rcx        # 0x64f8a5da2988
+   0x000064f8a5d7402b <+267>:	0f b6 d2           	movzbl %dl,%edx
+   0x000064f8a5d7402e <+270>:	48 63 04 91        	movslq (%rcx,%rdx,4),%rax
+   0x000064f8a5d74032 <+274>:	48 01 c8           	add    %rcx,%rax
+   0x000064f8a5d74035 <+277>:	3e ff e0           	notrack jmp *%rax
+   0x000064f8a5d74038 <+280>:	0f 1f 84 00 00 00 00 00	nopl   0x0(%rax,%rax,1)
+   0x000064f8a5d74040 <+288>:	48 8b 44 24 28     	mov    0x28(%rsp),%rax
+   0x000064f8a5d74045 <+293>:	64 48 2b 04 25 28 00 00 00	sub    %fs:0x28,%rax
+   0x000064f8a5d7404e <+302>:	0f 85 02 05 00 00  	jne    0x64f8a5d74556 <_Z11ReceiveDataP11TConnection+1590>
+   0x000064f8a5d74054 <+308>:	48 8d 3d 8d 4a 02 00	lea    0x24a8d(%rip),%rdi        # 0x64f8a5d98ae8
+   0x000064f8a5d7405b <+315>:	48 83 c4 30        	add    $0x30,%rsp
+   0x000064f8a5d7405f <+319>:	31 c0              	xor    %eax,%eax
+   0x000064f8a5d74061 <+321>:	5b                 	pop    %rbx
+   0x000064f8a5d74062 <+322>:	5d                 	pop    %rbp
+   0x000064f8a5d74063 <+323>:	41 5e              	pop    %r14
+   0x000064f8a5d74065 <+325>:	e9 96 ca 00 00     	jmp    0x64f8a5d80b00 <_Z5errorPKcz>
+   0x000064f8a5d7406a <+330>:	66 0f 1f 44 00 00  	nopw   0x0(%rax,%rax,1)
+   0x000064f8a5d74070 <+336>:	48 8b 44 24 28     	mov    0x28(%rsp),%rax
+   0x000064f8a5d74075 <+341>:	64 48 2b 04 25 28 00 00 00	sub    %fs:0x28,%rax
+   0x000064f8a5d7407e <+350>:	0f 85 d2 04 00 00  	jne    0x64f8a5d74556 <_Z11ReceiveDataP11TConnection+1590>
+   0x000064f8a5d74084 <+356>:	48 8d 3d 35 4a 02 00	lea    0x24a35(%rip),%rdi        # 0x64f8a5d98ac0
+   0x000064f8a5d7408b <+363>:	eb ce              	jmp    0x64f8a5d7405b <_Z11ReceiveDataP11TConnection+315>
+   0x000064f8a5d7408d <+365>:	0f 1f 00           	nopl   (%rax)
+   0x000064f8a5d74090 <+368>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d74093 <+371>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d74096 <+374>:	e8 c5 ac f9 ff     	call   0x64f8a5d0ed60 <_ZN11TConnection8JoinGameEP11TReadBuffer>
+   0x000064f8a5d7409b <+379>:	84 c0              	test   %al,%al
+   0x000064f8a5d7409d <+381>:	0f 85 f4 fe ff ff  	jne    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d740a3 <+387>:	48 8d 35 ac b0 02 00	lea    0x2b0ac(%rip),%rsi        # 0x64f8a5d9f156
+   0x000064f8a5d740aa <+394>:	48 8d 3d 10 7d 02 00	lea    0x27d10(%rip),%rdi        # 0x64f8a5d9bdc1
+   0x000064f8a5d740b1 <+401>:	e8 ba dc 00 00     	call   0x64f8a5d81d70 <_Z3LogPKcS0_z>
+   0x000064f8a5d740b6 <+406>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d740b9 <+409>:	be 2d 00 00 00     	mov    $0x2d,%esi
+   0x000064f8a5d740be <+414>:	e8 8d 90 00 00     	call   0x64f8a5d7d150 <_Z10SendResultP11TConnection6RESULT>
+   0x000064f8a5d740c3 <+419>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d740c6 <+422>:	e8 d5 a1 f9 ff     	call   0x64f8a5d0e2a0 <_ZN11TConnection9GetPlayerEv>
+   0x000064f8a5d740cb <+427>:	48 85 c0           	test   %rax,%rax
+   0x000064f8a5d740ce <+430>:	0f 84 6f 04 00 00  	je     0x64f8a5d74543 <_Z11ReceiveDataP11TConnection+1571>
+   0x000064f8a5d740d4 <+436>:	8b b8 e0 02 00 00  	mov    0x2e0(%rax),%edi
+   0x000064f8a5d740da <+442>:	e8 11 e8 00 00     	call   0x64f8a5d828f0 <_Z22DecrementIsOnlineOrderj>
+   0x000064f8a5d740df <+447>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d740e2 <+450>:	e8 59 a7 f9 ff     	call   0x64f8a5d0e840 <_ZN11TConnection10DisconnectEv>
+   0x000064f8a5d740e7 <+455>:	e9 ab fe ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d740ec <+460>:	0f 1f 40 00        	nopl   0x0(%rax)
+   0x000064f8a5d740f0 <+464>:	44 89 f2           	mov    %r14d,%edx
+   0x000064f8a5d740f3 <+467>:	48 8d 35 74 b0 02 00	lea    0x2b074(%rip),%rsi        # 0x64f8a5d9f16e
+   0x000064f8a5d740fa <+474>:	bf 03 00 00 00     	mov    $0x3,%edi
+   0x000064f8a5d740ff <+479>:	31 c0              	xor    %eax,%eax
+   0x000064f8a5d74101 <+481>:	e8 1a cf 00 00     	call   0x64f8a5d81020 <_Z5printiPKcz>
+   0x000064f8a5d74106 <+486>:	e9 8c fe ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d7410b <+491>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d7410e <+494>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d74111 <+497>:	e8 6a fb ff ff     	call   0x64f8a5d73c80 <_Z15CErrorFileEntryP11TConnectionP11TReadBuffer>
+   0x000064f8a5d74116 <+502>:	e9 7c fe ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d7411b <+507>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d7411e <+510>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d74121 <+513>:	e8 2a f7 ff ff     	call   0x64f8a5d73850 <_Z14CRuleViolationP11TConnectionP11TReadBuffer>
+   0x000064f8a5d74126 <+518>:	e9 6c fe ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d7412b <+523>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d7412e <+526>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d74131 <+529>:	e8 3a f5 ff ff     	call   0x64f8a5d73670 <_Z10CBugReportP11TConnectionP11TReadBuffer>
+   0x000064f8a5d74136 <+534>:	e9 5c fe ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d7413b <+539>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7413e <+542>:	e8 5d a1 f9 ff     	call   0x64f8a5d0e2a0 <_ZN11TConnection9GetPlayerEv>
+   0x000064f8a5d74143 <+547>:	48 89 c3           	mov    %rax,%rbx
+   0x000064f8a5d74146 <+550>:	48 85 c0           	test   %rax,%rax
+   0x000064f8a5d74149 <+553>:	0f 84 48 fe ff ff  	je     0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d7414f <+559>:	48 89 ef           	mov    %rbp,%rdi
+   0x000064f8a5d74152 <+562>:	e8 e9 c1 00 00     	call   0x64f8a5d80340 <_ZN11TReadBuffer8readQuadEv>
+   0x000064f8a5d74157 <+567>:	89 c6              	mov    %eax,%esi
+   0x000064f8a5d74159 <+569>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7415c <+572>:	e8 ef 52 fb ff     	call   0x64f8a5d29450 <_ZN7TPlayer11RemoveBuddyEj>
+   0x000064f8a5d74161 <+577>:	e9 31 fe ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74166 <+582>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d74169 <+585>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7416c <+588>:	e8 ef f3 ff ff     	call   0x64f8a5d73560 <_Z9CAddBuddyP11TConnectionP11TReadBuffer>
+   0x000064f8a5d74171 <+593>:	e9 21 fe ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74176 <+598>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d74179 <+601>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7417c <+604>:	e8 1f f2 ff ff     	call   0x64f8a5d733a0 <_Z10CSetOutfitP11TConnectionP11TReadBuffer>
+   0x000064f8a5d74181 <+609>:	e9 11 fe ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74186 <+614>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d74189 <+617>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7418c <+620>:	e8 9f f1 ff ff     	call   0x64f8a5d73330 <_Z10CGetOutfitP11TConnectionP11TReadBuffer>
+   0x000064f8a5d74191 <+625>:	e9 01 fe ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74196 <+630>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d74199 <+633>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7419c <+636>:	e8 1f f1 ff ff     	call   0x64f8a5d732c0 <_Z17CRefreshContainerP11TConnectionP11TReadBuffer>
+   0x000064f8a5d741a1 <+641>:	e9 f1 fd ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d741a6 <+646>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d741a9 <+649>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d741ac <+652>:	e8 5f f0 ff ff     	call   0x64f8a5d73210 <_Z13CRefreshFieldP11TConnectionP11TReadBuffer>
+   0x000064f8a5d741b1 <+657>:	e9 e1 fd ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d741b6 <+662>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d741b9 <+665>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d741bc <+668>:	e8 af ef ff ff     	call   0x64f8a5d73170 <_Z7CCancelP11TConnectionP11TReadBuffer>
+   0x000064f8a5d741c1 <+673>:	e9 d1 fd ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d741c6 <+678>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d741c9 <+681>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d741cc <+684>:	e8 cf ee ff ff     	call   0x64f8a5d730a0 <_Z19CExcludeFromChannelP11TConnectionP11TReadBuffer>
+   0x000064f8a5d741d1 <+689>:	e9 c1 fd ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d741d6 <+694>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d741d9 <+697>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d741dc <+700>:	e8 ef ed ff ff     	call   0x64f8a5d72fd0 <_Z16CInviteToChannelP11TConnectionP11TReadBuffer>
+   0x000064f8a5d741e1 <+705>:	e9 b1 fd ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d741e6 <+710>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d741e9 <+713>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d741ec <+716>:	e8 8f ed ff ff     	call   0x64f8a5d72f80 <_Z12COpenChannelP11TConnectionP11TReadBuffer>
+   0x000064f8a5d741f1 <+721>:	e9 a1 fd ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d741f6 <+726>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d741f9 <+729>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d741fc <+732>:	e8 0f ed ff ff     	call   0x64f8a5d72f10 <_Z11CLeavePartyP11TConnectionP11TReadBuffer>
+   0x000064f8a5d74201 <+737>:	e9 91 fd ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74206 <+742>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d74209 <+745>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7420c <+748>:	e8 6f ec ff ff     	call   0x64f8a5d72e80 <_Z15CPassLeadershipP11TConnectionP11TReadBuffer>
+   0x000064f8a5d74211 <+753>:	e9 81 fd ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74216 <+758>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d74219 <+761>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7421c <+764>:	e8 cf eb ff ff     	call   0x64f8a5d72df0 <_Z17CRevokeInvitationP11TConnectionP11TReadBuffer>
+   0x000064f8a5d74221 <+769>:	e9 71 fd ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74226 <+774>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d74229 <+777>:	e8 72 a0 f9 ff     	call   0x64f8a5d0e2a0 <_ZN11TConnection9GetPlayerEv>
+   0x000064f8a5d7422e <+782>:	48 89 c3           	mov    %rax,%rbx
+   0x000064f8a5d74231 <+785>:	48 85 c0           	test   %rax,%rax
+   0x000064f8a5d74234 <+788>:	0f 84 5d fd ff ff  	je     0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d7423a <+794>:	48 89 ef           	mov    %rbp,%rdi
+   0x000064f8a5d7423d <+797>:	e8 fe c0 00 00     	call   0x64f8a5d80340 <_ZN11TReadBuffer8readQuadEv>
+   0x000064f8a5d74242 <+802>:	8b bb e0 02 00 00  	mov    0x2e0(%rbx),%edi
+   0x000064f8a5d74248 <+808>:	89 c6              	mov    %eax,%esi
+   0x000064f8a5d7424a <+810>:	e8 e1 3e ff ff     	call   0x64f8a5d68130 <_Z9JoinPartyjj>
+   0x000064f8a5d7424f <+815>:	e9 43 fd ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74254 <+820>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d74257 <+823>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7425a <+826>:	e8 a1 ea ff ff     	call   0x64f8a5d72d00 <_Z14CInviteToPartyP11TConnectionP11TReadBuffer>
+   0x000064f8a5d7425f <+831>:	e9 33 fd ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74264 <+836>:	ba 01 00 00 00     	mov    $0x1,%edx
+   0x000064f8a5d74269 <+841>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d7426c <+844>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7426f <+847>:	e8 0c ea ff ff     	call   0x64f8a5d72c80 <_Z7CAttackP11TConnectionP11TReadBufferb>
+   0x000064f8a5d74274 <+852>:	e9 1e fd ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74279 <+857>:	31 d2              	xor    %edx,%edx
+   0x000064f8a5d7427b <+859>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d7427e <+862>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d74281 <+865>:	e8 fa e9 ff ff     	call   0x64f8a5d72c80 <_Z7CAttackP11TConnectionP11TReadBufferb>
+   0x000064f8a5d74286 <+870>:	e9 0c fd ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d7428b <+875>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d7428e <+878>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d74291 <+881>:	e8 da e8 ff ff     	call   0x64f8a5d72b70 <_Z11CSetTacticsP11TConnectionP11TReadBuffer>
+   0x000064f8a5d74296 <+886>:	e9 fc fc ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d7429b <+891>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d7429e <+894>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d742a1 <+897>:	e8 2a e8 ff ff     	call   0x64f8a5d72ad0 <_Z14CCancelRequestP11TConnectionP11TReadBuffer>
+   0x000064f8a5d742a6 <+902>:	e9 ec fc ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d742ab <+907>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d742ae <+910>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d742b1 <+913>:	e8 ba e6 ff ff     	call   0x64f8a5d72970 <_Z14CRemoveRequestP11TConnectionP11TReadBuffer>
+   0x000064f8a5d742b6 <+918>:	e9 dc fc ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d742bb <+923>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d742be <+926>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d742c1 <+929>:	e8 5a e5 ff ff     	call   0x64f8a5d72820 <_Z15CProcessRequestP11TConnectionP11TReadBuffer>
+   0x000064f8a5d742c6 <+934>:	e9 cc fc ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d742cb <+939>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d742ce <+942>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d742d1 <+945>:	e8 3a e4 ff ff     	call   0x64f8a5d72710 <_Z15CPrivateChannelP11TConnectionP11TReadBuffer>
+   0x000064f8a5d742d6 <+950>:	e9 bc fc ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d742db <+955>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d742de <+958>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d742e1 <+961>:	e8 ba e3 ff ff     	call   0x64f8a5d726a0 <_Z13CLeaveChannelP11TConnectionP11TReadBuffer>
+   0x000064f8a5d742e6 <+966>:	e9 ac fc ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d742eb <+971>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d742ee <+974>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d742f1 <+977>:	e8 fa e2 ff ff     	call   0x64f8a5d725f0 <_Z12CJoinChannelP11TConnectionP11TReadBuffer>
+   0x000064f8a5d742f6 <+982>:	e9 9c fc ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d742fb <+987>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d742fe <+990>:	e8 4d 80 00 00     	call   0x64f8a5d7c350 <_Z12SendChannelsP11TConnection>
+   0x000064f8a5d74303 <+995>:	e9 8f fc ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74308 <+1000>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d7430b <+1003>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7430e <+1006>:	e8 5d dc ff ff     	call   0x64f8a5d71f70 <_Z5CTalkP11TConnectionP11TReadBuffer>
+   0x000064f8a5d74313 <+1011>:	e9 7f fc ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74318 <+1016>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d7431b <+1019>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7431e <+1022>:	e8 ed da ff ff     	call   0x64f8a5d71e10 <_Z12CLookAtPointP11TConnectionP11TReadBuffer>
+   0x000064f8a5d74323 <+1027>:	e9 6f fc ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74328 <+1032>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d7432b <+1035>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7432e <+1038>:	e8 1d d9 ff ff     	call   0x64f8a5d71c50 <_Z9CEditListP11TConnectionP11TReadBuffer>
+   0x000064f8a5d74333 <+1043>:	e9 5f fc ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74338 <+1048>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d7433b <+1051>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7433e <+1054>:	e8 2d d7 ff ff     	call   0x64f8a5d71a70 <_Z9CEditTextP11TConnectionP11TReadBuffer>
+   0x000064f8a5d74343 <+1059>:	e9 4f fc ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74348 <+1064>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d7434b <+1067>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7434e <+1070>:	e8 0d d6 ff ff     	call   0x64f8a5d71960 <_Z12CUpContainerP11TConnectionP11TReadBuffer>
+   0x000064f8a5d74353 <+1075>:	e9 3f fc ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74358 <+1080>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d7435b <+1083>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7435e <+1086>:	e8 8d d5 ff ff     	call   0x64f8a5d718f0 <_Z15CCloseContainerP11TConnectionP11TReadBuffer>
+   0x000064f8a5d74363 <+1091>:	e9 2f fc ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74368 <+1096>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d7436b <+1099>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7436e <+1102>:	e8 2d d4 ff ff     	call   0x64f8a5d717a0 <_Z11CTurnObjectP11TConnectionP11TReadBuffer>
+   0x000064f8a5d74373 <+1107>:	e9 1f fc ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74378 <+1112>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d7437b <+1115>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7437e <+1118>:	e8 5d d1 ff ff     	call   0x64f8a5d714e0 <_Z14CUseOnCreatureP11TConnectionP11TReadBuffer>
+   0x000064f8a5d74383 <+1123>:	e9 0f fc ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74388 <+1128>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d7438b <+1131>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7438e <+1134>:	e8 cd ce ff ff     	call   0x64f8a5d71260 <_Z14CUseTwoObjectsP11TConnectionP11TReadBuffer>
+   0x000064f8a5d74393 <+1139>:	e9 ff fb ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74398 <+1144>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d7439b <+1147>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7439e <+1150>:	e8 cd cc ff ff     	call   0x64f8a5d71070 <_Z10CUseObjectP11TConnectionP11TReadBuffer>
+   0x000064f8a5d743a3 <+1155>:	e9 ef fb ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d743a8 <+1160>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d743ab <+1163>:	e8 f0 9e f9 ff     	call   0x64f8a5d0e2a0 <_ZN11TConnection9GetPlayerEv>
+   0x000064f8a5d743b0 <+1168>:	48 85 c0           	test   %rax,%rax
+   0x000064f8a5d743b3 <+1171>:	0f 84 de fb ff ff  	je     0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d743b9 <+1177>:	48 89 c7           	mov    %rax,%rdi
+   0x000064f8a5d743bc <+1180>:	e8 2f 48 fb ff     	call   0x64f8a5d28bf0 <_ZN7TPlayer11RejectTradeEv>
+   0x000064f8a5d743c1 <+1185>:	e9 d1 fb ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d743c6 <+1190>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d743c9 <+1193>:	e8 d2 9e f9 ff     	call   0x64f8a5d0e2a0 <_ZN11TConnection9GetPlayerEv>
+   0x000064f8a5d743ce <+1198>:	48 85 c0           	test   %rax,%rax
+   0x000064f8a5d743d1 <+1201>:	0f 84 c0 fb ff ff  	je     0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d743d7 <+1207>:	48 89 c7           	mov    %rax,%rdi
+   0x000064f8a5d743da <+1210>:	e8 41 43 fb ff     	call   0x64f8a5d28720 <_ZN7TPlayer11AcceptTradeEv>
+   0x000064f8a5d743df <+1215>:	e9 b3 fb ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d743e4 <+1220>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d743e7 <+1223>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d743ea <+1226>:	e8 11 cb ff ff     	call   0x64f8a5d70f00 <_Z13CInspectTradeP11TConnectionP11TReadBuffer>
+   0x000064f8a5d743ef <+1231>:	e9 a3 fb ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d743f4 <+1236>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d743f7 <+1239>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d743fa <+1242>:	e8 91 c9 ff ff     	call   0x64f8a5d70d90 <_Z12CTradeObjectP11TConnectionP11TReadBuffer>
+   0x000064f8a5d743ff <+1247>:	e9 93 fb ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74404 <+1252>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d74407 <+1255>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7440a <+1258>:	e8 01 c7 ff ff     	call   0x64f8a5d70b10 <_Z11CMoveObjectP11TConnectionP11TReadBuffer>
+   0x000064f8a5d7440f <+1263>:	e9 83 fb ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74414 <+1268>:	be 03 00 00 00     	mov    $0x3,%esi
+   0x000064f8a5d74419 <+1273>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7441c <+1276>:	e8 8f c6 ff ff     	call   0x64f8a5d70ab0 <_Z7CRotateP11TConnectioni>
+   0x000064f8a5d74421 <+1281>:	e9 71 fb ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74426 <+1286>:	be 02 00 00 00     	mov    $0x2,%esi
+   0x000064f8a5d7442b <+1291>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7442e <+1294>:	e8 7d c6 ff ff     	call   0x64f8a5d70ab0 <_Z7CRotateP11TConnectioni>
+   0x000064f8a5d74433 <+1299>:	e9 5f fb ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74438 <+1304>:	be 01 00 00 00     	mov    $0x1,%esi
+   0x000064f8a5d7443d <+1309>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d74440 <+1312>:	e8 6b c6 ff ff     	call   0x64f8a5d70ab0 <_Z7CRotateP11TConnectioni>
+   0x000064f8a5d74445 <+1317>:	e9 4d fb ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d7444a <+1322>:	31 f6              	xor    %esi,%esi
+   0x000064f8a5d7444c <+1324>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7444f <+1327>:	e8 5c c6 ff ff     	call   0x64f8a5d70ab0 <_Z7CRotateP11TConnectioni>
+   0x000064f8a5d74454 <+1332>:	e9 3e fb ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74459 <+1337>:	ba ff ff ff ff     	mov    $0xffffffff,%edx
+   0x000064f8a5d7445e <+1342>:	be ff ff ff ff     	mov    $0xffffffff,%esi
+   0x000064f8a5d74463 <+1347>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d74466 <+1350>:	e8 25 c5 ff ff     	call   0x64f8a5d70990 <_Z12CGoDirectionP11TConnectionii>
+   0x000064f8a5d7446b <+1355>:	e9 27 fb ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74470 <+1360>:	ba 01 00 00 00     	mov    $0x1,%edx
+   0x000064f8a5d74475 <+1365>:	be ff ff ff ff     	mov    $0xffffffff,%esi
+   0x000064f8a5d7447a <+1370>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d7447d <+1373>:	e8 0e c5 ff ff     	call   0x64f8a5d70990 <_Z12CGoDirectionP11TConnectionii>
+   0x000064f8a5d74482 <+1378>:	e9 10 fb ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74487 <+1383>:	ba 01 00 00 00     	mov    $0x1,%edx
+   0x000064f8a5d7448c <+1388>:	be 01 00 00 00     	mov    $0x1,%esi
+   0x000064f8a5d74491 <+1393>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d74494 <+1396>:	e8 f7 c4 ff ff     	call   0x64f8a5d70990 <_Z12CGoDirectionP11TConnectionii>
+   0x000064f8a5d74499 <+1401>:	e9 f9 fa ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d7449e <+1406>:	ba ff ff ff ff     	mov    $0xffffffff,%edx
+   0x000064f8a5d744a3 <+1411>:	be 01 00 00 00     	mov    $0x1,%esi
+   0x000064f8a5d744a8 <+1416>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d744ab <+1419>:	e8 e0 c4 ff ff     	call   0x64f8a5d70990 <_Z12CGoDirectionP11TConnectionii>
+   0x000064f8a5d744b0 <+1424>:	e9 e2 fa ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d744b5 <+1429>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d744b8 <+1432>:	e8 e3 9d f9 ff     	call   0x64f8a5d0e2a0 <_ZN11TConnection9GetPlayerEv>
+   0x000064f8a5d744bd <+1437>:	48 85 c0           	test   %rax,%rax
+   0x000064f8a5d744c0 <+1440>:	0f 84 d1 fa ff ff  	je     0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d744c6 <+1446>:	48 89 c7           	mov    %rax,%rdi
+   0x000064f8a5d744c9 <+1449>:	e8 e2 b7 f9 ff     	call   0x64f8a5d0fcb0 <_ZN9TCreature8ToDoStopEv>
+   0x000064f8a5d744ce <+1454>:	e9 c4 fa ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d744d3 <+1459>:	31 d2              	xor    %edx,%edx
+   0x000064f8a5d744d5 <+1461>:	be ff ff ff ff     	mov    $0xffffffff,%esi
+   0x000064f8a5d744da <+1466>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d744dd <+1469>:	e8 ae c4 ff ff     	call   0x64f8a5d70990 <_Z12CGoDirectionP11TConnectionii>
+   0x000064f8a5d744e2 <+1474>:	e9 b0 fa ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d744e7 <+1479>:	ba 01 00 00 00     	mov    $0x1,%edx
+   0x000064f8a5d744ec <+1484>:	31 f6              	xor    %esi,%esi
+   0x000064f8a5d744ee <+1486>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d744f1 <+1489>:	e8 9a c4 ff ff     	call   0x64f8a5d70990 <_Z12CGoDirectionP11TConnectionii>
+   0x000064f8a5d744f6 <+1494>:	e9 9c fa ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d744fb <+1499>:	31 d2              	xor    %edx,%edx
+   0x000064f8a5d744fd <+1501>:	be 01 00 00 00     	mov    $0x1,%esi
+   0x000064f8a5d74502 <+1506>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d74505 <+1509>:	e8 86 c4 ff ff     	call   0x64f8a5d70990 <_Z12CGoDirectionP11TConnectionii>
+   0x000064f8a5d7450a <+1514>:	e9 88 fa ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d7450f <+1519>:	ba ff ff ff ff     	mov    $0xffffffff,%edx
+   0x000064f8a5d74514 <+1524>:	31 f6              	xor    %esi,%esi
+   0x000064f8a5d74516 <+1526>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d74519 <+1529>:	e8 72 c4 ff ff     	call   0x64f8a5d70990 <_Z12CGoDirectionP11TConnectionii>
+   0x000064f8a5d7451e <+1534>:	e9 74 fa ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74523 <+1539>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d74526 <+1542>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d74529 <+1545>:	e8 d2 c2 ff ff     	call   0x64f8a5d70800 <_Z7CGoPathP11TConnectionP11TReadBuffer>
+   0x000064f8a5d7452e <+1550>:	e9 64 fa ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74533 <+1555>:	48 89 ee           	mov    %rbp,%rsi
+   0x000064f8a5d74536 <+1558>:	48 89 df           	mov    %rbx,%rdi
+   0x000064f8a5d74539 <+1561>:	e8 12 c2 ff ff     	call   0x64f8a5d70750 <_Z9CQuitGameP11TConnectionP11TReadBuffer>
+   0x000064f8a5d7453e <+1566>:	e9 54 fa ff ff     	jmp    0x64f8a5d73f97 <_Z11ReceiveDataP11TConnection+119>
+   0x000064f8a5d74543 <+1571>:	48 8d 3d 1e 46 02 00	lea    0x2461e(%rip),%rdi        # 0x64f8a5d98b68
+   0x000064f8a5d7454a <+1578>:	31 c0              	xor    %eax,%eax
+   0x000064f8a5d7454c <+1580>:	e8 af c5 00 00     	call   0x64f8a5d80b00 <_Z5errorPKcz>
+   0x000064f8a5d74551 <+1585>:	e9 89 fb ff ff     	jmp    0x64f8a5d740df <_Z11ReceiveDataP11TConnection+447>
+   0x000064f8a5d74556 <+1590>:	e8 d5 66 f8 ff     	call   0x64f8a5cfac30 <__stack_chk_fail@plt>
+   0x000064f8a5d7455b <+1595>:	f3 0f 1e fa        	endbr64
+   0x000064f8a5d7455f <+1599>:	48 89 c7           	mov    %rax,%rdi
+   0x000064f8a5d74562 <+1602>:	e9 35 2e f9 ff     	jmp    0x64f8a5d0739c <_Z11ReceiveDataP11TConnection.cold>
+   0x000064f8a5d74567 <+1607>:	f3 0f 1e fa        	endbr64
+   0x000064f8a5d7456b <+1611>:	48 89 c7           	mov    %rax,%rdi
+   0x000064f8a5d7456e <+1614>:	e9 4f 2e f9 ff     	jmp    0x64f8a5d073c2 <_Z11ReceiveDataP11TConnection.cold+38>
+End of assembler dump.
+Dump of assembler code for function _ZN7TPlayer5DeathEv:
+   0x000064f8a5d2c800 <+0>:	f3 0f 1e fa        	endbr64
+   0x000064f8a5d2c804 <+4>:	41 56              	push   %r14
+   0x000064f8a5d2c806 <+6>:	be 3d 00 00 00     	mov    $0x3d,%esi
+   0x000064f8a5d2c80b <+11>:	41 55              	push   %r13
+   0x000064f8a5d2c80d <+13>:	41 54              	push   %r12
+   0x000064f8a5d2c80f <+15>:	55                 	push   %rbp
+   0x000064f8a5d2c810 <+16>:	48 89 fd           	mov    %rdi,%rbp
+   0x000064f8a5d2c813 <+19>:	53                 	push   %rbx
+   0x000064f8a5d2c814 <+20>:	8b bf e0 02 00 00  	mov    0x2e0(%rdi),%edi
+   0x000064f8a5d2c81a <+26>:	e8 d1 17 01 00     	call   0x64f8a5d3dff0 <_Z10CheckRightj5RIGHT>
+   0x000064f8a5d2c81f <+31>:	84 c0              	test   %al,%al
+   0x000064f8a5d2c821 <+33>:	0f 85 69 01 00 00  	jne    0x64f8a5d2c990 <_ZN7TPlayer5DeathEv+400>
+   0x000064f8a5d2c827 <+39>:	48 8b bd 08 04 00 00	mov    0x408(%rbp),%rdi
+   0x000064f8a5d2c82e <+46>:	48 85 ff           	test   %rdi,%rdi
+   0x000064f8a5d2c831 <+49>:	74 2b              	je     0x64f8a5d2c85e <_ZN7TPlayer5DeathEv+94>
+   0x000064f8a5d2c833 <+51>:	e8 78 f2 04 00     	call   0x64f8a5d7bab0 <_Z14SendPlayerDataP11TConnection>
+   0x000064f8a5d2c838 <+56>:	48 8b bd 08 04 00 00	mov    0x408(%rbp),%rdi
+   0x000064f8a5d2c83f <+63>:	48 8d 15 3b 01 07 00	lea    0x7013b(%rip),%rdx        # 0x64f8a5d9c981
+   0x000064f8a5d2c846 <+70>:	31 c0              	xor    %eax,%eax
+   0x000064f8a5d2c848 <+72>:	be 13 00 00 00     	mov    $0x13,%esi
+   0x000064f8a5d2c84d <+77>:	e8 ee 05 05 00     	call   0x64f8a5d7ce40 <_Z11SendMessageP11TConnectioniPKcz>
+   0x000064f8a5d2c852 <+82>:	48 8b bd 08 04 00 00	mov    0x408(%rbp),%rdi
+   0x000064f8a5d2c859 <+89>:	e8 e2 18 fe ff     	call   0x64f8a5d0e140 <_ZN11TConnection3DieEv>
+   0x000064f8a5d2c85e <+94>:	48 89 ef           	mov    %rbp,%rdi
+   0x000064f8a5d2c861 <+97>:	e8 5a 8d fe ff     	call   0x64f8a5d155c0 <_ZN9TCreature5DeathEv>
+   0x000064f8a5d2c866 <+102>:	83 3d 73 79 55 04 02	cmpl   $0x2,0x4557973(%rip)        # 0x64f8aa2841e0 <WorldType>
+   0x000064f8a5d2c86d <+109>:	0f 84 3d 01 00 00  	je     0x64f8a5d2c9b0 <_ZN7TPlayer5DeathEv+432>
+   0x000064f8a5d2c873 <+115>:	8b bd e0 02 00 00  	mov    0x2e0(%rbp),%edi
+   0x000064f8a5d2c879 <+121>:	31 f6              	xor    %esi,%esi
+   0x000064f8a5d2c87b <+123>:	41 bc 0a 00 00 00  	mov    $0xa,%r12d
+   0x000064f8a5d2c881 <+129>:	e8 6a 17 01 00     	call   0x64f8a5d3dff0 <_Z10CheckRightj5RIGHT>
+   0x000064f8a5d2c886 <+134>:	84 c0              	test   %al,%al
+   0x000064f8a5d2c888 <+136>:	0f 85 ea 00 00 00  	jne    0x64f8a5d2c978 <_ZN7TPlayer5DeathEv+376>
+   0x000064f8a5d2c88e <+142>:	bb 65 00 00 00     	mov    $0x65,%ebx
+   0x000064f8a5d2c893 <+147>:	31 c0              	xor    %eax,%eax
+   0x000064f8a5d2c895 <+149>:	48 8d 8d f4 02 00 00	lea    0x2f4(%rbp),%rcx
+   0x000064f8a5d2c89c <+156>:	89 da              	mov    %ebx,%edx
+   0x000064f8a5d2c89e <+158>:	bf 03 00 00 00     	mov    $0x3,%edi
+   0x000064f8a5d2c8a3 <+163>:	44 8b 84 9d c8 05 00 00	mov    0x5c8(%rbp,%rbx,4),%r8d
+   0x000064f8a5d2c8ab <+171>:	48 8d 35 8e d4 05 00	lea    0x5d48e(%rip),%rsi        # 0x64f8a5d89d40
+   0x000064f8a5d2c8b2 <+178>:	e8 69 47 05 00     	call   0x64f8a5d81020 <_Z5printiPKcz>
+   0x000064f8a5d2c8b7 <+183>:	8b 84 9d c8 05 00 00	mov    0x5c8(%rbp,%rbx,4),%eax
+   0x000064f8a5d2c8be <+190>:	85 c0              	test   %eax,%eax
+   0x000064f8a5d2c8c0 <+192>:	75 7e              	jne    0x64f8a5d2c940 <_ZN7TPlayer5DeathEv+320>
+   0x000064f8a5d2c8c2 <+194>:	48 83 c3 01        	add    $0x1,%rbx
+   0x000064f8a5d2c8c6 <+198>:	48 83 fb 6a        	cmp    $0x6a,%rbx
+   0x000064f8a5d2c8ca <+202>:	75 c7              	jne    0x64f8a5d2c893 <_ZN7TPlayer5DeathEv+147>
+   0x000064f8a5d2c8cc <+204>:	48 8b 7d 08        	mov    0x8(%rbp),%rdi
+   0x000064f8a5d2c8d0 <+208>:	44 89 e6           	mov    %r12d,%esi
+   0x000064f8a5d2c8d3 <+211>:	e8 38 56 00 00     	call   0x64f8a5d31f10 <_ZN6TSkill15DecreasePercentEi>
+   0x000064f8a5d2c8d8 <+216>:	48 8b 7d 10        	mov    0x10(%rbp),%rdi
+   0x000064f8a5d2c8dc <+220>:	44 89 e6           	mov    %r12d,%esi
+   0x000064f8a5d2c8df <+223>:	e8 2c 56 00 00     	call   0x64f8a5d31f10 <_ZN6TSkill15DecreasePercentEi>
+   0x000064f8a5d2c8e4 <+228>:	48 8b 7d 38        	mov    0x38(%rbp),%rdi
+   0x000064f8a5d2c8e8 <+232>:	44 89 e6           	mov    %r12d,%esi
+   0x000064f8a5d2c8eb <+235>:	e8 20 56 00 00     	call   0x64f8a5d31f10 <_ZN6TSkill15DecreasePercentEi>
+   0x000064f8a5d2c8f0 <+240>:	48 8b 7d 40        	mov    0x40(%rbp),%rdi
+   0x000064f8a5d2c8f4 <+244>:	44 89 e6           	mov    %r12d,%esi
+   0x000064f8a5d2c8f7 <+247>:	e8 14 56 00 00     	call   0x64f8a5d31f10 <_ZN6TSkill15DecreasePercentEi>
+   0x000064f8a5d2c8fc <+252>:	48 8b 7d 48        	mov    0x48(%rbp),%rdi
+   0x000064f8a5d2c900 <+256>:	44 89 e6           	mov    %r12d,%esi
+   0x000064f8a5d2c903 <+259>:	e8 08 56 00 00     	call   0x64f8a5d31f10 <_ZN6TSkill15DecreasePercentEi>
+   0x000064f8a5d2c908 <+264>:	48 8b 7d 50        	mov    0x50(%rbp),%rdi
+   0x000064f8a5d2c90c <+268>:	44 89 e6           	mov    %r12d,%esi
+   0x000064f8a5d2c90f <+271>:	e8 fc 55 00 00     	call   0x64f8a5d31f10 <_ZN6TSkill15DecreasePercentEi>
+   0x000064f8a5d2c914 <+276>:	48 8b 7d 58        	mov    0x58(%rbp),%rdi
+   0x000064f8a5d2c918 <+280>:	44 89 e6           	mov    %r12d,%esi
+   0x000064f8a5d2c91b <+283>:	e8 f0 55 00 00     	call   0x64f8a5d31f10 <_ZN6TSkill15DecreasePercentEi>
+   0x000064f8a5d2c920 <+288>:	48 8b 7d 60        	mov    0x60(%rbp),%rdi
+   0x000064f8a5d2c924 <+292>:	44 89 e6           	mov    %r12d,%esi
+   0x000064f8a5d2c927 <+295>:	e8 e4 55 00 00     	call   0x64f8a5d31f10 <_ZN6TSkill15DecreasePercentEi>
+   0x000064f8a5d2c92c <+300>:	48 8b 7d 70        	mov    0x70(%rbp),%rdi
+   0x000064f8a5d2c930 <+304>:	5b                 	pop    %rbx
+   0x000064f8a5d2c931 <+305>:	44 89 e6           	mov    %r12d,%esi
+   0x000064f8a5d2c934 <+308>:	5d                 	pop    %rbp
+   0x000064f8a5d2c935 <+309>:	41 5c              	pop    %r12
+   0x000064f8a5d2c937 <+311>:	41 5d              	pop    %r13
+   0x000064f8a5d2c939 <+313>:	41 5e              	pop    %r14
+   0x000064f8a5d2c93b <+315>:	e9 d0 55 00 00     	jmp    0x64f8a5d31f10 <_ZN6TSkill15DecreasePercentEi>
+   0x000064f8a5d2c940 <+320>:	45 31 c0           	xor    %r8d,%r8d
+   0x000064f8a5d2c943 <+323>:	48 8d 8d f4 02 00 00	lea    0x2f4(%rbp),%rcx
+   0x000064f8a5d2c94a <+330>:	89 da              	mov    %ebx,%edx
+   0x000064f8a5d2c94c <+332>:	31 c0              	xor    %eax,%eax
+   0x000064f8a5d2c94e <+334>:	48 8d 35 43 d4 05 00	lea    0x5d443(%rip),%rsi        # 0x64f8a5d89d98
+   0x000064f8a5d2c955 <+341>:	bf 03 00 00 00     	mov    $0x3,%edi
+   0x000064f8a5d2c95a <+346>:	41 83 ec 01        	sub    $0x1,%r12d
+   0x000064f8a5d2c95e <+350>:	e8 bd 46 05 00     	call   0x64f8a5d81020 <_Z5printiPKcz>
+   0x000064f8a5d2c963 <+355>:	c7 84 9d c8 05 00 00 00 00 00 00	movl   $0x0,0x5c8(%rbp,%rbx,4)
+   0x000064f8a5d2c96e <+366>:	e9 4f ff ff ff     	jmp    0x64f8a5d2c8c2 <_ZN7TPlayer5DeathEv+194>
+   0x000064f8a5d2c973 <+371>:	0f 1f 44 00 00     	nopl   0x0(%rax,%rax,1)
+   0x000064f8a5d2c978 <+376>:	80 bd 06 04 00 00 0a	cmpb   $0xa,0x406(%rbp)
+   0x000064f8a5d2c97f <+383>:	45 19 e4           	sbb    %r12d,%r12d
+   0x000064f8a5d2c982 <+386>:	41 83 e4 03        	and    $0x3,%r12d
+   0x000064f8a5d2c986 <+390>:	41 83 c4 07        	add    $0x7,%r12d
+   0x000064f8a5d2c98a <+394>:	e9 ff fe ff ff     	jmp    0x64f8a5d2c88e <_ZN7TPlayer5DeathEv+142>
+   0x000064f8a5d2c98f <+399>:	90                 	nop
+   0x000064f8a5d2c990 <+400>:	48 8d 3d 29 df 05 00	lea    0x5df29(%rip),%rdi        # 0x64f8a5d8a8c0
+   0x000064f8a5d2c997 <+407>:	31 c0              	xor    %eax,%eax
+   0x000064f8a5d2c999 <+409>:	e8 62 41 05 00     	call   0x64f8a5d80b00 <_Z5errorPKcz>
+   0x000064f8a5d2c99e <+414>:	48 8b 7d 18        	mov    0x18(%rbp),%rdi
+   0x000064f8a5d2c9a2 <+418>:	5b                 	pop    %rbx
+   0x000064f8a5d2c9a3 <+419>:	5d                 	pop    %rbp
+   0x000064f8a5d2c9a4 <+420>:	41 5c              	pop    %r12
+   0x000064f8a5d2c9a6 <+422>:	41 5d              	pop    %r13
+   0x000064f8a5d2c9a8 <+424>:	41 5e              	pop    %r14
+   0x000064f8a5d2c9aa <+426>:	e9 51 55 00 00     	jmp    0x64f8a5d31f00 <_ZN6TSkill6SetMaxEv>
+   0x000064f8a5d2c9af <+431>:	90                 	nop
+   0x000064f8a5d2c9b0 <+432>:	48 8b 45 08        	mov    0x8(%rbp),%rax
+   0x000064f8a5d2c9b4 <+436>:	48 8d bd a0 01 00 00	lea    0x1a0(%rbp),%rdi
+   0x000064f8a5d2c9bb <+443>:	48 63 70 3c        	movslq 0x3c(%rax),%rsi
+   0x000064f8a5d2c9bf <+447>:	48 89 f0           	mov    %rsi,%rax
+   0x000064f8a5d2c9c2 <+450>:	48 69 f6 67 66 66 66	imul   $0x66666667,%rsi,%rsi
+   0x000064f8a5d2c9c9 <+457>:	c1 f8 1f           	sar    $0x1f,%eax
+   0x000064f8a5d2c9cc <+460>:	48 c1 fe 23        	sar    $0x23,%rsi
+   0x000064f8a5d2c9d0 <+464>:	29 c6              	sub    %eax,%esi
+   0x000064f8a5d2c9d2 <+466>:	e8 f9 89 fe ff     	call   0x64f8a5d153d0 <_ZN7TCombat26DistributeExperiencePointsEj>
+   0x000064f8a5d2c9d7 <+471>:	e9 97 fe ff ff     	jmp    0x64f8a5d2c873 <_ZN7TPlayer5DeathEv+115>
+End of assembler dump.
+Dump of assembler code for function _ZN11TConnection10DisconnectEv:
+   0x000064f8a5d0e840 <+0>:	f3 0f 1e fa        	endbr64
+   0x000064f8a5d0e844 <+4>:	41 54              	push   %r12
+   0x000064f8a5d0e846 <+6>:	55                 	push   %rbp
+   0x000064f8a5d0e847 <+7>:	48 89 fd           	mov    %rdi,%rbp
+   0x000064f8a5d0e84a <+10>:	53                 	push   %rbx
+   0x000064f8a5d0e84b <+11>:	8b b7 24 48 00 00  	mov    0x4824(%rdi),%esi
+   0x000064f8a5d0e851 <+17>:	83 fe 01           	cmp    $0x1,%esi
+   0x000064f8a5d0e854 <+20>:	0f 86 84 00 00 00  	jbe    0x64f8a5d0e8de <_ZN11TConnection10DisconnectEv+158>
+   0x000064f8a5d0e85a <+26>:	48 8d 9d a8 48 00 00	lea    0x48a8(%rbp),%rbx
+   0x000064f8a5d0e861 <+33>:	4c 8d a5 b8 56 00 00	lea    0x56b8(%rbp),%r12
+   0x000064f8a5d0e868 <+40>:	eb 30              	jmp    0x64f8a5d0e89a <_ZN11TConnection10DisconnectEv+90>
+   0x000064f8a5d0e86a <+42>:	66 66 2e 0f 1f 84 00 00 00 00 00	data16 cs nopw 0x0(%rax,%rax,1)
+   0x000064f8a5d0e875 <+53>:	66 66 2e 0f 1f 84 00 00 00 00 00	data16 cs nopw 0x0(%rax,%rax,1)
+   0x000064f8a5d0e880 <+64>:	c7 03 00 00 00 00  	movl   $0x0,(%rbx)
+   0x000064f8a5d0e886 <+70>:	48 83 c3 18        	add    $0x18,%rbx
+   0x000064f8a5d0e88a <+74>:	c7 43 ec 00 00 00 00	movl   $0x0,-0x14(%rbx)
+   0x000064f8a5d0e891 <+81>:	48 89 6b f8        	mov    %rbp,-0x8(%rbx)
+   0x000064f8a5d0e895 <+85>:	4c 39 e3           	cmp    %r12,%rbx
+   0x000064f8a5d0e898 <+88>:	74 16              	je     0x64f8a5d0e8b0 <_ZN11TConnection10DisconnectEv+112>
+   0x000064f8a5d0e89a <+90>:	8b 03              	mov    (%rbx),%eax
+   0x000064f8a5d0e89c <+92>:	85 c0              	test   %eax,%eax
+   0x000064f8a5d0e89e <+94>:	74 e0              	je     0x64f8a5d0e880 <_ZN11TConnection10DisconnectEv+64>
+   0x000064f8a5d0e8a0 <+96>:	8b 73 04           	mov    0x4(%rbx),%esi
+   0x000064f8a5d0e8a3 <+99>:	48 89 ef           	mov    %rbp,%rdi
+   0x000064f8a5d0e8a6 <+102>:	e8 85 fc ff ff     	call   0x64f8a5d0e530 <_ZN11TConnection20UnchainKnownCreatureEj>
+   0x000064f8a5d0e8ab <+107>:	eb d3              	jmp    0x64f8a5d0e880 <_ZN11TConnection10DisconnectEv+64>
+   0x000064f8a5d0e8ad <+109>:	0f 1f 00           	nopl   (%rax)
+   0x000064f8a5d0e8b0 <+112>:	c6 85 5c 48 00 00 00	movb   $0x0,0x485c(%rbp)
+   0x000064f8a5d0e8b7 <+119>:	8b 9d 28 48 00 00  	mov    0x4828(%rbp),%ebx
+   0x000064f8a5d0e8bd <+125>:	c7 85 24 48 00 00 07 00 00 00	movl   $0x7,0x4824(%rbp)
+   0x000064f8a5d0e8c7 <+135>:	e8 54 f9 06 00     	call   0x64f8a5d7e220 <_Z16GetGameProcessIDv>
+   0x000064f8a5d0e8cc <+140>:	89 de              	mov    %ebx,%esi
+   0x000064f8a5d0e8ce <+142>:	ba 01 00 00 00     	mov    $0x1,%edx
+   0x000064f8a5d0e8d3 <+147>:	5b                 	pop    %rbx
+   0x000064f8a5d0e8d4 <+148>:	89 c7              	mov    %eax,%edi
+   0x000064f8a5d0e8d6 <+150>:	5d                 	pop    %rbp
+   0x000064f8a5d0e8d7 <+151>:	41 5c              	pop    %r12
+   0x000064f8a5d0e8d9 <+153>:	e9 92 c2 fe ff     	jmp    0x64f8a5cfab70 <tgkill@plt>
+   0x000064f8a5d0e8de <+158>:	48 8d 3d e3 82 07 00	lea    0x782e3(%rip),%rdi        # 0x64f8a5d86bc8
+   0x000064f8a5d0e8e5 <+165>:	31 c0              	xor    %eax,%eax
+   0x000064f8a5d0e8e7 <+167>:	e8 14 22 07 00     	call   0x64f8a5d80b00 <_Z5errorPKcz>
+   0x000064f8a5d0e8ec <+172>:	e9 69 ff ff ff     	jmp    0x64f8a5d0e85a <_ZN11TConnection10DisconnectEv+26>
+End of assembler dump.
+Hardware assisted breakpoint 1 at 0x64f8a5d0a8f0
+Hardware assisted breakpoint 2 at 0x64f8a5d73f20
+Hardware assisted breakpoint 3 at 0x64f8a5d2c800
+Hardware assisted breakpoint 4 at 0x64f8a5d0e840
+[New Thread 0x709bea43d6c0 (LWP 1195)]
+[Thread 0x709bea43d6c0 (LWP 1195) exited]
+[New Thread 0x709bea43d6c0 (LWP 1313)]
+[Thread 0x709bea43d6c0 (LWP 1313) exited]
+
+Thread 1 "game" received signal SIGINT, Interrupt.
+__syscall_cancel_arch () at ../sysdeps/unix/sysv/linux/x86_64/syscall_cancel.S:56
+56	in ../sysdeps/unix/sysv/linux/x86_64/syscall_cancel.S
+[Inferior 1 (process 542) detached]

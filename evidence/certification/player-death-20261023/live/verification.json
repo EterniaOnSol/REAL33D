@@ -1,0 +1,388 @@
+{
+  "checks": [
+    {
+      "name": "one observed server player death",
+      "passed": true
+    },
+    {
+      "name": "one exact event message, including wire newline",
+      "passed": true
+    },
+    {
+      "name": "authoritative HP reaches zero",
+      "passed": true
+    },
+    {
+      "name": "death actor removed from authoritative visible set",
+      "passed": true
+    },
+    {
+      "name": "death session one INIT_GAME",
+      "passed": true
+    },
+    {
+      "name": "fresh relogin exactly one INIT_GAME",
+      "passed": true
+    },
+    {
+      "name": "same unchanged audit DLL",
+      "passed": true
+    },
+    {
+      "name": "replay errors and anomalies zero",
+      "passed": true
+    },
+    {
+      "name": "observer errors zero",
+      "passed": true
+    },
+    {
+      "name": "one server disconnect after death",
+      "passed": true
+    },
+    {
+      "name": "orderly delayed close about 30 seconds",
+      "passed": true
+    },
+    {
+      "name": "client reports orderly close",
+      "passed": true
+    },
+    {
+      "name": "client releases ownership",
+      "passed": true
+    },
+    {
+      "name": "old client automatic reconnect attempts zero",
+      "passed": true
+    },
+    {
+      "name": "cleanup removes all presentation actors",
+      "passed": true
+    },
+    {
+      "name": "cleanup clears local identity and origin",
+      "passed": true
+    },
+    {
+      "name": "cleanup clears equipment and containers",
+      "passed": true
+    },
+    {
+      "name": "cleanup combat state neutral",
+      "passed": true
+    },
+    {
+      "name": "relogin recreates exactly one local player",
+      "passed": true
+    },
+    {
+      "name": "initial world rebuilds",
+      "passed": true
+    },
+    {
+      "name": "relogin combat neutral",
+      "passed": true
+    },
+    {
+      "name": "first independent post-relogin walk accepted",
+      "passed": true
+    },
+    {
+      "name": "A-cert/001-baseline-freshness.json",
+      "passed": true
+    },
+    {
+      "name": "A-cert/002-route-east-freshness.json",
+      "passed": true
+    },
+    {
+      "name": "A-cert/death-cleanup-freshness.json",
+      "passed": true
+    },
+    {
+      "name": "A-cert/death-message-freshness.json",
+      "passed": true
+    },
+    {
+      "name": "A-cert/death-no-reconnect-freshness.json",
+      "passed": true
+    },
+    {
+      "name": "A-cert/ownership-after-relogin-freshness.json",
+      "passed": true
+    },
+    {
+      "name": "A-cert/001-baseline-after.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-cert/001-baseline-after.json authoritative inventory",
+      "passed": true
+    },
+    {
+      "name": "A-cert/001-baseline-after.json authoritative local id",
+      "passed": true
+    },
+    {
+      "name": "A-cert/001-baseline-before.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-cert/001-baseline-before.json authoritative inventory",
+      "passed": true
+    },
+    {
+      "name": "A-cert/001-baseline-before.json authoritative local id",
+      "passed": true
+    },
+    {
+      "name": "A-cert/002-route-east-after.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-cert/002-route-east-after.json authoritative inventory",
+      "passed": true
+    },
+    {
+      "name": "A-cert/002-route-east-after.json authoritative local id",
+      "passed": true
+    },
+    {
+      "name": "A-cert/002-route-east-before.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-cert/002-route-east-before.json authoritative inventory",
+      "passed": true
+    },
+    {
+      "name": "A-cert/002-route-east-before.json authoritative local id",
+      "passed": true
+    },
+    {
+      "name": "A-cert/death-cleanup-after.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-cert/death-cleanup-before.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-cert/death-message-after.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-cert/death-message-after.json authoritative inventory",
+      "passed": true
+    },
+    {
+      "name": "A-cert/death-message-after.json authoritative local id",
+      "passed": true
+    },
+    {
+      "name": "A-cert/death-message-before.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-cert/death-message-before.json authoritative inventory",
+      "passed": true
+    },
+    {
+      "name": "A-cert/death-message-before.json authoritative local id",
+      "passed": true
+    },
+    {
+      "name": "A-cert/death-no-reconnect-after.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-cert/death-no-reconnect-before.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-cert/ownership-after-relogin-after.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-cert/ownership-after-relogin-before.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-cert/unreal_slice_evidence.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-cert/unreal_slice_evidence_AfterCleanup.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-cert/unreal_slice_evidence_Disconnected.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-cert/unreal_slice_evidence_Manual.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/001-relogin-freshness.json",
+      "passed": true
+    },
+    {
+      "name": "stale immediate-move after snapshot explicitly excluded",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/003-move-confirmed-freshness.json",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/004-session-stable-freshness.json",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/001-relogin-after.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/001-relogin-after.json authoritative inventory",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/001-relogin-after.json authoritative local id",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/001-relogin-before.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/001-relogin-before.json authoritative inventory",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/001-relogin-before.json authoritative local id",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/002-immediate-move-after.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/002-immediate-move-after.json authoritative inventory",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/002-immediate-move-after.json authoritative local id",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/002-immediate-move-before.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/002-immediate-move-before.json authoritative inventory",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/002-immediate-move-before.json authoritative local id",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/003-move-confirmed-after.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/003-move-confirmed-after.json authoritative inventory",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/003-move-confirmed-after.json authoritative local id",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/003-move-confirmed-before.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/003-move-confirmed-before.json authoritative inventory",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/003-move-confirmed-before.json authoritative local id",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/004-session-stable-after.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/004-session-stable-after.json authoritative inventory",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/004-session-stable-after.json authoritative local id",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/004-session-stable-before.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/004-session-stable-before.json authoritative inventory",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/004-session-stable-before.json authoritative local id",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/unreal_slice_evidence.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/unreal_slice_evidence.json authoritative inventory",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/unreal_slice_evidence.json authoritative local id",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/unreal_slice_evidence_Manual.json protocol zero",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/unreal_slice_evidence_Manual.json authoritative inventory",
+      "passed": true
+    },
+    {
+      "name": "A-relogin/unreal_slice_evidence_Manual.json authoritative local id",
+      "passed": true
+    },
+    {
+      "name": "old window remains disconnected after new login",
+      "passed": true
+    },
+    {
+      "name": "no old client login before manual relaunch",
+      "passed": true
+    },
+    {
+      "name": "authoritative respawn stats",
+      "passed": true
+    },
+    {
+      "name": "authoritative temple respawn position",
+      "passed": true
+    },
+    {
+      "name": "presentation origin matches server respawn",
+      "passed": true
+    }
+  ],
+  "passed": 95,
+  "failed": 0,
+  "decoded_commands": 3205,
+  "disconnect_delay_seconds": 29.63978
+}
