@@ -1,3 +1,30 @@
+## 2026-10-23 UNREAL-PLAYER-DEATH-RESPAWN-001 audit
+
+**AUDIT-COMPLETE — own-player death → session end → respawn/relogin → world
+recovery is already supported by composition of landed primitives; no protocol
+change, no missing decoder/builder, and no ClientCore/Unreal code change.**
+There is **no death-dialog command** in 7.72: `TPlayer::Death`
+(`crplayer.cc:324-342`) does `SendPlayerData` (`PLAYER_DATA 160`, HP 0),
+`SendMessage(TALK_EVENT_MESSAGE, "You are dead.")` (`SV_CMD_MESSAGE 180` mode
+EventMessage 19, `sending.cc:1618-1641`), then `Connection->Die()`
+(`connections.cc:269-287`) — a deliberate `StartLogout` that closes the socket.
+The client decodes all of it (`player_state.cpp`, `movement.cpp:787,1364-1366`),
+and the orderly close is the **`SessionEnd::Closed`** case the login-reconnect
+-ownership fix already ships: `ShouldReconnect` never retries a Closed end, so
+death does **not** auto-reconnect and cannot start the ownership ping-pong, and
+`Real33DWorldActor` tears down every actor on the ended session
+(`Real33DWorldActor.cpp:299-384`) so the fresh relogin — the ordinary
+`INIT_GAME`/`FULLSCREEN`/`PLAYER_DATA`/`SET_INVENTORY` login path, already
+certified — rebuilds HP/mana/position/world/inventory from a clean slate with
+one `INIT_GAME` and an empty combat target. Respawn is a fresh login (Fusion32
+closes the socket; the player logs in again), not an in-place event. Writing a
+bespoke death screen would invent a dialog the protocol does not carry. Offline:
+ClientCore 14/14, native 10/10 (incl. `real33d_reconnect_policy_tests`), Unreal
+build PASS, harness 0 FAIL, secret_check 6/6. UNVERIFIED LIVE: no own-death was
+staged on a live server here — that is the outstanding certification step. Only
+the evidence file and this note changed. See
+[audit evidence](evidence/clientcore/UNREAL-PLAYER-DEATH-RESPAWN-001.md).
+
 ## 2026-10-23 independent UNREAL-DEATH-LOOT-001 certification
 
 **CERTIFIED** for observed logical creature death, corpse Use and loot.
