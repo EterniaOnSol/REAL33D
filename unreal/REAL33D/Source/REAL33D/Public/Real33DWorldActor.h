@@ -44,6 +44,15 @@ public:
 	/** The open containers, in the server's own container-number order. */
 	const TArray<FReal33DContainer>& GetContainers() const { return OpenContainers; }
 
+	/**
+	 * How many tile Actors the scene holds right now.
+	 *
+	 * The teardown-and-rebuild measure, and deliberately a count of ACTORS
+	 * rather than of WorldState fields: "nothing survived the session that
+	 * ended" is a claim about the scene, and WorldState is gone either way.
+	 */
+	int32 GetTileActorCount() const { return Tiles.Num(); }
+
 	/** Local input planning using only current server-described tiles, never static art/cache. */
 	bool IsKnownWalkTile(const FIntVector& Key) const;
 	const AReal33DTile* FindPresentedTile(const Real33D::FMapPosition& Position) const;
@@ -217,22 +226,13 @@ private:
 	/** Last thing the client core said it could not consume, verbatim. */
 	FString LastDiagnostic;
 
-	/** Kept so a dropped session can be retried without re-reading the command line. */
-	FReal33DConnectionConfig Config;
-	double DisconnectedAt = 0.0;
-	int32 ReconnectAttempts = 0;
-
-	/**
-	 * The last session was ended on purpose rather than lost, so this client
-	 * must not reconnect by itself.
-	 *
-	 * Set from `FReal33DEvent::bOrderlyClose`. It is what stops a client that
-	 * Fusion32 displaced -- because the same character logged in somewhere
-	 * else -- from logging straight back in and taking the character off
-	 * whoever just claimed it. Cleared only by a connection that succeeds, so
-	 * a deliberate close cannot be forgotten by a later unrelated drop.
-	 */
-	bool bSessionEndedDeliberately = false;
+	// Where to connect, how long a dropped session has been down, how many
+	// retries it has had and whether it was ended on purpose all moved to
+	// UReal33DBridge with the rest of the session lifecycle. They lived here
+	// while the actor owned the retry and the bridge owned the worker, which
+	// meant neither could answer "is this session over for good" -- the
+	// question the login surface has to be driven from. The reconnect-
+	// ownership POLICY is unchanged; only its call site moved.
 
 	/** Counters over the whole session, for the evidence file. */
 	int32 TilesSpawned = 0;

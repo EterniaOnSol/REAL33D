@@ -6,6 +6,7 @@
 #include "Containers/Queue.h"
 #include "Real33DCoords.h"
 #include "Real33DOutfitSelection.h"
+#include "Real33DSessionFlow.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "Real33DBridge.generated.h"
 
@@ -37,6 +38,41 @@ enum class EReal33DEventKind : uint8
 	Connected,
 	Disconnected,
 	Failed,
+
+	/**
+	 * The login service answered with this account's characters.
+	 *
+	 * THE ONLY THING THAT MAY PUT A CHARACTER NAME ON SCREEN. The list is
+	 * `SendCharacterList`'s own, filtered by the querymanager for this account,
+	 * and a client that drew a name from anywhere else -- a cache, a previous
+	 * run, a configuration file -- would be offering a character this account
+	 * may no longer have.
+	 *
+	 * Carries `Characters`, `Motd` and `PremiumDays`. It carries NO
+	 * credentials: the account number and password never enter an event,
+	 * because an event is copied, queued, drained and in several places
+	 * written into evidence.
+	 *
+	 * The end of the login worker's life. The login service closes the
+	 * connection after answering, so nothing follows this on that socket.
+	 */
+	CharacterList,
+
+	/**
+	 * The login service refused, or could not be reached.
+	 *
+	 * A PLAYER-FACING EVENT, NOT A DIAGNOSTIC. A wrong password is an ordinary
+	 * thing for a player to do and the server answers it with prose of its own
+	 * -- `SendLoginError` writes the text the querymanager returned -- so
+	 * `Detail` carries the server's own words whenever there are any, and this
+	 * client's reason only when the server never got to say one.
+	 *
+	 * Distinct from `Failed` because the two end in different places: this
+	 * leaves the player on the account screen with something to correct, and
+	 * `Failed` ends a game session.
+	 */
+	LoginFailed,
+
 	/**
 	 * Something the client core could not fully consume. Carries prose only.
 	 *
@@ -771,6 +807,64 @@ struct FReal33DOutfitDialog
 	}
 };
 
+/**
+ * One character the login service offered, exactly as it described it.
+ *
+ * A mirror of `fusion32::protocol772::LoginCharacter`, flattened so nothing
+ * above the bridge includes anything under `fusion32/`. Every field is the
+ * server's: `SendCharacterList` writes the name, the world's name, its address
+ * and its port per character, and this client invents none of them.
+ *
+ * `WorldAddress` is recorded and deliberately NOT used to connect. The
+ * querymanager writes the address the world is reachable at from the server's
+ * own vantage point, which on this sanitized runtime is a WSL-internal address
+ * that Windows cannot route to; the client reaches the same world through the
+ * host it was pointed at. The port IS used, because which port a world listens
+ * on is not something the client can know otherwise. Keeping the address means
+ * a multi-world runtime can be told apart in evidence from a single-world one.
+ */
+struct FReal33DCharacterEntry
+{
+	FString Name;
+	FString WorldName;
+	/** The server's own view of where the world is. Recorded, not dialled. */
+	uint32 WorldAddress = 0;
+	uint16 WorldPort = 0;
+};
+
+/**
+ * What the player typed on the account screen.
+ *
+ * NEVER LOGGED, NEVER WRITTEN TO DISK, NEVER PLACED IN AN EVENT. It lives in
+ * exactly two places -- this struct on the game thread and the `std::string`
+ * the worker builds its RSA block from -- and `Clear` overwrites the characters
+ * rather than merely dropping the string, so a logout does not leave the
+ * password lying in a freed allocation for the rest of the process's life.
+ *
+ * `AccountNumber` zero means "use the sanitized runtime account file", which is
+ * the path every existing automated QA script takes and the one `-real33d-
+ * account=` selects. In that mode no credential ever reaches the game thread at
+ * all: the worker reads the file itself, as it always has.
+ */
+struct FReal33DCredentials
+{
+	uint32 AccountNumber = 0;
+	FString Password;
+
+	/** True when the player typed an account rather than naming a runtime one. */
+	bool IsExplicit() const { return AccountNumber != 0; }
+
+	void Clear()
+	{
+		AccountNumber = 0;
+		for (TCHAR& Character : Password.GetCharArray())
+		{
+			Character = TEXT('\0');
+		}
+		Password.Empty();
+	}
+};
+
 /** An event crossing the thread boundary. Copied, never shared. */
 struct FReal33DEvent
 {
@@ -856,6 +950,18 @@ struct FReal33DEvent
 	/** Populated only for OutfitDialogOpened. */
 	FReal33DOutfitDialog OutfitDialog;
 
+	// ----------------------------------------------------------- the account
+	//
+	// Populated only for CharacterList. No credential appears here or anywhere
+	// else in this struct; see FReal33DCredentials.
+
+	/** The characters this account may play, in the server's own order. */
+	TArray<FReal33DCharacterEntry> Characters;
+	/** The login service's message of the day, when it sent one. */
+	FString Motd;
+	/** Premium days as the server reported them. Zero is a fact, not unknown. */
+	int32 PremiumDays = 0;
+
 	/** 0..100 as the server reports it. Meaningful for creature events. */
 	uint8 HealthPercent = 100;
 	FReal33DPlayerVitals Vitals;
@@ -883,6 +989,18 @@ struct FReal33DStats
 {
 	int32 Frames = 0;
 	int32 Commands = 0;
+	/**
+	 * INIT_GAME commands this session received. Expected to be exactly one.
+	 *
+	 * Counted because "one session, one login" is an acceptance criterion that
+	 * cannot be checked any other way: a second game worker started over a live
+	 * one does not fail, it displaces the first connection and the player sees
+	 * a session that merely blinked. The counter is per worker, so it resets
+	 * with every entry into the game and a relogin is not mistaken for a
+	 * duplicate. A handover re-states INIT_GAME on the SAME connection and is
+	 * therefore counted here too, which is correct: that is a second INIT_GAME.
+	 */
+	int32 InitGames = 0;
 	int32 ResidualBytes = 0;
 	int32 UnsupportedOpcodes = 0;
 	int32 Anomalies = 0;
@@ -1033,6 +1151,26 @@ struct FReal33DConnectionConfig
 	FString Account = TEXT("B");
 	FString ObjectsSrvPath;
 
+	/**
+	 * Log in without asking anybody, using the runtime account above and the
+	 * first character the login service returns.
+	 *
+	 * THE AUTOMATION PATH, AND THE REASON IT STILL EXISTS. Every QA script in
+	 * `scripts/client/` and every certification run so far launches with
+	 * `-real33d-account=`, expecting the client to come up already playing.
+	 * Making the account screen unconditional would have broken all of them,
+	 * and a login UI that only a human can get past is a login UI no harness
+	 * can regression-test.
+	 *
+	 * It is not a second login implementation: it drives exactly the same two
+	 * phases through exactly the same workers, and only supplies the two
+	 * answers a human would otherwise type and click. So every automated run
+	 * now exercises the account-login and character-select path as well.
+	 *
+	 * Set by `-real33d-account=` or by the bare `-real33d-autologin`.
+	 */
+	bool bAutoLogin = false;
+
 	bool IsValid() const { return !RuntimeDir.IsEmpty(); }
 };
 
@@ -1053,9 +1191,133 @@ public:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 
-	/** Starts the worker. Safe to call once; returns false if already running. */
-	bool Connect(const FReal33DConnectionConfig& Config);
+	// ------------------------------------------------------- the session flow
+	//
+	// Launch, login, character list, game, logout, and back to the list without
+	// restarting anything. The phase is this class's, because this class is the
+	// only thing that starts and stops a worker, and a second owner would be a
+	// second answer to "is a session running".
+	//
+	// Nothing here decides anything Fusion32 decides. A login is a request the
+	// login service rules on, a character list is the server's own answer, and
+	// entering the game is a request the game service rules on; this only
+	// sequences them and refuses the orders that cannot be put on the wire --
+	// a second login over a live one, a second game worker over a live one.
+
+	/**
+	 * Records where to connect. Starts nothing.
+	 *
+	 * Called once, before anything else, so the account screen and a later
+	 * reconnect both use the same host, port and runtime without re-reading
+	 * the command line. Returns false for a configuration with no runtime
+	 * directory, which is the one field nothing can be defaulted from.
+	 */
+	bool PrepareSession(const FReal33DConnectionConfig& InConfig);
+
+	/** Where this client was told to connect. Carries no credential. */
+	const FReal33DConnectionConfig& GetSessionConfig() const { return Config; }
+
+	/**
+	 * Asks the login service for this account's characters.
+	 *
+	 * The password is taken by value, kept in memory for as long as the
+	 * account session lasts -- the game service re-authenticates with it on
+	 * every entry, so it cannot be discarded after the list arrives -- and
+	 * overwritten by `ReturnToAccountScreen`. It is never logged, never
+	 * written to disk and never placed in an event.
+	 *
+	 * Returns false without sending anything when a login is already in
+	 * flight, when a game session is up, or when the account number is zero.
+	 * Zero is refused rather than passed on because `BuildLoginRequest`
+	 * rejects it as `InvalidAccountId`, and because zero is this client's own
+	 * marker for "use the runtime account file".
+	 */
+	bool BeginAccountLogin(uint32 AccountNumber, const FString& Password);
+
+	/**
+	 * The automation path: log in from the sanitized runtime account file and
+	 * enter the first character the login service returns.
+	 *
+	 * Same two phases, same workers, same refusals. No credential reaches the
+	 * game thread in this mode at all -- the worker reads the file itself, as
+	 * it has since the slice -- which is why there is no password parameter.
+	 */
+	bool BeginAutoLogin();
+
+	/**
+	 * Enters the game as one character of the list the login service returned.
+	 *
+	 * `CharacterIndex` indexes `GetCharacters`. Returns false, and sends
+	 * nothing, for an index outside it or for any phase but character select;
+	 * the latter is the guard that keeps one session to one INIT_GAME.
+	 */
+	bool EnterGame(int32 CharacterIndex);
+
+	/**
+	 * Ends the game session deliberately and returns to the character list.
+	 *
+	 * An ORDERLY close, which is the whole of its meaning on the wire: the
+	 * worker sends CL_CMD_LOGOUT on its way out, and the ending is latched as
+	 * deliberate so the reconnect policy leaves it alone. Returns false when
+	 * there is no game session to end.
+	 */
+	bool Logout();
+
+	/**
+	 * Forgets the account: the character list, the message of the day and the
+	 * credentials, which are overwritten rather than dropped.
+	 *
+	 * Ends any game session first. After this the client is back where it was
+	 * at launch and the account screen is the only thing that can be used.
+	 */
+	void ReturnToAccountScreen();
+
+	/**
+	 * Advances the session once a frame, from the game thread.
+	 *
+	 * The only thing it does is retry a LOST link, under the unchanged
+	 * `Real33DReconnectPolicy.h`. It lives here rather than in the world actor
+	 * because the phase and the worker live here, and the retry has to agree
+	 * with both; before this, the actor held the attempt count and the bridge
+	 * held the worker, and neither could answer "is this session over".
+	 */
+	void TickSession(double NowSeconds);
+
+	Real33D::SessionPhase GetSessionPhase() const { return Phase; }
+
+	/** The characters the login service last returned. Empty before it has. */
+	const TArray<FReal33DCharacterEntry>& GetCharacters() const { return Characters; }
+
+	/** The index this client entered the game with, or INDEX_NONE. */
+	int32 GetSelectedCharacter() const { return SelectedCharacter; }
+
+	/** The login service's message of the day. Empty when it sent none. */
+	const FString& GetMotd() const { return Motd; }
+
+	/**
+	 * Why the last login or session attempt ended, in the words the player
+	 * should read. The server's own text whenever the server sent any.
+	 */
+	const FString& GetSessionMessage() const { return SessionMessage; }
+
+	int32 GetPremiumDays() const { return PremiumDays; }
+
+	/** Retries made since the last successful connection. For evidence. */
+	int32 GetReconnectAttempts() const { return ReconnectAttempts; }
+
+	/** Changes whenever any of the above does, so a widget rebuilds only then. */
+	uint64 GetSessionRevision() const { return SessionRevision; }
+
 	void Disconnect();
+
+	/**
+	 * Whether a GAME session is live and may be sent commands.
+	 *
+	 * Narrower than "a worker exists", which is what it used to mean: the
+	 * account-login worker is a worker too, and every gameplay gate in the HUD
+	 * and the controller asks this question. A walk posted while the login
+	 * service is being talked to would be an intent nothing could ever drain.
+	 */
 	bool IsRunning() const;
 
 	/** Drains everything the worker has published. Game thread only. */
@@ -1626,8 +1888,105 @@ private:
 	/** Applies one drained outfit event: the chooser Fusion32 opened. */
 	void NoteOutfit(const FReal33DEvent& Event);
 
+	/**
+	 * Which of the two services the live worker is talking to.
+	 *
+	 * Two modes, one worker class. They share the secrets, the RSA key and the
+	 * publishing machinery, and splitting them into two classes would have
+	 * duplicated all of it to express a difference of one branch at the top of
+	 * `Run`.
+	 */
+	enum class EWorkerMode : uint8
+	{
+		/** The login service on 7171. Answers with a character list and ends. */
+		AccountLogin,
+		/** The game service. Answers with INIT_GAME and runs the session. */
+		Game,
+	};
+
+	/** Starts a worker in one mode. Refuses when one is already running. */
+	bool StartWorker(EWorkerMode Mode);
+
+	/**
+	 * Deletes a worker whose thread has already finished.
+	 *
+	 * A worker OBJECT outlives its thread: a refused login, a game login that
+	 * could not be built and a connection the server closed all leave one
+	 * behind. Since `StartWorker` admits one at a time, a stale one makes
+	 * every later attempt a silent no-op -- which is what a player does the
+	 * moment they mistype a password and press Login again. Called only from
+	 * phases that prove no session is running.
+	 */
+	void ReapFinishedWorker();
+
+	/**
+	 * Applies one drained session event: the character list, a login refusal,
+	 * a connection, or an ending.
+	 *
+	 * The same shape as NoteChat and NoteChannel, and run in the same drain,
+	 * so the phase a widget reads this frame is the phase the events of this
+	 * frame produced. It is the ONLY writer of `Phase`, apart from the four
+	 * entry points that start and stop a session.
+	 */
+	void NoteSession(const FReal33DEvent& Event);
+
+	/** Moves the phase and bumps the revision, logging the transition once. */
+	void SetPhase(Real33D::SessionPhase NewPhase);
+
+	/** Builds the game worker for `SelectedCharacter` and starts it. */
+	bool StartGameWorker();
+
 	FReal33DWorker* Worker = nullptr;
 	FRunnableThread* Thread = nullptr;
+	EWorkerMode WorkerMode = EWorkerMode::AccountLogin;
+
+	/**
+	 * The counters the last worker finished with.
+	 *
+	 * Captured as it is deleted, because the evidence snapshot that documents
+	 * a session is written from the game thread AFTER the session has ended,
+	 * and a logout reaps the worker at once. Without this, the one file that
+	 * describes a finished session would report zero frames, zero commands
+	 * and zero anomalies for it -- which reads as a clean run and is not one.
+	 */
+	FReal33DStats LastStats;
+
+	/**
+	 * Events the worker had published but had not been drained when it was
+	 * stopped.
+	 *
+	 * They used to be drained into a throwaway array and dropped, which was
+	 * harmless while a stopped worker meant a finished process. It is not
+	 * harmless now: the logout the player asked for IS one of those events --
+	 * the worker publishes its orderly `Disconnected` on the way out of `Run`
+	 * -- and dropping it would leave the world actor holding a scene for a
+	 * session that had ended.
+	 */
+	TArray<FReal33DEvent> PendingEvents;
+
+	Real33D::SessionPhase Phase = Real33D::SessionPhase::Offline;
+	FReal33DConnectionConfig Config;
+	/** In memory only, for as long as the account session lasts. */
+	FReal33DCredentials Credentials;
+	TArray<FReal33DCharacterEntry> Characters;
+	FString Motd;
+	FString SessionMessage;
+	int32 PremiumDays = 0;
+	int32 SelectedCharacter = INDEX_NONE;
+	uint64 SessionRevision = 0;
+
+	// The reconnect bookkeeping, moved here from AReal33DWorld with the rest
+	// of the session lifecycle. The POLICY is untouched and still lives in
+	// Real33DReconnectPolicy.h; only the call site moved.
+	double DisconnectedAt = 0.0;
+	int32 ReconnectAttempts = 0;
+	/**
+	 * The last session was ended on purpose, so this client must not reconnect
+	 * by itself. Cleared only by a connection that succeeds, so a deliberate
+	 * close cannot be forgotten by a later unrelated drop.
+	 */
+	bool bSessionEndedDeliberately = false;
+
 	/** Game thread only. Numbers key presses so evidence can follow one. */
 	uint32 NextInputId = 0;
 

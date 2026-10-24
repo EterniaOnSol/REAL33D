@@ -25,6 +25,11 @@ DECLARE_DELEGATE_OneParam(FReal33DOnPanelToggled, FName);
  * rather than dropping the socket, which is the difference between leaving the
  * game and appearing to freeze inside it.
  *
+ * It now returns to the character list rather than leaving the application
+ * standing in an empty scene. Nothing about the wire changed: the same command
+ * goes out, the close is the same orderly one, and the reconnect policy still
+ * reads it as deliberate and leaves it alone.
+ *
  * VIP, Control Buttons and Options are inert. The first needs a buddy list this
  * client decodes only for length; the other two are windows this milestone does
  * not build.
@@ -43,6 +48,15 @@ public:
 	/** mainoptionspanel.otui gives the strip a 28px body. */
 	static constexpr float PanelHeight = 28.0f;
 
+	/**
+	 * The Exit button itself, for the opt-in live QA driver.
+	 *
+	 * Exposed so a scripted run presses the control a player presses rather
+	 * than calling the bridge behind it; nothing in the shipping flow uses
+	 * it. See Real33DLoginQA.h.
+	 */
+	TSharedPtr<SButton> GetExitButton() const { return ExitButton; }
+
 private:
 	FReply HandleToggle(FName Panel);
 	FReply HandleLogout();
@@ -53,4 +67,6 @@ private:
 
 	TWeakObjectPtr<UReal33DBridge> Bridge;
 	FReal33DOnPanelToggled OnPanelToggled;
+	/** Held only so GetExitButton can hand it to the QA driver. */
+	TSharedPtr<SButton> ExitButton;
 };

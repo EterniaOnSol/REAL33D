@@ -55,6 +55,24 @@ namespace PanelIds
 	 * released somewhere.
 	 */
 	REAL33D_API extern const FName MoveAmount;
+
+	// --------------------------------------------------------- before the game
+	//
+	// The two surfaces of the login screen. They are not HUD panels and they
+	// are not in the HUD's registry: they live on their own widget, which is
+	// the only thing on screen before a character is entered, and they have
+	// their own registry instance there.
+	//
+	// Registered at all because the rule the registry exists to keep applies
+	// here more sharply than anywhere else: exactly one of these two is
+	// visible at any moment, and a second owner of that fact -- a bool on the
+	// screen widget, say -- is how an account form ends up drawn over a
+	// character list.
+
+	/** The account number and password form. */
+	REAL33D_API extern const FName Account;
+	/** The character list the login service returned. */
+	REAL33D_API extern const FName CharacterSelect;
 }
 }
 

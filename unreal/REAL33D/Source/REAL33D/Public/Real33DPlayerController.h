@@ -4,6 +4,11 @@
 #include "GameFramework/PlayerController.h"
 #include "Real33DMouseGesture.h"
 #include "Real33DCoords.h"
+// Included rather than forward-declared: the TUniquePtr below is destroyed by
+// this class's implicit destructor, which UHT also emits into the generated
+// code, and deleting an incomplete type there compiles to a delete that skips
+// the destructor.
+#include "Real33DLoginQA.h"
 #include "Real33DPlayerController.generated.h"
 
 class AReal33DWorld;
@@ -205,6 +210,24 @@ private:
 	 * a dead bridge.
 	 */
 	TSharedPtr<SReal33DHUD> HudRoot;
+
+	/**
+	 * The account form and the character list, kept for the same reason as
+	 * the HUD: a viewport widget outlives the actor that made it, and
+	 * removal matches on identity.
+	 *
+	 * It is the only thing on screen before a character is entered, and it
+	 * comes back on a logout, a death or a session that will not be retried.
+	 * Which of its two surfaces shows is its own business; whether it shows
+	 * at all is the bridge's session phase, read once a frame in Tick.
+	 */
+	TSharedPtr<class SReal33DLoginScreen> LoginRoot;
+
+	/**
+	 * The scripted operator for the live login QA, present only when
+	 * `-real33d-login-qa` was passed. Null in every ordinary run.
+	 */
+	TUniquePtr<FReal33DLoginQA> LoginQA;
 
 	/**
 	 * The last vitals line written to the log, kept only so the log records a

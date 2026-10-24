@@ -378,8 +378,35 @@ namespace
 class FReal33DWorker : public FRunnable
 {
 public:
-	explicit FReal33DWorker(const FReal33DConnectionConfig& InConfig)
+	/**
+	 * Which service this worker talks to. One class, two jobs, because they
+	 * share the secrets, the RSA key and the publishing machinery.
+	 */
+	enum class EMode : uint8
+	{
+		AccountLogin,
+		Game,
+	};
+
+	/**
+	 * `InAccountId` zero means "read the account out of the sanitized runtime
+	 * file", which is what every automated QA run does and what this worker
+	 * has always done. A non-zero one is what the player typed, and
+	 * `InPassword` goes with it.
+	 *
+	 * The password is taken as an `FString` and converted once, inside
+	 * `LoadInputs`, into the `std::string` the RSA block is built from. It is
+	 * never logged and never published.
+	 */
+	FReal33DWorker(const FReal33DConnectionConfig& InConfig, EMode InMode,
+		uint32 InAccountId, const FString& InPassword,
+		const FString& InCharacterName, uint16 InWorldPort)
 		: Config(InConfig)
+		, RunMode(InMode)
+		, RequestedAccountId(InAccountId)
+		, RequestedPassword(InPassword)
+		, RequestedCharacter(InCharacterName)
+		, WorldPort(InWorldPort)
 	{
 	}
 
@@ -387,11 +414,23 @@ public:
 
 	virtual uint32 Run() override
 	{
+		if (RunMode == EMode::AccountLogin)
+		{
+			// The login service only. It answers with the character list and
+			// closes, so there is no loop and nothing to keep alive: the
+			// worker's whole life is one request and one answer.
+			if (LoadSecrets())
+			{
+				AskForCharacterList();
+			}
+			return 0;
+		}
+
 		if (!LoadInputs())
 		{
 			return 0;
 		}
-		if (!LoginAndEnterGame())
+		if (!EnterGame())
 		{
 			return 0;
 		}
@@ -449,6 +488,50 @@ public:
 					return 0;
 				}
 				bReceivedAnything = true;
+
+				// The game service's own answer to a login it will not
+				// accept. ClientCore already decodes the text; nothing above
+				// this line ever saw it, so a refused entry reached the
+				// player only as "Fusion32 closed this connection" -- true,
+				// but not the reason, and the reason is the server's.
+				//
+				// Observed live: entering again immediately after a logout is
+				// answered with SV_CMD_LOGIN_ERROR and a close, because
+				// `connections.cc::JoinGame` refuses a character whose
+				// `LoggingOut` has not finished. That is Fusion32's ruling and
+				// the player has to be able to read it.
+				if (Read.message.status == p772::GameMessageStatus::LoginError
+					|| Read.message.status == p772::GameMessageStatus::WaitingList)
+				{
+					FString Text = UTF8_TO_TCHAR(Read.message.text.c_str());
+					if (Read.message.status == p772::GameMessageStatus::WaitingList)
+					{
+						// Reported, not waited out. This client does not
+						// implement the waiting list, and saying so is better
+						// than silently sitting on a connection the server
+						// expects to be retried.
+						Text += FString::Printf(
+							TEXT(" (waiting list, %d seconds; this client does not queue)"),
+							static_cast<int32>(Read.message.wait_seconds));
+					}
+					FReal33DEvent Refused =
+						MakeFailure(EReal33DEventKind::Failed, Text);
+					// The server decided this and closes straight after, so
+					// it is a deliberate ending: never reconnected.
+					Refused.bOrderlyClose = true;
+					Publish(MoveTemp(Refused));
+					Session.Disconnect();
+					return 0;
+				}
+				if (Read.message.status == p772::GameMessageStatus::PremiumNotice)
+				{
+					// Informational, and the session continues. Shown as what
+					// it is: something Fusion32 told this player.
+					Publish(MakeFailure(EReal33DEventKind::ServerMessage,
+						UTF8_TO_TCHAR(Read.message.text.c_str())));
+					continue;
+				}
+
 				if (!ProcessPayload(Read.message.message_bytes))
 				{
 					return 0;
@@ -675,29 +758,70 @@ public:
 private:
 	// ---------------------------------------------------------------- setup
 
-	bool LoadInputs()
+	/**
+	 * The server's public modulus, and the account to present.
+	 *
+	 * The modulus is always the runtime's: it is the key this Fusion32 reads
+	 * its RSA block with, and there is nowhere else it could come from.
+	 *
+	 * The ACCOUNT has two sources and this is the only place that chooses
+	 * between them. A player who typed one is believed; otherwise the
+	 * sanitized runtime file is read exactly as it always was, which is what
+	 * keeps every `-real33d-account=` script working unchanged. A typed
+	 * account never touches the file, so a wrong password is answered by
+	 * Fusion32 rather than quietly replaced by a working one.
+	 *
+	 * Neither branch logs a credential, and the failure messages below name
+	 * the file or the key, never their contents.
+	 */
+	bool LoadSecrets()
 	{
 		const FString SecretsDir = FPaths::Combine(Config.RuntimeDir, TEXT("secrets"));
 		const FString Modulus = ReadTextFile(
 			FPaths::Combine(SecretsDir, TEXT("public-modulus.decimal")));
-		const TMap<FString, FString> Credentials = ReadEnvFile(
-			FPaths::Combine(SecretsDir, TEXT("credentials.env")));
-
-		const FString IdKey = FString::Printf(TEXT("ACCOUNT_%s_ID"), *Config.Account);
-		const FString PasswordKey = FString::Printf(TEXT("ACCOUNT_%s_PASSWORD"), *Config.Account);
-		if (Modulus.IsEmpty() || !Credentials.Contains(IdKey))
+		if (Modulus.IsEmpty())
 		{
-			Publish(MakeFailure(EReal33DEventKind::Failed,
+			Publish(MakeFailure(FailureKind(),
 				TEXT("the sanitized runtime secrets are not readable at the configured path")));
 			return false;
 		}
-		AccountId = static_cast<uint32>(FCString::Strtoui64(*Credentials[IdKey], nullptr, 10));
-		Password = TCHAR_TO_UTF8(*Credentials[PasswordKey]);
+
+		if (RequestedAccountId != 0)
+		{
+			AccountId = RequestedAccountId;
+			Password = TCHAR_TO_UTF8(*RequestedPassword);
+		}
+		else
+		{
+			const TMap<FString, FString> Credentials = ReadEnvFile(
+				FPaths::Combine(SecretsDir, TEXT("credentials.env")));
+			const FString IdKey = FString::Printf(TEXT("ACCOUNT_%s_ID"), *Config.Account);
+			const FString PasswordKey =
+				FString::Printf(TEXT("ACCOUNT_%s_PASSWORD"), *Config.Account);
+			if (!Credentials.Contains(IdKey))
+			{
+				Publish(MakeFailure(FailureKind(),
+					TEXT("the sanitized runtime secrets are not readable at the configured path")));
+				return false;
+			}
+			AccountId =
+				static_cast<uint32>(FCString::Strtoui64(*Credentials[IdKey], nullptr, 10));
+			Password = TCHAR_TO_UTF8(*Credentials[PasswordKey]);
+		}
 
 		if (p772::Rsa1024PublicKey::FromDecimalModulus(
 				TCHAR_TO_UTF8(*Modulus), &RsaKey) != p772::CryptoError::None)
 		{
-			Publish(MakeFailure(EReal33DEventKind::Failed, TEXT("the runtime modulus was rejected")));
+			Publish(MakeFailure(FailureKind(), TEXT("the runtime modulus was rejected")));
+			return false;
+		}
+		return true;
+	}
+
+	bool LoadInputs()
+	{
+		if (!LoadSecrets())
+		{
 			return false;
 		}
 
@@ -735,7 +859,23 @@ private:
 		return true;
 	}
 
-	bool LoginAndEnterGame()
+	/**
+	 * Phase one: ask the login service on 7171 who this account may play.
+	 *
+	 * Unchanged on the wire. The same `BuildLoginRequest`, the same framed
+	 * connection, the same `ParseLoginResponse`; what changed is that the
+	 * answer is now PUBLISHED instead of being consumed in place and the first
+	 * character silently taken. The connection is closed as soon as the answer
+	 * is in, because the login service has nothing more to say.
+	 *
+	 * Every failure here ends as `LoginFailed`, and the text is the server's
+	 * own whenever the server produced one. `ParseLoginResponse` surfaces
+	 * `SendLoginError`'s string in `error_message`, which is what a wrong
+	 * password, a banned account and a version mismatch all arrive as -- so
+	 * the player reads Fusion32's words, not a guess this client made about
+	 * which of those it was.
+	 */
+	void AskForCharacterList()
 	{
 		p772::LoginRequestOptions LoginOptions;
 		LoginOptions.account_id = AccountId;
@@ -743,8 +883,13 @@ private:
 		const auto LoginRequest = p772::BuildLoginRequest(LoginOptions, RsaKey);
 		if (!LoginRequest.ok())
 		{
-			Publish(MakeFailure(EReal33DEventKind::Failed, TEXT("login request could not be built")));
-			return false;
+			// Names the builder's own refusal rather than saying "login
+			// failed": an account id of zero and a password past the field are
+			// different mistakes and the player can only fix the one they made.
+			Publish(MakeFailure(EReal33DEventKind::LoginFailed,
+				FString::Printf(TEXT("the login request could not be built (%hs)"),
+					p772::LoginBuildErrorName(LoginRequest.error))));
+			return;
 		}
 
 		p772::FramedConnection LoginConnection(
@@ -753,19 +898,22 @@ private:
 		if (!LoginConnection.Connect(TCHAR_TO_UTF8(*Config.Host),
 				static_cast<uint16>(Config.LoginPort)).ok())
 		{
-			Publish(MakeFailure(EReal33DEventKind::Failed, TEXT("could not reach the login service")));
-			return false;
+			Publish(MakeFailure(EReal33DEventKind::LoginFailed,
+				FString::Printf(TEXT("the login service at %s:%d could not be reached"),
+					*Config.Host, Config.LoginPort)));
+			return;
 		}
 		const std::vector<std::uint8_t> Payload(
 			LoginRequest.payload.begin(), LoginRequest.payload.end());
 		if (!LoginConnection.SendFrame(Payload).ok())
 		{
-			Publish(MakeFailure(EReal33DEventKind::Failed, TEXT("login request could not be sent")));
-			return false;
+			Publish(MakeFailure(EReal33DEventKind::LoginFailed,
+				TEXT("the login request could not be sent")));
+			return;
 		}
 
 		p772::LoginResponse Response;
-		for (int32 Attempt = 0; Attempt < 50; ++Attempt)
+		for (int32 Attempt = 0; Attempt < 50 && !bStopping; ++Attempt)
 		{
 			const auto Read = LoginConnection.ReadOnce();
 			if (!Read.ok() && Read.framing.frames.empty())
@@ -780,33 +928,97 @@ private:
 				p772::DecryptXteaPayload(LoginRequest.xtea_key, Read.framing.frames.front()));
 			break;
 		}
-		if (!Response.ok() || Response.characters.empty())
-		{
-			Publish(MakeFailure(EReal33DEventKind::Failed, TEXT("the character list was not returned")));
-			return false;
-		}
 		LoginConnection.Disconnect();
 
+		// The server's own refusal, in the server's own words. This is the
+		// wrong-password case and it is a PLAYER message: `SendLoginError`
+		// carries the querymanager's text, and replacing it with something of
+		// this client's would be telling the player why Fusion32 said no.
+		if (Response.error_message.has_value() && !Response.error_message->empty())
+		{
+			Publish(MakeFailure(EReal33DEventKind::LoginFailed,
+				UTF8_TO_TCHAR(Response.error_message->c_str())));
+			return;
+		}
+		if (!Response.ok())
+		{
+			Publish(MakeFailure(EReal33DEventKind::LoginFailed,
+				FString::Printf(TEXT("the login service did not answer (%hs)"),
+					p772::LoginParseStatusName(Response.status))));
+			return;
+		}
+		if (Response.characters.empty())
+		{
+			// Decoded, and empty. A fact about the account, not a failure of
+			// the client: an account with no characters is a state Fusion32
+			// can legitimately be in, and it must not read as a broken login.
+			Publish(MakeFailure(EReal33DEventKind::LoginFailed,
+				TEXT("this account has no characters on this world")));
+			return;
+		}
+
+		FReal33DEvent Event;
+		Event.Kind = EReal33DEventKind::CharacterList;
+		Event.PremiumDays = static_cast<int32>(Response.premium_days);
+		if (Response.motd.has_value())
+		{
+			Event.Motd = UTF8_TO_TCHAR(Response.motd->c_str());
+		}
+		Event.Characters.Reserve(static_cast<int32>(Response.characters.size()));
+		for (const p772::LoginCharacter& Character : Response.characters)
+		{
+			FReal33DCharacterEntry Entry;
+			Entry.Name = UTF8_TO_TCHAR(Character.name.c_str());
+			Entry.WorldName = UTF8_TO_TCHAR(Character.world_name.c_str());
+			Entry.WorldAddress = Character.world_address;
+			Entry.WorldPort = Character.world_port;
+			Event.Characters.Add(MoveTemp(Entry));
+		}
+		Event.Detail = FString::Printf(TEXT("%d character(s) offered"),
+			Event.Characters.Num());
+		Publish(MoveTemp(Event));
+	}
+
+	/**
+	 * Phase two: present the chosen character to the game service.
+	 *
+	 * The login service is NOT re-asked here, and that is deliberate. 7.72's
+	 * game login re-authenticates from scratch -- `BuildGameLoginRequest`
+	 * carries the account, the character name and the password in its own RSA
+	 * block -- so the list is not a ticket that has to be refreshed, and a
+	 * second trip to 7171 before every entry would be a round trip that proves
+	 * nothing and a second way for a relogin to fail.
+	 *
+	 * Exactly one connection is opened, which is what keeps one session to one
+	 * INIT_GAME: the bridge admits one game worker at a time, and this worker
+	 * dials once.
+	 */
+	bool EnterGame()
+	{
 		p772::GameLoginRequestOptions GameOptions;
 		GameOptions.account_id = AccountId;
-		GameOptions.character_name = Response.characters.front().name;
+		GameOptions.character_name = TCHAR_TO_UTF8(*RequestedCharacter);
 		GameOptions.password = Password;
-		CharacterName = UTF8_TO_TCHAR(Response.characters.front().name.c_str());
+		CharacterName = RequestedCharacter;
 		const auto GameRequest = p772::BuildGameLoginRequest(GameOptions, RsaKey);
 		if (!GameRequest.ok())
 		{
-			Publish(MakeFailure(EReal33DEventKind::Failed, TEXT("game login could not be built")));
+			Publish(MakeFailure(EReal33DEventKind::Failed,
+				FString::Printf(TEXT("the game login could not be built (%hs)"),
+					p772::GameLoginBuildErrorName(GameRequest.error))));
 			return false;
 		}
-		if (!Session.Connect(TCHAR_TO_UTF8(*Config.Host),
-				Response.characters.front().world_port).ok())
+		if (!Session.Connect(TCHAR_TO_UTF8(*Config.Host), WorldPort).ok())
 		{
-			Publish(MakeFailure(EReal33DEventKind::Failed, TEXT("could not reach the game service")));
+			Publish(MakeFailure(EReal33DEventKind::Failed,
+				FString::Printf(TEXT("the game service at %s:%u could not be reached"),
+					*Config.Host, static_cast<uint32>(WorldPort))));
 			return false;
 		}
 		if (!Session.SendLogin(GameRequest).ok())
 		{
-			Publish(MakeFailure(EReal33DEventKind::Failed, TEXT("game login could not be sent")));
+			Publish(MakeFailure(EReal33DEventKind::Failed,
+				TEXT("the game login could not be sent")));
 			return false;
 		}
 		return true;
@@ -849,6 +1061,20 @@ private:
 					Real33D::InitGameCreatureId(Bytes.data() + At);
 				At += Handshake.Length;
 				++LocalCommands;
+				{
+					// Counted so "exactly one INIT_GAME per session" is a
+					// number in the evidence rather than an assumption. Per
+					// worker, so a relogin starts from zero and is not
+					// mistaken for a duplicate.
+					FScopeLock Lock(&StatsMutex);
+					++Stats.InitGames;
+					if (Stats.InitGames > 1)
+					{
+						UE_LOG(LogReal33D, Warning,
+							TEXT("INIT_GAME received %d times on one connection; "
+								"this session was handed over"), Stats.InitGames);
+					}
+				}
 				continue;
 			}
 			if (Handshake.Command == Real33D::HandshakeCommand::Rights)
@@ -2196,7 +2422,30 @@ private:
 
 	void Publish(FReal33DEvent&& Event) { Events.Enqueue(MoveTemp(Event)); }
 
+	/**
+	 * Which event a setup failure is, in this worker's mode.
+	 *
+	 * The two end in different places and the difference matters to the
+	 * player: an unreadable secrets directory during an account login leaves
+	 * them on the account screen, and the same failure entering a game ends a
+	 * session. Shared code cannot pick one, so it asks.
+	 */
+	EReal33DEventKind FailureKind() const
+	{
+		return RunMode == EMode::AccountLogin
+			? EReal33DEventKind::LoginFailed : EReal33DEventKind::Failed;
+	}
+
 	FReal33DConnectionConfig Config;
+	EMode RunMode = EMode::Game;
+	/** Zero means "read the account from the sanitized runtime file". */
+	uint32 RequestedAccountId = 0;
+	/** What the player typed, used once and never logged or published. */
+	FString RequestedPassword;
+	/** The character the player chose. Empty in account-login mode. */
+	FString RequestedCharacter;
+	/** The port the login service named for that character's world. */
+	uint16 WorldPort = 0;
 	FThreadSafeBool bStopping{ false };
 
 	uint32 AccountId = 0;
@@ -2302,6 +2551,11 @@ void UReal33DBridge::Initialize(FSubsystemCollectionBase& Collection)
 void UReal33DBridge::Deinitialize()
 {
 	Disconnect();
+	// Overwritten, not merely dropped. The subsystem outlives every session in
+	// it, and a password left in a freed allocation for the rest of the
+	// process is exactly the leak the explicit Clear exists to prevent.
+	Credentials.Clear();
+	PendingEvents.Reset();
 	delete Transcript;
 	Transcript = nullptr;
 	delete Minimap;
@@ -2309,7 +2563,275 @@ void UReal33DBridge::Deinitialize()
 	Super::Deinitialize();
 }
 
-bool UReal33DBridge::Connect(const FReal33DConnectionConfig& Config)
+bool UReal33DBridge::PrepareSession(const FReal33DConnectionConfig& InConfig)
+{
+	check(IsInGameThread());
+	if (!InConfig.IsValid())
+	{
+		UE_LOG(LogReal33D, Error,
+			TEXT("no runtime directory configured. Pass -real33d-runtime=<path>."));
+		return false;
+	}
+	Config = InConfig;
+	++SessionRevision;
+	return true;
+}
+
+void UReal33DBridge::SetPhase(Real33D::SessionPhase NewPhase)
+{
+	if (Phase == NewPhase)
+	{
+		return;
+	}
+	UE_LOG(LogReal33D, Log, TEXT("session phase: %hs -> %hs"),
+		Real33D::SessionPhaseName(Phase), Real33D::SessionPhaseName(NewPhase));
+	Phase = NewPhase;
+	++SessionRevision;
+}
+
+bool UReal33DBridge::BeginAccountLogin(uint32 AccountNumber, const FString& Password)
+{
+	check(IsInGameThread());
+	if (!Real33D::MayBeginAccountLogin(Phase))
+	{
+		return false;
+	}
+	if (AccountNumber == 0)
+	{
+		// Refused here rather than on the wire. Zero is this client's own
+		// marker for "use the runtime account file", and `BuildLoginRequest`
+		// rejects it as InvalidAccountId anyway, so sending it would turn a
+		// typing mistake into a round trip and a less specific message.
+		SessionMessage = TEXT("Enter your account number.");
+		++SessionRevision;
+		return false;
+	}
+
+	// A worker that has finished still exists: the object outlives its
+	// thread, and `StartWorker` admits one at a time. Reaping it here is what
+	// makes a SECOND login possible at all -- without it, every attempt after
+	// the first silently did nothing, which is exactly what a player does
+	// after mistyping a password. Safe because this phase proves no session
+	// is running.
+	ReapFinishedWorker();
+
+	Credentials.Clear();
+	Credentials.AccountNumber = AccountNumber;
+	Credentials.Password = Password;
+	Characters.Reset();
+	Motd.Reset();
+	PremiumDays = 0;
+	SelectedCharacter = INDEX_NONE;
+	SessionMessage.Reset();
+
+	// The account number is logged; the password is not, and no call anywhere
+	// in this class puts it in a format string.
+	UE_LOG(LogReal33D, Log, TEXT("account login: account %u at %s:%d"),
+		AccountNumber, *Config.Host, Config.LoginPort);
+	if (!StartWorker(EWorkerMode::AccountLogin))
+	{
+		Credentials.Clear();
+		SessionMessage = TEXT("The login could not be started.");
+		++SessionRevision;
+		return false;
+	}
+	SetPhase(Real33D::SessionPhase::LoggingIn);
+	return true;
+}
+
+bool UReal33DBridge::BeginAutoLogin()
+{
+	check(IsInGameThread());
+	if (!Real33D::MayBeginAccountLogin(Phase))
+	{
+		return false;
+	}
+	ReapFinishedWorker();
+	Credentials.Clear();
+	Characters.Reset();
+	Motd.Reset();
+	PremiumDays = 0;
+	SelectedCharacter = INDEX_NONE;
+	SessionMessage.Reset();
+
+	UE_LOG(LogReal33D, Log,
+		TEXT("account login: runtime account %s at %s:%d (automation path)"),
+		*Config.Account, *Config.Host, Config.LoginPort);
+	if (!StartWorker(EWorkerMode::AccountLogin))
+	{
+		return false;
+	}
+	SetPhase(Real33D::SessionPhase::LoggingIn);
+	return true;
+}
+
+bool UReal33DBridge::EnterGame(int32 CharacterIndex)
+{
+	check(IsInGameThread());
+	// The duplicate-INIT_GAME guard. Fusion32 answers a second connection for
+	// a live character by displacing the first, so a second worker would not
+	// fail -- it would silently produce two INIT_GAMEs for one session.
+	if (!Real33D::MayEnterGame(Phase))
+	{
+		return false;
+	}
+	if (!Characters.IsValidIndex(CharacterIndex))
+	{
+		return false;
+	}
+
+	// The account-login worker has finished -- it published the list and
+	// returned -- but the object outlives its thread, and one worker at a time
+	// is what keeps one session to one connection. Stopping it here also moves
+	// anything it published after the list into PendingEvents rather than
+	// losing it.
+	ReapFinishedWorker();
+
+	SelectedCharacter = CharacterIndex;
+	// Reset here, not on the ending: a fresh entry the player asked for is a
+	// new session, and carrying the previous one's attempt count into it would
+	// let one bad link exhaust the retries of the next three logins.
+	ReconnectAttempts = 0;
+	return StartGameWorker();
+}
+
+bool UReal33DBridge::StartGameWorker()
+{
+	const FReal33DCharacterEntry& Character = Characters[SelectedCharacter];
+	UE_LOG(LogReal33D, Log, TEXT("entering game as %s on %s, port %u"),
+		*Character.Name, *Character.WorldName, static_cast<uint32>(Character.WorldPort));
+	if (!StartWorker(EWorkerMode::Game))
+	{
+		SessionMessage = TEXT("The game session could not be started.");
+		++SessionRevision;
+		return false;
+	}
+	SessionMessage.Reset();
+	SetPhase(Real33D::SessionPhase::EnteringGame);
+	return true;
+}
+
+bool UReal33DBridge::Logout()
+{
+	check(IsInGameThread());
+	if (!Real33D::MayLogout(Phase))
+	{
+		return false;
+	}
+	UE_LOG(LogReal33D, Log, TEXT("logout requested by this client"));
+
+	// Stopping the worker is what sends CL_CMD_LOGOUT: the run loop leaves on
+	// `bStopping`, sends it, closes, and publishes its own orderly
+	// Disconnected. That event is preserved by Disconnect and drained next
+	// frame, so the world is torn down by exactly the path a death or a
+	// displacement takes, and not by a second one written for this button.
+	Disconnect();
+
+	// The phase is still set here rather than left to the drained event. The
+	// worker may never have reached its run loop -- a game login that failed
+	// to build publishes a Failed and returns -- and the player who pressed
+	// Logout must land on the list either way.
+	bSessionEndedDeliberately = true;
+	DisconnectedAt = 0.0;
+	SetPhase(Characters.IsEmpty()
+		? Real33D::SessionPhase::Offline : Real33D::SessionPhase::CharacterSelect);
+	return true;
+}
+
+void UReal33DBridge::ReturnToAccountScreen()
+{
+	check(IsInGameThread());
+	if (Worker != nullptr)
+	{
+		Disconnect();
+	}
+	Credentials.Clear();
+	Characters.Reset();
+	Motd.Reset();
+	PremiumDays = 0;
+	SelectedCharacter = INDEX_NONE;
+	DisconnectedAt = 0.0;
+	ReconnectAttempts = 0;
+	bSessionEndedDeliberately = false;
+	SetPhase(Real33D::SessionPhase::Offline);
+	++SessionRevision;
+}
+
+void UReal33DBridge::TickSession(double NowSeconds)
+{
+	check(IsInGameThread());
+
+	// The automation path's second answer. A human clicks a row in the
+	// character list; a harness run takes the first, which is exactly what
+	// this client did for every certification before the account screen
+	// existed. It goes through EnterGame like any other choice, so there is
+	// still one door into the game and one guard on it.
+	//
+	// Here rather than in NoteSession, where the list arrives, because
+	// entering the game stops one worker and starts another and NoteSession
+	// runs inside the drain of the worker being stopped.
+	if (Config.bAutoLogin && SelectedCharacter == INDEX_NONE
+		&& Real33D::MayEnterGame(Phase) && !Characters.IsEmpty())
+	{
+		EnterGame(0);
+		return;
+	}
+
+	// A session that was LOST is retried rather than left dead. The scene was
+	// already torn down when the drop arrived, so a retry starts from nothing
+	// and rebuilds from whatever WorldState the server sends next: there is no
+	// state carried across the gap that could survive as a ghost.
+	//
+	// A session that was ENDED is not retried, and that distinction is the
+	// whole of the ownership fix this preserves. Fusion32 hands a character to
+	// a second client by closing the first one's socket; retrying there made
+	// the displaced client log straight back in and take the character away
+	// again, which displaced the new owner, which retried in turn.
+	//
+	// This is not reconnect being disabled: a refused or unreachable connect
+	// and a transport error are still losses and are still retried, with the
+	// attempt cap and the delay unchanged. Only a close that the other end
+	// performed on purpose is left alone.
+	if (Phase != Real33D::SessionPhase::Reconnecting || DisconnectedAt <= 0.0)
+	{
+		return;
+	}
+	if (!Real33D::ShouldReconnect(
+			Real33D::SessionEndFromOrderlyClose(bSessionEndedDeliberately),
+			ReconnectAttempts, NowSeconds - DisconnectedAt))
+	{
+		return;
+	}
+	if (!Characters.IsValidIndex(SelectedCharacter))
+	{
+		// Nothing to come back as. Only reachable if the list was cleared
+		// under a live session, which `ReturnToAccountScreen` does not do
+		// without stopping the worker first; refused rather than guessed.
+		SetPhase(Real33D::SessionPhase::Offline);
+		return;
+	}
+
+	++ReconnectAttempts;
+	DisconnectedAt = NowSeconds;
+	UE_LOG(LogReal33D, Log, TEXT("reconnecting, attempt %d"), ReconnectAttempts);
+	Disconnect();
+	StartGameWorker();
+}
+
+void UReal33DBridge::ReapFinishedWorker()
+{
+	// Only ever called from a phase that proves no session is running, so
+	// this cannot cut one short. It exists because a worker OBJECT outlives
+	// the thread that ran it: a login that was refused, a game login that
+	// could not be built, and a connection the server closed all leave one
+	// behind, and `StartWorker` admits exactly one at a time.
+	if (Worker != nullptr)
+	{
+		Disconnect();
+	}
+}
+
+bool UReal33DBridge::StartWorker(EWorkerMode Mode)
 {
 	if (Worker != nullptr)
 	{
@@ -2317,15 +2839,23 @@ bool UReal33DBridge::Connect(const FReal33DConnectionConfig& Config)
 	}
 	if (!Config.IsValid())
 	{
-		UE_LOG(LogTemp, Error,
-			TEXT("REAL33D: no runtime directory configured. Pass -real33d-runtime=<path>."));
+		UE_LOG(LogReal33D, Error,
+			TEXT("no runtime directory configured. Pass -real33d-runtime=<path>."));
 		return false;
 	}
-	if (Minimap != nullptr)
+	if (Mode == EWorkerMode::Game && Minimap != nullptr)
 	{
 		SaveMinimap();
+		// The account the cache belongs to, which is now either the runtime
+		// one or the number the player typed. The number rather than the
+		// letter, so two typed accounts do not share one map memory; the
+		// letter path is byte-for-byte what it was, so every existing cache
+		// stays addressable. A password is never part of this, and the digest
+		// is of the identity only.
+		const FString AccountScope = Credentials.IsExplicit()
+			? FString::Printf(TEXT("#%u"), Credentials.AccountNumber) : Config.Account;
 		const FString Identity = Config.Host + TEXT(":") + FString::FromInt(Config.LoginPort)
-			+ TEXT(":772:") + Config.Account + TEXT(":") + Config.RuntimeDir;
+			+ TEXT(":772:") + AccountScope + TEXT(":") + Config.RuntimeDir;
 		FTCHARToUTF8 Encoded(*Identity);
 		uint8 Digest[FSHA1::DigestSize];
 		FSHA1::HashBuffer(Encoded.Get(), Encoded.Length(), Digest);
@@ -2351,7 +2881,15 @@ bool UReal33DBridge::Connect(const FReal33DConnectionConfig& Config)
 		Minimap->State.LiveCells = 0;
 		++Minimap->State.Revision;
 	}
-	Worker = new FReal33DWorker(Config);
+	const FReal33DCharacterEntry* Character =
+		Characters.IsValidIndex(SelectedCharacter) ? &Characters[SelectedCharacter] : nullptr;
+	Worker = new FReal33DWorker(Config,
+		Mode == EWorkerMode::Game
+			? FReal33DWorker::EMode::Game : FReal33DWorker::EMode::AccountLogin,
+		Credentials.AccountNumber, Credentials.Password,
+		Character != nullptr ? Character->Name : FString(),
+		Character != nullptr ? Character->WorldPort : uint16(0));
+	WorkerMode = Mode;
 	Thread = FRunnableThread::Create(Worker, TEXT("REAL33D.Protocol772"), 0,
 		TPri_AboveNormal);
 	if (Thread == nullptr)
@@ -2373,8 +2911,29 @@ void UReal33DBridge::Disconnect()
 	}
 	if (Worker != nullptr)
 	{
-		TArray<FReal33DEvent> Remaining;
-		DrainEvents(Remaining);
+		// The counters, before the worker that owns them goes. The evidence
+		// snapshot written when a session ends is taken from the game thread
+		// a frame later, and a logout now reaps the worker immediately -- so
+		// without this the one snapshot that documents a finished session
+		// would report zero frames, zero commands and zero anomalies for it.
+		LastStats = Worker->Snapshot();
+
+		// KEPT, not discarded. These used to be drained into a throwaway
+		// array, which was harmless while a stopped worker meant a finished
+		// process. The logout the player asked for IS one of these events --
+		// the worker publishes its orderly Disconnected on the way out of Run
+		// -- and dropping it would leave the scene standing for a session that
+		// had ended. They are delivered by the next DrainEvents, in order,
+		// ahead of anything a new worker produces.
+		//
+		// Moved raw, with none of the Note* chain applied: that chain runs
+		// once, where they are delivered, so a transcript line cannot be filed
+		// twice and a phase cannot be applied twice.
+		FReal33DEvent Remaining;
+		while (Worker->Dequeue(Remaining))
+		{
+			PendingEvents.Add(MoveTemp(Remaining));
+		}
 		delete Worker;
 		Worker = nullptr;
 	}
@@ -2390,25 +2949,23 @@ void UReal33DBridge::Disconnect()
 
 bool UReal33DBridge::IsRunning() const
 {
-	return Worker != nullptr && !Worker->IsStopping();
+	return Worker != nullptr && !Worker->IsStopping()
+		&& WorkerMode == EWorkerMode::Game;
 }
 
 void UReal33DBridge::DrainEvents(TArray<FReal33DEvent>& OutEvents)
 {
 	check(IsInGameThread());
-	if (Worker == nullptr)
+
+	// Filed as it passes, so the transcript is complete whatever the presenter
+	// does with the event afterwards, and so there is exactly one place that
+	// decides what a player is allowed to read.
+	//
+	// Channels first: an open and the first line spoken in it can arrive in
+	// the same drain, and the line has to find the tab already there.
+	const auto Deliver = [this, &OutEvents](FReal33DEvent& Event)
 	{
-		return;
-	}
-	FReal33DEvent Event;
-	while (Worker->Dequeue(Event))
-	{
-		// Filed as it passes, so the transcript is complete whatever the
-		// presenter does with the event afterwards, and so there is exactly one
-		// place that decides what a player is allowed to read.
-		//
-		// Channels first: an open and the first line spoken in it can arrive in
-		// the same drain, and the line has to find the tab already there.
+		NoteSession(Event);
 		NoteChannel(Event);
 		NoteEditor(Event);
 		NoteTrade(Event);
@@ -2416,8 +2973,131 @@ void UReal33DBridge::DrainEvents(TArray<FReal33DEvent>& OutEvents)
 		NoteChat(Event);
 		NoteMinimap(Event);
 		OutEvents.Add(MoveTemp(Event));
+	};
+
+	// Whatever a stopped worker had published and nobody had read yet, first
+	// and in order. Appending them after the live worker's events would let a
+	// new session's Connected arrive before the old session's Disconnected,
+	// and the world would be torn down on top of the world that replaced it.
+	if (!PendingEvents.IsEmpty())
+	{
+		// Moved out before the walk: delivering one of these can start a new
+		// worker, and that worker's events must not be appended to the array
+		// being iterated.
+		TArray<FReal33DEvent> Carried = MoveTemp(PendingEvents);
+		PendingEvents.Reset();
+		for (FReal33DEvent& Pending : Carried)
+		{
+			Deliver(Pending);
+		}
+	}
+
+	if (Worker == nullptr)
+	{
+		return;
+	}
+	FReal33DEvent Event;
+	while (Worker->Dequeue(Event))
+	{
+		Deliver(Event);
 	}
 	if (Minimap != nullptr && FPlatformTime::Seconds() - Minimap->LastSave >= 30.0) SaveMinimap();
+}
+
+void UReal33DBridge::NoteSession(const FReal33DEvent& Event)
+{
+	switch (Event.Kind)
+	{
+	case EReal33DEventKind::CharacterList:
+	{
+		// The server's answer, adopted whole. Nothing here filters, reorders
+		// or supplements the list: which characters an account may play is
+		// `SendCharacterList`'s ruling and this client has no second opinion.
+		Characters = Event.Characters;
+		Motd = Event.Motd;
+		PremiumDays = Event.PremiumDays;
+		SessionMessage.Reset();
+		SetPhase(Real33D::SessionPhase::CharacterSelect);
+		++SessionRevision;
+		UE_LOG(LogReal33D, Log, TEXT("character list: %d offered, premium days %d"),
+			Characters.Num(), PremiumDays);
+		break;
+	}
+
+	case EReal33DEventKind::LoginFailed:
+		// The player stays where they are, with something to correct. No
+		// credential is cleared here: retyping a password because the host was
+		// briefly unreachable is a worse answer than leaving the field alone.
+		SessionMessage = Event.Detail;
+		SetPhase(Real33D::SessionPhase::Offline);
+		++SessionRevision;
+		UE_LOG(LogReal33D, Warning, TEXT("login refused: %s"), *Event.Detail);
+		break;
+
+	case EReal33DEventKind::Connected:
+		DisconnectedAt = 0.0;
+		ReconnectAttempts = 0;
+		// A connection that succeeded is the only thing that clears the
+		// deliberate-close latch: this client owns the character again, so a
+		// future LOST link is once more worth retrying.
+		bSessionEndedDeliberately = false;
+		SessionMessage.Reset();
+		SetPhase(Real33D::SessionPhase::EnteringGame);
+		break;
+
+	case EReal33DEventKind::LocalPlayerIdentified:
+		SetPhase(Real33D::SessionPhase::InGame);
+		break;
+
+	case EReal33DEventKind::Disconnected:
+	case EReal33DEventKind::Failed:
+	{
+		// Where this leaves the player, decided by the one rule that composes
+		// the unchanged reconnect-ownership policy with "a client that will
+		// not come back by itself must offer the player a way back".
+		const Real33D::SessionEndOutcome Outcome = Real33D::ResolveSessionEnd(
+			Event.bOrderlyClose, ReconnectAttempts, !Characters.IsEmpty());
+		bSessionEndedDeliberately = Event.bOrderlyClose;
+		DisconnectedAt = FPlatformTime::Seconds();
+		SessionMessage = Event.Detail;
+
+		// An ending that arrives BEFORE the game started is a refused entry,
+		// and saying "Fusion32 closed this connection" to a player sitting on
+		// the character list describes the socket rather than the answer.
+		//
+		// Fusion32 refuses this way on purpose and sends nothing usable:
+		// `receiving.cc` answers a failed `JoinGame` with
+		// `SendResult(Connection, LOGINERROR)` and then calls
+		// `Connection->Disconnect()` immediately, so the TALK_FAILURE_MESSAGE
+		// that would have carried "An error occured while logging in." does
+		// not survive the close. Observed live: four refusals in one run, all
+		// of them a bare close with no decoded message. The 7.72 game protocol
+		// does define a login-error command and ClientCore decodes it; this
+		// server does not take that path here, so the wording below states
+		// what is known and infers no reason.
+		if (Phase == Real33D::SessionPhase::EnteringGame && Event.bOrderlyClose)
+		{
+			SessionMessage = TEXT("Fusion32 refused this entry and closed the "
+				"connection before the game started. A character the server is "
+				"still logging out cannot be entered again until it has "
+				"finished; try again.");
+		}
+
+		SetPhase(Outcome.Phase);
+		++SessionRevision;
+		if (!Outcome.bRetry)
+		{
+			UE_LOG(LogReal33D, Log,
+				TEXT("session over (%s); the player is back at %hs"),
+				Event.bOrderlyClose ? TEXT("closed") : TEXT("lost"),
+				Real33D::SessionPhaseName(Outcome.Phase));
+		}
+		break;
+	}
+
+	default:
+		break;
+	}
 }
 
 void UReal33DBridge::NoteMinimap(const FReal33DEvent& Event)
@@ -3537,7 +4217,10 @@ uint32 UReal33DBridge::RequestTalk(EReal33DTalkMode Mode, const FString& Text)
 
 FReal33DStats UReal33DBridge::GetStats() const
 {
-	return Worker != nullptr ? Worker->Snapshot() : FReal33DStats{};
+	// The live worker's counters, or the ones the last worker finished with.
+	// Without the second half the evidence snapshot written when a session
+	// ends would report zeroes for the session it is documenting.
+	return Worker != nullptr ? Worker->Snapshot() : LastStats;
 }
 
 bool UReal33DBridge::RequiresUseTarget(uint16 TypeId) const
@@ -3556,6 +4239,27 @@ FReal33DConnectionConfig UReal33DBridge::ConfigFromCommandLine()
 	if (FParse::Value(FCommandLine::Get(), TEXT("-real33d-account="), Value))
 	{
 		Config.Account = Value;
+		// Naming a runtime account IS the request to log in with it. Every QA
+		// script in scripts/client/ and every certification run so far passes
+		// this and expects the client to come up already playing; requiring a
+		// second switch would have broken all of them at once.
+		Config.bAutoLogin = true;
+	}
+	// The same thing without naming an account, for a run that wants the
+	// default one. Kept separate so "which account" and "ask nobody" stay two
+	// questions.
+	if (FParse::Param(FCommandLine::Get(), TEXT("real33d-autologin")))
+	{
+		Config.bAutoLogin = true;
+	}
+	// The live login QA IS the operator: it types the account and presses the
+	// buttons. Auto-login would be a second operator racing it to the same
+	// screen, so the switch that asks for the scripted run also takes the
+	// automatic one away. `-real33d-account=` still selects WHICH runtime
+	// account the script types, which is why it is read above regardless.
+	if (FParse::Param(FCommandLine::Get(), TEXT("real33d-login-qa")))
+	{
+		Config.bAutoLogin = false;
 	}
 	if (FParse::Value(FCommandLine::Get(), TEXT("-real33d-host="), Value))
 	{

@@ -93,6 +93,13 @@ public:
 	TSharedPtr<SReal33DChatPanel> GetChatPanel() const { return ChatPanel; }
 
 	/**
+	 * The control strip, so the opt-in live QA driver can press Exit the way
+	 * a player does. Nothing in the shipping flow uses it; see
+	 * Real33DLoginQA.h.
+	 */
+	TSharedPtr<SReal33DControlPanel> GetControlPanel() const { return Controls; }
+
+	/**
 	 * The HUD's panels, for anything that needs to open, close or ask
 	 * after one. Exposed so a future panel can be driven from a hotkey or
 	 * a menu without adding another accessor here for each one.

@@ -17,6 +17,8 @@ namespace PanelIds
 	const FName Trade(TEXT("Trade"));
 	const FName Outfit(TEXT("Outfit"));
 	const FName MoveAmount(TEXT("MoveAmount"));
+	const FName Account(TEXT("Account"));
+	const FName CharacterSelect(TEXT("CharacterSelect"));
 }
 }
 

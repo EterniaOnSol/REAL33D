@@ -1,0 +1,286 @@
+LogInit: Display: Running engine for game: REAL33D
+LogCore: Display: Requested channels: 'cpu,gpu,frame,log,bookmark,screenshot,region'
+LogTrace: Display: Control listening on port 1985
+LogCsvProfiler: Display: Metadata set : platform="Windows"
+LogCsvProfiler: Display: Metadata set : config="Development"
+LogCsvProfiler: Display: Metadata set : buildversion="++UE5+Release-5.8-CL-56702186"
+LogCsvProfiler: Display: Metadata set : engineversion="5.8.2-56702186+++UE5+Release-5.8"
+LogCsvProfiler: Display: Metadata set : enginereleaseversion="5.8.2"
+LogCsvProfiler: Display: Metadata set : os="Windows 11 (23H2) [10.0.22631.6199] "
+LogCsvProfiler: Display: Metadata set : cpu="GenuineIntel|Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz"
+LogCsvProfiler: Display: Metadata set : pgoenabled="0"
+LogCsvProfiler: Display: Metadata set : pgoprofilingenabled="0"
+LogCsvProfiler: Display: Metadata set : ltoenabled="0"
+LogCsvProfiler: Display: Metadata set : asan="0"
+LogCsvProfiler: Display: Metadata set : mergedmodules="0"
+LogCsvProfiler: Display: Metadata set : compacttset="0"
+LogCsvProfiler: Display: Metadata set : commandline="" C:\Users\dell\Desktop\fusion32\unreal\REAL33D\REAL33D.uproject -game -windowed -ResX=1024 -ResY=600 -real33d-runtime=\\wsl.localhost\Ubuntu-26.04\var\lib\fusion32-server-baseline-772-0 -real33d-account=B -real33d-host=127.0.0.1 -real33d-loginport=7171 -real33d-evidence=C:\Users\dell\Desktop\fusion32\evidence\clientcore\unreal-login-character-select-ui-001\displacement\clientA -abslog=C:\Users\dell\Desktop\fusion32\evidence\clientcore\unreal-login-character-select-ui-001\displacement\clientA\clientA.log -log -stdout -unattended=0""
+LogCsvProfiler: Display: Metadata set : loginid="727380a841349ad609114f9b2d30b202"
+LogCsvProfiler: Display: Metadata set : llm="0"
+LogCsvProfiler: Display: Metadata set : zenstreaming="0"
+LogCsvProfiler: Display: Metadata set : systemresolution.resx="1280"
+LogCsvProfiler: Display: Metadata set : systemresolution.resy="720"
+LogAudio: Display: Pre-Initializing Audio Device Manager...
+LogAudio: Display: AudioInfo: 'OPUS' Registered
+LogAudioDebug: Display: Lib vorbis DLL was dynamically loaded.
+LogAudio: Display: AudioInfo: 'OGG' Registered
+LogAudio: Display: AudioInfo: 'ADPCM' Registered
+LogAudio: Display: AudioInfo: 'PCM' Registered
+LogAudio: Display: AudioInfo: 'BINKA' Registered
+LogAudio: Display: AudioInfo: 'RADA' Registered
+LogAudio: Display: Audio Device Manager Pre-Initialized
+LogConfig: Display: Loading Mac ini files took 0.05 seconds
+LogConfig: Display: Loading IOS ini files took 0.05 seconds
+LogConfig: Display: Loading Android ini files took 0.05 seconds
+LogConfig: Display: Loading Linux ini files took 0.07 seconds
+LogConfig: Display: Loading VulkanPC ini files took 0.05 seconds
+LogConfig: Display: Loading TVOS ini files took 0.06 seconds
+LogConfig: Display: Loading Unix ini files took 0.06 seconds
+LogConfig: Display: Loading Windows ini files took 0.05 seconds
+LogConfig: Display: Loading VisionOS ini files took 0.04 seconds
+LogAnalytics: Display: Provider StudioTelemetry.Provider.Log is disabled for this application
+LogAnalytics: Display: Provider StudioTelemetry.Provider.CSV is disabled for this application
+LogAnalytics: Display: Provider StudioTelemetry.Provider.Horde is disabled for this application
+LogAsyncCompilation: Display: MemorySharingInfo: UsedMemory=247MiB, MaxMemoryAvailable=20559MiB
+RenderDocPlugin: Display: RenderDoc plugin will not be loaded. Use '-AttachRenderDoc' on the cmd line or enable 'renderdoc.AutoAttach' in the plugin settings.
+LogStreaming: Display: AsyncLoading2 - Created: Async Loading Thread: false, Async Post Load: false, Multithreaded: false
+[2026.10.24-22.43.54:251][  0]LogCsvProfiler: Display: Metadata set : systemresolution.resx="1024"
+[2026.10.24-22.43.54:252][  0]LogCsvProfiler: Display: Metadata set : systemresolution.resy="600"
+[2026.10.24-22.43.54:254][  0]LogHAL: Display: Platform has ~ 12 GB [12705243136 / 17179869184 / 12], which maps to Larger [LargestMinGB=32, LargerMinGB=12, DefaultMinGB=8, SmallerMinGB=6, SmallestMinGB=0)
+[2026.10.24-22.43.54:269][  0]LogCsvProfiler: Display: Metadata set : extradevelopmentmemorymb="0"
+[2026.10.24-22.43.54:270][  0]LogObj: Display: Attempting to load config data for Default__DownlinkBandwidthManagerConfig before the Class has been constructed/registered/linked (likely during module loading or early startup). This will result in the load silently failing and should be fixed.
+[2026.10.24-22.43.54:851][  0]LogWindowsTouchpad: Display: CacheForceMaxTouchpadSensitivityMode SetMaxTouchpadSensitivity
+[2026.10.24-22.43.54:855][  0]LogObj: Display: Attempting to load config data for Default__SlateThemeManager before the Class has been constructed/registered/linked (likely during module loading or early startup). This will result in the load silently failing and should be fixed.
+[2026.10.24-22.43.55:416][  0]LogD3D12RHI: Display: Creating D3D12 RHI with Max Feature Level SM5
+[2026.10.24-22.43.55:422][  0]LogRHI: Display: Timeout Detection and Recovery (TDR) summary: 
+	- TDR settings OK - Level: Recover, Delay: 2, DdiDelay: 5
+[2026.10.24-22.43.55:621][  0]LogD3D12RHI: Display: Not using pipeline state disk cache per r.D3D12.PSO.DiskCache=0
+[2026.10.24-22.43.55:621][  0]LogD3D12RHI: Display: Not using driver-optimized pipeline state disk cache per r.D3D12.PSO.DriverOptimizedDiskCache=0
+[2026.10.24-22.43.55:621][  0]LogD3D12RHI: Warning: TSR 16-bit VALU is disabled on NVIDIA due to known compiler bugs in drivers older than 610.00.
+[2026.10.24-22.43.55:629][  0]LogCsvProfiler: Display: Metadata set : verbatimrhiname="D3D12"
+[2026.10.24-22.43.55:630][  0]LogCsvProfiler: Display: Metadata set : rhiname="D3D12"
+[2026.10.24-22.43.55:630][  0]LogCsvProfiler: Display: Metadata set : rhifeaturelevel="SM5"
+[2026.10.24-22.43.55:630][  0]LogCsvProfiler: Display: Metadata set : shaderplatform="PCD3D_SM5"
+[2026.10.24-22.43.55:630][  0]LogCsvProfiler: Display: Metadata set : gpu="NVIDIA GeForce GTX 1650"
+[2026.10.24-22.43.55:631][  0]LogCsvProfiler: Display: Metadata set : gpudriver="595.97"
+Using bundled DotNet SDK version: 10.0 win-x64
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" -Mode=ValidatePlatforms -OutputSDKs  -AllPlatforms  -project="C:/Users/dell/Desktop/fusion32/unreal/REAL33D/REAL33D.uproject" -log="C:/Users/dell/Desktop/fusion32/unreal/REAL33D/Saved/Logs/AutoSDKInfo.txt" -verbose -timestamps
+Log file: C:\Users\dell\Desktop\fusion32\unreal\REAL33D\Saved\Logs\AutoSDKInfo.txt
+##PlatformValidate: Win64 VALID 10.0.22621.0
+##PlatformValidate: Mac INVALID 26.1.1
+##PlatformValidate: IOS INVALID 26.1.1
+##PlatformValidate: Android INVALID r27c
+##PlatformValidate: Linux INVALID v26_clang-20.1.8-rockylinux8
+##PlatformValidate: LinuxArm64 INVALID <UNKNOWN>
+##PlatformValidate: TVOS INVALID 26.1.1
+##PlatformValidate: VisionOS INVALID <UNKNOWN>
+Unable to find required SDK version 'MainVersion' for platform LinuxArm64. Check your SDK.json files
+Unable to find required SDK version 'MainVersion' for platform VisionOS. Check your SDK.json files
+Trace written to file C:\Users\dell\AppData\Local\UnrealBuildTool\Trace.uba with size 299b
+[2026.10.24-22.43.56:300][  0]LogTextureFormatASTC: Display: ASTCEnc version 5.0.1 library loaded
+[2026.10.24-22.43.56:300][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatASTC
+[2026.10.24-22.43.56:301][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatDXT
+[2026.10.24-22.43.56:301][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatETC2
+[2026.10.24-22.43.56:301][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatIntelISPCTexComp
+[2026.10.24-22.43.56:301][  0]LogTextureFormatOodle: Display: Oodle Texture TFO init; latest sdk version = 2.9.16
+[2026.10.24-22.43.56:301][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.16.dll
+[2026.10.24-22.43.56:301][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatOodle
+[2026.10.24-22.43.56:302][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatUncompressed
+[2026.10.24-22.43.56:351][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Windows'
+[2026.10.24-22.43.56:351][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'WindowsEditor'
+[2026.10.24-22.43.56:352][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'WindowsServer'
+[2026.10.24-22.43.56:352][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'WindowsClient'
+[2026.10.24-22.43.56:352][  0]LogTargetPlatformManager: Display: Building Assets For WindowsEditor
+[2026.10.24-22.43.56:402][  0]LogZenServiceInstance: Display: Launching zen utility 'C:/Program Files/Epic Games/UE_5.8/Engine/Binaries/Win64/zen.exe service status'.
+[2026.10.24-22.43.57:012][  0]LogZenServiceInstance: Display: Writing plugin version info to 'C:/Users/dell/AppData/Local/UnrealEngine/Common/Zen/Install/zen_plugin_versions.json'
+[2026.10.24-22.43.57:012][  0]LogZenServiceInstance: Display: Read zen version cache file from 'C:/Users/dell/AppData/Local/UnrealEngine/5.8/Saved/Zen/zen.version', version: '5.8.13-202605190912-windows-x64-release-094f62c2'
+[2026.10.24-22.43.57:013][  0]LogZenServiceInstance: Display: Read zen version cache file from 'C:/Users/dell/AppData/Local/UnrealEngine/Common/Zen/Install/zen.version', version: '5.8.13-202605190912-windows-x64-release-094f62c2'
+[2026.10.24-22.43.57:013][  0]LogZenServiceInstance: Display: Installed service at 'C:/Users/dell/AppData/Local/UnrealEngine/Common/Zen/Install/zenserver.exe' is up to date
+[2026.10.24-22.43.57:013][  0]LogZenServiceInstance: Display: Launching executable 'C:/Users/dell/AppData/Local/UnrealEngine/Common/Zen/Install/zenserver.exe', working dir 'C:/Users/dell/AppData/Local/UnrealEngine/Common/Zen/Install', data dir 'C:/Users/dell/AppData/Local/UnrealEngine/Common/Zen/Data', args '--port 8558 --data-dir C:\Users\dell\AppData\Local\UnrealEngine\Common\Zen\Data --http asio --gc-cache-duration-seconds 1209600 --gc-interval-seconds 21600 --gc-low-diskspace-threshold 2147483648 --cache-bucket-limit-overwrites --quiet --restrict-content-types --allow-external-oidctoken-exe=false --plugins-config "C:/Users/dell/AppData/Local/UnrealEngine/Common/Zen/Install/zen_plugins_v1.json" --security-config-path "C:/Users/dell/AppData/Local/UnrealEngine/Common/Zen/Install/security-config.json" --owner-pid 27640  --child-id Zen_27640_Startup'
+[2026.10.24-22.43.59:192][  0]LogZenServiceInstance: Display: Unreal Zen Storage Server HTTP service at http://[::1]:8558 status: OK!.
+[2026.10.24-22.43.59:194][  0]LogDerivedDataCache: Display: ZenLocal: Using ZenServer HTTP service at [::1] with namespace ue.ddc. Status: OK!.
+[2026.10.24-22.43.59:209][  0]LogDerivedDataCache: Display: C:/Users/dell/AppData/Local/UnrealEngine/Common/DerivedDataCache: Performance: Latency=0.04ms. RandomReadSpeed=1201.30MBs, RandomWriteSpeed=99.90MBs. Assigned SpeedClass 'Local'
+[2026.10.24-22.43.59:212][  0]LogShaderCompilers: Display: No distributed shader compiler controller found
+[2026.10.24-22.43.59:212][  0]LogShaderCompilers: Display: Using 5 local workers for shader compilation
+[2026.10.24-22.43.59:222][  0]LogShaderCompilers: Display: Compiling shader autogen file: ../../../../../../Users/dell/Desktop/fusion32/unreal/REAL33D/Intermediate/ShaderAutogen/PCD3D_SM5/AutogenShaderHeaders.ush
+[2026.10.24-22.43.59:222][  0]LogShaderCompilers: Display: Autogen file is unchanged, skipping write.
+[2026.10.24-22.44.02:817][  0]LogDeviceProfileManager: Display: Deviceprofile LinuxArm64Editor not found.
+[2026.10.24-22.44.02:817][  0]LogDeviceProfileManager: Display: Deviceprofile LinuxArm64 not found.
+[2026.10.24-22.44.02:910][  0]LogCsvProfiler: Display: Metadata set : deviceprofile="WindowsEditor"
+[2026.10.24-22.44.02:914][  0]LogStreaming: Display: FlushAsyncLoading(1): 1 QueuedPackages, 0 AsyncPackages
+[2026.10.24-22.44.02:922][  0]LogTextureEncodingSettings: Display: Texture Encode Speed: Final (cook).
+[2026.10.24-22.44.02:922][  0]LogTextureEncodingSettings: Display: Oodle Texture Encode Speed settings: Fast: RDO Off Lambda=0, Effort=Normal Final: RDO Off Lambda=0, Effort=Normal
+[2026.10.24-22.44.02:923][  0]LogTextureEncodingSettings: Display: Shared linear texture encoding: Disabled
+[2026.10.24-22.44.03:394][  0]LogMeshReduction: Display: Using QuadricMeshReduction for automatic static mesh reduction
+[2026.10.24-22.44.03:394][  0]LogMeshReduction: Display: Using SkeletalMeshReduction for automatic skeletal mesh reduction
+[2026.10.24-22.44.03:395][  0]LogMeshReduction: Display: Using ProxyLODMeshReduction for automatic mesh merging
+[2026.10.24-22.44.03:395][  0]LogMeshReduction: Display: No distributed automatic mesh merging module available
+[2026.10.24-22.44.03:789][  0]LogVirtualization: Display: VirtualizationSystem name found in ini file: None
+[2026.10.24-22.44.03:893][  0]LogVirtualization: Display: FNullVirtualizationSystem mounted, virtualization will be disabled
+[2026.10.24-22.44.03:894][  0]LogLiveCoding: Display: Starting LiveCoding
+[2026.10.24-22.44.03:894][  0]LogLiveCoding: Display: LiveCodingConsole Arguments: UnrealEditor Win64 Development
+[2026.10.24-22.44.03:894][  0]LogLiveCoding: Display: First instance in process group "UE_REAL33D_0xc9575378", spawning console
+[2026.10.24-22.44.03:895][  0]LogLiveCoding: Display: Waiting for server
+[2026.10.24-22.44.03:896][  0]LogWorldPartition: Display: FWorldPartitionClassDescRegistry::Initialize started...
+[2026.10.24-22.44.03:897][  0]LogWorldPartition: Display: FWorldPartitionClassDescRegistry::Initialize took 2.758 ms
+LogStreaming: Display: AsyncLoading2 - Created: Async Loading Thread: false, Async Post Load: false, Multithreaded: false
+LogWindowsTouchpad: Display: CacheForceMaxTouchpadSensitivityMode SetMaxTouchpadSensitivity
+[2026.10.24-22.44.04:672][  0]LogMetaSound: Display: MetaSound Page Target Initialized to 'Default'
+[2026.10.24-22.44.04:679][  0]LogAudio: Display: Registering Engine Module Parameter Interfaces...
+LogLiveCodingServer: Display: Registered process C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\Win64\UnrealEditor.exe (PID: 27640)
+[2026.10.24-22.44.05:179][  0]LogLiveCoding: Display: Successfully initialized, removing startup thread
+[2026.10.24-22.44.05:200][  0]LogAudioCaptureCore: Display: No Audio Capture implementations found. Audio input will be silent.
+[2026.10.24-22.44.05:201][  0]LogAudioCaptureCore: Display: No Audio Capture implementations found. Audio input will be silent.
+[2026.10.24-22.44.06:009][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.12.dll
+[2026.10.24-22.44.06:018][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.15.dll
+[2026.10.24-22.44.06:312][  0]LogAudio: Display: Initializing Audio Device Manager...
+[2026.10.24-22.44.06:322][  0]LogAudio: Display: Loading Default Audio Settings Objects...
+[2026.10.24-22.44.06:323][  0]LogAudio: Display: No default SoundConcurrencyObject specified (or failed to load).
+[2026.10.24-22.44.06:324][  0]LogAudio: Display: Audio Device Manager Initialized
+[2026.10.24-22.44.06:324][  0]LogAudio: Display: Creating Audio Device:                 Id: 1, Scope: Shared, Realtime: True
+[2026.10.24-22.44.06:324][  0]LogAudioMixer: Display: bUseRenderScheduler set to true.
+[2026.10.24-22.44.06:324][  0]LogAudioMixer: Display: Audio Mixer Platform Settings:
+[2026.10.24-22.44.06:326][  0]LogAudioMixer: Display: 	Sample Rate:						  48000
+[2026.10.24-22.44.06:326][  0]LogAudioMixer: Display: 	Callback Buffer Frame Size Requested: 1024
+[2026.10.24-22.44.06:326][  0]LogAudioMixer: Display: 	Callback Buffer Frame Size To Use:	  1024
+[2026.10.24-22.44.06:326][  0]LogAudioMixer: Display: 	Number of buffers to queue:			  1
+[2026.10.24-22.44.06:327][  0]LogAudioMixer: Display: 	Max Channels (voices):				  32
+[2026.10.24-22.44.06:327][  0]LogAudioMixer: Display: 	Number of Async Source Workers:		  4
+[2026.10.24-22.44.06:327][  0]LogAudio: Display: AudioDevice MaxSources: 32
+[2026.10.24-22.44.06:327][  0]LogAudio: Display: Audio Spatialization Plugin: None (built-in).
+[2026.10.24-22.44.06:327][  0]LogAudio: Display: Audio Reverb Plugin: None (built-in).
+[2026.10.24-22.44.06:328][  0]LogAudio: Display: Audio Occlusion Plugin: None (built-in).
+[2026.10.24-22.44.06:346][  0]LogAudioEnumeration: Display: Refreshing FWindowsMMDeviceCache
+[2026.10.24-22.44.06:350][  0]LogAudioEnumeration: Display: FWindowsMMDeviceCache: Default Render Role='Console', Device='ASUS VW266H (Intel(R) Display Audio)'
+[2026.10.24-22.44.06:350][  0]LogAudioEnumeration: Display: FWindowsMMDeviceCache: Default Capture Role='Console', Device='Mezcla estéreo (Realtek(R) Audio)'
+[2026.10.24-22.44.06:351][  0]LogAudioEnumeration: Display: FWindowsMMDeviceCache: Default Render Role='Multimedia', Device='ASUS VW266H (Intel(R) Display Audio)'
+[2026.10.24-22.44.06:351][  0]LogAudioEnumeration: Display: FWindowsMMDeviceCache: Default Capture Role='Multimedia', Device='Mezcla estéreo (Realtek(R) Audio)'
+[2026.10.24-22.44.06:352][  0]LogAudioEnumeration: Display: FWindowsMMDeviceCache: Default Render Role='Communications', Device='ASUS VW266H (Intel(R) Display Audio)'
+[2026.10.24-22.44.06:352][  0]LogAudioEnumeration: Display: FWindowsMMDeviceCache: Default Capture Role='Communications', Device='Varios micrófonos (Intel® Smart Sound Technology (Intel® SST))'
+[2026.10.24-22.44.06:358][  0]LogAudioMixerWasapi: Display: FWasapiServiceWatcher started.
+[2026.10.24-22.44.06:359][  0]LogAudioMixer: Display: Initializing audio mixer using platform API: 'WASAPIMixer'
+[2026.10.24-22.44.06:359][  0]LogAudioMixerWasapi: Display: FWasapiServiceWatcher initial state: Audiosrv=RUNNING, AudioEndpointBuilder=RUNNING
+[2026.10.24-22.44.06:393][  0]LogAudioMixerWasapi: Display: FAudioMixerWasapiRenderStream::InitializeHardware audio mixer requested num channels: 2, Wasapi render stream hardware supports num channels: 2
+[2026.10.24-22.44.06:393][  0]LogAudioMixerWasapi: Display: FAudioMixerWasapiRenderStream::InitializeHardware succeeded with sample rate: 48000, buffer period: 1024
+[2026.10.24-22.44.06:393][  0]LogAudioMixer: Display: FAudioMixerWasapi initialized: SampleRate=48000 NumChannels=2 NumDirectOutChannels=0 bIsAggregateDevice=0 StreamParams.Num()=1
+[2026.10.24-22.44.06:394][  0]LogAudioMixer: Display: Using Audio Hardware Device ASUS VW266H (Intel(R) Display Audio)
+[2026.10.24-22.44.06:394][  0]LogAudioMixer: Display: Initializing Sound Submixes...
+[2026.10.24-22.44.06:396][  0]LogAudioMixer: Display: Creating Master Submix 'MasterSubmixDefault'
+[2026.10.24-22.44.06:396][  0]LogAudioMixer: Display: Creating Master Submix 'MasterReverbSubmixDefault'
+[2026.10.24-22.44.06:397][  0]LogAudioMixer: Display: Output buffers initialized: Frames=1024, Channels=2, Samples=2048, InstanceID=1
+[2026.10.24-22.44.06:399][  0]LogAudioMixer: Display: Starting AudioMixerPlatformInterface::RunInternal(), InstanceID=1
+[2026.10.24-22.44.06:407][  0]LogCsvProfiler: Display: Metadata set : largeworldcoordinates="1"
+[2026.10.24-22.44.06:420][  0]LogAudio: Display: Audio Device (ID: 1) registered with world 'Untitled'.
+[2026.10.24-22.44.06:421][  0]LogInit: Display: Game Engine Initialized.
+[2026.10.24-22.44.06:477][  0]LogPython: Display: No pip-enabled plugins with python dependencies found, skipping
+[2026.10.24-22.44.07:229][  0]LogCsvProfiler: Display: Metadata set : raytracing="0"
+[2026.10.24-22.44.07:274][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'ActorLayersWidgetConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:274][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'AlertWidgetConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:274][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'AlertHeaderWidgetConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:274][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'UObjectLabelWidgetConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:275][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'FolderCompatibilityWidgetConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:275][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'DiskSizeWidgetConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:275][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'AssetDataItemTypeWidgetConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:275][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'AssetDataLabelWidgetConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:275][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'AssetDataVirtualPathWidgetConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:276][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'AssetNameWidgetConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:276][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'DynamicAssetDataColumnBaseWidgetConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:276][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'DynamicAssetDataColumnBaseWidgetConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:276][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'DynamicAssetDataColumnBaseWidgetConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:276][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'DynamicAssetDataColumnBaseWidgetConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:276][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'DynamicAssetDataColumnBaseWidgetConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:277][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'StaticMeshTrianglesWidgetConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:277][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'OutlinerUnsavedWidgetConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:277][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'OutlinerUnsavedHeaderConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:277][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'SocketWidgetConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:277][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'TypeInfoWidgetConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:277][  0]LogEditorDataStorageUI: Warning: Unable to register widget factory 'VisibilityWidgetConstructor' as purpose '0' isn't registered.
+[2026.10.24-22.44.07:278][  0]LogInit: Display: Starting Game.
+[2026.10.24-22.44.07:303][  0]LogAudio: Display: Audio Device unregistered from world 'Untitled'.
+[2026.10.24-22.44.07:333][  0]LogAudio: Display: Audio Device (ID: 1) registered with world 'Entry'.
+[2026.10.24-22.44.07:368][  0]LogViewport: Display: Viewport MouseCaptureMode Changed, NoCapture -> CaptureDuringMouseDown
+[2026.10.24-22.44.07:576][  0]LogReal33D: Warning: experimental V08 QA catalog ENABLED: 4913 entries; TEST_IMPORTED is not APPROVED/READY/INTEGRATED
+[2026.10.24-22.44.07:585][  0]LogSlate: Display: Synchronously lazy loading font file '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' with subface index 0 in Game thread.
+[2026.10.24-22.44.07:585][  0]LogSlate: Display: Took 0.000124 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' (155K) on Game thread.
+[2026.10.24-22.44.07:585][  0]LogSlate: Display: Freetype font face in memory successfully created with synchronously loaded raw font file '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' subface 0 in Game thread.
+[2026.10.24-22.44.07:586][  0]LogSlate: Display: Font face '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' subface index 0 successfully added to font face map in Game thread.
+[2026.10.24-22.44.07:588][  0]LogSlate: Display: Synchronously lazy loading font file '../../../Engine/Content/Slate/Fonts/Roboto-Bold.ttf' with subface index 0 in Game thread.
+[2026.10.24-22.44.07:588][  0]LogSlate: Display: Took 0.000175 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-Bold.ttf' (160K) on Game thread.
+[2026.10.24-22.44.07:588][  0]LogSlate: Display: Freetype font face in memory successfully created with synchronously loaded raw font file '../../../Engine/Content/Slate/Fonts/Roboto-Bold.ttf' subface 0 in Game thread.
+[2026.10.24-22.44.07:588][  0]LogSlate: Display: Font face '../../../Engine/Content/Slate/Fonts/Roboto-Bold.ttf' subface index 0 successfully added to font face map in Game thread.
+[2026.10.24-22.44.07:685][  0]LogConsoleManager: Warning: Console variable 'r.MotionVectorSimulation' used in the render thread. Rendering artifacts could happen. Use ECVF_RenderThreadSafe or don't use in render thread.
+[2026.10.24-22.44.07:879][  0]LogAssetRegistry: Display: CleanupOrphanedCacheFiles (PreLoad): 1 .ref files found, 1 referenced binaries
+[2026.10.24-22.44.07:879][  0]LogAssetRegistry: Display: CleanupOrphanedCacheFiles: 1 total binaries, 1 referenced (kept), 0 old-style pre-migration (kept), 0 orphans deleted, 0 orphans locked (kept)
+[2026.10.24-22.44.07:880][  0]LogAssetRegistry: Display: FindShardedCacheFiles: 1 via .ref, 0 via migration fallback, 1 total
+[2026.10.24-22.44.07:880][  0]LogAssetRegistry: Display: LoadCacheFiles: loading 1 cache files, memory-mapping=enabled
+[2026.10.24-22.44.08:076][  0]LogAssetRegistry: Display: Asset registry cache read as 129.8 MiB from ../../../../../../Users/dell/Desktop/fusion32/unreal/REAL33D/Intermediate/CachedAssetRegistry/CachedAssetRegistry_0_4EED3785491E392F5C20E5B734B6EBC3.bin (memory-mapped=yes)
+[2026.10.24-22.44.08:077][  0]LogAssetRegistry: Display: AssetDataGatherer spent 0.199s loading caches from ../../../../../../Users/dell/Desktop/fusion32/unreal/REAL33D/Intermediate/CachedAssetRegistry.
+[2026.10.24-22.44.08:354][  0]LogAssetRegistry: Display: Starting OnFilesLoaded.Broadcast
+[2026.10.24-22.44.08:358][  0]LogAssetRegistry: Display: Completed OnFilesLoaded.Broadcast: 0.004s
+[2026.10.24-22.44.08:483][  0]LogInit: Display: Engine is initialized. Leaving FEngineLoop::Init()
+[2026.10.24-22.44.08:487][  0]LogCsvProfiler: Display: Metadata set : streamingpoolsizemb="1000"
+[2026.10.24-22.44.08:503][  0]LogSlate: Display: Flushing composite font cache on Game thread. Clearing 1 entries in composite font map and 2 entries in font face map.
+[2026.10.24-22.44.08:557][  0]LogSlate: Display: Synchronously lazy loading font file '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' with subface index 0 in Render thread.
+[2026.10.24-22.44.08:558][  0]LogSlate: Display: Took 0.000184 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' (155K) on Render thread.
+[2026.10.24-22.44.08:558][  0]LogSlate: Display: Freetype font face in memory successfully created with synchronously loaded raw font file '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' subface 0 in Render thread.
+[2026.10.24-22.44.08:559][  0]LogSlate: Display: Font face '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' subface index 0 successfully added to font face map in Render thread.
+[2026.10.24-22.44.08:590][  0]LogPython: Display: Running start-up script C:/Program Files/Epic Games/UE_5.8/Engine/Plugins/Animation/IKRig/Content/Python/init_unreal.py... started...
+[2026.10.24-22.44.08:602][  0]LogPython: Display: Running start-up script C:/Program Files/Epic Games/UE_5.8/Engine/Plugins/Animation/IKRig/Content/Python/init_unreal.py... took 11.704 ms
+[2026.10.24-22.44.08:602][  0]LogPython: Display: Running start-up script C:/Program Files/Epic Games/UE_5.8/Engine/Plugins/Animation/ControlRig/Content/Python/init_unreal.py... started...
+[2026.10.24-22.44.08:623][  0]LogPython: Display: Running start-up script C:/Program Files/Epic Games/UE_5.8/Engine/Plugins/Animation/ControlRig/Content/Python/init_unreal.py... took 20.528 ms (total: 32.233 ms)
+[2026.10.24-22.44.08:623][  0]LogLiveCoding: Display: LiveCodingConsole Arguments: REAL33DEditor Win64 Development
+LogLiveCodingServer: Display: Loading module C:\Users\dell\Desktop\fusion32\unreal\REAL33D\Binaries\Win64\UnrealEditor-REAL33D.dll (5.063 MB)
+[2026.10.24-22.44.08:655][  1]LogSlate: Display: Synchronously lazy loading font file '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' with subface index 0 in Game thread.
+[2026.10.24-22.44.08:655][  1]LogSlate: Display: Took 0.000160 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' (155K) on Game thread.
+[2026.10.24-22.44.08:655][  1]LogSlate: Display: Freetype font face in memory successfully created with synchronously loaded raw font file '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' subface 0 in Game thread.
+[2026.10.24-22.44.08:656][  1]LogSlate: Display: Font face '../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf' subface index 0 successfully added to font face map in Game thread.
+[2026.10.24-22.44.08:656][  1]LogSlate: Display: Synchronously lazy loading font file '../../../Engine/Content/Slate/Fonts/Roboto-Bold.ttf' with subface index 0 in Game thread.
+[2026.10.24-22.44.08:656][  1]LogSlate: Display: Took 0.000181 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-Bold.ttf' (160K) on Game thread.
+[2026.10.24-22.44.08:656][  1]LogSlate: Display: Freetype font face in memory successfully created with synchronously loaded raw font file '../../../Engine/Content/Slate/Fonts/Roboto-Bold.ttf' subface 0 in Game thread.
+[2026.10.24-22.44.08:657][  1]LogSlate: Display: Font face '../../../Engine/Content/Slate/Fonts/Roboto-Bold.ttf' subface index 0 successfully added to font face map in Game thread.
+LogLiveCodingServer: Display: Loaded 1 module(s), 690 lazy load module(s), and 277 reserved page ranges (0.000s, 35 translation units)
+LogLiveCodingServer: Display: Live coding ready - Save changes and press CTRL+ALT+F11 to re-compile code
+[2026.10.24-22.44.09:080][ 50]LogStreaming: Display: FlushAsyncLoading(193): 1 QueuedPackages, 0 AsyncPackages
+[2026.10.24-22.44.09:704][ 50]LogOutputDevice: Error: === Handled ensure: ===
+[2026.10.24-22.44.09:704][ 50]LogOutputDevice: Error: 
+[2026.10.24-22.44.09:704][ 50]LogOutputDevice: Error: Ensure condition failed: IsInGameThread()  [File:D:\build\++UE5\Sync\Engine\Source\Runtime\Core\Private\Misc\AppTime.cpp] [Line: 38] 
+[2026.10.24-22.44.09:705][ 50]LogOutputDevice: Error: Attempted to retrieve FAppTime on a thread where there is no inherited time context. Copies of the game thread's FAppTime are passed automatically through the TaskGraph via FInheritedContextBase / FInheritedContextScope, to ensure the values are pipelined correctly to tasks that may be running concurrently. The current thread or task has not been directly or indirectly spawned from the game thread, so it did not receive a time context.
+[2026.10.24-22.44.09:705][ 50]LogOutputDevice: Error: Stack: 
+[2026.10.24-22.44.09:705][ 50]LogOutputDevice: Error: [Callstack] 0x00007fffbc7a0289 UnrealEditor-Core.dll!UnknownFunction []
+[2026.10.24-22.44.09:705][ 50]LogOutputDevice: Error: [Callstack] 0x00007fffbbce9889 UnrealEditor-Core.dll!UnknownFunction []
+[2026.10.24-22.44.09:705][ 50]LogOutputDevice: Error: [Callstack] 0x00007fff804ef6d3 UnrealEditor-Renderer.dll!UnknownFunction []
+[2026.10.24-22.44.09:706][ 50]LogOutputDevice: Error: [Callstack] 0x00007fff804e7220 UnrealEditor-Renderer.dll!UnknownFunction []
+[2026.10.24-22.44.09:706][ 50]LogOutputDevice: Error: [Callstack] 0x00007fff804e99af UnrealEditor-Renderer.dll!UnknownFunction []
+[2026.10.24-22.44.09:706][ 50]LogOutputDevice: Error: [Callstack] 0x00007fff8bea1f01 UnrealEditor-Engine.dll!UnknownFunction []
+[2026.10.24-22.44.09:706][ 50]LogOutputDevice: Error: [Callstack] 0x00007fff8ab8543a UnrealEditor-Engine.dll!UnknownFunction []
+[2026.10.24-22.44.09:706][ 50]LogOutputDevice: Error: [Callstack] 0x00007ff84bac9908 UnrealEditor-RenderCore.dll!UnknownFunction []
+[2026.10.24-22.44.09:707][ 50]LogOutputDevice: Error: [Callstack] 0x00007ff84ba9c5ac UnrealEditor-RenderCore.dll!UnknownFunction []
+[2026.10.24-22.44.09:707][ 50]LogOutputDevice: Error: [Callstack] 0x00007ff84bab9b91 UnrealEditor-RenderCore.dll!UnknownFunction []
+[2026.10.24-22.44.09:707][ 50]LogOutputDevice: Error: [Callstack] 0x00007ff84baca1b3 UnrealEditor-RenderCore.dll!UnknownFunction []
+[2026.10.24-22.44.09:707][ 50]LogOutputDevice: Error: [Callstack] 0x00007fffbb955e1e UnrealEditor-Core.dll!UnknownFunction []
+[2026.10.24-22.44.09:708][ 50]LogOutputDevice: Error: [Callstack] 0x00007fffbb948bfe UnrealEditor-Core.dll!UnknownFunction []
+[2026.10.24-22.44.09:708][ 50]LogOutputDevice: Error: [Callstack] 0x00007fffbb948efe UnrealEditor-Core.dll!UnknownFunction []
+[2026.10.24-22.44.09:709][ 50]LogOutputDevice: Error: [Callstack] 0x00007ff84baea1a9 UnrealEditor-RenderCore.dll!UnknownFunction []
+[2026.10.24-22.44.09:709][ 50]LogOutputDevice: Error: [Callstack] 0x00007ff84baea8e4 UnrealEditor-RenderCore.dll!UnknownFunction []
+[2026.10.24-22.44.09:709][ 50]LogOutputDevice: Error: [Callstack] 0x00007fffbc0805b8 UnrealEditor-Core.dll!UnknownFunction []
+[2026.10.24-22.44.09:709][ 50]LogOutputDevice: Error: [Callstack] 0x00007fffbc079ee5 UnrealEditor-Core.dll!UnknownFunction []
+[2026.10.24-22.44.09:709][ 50]LogOutputDevice: Error: [Callstack] 0x00007ff8a000259d KERNEL32.DLL!UnknownFunction []
+[2026.10.24-22.44.09:710][ 50]LogOutputDevice: Error: [Callstack] 0x00007ff8a1d6af78 ntdll.dll!UnknownFunction []
+[2026.10.24-22.44.09:710][ 50]LogOutputDevice: Error: 
+[2026.10.24-22.44.11:746][ 50]LogStaticMesh: Display: Waiting for static meshes to be ready 0/1 (/Game/Experimental/V08/ID_04560/SM_V08_04560) ...
+[2026.10.24-22.44.12:316][ 50]LogStaticMesh: Display: Waiting for static meshes to be ready 0/1 (/Game/Experimental/V08/ID_01158/SM_V08_01158) ...
+[2026.10.24-22.44.12:365][ 50]LogStaticMesh: Display: Waiting for static meshes to be ready 0/1 (/Game/Experimental/V08/ID_01161/SM_V08_01161) ...
+[2026.10.24-22.44.12:776][ 50]LogStaticMesh: Display: Waiting for static meshes to be ready 0/1 (/Game/Experimental/V08/ID_01735/SM_V08_01735) ...
+[2026.10.24-22.44.12:825][ 50]LogStaticMesh: Display: Waiting for static meshes to be ready 0/1 (/Game/Experimental/V08/ID_01734/SM_V08_01734) ...
+[2026.10.24-22.44.13:505][ 50]LogStaticMesh: Display: Waiting for static meshes to be ready 0/1 (/Game/Experimental/V08/ID_01798/SM_V08_01798) ...
+[2026.10.24-22.44.13:988][ 50]LogStaticMesh: Display: Waiting for static meshes to be ready 0/1 (/Game/Experimental/V08/ID_03614/SM_V08_03614) ...
+[2026.10.24-22.44.14:055][ 50]LogStaticMesh: Display: Waiting for static meshes to be ready 0/1 (/Game/Experimental/V08/ID_03621/SM_V08_03621) ...
+[2026.10.24-22.44.14:138][ 50]LogStaticMesh: Display: Waiting for static meshes to be ready 0/1 (/Game/Experimental/V08/ID_03615/SM_V08_03615) ...
+[2026.10.24-22.44.14:200][ 50]LogStaticMesh: Display: Waiting for static meshes to be ready 0/1 (/Game/Experimental/V08/ID_03355/SM_V08_03355) ...
+[2026.10.24-22.44.14:271][ 50]LogStaticMesh: Display: Waiting for static meshes to be ready 0/1 (/Game/Experimental/V08/ID_01795/SM_V08_01795) ...
+[2026.10.24-22.44.15:085][ 50]LogStaticMesh: Display: Waiting for static meshes to be ready 0/1 (/Game/Experimental/V08/ID_03622/SM_V08_03622) ...
+[2026.10.24-22.44.15:285][ 50]LogStaticMesh: Display: Waiting for static meshes to be ready 0/1 (/Game/Experimental/V08/ID_03694/SM_V08_03694) ...
+[2026.10.24-22.44.15:961][ 50]LogStaticMesh: Display: Waiting for static meshes to be ready 0/1 (/Game/Experimental/V08/ID_03625/SM_V08_03625) ...
+LogLiveCodingServer: Display: Registered process C:\Program Files\Epic Games\UE_5.8\Engine\Binaries\Win64\UnrealEditor.exe (PID: 30628)
+LogLiveCodingServer: Display: Registering module C:\Users\dell\Desktop\fusion32\unreal\REAL33D\Binaries\Win64\UnrealEditor-REAL33D.dll (PID: 30628)
+[2026.10.24-22.44.33:359][587]LogReal33D: Warning: session ended: Fusion32 closed this connection; not reconnecting automatically

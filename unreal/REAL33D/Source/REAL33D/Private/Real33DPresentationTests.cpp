@@ -4,8 +4,10 @@
 #include "Real33DChatPanel.h"
 #include "Real33DChatViews.h"
 #include "Real33DEditorWindow.h"
+#include "Real33DLoginScreen.h"
 #include "Real33DOutfitPanel.h"
 #include "Real33DPanelRegistry.h"
+#include "Real33DSessionFlow.h"
 #include "Real33DSkillsPanel.h"
 #include "Real33DTradePanel.h"
 #if WITH_DEV_AUTOMATION_TESTS
@@ -936,6 +938,143 @@ bool FReal33DStackMoveTest::RunTest(const FString& Parameters)
 		Real33D::PanelIds::MoveAmount != Real33D::PanelIds::Outfit
 			&& Real33D::PanelIds::MoveAmount != Real33D::PanelIds::Trade
 			&& Real33D::PanelIds::MoveAmount != Real33D::PanelIds::TextEditor);
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FReal33DLoginScreenTest,
+	"REAL33D.Presentation.LoginScreen",
+	EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FReal33DLoginScreenTest::RunTest(const FString& Parameters)
+{
+	(void)Parameters;
+
+	// Built with no bridge, which is the point: the screen is driven through
+	// its presentation entry points here, so what it does with a character
+	// list can be proved without a server, a login or a human.
+	const TSharedRef<SReal33DLoginScreen> Screen = SNew(SReal33DLoginScreen);
+
+	// Launch. The account form, and only the account form.
+	TestTrue(TEXT("the client comes up on the account form"),
+		Screen->IsAccountFormShowing());
+	TestFalse(TEXT("and not on a character list it has not been given"),
+		Screen->IsCharacterListShowing());
+	TestEqual(TEXT("with no characters listed"), Screen->GetListedCharacters(), 0);
+	TestEqual(TEXT("and none selected"), Screen->GetSelectedCharacter(), INDEX_NONE);
+
+	// A refused login. The SERVER'S text, shown verbatim: this client never
+	// decides that a password was wrong and never paraphrases a refusal.
+	Screen->ShowAccountForm(FText::FromString(TEXT("Account name or password is not correct.")));
+	TestTrue(TEXT("a refusal leaves the player on the account form"),
+		Screen->IsAccountFormShowing());
+	TestEqual(TEXT("showing the server's own words"), Screen->GetMessage().ToString(),
+		FString(TEXT("Account name or password is not correct.")));
+
+	// The list the login service returned.
+	TArray<FReal33DCharacterEntry> Offered;
+	Offered.Add(FReal33DCharacterEntry{ TEXT("QA A"), TEXT("Fusion32"), 0x0100007F, 7172 });
+	Offered.Add(FReal33DCharacterEntry{ TEXT("QA B"), TEXT("Fusion32"), 0x0100007F, 7172 });
+	Screen->ShowCharacterList(Offered, TEXT("Welcome."), 0, FText::GetEmpty());
+
+	TestTrue(TEXT("the list replaces the account form"),
+		Screen->IsCharacterListShowing());
+	TestFalse(TEXT("and the two are never both up"), Screen->IsAccountFormShowing());
+	TestEqual(TEXT("one row per character the server named, and no more"),
+		Screen->GetListedCharacters(), 2);
+	TestEqual(TEXT("the first is picked, so a one-character account needs no click"),
+		Screen->GetSelectedCharacter(), 0);
+
+	// Picking. Out of range is refused rather than clamped: clamping would
+	// enter the game as a character the player never chose.
+	TestTrue(TEXT("a listed character can be picked"), Screen->SelectCharacter(1));
+	TestEqual(TEXT("and becomes the selection"), Screen->GetSelectedCharacter(), 1);
+	TestFalse(TEXT("an index past the list is refused"), Screen->SelectCharacter(2));
+	TestFalse(TEXT("and a negative one too"), Screen->SelectCharacter(-1));
+	TestEqual(TEXT("neither disturbs the selection"), Screen->GetSelectedCharacter(), 1);
+
+	// Back to the account form. The list is dropped with it: a list from an
+	// account that is no longer entered would be a stale offer.
+	Screen->ShowAccountForm(FText::GetEmpty());
+	TestTrue(TEXT("Back returns to the account form"), Screen->IsAccountFormShowing());
+	TestFalse(TEXT("and the list goes with it"), Screen->IsCharacterListShowing());
+	TestEqual(TEXT("no rows survive"), Screen->GetListedCharacters(), 0);
+	TestEqual(TEXT("and no selection does"), Screen->GetSelectedCharacter(), INDEX_NONE);
+
+	// An account with characters the server did not name is drawn empty
+	// rather than filled in from anywhere else.
+	Screen->ShowCharacterList(TArray<FReal33DCharacterEntry>(), FString(), 0,
+		FText::GetEmpty());
+	TestEqual(TEXT("an empty list draws no rows"), Screen->GetListedCharacters(), 0);
+	TestEqual(TEXT("and offers nothing to enter"), Screen->GetSelectedCharacter(),
+		INDEX_NONE);
+
+	// The row text is the server's two fields and nothing invented.
+	const FText Row = SReal33DLoginScreen::CharacterRowText(Offered[0]);
+	TestTrue(TEXT("a row names the character"), Row.ToString().Contains(TEXT("QA A")));
+	TestTrue(TEXT("and the world the server named for it"),
+		Row.ToString().Contains(TEXT("Fusion32")));
+
+	// Registered like every other surface, under ids distinct from the HUD's.
+	FReal33DPanelRegistry Registry;
+	const TSharedRef<SWidget> Surface = SNew(SBox);
+	TestTrue(TEXT("the account form has its own id"),
+		Registry.Register(Real33D::PanelIds::Account, Surface));
+	TestTrue(TEXT("and the character list another"),
+		Registry.Register(Real33D::PanelIds::CharacterSelect, SNew(SBox)));
+	TestTrue(TEXT("neither collides with a HUD panel"),
+		Real33D::PanelIds::Account != Real33D::PanelIds::CharacterSelect
+			&& Real33D::PanelIds::Account != Real33D::PanelIds::Inventory
+			&& Real33D::PanelIds::CharacterSelect != Real33D::PanelIds::Battle);
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FReal33DSessionPhaseTest,
+	"REAL33D.Presentation.SessionPhase",
+	EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FReal33DSessionPhaseTest::RunTest(const FString& Parameters)
+{
+	(void)Parameters;
+	using namespace Real33D;
+
+	// The rule the HUD and the login screen are both driven from, checked
+	// here as the UI reads it. The exhaustive version, including the
+	// reconnect cases, is tests/real33d_session_flow_tests.cpp, which runs
+	// without an engine at all.
+	TestTrue(TEXT("the account form is up before anything is proven"),
+		ShowsLoginSurface(SessionPhase::Offline));
+	TestTrue(TEXT("and while the login service is being asked"),
+		ShowsLoginSurface(SessionPhase::LoggingIn));
+	TestTrue(TEXT("and while a character is being chosen"),
+		ShowsLoginSurface(SessionPhase::CharacterSelect));
+	TestFalse(TEXT("the HUD takes over the moment a character is committed to"),
+		ShowsLoginSurface(SessionPhase::EnteringGame));
+	TestFalse(TEXT("and stays while playing"), ShowsLoginSurface(SessionPhase::InGame));
+	TestFalse(TEXT("and while the client is reconnecting by itself"),
+		ShowsLoginSurface(SessionPhase::Reconnecting));
+
+	// One door into the game. This is the guard that keeps one session to one
+	// INIT_GAME; the screen's Enter Game button is the second.
+	TestTrue(TEXT("a character may be entered from the list"),
+		MayEnterGame(SessionPhase::CharacterSelect));
+	TestFalse(TEXT("and from nowhere else -- not over a live session"),
+		MayEnterGame(SessionPhase::InGame));
+	TestFalse(TEXT("not over one that is still coming up"),
+		MayEnterGame(SessionPhase::EnteringGame));
+	TestFalse(TEXT("and not over one that is coming back"),
+		MayEnterGame(SessionPhase::Reconnecting));
+
+	// A logout and a death are the same ending, and both return the player to
+	// the list without reconnecting.
+	const SessionEndOutcome Logout = ResolveSessionEnd(true, 0, true);
+	TestFalse(TEXT("a deliberate close is never retried"), Logout.bRetry);
+	TestTrue(TEXT("and lands on the character list"),
+		Logout.Phase == SessionPhase::CharacterSelect);
+
+	// A lost link still retries, exactly as before, and does not put the list
+	// up while it is doing so.
+	const SessionEndOutcome Dropped = ResolveSessionEnd(false, 0, true);
+	TestTrue(TEXT("a lost link is still retried"), Dropped.bRetry);
+	TestTrue(TEXT("without asking the player anything"),
+		Dropped.Phase == SessionPhase::Reconnecting);
 	return true;
 }
 #endif

@@ -42,23 +42,29 @@ TSharedRef<SWidget> SReal33DControlPanel::MakeButton(
 		];
 	}
 
+	TSharedRef<SButton> Pressable = SNew(SButton)
+		.ButtonStyle(FCoreStyle::Get(), "NoBorder")
+		.ContentPadding(FMargin(0.0f))
+		.IsEnabled(bWired)
+		.OnClicked(bLogout
+			? FOnClicked::CreateSP(this, &SReal33DControlPanel::HandleLogout)
+			: (Panel.IsNone()
+				? FOnClicked()
+				: FOnClicked::CreateSP(this, &SReal33DControlPanel::HandleToggle, Panel)))
+		[
+			Face
+		];
+	if (bLogout)
+	{
+		ExitButton = Pressable;
+	}
+
 	return SNew(SBox)
 		.WidthOverride(Button)
 		.HeightOverride(Button)
 		.ToolTipText(Tooltip)
 		[
-			SNew(SButton)
-			.ButtonStyle(FCoreStyle::Get(), "NoBorder")
-			.ContentPadding(FMargin(0.0f))
-			.IsEnabled(bWired)
-			.OnClicked(bLogout
-				? FOnClicked::CreateSP(this, &SReal33DControlPanel::HandleLogout)
-				: (Panel.IsNone()
-					? FOnClicked()
-					: FOnClicked::CreateSP(this, &SReal33DControlPanel::HandleToggle, Panel)))
-			[
-				Face
-			]
+			Pressable
 		];
 }
 
@@ -121,11 +127,18 @@ FReply SReal33DControlPanel::HandleLogout()
 		UE_LOG(LogReal33D, Log, TEXT("Exit pressed while not connected; nothing to do"));
 		return FReply::Handled();
 	}
-	// Disconnect already sends BuildLogoutCommand before closing the socket, so
-	// this is a real logout and not a dropped connection. Fusion32 refuses one
-	// during a fight -- that is the LogoutBlocked condition -- and this client
-	// does not second-guess it: the request goes, the server decides.
+	// Logout stops the worker, which sends BuildLogoutCommand before closing
+	// the socket, so this is a real logout and not a dropped connection.
+	// Fusion32 refuses one during a fight -- that is the LogoutBlocked
+	// condition -- and this client does not second-guess it: the request goes,
+	// the server decides.
+	//
+	// It used to call Disconnect, which left the application running with an
+	// empty scene and no way back in. It now returns the player to the
+	// character list, which is the only difference: the command on the wire,
+	// the orderly close and the reconnect policy's reading of it are all
+	// exactly what they were.
 	UE_LOG(LogReal33D, Log, TEXT("Exit pressed; logging out"));
-	Live->Disconnect();
+	Live->Logout();
 	return FReply::Handled();
 }

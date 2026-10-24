@@ -1,0 +1,3 @@
+﻿querymanager ALIVE pid=599 exe=VERIFIED cwd=VERIFIED start=VERIFIED port=7173
+game ALIVE pid=616 exe=VERIFIED cwd=VERIFIED start=VERIFIED port=7172
+login ALIVE pid=835 exe=VERIFIED cwd=VERIFIED start=VERIFIED port=7171

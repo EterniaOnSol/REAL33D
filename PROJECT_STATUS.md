@@ -1,3 +1,61 @@
+## 2026-10-24 UNREAL-LOGIN-CHARACTER-SELECT-UI-001 implementation
+
+**PASS** for the observed scope. Branch
+`milestone/unreal-login-character-select-ui-001` from `origin/main` 1ac7245.
+No main merge, no push, **no wire and no server change**.
+
+The client can be launched, logged into, played, logged out of and logged back
+into **without restarting the application**. It could not before: the world
+actor connected in `BeginPlay`, the account came from a file, the first
+character was taken without asking, and a finished session left the window over
+an empty scene with no way back in.
+
+`Real33DSessionFlow.h` holds a six-phase model and `ResolveSessionEnd`, free of
+Unreal types and **composed with the unchanged `Real33DReconnectPolicy.h`**. A
+deliberate close is still never retried; a lost link is still retried on the
+same budget. What is added is the half that did not exist: a client that will
+not come back by itself now offers the player the character list.
+`MayEnterGame` admits exactly one phase, which is the duplicate-INIT_GAME
+guard. The worker split into `AskForCharacterList` and `EnterGame` over the same
+ClientCore calls. `SReal33DLoginScreen` carries the account form and the list,
+one visible at a time through `FReal33DPanelRegistry`; the HUD is collapsed for
+exactly the phases it shows, from one rule.
+
+Live QA drove the real UI — `FReal33DLoginQA` types into the real boxes and
+presses the real buttons, with no second path to the bridge. PASS, 5 of 5
+sessions: wrong password refused in Fusion32's own words; `1 offered [Test
+Player B@Fusion Test:7172]`; `init_games` exactly 1 on every entry; Exit
+returned to the list in 0.07–0.10 s with `tile_actors 0` and `creature_actors
+0` every time; 555/568 tiles and actors rebuilt on every re-entry; a step
+accepted in every session; unsupported opcodes, anomalies, residual bytes and
+reconnect attempts all 0. The QA found and fixed two real defects in this
+milestone's own code: a second login after a refusal did nothing (a finished
+worker was never reaped), and a logout reaped the worker before the evidence
+snapshot, so a finished session documented itself as zero of everything.
+
+Fusion32 refuses a too-fast re-entry and says so in its own log
+(`Spieler ... loggt gerade aus - Einloggen gescheitert`); `receiving.cc`
+disconnects immediately after `SendResult(LOGINERROR)`, so the message does not
+survive the close and the refusal arrives as a bare orderly close. The client's
+response is correct: no reconnect, world torn down, back to the list.
+
+Death reaches the UI by path identity — a death is an orderly close, asserted
+against the logout outcome in the flow tests and certified under
+UNREAL-PLAYER-DEATH-RESPAWN-001. A live server-initiated orderly close was
+observed by displacing a client: in-game → character-select, ownership
+released, 0 retries held for 20 s past the 5 s delay, scene emptied.
+
+ClientCore 14/14 (no new suite), native 11/11, Unreal automation 14/14,
+REAL33DEditor built, MSVC archive built, strict harness 11 PASS / 0 FAIL /
+0 SKIP over 125 logs, secret_check 6/6, credential scan 0 occurrences.
+
+UNVERIFIED: a literal death this run; a switch between two different characters
+(this account has one); an empty character list and a multi-world list; the
+game service's `SV_CMD_LOGIN_ERROR` and waiting-list paths; a lost-link
+reconnect (no link was broken, so 0 attempts is the correct observation);
+premium days other than 0. See
+[evidence](evidence/clientcore/UNREAL-LOGIN-CHARACTER-SELECT-UI-001.md).
+
 ## 2026-10-24 independent UNREAL-PLAYER-DEATH-RESPAWN-001 certification
 
 **CERTIFIED** for one operator-assisted, independently observed QA death and

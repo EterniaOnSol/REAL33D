@@ -17,6 +17,8 @@
 #include "Real33DCreatureActor.h"
 #include "Real33DAssetRegistry.h"
 #include "Real33DHUD.h"
+#include "Real33DLoginQA.h"
+#include "Real33DLoginScreen.h"
 #include "Real33DTileActor.h"
 #include "Real33DWalkDirection.h"
 #include "Real33DWorldActor.h"
@@ -73,6 +75,28 @@ void AReal33DPlayerController::BeginPlay()
 
 	GetWorld()->GetGameViewport()->AddViewportWidgetContent(
 		HudRoot.ToSharedRef(), /*ZOrder=*/10);
+
+	// The account form and the character list, above the HUD because they
+	// replace it rather than sit beside it. Which of the two is on screen --
+	// and whether either is -- follows the bridge's session phase, read once
+	// a frame in Tick; the two are never both up, because one rule answers
+	// both (`Real33D::ShowsLoginSurface`).
+	//
+	// Added even for an auto-login run. It costs one collapsed widget, and it
+	// is what lets a harness run log out and come back without the client
+	// having been launched differently.
+	LoginRoot = SNew(SReal33DLoginScreen).Bridge(Bridge);
+	GetWorld()->GetGameViewport()->AddViewportWidgetContent(
+		LoginRoot.ToSharedRef(), /*ZOrder=*/20);
+
+	// Opt-in, and off unless asked for. It presses the controls built above
+	// rather than calling the bridge behind them; see Real33DLoginQA.h.
+	if (FReal33DLoginQA::Requested())
+	{
+		LoginQA = MakeUnique<FReal33DLoginQA>();
+		LoginQA->Start(UReal33DBridge::ConfigFromCommandLine());
+	}
+
 	FString CatalogPath;
 	bInspectorEnabled = FParse::Value(FCommandLine::Get(),
 		TEXT("-real33d-experimental-catalog="), CatalogPath)
@@ -149,6 +173,12 @@ void AReal33DPlayerController::EndPlay(const EEndPlayReason::Type Reason)
 		GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(
 			HudRoot.ToSharedRef());
 	}
+	if (LoginRoot.IsValid() && GetWorld() != nullptr
+		&& GetWorld()->GetGameViewport() != nullptr)
+	{
+		GetWorld()->GetGameViewport()->RemoveViewportWidgetContent(
+			LoginRoot.ToSharedRef());
+	}
 	if (InspectorRoot.IsValid() && GetWorld() != nullptr
 		&& GetWorld()->GetGameViewport() != nullptr)
 	{
@@ -157,6 +187,7 @@ void AReal33DPlayerController::EndPlay(const EEndPlayReason::Type Reason)
 	InspectorRoot.Reset();
 	InspectorLabel.Reset();
 	InspectorNote.Reset();
+	LoginRoot.Reset();
 	HudRoot.Reset();
 	LastVitalsText.Empty();
 	ChatPanel.Reset();
@@ -437,6 +468,53 @@ void AReal33DPlayerController::Tick(float DeltaSeconds)
 	Super::Tick(DeltaSeconds);
 	CurrentMouseCursor = HudRoot.IsValid() && HudRoot->IsTargeting()
 		? EMouseCursor::Crosshairs : EMouseCursor::Default;
+
+	// The login surface and the in-game HUD are the same decision, taken once
+	// from one rule, so the account form cannot be typed into over a live
+	// game and a dead session cannot leave the HUD standing with nothing
+	// behind it. The screen collapses itself; the HUD is collapsed here,
+	// because the HUD does not know the session exists.
+	if (LoginRoot.IsValid())
+	{
+		LoginRoot->Refresh();
+	}
+	if (LoginQA.IsValid() && LoginQA->IsRunning() && LoginRoot.IsValid())
+	{
+		FReal33DLoginQA::FContext Context;
+		UGameInstance* QaInstance = GetGameInstance();
+		Context.Bridge = QaInstance != nullptr
+			? QaInstance->GetSubsystem<UReal33DBridge>() : nullptr;
+		Context.Screen = LoginRoot.Get();
+		Context.Hud = HudRoot.Get();
+		Context.World = GetWorldActor();
+		Context.Now = FPlatformTime::Seconds();
+		LoginQA->Tick(Context);
+	}
+	{
+		UGameInstance* Instance = GetGameInstance();
+		const UReal33DBridge* Live = Instance != nullptr
+			? Instance->GetSubsystem<UReal33DBridge>() : nullptr;
+		const bool bLoginSurface = Live != nullptr
+			&& Real33D::ShowsLoginSurface(Live->GetSessionPhase());
+		if (HudRoot.IsValid())
+		{
+			const EVisibility Wanted = bLoginSurface
+				? EVisibility::Collapsed : EVisibility::SelfHitTestInvisible;
+			if (HudRoot->GetVisibility() != Wanted)
+			{
+				HudRoot->SetVisibility(Wanted);
+				// Typing is a gate on movement, and a HUD that vanished while
+				// the chat box had focus would leave it latched on with no
+				// box to turn it off.
+				if (bLoginSurface)
+				{
+					bTypingActive = false;
+					for (bool& bHeld : bHeldMovement) { bHeld = false; }
+				}
+			}
+		}
+	}
+
 	if (HudRoot.IsValid())
 	{
 		const AReal33DWorld* World = GetWorldActor();

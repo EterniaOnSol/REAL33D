@@ -23,7 +23,6 @@
 #include "Real33DCreatureActor.h"
 #include "Real33DTileActor.h"
 #include "Real33DStaticSectorActor.h"
-#include "Real33DReconnectPolicy.h"
 #include "Real33DWalkDirection.h"
 #if WITH_EDITOR
 #include "AssetCompilingManager.h"
@@ -133,17 +132,31 @@ void AReal33DWorld::BeginPlay()
 		return;
 	}
 
-	Config = UReal33DBridge::ConfigFromCommandLine();
-	if (!Config.IsValid())
+	const FReal33DConnectionConfig Config = UReal33DBridge::ConfigFromCommandLine();
+	if (!Bridge->PrepareSession(Config))
 	{
 		UE_LOG(LogReal33D, Error,
 			TEXT("no runtime directory: pass -real33d-runtime=<dir> on the command line"));
 		return;
 	}
 
-	UE_LOG(LogReal33D, Log, TEXT("connecting to %s:%d as account %s"),
-		*Config.Host, Config.LoginPort, *Config.Account);
-	Bridge->Connect(Config);
+	// NOTHING IS CONNECTED HERE UNLESS THE RUN ASKED FOR IT. This used to
+	// connect unconditionally, with the account read out of a file and the
+	// first character taken without asking, which is why the client had no
+	// login screen and no way back to one. The session now starts where the
+	// player starts it, and the automation path says so explicitly.
+	if (Config.bAutoLogin)
+	{
+		UE_LOG(LogReal33D, Log, TEXT("auto-login to %s:%d as runtime account %s"),
+			*Config.Host, Config.LoginPort, *Config.Account);
+		Bridge->BeginAutoLogin();
+	}
+	else
+	{
+		UE_LOG(LogReal33D, Log,
+			TEXT("waiting at the account screen; host %s:%d"),
+			*Config.Host, Config.LoginPort);
+	}
 	FirstFrameTime = FPlatformTime::Seconds();
 
 	// Overridable so a measured value can replace the unproven default without
@@ -348,21 +361,27 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 	{
 	case EReal33DEventKind::Connected:
 		bConnected = true;
-		DisconnectedAt = 0.0;
-		// A connection that succeeded is the only thing that clears the
-		// deliberate-close latch: this client owns the character again, so a
-		// future LOST link is once more worth retrying.
-		bSessionEndedDeliberately = false;
 		UE_LOG(LogReal33D, Log, TEXT("connected: %s"), *Event.Detail);
+		break;
+
+	// The login service's two answers. Neither touches the scene: no game
+	// connection exists at either point, so there is nothing to build and
+	// nothing to tear down. They are logged here because this is where the
+	// run's narrative is written, and a run that never got past the login
+	// service must say so in the same place a run that died does.
+	case EReal33DEventKind::CharacterList:
+		UE_LOG(LogReal33D, Log, TEXT("character list received: %s"), *Event.Detail);
+		break;
+
+	case EReal33DEventKind::LoginFailed:
+		// The server's own words, or this client's reason when the server
+		// never got to say one. Never a credential: see FReal33DCredentials.
+		UE_LOG(LogReal33D, Warning, TEXT("login refused: %s"), *Event.Detail);
 		break;
 
 	case EReal33DEventKind::Disconnected:
 	case EReal33DEventKind::Failed:
 		bConnected = false;
-		// Remembered here because the retry runs in Tick, long after the event
-		// has been drained. A deliberate close is latched and never cleared by
-		// a later drop: only a fresh successful connection clears it.
-		bSessionEndedDeliberately = Event.bOrderlyClose;
 		UE_LOG(LogReal33D, Warning, TEXT("session ended: %s"), *Event.Detail);
 		if (Event.bOrderlyClose)
 		{
@@ -376,11 +395,11 @@ void AReal33DWorld::HandleEvent(const FReal33DEvent& Event)
 			? TEXT("Failed") : TEXT("Disconnected"));
 		// Every actor in the scene exists because WorldState said so. With no
 		// session there is no WorldState, so nothing may survive: this is what
-		// keeps a reconnect from finding ghosts of the previous one.
+		// keeps a reconnect -- and a relogin as another character -- from
+		// finding ghosts of the previous one.
 		ClearWorld();
 		Origin = FWorldOrigin();
 		WriteEvidence(TEXT("AfterCleanup"));
-		DisconnectedAt = FPlatformTime::Seconds();
 		break;
 
 	// The outgoing chain. None of these touch an Actor: the walk that matters
@@ -1100,33 +1119,19 @@ void AReal33DWorld::Tick(float DeltaSeconds)
 		}
 	}
 
-	// A session that was LOST is retried rather than left dead. The scene was
-	// already torn down when the drop arrived, so a retry starts from nothing
-	// and rebuilds from whatever WorldState the server sends next: there is no
-	// state carried across the gap that could survive as a ghost.
+	// The session advances itself. Starting a worker, stopping one and
+	// deciding whether a dropped link is worth retrying all moved into the
+	// bridge with the rest of the session lifecycle: the attempt count used to
+	// live here and the worker lived there, so neither could answer "is this
+	// session over". The POLICY is unchanged and still in
+	// Real33DReconnectPolicy.h -- a deliberate close is never retried, a lost
+	// link still is, with the same cap and the same delay.
 	//
-	// A session that was ENDED is not retried, and that distinction is the
-	// whole of this fix. Fusion32 hands a character to a second client by
-	// closing the first one's socket; retrying there made the displaced client
-	// log straight back in and take the character away again, which displaced
-	// the new owner, which retried in turn. Two clients produced six handovers
-	// and three reconnects each before the attempt cap stopped it, and the
-	// character belonged to whoever had retried most recently.
-	//
-	// This is not reconnect being disabled: a refused or unreachable connect
-	// and a transport error are still losses and are still retried. Only a
-	// close that the other end performed on purpose is left alone.
-	if (Bridge != nullptr && !bConnected && DisconnectedAt > 0.0
-		&& Real33D::ShouldReconnect(
-			Real33D::SessionEndFromOrderlyClose(bSessionEndedDeliberately),
-			ReconnectAttempts,
-			FPlatformTime::Seconds() - DisconnectedAt))
+	// Called after the drain, so a retry decided this frame sees the endings
+	// this frame delivered.
+	if (Bridge != nullptr)
 	{
-		++ReconnectAttempts;
-		DisconnectedAt = FPlatformTime::Seconds();
-		UE_LOG(LogReal33D, Log, TEXT("reconnecting, attempt %d"), ReconnectAttempts);
-		Bridge->Disconnect();
-		Bridge->Connect(Config);
+		Bridge->TickSession(FPlatformTime::Seconds());
 	}
 
 	if (APlayerController* Controller = UGameplayStatics::GetPlayerController(this, 0))
@@ -1346,6 +1351,14 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		TEXT("  \"reason\": \"%s\",\n")
 		TEXT("  \"seconds_in_session\": %.1f,\n")
 		TEXT("  \"connected_at_close\": %s,\n")
+		// The session, so a reader can tell a run that never logged in from a
+		// run that logged out, and can check "one session, one login" as a
+		// number rather than by reading the log. `init_games` is per game
+		// worker and resets on every entry, so a relogin reads as 1 and a
+		// handover reads as 2.
+		TEXT("  \"session\": { \"phase\": \"%hs\", \"init_games\": %d,")
+		TEXT(" \"characters_offered\": %d, \"selected_character\": %d,")
+		TEXT(" \"reconnect_attempts\": %d },\n")
 		TEXT("  \"local_creature_id\": %u,\n")
 		TEXT("  \"local_position\": { \"x\": %d, \"y\": %d, \"z\": %d },\n")
 		TEXT("  \"origin\": { \"set\": %s, \"x\": %d, \"y\": %d, \"z\": %d },\n")
@@ -1458,6 +1471,12 @@ void AReal33DWorld::WriteEvidence(const FString& Reason)
 		*FDateTime::UtcNow().ToIso8601(), *Reason,
 		FirstFrameTime > 0.0 ? FPlatformTime::Seconds() - FirstFrameTime : 0.0,
 		bConnected ? TEXT("true") : TEXT("false"),
+		Bridge != nullptr
+			? Real33D::SessionPhaseName(Bridge->GetSessionPhase()) : "no-bridge",
+		Stats.InitGames,
+		Bridge != nullptr ? Bridge->GetCharacters().Num() : 0,
+		Bridge != nullptr ? Bridge->GetSelectedCharacter() : INDEX_NONE,
+		Bridge != nullptr ? Bridge->GetReconnectAttempts() : 0,
 		LocalCreatureId,
 		Local != nullptr ? Local->GetLogicalPosition().X : 0,
 		Local != nullptr ? Local->GetLogicalPosition().Y : 0,
