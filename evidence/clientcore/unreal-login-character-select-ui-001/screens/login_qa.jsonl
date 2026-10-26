@@ -1,4 +1,4 @@
-{"at":"2026-10-24T22:49:17.831Z","event":"start","detail":"account 772002 at 127.0.0.1:7171, 0 return cycle(s)"}
+{"at":"2026-10-24T22:49:17.831Z","event":"start","detail":"account [REDACTED_ACCOUNT_B_ID] at 127.0.0.1:7171, 0 return cycle(s)"}
 {"at":"2026-10-24T22:49:19.147Z","event":"observe","detail":"phase offline at launch"}
 {"at":"2026-10-24T22:49:19.147Z","event":"step","detail":"cold-start-account-screen: 0.00s"}
 {"at":"2026-10-24T22:49:19.211Z","event":"wrong-password","detail":"refused with \"Accountnumber or password is not correct.\"; characters offered 0; still on the account form yes"}

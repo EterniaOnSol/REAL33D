@@ -2,7 +2,7 @@
 [2026-09-21 19:13:55.091] [info] OTClient - Redemption 4.x rev 0.000 (desenv) built on Sep 21 2026 for arch x64
 [2026-09-21 19:13:57.372] [info] [R33D] config: proto=772 os=2 rsa=custom envEffect=off
 [2026-09-21 19:13:57.394] [info] Startup done :]
-[2026-09-21 19:13:57.889] [info] [R33D] auto-login host=127.0.0.1 port=7171 acc=772001
+[2026-09-21 19:13:57.889] [info] [R33D] auto-login host=127.0.0.1 port=7171 acc=[REDACTED_ACCOUNT_A_ID]
 [2026-09-21 19:14:00.284] [info] [R33D-OP] op=10(0x0A) unread=2275
 [2026-09-21 19:14:00.288] [error] Unable to send extended opcode 1, extended opcodes are not enabled
 [2026-09-21 19:14:00.307] [error] Unable to send extended opcode 201, extended opcodes are not enabled

@@ -1553,7 +1553,7 @@ LogConfig: Set CVar [[fx.NiagaraAllowRuntimeScalabilityChanges:1]]
 [2026.10.24-22.49.17:813][  0]LogModuleManager: InternalLoadLibrary: 'Voice' ('C:/Program Files/Epic Games/UE_5.8/Engine/Binaries/Win64/UnrealEditor-Voice.dll')
 [2026.10.24-22.49.17:814][  0]LogReal33D: scene built from code
 [2026.10.24-22.49.17:819][  0]LogReal33D: trade window: own=0(0 items) partner=0(0 items) accept_sent=0
-[2026.10.24-22.49.17:831][  0]LogReal33D: login QA: start -- account 772002 at 127.0.0.1:7171, 0 return cycle(s)
+[2026.10.24-22.49.17:831][  0]LogReal33D: login QA: start -- account [REDACTED_ACCOUNT_B_ID] at 127.0.0.1:7171, 0 return cycle(s)
 [2026.10.24-22.49.17:832][  0]LogInit: Loading Cursor '../../../../../../Users/dell/Desktop/fusion32/unreal/REAL33D/Content/../Resources/UI/Cursors/targetcursor.png'.
 [2026.10.24-22.49.17:833][  0]LogReal33D: Use With target cursor: existing asset loaded
 [2026.10.24-22.49.17:833][  0]LogViewport: Display: Viewport MouseCaptureMode Changed, NoCapture -> CaptureDuringMouseDown
@@ -1620,14 +1620,14 @@ LogConfig: Set CVar [[fx.NiagaraAllowRuntimeScalabilityChanges:1]]
 [2026.10.24-22.49.19:152][  1]LogSlate: Display: Took 0.000238 seconds to synchronously load lazily loaded font '../../../Engine/Content/Slate/Fonts/Roboto-Bold.ttf' (160K) on Game thread.
 [2026.10.24-22.49.19:152][  1]LogSlate: Display: Freetype font face in memory successfully created with synchronously loaded raw font file '../../../Engine/Content/Slate/Fonts/Roboto-Bold.ttf' subface 0 in Game thread.
 [2026.10.24-22.49.19:152][  1]LogSlate: Display: Font face '../../../Engine/Content/Slate/Fonts/Roboto-Bold.ttf' subface index 0 successfully added to font face map in Game thread.
-[2026.10.24-22.49.19:161][  2]LogReal33D: account login: account 772002 at 127.0.0.1:7171
+[2026.10.24-22.49.19:161][  2]LogReal33D: account login: account [REDACTED_ACCOUNT_B_ID] at 127.0.0.1:7171
 [2026.10.24-22.49.19:163][  2]LogReal33D: session phase: offline -> logging-in
 [2026.10.24-22.49.19:207][  3]LogReal33D: session phase: logging-in -> offline
 [2026.10.24-22.49.19:207][  3]LogReal33D: Warning: login refused: Accountnumber or password is not correct.
 [2026.10.24-22.49.19:207][  3]LogReal33D: Warning: login refused: Accountnumber or password is not correct.
 [2026.10.24-22.49.19:211][  4]LogReal33D: login QA: wrong-password -- refused with "Accountnumber or password is not correct."; characters offered 0; still on the account form yes
 [2026.10.24-22.49.19:212][  4]LogReal33D: login QA: step -- wrong-password-refused: 0.05s
-[2026.10.24-22.49.19:235][  5]LogReal33D: account login: account 772002 at 127.0.0.1:7171
+[2026.10.24-22.49.19:235][  5]LogReal33D: account login: account [REDACTED_ACCOUNT_B_ID] at 127.0.0.1:7171
 [2026.10.24-22.49.19:239][  5]LogReal33D: session phase: offline -> logging-in
 [2026.10.24-22.49.19:266][  6]LogReal33D: session phase: logging-in -> character-select
 [2026.10.24-22.49.19:266][  6]LogReal33D: character list: 1 offered, premium days 0
