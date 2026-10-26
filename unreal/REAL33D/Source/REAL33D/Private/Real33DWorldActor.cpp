@@ -147,7 +147,13 @@ void AReal33DWorld::BeginPlay()
 	// player starts it, and the automation path says so explicitly.
 	if (Config.bAutoLogin)
 	{
-		UE_LOG(LogReal33D, Log, TEXT("auto-login to %s:%d as runtime account %s"),
+		// The KEY in the sanitized runtime account file -- the letter
+		// `-real33d-account=` selects, which the engine has already printed as
+		// part of the command line -- and never an account number. On this path
+		// no credential reaches the game thread at all; see
+		// `UReal33DBridge::BeginAutoLogin` and Real33DCredentialLog.h.
+		UE_LOG(LogReal33D, Log,
+			TEXT("auto-login to %s:%d from the runtime account file, key %s"),
 			*Config.Host, Config.LoginPort, *Config.Account);
 		Bridge->BeginAutoLogin();
 	}

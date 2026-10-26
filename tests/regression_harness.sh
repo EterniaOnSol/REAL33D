@@ -28,8 +28,10 @@ Usage: tests/regression_harness.sh [options]
   --wsl-distro NAME  WSL distro to borrow a toolchain from (default: Ubuntu-26.04)
   --no-wsl           never fall back to WSL
   --objects-srv PATH live objects.srv; enables the runtime MultiUse assertions
+  --runtime DIR      sanitized runtime root holding secrets/credentials.env;
+                     enables credential-value-scan over the logs in scope
   --logs PATH        extra file or directory to scan for protocol anomalies
-                     (repeatable)
+                     and credential values (repeatable)
   --logs-all         scan every log under evidence/ instead of only the ones
                      this branch added or changed
   --unreal           also build the Unreal module with UnrealBuildTool
@@ -46,6 +48,7 @@ OUT=""
 WSL_DISTRO="Ubuntu-26.04"
 USE_WSL=1
 OBJECTS_SRV=""
+RUNTIME_DIR=""
 EXTRA_LOGS=()
 LOGS_ALL=0
 WANT_UNREAL=0
@@ -60,6 +63,7 @@ while [ $# -gt 0 ]; do
     --wsl-distro)  WSL_DISTRO="$2"; shift 2 ;;
     --no-wsl)      USE_WSL=0; shift ;;
     --objects-srv) OBJECTS_SRV="$2"; shift 2 ;;
+    --runtime)     RUNTIME_DIR="$2"; shift 2 ;;
     --logs)        EXTRA_LOGS+=("$2"); shift 2 ;;
     --logs-all)    LOGS_ALL=1; shift ;;
     --unreal)      WANT_UNREAL=1; shift ;;
@@ -351,7 +355,7 @@ else
   # renamed fails this check instead of quietly dropping out of it. The cost is
   # that a new suite must be added here; that is the correction this milestone
   # made when real33d_outfit_selection_tests appeared.
-  for stem in real33d_mouse_input_tests real33d_minimap_view_tests real33d_item_use_policy_tests real33d_stackable_sprite_tests real33d_chat_views_tests real33d_outfit_selection_tests real33d_stack_move_tests real33d_walk_direction_tests real33d_handshake_frame_tests real33d_reconnect_policy_tests real33d_session_flow_tests; do
+  for stem in real33d_mouse_input_tests real33d_minimap_view_tests real33d_item_use_policy_tests real33d_stackable_sprite_tests real33d_chat_views_tests real33d_outfit_selection_tests real33d_stack_move_tests real33d_walk_direction_tests real33d_handshake_frame_tests real33d_reconnect_policy_tests real33d_session_flow_tests real33d_credential_log_tests; do
     if [ ! -f "$REPO/tests/$stem.cpp" ]; then
       printf '=== %s === SOURCE MISSING\n' "$stem" >>"$r33_log"
       r33_fail=$((r33_fail + 1)); continue
@@ -582,6 +586,54 @@ else
   record protocol-log-check FAIL "$anomalies of $scanned log(s) carry protocol anomalies" protocol-log-check
 fi
 
+# ------------------ check: this runtime's credential values in what was produced ---
+# The check the failed certification of UNREAL-LOGIN-CHARACTER-SELECT-UI-001
+# needed and did not have. `secret-check` above bans tracked secret FILES and
+# `KEY=VALUE` assignments; it does not and cannot notice a bare account number
+# inside a log line, which is exactly how the client's own `account login:
+# account %u` line put the runtime account id into REAL33D.log and from there
+# into packaged evidence, four times, with zero passwords.
+#
+# Needles are the runtime's own values and come from the gitignored
+# secrets/credentials.env, never from anything tracked, and the scanner prints
+# counts and key NAMES only -- so its output can itself be packaged. Same scope
+# as protocol-log-check, plus everything this run has written so far.
+#
+# SKIP, never PASS, without --runtime: a host with no prepared runtime has no
+# values to search for, and a scan with no needle is the vacuous-check failure
+# this harness exists to refuse.
+cv_log="$(logfile credential-value-scan)"
+cv_script="$REPO/tests/scan_credential_values.py"
+cv_targets=( ${scan_targets[@]+"${scan_targets[@]}"} )
+[ -d "$OUT/logs" ] && cv_targets+=("$OUT/logs")
+if [ ! -f "$cv_script" ]; then
+  record credential-value-scan SKIP "tests/scan_credential_values.py not present"
+elif [ -z "$(working_python)" ]; then
+  record credential-value-scan SKIP "no working python interpreter on PATH"
+elif [ -z "$RUNTIME_DIR" ]; then
+  record credential-value-scan SKIP \
+    "--runtime DIR not passed; there are no credential values to search for"
+elif [ "${#cv_targets[@]}" -eq 0 ]; then
+  record credential-value-scan SKIP "no logs in scope; pass --logs PATH or --logs-all to widen"
+else
+  "$(working_python)" "$cv_script" --runtime "$RUNTIME_DIR" \
+    "${cv_targets[@]}" >"$cv_log" 2>&1
+  rc=$?
+  cv_files="$(sed -n 's/.*"files_scanned": \([0-9]*\).*/\1/p' "$cv_log" | head -1)"
+  if [ "$rc" -eq 0 ]; then
+    record credential-value-scan PASS \
+      "0 account-id and 0 password occurrences in ${cv_files:-0} produced file(s) (patterns self-tested)" \
+      credential-value-scan
+  elif [ "$rc" -eq 1 ]; then
+    record credential-value-scan FAIL \
+      "a runtime credential value appears in produced logs or evidence" credential-value-scan
+  else
+    record credential-value-scan FAIL \
+      "the credential scan could not be made trustworthy (exit $rc); output left unverified" \
+      credential-value-scan
+  fi
+fi
+
 # ------------------------------------------- check: no secrets in the output ---
 # A report that leaks a key is worse than no report. The needle is assembled at
 # run time so this file never contains the literal it searches for, the same
@@ -656,11 +708,12 @@ overall="PASS"
   printf -- '- `provenance` — branch, HEAD, origin/main, merge base, ahead/behind, dirty paths and the full worktree list, captured before anything else runs.\n'
   printf -- '- `branch-isolation` — refuses to certify a run sitting on `main`.\n'
   printf -- '- `clientcore-tests` — the Protocol772Core CTest suites: transport, crypto, login, gamelogin, initial_world, movement, player_state, worldview, minimap.\n'
-  printf -- '- `real33d-native-tests` — the header-only 3D unit tests under `tests/real33d_*.cpp`: mouse gestures, minimap view, item-use/MultiUse classification, stackable sprites, chat views, outfit selection, stack-move controls.\n'
+  printf -- '- `real33d-native-tests` — the header-only 3D unit tests under `tests/real33d_*.cpp`: mouse gestures, minimap view, item-use/MultiUse classification, stackable sprites, chat views, outfit selection, stack-move controls, session flow, and the credential-log rule that no string this client produces about an account carries a decimal digit.\n'
   printf -- '- `secret-check` — `tests/secret_check.sh` over the tracked tree and the whole reachable history.\n'
   printf -- '- `build-sanity-msvc` — `tests/build_clientcore_windows.cmd`: the C++17 suites plus the C++20 archive the Unreal module links.\n'
   printf -- '- `unreal-module-build` — UnrealBuildTool on REAL33DEditor. Opt-in with `--unreal`.\n'
   printf -- '- `protocol-log-check` — `unsupported_opcodes`, `protocol_anomalies` and `residual_bytes` above zero, plus the bridge diagnostics that say a command was left unwalked.\n'
+  printf -- '- `credential-value-scan` — `tests/scan_credential_values.py`: this runtime'"'"'s own account ids and passwords, searched for literally in the logs and evidence in scope. Needs `--runtime DIR`; needles come from the gitignored secrets file and only counts and key names are printed.\n'
   printf -- '- `output-secret-scan` — the harness re-reads everything it just wrote and fails rather than leave key material or a credential assignment on disk.\n\n'
 
   printf '## Scope and limits\n\n'

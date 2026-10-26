@@ -130,10 +130,22 @@ void FReal33DLoginQA::Start(const FReal33DConnectionConfig& InConfig)
 	bStepEntered = false;
 	bRunning = true;
 
-	// The account number is recorded; the password is not, here or anywhere.
+	// NEITHER HALF OF THE CREDENTIAL IS RECORDED. This line used to carry the
+	// raw account number, and because `Record` writes to the log AND to
+	// `login_qa.jsonl`, that number reached both the runtime log and a file
+	// that is then packaged as evidence -- which is what the independent
+	// certification of UNREAL-LOGIN-CHARACTER-SELECT-UI-001 failed on. The
+	// account is identified the way Real33DCredentialLog.h allows: by where it
+	// came from, and by a label that is only meaningful inside this run.
+	//
+	// The bridge's tag, not one of this driver's own: the number typed below is
+	// the number the bridge will log, so the two lines must carry the same
+	// label or a reader could not tell they are about one account.
 	Record(TEXT("start"), FString::Printf(
-		TEXT("account %u at %s:%d, %d return cycle(s)"),
-		AccountId, *Config.Host, Config.LoginPort, Cycles));
+		TEXT("%hs at %s:%d, %d return cycle(s)"),
+		Real33D::DescribeAccountForLog(Real33D::AccountSource::RuntimeFile,
+			UReal33DBridge::AccountTagFor(AccountId)).Text,
+		*Config.Host, Config.LoginPort, Cycles));
 }
 
 void FReal33DLoginQA::Record(const FString& Event, const FString& Detail)
@@ -168,11 +180,13 @@ void FReal33DLoginQA::Finish()
 	Record(bFailed ? TEXT("result") : TEXT("result"),
 		bFailed ? TEXT("FAIL") : TEXT("PASS"));
 	// Overwritten rather than dropped, for the same reason the bridge does it.
+	// Both halves go: a finished run has nothing left to type.
 	for (TCHAR& Character : Password.GetCharArray())
 	{
 		Character = TEXT('\0');
 	}
 	Password.Empty();
+	AccountId = 0;
 	if (FParse::Param(FCommandLine::Get(), TEXT("real33d-login-qa-quit")))
 	{
 		FPlatformMisc::RequestExit(false);

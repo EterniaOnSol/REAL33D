@@ -5,6 +5,7 @@
 #include "HAL/ThreadSafeBool.h"
 #include "Containers/Queue.h"
 #include "Real33DCoords.h"
+#include "Real33DCredentialLog.h"
 #include "Real33DOutfitSelection.h"
 #include "Real33DSessionFlow.h"
 #include "Subsystems/GameInstanceSubsystem.h"
@@ -835,11 +836,15 @@ struct FReal33DCharacterEntry
 /**
  * What the player typed on the account screen.
  *
- * NEVER LOGGED, NEVER WRITTEN TO DISK, NEVER PLACED IN AN EVENT. It lives in
- * exactly two places -- this struct on the game thread and the `std::string`
- * the worker builds its RSA block from -- and `Clear` overwrites the characters
- * rather than merely dropping the string, so a logout does not leave the
- * password lying in a freed allocation for the rest of the process's life.
+ * NEITHER FIELD IS EVER LOGGED, WRITTEN TO DISK OR PLACED IN AN EVENT. That
+ * now includes the account number, which it did not through
+ * UNREAL-LOGIN-CHARACTER-SELECT-UI-001: the number is the long-lived half of
+ * the same credential and `Real33DCredentialLog.h` is the only thing a log line
+ * may say about it. The pair lives in exactly two places -- this struct on the
+ * game thread and the `std::string` the worker builds its RSA block from -- and
+ * `Clear` overwrites the password's characters rather than merely dropping the
+ * string, so a logout does not leave it lying in a freed allocation for the
+ * rest of the process's life.
  *
  * `AccountNumber` zero means "use the sanitized runtime account file", which is
  * the path every existing automated QA script takes and the one `-real33d-
@@ -1233,6 +1238,19 @@ public:
 	 * marker for "use the runtime account file".
 	 */
 	bool BeginAccountLogin(uint32 AccountNumber, const FString& Password);
+
+	/**
+	 * The ONLY thing anything in this client may say in writing about an
+	 * account number. See Real33DCredentialLog.h for what a tag is and why.
+	 *
+	 * Static, and the salt behind it is one per PROCESS, because that is what
+	 * makes a log readable: the QA driver's transcript line and the bridge's own
+	 * login lines describe the same account and must therefore carry the same
+	 * label, or the tag would stop being the diagnostic that replaced the
+	 * number. The salt is drawn on first use from `FGuid::NewGuid` and is never
+	 * logged, written or published.
+	 */
+	static Real33D::AccountTag AccountTagFor(uint32 AccountNumber);
 
 	/**
 	 * The automation path: log in from the sanitized runtime account file and
@@ -1968,6 +1986,23 @@ private:
 	FReal33DConnectionConfig Config;
 	/** In memory only, for as long as the account session lasts. */
 	FReal33DCredentials Credentials;
+
+	/**
+	 * Account logins started in this process, including refused ones.
+	 *
+	 * The ordinal is what the raw account number used to be read for -- telling
+	 * one login line from the next -- and unlike the number it says something
+	 * about the session rather than about the player.
+	 */
+	int32 LoginAttempts = 0;
+	/**
+	 * The minimap cache's own salt, persisted beside the caches so a scope
+	 * survives a restart, and read with the same one-way rule: see
+	 * `StartWorker`, which used to hash the raw account number into the
+	 * cache's file name.
+	 */
+	uint64 MinimapScopeSalt = 0;
+	uint64 MinimapScopeSaltValue();
 	TArray<FReal33DCharacterEntry> Characters;
 	FString Motd;
 	FString SessionMessage;

@@ -10,6 +10,7 @@
 #include "HAL/RunnableThread.h"
 #include "Misc/CommandLine.h"
 #include "Misc/FileHelper.h"
+#include "Misc/Guid.h"
 #include "Misc/Parse.h"
 #include "Misc/Paths.h"
 #include "Misc/ScopeLock.h"
@@ -2589,6 +2590,70 @@ void UReal33DBridge::SetPhase(Real33D::SessionPhase NewPhase)
 	++SessionRevision;
 }
 
+/** Drawn on first use, never recorded, and never reachable from outside. */
+static uint64 Real33DProcessAccountTagSalt()
+{
+	// `FGuid::NewGuid` is the engine's own random source, and two of its words
+	// are mixed so a predictable half cannot carry the salt on its own. A
+	// function-local static because one process has one salt: see
+	// `UReal33DBridge::AccountTagFor`.
+	static const uint64 Salt = []
+	{
+		const FGuid Draw = FGuid::NewGuid();
+		return Real33D::MakeAccountTagSalt(
+			(uint64(Draw.A) << 32) | uint64(Draw.B),
+			(uint64(Draw.C) << 32) | uint64(Draw.D));
+	}();
+	return Salt;
+}
+
+Real33D::AccountTag UReal33DBridge::AccountTagFor(uint32 AccountNumber)
+{
+	return Real33D::MakeAccountTag(AccountNumber, Real33DProcessAccountTagSalt());
+}
+
+uint64 UReal33DBridge::MinimapScopeSaltValue()
+{
+	if (MinimapScopeSalt != 0)
+	{
+		return MinimapScopeSalt;
+	}
+
+	// This one has to SURVIVE the process, because the thing it salts is a file
+	// name: a cache the player built last run has to still be addressable this
+	// run. So it is drawn once per installation and kept beside the caches it
+	// scopes, in the gitignored Saved tree, and it is never logged or published.
+	const FString SaltPath =
+		FPaths::Combine(FPaths::ProjectSavedDir(), TEXT("Minimap"), TEXT("scope.salt"));
+	FString Stored;
+	if (FFileHelper::LoadFileToString(Stored, *SaltPath))
+	{
+		MinimapScopeSalt = FCString::Strtoui64(*Stored.TrimStartAndEnd(), nullptr, 16);
+	}
+	if (MinimapScopeSalt == 0)
+	{
+		const FGuid Draw = FGuid::NewGuid();
+		MinimapScopeSalt = Real33D::MakeAccountTagSalt(
+			(uint64(Draw.A) << 32) | uint64(Draw.B),
+			(uint64(Draw.C) << 32) | uint64(Draw.D));
+		IFileManager::Get().MakeDirectory(*FPaths::GetPath(SaltPath), true);
+		// A write that fails is not fatal and is not papered over: the salt
+		// stays in memory, so two accounts still get two caches this run, and
+		// the next run simply starts from an unknown map again. That is a cold
+		// cache, which the client already handles on a first launch -- never
+		// two accounts sharing one map memory.
+		if (!FFileHelper::SaveStringToFile(
+				FString::Printf(TEXT("%016llx"), MinimapScopeSalt), *SaltPath,
+				FFileHelper::EEncodingOptions::ForceUTF8WithoutBOM))
+		{
+			UE_LOG(LogReal33D, Warning,
+				TEXT("minimap cache scope: the salt could not be stored; this run's "
+					"cache will not be reused after a restart"));
+		}
+	}
+	return MinimapScopeSalt;
+}
+
 bool UReal33DBridge::BeginAccountLogin(uint32 AccountNumber, const FString& Password)
 {
 	check(IsInGameThread());
@@ -2624,10 +2689,19 @@ bool UReal33DBridge::BeginAccountLogin(uint32 AccountNumber, const FString& Pass
 	SelectedCharacter = INDEX_NONE;
 	SessionMessage.Reset();
 
-	// The account number is logged; the password is not, and no call anywhere
-	// in this class puts it in a format string.
-	UE_LOG(LogReal33D, Log, TEXT("account login: account %u at %s:%d"),
-		AccountNumber, *Config.Host, Config.LoginPort);
+	// NEITHER HALF OF THE CREDENTIAL IS LOGGED. This line used to carry the raw
+	// account number, which is what the independent certification of
+	// UNREAL-LOGIN-CHARACTER-SELECT-UI-001 failed on. What a reader of a failed
+	// login actually needs is here: which attempt it was, that the account came
+	// from the player's form rather than the runtime file, a label that follows
+	// one account through the run, and where the request went. See
+	// Real33DCredentialLog.h.
+	++LoginAttempts;
+	UE_LOG(LogReal33D, Log, TEXT("account login: attempt %d, %hs at %s:%d"),
+		LoginAttempts,
+		Real33D::DescribeAccountForLog(Real33D::AccountSource::TypedForm,
+			AccountTagFor(AccountNumber)).Text,
+		*Config.Host, Config.LoginPort);
 	if (!StartWorker(EWorkerMode::AccountLogin))
 	{
 		Credentials.Clear();
@@ -2654,8 +2728,16 @@ bool UReal33DBridge::BeginAutoLogin()
 	SelectedCharacter = INDEX_NONE;
 	SessionMessage.Reset();
 
+	// No tag on this path, because there is no number here to tag: the worker
+	// reads the account out of the sanitized runtime file itself and nothing
+	// about it ever reaches the game thread. `Config.Account` is the file's KEY
+	// -- the letter `-real33d-account=` selects, which the engine has already
+	// printed as part of the command line -- and not an account number.
+	++LoginAttempts;
 	UE_LOG(LogReal33D, Log,
-		TEXT("account login: runtime account %s at %s:%d (automation path)"),
+		TEXT("account login: attempt %d, %hs named %s, at %s:%d (automation path)"),
+		LoginAttempts,
+		Real33D::AccountSourceName(Real33D::AccountSource::RuntimeFile),
 		*Config.Account, *Config.Host, Config.LoginPort);
 	if (!StartWorker(EWorkerMode::AccountLogin))
 	{
@@ -2846,14 +2928,20 @@ bool UReal33DBridge::StartWorker(EWorkerMode Mode)
 	if (Mode == EWorkerMode::Game && Minimap != nullptr)
 	{
 		SaveMinimap();
-		// The account the cache belongs to, which is now either the runtime
-		// one or the number the player typed. The number rather than the
-		// letter, so two typed accounts do not share one map memory; the
-		// letter path is byte-for-byte what it was, so every existing cache
-		// stays addressable. A password is never part of this, and the digest
-		// is of the identity only.
+		// The account the cache belongs to, which is either the runtime one or
+		// the one the player typed. A typed account is identified by its TAG,
+		// never by its number: a digest of host, port, runtime path and a
+		// six-digit account number is a preimage an attacker already knows the
+		// shape of and could simply enumerate, so hashing the number would have
+		// put a recoverable credential in a file name. The salt makes that
+		// enumeration useless and is kept out of every log. Two typed accounts
+		// still get two caches; the letter path is byte-for-byte what it was,
+		// so every existing cache stays addressable. No password is part of
+		// this, and the digest is of the identity only.
 		const FString AccountScope = Credentials.IsExplicit()
-			? FString::Printf(TEXT("#%u"), Credentials.AccountNumber) : Config.Account;
+			? FString::Printf(TEXT("%016llx"), Real33D::MakeAccountStorageScope(
+				Credentials.AccountNumber, MinimapScopeSaltValue()))
+			: Config.Account;
 		const FString Identity = Config.Host + TEXT(":") + FString::FromInt(Config.LoginPort)
 			+ TEXT(":772:") + AccountScope + TEXT(":") + Config.RuntimeDir;
 		FTCHARToUTF8 Encoded(*Identity);

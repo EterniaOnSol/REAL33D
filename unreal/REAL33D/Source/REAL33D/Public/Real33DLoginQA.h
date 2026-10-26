@@ -37,10 +37,13 @@ class SReal33DLoginScreen;
  * FAILS the run and says which step; it never lets the sequence continue as
  * though the step had passed.
  *
- * NO CREDENTIAL IS LOGGED. The password is read from the sanitized runtime
- * file, typed into the password box, and never written to the transcript, the
- * log or the evidence file. The wrong-password step uses a literal that is
- * deliberately not a credential.
+ * NO CREDENTIAL IS LOGGED -- NEITHER HALF. The account number and the password
+ * are both read from the sanitized runtime file, both typed into their own box,
+ * and neither is written to the transcript, the log or the evidence file. The
+ * account number used to be: `Start` recorded it, `Record` writes to both the
+ * log and `login_qa.jsonl`, and the result was an account id inside packaged
+ * evidence. It is now reported as `Real33DCredentialLog.h`'s source and tag.
+ * The wrong-password step uses a literal that is deliberately not a credential.
  */
 class REAL33D_API FReal33DLoginQA
 {
@@ -103,6 +106,12 @@ private:
 	bool bFailed = false;
 
 	FReal33DConnectionConfig Config;
+	/**
+	 * Held for the length of the run and NEVER recorded, in the log or in the
+	 * transcript. It is read from the sanitized runtime file and typed into the
+	 * account box, which is the whole of what it is for; what the transcript
+	 * says about it is `Real33DCredentialLog.h`'s tag.
+	 */
 	uint32 AccountId = 0;
 	/** Held for the length of the run, never logged, overwritten at the end. */
 	FString Password;

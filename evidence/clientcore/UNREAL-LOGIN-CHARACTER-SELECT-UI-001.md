@@ -174,7 +174,21 @@ is a surface change, and nothing enters a game without the player.
   queued, drained and written into evidence files; a credential in one would
   reach all of that.
 * No format string in the bridge, the worker, the screen or the QA driver takes
-  the password. The account *number* is logged; the password is not.
+  the password.
+* **CORRECTED.** This section used to read "The account *number* is logged; the
+  password is not", and that was the defect the independent certification
+  (`certification/login-ui-independent-20261025`) failed this milestone on: the
+  raw runtime account id appeared four times in the retained raw text. The
+  account number is the long-lived half of the same credential and is now
+  treated exactly as the password is — see `Real33DCredentialLog.h` and
+  `evidence/clientcore/unreal-login-credential-logging-20261026/`. The log
+  lines in the artifacts below are redacted to `[REDACTED_ACCOUNT_B_ID]`; the
+  diagnostics around them are untouched.
+* **CORRECTED.** `credential-scan.txt` below searched for the two runtime
+  *passwords* only, which is why it returned PASS over artifacts that carried
+  the account id. Its replacement, `tests/scan_credential_values.py`, searches
+  for both ids and both passwords and is run by the harness as
+  `credential-value-scan`.
 * The password box is `IsPassword(true)` and is cleared the instant the bridge
   has been handed the value — observed live (`password box cleared yes`).
 * The QA driver reads the runtime file, types it, and overwrites its own copy
@@ -200,7 +214,7 @@ runtime file and never prints it.
 | `screens/02-character-list-after-logout.png` | The list after a logout, message `this client logged out`. |
 | `displacement/clientA/*` | The displaced client's log and snapshots. |
 | `server-login-tail.log`, `server-game-session-lines.log`, `server-status.txt` | Fusion32's own side. |
-| `credential-scan.txt` | Proof no artifact here carries the password. |
+| `credential-scan.txt` | Proof no artifact here carries the password. Passwords only — see the correction in section 5. |
 | `REGRESSION-HARNESS-20261024T225025Z.md` | Strict harness: 11 PASS / 0 FAIL / 0 SKIP over 125 logs. |
 
 ## 7. Reproduction

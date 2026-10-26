@@ -1,0 +1,26 @@
+﻿{
+    "args":  [
+                 "\"C:\\Users\\dell\\Desktop\\fusion32\\unreal\\REAL33D\\REAL33D.uproject\"",
+                 "-game",
+                 "-windowed",
+                 "-ResX=1280",
+                 "-ResY=900",
+                 "-nosound",
+                 "-nosplash",
+                 "-ExecCmds=\"t.MaxFPS 20\"",
+                 "-real33d-runtime=\\\\wsl.localhost\\Ubuntu-26.04\\var\\lib\\fusion32-server-baseline-772-0",
+                 "-real33d-account=B",
+                 "-real33d-host=127.0.0.1",
+                 "-real33d-loginport=7171",
+                 "-real33d-evidence=\"C:\\Users\\dell\\Desktop\\fusion32\\build\\credlog-live-20261026\"",
+                 "-abslog=\"C:\\Users\\dell\\Desktop\\fusion32\\build\\credlog-live-20261026\\REAL33D.log\"",
+                 "-real33d-login-qa",
+                 "-real33d-login-qa-cycles=4",
+                 "-real33d-login-qa-quit"
+             ],
+    "account_alias":  "B",
+    "pid":  15832,
+    "cycles":  4,
+    "utc":  "2026-10-26T09:46:40.5902513Z",
+    "dll_sha256":  "ECC68D4F02B734E3019509789838AD3A6556ABA9145E1B6A3BBCDE2B79A0EFF8"
+}

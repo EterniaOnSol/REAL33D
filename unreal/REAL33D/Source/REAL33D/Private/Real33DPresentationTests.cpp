@@ -3,6 +3,7 @@
 #include "Real33DChannelsPanel.h"
 #include "Real33DChatPanel.h"
 #include "Real33DChatViews.h"
+#include "Real33DCredentialLog.h"
 #include "Real33DEditorWindow.h"
 #include "Real33DLoginScreen.h"
 #include "Real33DOutfitPanel.h"
@@ -1075,6 +1076,97 @@ bool FReal33DSessionPhaseTest::RunTest(const FString& Parameters)
 	TestTrue(TEXT("a lost link is still retried"), Dropped.bRetry);
 	TestTrue(TEXT("without asking the player anything"),
 		Dropped.Phase == SessionPhase::Reconnecting);
+	return true;
+}
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FReal33DCredentialLogTest,
+	"REAL33D.Presentation.CredentialLog",
+	EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FReal33DCredentialLogTest::RunTest(const FString& Parameters)
+{
+	(void)Parameters;
+	using namespace Real33D;
+
+	// The rule the two login log lines are built from, checked inside the
+	// engine and through the same FString formatting those lines use -- the
+	// exhaustive version, over the whole account space, is
+	// tests/real33d_credential_log_tests.cpp, which runs without an engine.
+	//
+	// THE REGRESSION. `UReal33DBridge::BeginAccountLogin` used to format the
+	// raw account number into `LogReal33D`, and `FReal33DLoginQA::Start` used
+	// to record it into `login_qa.jsonl` as well; the independent certification
+	// of UNREAL-LOGIN-CHARACTER-SELECT-UI-001 failed on the four occurrences
+	// that produced.
+	const uint64 Salt = MakeAccountTagSalt(0x1234ABCDull, 0x9876FEDCull);
+	const uint32 RuntimeAccount = 772001;
+
+	// First the predicate, because every assertion below is expressed through
+	// it. A digit check that cannot see a digit would make all of them vacuous.
+	TestFalse(TEXT("the digit check can actually see a digit"),
+		CarriesNoDecimalDigit("typed account (tag 7npq)"));
+	TestTrue(TEXT("and passes a line that has none"),
+		CarriesNoDecimalDigit("typed account (tag mnpq)"));
+
+	// The descriptor, through FString::Printf with %hs exactly as both call
+	// sites use it, so what is checked here is the text that reaches the log.
+	for (const AccountSource Source : { AccountSource::TypedForm, AccountSource::RuntimeFile })
+	{
+		const AccountLogText Described =
+			DescribeAccountForLog(Source, MakeAccountTag(RuntimeAccount, Salt));
+		const FString Line = FString::Printf(TEXT("account login: attempt %d, %hs at %s:%d"),
+			1, Described.Text, TEXT("127.0.0.1"), 7171);
+
+		TestFalse(TEXT("the account number is absent from the login line"),
+			Line.Contains(FString::FromInt(RuntimeAccount)));
+		TestTrue(TEXT("and so is every other decimal account could be"),
+			CarriesNoDecimalDigit(Described.Text));
+		TestTrue(TEXT("the line still says where the request went"),
+			Line.Contains(TEXT("127.0.0.1:7171")));
+		TestTrue(TEXT("and which attempt it was"), Line.Contains(TEXT("attempt 1")));
+		TestTrue(TEXT("and where the account came from"),
+			Line.Contains(ANSI_TO_TCHAR(AccountSourceName(Source))));
+	}
+
+	// The same for the QA transcript's own line, which is the one that reached
+	// a packaged evidence file.
+	const AccountLogText ForTranscript = DescribeAccountForLog(
+		AccountSource::RuntimeFile, MakeAccountTag(RuntimeAccount, Salt));
+	const FString Transcript = FString::Printf(TEXT("%hs at %s:%d, %d return cycle(s)"),
+		ForTranscript.Text, TEXT("127.0.0.1"), 7171, 4);
+	TestFalse(TEXT("the QA transcript carries no account number"),
+		Transcript.Contains(FString::FromInt(RuntimeAccount)));
+	TestTrue(TEXT("and still reports the run it is describing"),
+		Transcript.Contains(TEXT("4 return cycle(s)")));
+
+	// The tag is the diagnostic that replaced the number: one account reads the
+	// same twice within a run, two accounts do not, and nothing survives a new
+	// salt -- so it cannot correlate one player across two runs' evidence.
+	const AccountTag First = MakeAccountTag(RuntimeAccount, Salt);
+	const AccountTag Again = MakeAccountTag(RuntimeAccount, Salt);
+	TestEqual(TEXT("a relogin of one account tags the same"),
+		FString(ANSI_TO_TCHAR(First.Text)), FString(ANSI_TO_TCHAR(Again.Text)));
+	TestNotEqual(TEXT("a different account does not"),
+		FString(ANSI_TO_TCHAR(MakeAccountTag(772002, Salt).Text)),
+		FString(ANSI_TO_TCHAR(First.Text)));
+	TestNotEqual(TEXT("and a different run does not"),
+		FString(ANSI_TO_TCHAR(
+			MakeAccountTag(RuntimeAccount, MakeAccountTagSalt(1, 2)).Text)),
+		FString(ANSI_TO_TCHAR(First.Text)));
+	TestEqual(TEXT("a tag is four characters"),
+		FString(ANSI_TO_TCHAR(First.Text)).Len(), kAccountTagLength);
+
+	// The minimap cache's scope, which used to be a SHA1 over an identity
+	// carrying the raw number. Salted and full width now: stable so last run's
+	// cache is still addressable, and distinct so two accounts cannot share one
+	// map memory.
+	TestTrue(TEXT("a cache scope is stable for one salt"),
+		MakeAccountStorageScope(RuntimeAccount, Salt)
+			== MakeAccountStorageScope(RuntimeAccount, Salt));
+	TestTrue(TEXT("two accounts get two caches"),
+		MakeAccountStorageScope(RuntimeAccount, Salt)
+			!= MakeAccountStorageScope(772002, Salt));
+	TestTrue(TEXT("and the scope is not the account number"),
+		MakeAccountStorageScope(RuntimeAccount, Salt) != uint64(RuntimeAccount));
 	return true;
 }
 #endif
