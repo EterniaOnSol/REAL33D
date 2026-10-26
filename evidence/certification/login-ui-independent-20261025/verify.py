@@ -1,0 +1,55 @@
+from pathlib import Path
+import json,re,sys
+
+root=Path(__file__).resolve().parent
+checks=[]
+def check(name,condition): checks.append(dict(name=name,status='PASS' if condition else 'FAILED'))
+def read(p): return (root/p).read_text(encoding='utf-8-sig')
+def obj(p): return json.loads(read(p))
+qa=[json.loads(l) for l in read('live/cycles-desktop/login_qa.jsonl').splitlines()]
+events=lambda kind:[x['detail'] for x in qa if x['event']==kind]
+check('invalid login server refusal and usable form',any('Accountnumber or password is not correct.' in x and 'still on the account form yes' in x for x in events('wrong-password')))
+check('server character list is one real row, cleared password box',any('1 offered [Test Player B@Fusion Test:7172]' in x and 'rows drawn 1' in x and 'password box cleared yes' in x for x in events('character-list')))
+check('five selections and entries',len(events('enter-game'))==len(events('in-game'))==5)
+check('five sessions each exactly one INIT_GAME',all('init_games 1;' in x for x in events('in-game')))
+check('five worlds rebuilt with matching tile counts',all((m:=re.search(r'worldstate tiles (\d+); tile actors (\d+)',x)) and m[1]==m[2] and int(m[1])>0 for x in events('in-game')))
+check('movement accepted in every QA session',len(events('movement'))==5 and all('accepted 1,' in x for x in events('movement')))
+check('five logouts return to retained selection with zero tiles',len(events('logged-out'))==5 and all('tile actors 0; local player gone; reconnect attempts 0; rows still offered 1' in x for x in events('logged-out')))
+check('QA result',events('result')==['PASS'])
+log=read('live/A-art/REAL33D.log')
+death=log.find('server message [EventMessage]: You are dead.')
+check('literal server death and HP zero',death>=0 and 'HUD vitals: HP 0/150' in log[death:])
+check('death followed by character select', 'session phase: in-game -> character-select' in log[death:])
+cleanup=obj('live/A-art/death/unreal_slice_evidence_AfterCleanup.json')
+check('death cleanup zero registered world actors',cleanup['presentation']['tile_actors']==cleanup['presentation']['creature_actors']==cleanup['local_creature_id']==0)
+check('death returns to list without reconnect',cleanup['session']['phase']=='character-select' and cleanup['session']['reconnect_attempts']==0)
+check('death clears inventory and containers',cleanup['inventory']==[] and cleanup['containers']==[])
+relogin=obj('live/A-art/relogin/after-movement.json')
+final=obj('live/A-art/relogin/final-temple.json')
+check('relogin after death one INIT_GAME',relogin['session']['phase']=='in-game' and relogin['session']['init_games']==1 and relogin['written_at']>cleanup['written_at'])
+check('relogin rebuild matches WorldState',relogin['presentation']['tile_actors']==relogin['clientcore']['worldstate_tiles']==395 and relogin['presentation']['creature_actors']==len(relogin['creatures'])==2)
+check('relogin temple and immediate movement',relogin['origin']==dict(set=True,x=32097,y=32219,z=7) and relogin['clientcore']['walks_accepted']==2 and '32097,32219,7 -> 32097,32218,7' in log[death:])
+check('same process across death/relogin, earlier idle session kept separate',obj('live/A-art/launch.json')['pid']==2512 and log.count('session phase: offline -> logging-in')==1 and log[:death].count('session phase: entering-game -> in-game')==2 and log[death:].count('session phase: entering-game -> in-game')==1)
+check('no automatic retries after death', 'reconnecting, attempt' not in log[death:] and final['session']['reconnect_attempts']==0)
+check('parked near Cipfried after reentry',final['local_position']==dict(x=32098,y=32218,z=7))
+for run in ('cycles-desktop','takeover-new'):
+    rlog=read(f'live/{run}/REAL33D.log')
+    check(f'{run} displacement releases ownership, no automatic retry','ownership released:' in rlog and 'reconnecting, attempt' not in rlog)
+take=obj('live/takeover-new/unreal_slice_evidence_AfterCleanup.json')
+check('takeover empty scene and one INIT_GAME',take['presentation']['tile_actors']==take['presentation']['creature_actors']==0 and take['session']['init_games']==1 and take['session']['reconnect_attempts']==0)
+snapshots=list((root/'live').rglob('*evidence*.json'))+list((root/'live/A-art/relogin').glob('*temple.json'))+[root/'live/A-art/relogin/after-movement.json']
+for p in snapshots:
+    j=json.loads(p.read_text())
+    check('protocol clean '+str(p.relative_to(root)),all(j['clientcore'][k]==0 for k in ('residual_bytes','unsupported_opcodes','protocol_anomalies')))
+automation=obj('tests/automation/automation-report/index.json')
+check('Unreal 14/14',automation['succeeded']==14 and automation['failed']==0 and automation['notRun']==0)
+check('Unreal zero suite errors/warnings',all(t['errors']==t['warnings']==0 for t in automation['tests']))
+report=next((root/'tests/final').glob('REGRESSION*.md')).read_text()
+check('strict harness 11 PASS 0 FAIL 0 SKIP','11 PASS, 0 FAIL, 0 SKIP' in report)
+cred=obj('credential-scan.json')
+check('passwords absent',cred['password_occurrences']==0)
+check('credential-account-ID finding reproduced',cred['account_id_occurrences']>0)
+result=dict(passed=sum(x['status']=='PASS' for x in checks),failed=sum(x['status']=='FAILED' for x in checks),checks=checks)
+(root/'verification.json').write_text(json.dumps(result,indent=2)+'\n')
+print(f"Evidence verification: {result['passed']} PASS, {result['failed']} FAILED. Credential absence still FAILED when account IDs are included.")
+sys.exit(bool(result['failed']))

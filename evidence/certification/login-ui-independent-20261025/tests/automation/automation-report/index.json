@@ -1,0 +1,252 @@
+{
+	"devices": [
+		{
+			"deviceName": "DESKTOP-9SKKIUM",
+			"instance": "0205754A440B76B093AE63A3D44EF061",
+			"instanceName": "DESKTOP-9SKKIUM-8740",
+			"platform": "WindowsEditor",
+			"oSVersion": "Windows 11 (23H2) [10.0.22631.6199] ",
+			"model": "Default",
+			"gPU": "Intel(R) UHD Graphics 630",
+			"cPUModel": "Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz",
+			"rAMInGB": 12,
+			"renderMode": "SM6",
+			"rHI": "",
+			"appInstanceLog": ""
+		}
+	],
+	"reportCreatedOn": "2026.10.26-03.22.32",
+	"succeeded": 14,
+	"succeededWithWarnings": 0,
+	"failed": 0,
+	"notRun": 0,
+	"inProcess": 0,
+	"totalDuration": 0.36708605289459229,
+	"comparisonExported": false,
+	"comparisonExportDirectory": "",
+	"tests": [
+		{
+			"testDisplayName": "ExperimentalV08",
+			"fullTestPath": "REAL33D.AssetRegistry.ExperimentalV08",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"0205754A440B76B093AE63A3D44EF061"
+			],
+			"duration": 0.016275398433208466,
+			"dateTime": "2026.10.26-03.22.31",
+			"entries": [
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "experimental catalog not enabled; gated test skipped",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.10.26-03.22.31"
+				}
+			],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "Mailbox3501",
+			"fullTestPath": "REAL33D.AssetRegistry.Mailbox3501",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"0205754A440B76B093AE63A3D44EF061"
+			],
+			"duration": 0.15638460218906403,
+			"dateTime": "2026.10.26-03.22.31",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "CameraAndFloors",
+			"fullTestPath": "REAL33D.Presentation.CameraAndFloors",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"0205754A440B76B093AE63A3D44EF061"
+			],
+			"duration": 0.016641996800899506,
+			"dateTime": "2026.10.26-03.22.31",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "ChannelsPanel",
+			"fullTestPath": "REAL33D.Presentation.ChannelsPanel",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"0205754A440B76B093AE63A3D44EF061"
+			],
+			"duration": 0.015707202255725861,
+			"dateTime": "2026.10.26-03.22.31",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "ChatTabs",
+			"fullTestPath": "REAL33D.Presentation.ChatTabs",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"0205754A440B76B093AE63A3D44EF061"
+			],
+			"duration": 0.014737501740455627,
+			"dateTime": "2026.10.26-03.22.31",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "EditorWindow",
+			"fullTestPath": "REAL33D.Presentation.EditorWindow",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"0205754A440B76B093AE63A3D44EF061"
+			],
+			"duration": 0.017464198172092438,
+			"dateTime": "2026.10.26-03.22.31",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "LoginScreen",
+			"fullTestPath": "REAL33D.Presentation.LoginScreen",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"0205754A440B76B093AE63A3D44EF061"
+			],
+			"duration": 0.016023498028516769,
+			"dateTime": "2026.10.26-03.22.31",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "OutfitPanel",
+			"fullTestPath": "REAL33D.Presentation.OutfitPanel",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"0205754A440B76B093AE63A3D44EF061"
+			],
+			"duration": 0.01625249907374382,
+			"dateTime": "2026.10.26-03.22.31",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "PanelRegistry",
+			"fullTestPath": "REAL33D.Presentation.PanelRegistry",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"0205754A440B76B093AE63A3D44EF061"
+			],
+			"duration": 0.015065796673297882,
+			"dateTime": "2026.10.26-03.22.31",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "SessionPhase",
+			"fullTestPath": "REAL33D.Presentation.SessionPhase",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"0205754A440B76B093AE63A3D44EF061"
+			],
+			"duration": 0.015707701444625854,
+			"dateTime": "2026.10.26-03.22.31",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "SkillsPanel",
+			"fullTestPath": "REAL33D.Presentation.SkillsPanel",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"0205754A440B76B093AE63A3D44EF061"
+			],
+			"duration": 0.018295701593160629,
+			"dateTime": "2026.10.26-03.22.31",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "StackMoveControls",
+			"fullTestPath": "REAL33D.Presentation.StackMoveControls",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"0205754A440B76B093AE63A3D44EF061"
+			],
+			"duration": 0.015055399388074875,
+			"dateTime": "2026.10.26-03.22.32",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "TradePanel",
+			"fullTestPath": "REAL33D.Presentation.TradePanel",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"0205754A440B76B093AE63A3D44EF061"
+			],
+			"duration": 0.016971401870250702,
+			"dateTime": "2026.10.26-03.22.32",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "AuthoritativeWindow",
+			"fullTestPath": "REAL33D.WideWorld.AuthoritativeWindow",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"0205754A440B76B093AE63A3D44EF061"
+			],
+			"duration": 0.016503199934959412,
+			"dateTime": "2026.10.26-03.22.32",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		}
+	]
+}

@@ -1,0 +1,154 @@
+{
+  "passed": 37,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "invalid login server refusal and usable form",
+      "status": "PASS"
+    },
+    {
+      "name": "server character list is one real row, cleared password box",
+      "status": "PASS"
+    },
+    {
+      "name": "five selections and entries",
+      "status": "PASS"
+    },
+    {
+      "name": "five sessions each exactly one INIT_GAME",
+      "status": "PASS"
+    },
+    {
+      "name": "five worlds rebuilt with matching tile counts",
+      "status": "PASS"
+    },
+    {
+      "name": "movement accepted in every QA session",
+      "status": "PASS"
+    },
+    {
+      "name": "five logouts return to retained selection with zero tiles",
+      "status": "PASS"
+    },
+    {
+      "name": "QA result",
+      "status": "PASS"
+    },
+    {
+      "name": "literal server death and HP zero",
+      "status": "PASS"
+    },
+    {
+      "name": "death followed by character select",
+      "status": "PASS"
+    },
+    {
+      "name": "death cleanup zero registered world actors",
+      "status": "PASS"
+    },
+    {
+      "name": "death returns to list without reconnect",
+      "status": "PASS"
+    },
+    {
+      "name": "death clears inventory and containers",
+      "status": "PASS"
+    },
+    {
+      "name": "relogin after death one INIT_GAME",
+      "status": "PASS"
+    },
+    {
+      "name": "relogin rebuild matches WorldState",
+      "status": "PASS"
+    },
+    {
+      "name": "relogin temple and immediate movement",
+      "status": "PASS"
+    },
+    {
+      "name": "same process across death/relogin, earlier idle session kept separate",
+      "status": "PASS"
+    },
+    {
+      "name": "no automatic retries after death",
+      "status": "PASS"
+    },
+    {
+      "name": "parked near Cipfried after reentry",
+      "status": "PASS"
+    },
+    {
+      "name": "cycles-desktop displacement releases ownership, no automatic retry",
+      "status": "PASS"
+    },
+    {
+      "name": "takeover-new displacement releases ownership, no automatic retry",
+      "status": "PASS"
+    },
+    {
+      "name": "takeover empty scene and one INIT_GAME",
+      "status": "PASS"
+    },
+    {
+      "name": "protocol clean live\\A-art\\unreal_slice_evidence_AfterCleanup.json",
+      "status": "PASS"
+    },
+    {
+      "name": "protocol clean live\\A-art\\unreal_slice_evidence_Disconnected.json",
+      "status": "PASS"
+    },
+    {
+      "name": "protocol clean live\\cycles-desktop\\unreal_slice_evidence_AfterCleanup.json",
+      "status": "PASS"
+    },
+    {
+      "name": "protocol clean live\\cycles-desktop\\unreal_slice_evidence_Disconnected.json",
+      "status": "PASS"
+    },
+    {
+      "name": "protocol clean live\\takeover-new\\unreal_slice_evidence_AfterCleanup.json",
+      "status": "PASS"
+    },
+    {
+      "name": "protocol clean live\\takeover-new\\unreal_slice_evidence_Disconnected.json",
+      "status": "PASS"
+    },
+    {
+      "name": "protocol clean live\\A-art\\death\\unreal_slice_evidence_AfterCleanup.json",
+      "status": "PASS"
+    },
+    {
+      "name": "protocol clean live\\A-art\\death\\unreal_slice_evidence_Disconnected.json",
+      "status": "PASS"
+    },
+    {
+      "name": "protocol clean live\\A-art\\relogin\\final-temple.json",
+      "status": "PASS"
+    },
+    {
+      "name": "protocol clean live\\A-art\\relogin\\after-movement.json",
+      "status": "PASS"
+    },
+    {
+      "name": "Unreal 14/14",
+      "status": "PASS"
+    },
+    {
+      "name": "Unreal zero suite errors/warnings",
+      "status": "PASS"
+    },
+    {
+      "name": "strict harness 11 PASS 0 FAIL 0 SKIP",
+      "status": "PASS"
+    },
+    {
+      "name": "passwords absent",
+      "status": "PASS"
+    },
+    {
+      "name": "credential-account-ID finding reproduced",
+      "status": "PASS"
+    }
+  ]
+}

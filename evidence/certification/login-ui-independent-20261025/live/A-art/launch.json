@@ -1,0 +1,28 @@
+{
+    "implementation":  "bf54da4c576859fdd7ac7188d7a9f925e966d421",
+    "args":  [
+                 "\"C:/Users/dell/Desktop/fusion32/build/cert-login-ui-independent-20261025/unreal/REAL33D/REAL33D.uproject\"",
+                 "-game",
+                 "-windowed",
+                 "-ResX=1280",
+                 "-ResY=900",
+                 "-nosound",
+                 "-nosplash",
+                 "-ExecCmds=\"t.MaxFPS 20\"",
+                 "-real33d-runtime=\"\\\\wsl.localhost\\Ubuntu-26.04\\var\\lib\\fusion32-server-baseline-772-0\"",
+                 "-real33d-account=A",
+                 "-real33d-host=127.0.0.1",
+                 "-real33d-loginport=7171",
+                 "-real33d-evidence=\"C:/Users/dell/Desktop/fusion32/build/cert-login-ui-independent-20261025/build/certification/live/A-art\"",
+                 "-abslog=\"C:/Users/dell/Desktop/fusion32/build/cert-login-ui-independent-20261025/build/certification/live/A-art/REAL33D.log\"",
+                 "-real33d-creature-catalog=\"C:/Users/dell/Desktop/fusion32/build/cert-login-ui-independent-20261025/visual/qa/brother_creatures/runtime.json\"",
+                 "-real33d-experimental-catalog=\"C:/Users/dell/Desktop/fusion32/build/cert-login-ui-independent-20261025/visual/qa/full_catalog_v08/experimental_catalog_runtime.json\"",
+                 "-real33d-disable-inspector",
+                 "-real33d-presentation-qa"
+             ],
+    "account_alias":  "A",
+    "pid":  2512,
+    "purpose":  "User requested existing artwork and parking near Cipfried; separate from completed same-process QA cycles.",
+    "utc":  "2026-10-26T03:38:14.5076563Z",
+    "dll_sha256":  "364D3FD6B2315D9DA6AA2021264642BC1CF0FA0402CDD25A1FDE58F531529634"
+}

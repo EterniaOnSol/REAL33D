@@ -1,3 +1,21 @@
+## 2026-10-25 independent UNREAL-LOGIN-CHARACTER-SELECT-UI-001 review
+
+**FAILED** against the complete acceptance criteria: numeric account identifiers
+appear four times in raw login logs/evidence; passwords are absent. Functional
+live matrix PASS, including operator-assisted literal death, character-select
+return, and relogin/movement in the same PID 2512. Five earlier UI-driven
+login/logout cycles PASS; takeover has no automatic retry; teardown zero actors,
+rebuild matches WorldState, one INIT_GAME per successful session, protocol
+counters zero. Multi-character switching remains UNVERIFIED (one offered row).
+
+ClientCore 14/14, native 11/11, Unreal 14/14, build PASS, strict harness 11 PASS /
+0 FAIL / 0 SKIP, secret_check 6/6. Independent evidence verifier 37/37.
+Fresh certification branch from bf54da4, sole child of specified main 1ac7245;
+implementation push normal, no main merge or production changes. Evidence copies
+redact account identifiers and retain original hashes. Art loaded on request;
+operator's post-death character is at (32098,32218,7), beside Cipfried's temple.
+Full certification/merge readiness withheld pending credential logging fix.
+See [independent evidence](evidence/certification/login-ui-independent-20261025/README.md).
 ## 2026-10-24 independent UNREAL-PLAYER-DEATH-RESPAWN-001 certification
 
 **CERTIFIED** for one operator-assisted, independently observed QA death and
