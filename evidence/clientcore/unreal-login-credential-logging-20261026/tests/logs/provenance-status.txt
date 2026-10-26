@@ -1,21 +1,5 @@
- M evidence/clientcore/DUAL-CLIENT-LIVE-CAPTURE-001-session1.log
- M evidence/clientcore/DUAL-CLIENT-LIVE-CAPTURE-001-session3.log
- M evidence/clientcore/UNREAL-LOGIN-CHARACTER-SELECT-UI-001.md
- M evidence/clientcore/unreal-login-character-select-ui-001/login_qa.jsonl
- M evidence/clientcore/unreal-login-character-select-ui-001/screens/character-list.log
- M evidence/clientcore/unreal-login-character-select-ui-001/screens/login_qa.jsonl
- M tests/regression_harness.sh
- M unreal/REAL33D/Source/REAL33D/Private/Real33DBridge.cpp
- M unreal/REAL33D/Source/REAL33D/Private/Real33DLoginQA.cpp
- M unreal/REAL33D/Source/REAL33D/Private/Real33DPresentationTests.cpp
- M unreal/REAL33D/Source/REAL33D/Private/Real33DWorldActor.cpp
- M unreal/REAL33D/Source/REAL33D/Public/Real33DBridge.h
- M unreal/REAL33D/Source/REAL33D/Public/Real33DLoginQA.h
 ?? agent/
 ?? dev/
 ?? evidence/agent/
 ?? evidence/clientcore/unreal-action-bars/
-?? tests/real33d_credential_log_tests.cpp
-?? tests/scan_credential_values.py
 ?? tools/
-?? unreal/REAL33D/Source/REAL33D/Public/Real33DCredentialLog.h

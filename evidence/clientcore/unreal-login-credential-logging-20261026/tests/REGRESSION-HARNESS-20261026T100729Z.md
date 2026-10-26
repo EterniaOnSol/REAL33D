@@ -8,21 +8,21 @@ A SKIP is not a pass. It records a check this run could not execute, and why.
 
 | | |
 |---|---|
-| Run (UTC) | `20261026T095548Z` |
+| Run (UTC) | `20261026T100729Z` |
 | Repository | `/c/Users/dell/Desktop/fusion32` |
 | Branch | `milestone/unreal-login-character-select-ui-001` |
-| HEAD | `bf54da4c576859fdd7ac7188d7a9f925e966d421` |
-| HEAD subject | feat(unreal): UNREAL-LOGIN-CHARACTER-SELECT-UI-001 in-client login and character select |
+| HEAD | `316d888c8174831768dde77178ce452c253a10c8` |
+| HEAD subject | fix(unreal): the account number leaves the logs and the evidence |
 | origin/main | `1ac7245da68d602697c59f3241277ed43577737b` |
 | Merge base | `1ac7245da68d602697c59f3241277ed43577737b` |
-| Ahead / behind origin/main | 1 / 0 |
-| Uncommitted paths | 21 |
+| Ahead / behind origin/main | 3 / 0 |
+| Uncommitted paths | 5 |
 | Toolchain | WSL Ubuntu-26.04, g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0 |
 
 Worktrees at run time:
 
 ```
-C:/Users/dell/Desktop/fusion32                                                          bf54da4 [milestone/unreal-login-character-select-ui-001]
+C:/Users/dell/Desktop/fusion32                                                          316d888 [milestone/unreal-login-character-select-ui-001]
 C:/Users/dell/Desktop/fusion32/build/cert-chat-channels-20261018                        18b587d [certification/unreal-chat-channels-001-20261018]
 C:/Users/dell/Desktop/fusion32/build/cert-container-controls-20261022                   2136e6f [certification/unreal-container-controls-001-20261022]
 C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022                119dc2e [certification/unreal-container-controls-independent-20261022]
@@ -56,34 +56,18 @@ C:/Users/dell/Desktop/fusion32/build/unreal-world-presentation-polish-001       
 Uncommitted paths at run time:
 
 ```
- M evidence/clientcore/DUAL-CLIENT-LIVE-CAPTURE-001-session1.log
- M evidence/clientcore/DUAL-CLIENT-LIVE-CAPTURE-001-session3.log
- M evidence/clientcore/UNREAL-LOGIN-CHARACTER-SELECT-UI-001.md
- M evidence/clientcore/unreal-login-character-select-ui-001/login_qa.jsonl
- M evidence/clientcore/unreal-login-character-select-ui-001/screens/character-list.log
- M evidence/clientcore/unreal-login-character-select-ui-001/screens/login_qa.jsonl
- M tests/regression_harness.sh
- M unreal/REAL33D/Source/REAL33D/Private/Real33DBridge.cpp
- M unreal/REAL33D/Source/REAL33D/Private/Real33DLoginQA.cpp
- M unreal/REAL33D/Source/REAL33D/Private/Real33DPresentationTests.cpp
- M unreal/REAL33D/Source/REAL33D/Private/Real33DWorldActor.cpp
- M unreal/REAL33D/Source/REAL33D/Public/Real33DBridge.h
- M unreal/REAL33D/Source/REAL33D/Public/Real33DLoginQA.h
 ?? agent/
 ?? dev/
 ?? evidence/agent/
 ?? evidence/clientcore/unreal-action-bars/
-?? tests/real33d_credential_log_tests.cpp
-?? tests/scan_credential_values.py
 ?? tools/
-?? unreal/REAL33D/Source/REAL33D/Public/Real33DCredentialLog.h
 ```
 
 ## Results
 
 | Check | Status | Detail | Log |
 |---|---|---|---|
-| `provenance` | **PASS** | branch milestone/unreal-login-character-select-ui-001 at bf54da4c, 1 ahead / 0 behind origin/main, 21 uncommitted path(s) | `logs/provenance-status.txt` |
+| `provenance` | **PASS** | branch milestone/unreal-login-character-select-ui-001 at 316d888c, 3 ahead / 0 behind origin/main, 5 uncommitted path(s) | `logs/provenance-status.txt` |
 | `branch-isolation` | **PASS** | on milestone/unreal-login-character-select-ui-001, not on main | — |
 | `clientcore-tests` | **PASS** | 14 CTest suite(s) passed via wsl | `logs/clientcore-tests.txt` |
 | `real33d-native-tests` | **PASS** | 12 passed, 0 failed via wsl | `logs/real33d-native-tests.txt` |
@@ -92,8 +76,8 @@ Uncommitted paths at run time:
 | `secret-check` | **PASS** | 6 sub-check(s) ok | `logs/secret-check.txt` |
 | `build-sanity-msvc` | **PASS** | C++17 suites and the C++20 archive Unreal links both built | `logs/build-sanity-msvc.txt` |
 | `unreal-module-build` | **PASS** | REAL33DEditor Win64 Development built | `logs/unreal-module-build.txt` |
-| `protocol-log-check` | **PASS** | 124 log(s) scanned, no unsupported opcodes or residual bytes | `logs/protocol-log-check.txt` |
-| `credential-value-scan` | **PASS** | 0 account-id and 0 password occurrences in 135 produced file(s) (patterns self-tested) | `logs/credential-value-scan.txt` |
+| `protocol-log-check` | **PASS** | 140 log(s) scanned, no unsupported opcodes or residual bytes | `logs/protocol-log-check.txt` |
+| `credential-value-scan` | **PASS** | 0 account-id and 0 password occurrences in 151 produced file(s) (patterns self-tested) | `logs/credential-value-scan.txt` |
 | `output-secret-scan` | **PASS** | logs carry no key material (pattern self-tested) | `logs/output-secret-scan.txt` |
 
 ## What each check covers
@@ -112,5 +96,5 @@ Uncommitted paths at run time:
 ## Scope and limits
 
 - Nothing here proves live behaviour. No Fusion32 server is started, no client is launched, no gameplay and no protocol is modified. Live certification stays a separate, operator-driven step.
-- Read-only against the repository. Everything written goes under `build/regression-harness/20261026T095548Z`, inside the gitignored `build/` tree.
+- Read-only against the repository. Everything written goes under `build/regression-harness/20261026T100729Z`, inside the gitignored `build/` tree.
 - No environment values are printed, and `output-secret-scan` is the last word on what was left on disk.

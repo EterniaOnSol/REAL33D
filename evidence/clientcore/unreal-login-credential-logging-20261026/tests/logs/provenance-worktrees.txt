@@ -1,4 +1,4 @@
-C:/Users/dell/Desktop/fusion32                                                          bf54da4 [milestone/unreal-login-character-select-ui-001]
+C:/Users/dell/Desktop/fusion32                                                          316d888 [milestone/unreal-login-character-select-ui-001]
 C:/Users/dell/Desktop/fusion32/build/cert-chat-channels-20261018                        18b587d [certification/unreal-chat-channels-001-20261018]
 C:/Users/dell/Desktop/fusion32/build/cert-container-controls-20261022                   2136e6f [certification/unreal-container-controls-001-20261022]
 C:/Users/dell/Desktop/fusion32/build/cert-container-independent-20261022                119dc2e [certification/unreal-container-controls-independent-20261022]

@@ -204,11 +204,19 @@ Fusion32 refused in the last cycle 0; reconnect attempts across the whole run 0`
 | Unreal automation | **15 / 15**, 0 failed, 0 notRun, 0 inProcess, and `errors`/`warnings` 0 on every test |
 | `REAL33DEditor Win64 Development` | `Result: Succeeded`, 27 actions, zero warnings |
 | `build_clientcore_windows.cmd` | `WINDOWS CLIENTCORE: PASS` — C++17 suites and the C++20 archive Unreal links |
-| Strict harness | **12 PASS, 0 FAIL, 0 SKIP**, 124 logs scanned |
+| Strict harness | **12 PASS, 0 FAIL, 0 SKIP**, 140 logs scanned |
 | `secret_check.sh` | **6 / 6** |
 
-`tests/REGRESSION-HARNESS-20261026T095548Z.md` and `tests/logs/` are that run.
+`tests/REGRESSION-HARNESS-20261026T100729Z.md` and `tests/logs/` are that run,
+taken against `316d888` — the committed fix, with this directory's own new
+artifacts inside the scan scope, which is why `credential-value-scan` reports
+151 produced files rather than the 135 of the pre-commit run.
 `tests/automation-report-index.json` is the automation report.
+
+The report's provenance line reads `5 uncommitted path(s)`. Those are five
+untracked directories that predate this work — `agent/`, `dev/`, `tools/`,
+`evidence/agent/` and `evidence/clientcore/unreal-action-bars/` — and no
+tracked file was modified when it ran.
 
 ## 8. Limits
 
