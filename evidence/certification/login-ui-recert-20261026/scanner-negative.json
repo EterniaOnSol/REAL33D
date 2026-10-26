@@ -1,0 +1,30 @@
+[
+  {
+    "kind": "ACCOUNT_A_ID",
+    "exit_code": 1,
+    "account_occurrences": 1,
+    "password_occurrences": 0
+  },
+  {
+    "kind": "ACCOUNT_A_PASSWORD",
+    "exit_code": 1,
+    "account_occurrences": 0,
+    "password_occurrences": 1
+  },
+  {
+    "kind": "ACCOUNT_B_ID",
+    "exit_code": 1,
+    "account_occurrences": 1,
+    "password_occurrences": 0
+  },
+  {
+    "kind": "ACCOUNT_B_PASSWORD",
+    "exit_code": 1,
+    "account_occurrences": 0,
+    "password_occurrences": 1
+  },
+  {
+    "kind": "clean_control",
+    "exit_code": 0
+  }
+]

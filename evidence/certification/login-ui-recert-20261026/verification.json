@@ -1,0 +1,442 @@
+{
+  "pass": 109,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "cycles QA result",
+      "result": "PASS"
+    },
+    {
+      "name": "cycles invalid credentials rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "cycles password box cleared",
+      "result": "PASS"
+    },
+    {
+      "name": "cycles expected sessions",
+      "result": "PASS"
+    },
+    {
+      "name": "cycles one init per entry",
+      "result": "PASS"
+    },
+    {
+      "name": "cycles session 1 rebuild",
+      "result": "PASS"
+    },
+    {
+      "name": "cycles session 2 rebuild",
+      "result": "PASS"
+    },
+    {
+      "name": "cycles session 3 rebuild",
+      "result": "PASS"
+    },
+    {
+      "name": "cycles session 4 rebuild",
+      "result": "PASS"
+    },
+    {
+      "name": "cycles session 5 rebuild",
+      "result": "PASS"
+    },
+    {
+      "name": "cycles all logout returns",
+      "result": "PASS"
+    },
+    {
+      "name": "cycles movement every session",
+      "result": "PASS"
+    },
+    {
+      "name": "restart QA result",
+      "result": "PASS"
+    },
+    {
+      "name": "restart invalid credentials rejected",
+      "result": "PASS"
+    },
+    {
+      "name": "restart password box cleared",
+      "result": "PASS"
+    },
+    {
+      "name": "restart expected sessions",
+      "result": "PASS"
+    },
+    {
+      "name": "restart one init per entry",
+      "result": "PASS"
+    },
+    {
+      "name": "restart session 1 rebuild",
+      "result": "PASS"
+    },
+    {
+      "name": "restart all logout returns",
+      "result": "PASS"
+    },
+    {
+      "name": "restart movement every session",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\cycles\\unreal_slice_evidence.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\cycles\\unreal_slice_evidence.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\cycles\\unreal_slice_evidence_AfterCleanup.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\cycles\\unreal_slice_evidence_AfterCleanup.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\cycles\\unreal_slice_evidence_Disconnected.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\cycles\\unreal_slice_evidence_Disconnected.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\after-walk.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\after-walk.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\after-walk.json connected session has one init",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\death-observed\\unreal_slice_evidence_AfterCleanup.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\death-observed\\unreal_slice_evidence_AfterCleanup.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\death-observed\\unreal_slice_evidence_Disconnected.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\death-observed\\unreal_slice_evidence_Disconnected.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\relogin.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\relogin.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\relogin.json connected session has one init",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\unreal_slice_evidence.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\unreal_slice_evidence.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\unreal_slice_evidence.json connected session has one init",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\unreal_slice_evidence_AfterCleanup.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\unreal_slice_evidence_AfterCleanup.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\unreal_slice_evidence_Disconnected.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\unreal_slice_evidence_Disconnected.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\unreal_slice_evidence_Manual.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\unreal_slice_evidence_Manual.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\unreal_slice_evidence_Manual.json connected session has one init",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\restart\\before-takeover.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\restart\\before-takeover.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\restart\\before-takeover.json connected session has one init",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\restart\\manual-reclaim.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\restart\\manual-reclaim.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\restart\\manual-reclaim.json connected session has one init",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\restart\\unreal_slice_evidence.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\restart\\unreal_slice_evidence.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\restart\\unreal_slice_evidence.json connected session has one init",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\restart\\unreal_slice_evidence_AfterCleanup.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\restart\\unreal_slice_evidence_AfterCleanup.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\restart\\unreal_slice_evidence_Disconnected.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\restart\\unreal_slice_evidence_Disconnected.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\restart\\unreal_slice_evidence_Manual.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\restart\\unreal_slice_evidence_Manual.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\restart\\unreal_slice_evidence_Manual.json connected session has one init",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\takeover\\displaced-held.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\takeover\\displaced-held.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\takeover\\unreal_slice_evidence.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\takeover\\unreal_slice_evidence.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\takeover\\unreal_slice_evidence_AfterCleanup.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\takeover\\unreal_slice_evidence_AfterCleanup.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\takeover\\unreal_slice_evidence_Disconnected.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\takeover\\unreal_slice_evidence_Disconnected.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\takeover\\unreal_slice_evidence_Manual.json no protocol errors",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\takeover\\unreal_slice_evidence_Manual.json no reconnect",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\takeover\\displaced-held.json protocol",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\takeover\\displaced-held.json INIT_GAME",
+      "result": "PASS"
+    },
+    {
+      "name": "displaced returns to selection",
+      "result": "PASS"
+    },
+    {
+      "name": "displaced world empty",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\takeover\\unreal_slice_evidence_Disconnected.json protocol",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\takeover\\unreal_slice_evidence_Disconnected.json INIT_GAME",
+      "result": "PASS"
+    },
+    {
+      "name": "displacement held beyond retry budget",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\restart\\manual-reclaim.json protocol",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\restart\\manual-reclaim.json INIT_GAME",
+      "result": "PASS"
+    },
+    {
+      "name": "manual reclaim stays in game",
+      "result": "PASS"
+    },
+    {
+      "name": "reclaim world rebuilt",
+      "result": "PASS"
+    },
+    {
+      "name": "restart no automatic reconnect log",
+      "result": "PASS"
+    },
+    {
+      "name": "restart no duplicate init diagnostic",
+      "result": "PASS"
+    },
+    {
+      "name": "takeover no automatic reconnect log",
+      "result": "PASS"
+    },
+    {
+      "name": "takeover no duplicate init diagnostic",
+      "result": "PASS"
+    },
+    {
+      "name": "literal server death message",
+      "result": "PASS"
+    },
+    {
+      "name": "literal HP zero",
+      "result": "PASS"
+    },
+    {
+      "name": "death no automatic retry",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\death-observed\\unreal_slice_evidence_AfterCleanup.json protocol",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\death-observed\\unreal_slice_evidence_AfterCleanup.json INIT_GAME",
+      "result": "PASS"
+    },
+    {
+      "name": "death returns to selection",
+      "result": "PASS"
+    },
+    {
+      "name": "death removes world",
+      "result": "PASS"
+    },
+    {
+      "name": "death clears inventory/containers",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\relogin.json protocol",
+      "result": "PASS"
+    },
+    {
+      "name": "live\\death\\relogin.json INIT_GAME",
+      "result": "PASS"
+    },
+    {
+      "name": "death reentry",
+      "result": "PASS"
+    },
+    {
+      "name": "death rebuild",
+      "result": "PASS"
+    },
+    {
+      "name": "same process after death",
+      "result": "PASS"
+    },
+    {
+      "name": "first postdeath movement accepted",
+      "result": "PASS"
+    },
+    {
+      "name": "minimap stable and private",
+      "result": "PASS"
+    },
+    {
+      "name": "minimap loaded prior process cache",
+      "result": "PASS"
+    },
+    {
+      "name": "scanner fails every planted value",
+      "result": "PASS"
+    },
+    {
+      "name": "committed_evidence credentials absent",
+      "result": "PASS"
+    },
+    {
+      "name": "generated_evidence credentials absent",
+      "result": "PASS"
+    },
+    {
+      "name": "runtime_logs credentials absent",
+      "result": "PASS"
+    },
+    {
+      "name": "Unreal 15+",
+      "result": "PASS"
+    },
+    {
+      "name": "correct ancestry and normal push",
+      "result": "PASS"
+    }
+  ]
+}

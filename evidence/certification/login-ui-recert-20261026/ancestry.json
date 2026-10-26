@@ -1,0 +1,23 @@
+﻿{
+    "fix_chain":  [
+                      "3562dd0f01d1344bd02ff18e2da711a176e491ac",
+                      "316d888c8174831768dde77178ce452c253a10c8",
+                      "444a89e268289cad31fd64260b04762bef73dfdc"
+                  ],
+    "branch":  "certification/login-ui-recert-20261026",
+    "main_unchanged":  true,
+    "failed_head_is_ancestor":  false,
+    "fresh_worktree":  "build/cert-login-ui-recert-20261026",
+    "normal_push_verified":  true,
+    "main":  "1ac7245da68d602697c59f3241277ed43577737b",
+    "fix_head":  "444a89e268289cad31fd64260b04762bef73dfdc",
+    "protocol_server_unchanged":  true,
+    "failed_head":  "3b82a9a8c87a5fbadcd17e9f50e0647f47fb384f",
+    "parent_lines":  [
+                         "444a89e268289cad31fd64260b04762bef73dfdc 316d888c8174831768dde77178ce452c253a10c8",
+                         "316d888c8174831768dde77178ce452c253a10c8 3562dd0f01d1344bd02ff18e2da711a176e491ac",
+                         "3562dd0f01d1344bd02ff18e2da711a176e491ac bf54da4c576859fdd7ac7188d7a9f925e966d421",
+                         "bf54da4c576859fdd7ac7188d7a9f925e966d421 1ac7245da68d602697c59f3241277ed43577737b"
+                     ],
+    "implementation":  "bf54da4c576859fdd7ac7188d7a9f925e966d421"
+}

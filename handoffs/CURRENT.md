@@ -1,170 +1,102 @@
-# HANDOFF - UNREAL-LOGIN-CHARACTER-SELECT-UI-001 implementation
+# HANDOFF - UNREAL-LOGIN-CHARACTER-SELECT-UI-001 recertification
 
-Date: 2026-10-24. Agent: Claude, implementation.
-Role: implement the full in-client login/character-select flow.
-Branch: `milestone/unreal-login-character-select-ui-001`.
-Worktree: `C:/Users/dell/Desktop/fusion32` (the primary tree, not a worktree).
-Starting commit: 1ac7245da68d602697c59f3241277ed43577737b (== `origin/main`).
-Ending commit: this branch's single implementation commit.
-Main / origin/main: 1ac7245, unchanged. No merge, no push.
+Date/time: 2026-10-26T21:32:43.808361+00:00. Agent: Codex.
+Role: independent credential/session recertification, operator-assisted death.
+Branch: `certification/login-ui-recert-20261026`.
+Starting commit/tested production head: `444a89e268289cad31fd64260b04762bef73dfdc`.
+Ending commit: the evidence-only commit containing this handoff (resolve with
+`git log -1 --format=%H -- handoffs/CURRENT.md`).
+Worktree: `C:/Users/dell/Desktop/fusion32/build/cert-login-ui-recert-20261026`.
+Main remains `1ac7245da68d602697c59f3241277ed43577737b`.
 
-## Objective
+## Objective and authority
 
-Launch → login → character list → select character → enter game →
-logout/death → back to login/character select, without restarting the
-application. Audit the existing login/session plumbing first, reuse the
-certified protocol and session code, and do not alter the wire or the server
-unless proven necessary.
+Inspect actual ancestry, normally push the intended fix, then certify on a fresh
+worktree without merging main or the failed certification head. Test credentials,
+scanner, minimap restart, invalid login, entry/logout/death/relogin, displacement,
+single INIT_GAME and world cleanup/rebuild. Deliver reproducible evidence and the
+requested suites/build/harness. No production or server edits.
 
-**No wire or server change was needed and none was made.** Every byte this
-milestone puts on a socket was already built by ClientCore and already sent by
-the bridge. What changed is *when* and *how many times*.
+## Inspection and discoveries
 
-## Inspection
+Six required startup documents read; Git status/branch/HEAD/remotes and sole
+parents checked. Actual chain: main -> bf54da4 -> 3562dd0 -> 316d888 -> 444a89e.
+3b82a9a is a sibling evidence branch, not an ancestor. Fix branch pushed normally
+from bf54da4 to 444a89e, then remote hashes verified. No force/rewrite/main merge.
+Protocol/server/ClientCore are unchanged from bf54da4.
 
-Read `AGENTS.md`, `PROJECT_STATUS.md`, `ARCHITECTURE.md`, `ROADMAP.md`,
-`PARITY_MATRIX.md` and the previous `handoffs/CURRENT.md`; ran `git status`,
-`git branch --show-current`, `git rev-parse HEAD`, `git remote -v`.
+Inspected Real33DBridge account logging, storage salt/scope, worker/session
+ownership; Real33DLoginQA Start/Record/BuildScript; Real33DLoginScreen credential
+clearing/phase visibility; Real33DWorldActor ClearWorld/HandleEvent; session and
+reconnect headers; production credential scanner and harness. Authoritative
+game JoinGame, Die, TPlayer::Death and TCreature destructor inspected at selected
+game 386fa9b under the recorded 772 guards. Exact details in the evidence README.
 
-Audited, and reused unchanged: `clientcore/.../login.*` (request/response,
-character list, MOTD, premium days, error text), `clientcore/.../gamelogin.*`
-(`BuildGameLoginRequest`, `GameLoginSession`, `ParseGameInitialMessage` incl.
-the `LoginError`/`WaitingList`/`PremiumNotice` text), the framing and crypto,
-`Real33DReconnectPolicy.h` and its suite, `AReal33DWorld::ClearWorld`,
-`FReal33DPanelRegistry`, and `p772::BuildLogoutCommand`.
+## Changes and files
 
-## Discoveries
+Only evidence under `evidence/certification/login-ui-recert-20261026/`,
+PROJECT_STATUS.md, PARITY_MATRIX.md, this handoff and prior-handoff archive.
+Runtime output copied unchanged with SHA256 manifest; no redaction needed.
+No tests, protocol, production source, reference files or server data edited.
+Primary worktree's pre-existing untracked directories preserved.
 
-Six gaps, all **above** the protocol:
+## Tests/results and PASS
 
-1. `FReal33DWorker::LoginAndEnterGame` fused both phases and took
-   `Response.characters.front()` with no way to choose.
-2. Credentials came only from `secrets/credentials.env`.
-3. `Bridge::Connect` was the only entry point and refused while a worker
-   existed — and a worker *object* outlives its thread, so after any failure
-   every later attempt was a silent no-op.
-4. `Disconnect()` drained the stopped worker's events into a throwaway array,
-   discarding the orderly `Disconnected` a logout produces.
-5. The retry decision lived in `AReal33DWorld` while the worker lived in the
-   bridge, so neither could answer "is this session over for good".
-6. Exit called `Disconnect()` and left the application unusable.
+CERTIFIED for the bounded requested matrix. Raw IDs/passwords 0/0; eight new
+screenshots reviewed; four planted-value failures plus clean control PASS.
+Minimap scope/salt preserved over a real process restart; cached cells loaded.
+Invalid login and five QA entry/logout cycles PASS. All successful entries:
+one INIT_GAME, zero protocol errors, actor rebuild from WorldState.
+Displacement and explicit user reclaim: both displaced owners remain at
+selection without auto reconnect; >80-second hold captured.
+Literal death by rats at 21:26:24.546Z, HP zero, selection at 21:26:54Z;
+cleanup zero actors/local identity/inventory/containers. Same PID 11680 and
+start time re-enters temple at 21:27:30Z, HP 150, one INIT_GAME; first north
+step accepted. Operator assisted the death and explicitly confirmed the reclaim.
 
-Server behaviour worth carrying forward: **Fusion32 refuses a re-entry while
-the character is still logging out.** `connections.cc::JoinGame` turns it away
-and `receiving.cc` answers `SendResult(Connection, LOGINERROR)` then
-`Connection->Disconnect()` **immediately**, so the TALK_FAILURE_MESSAGE does
-not survive the close. Observed live: every refusal was a bare orderly close
-with no decodable message. The client's response is correct — no reconnect,
-world torn down, back to the list — and pressing Enter Game again works after
-the server finishes.
+ClientCore 14/14; native 12/12; Unreal automation 15/15; fresh build 39 actions;
+final relink PASS. Final strict harness 12 PASS / 0 FAIL / 0 SKIP over 107 logs;
+secret_check 6/6; independent evidence verification 109 PASS / 0 FAILED.
 
-## Changes
+## Evidence and reproduction
 
-New: `Public/Real33DSessionFlow.h` (six phases + `ResolveSessionEnd`, free of
-Unreal types, **composed with** the unchanged reconnect policy),
-`Public/Real33DLoginScreen.h` + `Private/Real33DLoginScreen.cpp`,
-`Public/Real33DLoginQA.h` + `Private/Real33DLoginQA.cpp` (opt-in live driver),
-`tests/real33d_session_flow_tests.cpp` (12 cases).
+`evidence/certification/login-ui-recert-20261026/README.md`: acceptance matrix, provenance, source notes, interruptions/limits.
+`verify.py`: runnable from evidence directory without live server, checks stored
+observations. `manifest.json`: hashes, no output redactions. `reproduce/`: scripts
+originally executed from this worktree's ignored build/recert directory.
+Fresh runtime logs/snapshots/8 PNGs in live/. Initial/final harness and both the
+failed isolated automation startup and successful desktop suite retained.
 
-Modified: `Real33DBridge.h/.cpp` (session phase, credentials, character list,
-`PrepareSession`/`BeginAccountLogin`/`BeginAutoLogin`/`EnterGame`/`Logout`/
-`ReturnToAccountScreen`/`TickSession`, `ReapFinishedWorker`, `LastStats`,
-`PendingEvents`, worker split into `AskForCharacterList` and `EnterGame`,
-`InitGames` stat, login-error surfacing); `Real33DWorldActor.h/.cpp` (no
-unconditional connect; reconnect bookkeeping moved to the bridge; `session`
-block in the evidence JSON; `GetTileActorCount`); `Real33DPlayerController.h/
-.cpp` (hosts the login screen, collapses the HUD from one rule, ticks the QA
-driver); `Real33DControlPanel.h/.cpp` (Exit → `Logout()`, exposes the button);
-`Real33DHUD.h` (`GetControlPanel`); `Real33DPanelRegistry.h/.cpp`
-(`PanelIds::Account`, `PanelIds::CharacterSelect`);
-`Real33DPresentationTests.cpp` (+2 suites); `tests/regression_harness.sh`
-(+1 native suite); `PROJECT_STATUS.md`; `PARITY_MATRIX.md`.
+## Remaining UNVERIFIED, blockers and risks
 
-## Tests and results
+No blocker for this scoped certification. Multi-character/empty/multi-world
+lists, waiting-list/game-login-error variants, lost-link retry, nonzero premium
+days, additional death variants and art parity remain UNVERIFIED.
+Raw account IDs remain in historical commits as already reported by the fix;
+no history rewrite was authorized. Current evidence and new output scan clean.
+Scanner needles cover this runtime's four credentials, not arbitrary secrets.
+The legitimate death penalty remains. Cache salt/private baseline are ignored
+and excluded from evidence. All QA clients closed normally; three services healthy.
 
-- ClientCore CTest **14/14** (unchanged; no new ClientCore suite).
-- Native header-only suites **11/11**, including the new
-  `real33d_session_flow_tests` (12 cases).
-- Unreal automation **14/14**, including the new `REAL33D.Presentation.
-  LoginScreen` and `REAL33D.Presentation.SessionPhase`.
-- `REAL33DEditor Win64 Development` built; MSVC C++17 suites and the C++20
-  archive built.
-- **Strict** `tests/regression_harness.sh --unreal --strict`: **11 PASS /
-  0 FAIL / 0 SKIP**, 125 logs scanned, OVERALL PASS. Report copied into
-  evidence.
-- `secret_check.sh` **6/6**; credential scan over all 37 evidence artifacts
-  plus the module sources and tests: **0 occurrences** of either runtime
-  password.
+## Environment recovery and critical context
 
-## Live QA
-
-Live Fusion32 (querymanager 7173, game 7172, login 7171, all verified ALIVE).
-`-real33d-login-qa -real33d-login-qa-cycles=4`, account B. **PASS, 5 of 5
-sessions entered.** Cold login; wrong password refused by the server in its own
-words; `1 offered [Test Player B@Fusion Test:7172]`; entry at 32110,32202,6
-with 555 tiles and 555 actors; `init_games` **exactly 1** on all five entries;
-Exit returned to the list in 0.07–0.10 s with `tile_actors 0`,
-`creature_actors 0`; 555/568 tiles and actors rebuilt each time; a step
-accepted every session; unsupported opcodes, anomalies, residual bytes and
-reconnect attempts all **0**.
-
-Displacement (a live, server-initiated orderly close, the same path a death
-takes): in-game → character-select, "ownership released", `init_games 1`,
-`reconnect_attempts 0`, scene emptied, held 20 s past the 5 s reconnect delay
-with zero retries.
-
-Two real defects in this milestone's own code were found by that QA and fixed:
-`ReapFinishedWorker` (a second login after a refusal did nothing) and
-`LastStats` (a finished session documented itself as zero of everything).
-
-## PASS
-
-`UNREAL-LOGIN-CHARACTER-SELECT-UI-001 = PASS` for the scope above.
-
-## Remaining UNVERIFIED
-
-- A literal death this run; it rests on path identity plus
-  UNREAL-PLAYER-DEATH-RESPAWN-001.
-- A switch between two **different** characters — this account has one, so the
-  five cycles are repeated re-entries and the row rotation always read
-  `row 0 of 1`.
-- An account with no characters, and a list spanning more than one world.
-- The game service's `SV_CMD_LOGIN_ERROR` and waiting-list paths: decoded by
-  ClientCore, now surfaced by the worker, not exercised by this server.
-- A lost-link reconnect: no link was broken, so 0 attempts is the correct
-  observation and not evidence that reconnect was disabled.
-- Premium days other than 0, and a MOTD longer than this runtime's two lines.
-
-## Blockers and risks
-
-None blocking. Risks: the account form is now the default when
-`-real33d-account=` is absent, so any new script that expects an automatic
-login must pass `-real33d-account=` or `-real33d-autologin`. Two clients at
-once need separate `-abslog=` paths or they fight over one log file.
+Existing server services started normally from DEAD. No stale-lock edit needed.
+First isolated Unreal automation failed at DDC before tests; desktop rerun 15/15.
+The duplicate coordinator's output lock was resolved. Target-window focus failed
+twice without input; existing Win32 certification driver then succeeded.
+Computer-use node_repl was unavailable. Credential forms were never captured.
+An intended click on restart client's Enter Game occurred after an operator
+had already re-entered and therefore produced a world walk; it is not attributed
+as login proof. User's subsequent explicit reclaim is documented, not a retry.
 
 ## Exact next task
 
-Review the single implementation commit on this branch for the observed scope.
-Do not merge main and do not push without explicit authorization. A
-certification pass should re-run the live QA, and should additionally stage the
-two things this run could not: a literal death, and an account with two
-characters so a true character switch is observed.
-
-Reproduction, commands and file inventory:
-`evidence/clientcore/UNREAL-LOGIN-CHARACTER-SELECT-UI-001.md`.
-
-## Critical context
-
-- Start the server first:
-  `wsl -d Ubuntu-26.04 -- bash scripts/server/start_wsl.sh /mnt/c/Users/dell/Desktop/fusion32`,
-  then `status_wsl.sh`. At the end of this run querymanager was PID 599,
-  game 616 and login 835, all healthy. **Never infer runtime state from these
-  old PIDs**; re-check with `status_wsl.sh`.
-- Pre-existing untracked trees (`agent/`, `dev/`, `evidence/agent/`,
-  `evidence/clientcore/unreal-action-bars/`, `tools/`) were left untouched and
-  are not part of this commit.
-- PowerShell: do **not** name a `Start-Process` argument array `$args` — it is
-  an automatic variable and it silently split `-real33d-host=127.0.0.1` into
-  `-real33d-host=127 .0.0.1`, which cost one QA run.
-- The QA driver is opt-in and has no second path to the bridge: it presses the
-  same controls a player does, and a disabled control stops it.
+Review this evidence-only certification and normally published fix branch.
+Do not merge main or push certification without authorization.
+Commands from this worktree:
+`python evidence/certification/login-ui-recert-20261026/verify.py`
+`git log --format="%H %P %s" 1ac7245..HEAD`
+`git diff 444a89e -- clientcore unreal reference tests scripts/server`
+`git status --short`
+Production diff must remain empty. Integration candidate is this certification
+head over 444a89e, never the failed 3b82a9a branch.

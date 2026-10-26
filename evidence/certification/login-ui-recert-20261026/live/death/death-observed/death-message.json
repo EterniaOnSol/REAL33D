@@ -1,0 +1,7 @@
+{
+  "observed_utc": "2026-10-26T21:26:25.181347+00:00",
+  "lines": [
+    "[2026.10.26-21.26.24:546][434]LogReal33D: server message [EventMessage]: You are dead."
+  ],
+  "pid": 11680
+}

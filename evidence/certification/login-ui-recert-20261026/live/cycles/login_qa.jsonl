@@ -1,0 +1,57 @@
+{"at":"2026-10-26T21:12:25.613Z","event":"start","detail":"runtime-file account (tag dkdr) at 127.0.0.1:7171, 4 return cycle(s)"}
+{"at":"2026-10-26T21:12:27.154Z","event":"observe","detail":"phase offline at launch"}
+{"at":"2026-10-26T21:12:27.155Z","event":"step","detail":"cold-start-account-screen: 0.00s"}
+{"at":"2026-10-26T21:12:27.602Z","event":"wrong-password","detail":"refused with \"Accountnumber or password is not correct.\"; characters offered 0; still on the account form yes"}
+{"at":"2026-10-26T21:12:27.604Z","event":"step","detail":"wrong-password-refused: 0.40s"}
+{"at":"2026-10-26T21:12:27.753Z","event":"character-list","detail":"1 offered [Test Player B@Fusion Test:7172]; rows drawn 1; list showing yes; password box cleared yes"}
+{"at":"2026-10-26T21:12:27.754Z","event":"step","detail":"cold-login-character-list: 0.10s"}
+{"at":"2026-10-26T21:12:27.804Z","event":"enter-game","detail":"row 0 of 1 (Test Player B); tile actors before 0"}
+{"at":"2026-10-26T21:12:28.829Z","event":"in-game","detail":"at 32108,32201,6; worldstate tiles 562; tile actors 562; init_games 1; login screen hidden yes"}
+{"at":"2026-10-26T21:12:28.830Z","event":"step","detail":"first-enter-game: 1.03s"}
+{"at":"2026-10-26T21:12:31.130Z","event":"movement","detail":"Fusion32 accepted a step into this session; now at 32108,32201,6 (accepted 1, rejected 2, unanswered 0)"}
+{"at":"2026-10-26T21:12:31.130Z","event":"step","detail":"first-movement: 2.25s"}
+{"at":"2026-10-26T21:12:31.180Z","event":"logout","detail":"pressing the HUD's Exit button; tile actors before 566"}
+{"at":"2026-10-26T21:12:31.300Z","event":"logged-out","detail":"back on the character list; tile actors 0; local player gone; reconnect attempts 0; rows still offered 1"}
+{"at":"2026-10-26T21:12:31.301Z","event":"step","detail":"first-logout: 0.12s"}
+{"at":"2026-10-26T21:12:31.350Z","event":"enter-game","detail":"row 0 of 1 (Test Player B); tile actors before 0"}
+{"at":"2026-10-26T21:12:31.601Z","event":"entry-refused","detail":"Fusion32 refused entry 1 with \"Fusion32 refused this entry and closed the connection before the game started. A character the server is still logging out cannot be entered again until it has finished; try again.\"; reconnect attempts 0; pressing Enter Game again"}
+{"at":"2026-10-26T21:12:32.296Z","event":"in-game","detail":"at 32108,32202,6; worldstate tiles 566; tile actors 566; init_games 1; login screen hidden yes"}
+{"at":"2026-10-26T21:12:32.297Z","event":"step","detail":"return-1-enter-game: 0.95s"}
+{"at":"2026-10-26T21:12:32.446Z","event":"movement","detail":"Fusion32 accepted a step into this session; now at 32108,32202,6 (accepted 1, rejected 0, unanswered 0)"}
+{"at":"2026-10-26T21:12:32.447Z","event":"step","detail":"return-1-movement: 0.10s"}
+{"at":"2026-10-26T21:12:32.496Z","event":"logout","detail":"pressing the HUD's Exit button; tile actors before 562"}
+{"at":"2026-10-26T21:12:32.578Z","event":"logged-out","detail":"back on the character list; tile actors 0; local player gone; reconnect attempts 0; rows still offered 1"}
+{"at":"2026-10-26T21:12:32.578Z","event":"step","detail":"return-1-logout: 0.08s"}
+{"at":"2026-10-26T21:12:32.627Z","event":"enter-game","detail":"row 0 of 1 (Test Player B); tile actors before 0"}
+{"at":"2026-10-26T21:12:32.778Z","event":"entry-refused","detail":"Fusion32 refused entry 1 with \"Fusion32 refused this entry and closed the connection before the game started. A character the server is still logging out cannot be entered again until it has finished; try again.\"; reconnect attempts 0; pressing Enter Game again"}
+{"at":"2026-10-26T21:12:33.446Z","event":"in-game","detail":"at 32108,32201,6; worldstate tiles 562; tile actors 562; init_games 1; login screen hidden yes"}
+{"at":"2026-10-26T21:12:33.447Z","event":"step","detail":"return-2-enter-game: 0.82s"}
+{"at":"2026-10-26T21:12:35.646Z","event":"movement","detail":"Fusion32 accepted a step into this session; now at 32108,32201,6 (accepted 1, rejected 2, unanswered 0)"}
+{"at":"2026-10-26T21:12:35.646Z","event":"step","detail":"return-2-movement: 2.15s"}
+{"at":"2026-10-26T21:12:35.695Z","event":"logout","detail":"pressing the HUD's Exit button; tile actors before 566"}
+{"at":"2026-10-26T21:12:35.770Z","event":"logged-out","detail":"back on the character list; tile actors 0; local player gone; reconnect attempts 0; rows still offered 1"}
+{"at":"2026-10-26T21:12:35.770Z","event":"step","detail":"return-2-logout: 0.07s"}
+{"at":"2026-10-26T21:12:35.820Z","event":"enter-game","detail":"row 0 of 1 (Test Player B); tile actors before 0"}
+{"at":"2026-10-26T21:12:36.384Z","event":"in-game","detail":"at 32108,32202,6; worldstate tiles 566; tile actors 566; init_games 1; login screen hidden yes"}
+{"at":"2026-10-26T21:12:36.384Z","event":"step","detail":"return-3-enter-game: 0.56s"}
+{"at":"2026-10-26T21:12:36.635Z","event":"movement","detail":"Fusion32 accepted a step into this session; now at 32108,32202,6 (accepted 1, rejected 0, unanswered 0)"}
+{"at":"2026-10-26T21:12:36.635Z","event":"step","detail":"return-3-movement: 0.20s"}
+{"at":"2026-10-26T21:12:36.685Z","event":"logout","detail":"pressing the HUD's Exit button; tile actors before 562"}
+{"at":"2026-10-26T21:12:36.787Z","event":"logged-out","detail":"back on the character list; tile actors 0; local player gone; reconnect attempts 0; rows still offered 1"}
+{"at":"2026-10-26T21:12:36.787Z","event":"step","detail":"return-3-logout: 0.10s"}
+{"at":"2026-10-26T21:12:36.837Z","event":"enter-game","detail":"row 0 of 1 (Test Player B); tile actors before 0"}
+{"at":"2026-10-26T21:12:37.038Z","event":"entry-refused","detail":"Fusion32 refused entry 1 with \"Fusion32 refused this entry and closed the connection before the game started. A character the server is still logging out cannot be entered again until it has finished; try again.\"; reconnect attempts 0; pressing Enter Game again"}
+{"at":"2026-10-26T21:12:37.238Z","event":"entry-refused","detail":"Fusion32 refused entry 2 with \"Fusion32 refused this entry and closed the connection before the game started. A character the server is still logging out cannot be entered again until it has finished; try again.\"; reconnect attempts 0; pressing Enter Game again"}
+{"at":"2026-10-26T21:12:37.437Z","event":"entry-refused","detail":"Fusion32 refused entry 3 with \"Fusion32 refused this entry and closed the connection before the game started. A character the server is still logging out cannot be entered again until it has finished; try again.\"; reconnect attempts 0; pressing Enter Game again"}
+{"at":"2026-10-26T21:12:37.588Z","event":"entry-refused","detail":"Fusion32 refused entry 4 with \"Fusion32 refused this entry and closed the connection before the game started. A character the server is still logging out cannot be entered again until it has finished; try again.\"; reconnect attempts 0; pressing Enter Game again"}
+{"at":"2026-10-26T21:12:37.738Z","event":"entry-refused","detail":"Fusion32 refused entry 5 with \"Fusion32 refused this entry and closed the connection before the game started. A character the server is still logging out cannot be entered again until it has finished; try again.\"; reconnect attempts 0; pressing Enter Game again"}
+{"at":"2026-10-26T21:12:38.336Z","event":"in-game","detail":"at 32108,32201,6; worldstate tiles 562; tile actors 562; init_games 1; login screen hidden yes"}
+{"at":"2026-10-26T21:12:38.336Z","event":"step","detail":"return-4-enter-game: 1.50s"}
+{"at":"2026-10-26T21:12:40.637Z","event":"movement","detail":"Fusion32 accepted a step into this session; now at 32108,32201,6 (accepted 1, rejected 2, unanswered 0)"}
+{"at":"2026-10-26T21:12:40.638Z","event":"step","detail":"return-4-movement: 2.25s"}
+{"at":"2026-10-26T21:12:40.692Z","event":"logout","detail":"pressing the HUD's Exit button; tile actors before 566"}
+{"at":"2026-10-26T21:12:40.812Z","event":"logged-out","detail":"back on the character list; tile actors 0; local player gone; reconnect attempts 0; rows still offered 1"}
+{"at":"2026-10-26T21:12:40.812Z","event":"step","detail":"return-4-logout: 0.12s"}
+{"at":"2026-10-26T21:12:40.861Z","event":"summary","detail":"sessions entered 5 of 5 expected; init_games in the last session 1; entries Fusion32 refused in the last cycle 5; reconnect attempts across the whole run 0"}
+{"at":"2026-10-26T21:12:40.862Z","event":"step","detail":"summary: 0.00s"}
+{"at":"2026-10-26T21:12:40.911Z","event":"result","detail":"PASS"}

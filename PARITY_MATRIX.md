@@ -1,3 +1,32 @@
+## 2026-10-26 UNREAL-LOGIN-CHARACTER-SELECT-UI-001 recertification
+
+**CERTIFIED** for the requested credential and session matrix on `444a89e`.
+Ancestry `1ac7245 -> bf54da4 -> 3562dd0 -> 316d888 -> 444a89e`; failed
+certification `3b82a9a` is not an ancestor. Fix branch pushed normally and remote
+head verified. Fresh worktree/branch `certification/login-ui-recert-20261026`;
+no production changes, history rewrite, certification push or main merge.
+
+Raw account/password occurrences **0/0** in new runtime logs and current textual
+evidence; 8 reviewed screenshots expose neither. Scanner rejects all 4 planted
+real values; clean control passes. Minimap cache and private salt persist across
+restart, with no account/password in cache names/content or published output.
+Invalid login, five same-process entry/logout cycles, world cleanup/rebuild,
+one INIT_GAME per successful session and displacement without automatic retry
+PASS. Operator-assisted literal rat death: message/HP zero, selection 29.45s
+later, zero actors; same PID re-enters temple and moves. Explicit operator
+ownership reclaim is documented separately from automatic reconnect (0).
+
+ClientCore 14/14, native 12/12, Unreal automation 15/15, fresh build and final
+relink PASS. Final strict harness 12 PASS / 0 FAIL / 0 SKIP, 107 logs, protocol
+errors 0; secret_check 6/6. Independent artifact verification 109/109.
+Initial sandbox DDC failure and desktop recovery retained. All QA clients closed
+normally, three server services healthy. Old credential exposures remain in
+historical commits because history was not rewritten; current evidence is clean.
+
+UNVERIFIED outside this scope: multi-character/empty/multi-world lists,
+waiting-list/game-login-error variants, lost-link retry, nonzero premium days,
+additional death variants and art parity. See [recertification evidence](evidence/certification/login-ui-recert-20261026/README.md).
+
 ## 2026-10-24 independent UNREAL-PLAYER-DEATH-RESPAWN-001 certification
 
 **CERTIFIED** for one operator-assisted, independently observed QA death and

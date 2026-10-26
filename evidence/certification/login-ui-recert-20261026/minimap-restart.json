@@ -1,0 +1,8 @@
+{
+  "salt_persisted": true,
+  "same_cache_names": true,
+  "cache_count": 1,
+  "raw_account_occurrences": 0,
+  "raw_password_occurrences": 0,
+  "salt_not_published": true
+}

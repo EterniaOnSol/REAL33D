@@ -1,0 +1,267 @@
+﻿{
+	"devices": [
+		{
+			"deviceName": "DESKTOP-9SKKIUM",
+			"instance": "C2AD46724C030FBE6E96489AF0B9696D",
+			"instanceName": "DESKTOP-9SKKIUM-9496",
+			"platform": "WindowsEditor",
+			"oSVersion": "Windows 11 (23H2) [10.0.22631.6199] ",
+			"model": "Default",
+			"gPU": "Intel(R) UHD Graphics 630",
+			"cPUModel": "Intel(R) Core(TM) i5-9300H CPU @ 2.40GHz",
+			"rAMInGB": 12,
+			"renderMode": "SM6",
+			"rHI": "",
+			"appInstanceLog": ""
+		}
+	],
+	"reportCreatedOn": "2026.10.26-21.11.57",
+	"succeeded": 15,
+	"succeededWithWarnings": 0,
+	"failed": 0,
+	"notRun": 0,
+	"inProcess": 0,
+	"totalDuration": 0.31596967577934265,
+	"comparisonExported": false,
+	"comparisonExportDirectory": "",
+	"tests": [
+		{
+			"testDisplayName": "ExperimentalV08",
+			"fullTestPath": "REAL33D.AssetRegistry.ExperimentalV08",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"C2AD46724C030FBE6E96489AF0B9696D"
+			],
+			"duration": 0.017499998211860657,
+			"dateTime": "2026.10.26-21.11.56",
+			"entries": [
+				{
+					"event":
+					{
+						"type": "Info",
+						"message": "experimental catalog not enabled; gated test skipped",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": -1,
+					"timestamp": "2026.10.26-21.11.56"
+				}
+			],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "Mailbox3501",
+			"fullTestPath": "REAL33D.AssetRegistry.Mailbox3501",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"C2AD46724C030FBE6E96489AF0B9696D"
+			],
+			"duration": 0.085447296500205994,
+			"dateTime": "2026.10.26-21.11.56",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "CameraAndFloors",
+			"fullTestPath": "REAL33D.Presentation.CameraAndFloors",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"C2AD46724C030FBE6E96489AF0B9696D"
+			],
+			"duration": 0.014387398958206177,
+			"dateTime": "2026.10.26-21.11.56",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "ChannelsPanel",
+			"fullTestPath": "REAL33D.Presentation.ChannelsPanel",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"C2AD46724C030FBE6E96489AF0B9696D"
+			],
+			"duration": 0.015271902084350586,
+			"dateTime": "2026.10.26-21.11.56",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "ChatTabs",
+			"fullTestPath": "REAL33D.Presentation.ChatTabs",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"C2AD46724C030FBE6E96489AF0B9696D"
+			],
+			"duration": 0.016697399318218231,
+			"dateTime": "2026.10.26-21.11.56",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "CredentialLog",
+			"fullTestPath": "REAL33D.Presentation.CredentialLog",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"C2AD46724C030FBE6E96489AF0B9696D"
+			],
+			"duration": 0.017729800194501877,
+			"dateTime": "2026.10.26-21.11.56",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "EditorWindow",
+			"fullTestPath": "REAL33D.Presentation.EditorWindow",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"C2AD46724C030FBE6E96489AF0B9696D"
+			],
+			"duration": 0.01608559861779213,
+			"dateTime": "2026.10.26-21.11.56",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "LoginScreen",
+			"fullTestPath": "REAL33D.Presentation.LoginScreen",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"C2AD46724C030FBE6E96489AF0B9696D"
+			],
+			"duration": 0.016349602490663528,
+			"dateTime": "2026.10.26-21.11.56",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "OutfitPanel",
+			"fullTestPath": "REAL33D.Presentation.OutfitPanel",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"C2AD46724C030FBE6E96489AF0B9696D"
+			],
+			"duration": 0.017473701387643814,
+			"dateTime": "2026.10.26-21.11.56",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "PanelRegistry",
+			"fullTestPath": "REAL33D.Presentation.PanelRegistry",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"C2AD46724C030FBE6E96489AF0B9696D"
+			],
+			"duration": 0.015204198658466339,
+			"dateTime": "2026.10.26-21.11.56",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "SessionPhase",
+			"fullTestPath": "REAL33D.Presentation.SessionPhase",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"C2AD46724C030FBE6E96489AF0B9696D"
+			],
+			"duration": 0.017179399728775024,
+			"dateTime": "2026.10.26-21.11.56",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "SkillsPanel",
+			"fullTestPath": "REAL33D.Presentation.SkillsPanel",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"C2AD46724C030FBE6E96489AF0B9696D"
+			],
+			"duration": 0.017058800905942917,
+			"dateTime": "2026.10.26-21.11.57",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "StackMoveControls",
+			"fullTestPath": "REAL33D.Presentation.StackMoveControls",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"C2AD46724C030FBE6E96489AF0B9696D"
+			],
+			"duration": 0.015946898609399796,
+			"dateTime": "2026.10.26-21.11.57",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "TradePanel",
+			"fullTestPath": "REAL33D.Presentation.TradePanel",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"C2AD46724C030FBE6E96489AF0B9696D"
+			],
+			"duration": 0.015531100332736969,
+			"dateTime": "2026.10.26-21.11.57",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		},
+		{
+			"testDisplayName": "AuthoritativeWindow",
+			"fullTestPath": "REAL33D.WideWorld.AuthoritativeWindow",
+			"tags": [],
+			"state": "Success",
+			"deviceInstance": [
+				"C2AD46724C030FBE6E96489AF0B9696D"
+			],
+			"duration": 0.018106602132320404,
+			"dateTime": "2026.10.26-21.11.57",
+			"entries": [],
+			"warnings": 0,
+			"errors": 0,
+			"artifacts": []
+		}
+	]
+}

@@ -1,0 +1,58 @@
+{
+  "review": "visual inspection of each retained image",
+  "images": [
+    {
+      "file": "live/death/death-observed/character-select.png",
+      "sha256": "62e3569adaab2c53b884813937734c114706fa3055bd54373d7b1a54323e9e07",
+      "entered_account_visible": false,
+      "entered_password_visible": false
+    },
+    {
+      "file": "live/death/relogin.png",
+      "sha256": "a428ed811e8abbd806bb2182390cda5f998f735390da1f653c26418d08d75c79",
+      "entered_account_visible": false,
+      "entered_password_visible": false
+    },
+    {
+      "file": "live/death/route-position.png",
+      "sha256": "6f996f462bafacc20429238eb01719569223ac50a1f29696e868f876f159cd5b",
+      "entered_account_visible": false,
+      "entered_password_visible": false
+    },
+    {
+      "file": "live/death/sewer-entrance.png",
+      "sha256": "70465153c21e8b19f2998eb986eda216dfdc5c405b7e52d0a8f63fa55d2d4091",
+      "entered_account_visible": false,
+      "entered_password_visible": false
+    },
+    {
+      "file": "live/death/start.png",
+      "sha256": "72abad8062ab0f59eb561b74eaf21fb6b4f07787c179722d70874d30259639c9",
+      "entered_account_visible": false,
+      "entered_password_visible": false
+    },
+    {
+      "file": "live/restart/character-select.png",
+      "sha256": "f9c271390e4a83bbf9c2393d14df3e9892b47f8a07b2ad0a3ee95626cf0ddf80",
+      "entered_account_visible": false,
+      "entered_password_visible": false
+    },
+    {
+      "file": "live/restart/reentered.png",
+      "sha256": "30f0a8749172aa56ec85345659e506e253c29cbf096e05b4be5935bbf19cdb6a",
+      "entered_account_visible": false,
+      "entered_password_visible": false
+    },
+    {
+      "file": "live/takeover/displaced-held.png",
+      "sha256": "f1649aac264119c8fe0d630c5731ce110475c0580d9094078c7cbe3159ee449d",
+      "entered_account_visible": false,
+      "entered_password_visible": false
+    }
+  ],
+  "historical_login_images_reviewed": [
+    "evidence/clientcore/unreal-login-character-select-ui-001/screens/01-account-form.png",
+    "evidence/clientcore/unreal-login-character-select-ui-001/screens/02-character-list-after-logout.png"
+  ],
+  "filled_credential_forms_captured": false
+}

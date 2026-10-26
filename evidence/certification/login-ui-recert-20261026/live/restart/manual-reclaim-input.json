@@ -1,0 +1,61 @@
+{
+  "utc": "2026-10-26T21:17:00.084746+00:00",
+  "probe_pid": 17384,
+  "probe_session": 1,
+  "target_pid": 2880,
+  "target_session": 1,
+  "window_station": "WinSta0",
+  "thread_desktop": "Default",
+  "input_desktop": "Default",
+  "foreground": 655414,
+  "windows": [
+    {
+      "hwnd": 460182,
+      "pid": 2880,
+      "title": "REAL33D (64-bit Development PCD3D_SM5) ",
+      "klass": "UnrealWindow",
+      "visible": true,
+      "origin": [
+        320,
+        126
+      ],
+      "size": [
+        1280,
+        900
+      ]
+    },
+    {
+      "hwnd": 721034,
+      "pid": 2880,
+      "title": "MSCTFIME UI",
+      "klass": "MSCTFIME UI",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    },
+    {
+      "hwnd": 394622,
+      "pid": 2880,
+      "title": "Default IME",
+      "klass": "IME",
+      "visible": false,
+      "origin": [
+        0,
+        0
+      ],
+      "size": [
+        0,
+        0
+      ]
+    }
+  ],
+  "activation_result": true,
+  "snapshot_F9": true,
+  "foreground_after": 460182
+}

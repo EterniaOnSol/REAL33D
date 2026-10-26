@@ -1,0 +1,68 @@
+image   C:/Users/dell/Desktop/fusion32/build/cert-login-ui-recert-20261026/build/classic-client-772/app/Tibia.exe
+sha256  1A82FE97A39E536C29327D6D5DDE316775F537DCC01506831429B1A0433B76F8
+
+-- the palette loop --
+  PASS  133 swatches, i = 0..132
+  PASS  control id is 2000 + i
+  PASS  each colour comes from 0x00509280
+
+-- index -> hue, saturation, value --
+  PASS  the grid is 19 wide
+  PASS  index is divided by it
+  PASS  column 0 branches to greyscale
+  PASS  greyscale value is 1 - row/7
+  PASS  chromatic hue is column/18
+  PASS  the row selects (s, v) through a 7-entry table
+
+-- the constants, read from the image --
+  PASS  0x00573F50 is 1/7 grey step
+  PASS  0x00573F48 is 1/18 hue step
+  PASS  0x00573F28 is 255 channel scale
+  PASS  0x00573F18 is 6.0 sector span
+  PASS  0x00573F20 is 1/6 sector 1 bound
+  PASS  0x00573F10 is 2/6 sector 2 bound
+  PASS  0x0056F478 is 0.5 sector 3 bound
+  PASS  0x00573F08 is 4/6 sector 4 bound
+  PASS  0x00573F00 is 5/6 sector 5 bound
+  PASS  0x00573F40 is 0.25 row saturation
+  PASS  0x00573F38 is 0.75 row value
+  PASS  0x00573F30 is 0.667 row saturation
+  PASS  0x0056F110 is 1.0
+  PASS  0x0055D8C8 is 0.0
+
+-- the row (s, v) table --
+  PASS  row 0 dispatches to 0x0050930F
+  PASS  row 0 loads (s, v) = (0.25, 1.0)
+  PASS  row 1 dispatches to 0x00509321
+  PASS  row 1 loads (s, v) = (0.25, 0.75)
+  PASS  row 2 dispatches to 0x00509333
+  PASS  row 2 loads (s, v) = (0.5, 0.75)
+  PASS  row 3 dispatches to 0x00509345
+  PASS  row 3 loads (s, v) = (0.667, 0.75)
+  PASS  row 4 dispatches to 0x00509357
+  PASS  row 4 loads (s, v) = (1.0, 1.0)
+  PASS  row 5 dispatches to 0x00509369
+  PASS  row 5 loads (s, v) = (1.0, 0.75)
+  PASS  row 6 dispatches to 0x0050937B
+  PASS  row 6 loads (s, v) = (1.0, 0.5)
+
+-- the conversion's two early exits --
+  PASS  v == 0 returns black
+  PASS  s == 0 returns v on all three channels
+
+-- invariants the generated palette must satisfy --
+  PASS  the palette has 133 entries
+  PASS  index 0 is white
+  PASS  column 0 is greyscale on every row
+  PASS  the greyscale column descends
+  PASS  every channel stays in 0..255
+  PASS  row 4 contains pure red
+  PASS  row 4 contains pure yellow
+  PASS  row 4 contains pure green
+  PASS  row 4 contains pure cyan
+  PASS  row 4 contains pure blue
+  PASS  row 4 contains pure magenta
+  PASS  an out-of-range index folds to index 0
+
+====================================================================
+OUTFIT PALETTE: VERIFIED -- 133 colours, 7 rows x 19 columns, derived not tabulated

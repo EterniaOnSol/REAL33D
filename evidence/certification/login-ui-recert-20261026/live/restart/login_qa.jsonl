@@ -1,0 +1,18 @@
+{"at":"2026-10-26T21:13:04.455Z","event":"start","detail":"runtime-file account (tag nprp) at 127.0.0.1:7171, 0 return cycle(s)"}
+{"at":"2026-10-26T21:13:05.606Z","event":"observe","detail":"phase offline at launch"}
+{"at":"2026-10-26T21:13:05.607Z","event":"step","detail":"cold-start-account-screen: 0.00s"}
+{"at":"2026-10-26T21:13:05.855Z","event":"wrong-password","detail":"refused with \"Accountnumber or password is not correct.\"; characters offered 0; still on the account form yes"}
+{"at":"2026-10-26T21:13:05.856Z","event":"step","detail":"wrong-password-refused: 0.20s"}
+{"at":"2026-10-26T21:13:06.006Z","event":"character-list","detail":"1 offered [Test Player B@Fusion Test:7172]; rows drawn 1; list showing yes; password box cleared yes"}
+{"at":"2026-10-26T21:13:06.007Z","event":"step","detail":"cold-login-character-list: 0.10s"}
+{"at":"2026-10-26T21:13:06.055Z","event":"enter-game","detail":"row 0 of 1 (Test Player B); tile actors before 0"}
+{"at":"2026-10-26T21:13:06.709Z","event":"in-game","detail":"at 32108,32202,6; worldstate tiles 566; tile actors 566; init_games 1; login screen hidden yes"}
+{"at":"2026-10-26T21:13:06.709Z","event":"step","detail":"first-enter-game: 0.65s"}
+{"at":"2026-10-26T21:13:06.910Z","event":"movement","detail":"Fusion32 accepted a step into this session; now at 32108,32202,6 (accepted 1, rejected 0, unanswered 0)"}
+{"at":"2026-10-26T21:13:06.911Z","event":"step","detail":"first-movement: 0.15s"}
+{"at":"2026-10-26T21:13:06.962Z","event":"logout","detail":"pressing the HUD's Exit button; tile actors before 562"}
+{"at":"2026-10-26T21:13:07.033Z","event":"logged-out","detail":"back on the character list; tile actors 0; local player gone; reconnect attempts 0; rows still offered 1"}
+{"at":"2026-10-26T21:13:07.033Z","event":"step","detail":"first-logout: 0.07s"}
+{"at":"2026-10-26T21:13:07.083Z","event":"summary","detail":"sessions entered 1 of 1 expected; init_games in the last session 1; entries Fusion32 refused in the last cycle 0; reconnect attempts across the whole run 0"}
+{"at":"2026-10-26T21:13:07.083Z","event":"step","detail":"summary: 0.00s"}
+{"at":"2026-10-26T21:13:07.132Z","event":"result","detail":"PASS"}
